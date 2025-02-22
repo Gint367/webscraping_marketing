@@ -1,0 +1,15 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore virtual environment directories
+venv/
+.env/
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore other files or directories
+bundesanzeiger_local_data/
+bundesanzeiger_local_data_output/
+test_bundesanzeiger_local_data/

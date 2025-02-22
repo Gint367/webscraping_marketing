@@ -1,0 +1,293 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+
+[INFO] Processing: Steeltec GmbH
+[INFO] Found the following reports for Steeltec GmbH: 18
+
+[INFO] Processing: Mannesmann Grossrohr GmbH
+[ERROR] 'Mannesmann Grossrohr GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Mannesmann Grossrohr GmbH.
+
+[INFO] Processing: Wickeder Westfalenstahl GmbH
+[INFO] Found the following reports for Wickeder Westfalenstahl GmbH: 16
+
+[INFO] Processing: Julius Schüle Druckguss GmbH
+[INFO] Found the following reports for Julius Schüle Druckguss GmbH: 18
+
+[INFO] Processing: Metallwerk Sundern
+[INFO] Found the following reports for Metallwerk Sundern: 19
+
+[INFO] Processing: Betafence GmbH
+[INFO] Found the following reports for Betafence GmbH: 12
+
+[INFO] Processing: ESW Röhrenwerke GmbH
+[INFO] Found the following reports for ESW Röhrenwerke GmbH: 19
+
+[INFO] Processing: Vornbäumen Stahlseile GmbH & Co. KG
+[INFO] Found the following reports for Vornbäumen Stahlseile GmbH & Co. KG: 15
+
+[INFO] Processing: Dossmann GmbH
+[INFO] Found the following reports for Dossmann GmbH: 19
+
+[INFO] Processing: Filigran Trägersysteme GmbH & Co. KG
+[INFO] Found the following reports for Filigran Trägersysteme GmbH & Co. KG: 16
+
+[INFO] Processing: KÖBO GmbH & Co. KG
+[INFO] Found the following reports for KÖBO GmbH & Co. KG: 16
+
+[INFO] Processing: Haller Industriebau GmbH
+[INFO] Found the following reports for Haller Industriebau GmbH: 13
+
+[INFO] Processing: fischer Hydroforming GmbH
+[INFO] No dictionary reports found for fischer Hydroforming GmbH (data might be incomplete).
+
+[INFO] Processing: Glave Gruppe GmbH
+[INFO] Found the following reports for Glave Gruppe GmbH: 8
+
+[INFO] Processing: Vulcast Germany GmbH
+[INFO] Found the following reports for Vulcast Germany GmbH: 3
+
+[INFO] Processing: Leonhard Breitenbach GmbH
+[INFO] Found the following reports for Leonhard Breitenbach GmbH: 16
+
+[INFO] Processing: Dillenberg GmbH & Co. KG
+[INFO] Found the following reports for Dillenberg GmbH & Co. KG: 19
+
+[INFO] Processing: G ü l d e GmbH & Co KG Kaltwalzwerk
+[INFO] Found the following reports for G ü l d e GmbH & Co KG Kaltwalzwerk: 15
+
+[INFO] Processing: WW-K Warmwalzwerk Königswinter GmbH
+[INFO] Found the following reports for WW-K Warmwalzwerk Königswinter GmbH: 16
+
+[INFO] Processing: SHB Stahl- und Hartgusswerk Bösdorf GmbH
+[INFO] Found the following reports for SHB Stahl- und Hartgusswerk Bösdorf GmbH: 16
+
+[INFO] Processing: Power-Cast Zitzmann GmbH & Co. KG
+[INFO] No dictionary reports found for Power-Cast Zitzmann GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: voestalpine Wire Germany GmbH
+[INFO] Found the following reports for voestalpine Wire Germany GmbH: 8
+
+[INFO] Processing: DWK Drahtwerk Köln GmbH
+[INFO] Found the following reports for DWK Drahtwerk Köln GmbH: 16
+
+[INFO] Processing: Hüntelmann GmbH & Co. KG
+[INFO] Found the following reports for Hüntelmann GmbH & Co. KG: 20
+
+[INFO] Processing: H. Hüttenbrauck Profil GmbH
+[INFO] Found the following reports for H. Hüttenbrauck Profil GmbH: 16
+
+[INFO] Processing: Z & J Technologies GmbH
+[INFO] No dictionary reports found for Z & J Technologies GmbH (data might be incomplete).
+
+[INFO] Processing: Sumitomo Electric Hartmetallfabrik GmbH
+[INFO] Found the following reports for Sumitomo Electric Hartmetallfabrik GmbH: 15
+
+[INFO] Processing: Isselburg Guß- und Bearbeitung GmbH
+[INFO] No dictionary reports found for Isselburg Guß- und Bearbeitung GmbH (data might be incomplete).
+
+[INFO] Processing: TPS-Technitube Röhrenwerke GmbH
+[INFO] Found the following reports for TPS-Technitube Röhrenwerke GmbH: 16
+
+[INFO] Processing: Stahlkontor GmbH & Co KG
+[INFO] Found the following reports for Stahlkontor GmbH & Co KG: 19
+
+[INFO] Processing: Kemper GmbH
+[INFO] Found the following reports for Kemper GmbH: 10
+
+[INFO] Processing: Schmiedag GmbH
+[INFO] Found the following reports for Schmiedag GmbH: 18
+
+[INFO] Processing: König Metall GmbH & Co. KG
+[INFO] Found the following reports for König Metall GmbH & Co. KG: 12
+
+[INFO] Processing: Schwering & Hasse Elektrodraht GmbH
+[INFO] No dictionary reports found for Schwering & Hasse Elektrodraht GmbH (data might be incomplete).
+
+[INFO] Processing: Warmpresswerk Max B. Schachmann GmbH
+[INFO] Found the following reports for Warmpresswerk Max B. Schachmann GmbH: 15
+
+[INFO] Processing: Badische Drahtwerke GmbH
+[INFO] Found the following reports for Badische Drahtwerke GmbH: 15
+
+[INFO] Processing: Mankenberg GmbH
+[INFO] Found the following reports for Mankenberg GmbH: 16
+
+[INFO] Processing: Gebhardt - Stahl - GmbH
+[INFO] Found the following reports for Gebhardt - Stahl - GmbH: 11
+
+[INFO] Processing: Schmid GmbH
+[INFO] Found the following reports for Schmid GmbH: 7
+
+[INFO] Processing: Ervin Germany GmbH
+[INFO] Found the following reports for Ervin Germany GmbH: 14
+
+[INFO] Processing: Peter Petrusky Stahlbau
+[ERROR] 'Peter Petrusky Stahlbau' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Peter Petrusky Stahlbau.
+
+[INFO] Processing: W. Pilling Kesselfabrik GmbH & Co. KG
+[ERROR] 'W. Pilling Kesselfabrik GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for W. Pilling Kesselfabrik GmbH & Co. KG.
+
+[INFO] Processing: PHILIPP GmbH
+[INFO] Found the following reports for PHILIPP GmbH: 15
+
+[INFO] Processing: Lebronze Alloys Germany GmbH
+[INFO] Found the following reports for Lebronze Alloys Germany GmbH: 10
+
+[INFO] Processing: BRUGG Rohrsysteme GmbH
+[INFO] Found the following reports for BRUGG Rohrsysteme GmbH: 16
+
+[INFO] Processing: Deutsche Nickel GmbH
+[INFO] Found the following reports for Deutsche Nickel GmbH: 19
+
+[INFO] Processing: Flanschenwerk Bebitz GmbH
+[INFO] Found the following reports for Flanschenwerk Bebitz GmbH: 15
+
+[INFO] Processing: Platestahl Umformtechnik GmbH
+[INFO] No dictionary reports found for Platestahl Umformtechnik GmbH (data might be incomplete).
+
+[INFO] Processing: Silbitz Group Torgelow GmbH
+[INFO] No dictionary reports found for Silbitz Group Torgelow GmbH (data might be incomplete).
+
+[INFO] Processing: Esterer Aktiengesellschaft
+[INFO] Found the following reports for Esterer Aktiengesellschaft: 9
+
+[INFO] Processing: EZM Edelstahlzieherei Mark GmbH
+[INFO] Found the following reports for EZM Edelstahlzieherei Mark GmbH: 15
+
+[INFO] Processing: G. Schürfeld GmbH
+[INFO] Found the following reports for G. Schürfeld GmbH: 6
+
+[INFO] Processing: Bartz-Werke GmbH
+[INFO] Found the following reports for Bartz-Werke GmbH: 10
+
+[INFO] Processing: Ritter Leichtmetallguß GmbH
+[INFO] Found the following reports for Ritter Leichtmetallguß GmbH: 16
+
+[INFO] Processing: ZGG - Zeitzer Guss GmbH
+[INFO] Found the following reports for ZGG - Zeitzer Guss GmbH: 7
+
+[INFO] Processing: Carl Stahl GmbH
+[INFO] Found the following reports for Carl Stahl GmbH: 5
+
+[INFO] Processing: Salzgitter Mannesmann Stahlservice GmbH
+[ERROR] 'Salzgitter Mannesmann Stahlservice GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Salzgitter Mannesmann Stahlservice GmbH.
+
+[INFO] Processing: KRS - SEIGERT GmbH
+[INFO] Found the following reports for KRS - SEIGERT GmbH: 10
+
+[INFO] Processing: MetallArt GmbH
+[INFO] Found the following reports for MetallArt GmbH: 15
+
+[INFO] Processing: Gustav Wolf GmbH
+[INFO] Found the following reports for Gustav Wolf GmbH: 10
+
+[INFO] Processing: THÖNE Metallwaren GmbH & Co. KG
+[INFO] No dictionary reports found for THÖNE Metallwaren GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Drahtwerk Elisental
+[INFO] Found the following reports for Drahtwerk Elisental: 9
+
+[INFO] Processing: StrikoWestofen GmbH
+[INFO] Found the following reports for StrikoWestofen GmbH: 7
+
+[INFO] Processing: PPM-Aberle GmbH & Co KG
+[INFO] Found the following reports for PPM-Aberle GmbH & Co KG: 6
+
+[INFO] Processing: Dillinger Fabrik
+[INFO] Found the following reports for Dillinger Fabrik: 20
+
+[INFO] Processing: Saar-Hartmetall und Werkzeuge GmbH
+[INFO] Found the following reports for Saar-Hartmetall und Werkzeuge GmbH: 17
+
+[INFO] Processing: FRANK Walz- und Schmiedetechnik GmbH
+[INFO] Found the following reports for FRANK Walz- und Schmiedetechnik GmbH: 16
+
+[INFO] Processing: Heidenreich & Harbeck GmbH
+[INFO] Found the following reports for Heidenreich & Harbeck GmbH: 12
+
+[INFO] Processing: Stahlrump GmbH & Co.KG
+[INFO] Found the following reports for Stahlrump GmbH & Co.KG: 18
+
+[INFO] Processing: Ostseestaal GmbH & Co. KG
+[INFO] Found the following reports for Ostseestaal GmbH & Co. KG: 10
+
+[INFO] Processing: Heibi-Metall Birmann GmbH
+[INFO] Found the following reports for Heibi-Metall Birmann GmbH: 15
+
+[INFO] Processing: Stahl- und Drahtwerk Röslau
+[INFO] Found the following reports for Stahl- und Drahtwerk Röslau: 15
+
+[INFO] Processing: Nosta GmbH
+[INFO] Found the following reports for Nosta GmbH: 12
+
+[INFO] Processing: Max Schön GmbH
+[INFO] Found the following reports for Max Schön GmbH: 17
+
+[INFO] Processing: Hubl GmbH
+[INFO] Found the following reports for Hubl GmbH: 19
+
+[INFO] Processing: Kemptener Eisengießerei Adam Hönig AG
+[INFO] Found the following reports for Kemptener Eisengießerei Adam Hönig AG: 16
+
+[INFO] Processing: RSB Rationelle
+[INFO] Found the following reports for RSB Rationelle: 18
+
+[INFO] Processing: PS Laser GmbH & Co. KG
+[INFO] Found the following reports for PS Laser GmbH & Co. KG: 16
+
+[INFO] Processing: PRÄZI-FLACHSTAHL Aktiengesellschaft
+[INFO] No dictionary reports found for PRÄZI-FLACHSTAHL Aktiengesellschaft (data might be incomplete).
+
+[INFO] Processing: Georg Group GmbH
+[INFO] Found the following reports for Georg Group GmbH: 8
+
+[INFO] Processing: EEW-Bergrohr GmbH
+[INFO] Found the following reports for EEW-Bergrohr GmbH: 9
+
+[INFO] Processing: Rudolf Flender Rohr GmbH
+[INFO] Found the following reports for Rudolf Flender Rohr GmbH: 3
+
+[INFO] Processing: Reinhold Mendritzki Kaltwalzwerk GmbH
+[INFO] Found the following reports for Reinhold Mendritzki Kaltwalzwerk GmbH: 2
+
+[INFO] Processing: UBB Umformtechnik GmbH
+[INFO] No dictionary reports found for UBB Umformtechnik GmbH (data might be incomplete).
+
+[INFO] Processing: Südstahl GmbH & Co. KG
+[INFO] Found the following reports for Südstahl GmbH & Co. KG: 16
+
+[INFO] Processing: König & Co. GmbH
+[INFO] Found the following reports for König & Co. GmbH: 17
+
+[INFO] Processing: Albert Hoffmann GmbH
+[INFO] Found the following reports for Albert Hoffmann GmbH: 20
+
+[INFO] Processing: Karl Buch Walzengiesserei GmbH & Co. KG
+[INFO] Found the following reports for Karl Buch Walzengiesserei GmbH & Co. KG: 16
+
+[INFO] Processing: Spieß GmbH
+[INFO] Found the following reports for Spieß GmbH: 16
+
+[INFO] Processing: Senger GmbH
+[INFO] Found the following reports for Senger GmbH: 17
+
+[INFO] Processing: Chr. Höver & Sohn GmbH & Co. KG
+[INFO] Found the following reports for Chr. Höver & Sohn GmbH & Co. KG: 18
+
+[INFO] Processing: BRUGG German Pipe GmbH
+[INFO] Found the following reports for BRUGG German Pipe GmbH: 3
+
+[INFO] Processing: Sirch Behältertechnik GmbH
+[INFO] Found the following reports for Sirch Behältertechnik GmbH: 15
+
+[INFO] Processing: Heinz Gothe GmbH & Co. KG
+[INFO] Found the following reports for Heinz Gothe GmbH & Co. KG: 1
+
+[INFO] Processing: Auerhammer Metallwerk GmbH
+[INFO] Found the following reports for Auerhammer Metallwerk GmbH: 16
+[DONE] Results written to: companies_stahlverarbeitung_output.csv
+Folders created under: bundesanzeiger_local_data

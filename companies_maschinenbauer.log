@@ -1,0 +1,1269 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+
+[INFO] Processing: Rekers GmbH Maschinen- und Anlagenbau
+[INFO] Found the following reports for Rekers GmbH Maschinen- und Anlagenbau: 17
+
+[INFO] Processing: PERFECTA
+[INFO] Found the following reports for PERFECTA: 17
+
+[INFO] Processing: NMH GmbH
+[INFO] Found the following reports for NMH GmbH: 16
+
+[INFO] Processing: Ziegler + Schenk GmbH & Co. KG
+[INFO] Found the following reports for Ziegler + Schenk GmbH & Co. KG: 7
+
+[INFO] Processing: GEBHARDT Fördertechnik GmbH
+[INFO] Found the following reports for GEBHARDT Fördertechnik GmbH: 4
+
+[INFO] Processing: Dr. Ing. Max Schlötter GmbH & Co. KG
+[INFO] Found the following reports for Dr. Ing. Max Schlötter GmbH & Co. KG: 17
+
+[INFO] Processing: Mayer GmbH & Co. KG
+[INFO] Found the following reports for Mayer GmbH & Co. KG: 19
+
+[INFO] Processing: ISRA VISION GmbH
+[INFO] Found the following reports for ISRA VISION GmbH: 9
+
+[INFO] Processing: FMB Maschinenbaugesellschaft mbH & Co.KG
+[INFO] Found the following reports for FMB Maschinenbaugesellschaft mbH & Co.KG: 19
+
+[INFO] Processing: LOGOPAK Systeme GmbH & Co. KG
+[INFO] No dictionary reports found for LOGOPAK Systeme GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Göpfert Maschinen GmbH
+[INFO] Found the following reports for Göpfert Maschinen GmbH: 10
+
+[INFO] Processing: Maschinenfabrik Bermatingen GmbH &Co.KG
+[INFO] Found the following reports for Maschinenfabrik Bermatingen GmbH &Co.KG: 17
+
+[INFO] Processing: Markem-Imaje GmbH
+[INFO] Found the following reports for Markem-Imaje GmbH: 4
+
+[INFO] Processing: Christian Maier GmbH & Co KG
+[INFO] Found the following reports for Christian Maier GmbH & Co KG: 16
+
+[INFO] Processing: Heinz Berger
+[INFO] Found the following reports for Heinz Berger: 20
+
+[INFO] Processing: Zahnradfertigung Ott GmbH u.Co.KG
+[ERROR] 'Zahnradfertigung Ott GmbH u.Co.KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Zahnradfertigung Ott GmbH u.Co.KG.
+
+[INFO] Processing: Alfons Haar Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Alfons Haar Maschinenbau GmbH & Co. KG: 6
+
+[INFO] Processing: HEFTER Systemform GmbH
+[ERROR] 'HEFTER Systemform GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for HEFTER Systemform GmbH.
+
+[INFO] Processing: Wassermann Technologie GmbH
+[INFO] Found the following reports for Wassermann Technologie GmbH: 8
+
+[INFO] Processing: HÖRBURGER AG
+[INFO] Found the following reports for HÖRBURGER AG: 17
+
+[INFO] Processing: Herbert Hänchen GmbH
+[INFO] Found the following reports for Herbert Hänchen GmbH: 16
+
+[INFO] Processing: bullmer GmbH
+[INFO] Found the following reports for bullmer GmbH: 20
+
+[INFO] Processing: G.U.N.T. Gerätebau GmbH
+[INFO] Found the following reports for G.U.N.T. Gerätebau GmbH: 15
+
+[INFO] Processing: Forst Technologie GmbH & Co. KG
+[INFO] Found the following reports for Forst Technologie GmbH & Co. KG: 9
+
+[INFO] Processing: PINK GmbH Vakuumtechnik
+[INFO] Found the following reports for PINK GmbH Vakuumtechnik: 14
+
+[INFO] Processing: Heitec-Heisskanaltechnik GmbH
+[INFO] Found the following reports for Heitec-Heisskanaltechnik GmbH: 15
+
+[INFO] Processing: Heinzler Maschinenbau GmbH
+[INFO] Found the following reports for Heinzler Maschinenbau GmbH: 13
+
+[INFO] Processing: Weil Technology GmbH
+[INFO] Found the following reports for Weil Technology GmbH: 19
+
+[INFO] Processing: Hiller GmbH
+[INFO] Found the following reports for Hiller GmbH: 14
+
+[INFO] Processing: HEDELIUS Maschinenfabrik GmbH
+[INFO] Found the following reports for HEDELIUS Maschinenfabrik GmbH: 16
+
+[INFO] Processing: Herbold Meckesheim GmbH
+[INFO] Found the following reports for Herbold Meckesheim GmbH: 16
+
+[INFO] Processing: MIKROMAT GmbH
+[INFO] Found the following reports for MIKROMAT GmbH: 18
+
+[INFO] Processing: AVS Aggregatebau GmbH
+[INFO] Found the following reports for AVS Aggregatebau GmbH: 16
+
+[INFO] Processing: Wickert Maschinenbau GmbH
+[INFO] Found the following reports for Wickert Maschinenbau GmbH: 15
+
+[INFO] Processing: Hans Schröder Maschinenbau GmbH
+[INFO] Found the following reports for Hans Schröder Maschinenbau GmbH: 19
+
+[INFO] Processing: Theodor Winkels GmbH & Co. KG
+[INFO] Found the following reports for Theodor Winkels GmbH & Co. KG: 16
+
+[INFO] Processing: Sandvik Mining
+[INFO] Found the following reports for Sandvik Mining: 19
+
+[INFO] Processing: Hochrainer GmbH
+[INFO] Found the following reports for Hochrainer GmbH: 19
+
+[INFO] Processing: PRESTO GmbH & Co. KG
+[INFO] Found the following reports for PRESTO GmbH & Co. KG: 19
+
+[INFO] Processing: ERLAS Erlanger Lasertechnik GmbH
+[INFO] Found the following reports for ERLAS Erlanger Lasertechnik GmbH: 16
+
+[INFO] Processing: Stürtz Maschinenbau GmbH
+[INFO] Found the following reports for Stürtz Maschinenbau GmbH: 8
+
+[INFO] Processing: Peter Huber Kältemaschinenbau SE
+[ERROR] 'Peter Huber Kältemaschinenbau SE' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Peter Huber Kältemaschinenbau SE.
+
+[INFO] Processing: STC Spinnzwirn GmbH
+[INFO] Found the following reports for STC Spinnzwirn GmbH: 4
+
+[INFO] Processing: Rudi Hutt Maschinenbau GmbH & Co. KG
+[INFO] No dictionary reports found for Rudi Hutt Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Hüttenhölscher Maschinenbau
+[ERROR] 'Hüttenhölscher Maschinenbau' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Hüttenhölscher Maschinenbau.
+
+[INFO] Processing: Heino Ilsemann GmbH
+[INFO] Found the following reports for Heino Ilsemann GmbH: 17
+
+[INFO] Processing: B. Ketterer Söhne GmbH & Co. KG
+[INFO] Found the following reports for B. Ketterer Söhne GmbH & Co. KG: 14
+
+[INFO] Processing: Lapmaster Wolters GmbH
+[INFO] Found the following reports for Lapmaster Wolters GmbH: 7
+
+[INFO] Processing: Elb-Schliff Werkzeugmaschinen GmbH
+[INFO] Found the following reports for Elb-Schliff Werkzeugmaschinen GmbH: 15
+
+[INFO] Processing: Carl Benzinger GmbH
+[INFO] Found the following reports for Carl Benzinger GmbH: 15
+
+[INFO] Processing: ESAB Welding & Cutting GmbH
+[INFO] Found the following reports for ESAB Welding & Cutting GmbH: 10
+
+[INFO] Processing: Cohu GmbH
+[INFO] Found the following reports for Cohu GmbH: 7
+
+[INFO] Processing: ANDRITZ Kaiser GmbH
+[INFO] No dictionary reports found for ANDRITZ Kaiser GmbH (data might be incomplete).
+
+[INFO] Processing: Manfred Kaiser Maschinenbau GmbH
+[INFO] Found the following reports for Manfred Kaiser Maschinenbau GmbH: 16
+
+[INFO] Processing: WUMAG TEXROLL GmbH & Co. KG
+[INFO] Found the following reports for WUMAG TEXROLL GmbH & Co. KG: 16
+
+[INFO] Processing: Carl KRAFFT & Söhne GmbH & Co. KG
+[INFO] Found the following reports for Carl KRAFFT & Söhne GmbH & Co. KG: 17
+
+[INFO] Processing: LISSMAC Maschinenbau GmbH
+[INFO] Found the following reports for LISSMAC Maschinenbau GmbH: 17
+
+[INFO] Processing: SUCO Robert Scheuffele GmbH & Co. KG
+[INFO] Found the following reports for SUCO Robert Scheuffele GmbH & Co. KG: 16
+
+[INFO] Processing: SN-Maschinenbau GmbH
+[INFO] Found the following reports for SN-Maschinenbau GmbH: 16
+
+[INFO] Processing: Hotmobil Deutschland GmbH
+[ERROR] 'Hotmobil Deutschland GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Hotmobil Deutschland GmbH.
+
+[INFO] Processing: KINKELE GmbH & Co. KG
+[INFO] Found the following reports for KINKELE GmbH & Co. KG: 20
+
+[INFO] Processing: KUNZMANN Maschinenbau GmbH
+[INFO] Found the following reports for KUNZMANN Maschinenbau GmbH: 9
+
+[INFO] Processing: TBT Tiefbohrtechnik GmbH + Co.
+[INFO] Found the following reports for TBT Tiefbohrtechnik GmbH + Co.: 8
+
+[INFO] Processing: Memminger-IRO GmbH
+[INFO] No dictionary reports found for Memminger-IRO GmbH (data might be incomplete).
+
+[INFO] Processing: Ohrmann GmbH
+[INFO] Found the following reports for Ohrmann GmbH: 19
+
+[INFO] Processing: Baldwin Technology GmbH
+[INFO] Found the following reports for Baldwin Technology GmbH: 11
+
+[INFO] Processing: Magnetbau Schramme GmbH & Co. KG
+[INFO] Found the following reports for Magnetbau Schramme GmbH & Co. KG: 16
+
+[INFO] Processing: Knödler-Getriebe GmbH & Co. KG
+[INFO] Found the following reports for Knödler-Getriebe GmbH & Co. KG: 12
+
+[INFO] Processing: Koch Technology GmbH & Co. KG
+[INFO] Found the following reports for Koch Technology GmbH & Co. KG: 11
+
+[INFO] Processing: Werner Koch Maschinentechnik GmbH
+[INFO] Found the following reports for Werner Koch Maschinentechnik GmbH: 16
+
+[INFO] Processing: KOCH Industrieanlagen GmbH
+[INFO] Found the following reports for KOCH Industrieanlagen GmbH: 20
+
+[INFO] Processing: Hugo Beck Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Hugo Beck Maschinenbau GmbH & Co. KG: 17
+
+[INFO] Processing: Weitmann & Konrad GmbH & Co KG
+[INFO] Found the following reports for Weitmann & Konrad GmbH & Co KG: 17
+
+[INFO] Processing: TS Henschel GmbH
+[INFO] Found the following reports for TS Henschel GmbH: 7
+
+[INFO] Processing: WOLFGANG SCHMAHL GmbH & Co. KG.
+[INFO] Found the following reports for WOLFGANG SCHMAHL GmbH & Co. KG.: 16
+
+[INFO] Processing: Josef Kränzle GmbH & Co.KG
+[INFO] Found the following reports for Josef Kränzle GmbH & Co.KG: 6
+
+[INFO] Processing: CeraCon GmbH
+[INFO] Found the following reports for CeraCon GmbH: 14
+
+[INFO] Processing: Gehring Production GmbH + Co. KG
+[INFO] Found the following reports for Gehring Production GmbH + Co. KG: 1
+
+[INFO] Processing: Pulsotronic-Anlagentechnik GmbH
+[INFO] Found the following reports for Pulsotronic-Anlagentechnik GmbH: 4
+
+[INFO] Processing: Kumera Getriebe GmbH
+[INFO] Found the following reports for Kumera Getriebe GmbH: 3
+
+[INFO] Processing: Messer Cutting Systems GmbH
+[INFO] Found the following reports for Messer Cutting Systems GmbH: 7
+
+[INFO] Processing: Dietze & Schell Maschinenfabrik
+[INFO] Found the following reports for Dietze & Schell Maschinenfabrik: 20
+
+[INFO] Processing: Anthon GmbH
+[INFO] Found the following reports for Anthon GmbH: 19
+
+[INFO] Processing: VACUTEC
+[INFO] Found the following reports for VACUTEC: 14
+
+[INFO] Processing: KOHLER Maschinenbau GmbH
+[INFO] Found the following reports for KOHLER Maschinenbau GmbH: 15
+
+[INFO] Processing: NORDSON Deutschland GmbH
+[INFO] Found the following reports for NORDSON Deutschland GmbH: 11
+
+[INFO] Processing: Günther Maschinenbau GmbH
+[INFO] Found the following reports for Günther Maschinenbau GmbH: 20
+
+[INFO] Processing: HAMUEL Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for HAMUEL Maschinenbau GmbH & Co. KG: 6
+
+[INFO] Processing: Witt & Sohn AG
+[INFO] Found the following reports for Witt & Sohn AG: 16
+
+[INFO] Processing: pro-beam GmbH & Co. KGaA
+[INFO] Found the following reports for pro-beam GmbH & Co. KGaA: 2
+
+[INFO] Processing: PLÜMAT Maschinenbau
+[INFO] Found the following reports for PLÜMAT Maschinenbau: 14
+
+[INFO] Processing: Logaer Maschinenbau G.m.b.H.
+[INFO] Found the following reports for Logaer Maschinenbau G.m.b.H.: 17
+
+[INFO] Processing: Koenig & Bauer Kammann GmbH
+[ERROR] 'Koenig & Bauer Kammann GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Koenig & Bauer Kammann GmbH.
+
+[INFO] Processing: WEIMA Maschinenbau GmbH
+[INFO] Found the following reports for WEIMA Maschinenbau GmbH: 9
+
+[INFO] Processing: Delimon GmbH
+[INFO] Found the following reports for Delimon GmbH: 19
+
+[INFO] Processing: ebu Umformtechnik GmbH
+[INFO] Found the following reports for ebu Umformtechnik GmbH: 10
+
+[INFO] Processing: Motan GmbH
+[INFO] Found the following reports for Motan GmbH: 16
+
+[INFO] Processing: Pedax GmbH
+[INFO] Found the following reports for Pedax GmbH: 18
+
+[INFO] Processing: ATLANTA Antriebssysteme GmbH
+[INFO] Found the following reports for ATLANTA Antriebssysteme GmbH: 20
+
+[INFO] Processing: KOLLER Maschinen- und Anlagenbau GmbH
+[INFO] Found the following reports for KOLLER Maschinen- und Anlagenbau GmbH: 17
+
+[INFO] Processing: Scheppach GmbH
+[INFO] Found the following reports for Scheppach GmbH: 15
+
+[INFO] Processing: imes-icore GmbH
+[INFO] Found the following reports for imes-icore GmbH: 15
+
+[INFO] Processing: DESCH Antriebstechnik GmbH & Co. KG
+[INFO] Found the following reports for DESCH Antriebstechnik GmbH & Co. KG: 2
+
+[INFO] Processing: Rite-Hite GmbH
+[INFO] Found the following reports for Rite-Hite GmbH: 20
+
+[INFO] Processing: Piller Entgrattechnik GmbH
+[INFO] Found the following reports for Piller Entgrattechnik GmbH: 14
+
+[INFO] Processing: Lanico-Maschinenbau
+[INFO] Found the following reports for Lanico-Maschinenbau: 14
+
+[INFO] Processing: Hutchinson Stop-Choc GmbH & Co. KG
+[INFO] Found the following reports for Hutchinson Stop-Choc GmbH & Co. KG: 10
+
+[INFO] Processing: Oswald Elektromotoren GmbH
+[INFO] Found the following reports for Oswald Elektromotoren GmbH: 20
+
+[INFO] Processing: UNION Werkzeugmaschinen GmbH Chemnitz
+[INFO] Found the following reports for UNION Werkzeugmaschinen GmbH Chemnitz: 12
+
+[INFO] Processing: Schneider & Ozga GmbH & Co. KG
+[INFO] Found the following reports for Schneider & Ozga GmbH & Co. KG: 5
+
+[INFO] Processing: bdtronic GmbH
+[ERROR] 'bdtronic GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for bdtronic GmbH.
+
+[INFO] Processing: Tipper Tie technopack GmbH
+[INFO] Found the following reports for Tipper Tie technopack GmbH: 8
+
+[INFO] Processing: Schröder Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Schröder Maschinenbau GmbH & Co. KG: 12
+
+[INFO] Processing: AMADA GmbH
+[INFO] Found the following reports for AMADA GmbH: 15
+
+[INFO] Processing: STIEBER GmbH
+[INFO] Found the following reports for STIEBER GmbH: 18
+
+[INFO] Processing: MULTIPOND Wägetechnik GmbH
+[INFO] Found the following reports for MULTIPOND Wägetechnik GmbH: 12
+
+[INFO] Processing: VARIOVAC PS SystemPack GmbH
+[INFO] Found the following reports for VARIOVAC PS SystemPack GmbH: 16
+
+[INFO] Processing: Sturm Holding GmbH
+[INFO] Found the following reports for Sturm Holding GmbH: 15
+
+[INFO] Processing: Herding GmbH Filtertechnik
+[INFO] Found the following reports for Herding GmbH Filtertechnik: 16
+
+[INFO] Processing: ZPM Zeulenroda Präzision
+[INFO] Found the following reports for ZPM Zeulenroda Präzision: 19
+
+[INFO] Processing: Heyligenstaedt Werkzeugmaschinen GmbH
+[INFO] Found the following reports for Heyligenstaedt Werkzeugmaschinen GmbH: 17
+
+[INFO] Processing: Hoffmann Räumtechnik GmbH
+[INFO] Found the following reports for Hoffmann Räumtechnik GmbH: 16
+
+[INFO] Processing: ROMACO Pharmatechnik GmbH
+[INFO] Found the following reports for ROMACO Pharmatechnik GmbH: 15
+
+[INFO] Processing: Strothmann Machines & Handling GmbH
+[INFO] Found the following reports for Strothmann Machines & Handling GmbH: 11
+
+[INFO] Processing: Dipl.-Ing. Herwarth Reich GmbH
+[INFO] Found the following reports for Dipl.-Ing. Herwarth Reich GmbH: 16
+
+[INFO] Processing: Gesellschaft für Oeltechnik mbH
+[INFO] Found the following reports for Gesellschaft für Oeltechnik mbH: 10
+
+[INFO] Processing: ProKASRO Mechatronik GmbH
+[INFO] Found the following reports for ProKASRO Mechatronik GmbH: 14
+
+[INFO] Processing: Richter GmbH & Co. KG
+[INFO] Found the following reports for Richter GmbH & Co. KG: 18
+
+[INFO] Processing: R+R Maschinenbau GmbH
+[INFO] Found the following reports for R+R Maschinenbau GmbH: 20
+
+[INFO] Processing: Ring Maschinenbau GmbH
+[INFO] Found the following reports for Ring Maschinenbau GmbH: 20
+
+[INFO] Processing: ENTEX Rust & Mitschke GmbH
+[INFO] Found the following reports for ENTEX Rust & Mitschke GmbH: 15
+
+[INFO] Processing: Roess Nature Group GmbH & Co. KG
+[INFO] Found the following reports for Roess Nature Group GmbH & Co. KG: 2
+
+[INFO] Processing: Transnova RUF
+[INFO] Found the following reports for Transnova RUF: 16
+
+[INFO] Processing: Melzer Maschinenbau GmbH
+[INFO] Found the following reports for Melzer Maschinenbau GmbH: 16
+
+[INFO] Processing: K. Sandern GmbH Maschinenbau
+[INFO] Found the following reports for K. Sandern GmbH Maschinenbau: 16
+
+[INFO] Processing: WACHTEL ABT GmbH
+[INFO] No dictionary reports found for WACHTEL ABT GmbH (data might be incomplete).
+
+[INFO] Processing: KAMA GmbH
+[INFO] Found the following reports for KAMA GmbH: 18
+
+[INFO] Processing: OBE GmbH & Co. KG
+[INFO] No dictionary reports found for OBE GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: OptoTech Optikmaschinen GmbH
+[INFO] Found the following reports for OptoTech Optikmaschinen GmbH: 16
+
+[INFO] Processing: Gardner Denver Schopfheim GmbH
+[INFO] Found the following reports for Gardner Denver Schopfheim GmbH: 19
+
+[INFO] Processing: H. Schickling GmbH
+[INFO] Found the following reports for H. Schickling GmbH: 15
+
+[INFO] Processing: MAJA-Maschinenfabrik
+[INFO] Found the following reports for MAJA-Maschinenfabrik: 20
+
+[INFO] Processing: Stefani Maschinenbau GmbH
+[INFO] Found the following reports for Stefani Maschinenbau GmbH: 15
+
+[INFO] Processing: Weber Maschinenbau GmbH Breidenbach
+[INFO] Found the following reports for Weber Maschinenbau GmbH Breidenbach: 7
+
+[INFO] Processing: OPS-INGERSOLL Funkenerosion GmbH
+[INFO] Found the following reports for OPS-INGERSOLL Funkenerosion GmbH: 17
+
+[INFO] Processing: Bürener Maschinenfabrik GmbH
+[INFO] Found the following reports for Bürener Maschinenfabrik GmbH: 20
+
+[INFO] Processing: Schnupp GmbH & Co. Hydraulik KG
+[INFO] Found the following reports for Schnupp GmbH & Co. Hydraulik KG: 18
+
+[INFO] Processing: Gluth Systemtechnik GmbH
+[INFO] Found the following reports for Gluth Systemtechnik GmbH: 17
+
+[INFO] Processing: Ing. Fritz Schroeder GmbH & Co. KG
+[INFO] Found the following reports for Ing. Fritz Schroeder GmbH & Co. KG: 15
+
+[INFO] Processing: MGT Maschinen- und Gerätebau GmbH
+[INFO] Found the following reports for MGT Maschinen- und Gerätebau GmbH: 14
+
+[INFO] Processing: Gerhard Schubert GmbH
+[INFO] Found the following reports for Gerhard Schubert GmbH: 9
+
+[INFO] Processing: VIBRA MASCHINENFABRIK
+[INFO] Found the following reports for VIBRA MASCHINENFABRIK: 18
+
+[INFO] Processing: HOLZER GmbH
+[INFO] Found the following reports for HOLZER GmbH: 4
+
+[INFO] Processing: Hastamat Verpackungstechnik GmbH
+[INFO] No dictionary reports found for Hastamat Verpackungstechnik GmbH (data might be incomplete).
+
+[INFO] Processing: komax Kabelverarbeitungs-
+[INFO] Found the following reports for komax Kabelverarbeitungs-: 18
+
+[INFO] Processing: Wilhelm Vogel GmbH Antriebstechnik
+[INFO] Found the following reports for Wilhelm Vogel GmbH Antriebstechnik: 13
+
+[INFO] Processing: M.A.i. GmbH & Co. KG
+[ERROR] 'M.A.i. GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for M.A.i. GmbH & Co. KG.
+
+[INFO] Processing: ETT Verpackungstechnik GmbH
+[INFO] Found the following reports for ETT Verpackungstechnik GmbH: 16
+
+[INFO] Processing: WOLL MASCHINENBAU GmbH
+[INFO] Found the following reports for WOLL MASCHINENBAU GmbH: 12
+
+[INFO] Processing: Maschinenfabrik Seydelmann KG
+[ERROR] 'Maschinenfabrik Seydelmann KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Maschinenfabrik Seydelmann KG.
+
+[INFO] Processing: Maschinenbau Silberhorn GmbH
+[INFO] Found the following reports for Maschinenbau Silberhorn GmbH: 15
+
+[INFO] Processing: Kuhn & Möhrlein GmbH
+[INFO] Found the following reports for Kuhn & Möhrlein GmbH: 5
+
+[INFO] Processing: Rögelberg Getriebe GmbH & Co. KG
+[INFO] Found the following reports for Rögelberg Getriebe GmbH & Co. KG: 13
+
+[INFO] Processing: UNICOR GmbH
+[INFO] Found the following reports for UNICOR GmbH: 20
+
+[INFO] Processing: RAS Reinhardt Maschinenbau GmbH
+[INFO] Found the following reports for RAS Reinhardt Maschinenbau GmbH: 15
+
+[INFO] Processing: A-Z Formen- und Maschinenbau GmbH
+[ERROR] 'A-Z Formen- und Maschinenbau GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for A-Z Formen- und Maschinenbau GmbH.
+
+[INFO] Processing: Wolf Verpackungsmaschinen GmbH
+[INFO] Found the following reports for Wolf Verpackungsmaschinen GmbH: 17
+
+[INFO] Processing: mimatic GmbH
+[INFO] Found the following reports for mimatic GmbH: 10
+
+[INFO] Processing: Kinetics Germany GmbH
+[INFO] Found the following reports for Kinetics Germany GmbH: 8
+
+[INFO] Processing: Janz Tec AG
+[INFO] Found the following reports for Janz Tec AG: 12
+
+[INFO] Processing: Okuma Europe GmbH
+[INFO] Found the following reports for Okuma Europe GmbH: 15
+
+[INFO] Processing: DAMBACH Lagersysteme GmbH & Co. KG
+[INFO] Found the following reports for DAMBACH Lagersysteme GmbH & Co. KG: 16
+
+[INFO] Processing: Franz Tölke GmbH
+[INFO] Found the following reports for Franz Tölke GmbH: 16
+
+[INFO] Processing: Wittmann Battenfeld Deutschland GmbH
+[INFO] Found the following reports for Wittmann Battenfeld Deutschland GmbH: 5
+
+[INFO] Processing: Toss GmbH & Co KG Verpackungssysteme
+[INFO] Found the following reports for Toss GmbH & Co KG Verpackungssysteme: 20
+
+[INFO] Processing: Treffler Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Treffler Maschinenbau GmbH & Co. KG: 4
+
+[INFO] Processing: Sama Maschinenbau GmbH
+[INFO] Found the following reports for Sama Maschinenbau GmbH: 16
+
+[INFO] Processing: Johannes Hübner
+[INFO] Found the following reports for Johannes Hübner: 16
+
+[INFO] Processing: ZAE-Antriebs Systeme GmbH & Co. KG
+[INFO] No dictionary reports found for ZAE-Antriebs Systeme GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: VHV Anlagenbau GmbH
+[INFO] Found the following reports for VHV Anlagenbau GmbH: 16
+
+[INFO] Processing: Baumer hhs GmbH
+[INFO] Found the following reports for Baumer hhs GmbH: 7
+
+[INFO] Processing: COMUNA - metall
+[INFO] Found the following reports for COMUNA - metall: 16
+
+[INFO] Processing: GEORGII KOBOLD GmbH & Co. KG
+[INFO] Found the following reports for GEORGII KOBOLD GmbH & Co. KG: 15
+
+[INFO] Processing: Hassia Verpackungsmaschinen GmbH
+[INFO] Found the following reports for Hassia Verpackungsmaschinen GmbH: 10
+
+[INFO] Processing: isel Germany AG
+[INFO] Found the following reports for isel Germany AG: 13
+
+[INFO] Processing: new HESTA blow molding solutions GmbH & Co. KG
+[ERROR] 'new HESTA blow molding solutions GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for new HESTA blow molding solutions GmbH & Co. KG.
+
+[INFO] Processing: Resch Maschinenbau GmbH
+[INFO] Found the following reports for Resch Maschinenbau GmbH: 16
+
+[INFO] Processing: RAMPP Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for RAMPP Maschinenbau GmbH & Co. KG: 16
+
+[INFO] Processing: SAMAG Machine Tools GmbH
+[INFO] Found the following reports for SAMAG Machine Tools GmbH: 2
+
+[INFO] Processing: Neuhaus Neotec Maschinen- und Anlagenbau GmbH
+[INFO] Found the following reports for Neuhaus Neotec Maschinen- und Anlagenbau GmbH: 1
+
+[INFO] Processing: Westeria GmbH
+[INFO] Found the following reports for Westeria GmbH: 15
+
+[INFO] Processing: ERLENBACH GmbH
+[ERROR] 'ERLENBACH GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for ERLENBACH GmbH.
+
+[INFO] Processing: Teepack Spezialmaschinen GmbH & Co. KG
+[INFO] Found the following reports for Teepack Spezialmaschinen GmbH & Co. KG: 17
+
+[INFO] Processing: REFORM Grinding Technology GmbH
+[INFO] Found the following reports for REFORM Grinding Technology GmbH: 9
+
+[INFO] Processing: Winkel GmbH
+[INFO] Found the following reports for Winkel GmbH: 17
+
+[INFO] Processing: Schmoll Maschinen GmbH
+[INFO] Found the following reports for Schmoll Maschinen GmbH: 15
+
+[INFO] Processing: Gössling Verwaltungs - GmbH
+[INFO] Found the following reports for Gössling Verwaltungs - GmbH: 13
+
+[INFO] Processing: GHD Georg Hartmann Maschinenbau GmbH
+[ERROR] 'GHD Georg Hartmann Maschinenbau GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for GHD Georg Hartmann Maschinenbau GmbH.
+
+[INFO] Processing: Leifeld Metal Spinning GmbH
+[INFO] Found the following reports for Leifeld Metal Spinning GmbH: 6
+
+[INFO] Processing: Yamazaki Mazak Deutschland GmbH
+[INFO] Found the following reports for Yamazaki Mazak Deutschland GmbH: 16
+
+[INFO] Processing: Klöckner Desma Elastomertechnik GmbH
+[ERROR] 'Klöckner Desma Elastomertechnik GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Klöckner Desma Elastomertechnik GmbH.
+
+[INFO] Processing: Weinmann Holzbausystemtechnik GmbH
+[ERROR] 'Weinmann Holzbausystemtechnik GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Weinmann Holzbausystemtechnik GmbH.
+
+[INFO] Processing: Masa GmbH
+[INFO] Found the following reports for Masa GmbH: 17
+
+[INFO] Processing: ANDRITZ Separation GmbH
+[INFO] No dictionary reports found for ANDRITZ Separation GmbH (data might be incomplete).
+
+[INFO] Processing: CEDS DURADRIVE GmbH
+[INFO] Found the following reports for CEDS DURADRIVE GmbH: 10
+
+[INFO] Processing: STRACK NORMA GmbH & Co. KG
+[INFO] Found the following reports for STRACK NORMA GmbH & Co. KG: 15
+
+[INFO] Processing: TOMRA SYSTEMS GmbH
+[INFO] Found the following reports for TOMRA SYSTEMS GmbH: 16
+
+[INFO] Processing: Rexnord GmbH
+[INFO] Found the following reports for Rexnord GmbH: 13
+
+[INFO] Processing: Stephan Machinery GmbH
+[INFO] Found the following reports for Stephan Machinery GmbH: 10
+
+[INFO] Processing: Howden Turbowerke GmbH
+[INFO] Found the following reports for Howden Turbowerke GmbH: 17
+
+[INFO] Processing: WEMA Vogtland Technology GmbH
+[INFO] Found the following reports for WEMA Vogtland Technology GmbH: 13
+
+[INFO] Processing: Nussbaum Custom Lifts GmbH
+[INFO] Found the following reports for Nussbaum Custom Lifts GmbH: 1
+
+[INFO] Processing: TRIMA Triebeser Maschinenbau GmbH
+[INFO] Found the following reports for TRIMA Triebeser Maschinenbau GmbH: 16
+
+[INFO] Processing: De Dietrich Process Systems GmbH
+[INFO] Found the following reports for De Dietrich Process Systems GmbH: 12
+
+[INFO] Processing: Metso Outotec Germany GmbH
+[INFO] Found the following reports for Metso Outotec Germany GmbH: 2
+
+[INFO] Processing: DIOSNA Dierks & Söhne GmbH
+[INFO] Found the following reports for DIOSNA Dierks & Söhne GmbH: 13
+
+[INFO] Processing: Vietz WV-GmbH
+[INFO] Found the following reports for Vietz WV-GmbH: 2
+
+[INFO] Processing: Schlatter Deutschland GmbH & Co. KG
+[INFO] Found the following reports for Schlatter Deutschland GmbH & Co. KG: 14
+
+[INFO] Processing: METALOCK ENGINEERING GERMANY GMBH
+[INFO] Found the following reports for METALOCK ENGINEERING GERMANY GMBH: 11
+
+[INFO] Processing: RSA cutting systems GmbH
+[INFO] Found the following reports for RSA cutting systems GmbH: 9
+
+[INFO] Processing: Feige Filling GmbH
+[INFO] Found the following reports for Feige Filling GmbH: 5
+
+[INFO] Processing: Karl Heesemann Maschinenfabrik GmbH & Co. KG
+[INFO] Found the following reports for Karl Heesemann Maschinenfabrik GmbH & Co. KG: 16
+
+[INFO] Processing: TEXPA Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for TEXPA Maschinenbau GmbH & Co. KG: 15
+
+[INFO] Processing: Wemhöner Surface Technologies
+[INFO] Found the following reports for Wemhöner Surface Technologies: 16
+
+[INFO] Processing: Christ Packing Systems GmbH & Co. KG
+[INFO] Found the following reports for Christ Packing Systems GmbH & Co. KG: 16
+
+[INFO] Processing: MAP Maschinen- & Apparatebau
+[INFO] Found the following reports for MAP Maschinen- & Apparatebau: 16
+
+[INFO] Processing: GEDA GmbH
+[INFO] Found the following reports for GEDA GmbH: 16
+
+[INFO] Processing: DMT Demminer Maschinenbau Technik GmbH
+[INFO] Found the following reports for DMT Demminer Maschinenbau Technik GmbH: 15
+
+[INFO] Processing: Hötten Anlagenbau GmbH
+[INFO] No dictionary reports found for Hötten Anlagenbau GmbH (data might be incomplete).
+
+[INFO] Processing: Bräutigam Bergbau- und Antriebstechnik GmbH & Co. KG
+[INFO] Found the following reports for Bräutigam Bergbau- und Antriebstechnik GmbH & Co. KG: 10
+
+[INFO] Processing: MAKA Systems GmbH
+[INFO] Found the following reports for MAKA Systems GmbH: 15
+
+[INFO] Processing: HAMMEL Recyclingtechnik GmbH
+[INFO] Found the following reports for HAMMEL Recyclingtechnik GmbH: 20
+
+[INFO] Processing: MAE Maschinen- und Apparatebau
+[ERROR] 'MAE Maschinen- und Apparatebau' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for MAE Maschinen- und Apparatebau.
+
+[INFO] Processing: KARL SCHNELL GmbH & Co. KG
+[INFO] Found the following reports for KARL SCHNELL GmbH & Co. KG: 16
+
+[INFO] Processing: Maschinenbau Dahme GmbH
+[INFO] Found the following reports for Maschinenbau Dahme GmbH: 19
+
+[INFO] Processing: August Weckermann KG
+[ERROR] 'August Weckermann KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for August Weckermann KG.
+
+[INFO] Processing: Kompressorenbau Bannewitz GmbH
+[INFO] Found the following reports for Kompressorenbau Bannewitz GmbH: 13
+
+[INFO] Processing: SSL Maschinenbau GmbH
+[INFO] Found the following reports for SSL Maschinenbau GmbH: 15
+
+[INFO] Processing: KD Stahl- und Maschinenbau GmbH
+[INFO] Found the following reports for KD Stahl- und Maschinenbau GmbH: 1
+
+[INFO] Processing: Datron AG
+[INFO] Found the following reports for Datron AG: 2
+
+[INFO] Processing: FGM Fritz Gradert
+[INFO] Found the following reports for FGM Fritz Gradert: 14
+
+[INFO] Processing: LOESCH Verpackungstechnik GmbH
+[INFO] No dictionary reports found for LOESCH Verpackungstechnik GmbH (data might be incomplete).
+
+[INFO] Processing: ZIPPE Industrieanlagen GmbH
+[INFO] Found the following reports for ZIPPE Industrieanlagen GmbH: 17
+
+[INFO] Processing: Rothenpieler Zerspanungs-Centrum GmbH
+[INFO] Found the following reports for Rothenpieler Zerspanungs-Centrum GmbH: 15
+
+[INFO] Processing: Walther Trowal GmbH & Co. KG
+[ERROR] 'Walther Trowal GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Walther Trowal GmbH & Co. KG.
+
+[INFO] Processing: Felss Systems GmbH
+[INFO] Found the following reports for Felss Systems GmbH: 5
+
+[INFO] Processing: Horn Glass Industries AG
+[INFO] Found the following reports for Horn Glass Industries AG: 18
+
+[INFO] Processing: Robert Nyblad GmbH
+[INFO] Found the following reports for Robert Nyblad GmbH: 16
+
+[INFO] Processing: MOTORTECH GmbH
+[INFO] Found the following reports for MOTORTECH GmbH: 20
+
+[INFO] Processing: Georg Sahm GmbH & Co. KG
+[INFO] Found the following reports for Georg Sahm GmbH & Co. KG: 16
+
+[INFO] Processing: Gruse Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Gruse Maschinenbau GmbH & Co. KG: 16
+
+[INFO] Processing: J. A. Becker & Söhne Maschinenfabrik
+[INFO] Found the following reports for J. A. Becker & Söhne Maschinenfabrik: 14
+
+[INFO] Processing: CHOCOTECH GmbH
+[INFO] Found the following reports for CHOCOTECH GmbH: 16
+
+[INFO] Processing: TREIF Maschinenbau GmbH
+[INFO] Found the following reports for TREIF Maschinenbau GmbH: 16
+
+[INFO] Processing: A. & C. KOSIK GmbH
+[INFO] Found the following reports for A. & C. KOSIK GmbH: 15
+
+[INFO] Processing: A. MANNESMANN MASCHINENFABRIK GmbH
+[INFO] Found the following reports for A. MANNESMANN MASCHINENFABRIK GmbH: 14
+
+[INFO] Processing: STEINERT GmbH
+[INFO] Found the following reports for STEINERT GmbH: 17
+
+[INFO] Processing: Hofmann Maschinen- und Anlagenbau GmbH
+[INFO] Found the following reports for Hofmann Maschinen- und Anlagenbau GmbH: 19
+
+[INFO] Processing: ESPERA-WERKE GMBH
+[INFO] Found the following reports for ESPERA-WERKE GMBH: 16
+
+[INFO] Processing: sera GmbH
+[INFO] Found the following reports for sera GmbH: 19
+
+[INFO] Processing: OSSBERGER GmbH + Co KG
+[INFO] Found the following reports for OSSBERGER GmbH + Co KG: 7
+
+[INFO] Processing: Wohlenberg Buchbindesysteme GmbH
+[INFO] Found the following reports for Wohlenberg Buchbindesysteme GmbH: 20
+
+[INFO] Processing: ER-WE-PA GmbH
+[INFO] Found the following reports for ER-WE-PA GmbH: 17
+
+[INFO] Processing: Wächter Packautomatik GmbH & Co. KG
+[INFO] Found the following reports for Wächter Packautomatik GmbH & Co. KG: 15
+
+[INFO] Processing: HÄNSEL Processing GmbH
+[INFO] Found the following reports for HÄNSEL Processing GmbH: 16
+
+[INFO] Processing: Fecken-Kirfel GmbH & Co. KG
+[INFO] Found the following reports for Fecken-Kirfel GmbH & Co. KG: 14
+
+[INFO] Processing: Zeck Holding GmbH
+[INFO] Found the following reports for Zeck Holding GmbH: 1
+
+[INFO] Processing: TRUMPF Werkzeugmaschinen Teningen GmbH
+[INFO] Found the following reports for TRUMPF Werkzeugmaschinen Teningen GmbH: 2
+
+[INFO] Processing: Andreas Maier GmbH & Co. KG
+[INFO] No dictionary reports found for Andreas Maier GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Hedrich GmbH
+[INFO] Found the following reports for Hedrich GmbH: 13
+
+[INFO] Processing: NAMAC Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for NAMAC Maschinenbau GmbH & Co. KG: 12
+
+[INFO] Processing: WELLAND & TUXHORN AG
+[INFO] Found the following reports for WELLAND & TUXHORN AG: 19
+
+[INFO] Processing: Dilo Systems GmbH
+[INFO] Found the following reports for Dilo Systems GmbH: 16
+
+[INFO] Processing: Mahlo GmbH & Co. KG
+[INFO] Found the following reports for Mahlo GmbH & Co. KG: 6
+
+[INFO] Processing: RINGSPANN GmbH
+[INFO] Found the following reports for RINGSPANN GmbH: 12
+
+[INFO] Processing: BÜLTMANN GmbH
+[INFO] Found the following reports for BÜLTMANN GmbH: 19
+
+[INFO] Processing: D.W. Renzmann Apparatebau GmbH
+[INFO] Found the following reports for D.W. Renzmann Apparatebau GmbH: 19
+
+[INFO] Processing: Günther Heisskanaltechnik GmbH
+[INFO] Found the following reports for Günther Heisskanaltechnik GmbH: 16
+
+[INFO] Processing: SÜMA Maschinengesellschaft GmbH
+[INFO] Found the following reports for SÜMA Maschinengesellschaft GmbH: 6
+
+[INFO] Processing: Kern & Sohn GmbH
+[INFO] Found the following reports for Kern & Sohn GmbH: 16
+
+[INFO] Processing: ELHA-MASCHINENBAU Liemke KG
+[ERROR] 'ELHA-MASCHINENBAU Liemke KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for ELHA-MASCHINENBAU Liemke KG.
+
+[INFO] Processing: Danieli Germany GmbH
+[INFO] Found the following reports for Danieli Germany GmbH: 8
+
+[INFO] Processing: ASS Maschinenbau GmbH
+[ERROR] 'ASS Maschinenbau GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for ASS Maschinenbau GmbH.
+
+[INFO] Processing: Gebr. Saacke GmbH & Co. KG
+[INFO] Found the following reports for Gebr. Saacke GmbH & Co. KG: 16
+
+[INFO] Processing: Karl Klink GmbH
+[INFO] Found the following reports for Karl Klink GmbH: 17
+
+[INFO] Processing: HÄNDLE GmbH Maschinen und Anlagenbau
+[INFO] Found the following reports for HÄNDLE GmbH Maschinen und Anlagenbau: 15
+
+[INFO] Processing: Kubat Mechanik GmbH
+[INFO] Found the following reports for Kubat Mechanik GmbH: 20
+
+[INFO] Processing: LIFTKET Hoffmann GmbH
+[INFO] Found the following reports for LIFTKET Hoffmann GmbH: 6
+
+[INFO] Processing: Grunwald GmbH
+[INFO] Found the following reports for Grunwald GmbH: 20
+
+[INFO] Processing: Licon mt GmbH & Co. KG
+[INFO] Found the following reports for Licon mt GmbH & Co. KG: 15
+
+[INFO] Processing: Erbatech GmbH
+[INFO] Found the following reports for Erbatech GmbH: 16
+
+[INFO] Processing: Wälischmiller Engineering GmbH
+[INFO] Found the following reports for Wälischmiller Engineering GmbH: 14
+
+[INFO] Processing: KF Engineering GmbH
+[INFO] Found the following reports for KF Engineering GmbH: 4
+
+[INFO] Processing: Güdel Germany GmbH
+[INFO] Found the following reports for Güdel Germany GmbH: 7
+
+[INFO] Processing: Josef Blässinger GmbH + Co KG
+[INFO] Found the following reports for Josef Blässinger GmbH + Co KG: 14
+
+[INFO] Processing: Hecker Werke GmbH
+[INFO] Found the following reports for Hecker Werke GmbH: 17
+
+[INFO] Processing: MATO GmbH & Co KG
+[INFO] Found the following reports for MATO GmbH & Co KG: 16
+
+[INFO] Processing: Simon Möhringer Anlagenbau GmbH
+[INFO] Found the following reports for Simon Möhringer Anlagenbau GmbH: 16
+
+[INFO] Processing: Otto Martin
+[INFO] Found the following reports for Otto Martin: 19
+
+[INFO] Processing: Haugg-Kühlerfabrik GmbH
+[INFO] Found the following reports for Haugg-Kühlerfabrik GmbH: 20
+
+[INFO] Processing: HEBENSTREIT GmbH
+[INFO] Found the following reports for HEBENSTREIT GmbH: 20
+
+[INFO] Processing: Scheugenpflug GmbH
+[INFO] Found the following reports for Scheugenpflug GmbH: 3
+
+[INFO] Processing: ABI Maschinenfabrik und
+[INFO] Found the following reports for ABI Maschinenfabrik und: 8
+
+[INFO] Processing: LAWECO Maschinen- und Apparatebau GmbH
+[INFO] Found the following reports for LAWECO Maschinen- und Apparatebau GmbH: 13
+
+[INFO] Processing: Maschinenfabrik Herbert Meyer GmbH
+[INFO] Found the following reports for Maschinenfabrik Herbert Meyer GmbH: 15
+
+[INFO] Processing: FONG'S EUROPE GMBH
+[INFO] Found the following reports for FONG'S EUROPE GMBH: 13
+
+[INFO] Processing: Gämmerler GmbH
+[INFO] Found the following reports for Gämmerler GmbH: 15
+
+[INFO] Processing: Instron GmbH
+[INFO] Found the following reports for Instron GmbH: 2
+
+[INFO] Processing: JENSEN GmbH
+[INFO] Found the following reports for JENSEN GmbH: 19
+
+[INFO] Processing: David Brown Santasalo Germany GmbH
+[INFO] Found the following reports for David Brown Santasalo Germany GmbH: 4
+
+[INFO] Processing: SMC Deutschland GmbH
+[INFO] Found the following reports for SMC Deutschland GmbH: 7
+
+[INFO] Processing: TRAPO GmbH
+[INFO] Found the following reports for TRAPO GmbH: 19
+
+[INFO] Processing: m-tec mathis technik gmbh
+[INFO] Found the following reports for m-tec mathis technik gmbh: 17
+
+[INFO] Processing: Schneeberger GmbH
+[INFO] Found the following reports for Schneeberger GmbH: 16
+
+[INFO] Processing: Sprimag Spritzmaschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Sprimag Spritzmaschinenbau GmbH & Co. KG: 15
+
+[INFO] Processing: F. Zimmermann GmbH
+[INFO] Found the following reports for F. Zimmermann GmbH: 18
+
+[INFO] Processing: Meypack Verpackungssystemtechnik GmbH
+[INFO] Found the following reports for Meypack Verpackungssystemtechnik GmbH: 14
+
+[INFO] Processing: SHW Werkzeugmaschinen GmbH
+[INFO] Found the following reports for SHW Werkzeugmaschinen GmbH: 20
+
+[INFO] Processing: Buss-SMS-Canzler GmbH
+[INFO] Found the following reports for Buss-SMS-Canzler GmbH: 18
+
+[INFO] Processing: ALMIG Kompressoren GmbH
+[INFO] Found the following reports for ALMIG Kompressoren GmbH: 16
+
+[INFO] Processing: Avermann Maschinenfabrik GmbH & Co. KG
+[INFO] Found the following reports for Avermann Maschinenfabrik GmbH & Co. KG: 14
+
+[INFO] Processing: Thom Metall- und Maschinenbau GmbH
+[INFO] Found the following reports for Thom Metall- und Maschinenbau GmbH: 16
+
+[INFO] Processing: DMG MORI Global Marketing GmbH
+[INFO] Found the following reports for DMG MORI Global Marketing GmbH: 8
+
+[INFO] Processing: TAMPOPRINT GmbH
+[INFO] Found the following reports for TAMPOPRINT GmbH: 1
+
+[INFO] Processing: Werner Bauser GmbH
+[INFO] Found the following reports for Werner Bauser GmbH: 16
+
+[INFO] Processing: Stadler Maschinenbau GmbH
+[INFO] Found the following reports for Stadler Maschinenbau GmbH: 3
+
+[INFO] Processing: August Börkey Nachf. GmbH
+[INFO] Found the following reports for August Börkey Nachf. GmbH: 15
+
+[INFO] Processing: Pouch Partners GmbH
+[INFO] Found the following reports for Pouch Partners GmbH: 4
+
+[INFO] Processing: Haulick + Roos GmbH
+[INFO] Found the following reports for Haulick + Roos GmbH: 17
+
+[INFO] Processing: Heinz & Feld Sondermaschinenbau GmbH
+[INFO] Found the following reports for Heinz & Feld Sondermaschinenbau GmbH: 14
+
+[INFO] Processing: Steinlen Elektromaschinenbau GmbH
+[INFO] Found the following reports for Steinlen Elektromaschinenbau GmbH: 16
+
+[INFO] Processing: Rötzer Maschinenbau GmbH
+[INFO] Found the following reports for Rötzer Maschinenbau GmbH: 14
+
+[INFO] Processing: TITAN Umreifungstechnik GmbH & Co. KG
+[INFO] Found the following reports for TITAN Umreifungstechnik GmbH & Co. KG: 1
+
+[INFO] Processing: IDEAL - Werk C. + E. Jungeblodt
+[INFO] Found the following reports for IDEAL - Werk C. + E. Jungeblodt: 15
+
+[INFO] Processing: Nederman GmbH
+[INFO] Found the following reports for Nederman GmbH: 14
+
+[INFO] Processing: Burkhardt+Weber
+[INFO] Found the following reports for Burkhardt+Weber: 16
+
+[INFO] Processing: MBH Maschinenbau & Blechtechnik GmbH
+[INFO] Found the following reports for MBH Maschinenbau & Blechtechnik GmbH: 20
+
+[INFO] Processing: Beer + Blumenauer GmbH
+[INFO] Found the following reports for Beer + Blumenauer GmbH: 16
+
+[INFO] Processing: Frigoblock GmbH
+[INFO] Found the following reports for Frigoblock GmbH: 10
+
+[INFO] Processing: BW Papersystems Hamburg GmbH
+[INFO] No dictionary reports found for BW Papersystems Hamburg GmbH (data might be incomplete).
+
+[INFO] Processing: SKET Verseilmaschinenbau GmbH
+[INFO] Found the following reports for SKET Verseilmaschinenbau GmbH: 18
+
+[INFO] Processing: SAT Anlagentechnik GmbH
+[INFO] Found the following reports for SAT Anlagentechnik GmbH: 18
+
+[INFO] Processing: Wessel GmbH Kessel- und Apparatebau
+[INFO] Found the following reports for Wessel GmbH Kessel- und Apparatebau: 16
+
+[INFO] Processing: Steinhoff GmbH & Cie. OHG
+[INFO] Found the following reports for Steinhoff GmbH & Cie. OHG: 17
+
+[INFO] Processing: Schleuniger GmbH
+[INFO] Found the following reports for Schleuniger GmbH: 20
+
+[INFO] Processing: Demmeler Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Demmeler Maschinenbau GmbH & Co. KG: 15
+
+[INFO] Processing: FAUDI GmbH
+[INFO] Found the following reports for FAUDI GmbH: 19
+
+[INFO] Processing: HEKUMA GmbH
+[INFO] Found the following reports for HEKUMA GmbH: 9
+
+[INFO] Processing: Heidolph Instruments GmbH & Co.KG
+[INFO] Found the following reports for Heidolph Instruments GmbH & Co.KG: 15
+
+[INFO] Processing: Werkzeugmaschinenbau Ziegenhain GmbH
+[INFO] Found the following reports for Werkzeugmaschinenbau Ziegenhain GmbH: 14
+
+[INFO] Processing: Pittler T & S GmbH
+[INFO] Found the following reports for Pittler T & S GmbH: 15
+
+[INFO] Processing: Mühlbauer Maschinenbau GmbH
+[INFO] Found the following reports for Mühlbauer Maschinenbau GmbH: 15
+
+[INFO] Processing: Hackerodt Beteiligungs- und Verwaltungs
+[INFO] Found the following reports for Hackerodt Beteiligungs- und Verwaltungs: 16
+
+[INFO] Processing: Bilfinger Noell GmbH
+[ERROR] 'Bilfinger Noell GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Bilfinger Noell GmbH.
+
+[INFO] Processing: Meusburger Deutschland GmbH
+[INFO] Found the following reports for Meusburger Deutschland GmbH: 10
+
+[INFO] Processing: Aschaffenburger Maschinenfabrik
+[INFO] Found the following reports for Aschaffenburger Maschinenfabrik: 16
+
+[INFO] Processing: Wartinger Maschinenbau GmbH
+[INFO] Found the following reports for Wartinger Maschinenbau GmbH: 4
+
+[INFO] Processing: NSM Magnettechnik GmbH
+[ERROR] 'NSM Magnettechnik GmbH' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for NSM Magnettechnik GmbH.
+
+[INFO] Processing: Mogensen GmbH & Co.Kommanditgesellschaft
+[INFO] Found the following reports for Mogensen GmbH & Co.Kommanditgesellschaft: 4
+
+[INFO] Processing: COLLIN Lab & Pilot Solutions GmbH
+[INFO] Found the following reports for COLLIN Lab & Pilot Solutions GmbH: 4
+
+[INFO] Processing: KLN Ultraschall AG
+[INFO] Found the following reports for KLN Ultraschall AG: 11
+
+[INFO] Processing: Fooke GmbH
+[INFO] Found the following reports for Fooke GmbH: 20
+
+[INFO] Processing: WEKAL Maschinenbau GmbH
+[INFO] Found the following reports for WEKAL Maschinenbau GmbH: 20
+
+[INFO] Processing: Kurre Spezialmaschinenbau GmbH
+[INFO] Found the following reports for Kurre Spezialmaschinenbau GmbH: 16
+
+[INFO] Processing: ATEC Pharmatechnik GmbH
+[INFO] Found the following reports for ATEC Pharmatechnik GmbH: 15
+
+[INFO] Processing: Fibro Läpple Technology GmbH
+[INFO] Found the following reports for Fibro Läpple Technology GmbH: 10
+
+[INFO] Processing: Herbert Maschinenbau GmbH & Co. KG
+[INFO] Found the following reports for Herbert Maschinenbau GmbH & Co. KG: 19
+
+[INFO] Processing: GM Getränketechnik & Maschinenbau
+[INFO] Found the following reports for GM Getränketechnik & Maschinenbau: 17
+
+[INFO] Processing: Konrad Busche GmbH & Co. KG
+[INFO] No dictionary reports found for Konrad Busche GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Helmerding hiw Maschinen GmbH
+[INFO] Found the following reports for Helmerding hiw Maschinen GmbH: 15
+
+[INFO] Processing: FRICKE Abfülltechnik GmbH & Co. KG
+[INFO] Found the following reports for FRICKE Abfülltechnik GmbH & Co. KG: 5
+
+[INFO] Processing: HEESS GmbH & Co KG
+[INFO] Found the following reports for HEESS GmbH & Co KG: 19
+
+[INFO] Processing: Braun Sondermaschinen GmbH
+[INFO] Found the following reports for Braun Sondermaschinen GmbH: 18
+
+[INFO] Processing: FPT Robotik GmbH & Co.KG
+[INFO] Found the following reports for FPT Robotik GmbH & Co.KG: 18
+
+[INFO] Processing: ERMAFA Sondermaschinen- und Anlagenbau GmbH
+[INFO] Found the following reports for ERMAFA Sondermaschinen- und Anlagenbau GmbH: 16
+
+[INFO] Processing: Schirmer Maschinen GmbH
+[INFO] Found the following reports for Schirmer Maschinen GmbH: 16
+
+[INFO] Processing: Ruchser GmbH Maschinen- und Gerätebau
+[INFO] Found the following reports for Ruchser GmbH Maschinen- und Gerätebau: 15
+
+[INFO] Processing: Kegelmann Technik GmbH
+[INFO] Found the following reports for Kegelmann Technik GmbH: 15
+
+[INFO] Processing: Ruberg-Mischtechnik GmbH + Co. KG
+[INFO] Found the following reports for Ruberg-Mischtechnik GmbH + Co. KG: 8
+
+[INFO] Processing: PRG Präzisions-Rührer GmbH
+[INFO] Found the following reports for PRG Präzisions-Rührer GmbH: 14
+
+[INFO] Processing: Fessmann GmbH und Co KG
+[INFO] Found the following reports for Fessmann GmbH und Co KG: 15
+
+[INFO] Processing: Wilhelm Niemann GmbH & Co. KG
+[INFO] No dictionary reports found for Wilhelm Niemann GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Breuer Motoren GmbH & Co. KG
+[INFO] Found the following reports for Breuer Motoren GmbH & Co. KG: 16
+
+[INFO] Processing: Hohner Maschinenbau GmbH
+[INFO] Found the following reports for Hohner Maschinenbau GmbH: 16
+
+[INFO] Processing: Dr. Boy GmbH & Co. KG
+[INFO] Found the following reports for Dr. Boy GmbH & Co. KG: 17
+
+[INFO] Processing: Hinterkopf GmbH
+[INFO] Found the following reports for Hinterkopf GmbH: 20
+
+[INFO] Processing: AUTOSPLICE Europe GmbH
+[INFO] Found the following reports for AUTOSPLICE Europe GmbH: 19
+
+[INFO] Processing: Emil Prinzing & Söhne GmbH & Co. KG
+[INFO] Found the following reports for Emil Prinzing & Söhne GmbH & Co. KG: 15
+
+[INFO] Processing: Theodor Kekeisen GmbH & Co. KG
+[INFO] Found the following reports for Theodor Kekeisen GmbH & Co. KG: 14
+
+[INFO] Processing: bavius technologie gmbh
+[INFO] Found the following reports for bavius technologie gmbh: 5
+
+[INFO] Processing: Webomatic Maschinenfabrik GmbH
+[INFO] Found the following reports for Webomatic Maschinenfabrik GmbH: 16
+
+[INFO] Processing: Zasche handling GmbH
+[INFO] Found the following reports for Zasche handling GmbH: 12
+
+[INFO] Processing: Herzog Maschinenfabrik GmbH & Co. KG
+[INFO] Found the following reports for Herzog Maschinenfabrik GmbH & Co. KG: 12
+
+[INFO] Processing: Schubert Maschinen- und Anlagenbau GmbH
+[INFO] Found the following reports for Schubert Maschinen- und Anlagenbau GmbH: 16
+
+[INFO] Processing: Rainer Krüger-Maschinenbau e.K.
+[INFO] No dictionary reports found for Rainer Krüger-Maschinenbau e.K. (data might be incomplete).
+
+[INFO] Processing: EMERSON Technologies GmbH & Co. OHG
+[INFO] Found the following reports for EMERSON Technologies GmbH & Co. OHG: 16
+
+[INFO] Processing: Adam Kühlerfabrik u. Motorenservice GmbH
+[INFO] Found the following reports for Adam Kühlerfabrik u. Motorenservice GmbH: 15
+
+[INFO] Processing: Kadant PAAL GmbH
+[INFO] Found the following reports for Kadant PAAL GmbH: 9
+
+[INFO] Processing: Heinrich Greve Maschinen- u. Apparatebau
+[INFO] No dictionary reports found for Heinrich Greve Maschinen- u. Apparatebau (data might be incomplete).
+
+[INFO] Processing: Renner Etikettiertechnik GmbH
+[INFO] Found the following reports for Renner Etikettiertechnik GmbH: 15
+
+[INFO] Processing: Rhewum GmbH
+[INFO] Found the following reports for Rhewum GmbH: 16
+
+[INFO] Processing: WiWa Wilhelm Wagner GmbH & Co. KG
+[ERROR] 'WiWa Wilhelm Wagner GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for WiWa Wilhelm Wagner GmbH & Co. KG.
+
+[INFO] Processing: Schwarze-Robitec GmbH
+[INFO] Found the following reports for Schwarze-Robitec GmbH: 19
+
+[INFO] Processing: esmo AG
+[INFO] Found the following reports for esmo AG: 19
+
+[INFO] Processing: Engel Deutschland GmbH
+[INFO] Found the following reports for Engel Deutschland GmbH: 17
+
+[INFO] Processing: Künkel Wagner Germany GmbH
+[INFO] Found the following reports for Künkel Wagner Germany GmbH: 7
+
+[INFO] Processing: METALL + PLASTIC GmbH
+[INFO] Found the following reports for METALL + PLASTIC GmbH: 10
+
+[INFO] Processing: Inductotherm Deutschland GmbH
+[INFO] Found the following reports for Inductotherm Deutschland GmbH: 15
+
+[INFO] Processing: PEINER SMAG Lifting Technologies GmbH
+[INFO] Found the following reports for PEINER SMAG Lifting Technologies GmbH: 9
+
+[INFO] Processing: Allstein GmbH
+[INFO] Found the following reports for Allstein GmbH: 9
+
+[INFO] Processing: DREISTERN GmbH & Co. KG
+[INFO] Found the following reports for DREISTERN GmbH & Co. KG: 10
+
+[INFO] Processing: Supfina Grieshaber GmbH & Co. KG
+[INFO] Found the following reports for Supfina Grieshaber GmbH & Co. KG: 15
+
+[INFO] Processing: Theilen Maschinenbau GmbH
+[INFO] Found the following reports for Theilen Maschinenbau GmbH: 13
+
+[INFO] Processing: Uniccomp GmbH
+[INFO] No dictionary reports found for Uniccomp GmbH (data might be incomplete).
+[DONE] Results written to: companies_maschinenbauer_output.csv
+Folders created under: bundesanzeiger_local_data

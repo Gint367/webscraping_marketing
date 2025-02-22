@@ -1,0 +1,79 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+
+[INFO] Processing: falch gmbh
+[INFO] Found the following reports for falch gmbh: 20
+
+[INFO] Processing: SARTORIUS Werkzeuge GmbH & Co. KG
+[INFO] No dictionary reports found for SARTORIUS Werkzeuge GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: ITW Befestigungssysteme GmbH
+[INFO] No dictionary reports found for ITW Befestigungssysteme GmbH (data might be incomplete).
+
+[INFO] Processing: Dr. Müller Diamantmetall AG
+[INFO] Found the following reports for Dr. Müller Diamantmetall AG: 15
+
+[INFO] Processing: Schwegler Werkzeugfabrik GmbH & Co. KG
+[INFO] Found the following reports for Schwegler Werkzeugfabrik GmbH & Co. KG: 12
+
+[INFO] Processing: Starcke GmbH & Co. KG
+[INFO] Found the following reports for Starcke GmbH & Co. KG: 11
+
+[INFO] Processing: Baudat GmbH & Co.KG.
+[INFO] Found the following reports for Baudat GmbH & Co.KG.: 16
+
+[INFO] Processing: Dinse GmbH
+[INFO] Found the following reports for Dinse GmbH: 20
+
+[INFO] Processing: TKR Spezialwerkzeuge GmbH
+[INFO] Found the following reports for TKR Spezialwerkzeuge GmbH: 17
+
+[INFO] Processing: Gebr. Lennartz GmbH & Co. KG
+[INFO] Found the following reports for Gebr. Lennartz GmbH & Co. KG: 14
+
+[INFO] Processing: Probst GmbH
+[INFO] Found the following reports for Probst GmbH: 17
+
+[INFO] Processing: Johann Cuno König Stiftung & Co. KG
+[INFO] Found the following reports for Johann Cuno König Stiftung & Co. KG: 15
+
+[INFO] Processing: Alfred Jäger GmbH
+[INFO] Found the following reports for Alfred Jäger GmbH: 20
+
+[INFO] Processing: Schobertechnologies GmbH
+[INFO] Found the following reports for Schobertechnologies GmbH: 12
+
+[INFO] Processing: Lehmann GmbH
+[INFO] Found the following reports for Lehmann GmbH: 11
+
+[INFO] Processing: Blickle Werkzeuge GmbH & Co. KG
+[INFO] No dictionary reports found for Blickle Werkzeuge GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Weitkowitz GmbH
+[INFO] Found the following reports for Weitkowitz GmbH: 20
+
+[INFO] Processing: LINCOLN ELECTRIC DEUTSCHLAND GmbH
+[INFO] Found the following reports for LINCOLN ELECTRIC DEUTSCHLAND GmbH: 3
+
+[INFO] Processing: WEZAG GmbH Werkzeugfabrik
+[INFO] Found the following reports for WEZAG GmbH Werkzeugfabrik: 16
+
+[INFO] Processing: Dynajet GmbH
+[INFO] Found the following reports for Dynajet GmbH: 8
+
+[INFO] Processing: Inovatools Eckerle & Ertel GmbH
+[INFO] Found the following reports for Inovatools Eckerle & Ertel GmbH: 14
+
+[INFO] Processing: Britsch-Spannzeuge GmbH
+[INFO] Found the following reports for Britsch-Spannzeuge GmbH: 16
+
+[INFO] Processing: MOLDINO Tool Engineering Europe GmbH
+[INFO] Found the following reports for MOLDINO Tool Engineering Europe GmbH: 3
+
+[INFO] Processing: Lavans Deutschland GmbH
+[INFO] Found the following reports for Lavans Deutschland GmbH: 15
+
+[INFO] Processing: ESA Eppinger GmbH
+[INFO] Found the following reports for ESA Eppinger GmbH: 16
+[DONE] Results written to: companies_werkzeughersteller_output.csv
+Folders created under: bundesanzeiger_local_data
