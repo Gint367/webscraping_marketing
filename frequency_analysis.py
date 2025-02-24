@@ -79,7 +79,7 @@ def analyze_with_bow(texts):
         return pd.DataFrame()
 
 def main():
-    directory = "bundesanzeiger_local_data_output"
+    directory = "bundesanzeiger_local_data_output_old"
     all_headers = []
     
     # Read all JSON files
@@ -103,7 +103,7 @@ def main():
     if not word_frequencies.empty:
         print("\nMost common words in headers (Bag of Words analysis):")
         print("-" * 60)
-        print(word_frequencies.head(20))
+        print(word_frequencies.head(30))
     else:
         print("Analysis produced no results!")
 

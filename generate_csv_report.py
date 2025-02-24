@@ -5,15 +5,19 @@ from typing import List, Dict
 
 def extract_company_name(filename: str) -> str:
     """
-    Extracts company name from a filtered JSON filename by removing the '_filtered.json' suffix.
+    Extracts and formats company name from a filtered JSON filename.
+    Replaces underscores with spaces and fixes special characters.
     
     Args:
         filename (str): Name of the JSON file
     
     Returns:
-        str: Company name extracted from the filename
+        str: Properly formatted company name
     """
-    return filename.replace('_filtered.json', '')
+    name = filename.replace('_filtered.json', '')
+    # First replace special patterns, then handle remaining underscores
+    name = name.replace('_and_', ' & ').replace('_', ' ')
+    return name
 
 def extract_values(data: List[Dict], max_values: int) -> tuple[List[str], str]:
     """
@@ -90,7 +94,61 @@ def extract_values_v2(data: List[Dict], max_values: int) -> tuple[List[str], str
     # If no matching table found, return empty list and empty string
     return [''] * max_values, ''
 
-def generate_csv_report(input_dir: str, output_file: str, n: int, use_v2: bool = False):
+def extract_values_v3(data: List[Dict], max_values: int, filter_words: List[str]) -> tuple[List[str], str]:
+    """
+    Enhanced value extraction function with number cleaning:
+    - Removes anything after the comma
+    - Removes dots used as thousand separators
+    - Converts to plain numbers without formatting
+    """
+    for table in data:
+        table_name = table.get('table_name', '')[:100]
+        
+        # Check all header levels in the first row
+        if table.get('matching_rows'):
+            first_row = table['matching_rows'][0]
+            all_headers = []
+            for i in range(1, table.get('header_levels', 0) + 1):
+                headers = first_row.get(f'header{i}', [])
+                all_headers.extend([str(h).lower() for h in headers])
+            
+            if any(filter_word.lower() in header 
+                   for header in all_headers 
+                   for filter_word in filter_words):
+                continue
+            
+            for row in table.get('matching_rows', []):
+                row_values = row.get('values', {})
+                
+                # Filter and clean numeric values
+                numeric_values = {}
+                for key, value in row_values.items():
+                    if isinstance(value, str):
+                        # Skip values that start with 0
+                        if value.strip().startswith('0'):
+                            continue
+                            
+                        # Clean the number:
+                        # 1. Take everything before the comma (if exists)
+                        # 2. Remove dots (thousand separators)
+                        # 3. Strip whitespace
+                        clean_value = value.split(',')[0].replace('.', '').strip()
+                        
+                        if clean_value.isdigit():
+                            numeric_values[key] = clean_value
+                
+                if len(numeric_values) <= max_values:
+                    numbers = list(numeric_values.values())
+                    while len(numbers) < max_values:
+                        numbers.append('')
+                    return numbers[:max_values], table_name
+    
+    return [''] * max_values, ''
+
+def generate_csv_report(input_dir: str, 
+                       output_file: str, 
+                       n: int, 
+                       extract_func: callable):
     """
     Generates a CSV report by processing JSON files and extracting numeric values.
     Only includes companies that have at least one valid numeric value.
@@ -99,7 +157,7 @@ def generate_csv_report(input_dir: str, output_file: str, n: int, use_v2: bool =
         input_dir (str): Directory containing the filtered JSON files
         output_file (str): Path where the CSV report will be saved
         n (int): Maximum number of machine values to extract per company
-        use_v2 (bool, optional): Whether to use the enhanced value extraction. Defaults to False.
+        extract_func (callable): Function to use for extracting values from tables
     """
     # Prepare CSV headers
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
@@ -116,7 +174,6 @@ def generate_csv_report(input_dir: str, output_file: str, n: int, use_v2: bool =
                     data = json.load(jsonfile)
                     
                 company_name = extract_company_name(filename)
-                extract_func = extract_values_v2 if use_v2 else extract_values
                 values, table_name = extract_func(data, n)
                 
                 # Only write to CSV if at least one value is not empty
@@ -125,9 +182,19 @@ def generate_csv_report(input_dir: str, output_file: str, n: int, use_v2: bool =
 
 if __name__ == "__main__":
     input_directory = "./bundesanzeiger_local_data_output"
+    N = 3  # Parameter N - change this value as needed
     
-    N = 4  # Parameter N - change this value as needed
+    # Generate report using original extract_values
+    # generate_csv_report(input_directory, f"machine_report_n{N}_v1.csv", N, extract_values)
     
-    output_csv = f"machine_report_n{N}.csv"
-    # Use the new version with v2
-    generate_csv_report(input_directory, output_csv, N, use_v2=False)
+    # Generate report using extract_values_v2
+    # generate_csv_report(input_directory, f"machine_report_n{N}_v2.csv", N, extract_values_v2)
+    
+    # Generate report using extract_values_v3 with filter words
+    filter_words = ["anschaffungs", "abschreibung", "buchwert"]
+    generate_csv_report(
+        input_directory, 
+        f"machine_report_n{N}_v3.csv", 
+        N,
+        lambda data, n: extract_values_v3(data, n, filter_words)
+    )

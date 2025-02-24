@@ -32,14 +32,17 @@ def clean_html(input_html, filter_word=None):
             count = 0
             
             while count < 3:
-                current = current.find_previous_sibling()
+                current = current.find_previous() # Use find_previous instead of find_previous_sibling
                 if not current:
                     break
-                if current.name == 'table':
+                if current.name == 'table': # Stop if we encounter another table
+                    break
+                if current.name == 'h3': # Stop if we encounter a section heading (h3)
                     break
                 if current.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p']:
-                    preceding_elements.append(current)
-                    count += 1
+                    if current not in preceding_elements: # Avoid duplicates if somehow found again
+                        preceding_elements.append(current)
+                        count += 1
             
             # Add elements in correct order
             for element in reversed(preceding_elements):
@@ -227,6 +230,14 @@ if __name__ == "__main__":
                 
                 # Clean and filter the HTML content
                 cleaned_html = clean_html(html_content)
+                
+                # Save the cleaned HTML to a different folder
+                cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")
+                os.makedirs(cleaned_html_output_dir, exist_ok=True)
+                cleaned_html_file = os.path.join(cleaned_html_output_dir, f"{company_folder}_cleaned.html")
+                with open(cleaned_html_file, 'w', encoding='utf-8') as f:
+                    f.write(cleaned_html)
+                    
                 if cleaned_html:
                     filtered_data = filter_word_rows(cleaned_html, search_word)
                     

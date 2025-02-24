@@ -1,6 +1,7 @@
 # Ignore Python bytecode files
 __pycache__/
 *.pyc
+*.pytest*
 
 # Ignore virtual environment directories
 venv/
@@ -10,6 +11,8 @@ venv/
 .vscode/
 
 # Ignore other files or directories
-bundesanzeiger_local_data/
-bundesanzeiger_local_data_output/
+bundesanzeiger_local_data*/
 test_bundesanzeiger_local_data/
+test_folder*/
+
+.gitignore
