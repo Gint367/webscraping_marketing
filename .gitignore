@@ -14,5 +14,7 @@ venv/
 bundesanzeiger_local_data*/
 test_bundesanzeiger_local_data/
 test_folder*/
+crawled*/
+webcrawl*/
 
 .gitignore

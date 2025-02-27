@@ -1,0 +1,72 @@
+[
+    {
+        "company_name": "Hüttenbrauck",
+        "keywords": [
+            "Aluminium",
+            "Stahl",
+            "Profil",
+            "Kaltgewalzt",
+            "Stranggepresst",
+            "Qualitätsvorgaben"
+        ],
+        "machines": [
+            "Kaltwalzmaschine",
+            "Strangpressmaschine"
+        ],
+        "error": false
+    },
+    {
+        "company_name": "Gülde GmbH & Co. KG",
+        "keywords": [
+            "Kaltwalzen",
+            "Bandstahl",
+            "Blankstahl",
+            "Flachdraht",
+            "Vollprofile",
+            "rostbeständige Stähle"
+        ],
+        "machines": [],
+        "error": false
+    },
+    {
+        "company_name": "Schröder Group",
+        "keywords": [
+            "Blech",
+            "Schwenkbiegemaschine",
+            "Maschinenbau",
+            "Industrie",
+            "EuroBLECH"
+        ],
+        "machines": [
+            "Schwenkbiegemaschine"
+        ],
+        "error": false
+    },
+    {
+        "company_name": "SCHRÖDER Group",
+        "keywords": [
+            "Blechbearbeitungsmaschinen",
+            "Schwenkbiegen",
+            "Schneiden",
+            "Sicken",
+            "Bördeln",
+            "Runden",
+            "Automationssysteme"
+        ],
+        "machines": [
+            "MAK 4 Evolution UD",
+            "EVO Center",
+            "SPB Evolution UD",
+            "EVO DuoBend",
+            "PowerBend Industrial",
+            "PowerBend Professional",
+            "PowerBend Universal",
+            "PowerBend Multi",
+            "MAKU",
+            "EVO Heavy Duty",
+            "PDC",
+            "PDC NC"
+        ],
+        "error": false
+    }
+]
