@@ -16,41 +16,42 @@ from collections import Counter
 prompt = (
     "From the crawled content, extract the following details:\n"
     "1. Company Name\n"
-    "2. Keywords related to machines\n"
-    "3. Machines category used in manufacturing process\n"
-    "Notes: Avoid generic terms or repetitions for the keywords.\n"
-    "Return the results in JSON format with the following structure:\n"
-    '{  "company_name": "<Company Name>",  "keywords": ["<Keyword 1>", "<Keyword 2>", ...],  "machines": ["<Machine 1>", "<Machine 2>", ...]}'
-)
+    "2. Products that the company offers(Products can either be a machines or parts produced by machines.)\n"
+    "3. Machines that the company uses in their manufacturing process\n"
+    "4. Type of Process that their machine uses in their manufacturing process(e.g Milling, Driling, Turning, Grinding, etc)\n"
+    "5. Whether the company offers contract manufacturing services (yes or no)\n"
+    "Notes: Only write if its specifically mentioned.\n"
+    )
 
 test_urls = [
-    "https://www.pacoma.com/",
+    "https://www.forst-online.de/index.php/de/",
+    "https://www.schroedergroup.eu/de/",
+    "https://huettenbrauck.com/",
+       
+]
+
+"""
     "https://www.deharde.de/de/",
+    "https://maier-heidenheim.com/",
+    "https://www.pacoma.com/",
     "https://www.terrot.de/de/",
     "https://www.scheuchl.de/",
     "https://www.schuster-maschinenbau.de/",
     "https://www.fmb-machinery.de/",
-    "https://maier-heidenheim.com/",
     "https://www.dilco.de/",
     "https://www.guelde.de/de/",
-    "https://www.forst-online.de/index.php/de/",
-    "https://www.schroedergroup.eu/de/",
-    "https://huettenbrauck.com/",
+    
     "https://www.jaecklin-industrial.de/",
     "https://www.peter-wolters.de/"
-   
-]
+
+"""
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
-    keywords: List[str] = Field(..., description="List of Machines")
+    products: List[str] = Field(..., description="List of Products offered by the company.")
     machines: List[str] = Field(..., description="List of Machines used in manufacturing process.")
-"""
-class OpenAIModelFee(BaseModel):
-    model_name: str = Field(..., description="Name of the OpenAI model.")
-    input_fee: str = Field(..., description="Fee for input token for the OpenAI model.")
-    output_fee: str = Field(..., description="Fee for output token for the OpenAI model.")
-"""
+    process_type: List[str] = Field(..., description="List of Process Types used in manufacturing process.")
+    lohnfertigung: bool = Field(..., description="Whether the company offers contract manufacturing services.")
 
 
 def consolidate_company_data(data):
@@ -121,15 +122,19 @@ async def main():
         return f"{parsed_url.scheme}://{parsed_url.netloc}"
 
     urls = list(set(get_top_level_domain(url) for url in urls))
-    
+    """
     print("First X URLs:")
     for url in urls[:5]:
         print(url)
     
+    """
     # Create output directory for markdown files
     markdown_dir = ensure_output_directory()
     
     # 1. Define the LLM extraction strategy
+    temperature = 0.1
+    max_tokens = 800
+
     llm_strategy = LLMExtractionStrategy(
         provider="openai/gpt-4o-mini",            # e.g. "ollama/llama2"
         #provider="ollama/deepseek-r1:14b",
@@ -140,11 +145,11 @@ async def main():
         schema=Company.model_json_schema(),
         instruction=prompt,
         chunk_token_threshold=1000,
-        
         overlap_rate=0.0,
         apply_chunking=True,
         input_format="markdown",   # or "html", "fit_markdown"
-        extra_args={"temperature": 0.0, "max_tokens": 1000}
+        extra_args={"temperature": temperature, "max_tokens": max_tokens}
+        
     )
 
     # 2. Build the crawler config
@@ -153,6 +158,8 @@ async def main():
         cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
+        exclude_social_media_links=True,
+        word_count_threshold=10
         
     )
 
@@ -161,13 +168,15 @@ async def main():
         verbose=True,
         headless=True,
         text_mode=True,
-        headers={"Accept-Language": "de-DE,de;q=0.9"}
     )
 
     async with AsyncWebCrawler(config=browser_cfg) as crawler:
+        crawler.crawler_strategy.set_custom_headers(
+            {"Accept-Language": "de-DE,de;q=0.9"}
+        )
         # 4. Crawl multiple pages
         results = await crawler.arun_many(
-            urls[:3],  
+            urls,  
             config=crawl_config,
             verbose=True
         )
@@ -235,16 +244,20 @@ async def main():
             # Append the date to the output file name
             output_file_with_date = f"crawled_data_{current_date}.json"
 
-            # Include the prompt at the top of the JSON data
+            # Include the prompt and parameters at the top of the JSON data
             output_data = {
                 "instruction": prompt,
+                "parameters": {
+                    "temperature": temperature,
+                    "max_tokens": max_tokens
+                },
                 "data": processed_data
             }
 
             with open(output_file_with_date, "w", encoding="utf-8") as f:
                 json.dump(output_data, f, indent=4, ensure_ascii=False)
             print(f"Raw data saved to {output_file_with_date}")
-
+            """ 
             # Consolidate the extracted data using the processed data
             consolidated_data = consolidate_company_data(processed_data)
             
@@ -253,7 +266,7 @@ async def main():
             with open(consolidated_file, "w", encoding="utf-8") as f:
                 json.dump(consolidated_data, f, indent=4, ensure_ascii=False)
             print(f"Consolidated data saved to {consolidated_file}")
-
+             """
            
         else:
             print("No data was successfully extracted")
