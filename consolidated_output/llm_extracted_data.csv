@@ -1,0 +1,353 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3
+Gluth Systemtechnik GmbH,https://www.gluth.de/,True,Automationslösungen,Formen,Kunststoffteile,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Drehen,Fräsen,Fügeprozesse
+Erbatech GmbH,https://www.erbatech.com/,False,Dachbahnen,Schaltschränke,Textilveredelungen,Färbemaschinen,Imprägnierungsmaschinen,Textilmaschinen,Bleichen,Färben,Imprägnierung
+PPM-Aberle GmbH & Co KG,https://www.ppm-aberle.de/,True,Automobilkomponenten,Baugruppen,Präzisionskomponenten,Automatisierte Kontrollautomaten,CNC-Langdrehautomaten,CNC-Mehrspindler,Drehen,Fräsen,Zerspanen
+Mikromat WZM GmbH,https://www.mikromat-wzm.de,True,Automatisierungslösungen,CNC-Bearbeitungszentren,MIKROMAT Rapid Technology,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,CNC-Bearbeitung,Metallbearbeitung,Präzisionsfertigung
+Felss Systems GmbH,https://www.felss.com,True,Automatisierungstechnik,Fertigungslösungen,Kaltumformung,Bearbeitungsmaschinen,Drehmaschinen,Erodiermaschinen,CNC-Bearbeitung,Drehen,Kaltumformung
+Braun Sondermaschinen GmbH,www.braun-sondermaschinen.de,True,Automatisierungslösungen,Beschichtungsanlagen,Fertigungslinien,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Kleben,Metallbearbeitung,Montage
+Krebs & Riedel Schleifscheibenfabrik GmbH & Co. KG,www.krebs-riedel.de,True,CBN- und Diamantwerkzeuge,Kunststoff-Produkte,Metall-Produkte,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Feinschleifen,Kunststoffverarbeitung,Metallbearbeitung
+Julius Schüle Druckguss GmbH,https://www.schuele.de/,False,Aluminiumteile,Druckgussteile,Komponenten,Fräsmaschinen,Gießmaschinen,Montageanlagen,Druckguss,Rührreibschweißen,Zerspanung
+HÄNDLE GmbH Maschinen und Anlagenbau,www.haendle.com,True,Bearbeitungszentren,Extrusionsanlagen,Labor,Drehmaschinen,Erodiermaschinen,Extrusionsmaschinen,Drehen,Erodieren,Extrudieren
+Sprimag Spritzmaschinenbau GmbH & Co. KG,https://www.sprimag.com,False,Applikationstechnik,Automatisierungslösungen,Beschichtungsanlagen,Automatisierungstechnik,Lackieranlagen,Prüfmaschinen,Automatisierung,Nasslackierung,PVD-Beschichtung
+Fibro Läpple Technology GmbH,https://www.fibro-laepple.de,True,Automationslösungen,Automatisierungslösungen,Bearbeitungszellen,Erodiermaschinen,Fräsmaschinen,Greifer,Handhabung,Kunststoffverarbeitung,Metallbearbeitung
+Albert Kerbl GmbH,https://www.kerbl.com/,False,Agricultural Supplies,Animal Husbandry Accessories,Veterinary Equipment,,,,,,
+NORDSON Deutschland GmbH,https://www.nordson.com,False,Dichtstoffe,Dispensierungssysteme,Inspektionssysteme,Dispensiermaschinen,Dosieranlagen,Inspektionsmaschinen,Flüssigkeitsdosierung,Kunststoffverarbeitung,Metallbearbeitung
+Makita Engineering Germany GmbH,https://www.makita-engineering.de/,False,Akkuwerkzeuge,Elektrowerkzeuge,Handwerkzeuge,Drehmaschinen,Fräsmaschinen,Stanzmaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+EWM AG,https://www.ewm-group.com,False,Schweißbrenner,Schweißgeräte,Schweißmaschinen,Automatisierte Schweißanlagen,Plasmaschneider,Schweißgeräte,E-Hand-Schweißen,MIG/MAG-Schweißen,Plasmaschneiden
+KULLEN-KOTI GmbH,https://www.kullen.de/de/,False,Bürstentechnik,Individuelle Sonderlösungen,Technische Bürsten,Bürstmaschinen,Fräsmaschinen,,Bürstenherstellung,Entgraten,Oberflächenveredlung
+J. A. Becker & Söhne Maschinenfabrik,http://www.jab-becker.de/,False,Compressed air preparation systems,Compressors,Lifting platforms,Compressors,Hydraulic lifts,,Hydraulische Fertigung,Metallbearbeitung,
+Gülde GmbH & Co KG Kaltwalzwerk,https://www.guelde.de,True,Baugruppen,Fertigungsteile,Flachdrähte,Drehmaschinen,Fräsmaschinen,Kaltwalzmaschinen,CNC-Bearbeitung,Kaltwalzen,Montage
+Bullmer GmbH,https://www.bullmer.de,False,Automatisierte Produktionslösungen,Einzellagencutter,Hochlagencutter,CNC Cutter,Laseranlagen,Legemaschinen,Automatisierung,Legetechnologie,Materialhandling
+MHT Mold & Hotrunner Technology AG,https://www.mht-ag.de,True,Anlagen,Heißkanal-Systeme,Maschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Blechbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+DREISTERN GmbH & Co. KG,http://www.dreistern.com,True,After-Sales-Services,Profiliermaschinen,Rollforming-Systeme,Drehmaschinen,Fräsmaschinen,Profiliermaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montageprozesse
+Gesellschaft für Oeltechnik mbH,http://www.oeltechnik.com,True,Filteranlagen,Kondensationsanlagen,Kühlsysteme,Blechbearbeitungsmaschinen,Drehmaschinen,Fräsmaschinen,Metallbearbeitung,Montage,Oberflächenbehandlung
+Stahl- und Drahtwerk Röslau GmbH,https://www.roeslau-draht.com,False,Drahtgeflechte,Drahtprodukte,Federstahldrähte,Biege- und Formmaschinen,Drahtziehmaschinen,Kaltziehmaschinen,Biegen,Drahtziehen,Kaltziehen
+Motortech GmbH,https://www.motortech.de,True,Gasmotorsteuerungssysteme,Gemischregelungssysteme,Sensoren,CNC-Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Elektronikfertigung,Kunststoffverarbeitung,Metallbearbeitung
+Hedelius Maschinenfabrik GmbH,https://www.hedelius.de,True,Bearbeitungszentren,Erodiermaschinen,Fräsmaschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Metallbearbeitung,Oberflächenbehandlung
+F. Zimmermann GmbH,https://www.f-zimmermann.com,False,Bearbeitungszentren,CNC Portalfräsmaschinen,Erodiermaschinen,Erodiermaschinen,Fräsmaschinen,Horizontalbearbeitungszentren,Erodieren,Fräsen,Kunststoffverarbeitung
+Weitmann & Konrad GmbH & Co KG,https://weko.net/de/,False,Flüssigkeitsauftrag,Puderauftrag,Zubehör,Auftragsmaschinen,Sprühmaschinen,,Beschichtungsprozesse,Druckverarbeitung,
+Dietze & Schell Maschinenfabrik GmbH & Co. KG,,True,Schneidanlagen,Spulmaschinen,Texturiermaschinen,Parallelwickler,Präzisionswickler,Verpackungsbandwickler,Schneiden,Texturierung,Wickeln
+Betafence GmbH,https://www.betafence.de,False,Gabionen,Sicherheitslösungen,Tore,Biegemaschinen,Pulverbeschichtungsanlagen,Schneidemaschinen,Metallbearbeitung,Oberflächenbehandlung,Pulverbeschichten
+REKERS GmbH Maschinen- und Anlagenbau,,False,Betonmisch- und Transportanlagen,Handling Steinformanlagen,Steinformmaschinen,Betonmischanlagen,Handling Systeme,Steinformmaschinen,Form- und Stempelprozesse,Misch- und Dosierprozesse,Veredelungsprozesse
+Heinzler Maschinenbau GmbH,https://heinzler-maschinenbau.de/,True,Bleigießerei,Lohnfertigung,,Drehmaschinen,Fräsmaschinen,Schweißanlagen,Drehen,Fräsen,Schweißen
+BMI - Bundesverband der Maschinenringe e.V.,https://www.bmi.de/de/,False,Beratung und Unterstützung für Landwirte,Dienstleistungen im Agrarbereich,Laser-Messzeuge,Biegemaschinen,Bodenbearbeitungsmaschinen,Fräsmaschinen,Agrarproduktion,Holzbearbeitung,Kunststoffverarbeitung
+Mogatec GmbH,https://www.mogatec.de/de/,True,Gartengeräte,Heckenscheren,OEM Fertigung,Drehmaschinen,Fräsmaschinen,Laserschneidmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+HAMMEL Recyclingtechnik GmbH,https://www.hammel.de/index.php/de/,False,Siebtechnik,Sortiertechnik,Zerkleinerer,Siebmaschinen,Sortieranlagen,Zerkleinerungsmaschinen,,,
+Howden,https://www.howden.com,False,Kompressoren,Lösungen für die Luft- und Gasbehandlung,Ventilatoren,Biegemaschinen,Fräsmaschinen,Schweißmaschinen,Bearbeitung,Montage,Schweißen
+ProKASRO Mechatronik GmbH,https://www.prokasro.de,True,Blechbearbeitung,Lohnfertigung,TV-Inspektionssysteme,Drehmaschinen,Fräsmaschinen,Hydrauliksysteme,Blechbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Leonhard Breitenbach GmbH,https://www.breitenbach.de,True,Kalanderwalzen,Kunststoffverpackungen,Mischwalzen,Blasformmaschinen,CNC-Maschinen,Gießmaschinen,Blasformen,CNC-Bearbeitung,Schleudergussverfahren
+ASTOR Schneidwerkzeuge GmbH,http://www.astorblades.de,False,Abschneidemesser,Aufschnittmesser,Fräswerkzeuge,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Wärmebehandlung
+Elektrowerkzeuge GmbH Eibenstock,https://www.eibenstock.com/de/,False,Antriebe & Motoren,Elektrowerkzeuge,Zubehör,,,,,,
+Ring Maschinenbau GmbH,,True,Perforiermaschinen,Präge- und Sondermaschinen,Stanzmaschinen,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,Perforation,Prägen,Stanzen
+ZECHA Hartmetall-Werkzeugfabrikation GmbH,,False,Blank- und Formwerkzeuge,Kundenspezifische Werkzeuge,Präzisions-Mikrowerkzeuge,Erodiermaschinen,Fräsmaschinen,Laserschneidmaschinen,Metallbearbeitung,Oberflächenbehandlung,Präzisionsbearbeitung
+Auerhammer Metallwerk GmbH,http://www.auerhammer.com,True,Kabel,Leitungen,Metallbänder,Extrusionsmaschinen,Montageanlagen,Plattiermaschinen,Glühen,Kaltwalzen,Kunststoffverarbeitung
+Emil Prinzing & Söhne GmbH & Co. KG,https://www.map-prinzing.de/,True,Maschinenbetten,Maschinenverkleidungen,Montierte Baugruppen,Blechbearbeitungsmaschinen,CNC-Großbearbeitungszentren,Fräsmaschinen,Lackierung,Mechanische Fertigung,Schweißkonstruktionen
+Pacoma GmbH,https://www.pacoma.com/,False,Doppeltwirkende Zylinder,Hydraulikzylinder,Tandemzylinder,,,,Metallbearbeitung,Oberflächenbehandlung,Schweißen
+PRG Präzisions-Rührer GmbH,www.prg-gmbh.de,True,Engineering & Consulting,Lohnfertigung,Rühranlagen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Montage,Oberflächenbehandlung
+Weber Maschinenbau GmbH,www.weberweb.com,False,Automationslösungen,Linienlösungen für die Lebensmittelindustrie,Online-Marketing,Automatisierungssysteme,Slicer,Verpackungsmaschinen,Automatisierte Produktvorbereitung,Grafikdesign,Schneiden
+bavius technologie gmbh,www.bavius-technologie.com,False,5-Achs Bearbeitungszentren,Horizontal-Bearbeitungszentren,Profil-Bearbeitungszentren,Erodiermaschinen,Fräsmaschinen,,CNC-Bearbeitung,Hochgeschwindigkeits-Zerspanung,Systemanalyse
+TITAN Umreifungstechnik GmbH & Co. KG,https://www.titan-schwelm.de,True,Handgeräte,Lohnfertigung,Stahlbau,Drehmaschinen,Fräsmaschinen,Handgeräte,Blechbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+voestalpine Wire Germany GmbH,https://www.voestalpine.com/,False,Eisenbahninfrastruktur,Stahlprodukte,Systemlösungen,Erodiermaschinen,Fräsmaschinen,Schweißmaschinen,Kaltverformung,Stahlproduktion,Warmverformung
+EMERSON Technologies GmbH & Co. OHG,https://www.emerson.com/,False,Ingenieurdienstleistungen,Technologien,,,,,,,
+S. Müller GmbH & Co. Werkzeugbau KG,http://www.wzb-mueller.de/,False,Baugruppen,Systeme,kunststoffgebundene Magneten,Spritzgussmaschinen,,,Kunststoffverarbeitung,,
+Kadant PAAL GmbH,https://www.kadantpaal.com/de/,False,Ballenpressen,Förderbänder,,Ballenpressen,Förderanlagen,,Kunststoffverarbeitung,Metallbearbeitung,
+Meeraner Dampfkesselbau GmbH,https://www.mdkb.de,True,Dampfkessel,Druckteile,Industriegeräte,Drehmaschinen,Fräsmaschinen,Laserschneidmaschinen,Biegen,Drehen,Fräsen
+Peiner Smag Lifting Technologies GmbH,http://www.peiner-smag.com,True,Greifer,Hebetechniken,Krananlagen,Blechbearbeitungsmaschinen,Fräsmaschinen,Montagemaschinen,Metallbearbeitung,Montage,Oberflächenbehandlung
+WOLL MASCHINENBAU GmbH,http://www.woll-maschinenbau.de/,False,Automatisierungslösungen,Prozessintegration,Robotik,Automatisierungssysteme,Mess- und Prüfsysteme,,Metallbearbeitung,Robotik-Integration,Verfahrenstechnik
+KLN Ultraschall AG,https://www.kln.de,True,Blisterverpackungen,Industrielle Reinigungstechnik,Kunststoffverbindungstechnik,Blistermaschinen,Heizelementschweißmaschinen,Spritzgussmaschinen,Blisterverpackung,Heizelementschweißen,Heißluftnieten
+Heller Tools GmbH,,False,Beton- & Steinbohrer,Diamantprodukte,Hammerbohrer,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen
+Pulsotronic Anlagentechnik GmbH,http://www.pulsotronic-anlagentechnik.de,True,Automatisierungslösungen,Metalldetektoren,Optische Inspektion,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Lötprozesse,Metallbearbeitung,Montage
+Haensel Processing GmbH,https://www.haensel-processing.de,True,Automatisierungslösungen,Individuelle Lösungen für Süßwaren,Maschinen zur Herstellung von Süßwaren,Drehmaschinen,Fertigkocher,Fräsmaschinen,CNC-Bearbeitung,Kochprozess,Kontinuierliche Herstellung
+Alfred Konrad Veith GmbH & Co. KG,,False,Federelemente,Formenbau,Stanztechnik,Differenzwegpressen,Exzenterpressen,Gleitschleifanlagen,Kunststoffverarbeitung,Metallbearbeitung,
+Hubl GmbH,https://www.hubl-gmbh.de/,True,Edelstahl-Blechverarbeitung,Engineering,Systemlieferant,Fräsmaschinen,Laserschneidmaschinen,Schweißmaschinen,Lasern,Stanzen,Umformen
+SUCO Robert Scheuffele GmbH & Co. KG,https://www.suco.de,True,Drehgeber,Druckschalter,Drucktransmitter,Blechbearbeitungsmaschinen,Drehmaschinen,Druckmesszellen,Kalibrierung,Metallbearbeitung,Montage
+SD Automotive GmbH,https://www.sd-automotive.de/,True,Automotive Komponenten,Fahrzeug-Zubehör,Karosseriebau,Drehmaschinen,Fräsmaschinen,Lasermaschinen,CNC-Bearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+DALEX GmbH & Co. KG,https://www.dalex.de,False,E-Commerce Plattformen,Logistiklösungen,Schweißmaschinen,Automatisierungstechnik,Datenbankserver,Schweißmaschinen,Buckelschweißen,Punktschweißen,Systemintegration
+Fessmann GmbH und Co KG,https://www.fessmann.com,False,Automatisierungslösungen,Backanlagen,Fleischereimaschinen,Heißluftgaren,Kochkessel,Kühlanlagen,Backen,Kochen,Kühlen
+Hassia Verpackungsmaschinen GmbH,https://www.ima.it,True,Automatisierungslösungen,Holzbearbeitungsmaschinen,Verpackungsmaschinen,Erodiermaschinen,Fräsmaschinen,Füllmaschinen,Formen,Füllen,Holzbearbeitung
+"Davis-Standard, LLC",https://www.davis-standard.com,True,Blown Film,Coatings,Converting solutions,Blasformmaschinen,Coating Maschinen,Converting Maschinen,Beschichtungsverfahren,Blasformen,Folienextrusion
+Norican Group,https://www.noricangroup.com/,False,Aluminiumdruckguss,Automatisierungslösungen,Gießereitechnologien,Gießanlagen,Gießmaschinen,Mischanlagen,Automatisierung,Gießen,Mischen
+Herbert Maschinenbau GmbH & Co. KG,https://www.herbert.eu/,True,Formen,Maschinen,Reifenformcontainer,CNC-Drehen,CNC-Fräsen,Reifenheizpressen,Konstruktion,Metallbearbeitung,Vulkanisation
+TampoPrint GmbH,http://www.tampoprint.de,True,Automationen,Lasermaschinen,Sondermaschinen,Lasermaschinen,Serienmaschinen,Tampondruckmaschinen,Laserkennzeichnung,Siebdruck,Tampondruck
+Gruse Maschinenbau GmbH & Co. KG,https://www.gruse.de,False,Betriebs- und Lagereinrichtungen,Hebelösungen,Hubtische,Blechbearbeitungsmaschinen,CNC-Maschinen,Fräsmaschinen,Blechbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+LEMO Maschinenbau GmbH,https://www.lemo-maschinenbau.com/,False,Folienschweißmaschinen,Folienverpackungsmaschinen,Verpackungslösungen,Automatisierte Hülsenzuführungen,Folienschweißmaschinen,Verpackungsmaschinen,Kunststoffverarbeitung,,
+RAMPP Maschinenbau GmbH & Co. KG,https://www.rampp.de/,True,Fräsen,Lackiererei,Stahlbau,Bandsägen,Bohrmaschinen,Fräsmaschinen,Fräsen,Metallbearbeitung,Schweißen
+Franz Tölke GmbH,,False,Capping Maschinen,Füllmaschinen,Sondermaschinen,Füllmaschinen,Montagemaschinen,Sortieranlagen,Füllung,Montage,Sortierung
+Wilhelm Vogel GmbH Antriebstechnik,https://www.vogel-antriebe.de,True,Antriebssysteme,Getriebe,Motoren,Drehmaschinen,Fräsmaschinen,Montagemaschinen,Metallbearbeitung,Montage,Oberflächenbehandlung
+Romaco Group,,False,Granulationsmaschinen,Verarbeitungsmaschinen,Verpackungsmaschinen,Blistermaschinen,Füllmaschinen,Tischpressen,Coating,Granulation,Tablettierung
+ZGG - Zeitzer Guss GmbH,https://www.silbitz-group.com,True,Gussteile für Antriebssysteme,Gussteile für Windkraftanlagen,Lohnfertigung,CNC-Maschinen,Drehmaschinen,Erodiermaschinen,CNC-Bearbeitung,Gussverfahren,Mechanische Bearbeitung
+Sumitomo Electric Hartmetallfabrik GmbH,https://www.sumitomotool.com/,False,CBN-Werkzeuge,Schneidwerkzeuge,Werkzeughalter,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Metallbearbeitung,,
+Scheppach GmbH,https://www.scheppach.com/,False,Elektrowerkzeuge,Maschinen,Werkzeuge,Fräsmaschinen,Kompressoren,Laser-Stanzmaschinen,Holzbearbeitung,Metallbearbeitung,
+Wickeder Westfalenstahl GmbH,,True,Metallbänder,Plattierte Werkstoffe,Thermobimetalle,CNC-Blechbearbeitungsmaschinen,Laserschneidmaschinen,Wasserstrahlschneidmaschinen,Blechbearbeitung,Fotochemisches Ätzen,Polymerbeschichtung
+Bijur Delimon International,,False,Schmiermittel,Schmiersysteme,Ölumlaufsysteme,Pumpen,Steuergeräte,Verteilerelemente,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Meusburger Georg GmbH & Co KG,https://www.meusburger.com,True,Die sets,Mould bases,Plates & bars,Erodiermaschinen,Fräsmaschinen,Spritzgießmaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+Weitkowitz GmbH,https://www.weitkowitz.de,True,Erdungsprodukte,Kabelprodukte,Kabelschuhe,Biegeautomaten,Drehmaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+Gardner Denver Schopfheim GmbH,http://www.gardnerdenver.com,False,Blowers,Kompressoren,Luftkompressoren,Blowers,Drehmaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+KARL SCHNELL GmbH & Co. KG,https://www.karlschnell.de,True,Abfüllmaschinen,Etikettiermaschinen,Feinstzerkleinerer,Brecher,Erhitzungssysteme,Etikettiermaschinen,Abfüllung,Mischprozesse,Montage
+Dipl.-Ing. Herwarth Reich GmbH,http://www.reich-kupplungen.com,True,Antriebselemente,Kupplungen,Wellen,CNC-Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Gummi Verarbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Metso Outotec Germany GmbH,https://www.mogroup.com,False,Beratungsdienstleistungen,Dienstleistungen,Ersatz- und Verschleißteile,Brecher,Förderer,Siebe,Fördern,Sieben,Webentwicklung
+ABP Induction Systems GmbH,https://abpinduction.com/,False,Digitale Lösungen,Induktionsanlagen,Induktionshärtsysteme,Erwärmungsanlagen,Härtungsanlagen,Induktionsöfen,Erwärmen,Gießen,Induktionshärten
+Wickert Maschinenbau GmbH,,False,Composite Pressen,Elastomer Pressen,Schleifscheiben Pressen,Automatisierungssysteme,Hydraulikpressen,Vulkanisationspressen,Kunststoffverarbeitung,Metallverarbeitung,Verbundstoffverarbeitung
+JBT Corporation,https://www.jbtc.com/,False,Automatisierungslösungen,Finanzierungsoptionen,Lebensmittelverarbeitungsgeräte,Automatisierungssysteme,Verarbeitungsanlagen,Verpackungslinien,Automatisierung,Finanzierung,Lebensmittelverarbeitung
+PLAMAG GmbH,http://www.plamag.com/de/,True,Komponentenfertigung,Lohnfertigung,,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen
+Carl KRAFFT & Söhne GmbH & Co. KG,https://www.krafft-walzen.com/de/,False,,,,,,,,,
+Hofmann Maschinen- und Anlagenbau GmbH,https://www.hofmannmaschinen.com,True,Auswuchttechnik,Reifenprüfmaschinen,Rädermontagelinien,Auswuchtmaschinen,Drehmaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+Wolfcraft GmbH,https://www.wolfcraft.com,False,Befestigungstechnik,Handwerkzeuge,Maschinenzubehör,Bohrmaschinen,Fräsmaschinen,Spritzgussmaschinen,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Schirmer Maschinen GmbH,http://www.schirmer-maschinen.com,True,Bearbeitungszentren,Beratung und Planung von Produktionslösungen,CNC-Maschinen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Automatisierte Fertigung,CNC-Bearbeitung,Drehen
+Scheugenpflug GmbH,https://www.scheugenpflug-dispensing.com/,False,Adhesive Bonding,Dispensing,Potting,Dispensers,Inspection Systems,Potting Systems,Dispensing,Potting,Sealing
+Schuster Maschinenbau GmbH,https://www.schuster-maschinenbau.de/,True,Automatisierungslösungen,Drehmaschinen,Individuelle Fertigungslösungen,Automatisierungstechnik,Drehmaschinen,,CNC-Bearbeitung,Montage,Qualitätssicherung
+Hoerburger GmbH,https://www.hoerburger.de/,True,Energiemanagement,Fenster,Gebäudeautomation,Automationsstationen,Fräsmaschinen,Montagemaschinen,Holzbearbeitung,Montage,Oberflächenbehandlung
+Terrot GmbH,https://www.terrot.de/de/,False,Maschinen für Badebekleidung,Maschinen für technische Textilien,Rundstrickmaschinen,Rundstrickmaschinen,,,Strickverfahren,,
+Klaus Baier GmbH & Co. KG Werkzeugbau & Stanzteileproduktion,http://www.klausbaier.de/,True,Anlagenbau,Baugruppen,Sondermaschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Biegen,Fräsen,Metallbearbeitung
+Hartmetall-Werkzeugfabrik Paul Horn GmbH,,True,Drehwerkzeuge,Fräswerkzeuge,Zerspanungswerkzeuge,Drehmaschinen,Fräsmaschinen,Langdrehmaschinen,Bohren,Drehen,Fräsen
+Weisskopf Werkzeuge GmbH,https://www.weisskopf-tools.de,True,Befestigungselemente,Bohrer,Fräser,5-Achs-Werkzeugschleifmaschinen,Drehmaschinen,Fräsmaschinen,Metallbearbeitung,Montage,Oberflächenbehandlung
+Rhewum GmbH,https://www.rhewum.com/de/,False,Fördertechnik,Siebmaschinen,,Linearschwingmaschinen,Siebmaschinen mit doppeltfrequentem Antrieb,Vibrationssiebe,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+HYFRA Industriekühlanlagen GmbH,,False,Durchlaufkühler,Eintauchkühler,Kühlwasser-Rückkühler,Kühlanlagen,,,Filtration,Kunststoffverarbeitung,Metallbearbeitung
+Albrecht GmbH,www.albrecht-solingen.de,False,,,,,,,,,
+DESCH Antriebstechnik GmbH & Co. KG,https://www.desch.com/de/,False,,,,,,,,,
+Chr. Höver & Sohn GmbH & Co. KG,www.hoever-sohn.com,True,Fertigungsteile,Sonderlösungen,Werkzeugbau,CNC-gesteuerte Maschinen,Drehmaschinen,Erodiermaschinen,Blechbearbeitung,CNC-Bearbeitung,Schmieden
+Feige Filling GmbH,https://www.feige.com/,False,Füllsysteme für flüssige Produkte,Füllsysteme für pastöse Produkte,Serviceleistungen im Bereich Fülltechnik,Füllmaschinen,Waagen,,,,
+Ruwac Industriesauger GmbH,https://www.ruwac.de,False,Absauganlagen,Akkusauger,Filteranlagen,Entstauber,Filteranlagen,Nassabscheider,Kunststoffverarbeitung,Lebensmittelproduktion,Metallbearbeitung
+Steeltec GmbH,https://steeltec-group.com/,False,Engineering steels,Stainless steels,Tool steels,Elektrolichtbogenöfen,Erodiermaschinen,Fräsmaschinen,Stahlproduktion,Stahlverarbeitung,Wärmebehandlung
+Gebhardt - Stahl - GmbH,https://www.gebhardt-stahl.de,True,Bauelemente,Lufttechnik,Metallkonstruktionen,Blechbearbeitungsmaschinen,Fräsmaschinen,Rollformmaschinen,Biegen,Kaltwalzen,Laserschweißen
+Jakob Lach GmbH & Co. KG,https://www.lach-diamant.de,True,CBN-Werkzeuge,CNC-Bearbeitungswerkzeuge,Diamantwerkzeuge,Erodiermaschinen,Fräsmaschinen,Schärfmaschinen,Bohren,Drehen,Fräsen
+Lapmaster Wolters GmbH,https://www.peter-wolters.de,True,Consumables,Halbleitertechnologien,Lohnfertigungsdienstleistungen,Erodiermaschinen,Fräsmaschinen,Poliermaschinen,Kunststoffverarbeitung,Metallbearbeitung,Polierverfahren
+Breitner Abfüllenanlagen GmbH,https://www.breitner-abfuellanlagen.de,False,Abfüllanlagen,Dosieranlagen,Flaschenaufsteller,Dosiermaschinen,Flaschenaufsteller,Füllmaschinen,Abfüllprozess,CIP (Cleaning in Place),Dosierprozess
+Kubat Mechanik GmbH,https://kubat-mechanik.de/,True,Automationstechnik,Engineering-Leistungen,,Drehmaschinen,Fräsmaschinen,Wasserstrahlschneider,Drehen,Fräsen,Schweißen
+ISEL Germany AG,http://www.isel.com,True,3D-Drucksysteme,Automatisierung,Automatisierungstechnik,3D-Drucker,CNC-Fräsmaschinen,Drehmaschinen,3D-Druck,CNC-Bearbeitung,Holzbearbeitung
+Johannes Hübner,https://www.huebner-giessen.com/,False,Drehgeber-Systeme,Drehgeber-Zubehör,Motoren und Generatoren,Bearbeitungsmaschinen,Montageanlagen,Prüfmaschinen,Bearbeitung,Montage,Prüfung
+ESAB Welding & Cutting GmbH,https://esab.com/de/,False,Consumables,Cutting products,Welding products,,,,,,
+R. Scheuchl GmbH,https://www.scheuchl.de/,False,Energietechnik,Gießereitechnik,Verfahrenstechnik,Gießmaschinen,Sonderanlagen,Verfahrenstechnik Anlagen,Gießen,Kühlen,Reinigen
+Dr. Ing. Max Schlötter GmbH & Co. KG,https://www.schloetter.de,True,Chemische Produkte,Fertigungslösungen,Galvanochemie,Beizanlagen,Chemische Anlagen,Drehmaschinen,Chemische Metallabscheidung,Drehen,Elektrolyse
+Dillenberg GmbH & Co. KG,https://www.dilco.de/,True,Fertigungsteile,Gießereiprodukte,Präzisionskomponenten,Drehmaschinen,Fräsmaschinen,Gießmaschinen,Drehbearbeitung,Finish-Bearbeitung,Sandguss
+Josef Blässinger GmbH + Co KG,http://www.blaessinger.com,True,Automatisierungslösungen,Gleitlager,Lineartechnik,Drehmaschinen,Fräsmaschinen,,CNC-Bearbeitung,Holzbearbeitung,Kunststoffverarbeitung
+Heinz Berger Maschinenfabrik GmbH & Co. KG,https://www.bergergruppe.de,True,Erodieren,Fräsen,Poliermaschinen,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Sirch Behältertechnik GmbH,www.sirch.com,False,Agrartechnik,Containerbau,Feuerwehrtechnik,Fräsmaschinen,Lackieranlagen,Sägemaschinen,Holzbearbeitung,Metallbearbeitung,Oberflächenbehandlung
+Wälischmiller Engineering GmbH,https://www.hwm.com,True,Handling-Systeme,Manipulatoren,Messgeräte,Drehmaschinen,Fräsmaschinen,Laserschneidmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+falch gmbh,https://www.falch.com/de/,False,Hochdruckreiniger,Wasserstrahlgeräte,Zubehörteile,Pumpen,Wasserstrahlgeräte,,Kunststoffverarbeitung,Metallbearbeitung,
+WOLFGANG SCHMAHL GmbH & Co. KG,http://www.schmahl.biz,True,Antriebssysteme,Automatisierungslösungen,Getriebe,Etikettiermaschinen,Fräsmaschinen,Füllmaschinen,Automatisierung,Montage,Verpackung
+H. Hüttenbrauck Profil GmbH,https://huettenbrauck.com/,False,Aluminiumprofile,Stahlprofile,Verstärkungsprofile,Blechscheren,CNC-Maschinen,Fräsmaschinen,Kaltwalzen,Oberflächenbehandlung,Strangpressen
+Danieli Germany GmbH,https://www.danieli-germany.de,False,Anlagen für die Stahlindustrie,Flachprodukte,Langprodukte,Direktreduktionsanlagen,Hebeöfen,Längs- und Quertrennmaschinen,Biegen,Kaltwalzen,Schneiden
+Georg Sahm GmbH & Co. KG,https://www.sahmwinder.de/,True,Converting-Lösungen,Holzbearbeitungsmaschinen,Industrielle Anlagen,Bohrautomaten,Fräsmaschinen,Parallel-Spulmaschinen,Beschichten,Holzbearbeitung,Montage
+LISSMAC Maschinenbau GmbH,,True,Anlagen für die Metallbearbeitung,Bautechnologie,Handhabungssysteme,Entgratmaschinen,Schleifmaschinen,Sägeanlagen,Blechbearbeitung,Schneiden,Schweißen
+RINGSPANN GmbH,https://www.ringspann.com/,False,Antriebskomponenten,Industriebremse,Spannzeuge,Erodiermaschinen,Fräsmaschinen,,Kunststoffverarbeitung,Metallbearbeitung,
+Stahl- und Hartgusswerk Bösdorf GmbH,,False,Engineering Dienstleistungen,Gussteile,Qualitätssicherung,Bearbeitungszentren,Fräsmaschinen,Gießmaschinen,Bearbeitung,Gießen,Qualitätssicherung
+Metallwerk Sundern Otto Brumberg GmbH & Co. KG,https://mesu.de/de/,False,Präzisionsstahlrohre,Rohrbearbeitungen,Rohrkomponenten,CNC-Sägen,Laseranlagen,Rohrschweißanlagen,Biegen,Laserschneiden,Schweißen
+Vulcast Germany GmbH,https://www.vulcast.de/,False,,,,,,,,,
+Haller Industriebau GmbH,,False,Dachtechnik,Industriebau,Werbetechnik,Metallbearbeitungsmaschinen,Stahlbearbeitungsmaschinen,,Metallbearbeitung,,
+Heino Ilsemann GmbH,www.ilsemann.com,True,Automationslösungen,Automatisierungslösungen,Baugruppen,Blistermaschinen,Drehmaschinen,Folieneinschlagmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+Inovatools Eckerle & Ertel GmbH,https://www.inovatools.eu/,False,Apps,Dienste,Werkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Cylindrical Grinding,Metallbearbeitung,Regrinding
+TPS-Technitube Röhrenwerke GmbH,,False,Rohrzubehör,nahtlose Rohre,Ölfeldrohre,Biegeanlagen,Kaltumformmaschinen,,Kaltpilgern,Kaltziehen,
+OptoTech Optikmaschinen GmbH,https://www.optotech.de/,False,Brillenoptik,Feinoptik,Messtechnik,Poliermaschinen,Schleifenmaschinen,Zentriermaschinen,Polieren,Schleifen,Zentrieren
+Stahlrump GmbH & Co. KG,http://www.stahlrump.de,True,Band kaltgewalzt,Draht,Kunststoffprodukte,Drahtzieherei,Fräsmaschinen,Kaltwalzwerk,Kaltwalzen,Kunststoffverarbeitung,Metallbearbeitung
+EZM Edelstahlzieherei Mark GmbH,,True,Blankstahl,Medizintechnik,Profile,Beizmaschinen,Schleifmaschinen,Ziehmaschinen,Beizen,Glühen,Rissprüfungen
+COLLIN Lab & Pilot Solutions GmbH,https://www.collin-solutions.com/,False,Pilotanlagen,Produktionssysteme,intelligente modulare Laborsysteme,Extrusionsmaschinen,Laboranlagen,Verarbeitungssysteme,Kunststoffverarbeitung,,
+Saacke Pforzheim GmbH & Co. KG,https://www.saacke-pforzheim.de,True,Instandhaltungsservice,Präzisionswerkzeuge,Prüfmaschinen,Bearbeitungszentren,CNC-Maschinen,Fräsmaschinen,Metallbearbeitung,Oberflächenbearbeitung,Schleifverfahren
+Wittmann Battenfeld Deutschland GmbH,https://www.wittmann-group.com/,False,Automation,Auxiliary Equipment,Injection Molding,Spritzgießmaschinen,Temperiergeräte,,Automatisierungstechnik,Kunststoffverarbeitung,Recycling
+Arnstädter Werkzeug- und Maschinenbau AG,https://www.awm-ag.de/,False,Automatisierungslösungen,Sondermaschinen,Werkzeuge,Erodiermaschinen,Fräsmaschinen,Spritzgießmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+De Dietrich Process Systems GmbH,www.dedietrich.com,False,Anlagenbau,Chemische Prozesslösungen,Heizsysteme,Destillationsanlagen,Fräsmaschinen,Reaktoren,Destillation,Extraktion,Kunststoffverarbeitung
+HOSCH Fördertechnik Recklinghausen GmbH,https://www.hosch-international.com/,False,Conveyor Belt Cleaning Systems,Gurtabstreifer,Tracker Rollers,,,,,,
+KÖBO GmbH & Co KG,,False,Antriebsketten,Förderketten,Kettenräder und Scheiben,CNC Maschinen,Stanzmaschinen,Wärmebehandlungsöfen,Mechanische Verarbeitung,Montage,Thermische Be- und Weiterverarbeitung
+Werner Bauser GmbH,www.wernerbauser.de,True,Konstruktionen,Kunststoff-Zahnräder,Lohnfertigung,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Fertigung,Kunststoffverarbeitung,Metallbearbeitung
+Silberhorn Gruppe,,True,Blechtechnik,Hochdruckwasserstrahl-Entgratanlagen,Industrielle Reinigungsmaschinen,Hochdruckwasserstrahlanlagen,Laserschneidanlagen,Reinigungsanlagen,Druckflut-Reinigen,Hochdruck-Reinigen,Schöpffluten
+Lahnwerk GmbH,http://www.lahnwerk.de,True,Blechbearbeitungen,Druckgusswerkzeuge,Kernformwerkzeuge,Biegemaschinen,Drehmaschinen,Erodiermaschinen,CNC-Bearbeitung,Kunststoffverarbeitung,Laserschneiden
+MWS Schneidwerkzeuge GmbH & Co KG,http://www.mendritzki.de,True,Bandstahl,Blechbearbeitungen,Lohnfertigungen,Biegemaschinen,Fräsmaschinen,Laserschneidanlagen,Blechbiegen,Blechschneiden,Feinschneiden
+Exeron GmbH,https://www.exeron.de,True,Automatisierungslösungen,Erodiermaschinen,Fräsmaschinen,Erodiermaschinen,Fräsmaschinen,Lasermaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+Resch Maschinenbau GmbH,https://www.resch-maschinenbau.de/,True,Baugruppen,Baugruppenmontage,Fertigungsteile,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Blechbearbeitung,Drehen,Fräsen
+Hohner Postpress Solutions GmbH,https://www.hohner-postpress.com,True,Drahtheftmaschinen,Druckweiterverarbeitungssysteme,Falt- und Sammelmaschinen,Drahtheftmaschinen,Falzmaschinen,Klebebindemaschinen,Binden,Drahtheften,Drucken
+DIOSNA Dierks & Söhne GmbH,www.diosna.com,False,Backanlagen,Coater,Fermenter,Backöfen,Fluidbettprozessoren,Knetmaschinen,Backprozess,Fermentation,Kneten
+SWM Werkzeugfabrik GmbH & Co. KG,https://www.werkzeugschmiede.de/de/,False,,,,,,,,,
+Herbert Arnold GmbH & Co. KG,www.arnold-gruppe.de,True,Brenner,Lohnfertigung,Maschinen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Automatisierung,CNC-Bearbeitung,Montage
+Wink Stanzwerkzeuge GmbH & Co. KG,https://www.wink.de,True,Flexible Dies,Individuelle Fertigung,Kunststoffprodukte,Erodiermaschinen,Fräsmaschinen,Schneidemaschinen,Formgebung,Kunststoffverarbeitung,Montage
+Christian Maier GmbH & Co. KG,http://www.maier-heidenheim.com,True,Automationslösungen,Drehdurchführungen,Erodiermaschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Agathon GmbH & Co. KG,https://www.agathon-moulds.com/de/,False,Mould Inserts,Schokoladenformen,Silikonformen,CNC-Fräsmaschinen,Erodiermaschinen,Spritzgießmaschinen,CNC-Bearbeitung,Kunststoffverarbeitung,Spritzguss
+Wächter Packautomatik GmbH & Co. KG,https://www.waechter-packautomatik.de,False,Automatisierungslösungen,Industrielle Fördertechnik,Komplettlösungen,Automatisierungssysteme,Fertigungsanlagen,Förderanlagen,Automatisierungsprozesse,Förderprozesse,Montageprozesse
+Modell- und Formenbau Blasius Gerg GmbH,http://www.gerg.de,True,Anlagen,Formenbau,Maschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Gießen,Laser-Schneiden
+Rite-Hite GmbH,https://www.ritehite.com/de/,False,Fahrzeugverriegelungen,Industrietore,Überladebrücken,,,,,,
+Paul Hafner GmbH Werkzeugbau,www.paul-hafner.de,True,Baugruppenfertigung,Blechbearbeitung,Metallverarbeitung,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegen,CNC-Bearbeitung,Laserschneiden
+MAP Maschinen- & Apparatebau,https://map-rathenow.de/,True,Fertigungstechnologien,Lohnfertigungslösungen,Produktionsprozesse,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montageprozesse
+Jäcklin GmbH,https://www.air-end.de/,False,Rotoren,Schraubenverdichter,Verdichterstufen,Fertigungsmaschinen,Montagemaschinen,,Entwicklung,Montage,Präzisionsfertigung
+Metallwarenfabrik Reichertshofen,https://www.bindernet.de,True,Automatisierungslösungen,Bindesysteme,Klebstoffe,Fräsmaschinen,Laserschneidanlagen,Pressmaschinen,Automatisierte Fertigung,Binden,Laserschneiden
+Modellbau Schönheide GmbH,https://www.mbschoenheide.de/,False,Vorrichtungen,Werkzeuge,Zubehör,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,Kunststoffverarbeitung,Modell- und Formenbau,Werkzeugbau
+WELLGO Gruppe,,True,Antriebssysteme,Hygienespender,Sensorgriffe,Erodiermaschinen,Fräsmaschinen,Spritzgussmaschinen,Montage,Spritzguss,Werkzeugbau
+Heinz Gothe GmbH & Co. KG,https://www.gothe-edelstahl.de/,True,Apparatebau,Edelstahlrohre,Fittings,Laser-Schneidemaschinen,Plasma-Schneidemaschinen,Schweißmaschinen,Beizen,Plasma,Schneiden
+Hans Schröder Maschinenbau GmbH,,False,Blechbearbeitungsmaschinen,Schwenkbiegemaschinen,Tafelscheren,Biegezentren,Schwenkbiegemaschinen,Tafelscheren,Biegen,Schneiden,Sicken
+Kemptener Eisengießerei Adam Hönig AG,http://www.kemptener-eisengiesserei.de/,False,Gusseisen mit Kugelgraphit,Gusseisen mit Lamellengraphit,Gussprodukte,Fräsmaschinen,Gießmaschinen,Spritzgussmaschinen,Fräsen,Gießen,Spritzgießen
+WW-K Warmwalzwerk Königswinter GmbH,,False,,,,,,,,,
+Südstahl GmbH & Co. KG,https://www.suedstahl.de,True,Baugruppenfertigungen,Blechzuschnitte,Lagersysteme,Bohrautomaten,Brennschneidanlagen,Fräsmaschinen,Beschichten,Brennschneiden,Laserschneiden
+Seco Tools GmbH,https://www.secotools.com/,True,Bearbeitungslösungen,Schneidwerkzeuge,Werkzeugsysteme,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Metallbearbeitung,Werkzeugreparatur,Zerspanung
+Schwarze-Robitec GmbH,https://www.schwarze-robitec.com,False,Biegemaschinen,Messanlagen,Perforiermaschinen,Biegemaschinen,CNC-Rohrbiegemaschinen,Fräsmaschinen,Biegen,Kaltbiegen,Messen
+Burkhardt-Weber,http://www.burkhardt-weber.de,True,Automatisierungslösungen,Bearbeitungszentren,CNC-Bearbeitungszentren,Bearbeitungszentren,Drehmaschinen,Erodiermaschinen,CNC-Bearbeitung,Erodieren,Fräsen
+Theodor Winkels GmbH & Co. KG,http://www.winkels-vessels.com/,False,Druckbehälter,Reaktoren,Wärmeübertrager,Blechbearbeitungsmaschinen,Fertigungsmaschinen,Schweißmaschinen,Biegen,Montage,Schweißen
+Dossmann GmbH Eisengiesserei und Modellbau,,False,Gussteile für Antriebstechnik,Gussteile für Pressenbau,,Furanharz Handformerei,Induktionsöfen,Kaltharzformanlagen,Eisenguss,Modellbau,Prototypenbau
+Teepack Spezialmaschinen GmbH & Co. KG,https://www.teepack.com/de/,False,Retrofit-Lösungen,Tee-Verpackungsmaschinen,,Flowpack-Maschinen,Schlauchbeutelmaschinen,Verpackungsmaschinen,Montage,Qualitätskontrolle,
+KS Tools Werkzeuge - Maschinen GmbH,,False,Handwerkzeuge,KFZ-Spezialwerkzeuge,LKW-Spezialwerkzeuge,Drehmaschinen,Fräsmaschinen,Spritzgussmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+Schleuniger GmbH,https://www.schleuniger.com,False,Kabelverarbeitungslösungen,Prüftechnologien,Test and measurement systems,Abisoliermaschinen,Ablängmaschinen,Crimpmaschinen,Abisolieren,Crimpen,Kabelverarbeitung
+Müller Modell- und Formenbau GmbH & Co. KG,http://www.mueller-wallau.de/,False,Formenbau,Kunststoffteile,Werkzeuge,Erodiermaschinen,Fräsmaschinen,Spritzgussmaschinen,Erodieren,Fräsen,Spritzguss
+Horst Scholz GmbH & Co. KG,https://www.scholz-htik.de,True,Blechbearbeitungsdienste,Lohnfertigung,Mikrotechnik,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Blechbearbeitung,Laserschneiden,Mikrospritzguss
+Knödler-Getriebe GmbH & Co. KG,https://www.knoedler-getriebe.de/,False,Antriebslösungen,Getriebe,Komplettlösungen,Fertigungseinrichtungen,Fräsmaschinen,Montagemaschinen,Fertigung,Konstruktion,Montage
+Voxeljet AG,https://www.voxeljet.de,True,3D-Druck On Demand,3D-Druckdienste,3D-Drucker,3D-Druckmaschinen,3D-Drucksysteme,Gießmaschinen,Additive Fertigung,Binder Jetting,Polymer Sintern
+Okuma Europe GmbH,https://www.okuma.eu,False,Automatisierungslösungen,CNC-Drehmaschinen,CNC-Fräsmaschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Metallbearbeitung,Montage
+Stürtz Maschinenbau GmbH,https://www.stuertz.com/,False,Automatisierungssysteme,Montagetechnik,Schweissmaschinen,Erodiermaschinen,Fräsmaschinen,Schweissmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montageprozesse
+Steinhoff International Holdings N.V.,https://www.steinhoff.eu,True,Haushaltswaren,Kaltwalzen,Möbel,Drehmaschinen,Fräsmaschinen,Holzverarbeitungsmaschinen,Holzverarbeitung,Kunststoffverarbeitung,Mechanische Fertigung
+Magnetbau Schramme GmbH & Co. KG,,False,Elektromagnete,Sensoren,Ventile,CNC-Drehen,Schweißen,Spritzguss,Fertigung,Montage,Projektmanagement
+Marposs S.p.A.,https://www.marposs.com,False,Automatisierungslösungen,Inspektionssysteme,Messsysteme,Automatisierungsgeräte,Drehmaschinen,Erodiermaschinen,Kalibrierung,Kunststoffverarbeitung,Metallbearbeitung
+Preßwerkzeugbau Großdubrau GmbH,http://www.pwb-online.de/,False,Presswerkzeuge,Spritzgussformen,Werkzeuge,CNC-gesteuerte Werkzeugmaschinen,Erodiermaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+Josef Kränzle GmbH & Co. KG,https://www.kraenzle.com,False,Hochdruckreiniger,Industriesauger,Kehrmaschinen,Fertigungseinrichtungen,Hochdruckpumpen,Reinigungsgeräte,Kunststoffverarbeitung,Lackierung,Metallbearbeitung
+Allgaier Process Technology GmbH,https://www.allgaier-process-technology.com/de/,False,Kühlen,Mischanlagen,Siebanlagen,Kühlanlagen,Mischanlagen,Siebanlagen,Kühlen,Mischverfahren,Sieben
+Forst Technologie GmbH & Co. KG,https://www.forst-online.de/index.php/de/,True,Dienstleistungen,Räummaschinen,Räumwerkzeuge,Räummaschinen,Schärfmaschinen,,Metallbearbeitung,,
+RSA cutting systems GmbH,https://www.rsa.de/,False,Bürsten,Entgraten,Sägen,Bürstmaschinen,Entgratmaschinen,Sägezentren,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Saar-Hartmetall und Werkzeuge GmbH,www.saar-hartmetall.de,True,Hartmetalle,Hartmetallwerkzeuge,Lohnfertigung,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Drehen,Erodieren,Fräsen
+Fecken-Kirfel GmbH & Co. KG,https://www.fecken-kirfel.de/,False,Ingenieurdienstleistungen,Kundenservice,Schneidmaschinen,Schneidmaschinen,,,Kunststoffverarbeitung,Metallbearbeitung,
+FMF-WWF Werkzeug- und Prototypenbau GmbH,https://www.fmf-wwf.de/,True,Kleinserienwerkzeuge,Prototypenwerkzeuge,Serienabsicherungswerkzeuge,CNC-Bearbeitungszentren,Fräsmaschinen,Messmaschinen,CNC-Bearbeitung,Mechanische Bearbeitung,Modellbau
+WEMA Vogtland Technology GmbH,https://www.global-retool-group.com/de/,False,Montage,Schweißen,Umrüstung,CNC-Schleifen,Flachschleifen,Schleifen von Werkzeugen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+ENTEX Rust & Mitschke GmbH,,False,Kalanderwalzen,Planetwalzenextruder,Temperiersysteme,Extruder,Kalanderwalzen,Temperiersysteme,Chemische Prozesse,Gummi- und Elastomerverarbeitung,Kunststoffverarbeitung
+LIFTKET Hoffmann GmbH,https://www.liftket.de,False,Baukräne,Elektrokettenzüge,Elektroseilzüge,Fräsmaschinen,Lackieranlagen,Montagemaschinen,Lackierung,Metallbearbeitung,Montage
+Lanico-Maschinenbau,https://www.lanico.de,True,Aerosol Dosen,Automatisierte Maschinen,Industrielle Produkte,Extrusionsanlagen,Flanging-Maschinen,Seamer,Extrusion,Kunststoffverarbeitung,Metallbearbeitung
+Hofmann Mess- und Auswuchttechnik GmbH & Co. KG,https://www.hofmann-global.com/,True,Automatic Integrated Balancing Solutions,Hand-Held Measuring Units,Universal Balancing Machines,Vibration Measuring Devices,Balancing Machines,,Unbalance Correction,Vibration Measurement,
+Klaus Backes GmbH,http://www.backesgmbh.de/,True,CNC-Bearbeitung,Stanz- und Umformtechnik,Vorrichtungsbau,Biegeanlagen,CNC-Maschinen,Stanzmaschinen,Biegen,CNC-Bearbeitung,Montage
+Badische Drahtwerke GmbH,https://bdw-kehl.com/,False,Betonstahl,Bewehrungsdraht,Lagermatten,Biegemaschinen,Schweißmaschinen,Zuschneidemaschinen,Biegen,Metallbearbeitung,Schweißen
+Schmoll Maschinen GmbH,http://www.schmoll-maschinen.de,True,Direktbelichtungsmaschinen,Erodiermaschinen,Fräsmaschinen,Bohrmaschinen,Drehmaschinen,Erodiermaschinen,Direktbelichtung,Kunststoffverarbeitung,Metallbearbeitung
+Transnova RUF Verpackungs- + Palettierungs GmbH,https://www.transnova-ruf.de/de/,False,Palettierungsmaschinen,Verpackungsmaschinen,,Palettierungsmaschinen,Verpackungsmaschinen,,Palettierprozesse,Pick-and-Pack Prozesse,Verpackungsprozesse
+Philipp Hafner GmbH & Co. KG,https://www.hafner-philipp.de/,True,Fertigungsmesstechnik,Sondermessmaschinen,Standardmessgeräte,Erodiermaschinen,Fräsmaschinen,Montagemaschinen,Metallbearbeitung,Montage,Prüftechnik
+PS Laser GmbH & Co. KG,http://www.ps-laser.de,True,Biegen,Laserbeschriftungen,Lasergravuren,Beschriftungsmaschinen,Biegemaschinen,CNC-Laserschneidanlagen,Beschriftungsverfahren,Biegen,Gravurverfahren
+Warmpresswerk Max B. Schachmann GmbH,,True,Schmiedeteile,Sonderstahl,Werkzeuge,5-Achs-Fräsmaschinen,CNC-Drehmaschinen,Schmiedepressen,Oberflächenbehandlung,Warmmassivumformung,Wärmebehandlung
+Maschinenbau Dahme GmbH,https://www.mb-dahme.de/,True,CNC-Drehteile,CNC-Frästeile,Schweißbaugruppen,CNC-Drehmaschinen,CNC-Fräszentren,Räummaschinen,CNC-Drehen,CNC-Fräsen,Schweißen
+JBT SCHRÖDER,,False,Injektionslösungen,Marinierungslösungen,Technologisch fortschrittliche Maschinen für die Lebensmittelverarbeitung,Injektionsmaschinen,Mariniermaschinen,Mechanische Aufbereitungsmaschinen,Injektion,Marinierung,Mechanische Aufbereitung
+FMB Maschinenbaugesellschaft mbH & Co.KG,https://www.fmb-machinery.de/,False,Automatisierungslösungen,Handlingsysteme,Lademagazine,Drehautomaten,Fräsmaschinen,Handlingsysteme,Automatisierungstechnik,Metallbearbeitung,
+Wolf Verpackungsmaschinen GmbH,https://wolf-packaging.com/,True,Complete Packaging Lines,Dosing-Systeme,Verpackungslösungen,Füllmaschinen,Schnellverpackungsmaschinen,Verpackungsmaschinen,CNC-Bearbeitungsprozesse,Kunststoffverarbeitung,Montageprozesse
+Zeulenroda Präzision Maschinenbau GmbH,https://www.zr-praezision.de/,True,Baugruppenmontage,Metallzerspanung,Spanntechnik,CNC-Bohrmaschinen,CNC-Drehmaschinen,CNC-Fräsmaschinen,CNC-Drehbearbeitung,CNC-Fräsbearbeitung,CNC-Hochgenauigkeitsbearbeitung
+m-tec mathis technik gmbh,https://www.m-tec.com,False,Baustellentechnik,Digitalisierung,Maschinen für die Bauindustrie,Dosieranlagen,Förderanlagen,Mischanlagen,Dosieren,Fördern,Fördertechnik
+J. König GmbH & Co. Werkzeugfabrik,https://www.j-koenig.de,True,Hilfsmittel,Maschinen,Metallbearbeitungsdienstleistungen,Blechbearbeitungsmaschinen,Bohrmaschinen,CNC-Maschinen,Blechbearbeitung,CNC-Bearbeitung,Holzbearbeitung
+Hugo Beck Maschinenbau GmbH & Co. KG,https://www.hugobeck.com,False,After Sales Service,Automatisierungslösungen,Banderoliermaschinen,Bündelpacker,Flowpackmaschinen,Schlauchbeutelmaschinen,Automatisierungslösungen,Schweißprozesse,Verpacken in Folie
+CeraCon GmbH,https://www.ceracon.com,True,Automatisierte Fertigungslösungen,Dichtstoffe,Industrieöfen,Automatisierungstechnik,Bearbeitungszentren,Dosieranlagen,Kunststoffverarbeitung,Montage,Schaumdichtungstechnologie
+Kompressorenbau Bannewitz GmbH,https://kbb-turbo.com/,True,Abgasturbolader,Ladeluftkühler,Retrofit-Lösungen,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Metallbearbeitung,Montage,Oberflächenbehandlung
+DAMBACH Lagersysteme GmbH & Co. KG,https://www.dambach-lagersysteme.de/,False,Automatisierungslösungen,Lagersysteme,Logistiksysteme,Automatisierungsanlagen,Fördertechnik,Regalbediengeräte,Automatisierung,Fertigung,Metallbearbeitung
+Robert Röntgen GmbH & Co. KG,https://roentgen-saw.com/de/,False,Sägeblätter,Sägebänder,Zubehör,Bandsägen,Erodiermaschinen,Fräsmaschinen,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+SAMAG Machine Tools GmbH,http://www.samag-mt.com,True,Automation,Bearbeitungszentren,CNC-Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,CNC-Bearbeitung,Fräsen,Metallbearbeitung
+FRANK Walz- und Schmiedetechnik GmbH,https://frank-original.com/,False,Komponenten für landwirtschaftliche Technik,OEM Produkte für landwirtschaftliche Maschinen,Verschleißteile,Biegemaschinen,Fräsmaschinen,Schweißmaschinen,Metallbearbeitung,Schmieden,Stanzen
+RAS Reinhardt Maschinenbau GmbH,https://www.ras-online.de,True,Biegemaschinen,Blechbearbeitungsmaschinen,Formmaschinen,Biegemaschinen,Blechbearbeitungsmaschinen,Schneidemaschinen,Biegen,Blechbearbeitung,Metallbearbeitung
+Nosta GmbH,https://www.nosta.com,True,Befestigungselemente,Engineering-Lösungen,Lagerlösungen,CNC-Drehbänke,Fräsmaschinen,Montagemaschinen,Drehen,Fräsen,Kunststoffverarbeitung
+IMES-ICORE GmbH,http://www.imes-icore.de,True,3D Metal Printer,Automatisierungstechnik,Dental CAD/CAM Lösungen,3D Drucker,Drehmaschinen,Fräsmaschinen,3D-Druck,CNC-Bearbeitung,Kunststoffverarbeitung
+Stephan Machinery GmbH,http://stephan-machinery.com/,False,Lösungen,Maschinen,Prozesslinien,Emulsifizierungsmaschinen,Homogenisierungsmaschinen,Kühlmaschinen,Aseptische Verarbeitung,Emulsifizieren,Kühlen
+SN Maschinenbau GmbH,,False,Beutelverpackungsmaschinen,Verpackungslösungen für Lebensmittel,Verpackungslösungen für Tiernahrung,Dosiersysteme,Mehrkopfwaagen,"horizontalen Form-, Füll- und Verschließmaschinen",Abfüllprozesse,Verpackungsprozesse,
+NMH GmbH,https://www.nmh.de,True,Automatisierungstechnik,Fertigung,Kunststoffspritzguss,CNC-Bearbeitungsmaschinen,Drehmaschinen,Fräsmaschinen,CNC-Bearbeitung,Drehen,Fräsen
+Carl Benzinger GmbH,https://www.benzinger.de/index.php/de/,True,CNC-Maschinen,Drehmaschinen,Fräsmaschinen,Automationslösungen,Drehmaschinen,Fräsmaschinen,Hartdrehen,Hochglanzdrehen,Schleifen
+Carl Hilzinger-Thum GmbH & Co. KG,www.hilzinger-thum.de,True,Gummiwalzen,Konstruktionsteile,Lohnfertigung,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Drehen,Fräsen,Kunststoffverarbeitung
+ELB-Schliff Werkzeugmaschinen GmbH,,True,Flachschleifmaschinen,Profilschleifmaschinen,Präzisionsflächen-Schleifmaschinen,Flachschleifmaschinen,Profilschleifmaschinen,Tiefschleifmaschinen,Läppen,Polieren,Präzisionsschleifen
+D.W. Renzmann Apparatebau GmbH,https://www.dw-renzmann.de,True,CNC-Fräsmaschinen,Erodiermaschinen,Industriewaschmaschinen,Destillieranlagen,Erodiermaschinen,Fräsmaschinen,Destillation von Lösemitteln,Erodieren,Fräsen
+Herbold Meckesheim GmbH,https://www.herbold.com,False,Anlagen zum Kunststoffrecycling,Granulieranlagen,Maschinen für die Verarbeitung von Kunststoffabfällen,Agglomeratoren,Granuliermaschinen,Waschmaschinen,Kunststoffverarbeitung,Recycling,Waschen
+Nakanishi Jaeger GmbH,http://www.nakanishi-jaeger.com,True,Automatisierungslösungen,E-Motoren,Hochfrequenzspindeln,Bohrmaschinen,Drehmaschinen,Erodiermaschinen,Gravieren,Metallbearbeitung,Oberflächenbehandlung
+Kinetics Germany GmbH,https://www.kinetics.net/,False,Ausrüstungen,Prozessmodule,hochrentable Systeme,Montagemaschinen,Prüfmaschinen,Verarbeitungsmaschinen,Anlagenbau,Chemische Verarbeitung,Installationsprozesse
+VARIOVAC PS SystemPack GmbH,https://www.variovac.de/de/,False,Packungsprüfgeräte,Verbrauchsmaterialien,Verpackungsmaschinen,Abfüll- und Dosiersysteme,Packungsprüfgeräte,Verpackungsmaschinen,Kunststoffverarbeitung,Montageprozesse,Verpackungsprozesse
+Arku Maschinenbau GmbH,https://www.arku.com,True,Abkantmaschinen,Bandanlagen,Blechbearbeitungsmaschinen,Abkantpressen,Bandanlagen,Blechschneidemaschinen,Blechbearbeitung,Coilverarbeitung,Entgraten
+Schwegler Werkzeugfabrik GmbH & Co. KG,http://www.schwegler.de,False,Insektenhotels,Laserbeschriftungen,Nistkästen,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Holzbearbeitung,Kunststoffverarbeitung,Metallbearbeitung
+Ervin Germany GmbH,https://www.ervin.eu,True,AMACAST,AMACHROME,AMASTEEL,Automatische Maschinen,Blasmaschinen,Drehmaschinen,CNC-Bearbeitung,Montage,Oberflächenbehandlung
+Michael Hörauf Maschinenfabrik GmbH & Co. KG,,False,Buchdeckenmaschinen,Papierdeckelmaschinen,Verpackungsbecherlösungen,Bechermaschinen,Buchdeckenmaschinen,Containermaschinen,Papierverarbeitung,Verpackungsproduktion,
+Arno GmbH,https://www.arno.de,True,Präzisionswerkzeuge,Werkzeuglösungen,Zerspanungswerkzeuge,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Metallbearbeitung,Zerspanung,
+mimatic GmbH,https://www.mimatic.de/de/,False,Angetriebene Werkzeuge,Komplettlösungen,Zerspanungswerkzeuge,Drehmaschinen,Fräsmaschinen,Zerspanungsmaschinen,Bohren,Fräsen,Schneiden
+Wemhöner Surface Technologies,https://www.wemhoener.de/,False,3D Pressen,Druck- und Lackier-Anlagen,Durchlaufpressen,Lackieranlagen,Montagemaschinen,Pressen,Holzbearbeitung,Kunststoffverarbeitung,
+Hochrainer GmbH,https://www.hochrainer.com/,False,Automatisierungslösungen,Montageanlagen,Produktionsanlagen,Automatisierungstechniken,Montageanlagen,Produktionsanlagen,Automatisierungsprozesse,Fertigungsprozesse,Montageprozesse
+ESMO Group,https://www.esmo-group.com,True,Automatisierungslösungen,Automatisierungstechnik,Handling-Systeme,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Automation,Metallbearbeitung,Montage
+Pittler T & S GmbH,https://www.dvs-technology.com,True,Automatisierungssysteme,Dreh- und Fräszentren,Drehmaschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Drehen,Fräsen
+PINK GmbH Vakuumtechnik,https://www.pink-vak.de/de/,False,Helium-Dichtheitsprüfsysteme,UHV-Beschichtungssysteme,Vakuumkomponenten,CNC-Drehen,CNC-Fräsen,Schweißtechnik,Metallbearbeitung,Reinraumservices,Thermische Behandlungen
+OPS-INGERSOLL Funkenerosion GmbH,,False,Automation,Erodieren,Fräsen,Erodiermaschinen,Fräsmaschinen,,Metallbearbeitung,,
+BRUGG Rohrsysteme GmbH,www.bruggpipes.com,False,Bogen,CALPEX PUR-KING,CASAFLEX Fernwärmeleitungen,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegen,Isolierverfahren,Kunststoffverarbeitung
+Zimmermann Formenbau GmbH,https://www.ziform.de,True,Befestigungselemente,Lohnbearbeitung,Reparaturservice,Biegemaschinen,CNC-Bearbeitungszentren,Erodiermaschinen,CNC-Bearbeitung,Erodieren,Metallbearbeitung
+Filigran Trägersysteme GmbH & Co. KG,https://www.filigran.de/,False,Betonstahl im Ring,FILIGRAN® Gitterträger,Gerichteter Betonstahl,,,,,,
+Maschinenbau Lienenbrügger GmbH,,True,Aufarbeitung von Komponenten,Lohnfertigung,,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,CNC-Bearbeitung,Montage,Schweißen
+ADGA - Adolf Gampper GmbH,https://adga.de/de/,False,Ausstattungen,Holzgliedermaßstäbe,Werbeflächen,Fräsmaschinen,Montageanlagen,,Holzbearbeitung,,
+Bürener Maschinenfabrik GmbH,,True,Komponentenbau,Kunststoffverarbeitung,Kühlmittelanlagen,Erodiermaschinen,Fräsmaschinen,Spritzgießmaschinen,Fertigung,Montage,Spritzgießen
+TEXPA Maschinenbau GmbH & Co. KG,https://texpa.de/,True,Bed linen,Table linen,Terry towels,Faltmaschinen,Hemmingmaschinen,Längenschneidemaschinen,Elektrische Fertigung,Mechanische Fertigung,Montage
+Deutsche Nickel GmbH,,True,Nickeldraht,Nickelstangen,Schweißzusatzwerkstoffe,Schweißmaschinen,Walzmaschinen,Ziehmaschinen,Schweißen,Walzen,Ziehen
+A. MANNESMANN MASCHINENFABRIK GmbH,http://www.amannesmann.de,True,Bohr- und Frässpindeln,Fittings,Kugelgewindetriebe,Biegemaschinen,Bohrmaschinen,Fräsmaschinen,Biegen,Fräsen,Metallbearbeitung
+AMADA GmbH,http://www.amada.de/,False,Abkanttechnologie,Lasermaschinen,Stanzmaschinen,Biegemaschinen,Laserschneidmaschinen,Stanzmaschinen,Metallbearbeitung,,
+Stahlkontor GmbH & Co. KG,,True,Komponenten für die Luftfahrt,Panzerstähle für Wehr- und Schutztechnik,Teile und Baugruppen aus hochfesten Stählen,Biegepressen,Laseranlagen,Wasserstrahlschneidanlagen,Kaltverformen,Schneiden,Schweißen
+WELLAND & TUXHORN AG,http://www.welland-tuxhorn.de/,False,Aktuatoren,Steuerventile,,,,,Metallbearbeitung,,
+H. Schickling GmbH,https://www.hschickling.de/,False,Kanten,Lasern,Oberflächenbeschichtung,Abkantmaschinen,CNC-Maschinen,Laserschneideanlagen,Abkanten,Laserschneiden,Schweißen
+KOCH Industrieanlagen GmbH,https://www.koch-roboter.de,True,Automatisierungslösungen,Individuelle Anlagen,,Fördertechnik,Greifer,Steuerungssysteme,Kommissionierung,Lackieren,Montage
+Maschinenfabrik Herbert Meyer GmbH,https://www.meyer-machines.com/,True,Fusing machines,Laminating machines,Scattering machines,Fusing presses,Heating presses,Laminating lines,Bonding,Coating,Molding
+Datron AG,https://www.datron.de/,False,CNC Fräsmaschinen,Dosiersysteme,Erodiermaschinen,Dosiermaschinen,Erodiermaschinen,Fräsmaschinen,Erodieren,Fräsen,Kunststoffverarbeitung
+Leifeld Metal Spinning GmbH,https://leifeldms.com/,False,Flow-Forming-Maschinen,Shear-Forming-Maschinen,Spinningmaschinen,Metallformmaschinen,,,Flow Forming,Shear Forming,Spinning
+Rudolf Flender Rohr GmbH,http://www.flender-rohr.de,True,Fittings,Komponenten,Präzisionsstahlrohre,Biegemaschinen,Drehmaschinen,Rohrschweißstraßen,Biegen,Drehen,HFI-längsnahtgeschweißte Verfahren
+Flanschenwerk Bebitz GmbH,https://www.bebitz.de,True,Flansche,Schmiederinge,Schneidwerkzeuge,CNC-gesteuerte Maschinen,Drehmaschinen,Fräsmaschinen,CNC-Bearbeitung,Oberflächenbearbeitung,Schmiedefertigung
+PSM Protech GmbH & Co. KG,https://www.psm-protech.com/,True,Kunststoff-Metallverbundteile,Kunststoffspritzgussteile,hochpräzise Stanzteile,Fertigungssysteme,Spritzgussmaschinen,Stanzmaschinen,Montage,Spritzguss,Stanzen
+Werner Bayer GmbH Maschinenfabrik,www.bayer-maschinenfabrik.com,False,Anlagen,Dichtprüfgeräte,Maschinen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Dichtheitsprüfung,Fügen,Metallbearbeitung
+Sama Maschinenbau GmbH,https://sama.sacmi.com/,False,Technische Keramiken,Tischgeschirr,Werkzeuge,Druckgießmaschinen,Glasieranlagen,Isostatische Pressen,Druckgießen,Glasieren,Isostatisches Pressen
+Christian Dunkel GmbH,https://www.werkzeugbau-dunkel.de/,True,Fertigung von Vorrichtungen,Maschinen für Pipeline-Montagen,Sondermaschinen,Erodiermaschinen,Fräsmaschinen,Spritzgussmaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+Steinbach & Vollmann GmbH,https://www.stuv.de/,False,Hochsicherheitsschlösser,Verschlusssysteme,Zugangslösungen,Erodiermaschinen,Fräsmaschinen,Montagemaschinen,Kunststoffverarbeitung,Metallbearbeitung,Montage
+VACUTEC Hochvakuum- & Präzisionstechnik GmbH,,False,Komplette Geräte,Präzisionsmechanik,Vakuumtechnologie,CNC Maschinen,Messmaschinen,,CNC Bearbeitung,Erodieren,WIG Schweißen
+UNION Werkzeugmaschinen GmbH Chemnitz,https://www.tu-chemnitz.de/,False,Forschung,Horizontal-Drehmaschinen,Lehre,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen
+a.i.m. all in metal GmbH,https://alles-in-metall.de/,True,Baugruppen,Karosseriebauteile,Verbindungselemente,Pressen,Schweißmaschinen,Werkzeugmaschinen,Fügetechnik,Umformtechnik,Werkzeugbau
+Schmiedag GmbH,www.gmh-gruppe.de,True,Geschmiedete Produkte,Gießereiprodukte,Grüner Stahl,Drehmaschinen,Elektrolichtbogenöfen,Fräsmaschinen,Drehen,Fräsen,Gießen
+TRUMPF Werkzeugmaschinen Teningen GmbH,https://www.trumpf.com/,False,Elektrowerkzeuge,Lasersysteme,Werkzeugmaschinen,Biegemaschinen,Laserschneidmaschinen,Stanzmaschinen,Additive Fertigung,Metallbearbeitung,Oberflächenbearbeitung
+Starcke GmbH & Co. KG,https://www.starcke.de,True,Schleifbänder,Schleifmaschinen,Schleifmittel,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Fräsen,Holzbearbeitung,Kunststoffverarbeitung
+Böhm Fertigungstechnik Suhl GmbH,http://www.boehm-fertigungstechnik.de/,False,,,,,,,,,
+ALLTEC Angewandte Laserlicht Technologie GmbH,,False,Optische Inspektionslösungen,Track & Trace Lösungen,,Blisterkontrollsysteme,Kennzeichnungssysteme,Verifizierungssysteme,Qualitätskontrolle,Serialisierung,Verpackungsprozesse
+HAZEMAG & EPR GmbH,https://www.hazemag.com/de/,False,Förderanlagen,Siebanlagen,Zerkleinerungsanlagen,Hammerbrecher,Prallbrecher,Walzenbrecher,Mineralverarbeitung,Recyclingprozesse,Zementverarbeitung
+TKR Spezialwerkzeuge GmbH,https://www.tkrgroup.com/,False,Dokumentationen,Sonderwerkzeuge,Support-Plattformen,,,,Dokumentation,Entwicklung,Fertigung
+Tillmann Werkzeugbau Profiltechnik GmbH,https://tillmann-gruppe.de/de/,False,Oberflächenveredelungen,"Profil-, Teile- und Komponentenfertigungen",lasergeschweißte Profilrohre,Profilieranlagen,,,Metallbearbeitung,,
+"Wilhelm König, Maschinenbau GmbH",https://koenig-mtm.de/,False,Schnellwechselsysteme,hydraulische Spannsysteme,mechanische Spannsysteme,Drehmaschinen,Fräsmaschinen,Hydrauliksysteme,Metallbearbeitung,Montage,Wartung
+Demmeler Maschinenbau GmbH & Co. KG,https://www.demmeler.com/de/,True,Automatisierungstechnik,Manipulatoren,Schweißtische,Erodiermaschinen,Fräsmaschinen,Schweißmaschinen,Metallbearbeitung,Montage,Schweißen
+Frigoblock GmbH,https://www.frigoblock.com,False,Electric Transport Refrigeration Solutions,Kühlaggregate,Kühlanhänger,Kondensatoren,Kühlaggregate,Montagemaschinen,Kunststoffverarbeitung,Kühlung,Montage
+HEBENSTREIT GmbH,https://www.hebenstreit.de/de/,False,Extrusionsprodukte,Flachwaffeln,Hohlkörperwaffeln,Kühlanlagen,Teig-Herstellungsanlagen,Waffelbackautomaten,Backen,Kühlen,Schneiden
+FLEX-Elektrowerkzeuge GmbH,https://www.flex-tools.com/,False,Akku-Elektrowerkzeuge,Nasssauger,Schutzpads,,,,,,
+B. Ketterer Söhne GmbH & Co. KG,https://www.ketterer.de,False,BLDC-Motoren,Getriebemotoren,Hubsysteme,CNC-Drehmaschinen,Gewinde-Rollmaschinen,Zahnradmaschinen,CNC-Bearbeitung,Gewinderollen,Montage
+MHS Schneidetechnik GmbH,https://mhs-schneidetechnik.de/de/,False,Hygienemaschinen,Portioniermaschinen,Schneidemaschinen,Portioniermaschinen,Schneidemaschinen,,Montage,Wartung,
+Heckler Aktiengesellschaft,https://www.heckler.de,False,Automatische Waffen,Handfeuerwaffen,Kaltmassivumformung von Stahl,CNC-Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Kaltumformung,Mechanische Nachbearbeitung,Metallbearbeitung
+Künkel Wagner Germany GmbH,http://www.kuenkel-wagner.com,True,Kunststoffspritzguss,Montage,Moulding Plants,Montagemaschinen,Sand Preparation Systems,Spritzgussmaschinen,Metal Pouring Processes,Montage,Moulding Processes
+Wissler & Rademacher GmbH & Co. KG,http://www.wissler-rademacher.de,True,Druckgussteile,Formenbau,Maschinen,Drehmaschinen,Druckgießmaschinen,Erodiermaschinen,Bearbeitung,CNC-Bearbeitung,Gießen
+Otto Martin Maschinenbau GmbH & Co. KG,https://martin.info/,False,Fräsen,Gebrauchtmaschinen,Holzbearbeitungsmaschinen,Fräsen,Fräsmaschinen,Hobeln,Fräsen,Holzbearbeitung,Kunststoffbearbeitung
+Mühlbauer Maschinenbau GmbH,https://www.muehlbauer-runding.de/,True,Anlagenbau,Maschinenservice,Teilefertigung,Bearbeitungszentren,CNC-Maschinen,Schweißmaschinen,Montage,Schweißen,Zerspanung
+Melzer Maschinenbau GmbH,http://www.melzermaschinenbau.de,True,Automatisierungstechnik,ID-Dokumente,RFID-Inlays,Drehmaschinen,Fräsmaschinen,Heißprägeanlagen,Fertigung von Präzisionsmaschinen,Metallbearbeitung,Modulare Produktion
+Strothmann Machines & Handling GmbH,https://strothmann.com,True,Automatisierungslösungen,Fahrerlose Transportsysteme,Handling-Systeme,Förderanlagen,Montagesysteme,Portalmaschinen,Automatisierung,Automatisierung von Pressenlinien,Materialtransport
+MATO GmbH & Co. KG,https://www.mato.de,True,Fettpressen,Gurtinstandhaltung,Kopplungen,Blechbearbeitungsmaschinen,Drehmaschinen,Erodiermaschinen,Kunststoffverarbeitung,Metallbearbeitung,Oberflächenbehandlung
+Zeltwanger Maschinenbau GmbH,https://www.zeltwanger.de,True,Automatisierungslösungen,Dichtheitsprüfgeräte,Fertigungsdienstleistungen,Drehmaschinen,Fräsmaschinen,Montageautomaten,Fertigung,Metallbearbeitung,Montage
+R+R Maschinenbau GmbH,https://www.rr-maschinenbau.de/,False,Teilefertigung,Vorrichtungsbau,,CNC-Drehmaschinen,CNC-Fräsmaschinen,CNC-Schleifmaschinen,CNC-Drehen,CNC-Fräsen,Schleifen
+Webomatic Maschinenfabrik GmbH,https://www.webomatic.de/,False,Schalensiegelmaschinen,Tiefziehmaschinen,Vakuumverpackungsmaschinen,Schalensiegelmaschinen,Thermoformer,Vakuummaschinen,Tiefziehen,Vakuumverpackung,Verpackungsprozesse
+SCHEUERMANN + HEILIG GmbH,www.sh-gmbh.de,True,Baugruppen,Federn,Kunststoffverarbeitung,Biegemaschinen,Drehmaschinen,Fräsmaschinen,Biegen,Blechbearbeitung,CNC-Bearbeitung
+Deharde GmbH,,True,Aerospace,Precision Parts,Windkanalmodelle,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Montage,Oberflächenbearbeitung,Zerspanungsdienstleistungen
+LINCOLN ELECTRIC DEUTSCHLAND GmbH,https://www.oerlikon-welding.com/,False,High Deposition Systems,Stick Welders,Welding Cobots,Automatisierungssysteme,Schutzgas-Schweißmaschinen,Schweißmaschinen,Schweißausbildung,Schweißen,Weldfume Control
+Treffler Maschinenbau GmbH & Co. KG,http://www.treffler.net,True,Agrartechnik,Auftragsfertigung,Holzbearbeitungsmaschinen,Biegemaschinen,CNC-Bearbeitungszentren,Fertigungsmaschinen,CNC-Bearbeitung,CNC-Technik,Laserschneiden
+Kunzmann Fraesmaschinen GmbH,http://www.kunzmann-fraesmaschinen.de,True,Bearbeitungszentren,Digitalisierungsprodukte,Erodiermaschinen,Bohrmaschinen,Erodiermaschinen,Fräsmaschinen,Fertigung,Metallbearbeitung,Zerspanung
+Schnupp GmbH & Co. Hydraulik KG,https://www.schnupp.de,True,Automatisierung,Hydraulik,Sondermaschinen,CNC Drehmaschinen,CNC Fräsmaschinen,Drehmaschinen,CNC-Bearbeitung,Fertigungstechnik,Metallbearbeitung
+OTEC Präzisionsfinish GmbH,https://www.otec.de,False,Electrofinish,Entgratungssysteme,Gleitschleifen,Elektropoliermaschinen,Gleitschleifmaschinen,Poliermaschinen,Entgratung,Nassbearbeitung,Oberflächenbearbeitung
+FAUDI GmbH,www.faudi.de,False,Automatikfilter,Bandfilter,Entstaubungsanlagen,Blechbearbeitungsmaschinen,Drehmaschinen,Fräsmaschinen,Kühlschmierstofffiltration,Metallbearbeitung,Oberflächenbehandlung
+Zeck Holding GmbH,www.zeck-gmbh.com,False,Anlagen für die Betonverarbeitung,Equipment for Overhead Transmission Lines,Lösungen für die Bauindustrie,Betonmischanlagen,Formmaschinen,Förderanlagen,Betonbearbeitung,Fertigung von Maschinen,Gießen
+Gerhard Schubert GmbH,https://www.schubert.group,False,Automatisierungslösungen,Beratungsdienstleistungen,Intralogistiksysteme,Automatisierungssysteme,Pick and Place Maschinen,Transportsysteme,Abfüllen,Materialhandling,Montage
+atg Luther & Maelzer GmbH,https://www.mycronic.com,False,Bare board testing,Bestückungsmaschinen,Dispensing and coating,Bestückungsmaschinen,Dispensiermaschinen,Druckmaschinen,Bestückung,Dispensierung,Druck
+Wassermann Group,www.wassermann-group.com,True,Automatisierungslösungen,,,Erodiermaschinen,Fräsmaschinen,Spritzgießmaschinen,Kunststoffverarbeitung,Metallbearbeitung,
+Helmerding hiw Maschinen GmbH,www.helmerding.de,True,Automatisierungslösungen,Bandanlagen,Industrielle Anlagen,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Automatisierungstechnik,CNC-Bearbeitung,Metallbearbeitung
+METALOCK ENGINEERING GERMANY GMBH,www.metalockengineering.com,True,Engineering-Dienstleistungen,Messtechnik,Reparaturen an Gussteilen,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitung,Mechanische Bearbeitung,Metallbearbeitung
+Hutchinson Stop-Choc,,False,Aktive Schwingungsdämpfung,Ganzmetallkissen,,,,,,,
+"Baldwin Technology Company, Inc.",https://www.baldwintech.com,False,Automatisierungslösungen,Drucksysteme,Precision Spray,Druckmaschinen,Reinigungsanlagen,Spritzanlagen,Druckverfahren,Elektronikmontage,Filmextrusion
+FGM Fritz Gradert Maschinenbau GmbH & Co. KG,http://www.fgm-gradert.de/,True,Sondermaschinen,Walzen,Zylinder,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Mechanische Fertigung,Schweißtechnik,Wärmebehandlung
+ThermoTex Nagel GmbH,www.thermo-tex.de,True,Heizsysteme,RFID-Technologie,Sonderlösungen,Montagemaschinen,Patchmaschinen,Spritzgussmaschinen,Montage,RFID-Identifikation,Spritzguss
+Günter Effgen GmbH,http://www.effgen.com,True,Abrichtwerkzeuge,Blechbearbeitungen,Hochharte Schleifwerkzeuge,Biegemaschinen,CNC-Maschinen,Fräsmaschinen,Abrichten,Blechbearbeitung,Montage
+LAWECO Maschinen- und Apparatebau GmbH,http://www.laweco.de,True,Hebesysteme,Hubtische,Kunststoffverarbeitung,Drehmaschinen,Elektromechanische Systeme,Erodiermaschinen,Blechbearbeitung,CNC-Bearbeitung,Konstruktion
+AVS Aggregatebau GmbH,,False,Blockheizkraftwerke,Lichtmastanlagen,Stromaggregate,Lackieranlagen,Montageeinrichtungen,Prüfstände,Lackierung,Montage,Prüfung
+Heidenreich & Harbeck GmbH,https://www.hh-moelln.de/,True,Entwicklungsdienstleistungen,Gussteile,Modellbau,Bearbeitungsmaschinen,Fräsmaschinen,Gießmaschinen,Bearbeitungsprozesse,Modellbau,Sandgussverfahren
+A. & C. KOSIK GmbH,https://www.kosik.de/,True,Druckapparate,Rohrleitungen,Sondermaschinen,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Fertigung von Druckapparaten,Montage,Schweißen
+FKT Formenbau und Kunststofftechnik GmbH,https://www.fkt-triptis.de,True,3D-Messtechnik,Kunststoffteile,Lohnfertigung,CNC-Drehmaschinen,Drehmaschinen,Fräsmaschinen,CNC-Bearbeitung,Drehen,Fräsen
+Sandvik Mining,https://www.rocktechnology.sandvik/,False,Mining Equipment,Parts,Services,Bergbaumaschinen,Bohrgeräte,Lader,Elektrolyse,Mechanisches Schneiden,Montage
+Wohlhaupter GmbH,https://www.wohlhaupter.de,True,Bohren und Fräsen,Bohrwerkzeuge,Fräswerkzeuge,Bohren,Bohrmaschinen,Erodiermaschinen,Bohren,Fräsen,Metallbearbeitung
+Concada GmbH,www.concad-gmbh.de,True,Kunststoffprodukte,Metallkomponenten,Montagedienstleistungen,Blechbearbeitungsmaschinen,Fräsmaschinen,Laseranlagen,Blechbearbeitung,CNC-Bearbeitung,Metallbearbeitung
+TBT Tiefbohrtechnik GmbH + Co,https://www.tbt.de,True,Erodiermaschinen,Fräsmaschinen,Lohnfertigung,Erodiermaschinen,Fräsmaschinen,Tiefbohrmaschinen,Fräsen,Hochleistungs-Präzisions-Bohren,Metallbearbeitung
+Altrad Lescha Atika GmbH,https://www.lescha-atika.de/,False,Betonmischer,Garten- und Holzbearbeitungsmaschinen,Mörtelmischer,Betonmischmaschinen,Rührmaschinen,Schweißmaschinen,Holzbearbeitung,Metallbearbeitung,Montage
+MetallArt Treppen GmbH,www.metallart-treppen.de,True,Balkone,Geländer,Sonderkonstruktionen,Biegemaschinen,Fräsmaschinen,Laserschneidanlagen,3D CAD-Planung,BIM-Planung,Fräsen
+FELO-Werkzeugfabrik GmbH,https://www.felo.com/,False,Bits,Schraubendreher,Zangen,Erodiermaschinen,Fräsmaschinen,,Kunststoffverarbeitung,Metallbearbeitung,
+AUTOSPLICE Europe GmbH,https://www.autosplice.com,True,Automatisierungslösungen,Baugruppenfertigung,Drawn Wire Pins,Automatisierte Bestückungsmaschinen,Einschubmaschinen,Flussmittelauftragsmaschinen,Automatisierte Montage,Bestückung von Leiterplatten,Kabelkonfektionierung
+Horn Glass Industries AG,https://www.hornglass.com/de/,True,Designglas,Glaskonditionierungsanlagen,Isolierglas,Abgas-Umsteueranlagen,Brenner,Drossboxen,Automatisierung,Glasbearbeitung,Konditionieren
+TBi Industries GmbH,https://www.tbi-industries.com/,False,Cooling units,Protective clothing,Welding torches,Cooling systems,Extraction units,Welding machines,Metallbearbeitung,,
+Finke Formenbau GmbH,https://www.finke-formenbau.de/,True,Druckgussformen,Spritzgussformen,Stanz- und Umformwerkzeuge,Erodiermaschinen,Fräsmaschinen,Spritzmaschinen,Erodieren,Fräsen,Spritzgießen
+SAT Anlagentechnik GmbH,https://www.sat-sterling.com/,False,Testsysteme,automatisierte Füllsysteme,automatisierte Klebetechnologien,Füllmaschinen,Klebemaschinen,Testmaschinen,Automatisierungstechnik,Montageprozesse,
+ABI Maschinenfabrik und Vertriebsgesellschaft mbH,https://www.abi-gmbh.com/,False,ABI MOBILRAM,Baggeranbaugeräte,DELMAG Drehbohranlagen,Bagger,Bohrgeräte,Hydraulikmaschinen,Bohren,Mischen,Rammen
+Zasche handling GmbH,https://www.zasche.de,True,Blechbearbeitung,Hebezeuge,Krananlagen,Abkantpressen,Biegemaschinen,CNC-Fräsmaschinen,Biegen,Fertigung,Montage
+Christ Packing Systems GmbH & Co. KG,https://www.christ-ps.com,True,Automatisierungslösungen,Pharma Verpackungslösungen,Prüfstandslösungen,Drehmaschinen,Erodiermaschinen,Folienmaschinen,Automatisierung,Metallbearbeitung,Montage
+Caisley International GmbH,https://www.caisley.de/,False,Identifizierungslösungen für Rinder,Identifizierungslösungen für Schafe und Ziegen,Identifizierungslösungen für Schweine,Automatisierte Fertigungsanlagen,Laserbeschriftungsmaschinen,Spritzgussmaschinen,Kunststoffverarbeitung,Laserbeschriftung,Montageprozesse
+IDEAL - Werk C. + E. Jungeblodt,https://www.ideal-werk.com,False,Befestigungssysteme,Schneidemaschinen,Schweißmaschinen,Fräsmaschinen,Gitterschweißmaschinen,Koordinatenschweißmaschinen,Automatisierte Blechverarbeitung,Kunststoffverarbeitung,Laserschweißen
+Maschinenfabrik Bermatingen GmbH & Co. KG,,True,Laserdienstleistungen,Pressen zur Volumenreduzierung,humus Mulchgeräte,Biegemaschinen,Laserschneidanlagen,Schweißanlagen,Blechbearbeitung,Laserbearbeitung,Metallbearbeitung
+Güdel Germany GmbH,https://www.gudel.com,False,Automatisierungslösungen,Gearboxes,Linear axis and gantries,Automatisierungssysteme,Förderanlagen,,Automatisierung,Logistik,Montage
+ATLANTA Antriebssysteme GmbH,http://atlantagmbh.de,True,Erodiermaschinen,Fräsmaschinen,Hubantriebe,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Kunststoffverarbeitung,Metallbearbeitung,Oberflächenbearbeitung
+Maucher Formenbau GmbH & Co. KG,https://www.maucher-kg.de/,False,CNC-Bearbeitungsmaschinen,Kunststoffteile,Werkzeuge,CNC-Maschinen,Spritzgussmaschinen,Vakuumtiefziehmaschinen,Spritzguss,Vakuumtiefziehen,textiles Umformen
+Ostseestaal GmbH & Co. KG,http://www.ostseestaal.de/,False,3D-Kaltformteile,Komplexe Formen,Solarbetriebenen Schiffe,Biegemaschinen,Fräsmaschinen,Schweißmaschinen,Kaltformen,Schweißen,Zuschneiden

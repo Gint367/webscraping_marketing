@@ -391,10 +391,12 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
             memory_threshold_percent=70.0,
             check_interval=2.0,
             max_session_permit=10,
+        )
+        """
             monitor=CrawlerMonitor(
                 display_mode=DisplayMode.DETAILED
             )
-        )
+        """
     except ImportError:
         dispatcher = None
     

@@ -11,6 +11,7 @@ import argparse
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
+    company_url: str = Field(..., description="URL des Unternehmens.")
     products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.")
     machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.")
     process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.")
@@ -30,7 +31,8 @@ class Company(BaseModel):
 prompt = """
 Funktionen:
 - Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
-- Namen des Unternehmens(legale Bezeichnung, schön Formattiert)
+- Namen des Unternehmens(in Company Name: ,legale Bezeichnung, schön Formattiert)
+- URL des Unternehmens(in Main URL: )
 - Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet(Schreiben im Pluralform).
 - Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.
 - Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (keine Maschinen, die als eigene Produkte verkauft werden)(Schreiben im Pluralform).
@@ -57,7 +59,7 @@ def ensure_output_directory(directory="llm_extracted_data"):
 dispatcher = MemoryAdaptiveDispatcher(
             memory_threshold_percent=70.0,
             check_interval=2.0,
-            max_session_permit=10,
+            max_session_permit=5,
         )
 rate_limiter = RateLimiter(
     base_delay=(30, 60),
