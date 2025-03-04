@@ -1,58 +1,32 @@
 [
     {
         "company_name": "Hüttenbrauck",
-        "keywords": [
-            "Aluminium",
-            "Stahl",
-            "Profil",
-            "Kaltgewalzt",
-            "Stranggepresst",
-            "Qualitätsvorgaben"
-        ],
+        "keywords": [],
+        "machines": [],
+        "error": false
+    },
+    {
+        "company_name": "Forst Technologie GmbH & Co. KG",
+        "keywords": [],
         "machines": [
-            "Kaltwalzmaschine",
-            "Strangpressmaschine"
+            "Drallräummaschinen",
+            "Tubusräummaschinen",
+            "Turbinenscheibenräummaschinen",
+            "Innenräummaschinen",
+            "Harträummaschinen",
+            "Außenräummaschinen"
         ],
         "error": false
     },
     {
-        "company_name": "Gülde GmbH & Co. KG",
-        "keywords": [
-            "Kaltwalzen",
-            "Bandstahl",
-            "Blankstahl",
-            "Flachdraht",
-            "Vollprofile",
-            "rostbeständige Stähle"
-        ],
+        "company_name": "Schröder Group",
+        "keywords": [],
         "machines": [],
         "error": false
     },
     {
         "company_name": "Schröder Group",
-        "keywords": [
-            "Blech",
-            "Schwenkbiegemaschine",
-            "Maschinenbau",
-            "Industrie",
-            "EuroBLECH"
-        ],
-        "machines": [
-            "Schwenkbiegemaschine"
-        ],
-        "error": false
-    },
-    {
-        "company_name": "SCHRÖDER Group",
-        "keywords": [
-            "Blechbearbeitungsmaschinen",
-            "Schwenkbiegen",
-            "Schneiden",
-            "Sicken",
-            "Bördeln",
-            "Runden",
-            "Automationssysteme"
-        ],
+        "keywords": [],
         "machines": [
             "MAK 4 Evolution UD",
             "EVO Center",
@@ -63,7 +37,6 @@
             "PowerBend Universal",
             "PowerBend Multi",
             "MAKU",
-            "EVO Heavy Duty",
             "PDC",
             "PDC NC"
         ],

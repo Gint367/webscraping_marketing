@@ -15,6 +15,8 @@ bundesanzeiger_local_data*/
 test_bundesanzeiger_local_data/
 test_folder*/
 crawled*/
-webcrawl*/
+domain_content*/
+llm_extracted_data*/
+test_crawled*/
 
 .gitignore

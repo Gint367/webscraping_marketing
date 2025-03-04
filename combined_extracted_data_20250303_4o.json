@@ -1,0 +1,222 @@
+{
+    "instruction": "\nFunktionen:\n- Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.\n- Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet.\n- Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.\n- Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (keine Maschinen, die als eigene Produkte verkauft werden).\n- Gibt Maschinen nur als allgemeine Maschinenkategorie aus, ohne genaue Modell- oder Markennamen. Beispiel: \"HIGH SPEED EAGLE V9\" wird als \"Fräsmaschinen\" ausgegeben, \"GANTRY EAGLE 1200\" als \"Erodiermaschinen\".\n- Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt (keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können, sondern nur die tatsächlich genutzten Verfahren).\n- Nutzt eine vordefinierte Liste typischer Produktionsprozesse aus verschiedenen Branchen (z. B. Metallbearbeitung, Holzbearbeitung, Kunststoffverarbeitung) zur besseren Identifikation und Zuordnung.\n- Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. \"Transport\", \"Logistik\"), werden nicht als relevante Keywords aufgenommen.\n\n- Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.\n- Falls bestimmte Informationen bereits durch Benutzereingaben bekannt sind, werden sie direkt in die Ausgabe übernommen.\n- Strikte Einhaltung der Datenwahrheit: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.\n\nEinschränkungen:\n- Greift nur auf öffentlich zugängliche Informationen zu.\n- Keine automatische Speicherung oder dauerhafte Speicherung der Daten.\n- Respektiert Datenschutzrichtlinien und Nutzungsbedingungen von Webseiten.\n\nInteraktionsstil:\n- Gibt klare Empfehlungen für die Personalisierung von Cold Emails.\n- Bietet strukturierte Ergebnisse mit potenziellen Ansatzpunkten für E-Mail-Texte.\n",
+    "parameters": {
+        "temperature": 0.1,
+        "max_tokens": 1000
+    },
+    "data": [
+        [
+            {
+                "company_name": "Terrot Textilmaschinen GmbH",
+                "products": [
+                    "Rundstrickmaschinen",
+                    "Double-Jersey",
+                    "Single-Jersey"
+                ],
+                "machines": [],
+                "process_type": [],
+                "lohnfertigung": false,
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Deharde GmbH",
+                "products": [
+                    "Product 1",
+                    "Product 2",
+                    "Product 3"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Erodiermaschinen"
+                ],
+                "process_type": [
+                    "Metallbearbeitung",
+                    "Kunststoffverarbeitung"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            },
+            {
+                "company_name": "Deharde GmbH",
+                "products": [
+                    "Aerospace components",
+                    "Precision Parts",
+                    "Windkanalmodelle"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Drehmaschinen",
+                    "Schweißmaschinen"
+                ],
+                "process_type": [
+                    "Zerspanung",
+                    "Montage",
+                    "Oberflächenschutz",
+                    "Qualitätssicherung"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Christian Maier GmbH & Co. KG",
+                "products": [
+                    "Drehdurchführungen",
+                    "Laserbeschichtung",
+                    "Predictive Maintenance"
+                ],
+                "machines": [],
+                "process_type": [
+                    "Laserbeschichtung",
+                    "Sensorik für Predictive Maintenance"
+                ],
+                "lohnfertigung": false,
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Scheuchl GmbH",
+                "products": [
+                    "Metallverarbeitung",
+                    "Blechbearbeitung",
+                    "Maschinenbau"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Erodiermaschinen",
+                    "Laserschneidmaschinen"
+                ],
+                "process_type": [
+                    "Schweißen",
+                    "Biegen",
+                    "Oberflächenbehandlung"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            },
+            {
+                "company_name": "Scheuchl",
+                "products": [
+                    "Gießereitechnik",
+                    "Verfahrenstechnik",
+                    "Wärmerückgewinnung"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Entgratmaschinen",
+                    "Kühlanlagen"
+                ],
+                "process_type": [
+                    "Giessen",
+                    "Entgraten",
+                    "Kühlen"
+                ],
+                "lohnfertigung": false,
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Pacoma",
+                "products": [
+                    "Hydraulic Cylinders",
+                    "Custom Hydraulic Solutions",
+                    "Cylinder Accessories"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Drehmaschinen",
+                    "Schweißmaschinen"
+                ],
+                "process_type": [
+                    "Metallbearbeitung",
+                    "Schweißen",
+                    "Montage"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            },
+            {
+                "index": 0,
+                "error": true,
+                "tags": [
+                    "error"
+                ],
+                "content": "litellm.APIError: APIError: OpenAIException - <html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body>\r\n<center><h1>502 Bad Gateway</h1></center>\r\n<hr><center>cloudflare</center>\r\n</body>\r\n</html>"
+            }
+        ],
+        [
+            {
+                "company_name": "Forst Technologie GmbH & Co. KG",
+                "products": [
+                    "Räumwerkzeuge",
+                    "Räummaschinen",
+                    "Lohnschärfen"
+                ],
+                "machines": [
+                    "Drehmaschinen",
+                    "Räummaschinen",
+                    "Entgratungsanlage",
+                    "Reinigungsanlage"
+                ],
+                "process_type": [
+                    "Drehen",
+                    "Räumen",
+                    "Entgraten",
+                    "Reinigen"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Huettenbrauck GmbH",
+                "products": [
+                    "Präzisionsdrehteile",
+                    "Baugruppenmontage",
+                    "Sonderanfertigungen"
+                ],
+                "machines": [
+                    "Drehmaschinen",
+                    "Fräsmaschinen",
+                    "Schleifmaschinen"
+                ],
+                "process_type": [
+                    "Drehen",
+                    "Fräsen",
+                    "Schleifen"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            },
+            {
+                "company_name": "Hüttenbrauck Profil GmbH",
+                "products": [
+                    "Aluminiumprofile",
+                    "Stahlprofile",
+                    "Weiterverarbeitung"
+                ],
+                "machines": [
+                    "Fräsmaschinen",
+                    "Sägen",
+                    "Stanzmaschinen",
+                    "Laserbearbeitungsmaschinen"
+                ],
+                "process_type": [
+                    "Strangpressen",
+                    "Kaltwalzen",
+                    "Oberflächenbehandlung",
+                    "CNC-Fräsbearbeitung",
+                    "Montage"
+                ],
+                "lohnfertigung": true,
+                "error": false
+            }
+        ]
+    ]
+}

@@ -1,0 +1,135 @@
+{
+    "instruction": "Extrahieren Sie aus dem Text die fünf prägnantesten und spezifischsten Schlüsselwörter im Zusammenhang mit Maschinentypen (auf Deutsch). Vermeiden Sie dabei Wiederholungen sowie generische oder unspezifische Begriffe wie \"Automatisierung\", \"Technologie\" oder \"Produktion\" und ähnliche allgemeine Begriffe.",
+    "data": [
+        [
+            {
+                "company_name": "Maucher KG",
+                "keywords": [
+                    "CNC-Maschinen",
+                    "Spritzguss",
+                    "Vakuumtiefziehen",
+                    "PUR-Rim Teile",
+                    "Kunststoffteile"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "FMF-WWF Werkzeug- und Prototypenbau GmbH",
+                "keywords": [
+                    "Fräszentren",
+                    "CNC-Bearbeitung",
+                    "Prototypenbau",
+                    "Vorrichtungen",
+                    "Strukturguss"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "PS Laser",
+                "keywords": [
+                    "CNC-Maschinen",
+                    "Laserausschnitt",
+                    "Kantprofile",
+                    "Schweißbaugruppen",
+                    "Rohrbearbeitung"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Modellbau Schönheide GmbH",
+                "keywords": [
+                    "Gießereiindustrie",
+                    "Qualitätswerkzeuge",
+                    "Vorrichtungen",
+                    "CAD Design",
+                    "Modell- und Formenbau"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Gesellschaft für OELTECHNIK mbH",
+                "keywords": [
+                    "Druckbehälter",
+                    "Wärmetauscher",
+                    "Kondensationsanlagen",
+                    "Oelanlagen",
+                    "Druckgaskühler"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "WOLF Verpackungsmaschinen GmbH",
+                "keywords": [
+                    "Füllmaschinen",
+                    "Verpackungsmaschinen",
+                    "Form-, Füll- und Verschließmaschinen",
+                    "Bag shapes",
+                    "Maschinenübersicht"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "SHB Leipzig Guss",
+                "keywords": [
+                    "Gussteile",
+                    "Stahl",
+                    "Hartguss",
+                    "Kohlebagger",
+                    "Großkranen"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Badische Drahtwerke GmbH",
+                "keywords": [
+                    "Bewehrungsprodukte",
+                    "Betonstahl",
+                    "Walzdraht",
+                    "Drahtverarbeitung",
+                    "Süddeutsche Drahtverarbeitungs-GmbH"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Scheppach",
+                "keywords": [
+                    "Schleifen",
+                    "Bohren",
+                    "Sägen",
+                    "Hobeln",
+                    "Fräsen"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "WILHELM KÖNIG MTM GmbH",
+                "keywords": [
+                    "Hydraulische Spannsysteme",
+                    "Mechanische Spannsysteme",
+                    "Schnellwechselsysteme",
+                    "Segmentspannsystem",
+                    "Gewindespannsystem"
+                ],
+                "error": false
+            }
+        ]
+    ]
+}

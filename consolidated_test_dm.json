@@ -1,0 +1,435 @@
+[
+    {
+        "company_name": "Dunkel GmbH",
+        "products": [
+            "Fertigung von Vorrichtungen",
+            "Maschinen für die Pipeline-Montage",
+            "Sondermaschinenbau"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Spritzgussmaschinen"
+        ],
+        "process_type": [
+            "Kunststoffverarbeitung",
+            "Metallbearbeitung"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Lach Diamant GmbH",
+        "products": [
+            "CBN-Werkzeuge",
+            "Diamantwerkzeuge",
+            "Spezialwerkzeuge"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitung",
+            "Werkzeugherstellung"
+        ],
+        "lohnfertigung": false,
+        "error": true
+    },
+    {
+        "company_name": "Stahlkontor GmbH & Co. KG",
+        "products": [
+            "Bau- und Konstruktionsmaterialien",
+            "Baugruppen",
+            "Komponenten",
+            "Metallverarbeitung",
+            "Stahlprodukte",
+            "Teile"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "Biegepressen",
+            "Fräsmaschinen",
+            "Laseranlagen",
+            "Schweißmaschinen",
+            "Wasserstrahlschneidanlagen"
+        ],
+        "process_type": [
+            "Biegen",
+            "Kaltverformung",
+            "Laserstrahlschneiden",
+            "Metallbearbeitung",
+            "Schweißen",
+            "Spanende Bearbeitung",
+            "Wasserstrahlschneiden"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Klaus Baier GmbH & Co. KG",
+        "products": [
+            "Automatisierungslösungen",
+            "Montagesysteme",
+            "Sondermaschinen",
+            "Spezialbehandlungen",
+            "Stanzteileproduktion",
+            "Werkzeugbau"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schweißmaschinen",
+            "Stanzautomaten"
+        ],
+        "process_type": [
+            "Automatisierung",
+            "Biegen",
+            "Fräsen",
+            "Metallbearbeitung",
+            "Montage",
+            "Stanzen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "IDEAL Werk C. + E. Jungeblodt GmbH + Co. KG",
+        "products": [
+            "Blechprodukte",
+            "Drahtprodukte",
+            "Hardwarelösungen",
+            "Schweißmaschinen",
+            "Serviceleistungen",
+            "Softwarelösungen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Koordinatenschweißmaschinen",
+            "Lichtbogen-Bandschweißmaschinen",
+            "Widerstandsschweißmaschinen"
+        ],
+        "process_type": [
+            "Kunststoffverarbeitung",
+            "Laserschweißen",
+            "Metallbearbeitung",
+            "Montageprozesse",
+            "Stumpfschweißen",
+            "Widerstandsschweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Autosplice, Inc.",
+        "products": [
+            "Automatisierungslösungen",
+            "Connectors",
+            "Injection Molding",
+            "Kabelbaumlösungen",
+            "Press-fit Pins",
+            "Verbindungselemente"
+        ],
+        "machines": [
+            "Automatisierte Montageanlagen",
+            "Bestückungsmaschinen",
+            "Montagemaschinen",
+            "Präzisionsstanzmaschinen",
+            "Spritzgussmaschinen",
+            "Testsysteme"
+        ],
+        "process_type": [
+            "Automatisierte Montage",
+            "Kabelverarbeitung",
+            "Montage",
+            "Präzisionsstanzung",
+            "Spritzguss"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "TKR GROUP",
+        "products": [
+            "Diagnosekabel",
+            "Prüfkabel",
+            "Sonderwerkzeuge"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Montagemaschinen"
+        ],
+        "process_type": [
+            "Kunststoffverarbeitung",
+            "Mechanische Fertigung",
+            "Metallbearbeitung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ASTOR Schneidwerkzeuge GmbH",
+        "products": [
+            "Abschneidemesser",
+            "Aufschnittmesser",
+            "Fräswerkzeuge",
+            "Gattermesser",
+            "Schneidwerkzeuge",
+            "Sägeblätter"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Handmesserschärfer",
+            "Kreismaschinen",
+            "Schleifmaschinen",
+            "Schneidemaschinen",
+            "Sägemaschinen"
+        ],
+        "process_type": [
+            "Beschichtungen",
+            "Metallbearbeitung",
+            "Oberflächenbehandlung",
+            "Schneiden",
+            "Verzahnungen",
+            "Wärmebehandlung"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Bayerische Maßindustrie - A. Keller GmbH",
+        "products": [
+            "Bau- und Montagesysteme",
+            "LASER-Messzeuge",
+            "Messzeuge",
+            "Sicherheitslösungen",
+            "Wasserwaagen",
+            "Überwachungstechnologien"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Schweißmaschinen",
+            "Spritzgießmaschinen"
+        ],
+        "process_type": [
+            "Holzbearbeitung",
+            "Kunststoffverarbeitung",
+            "Metallbearbeitung",
+            "Montage"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Leifeld Metal Spinning GmbH",
+        "products": [
+            "Fließpressmaschinen",
+            "Shearforming-Maschinen",
+            "Spinningmaschinen"
+        ],
+        "machines": [
+            "Fließpressmaschinen",
+            "Shearforming-Maschinen",
+            "Spinningmaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "FMB Maschinenbaugesellschaft mbH & Co. KG",
+        "products": [
+            "Automatisierungslösungen",
+            "Handlingsysteme",
+            "Lademagazine"
+        ],
+        "machines": [
+            "Drehautomaten"
+        ],
+        "process_type": [
+            "Metallbearbeitung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hans Schröder Maschinenbau GmbH",
+        "products": [
+            "Blechbearbeitungsmaschinen",
+            "Faltmaschinen",
+            "Schneidemaschinen",
+            "Schwenkbiegemaschinen",
+            "Tafelscheren"
+        ],
+        "machines": [
+            "Biegezentren",
+            "Blechschneider",
+            "Faltmaschinen",
+            "Laseranlagen",
+            "Schwenkbiegemaschinen",
+            "Tafelscheren"
+        ],
+        "process_type": [
+            "Biegen",
+            "Blechbearbeitung",
+            "Metallbearbeitung",
+            "Schneiden",
+            "Sicken"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Forst Technologie GmbH & Co. KG",
+        "products": [
+            "Lohnschärfen",
+            "Räummaschinen",
+            "Räumwerkzeuge"
+        ],
+        "machines": [
+            "CNC-Schärfmaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitung"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Dietze & Schell Maschinenfabrik GmbH & Co. KG",
+        "products": [
+            "Garnveredelungsmaschinen",
+            "Kunststoffverpackungen",
+            "Präzisionswickler",
+            "Sonderanfertigungen",
+            "Verpackungsbandwickler",
+            "Verpackungslösungen"
+        ],
+        "machines": [
+            "Blasformmaschinen",
+            "Schneidanlagen",
+            "Spritzgießmaschinen",
+            "Spulmaschinen",
+            "Texturiermaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "process_type": [
+            "Blasformen",
+            "Schneiden",
+            "Spritzguss",
+            "Texturieren",
+            "Verpacken",
+            "Wickeln"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Howden",
+        "products": [
+            "Blower",
+            "Luftkompressoren",
+            "Wärmetauscher"
+        ],
+        "machines": [
+            "Blower",
+            "Kompressoren",
+            "Wärmetauscher"
+        ],
+        "process_type": [
+            "Fertigung",
+            "Montage",
+            "Wartung"
+        ],
+        "lohnfertigung": false,
+        "error": true
+    },
+    {
+        "company_name": "Sandvik AB",
+        "products": [
+            "Bergbauausrüstung",
+            "Digitale Lösungen",
+            "Ersatzteile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "OPS-INGERSOLL Funkenerosion GmbH",
+        "products": [
+            "Automationssysteme",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Maschinen",
+            "Werkzeuge",
+            "Zubehör"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Funkenerosion",
+            "Hochgeschwindigkeitsfräsen",
+            "Metallbearbeitung",
+            "Oberflächenbehandlung"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Lissmac Maschinenbau GmbH",
+        "products": [
+            "Anlagen für die Metallbearbeitung",
+            "Baumaschinen",
+            "Bürstmaschinen",
+            "Entgratmaschinen",
+            "Handhabungssysteme",
+            "Schleifmaschinen"
+        ],
+        "machines": [
+            "Bürstmaschinen",
+            "Entgratmaschinen",
+            "Schleifmaschinen",
+            "Trennmaschinen"
+        ],
+        "process_type": [
+            "Blechbearbeitung",
+            "Kantenverrundung",
+            "Metallbearbeitung",
+            "Oberflächenschliff"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kemptener Eisengießerei Adam Hönig AG",
+        "products": [
+            "Gusseisen mit Kugelgraphit",
+            "Gusseisen mit Lamellengraphit",
+            "Gussprodukte"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Gießmaschinen"
+        ],
+        "process_type": [
+            "Drehen",
+            "Fräsen",
+            "Gießen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    }
+]

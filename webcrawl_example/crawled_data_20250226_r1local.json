@@ -1,0 +1,77 @@
+[
+    [
+        {
+            "company_name": "SD Automotive",
+            "keywords": [
+                "Konstruktion",
+                "Produktion",
+                "Qualit\u00e4tssicherung"
+            ],
+            "error": false
+        }
+    ],
+    [
+        {
+            "company_name": "OTEC",
+            "keywords": []
+        },
+        {
+            "company_name": "OTEC Pr\u00e4zisionsfinish GmbH",
+            "keywords": [
+                "Gleitschleifseminare",
+                "Pr\u00e4zisionsfinish",
+                "Sicherheitsdatenbl\u00e4tter"
+            ],
+            "error": false
+        }
+    ],
+    [
+        {
+            "company_name": "M\u00fcller Modell- und Formenbau GmbH & Co. KG",
+            "keywords": [
+                "Maschinen",
+                "Formenbau",
+                "Modell"
+            ]
+        }
+    ],
+    [
+        {
+            "company_name": "Scheppach",
+            "keywords": [
+                "MaschinenTypen",
+                "Produkte",
+                "Service"
+            ],
+            "error": false
+        }
+    ],
+    [
+        {
+            "company_name": "KSTools",
+            "keywords": [
+                "Produkte",
+                "Branchen",
+                "Service"
+            ],
+            "error": false
+        },
+        {
+            "company_name": "KSTools",
+            "keywords": [
+                "Maschinen",
+                "Werkzeuge",
+                "Ger\u00e4te"
+            ],
+            "error": false
+        },
+        {
+            "company_name": "KS TOOLS",
+            "keywords": [
+                "Mitarbeiter",
+                "Fachkompetenz",
+                "Werkzeug"
+            ]
+        }
+    ]
+]

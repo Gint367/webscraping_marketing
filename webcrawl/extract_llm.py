@@ -38,14 +38,14 @@ Funktionen:
 - Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt (keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können, sondern nur die tatsächlich genutzten Verfahren).
 - Nutzt eine vordefinierte Liste typischer Produktionsprozesse aus verschiedenen Branchen (z. B. Metallbearbeitung, Holzbearbeitung, Kunststoffverarbeitung) zur besseren Identifikation und Zuordnung.
 - Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. "Transport", "Logistik"), werden nicht als relevante Keywords aufgenommen.
-- Bietet Ihr Unternehmen Lohnfertigung oder Auftragsfertigung für externe Kunden an?
+- Bietet das Unternehmen Lohnfertigung oder Auftragsfertigung für externe Kunden an?
 
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.
 - Strikte Einhaltung der Datenwahrheit: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.
 - strukturierte Ergebnisse mit potenziellen Ansatzpunkten für E-Mail-Texte.
 
 Einschränkungen:
-- Ergbnisse nur auf Deutsch.
+- Ergebnisse nur auf Deutsch.
 """
 
 def ensure_output_directory(directory="llm_extracted_data"):
@@ -65,108 +65,106 @@ rate_limiter = RateLimiter(
     max_retries=3,
     rate_limit_codes=[429, 503]
 )
-async def process_file(file_path, llm_strategy, output_dir):
-    """Process a single markdown file with LLM extraction"""
-    # Convert file path to URL with file:// protocol
-    file_url = f"file://{os.path.abspath(file_path)}"
+
+async def process_files(file_paths, llm_strategy, output_dir):
+    """
+    Process one or more files using a specified LLM extraction strategy and save the results.
+    Args:
+        file_paths (list of str): List of file paths to be processed.
+        llm_strategy (LLMStrategy): The language model strategy to use for extraction.
+        output_dir (str): Directory where the extracted data and combined results will be saved.
+    Returns:
+        list: A list of extracted content from each file.
+    The function performs the following steps:
+    1. Converts file paths to URLs with the file:// protocol.
+    2. Configures the web crawler with the specified LLM extraction strategy.
+    3. Uses the crawler to process the files asynchronously.
+    4. Saves the extracted content from each file to a JSON file in the output directory.
+    5. Combines all extracted data into a single JSON file with additional metadata and saves it in the output directory.
+    6. Prints the status of each file's extraction and the location of saved files.
+    If no data is successfully extracted, a message is printed indicating this.
+    """
+    """Process one or more files with LLM extraction using arun_many"""
+    # Convert file paths to URLs with file:// protocol
+    file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
+    
     config = CrawlerRunConfig(
         cache_mode=CacheMode.ENABLED,
         extraction_strategy=llm_strategy,
-        
     )
     
     async with AsyncWebCrawler() as crawler:
-        result = await crawler.arun(
-            url=file_url, 
+        results = await crawler.arun_many(
+            urls=file_urls,  
             config=config,
             dispatcher=dispatcher,
             rate_limiter=rate_limiter,
         )
         
-        if result.success and result.extracted_content:
-            # Create output filename based on input filename
-            basename = os.path.basename(file_path)
-            name_without_ext = os.path.splitext(basename)[0]
-            output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
-            
-            # Save extracted content
-            with open(output_file, "w", encoding="utf-8") as f:
-                if isinstance(result.extracted_content, str):
-                    f.write(result.extracted_content)
-                else:
-                    json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
-            
-            print(f"Extracted data saved to {output_file}")
-            llm_strategy.show_usage()
-            return result.extracted_content
-        else:
-            error_msg = getattr(result, 'error_message', 'Unknown error')
-            print(f"No content extracted from {file_path}: {error_msg}")
-            return None
-        
-async def process_directory(dir_path, llm_strategy, output_dir, file_extension=".md"):
-    """Process all markdown files in a directory with LLM extraction"""
-    # Get all markdown files in the directory
-    all_files = []
-    for root, _, files in os.walk(dir_path):
-        for file in files:
-            if file.endswith(file_extension):
-                all_files.append(os.path.join(root, file))
-    
-    if not all_files:
-        print(f"No {file_extension} files found in {dir_path}")
-        return
-    
-    # Process all files and collect results
-    print(f"Processing {len(all_files)} files...")
-    
-    results = []
-    for file_path in all_files[:10]:
-        print(f"Processing {file_path}...")
-        result = await process_file(file_path, llm_strategy, output_dir)
-        if result:
-            results.append(result)
-    
-    # Save combined results
-    if results:
-        # Show usage stats
-        llm_strategy.show_usage()
-        
-        # Get the current date
-        current_date = datetime.now().strftime("%Y%m%d")
-        
-        # Save all extracted data to a combined JSON file
-        combined_file = os.path.join(output_dir, f"combined_extracted_data_{current_date}.json")
-        
-        # Process the results to ensure they're in the correct format
-        processed_results = []
-        for result in results:
-            # If the result is a JSON string, parse it first
-            if isinstance(result, str):
-                try:
-                    parsed_result = json.loads(result)
-                    processed_results.append(parsed_result)
-                except json.JSONDecodeError:
-                    print(f"Warning: Could not parse JSON string: {result}")
+        extracted_data = []
+        for idx, result in enumerate(results):
+            file_path = file_paths[idx]
+            if result.success and result.extracted_content:
+                # Create output filename based on input filename
+                basename = os.path.basename(file_path)
+                name_without_ext = os.path.splitext(basename)[0]
+                output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
+                
+                # Save extracted content
+                with open(output_file, "w", encoding="utf-8") as f:
+                    if isinstance(result.extracted_content, str):
+                        f.write(result.extracted_content)
+                    else:
+                        json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
+                
+                print(f"Extracted data saved to {output_file}")
+                extracted_data.append(result.extracted_content)
             else:
-                processed_results.append(result)
+                error_msg = getattr(result, 'error_message', 'Unknown error')
+                print(f"No content extracted from {file_path}: {error_msg}")
         
-        # Include the prompt and parameters at the top of the JSON data
-        output_data = {
-            "instruction": prompt,
-            "parameters": {
-                "model": llm_strategy.provider,
-                "temperature": llm_strategy.extra_args.get("temperature", 0),
-                "max_tokens": llm_strategy.extra_args.get("max_tokens", 0)
-            },
-            "data": processed_results
-        }
+        # Show usage stats
+        #llm_strategy.show_usage()
         
-        with open(combined_file, "w", encoding="utf-8") as f:
-            json.dump(output_data, f, indent=4, ensure_ascii=False)
-        print(f"Combined data saved to {combined_file}")
-    else:
-        print("No data was successfully extracted")
+        # Save combined results if there's data
+        if extracted_data:
+            # Get the current date
+            current_date = datetime.now().strftime("%Y%m%d")
+            
+            # Save all extracted data to a combined JSON file
+            combined_file = os.path.join(output_dir, f"combined_extracted_data_{current_date}.json")
+            
+            # Process the results to ensure they're in the correct format
+            processed_results = []
+            for result in extracted_data:
+                # If the result is a JSON string, parse it first
+                if isinstance(result, str):
+                    try:
+                        parsed_result = json.loads(result)
+                        processed_results.append(parsed_result)
+                    except json.JSONDecodeError:
+                        print(f"Warning: Could not parse JSON string: {result}")
+                else:
+                    processed_results.append(result)
+            
+            # Include the prompt and parameters at the top of the JSON data
+            output_data = {
+                "instruction": prompt,
+                "parameters": {
+                    "model": llm_strategy.provider,
+                    "temperature": llm_strategy.extra_args.get("temperature", 0),
+                    "max_tokens": llm_strategy.extra_args.get("max_tokens", 0)
+                },
+                "data": processed_results
+            }
+            
+            with open(combined_file, "w", encoding="utf-8") as f:
+                json.dump(output_data, f, indent=4, ensure_ascii=False)
+            print(f"Combined data saved to {combined_file}")
+        else:
+            print("No data was successfully extracted")
+        
+        return extracted_data
 
 async def main():
     parser = argparse.ArgumentParser(description='Extract data from markdown files using LLM')
@@ -175,15 +173,17 @@ async def main():
                         default='llm_extracted_data')
     parser.add_argument('--ext', '-e', help='File extension to process (default: .md)',
                         default='.md')
+    parser.add_argument('--limit', '-l', type=int, help='Limit number of files to process (default: all)',
+                        default=None)
     
     args = parser.parse_args()
     
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
     
-    # Define LLM strategy once (shared between file and directory processing)
-    temperature = 0.5
-    max_tokens = 10000
+    # Define LLM strategy once
+    temperature = 0.7
+    max_tokens = 1000
     llm_strategy = LLMExtractionStrategy(
         provider="openai/gpt-4o-mini",
         api_token='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',
@@ -191,20 +191,41 @@ async def main():
         schema=Company.model_json_schema(),
         instruction=prompt,
         chunk_token_threshold=4096,
-        overlap_rate=0.0,
+        overlap_rate=0.1,
         input_format="markdown",
-        apply_chunking=False,
+        apply_chunking=True,
         extra_args={"temperature": temperature, "max_tokens": max_tokens},
         verbose=True,
     )
     
+    # Prepare list of files to process
+    files_to_process = []
+    
     # Check if input is a file or directory
     if os.path.isfile(args.input):
-        await process_file(args.input, llm_strategy, output_dir)
+        files_to_process = [args.input]
     elif os.path.isdir(args.input):
-        await process_directory(args.input, llm_strategy, output_dir, args.ext)
+        # Get all files with the specified extension in the directory
+        for root, _, files in os.walk(args.input):
+            for file in files:
+                if file.endswith(args.ext):
+                    files_to_process.append(os.path.join(root, file))
+                    
+        if not files_to_process:
+            print(f"No {args.ext} files found in {args.input}")
+            return
+            
+        # Apply limit if specified
+        if args.limit is not None and args.limit > 0:
+            files_to_process = files_to_process[:args.limit]
+            
+        print(f"Processing {len(files_to_process)} files...")
     else:
         print(f"Error: {args.input} is not a valid file or directory")
+        return
+    
+    # Process all files with a single function call
+    await process_files(files_to_process, llm_strategy, output_dir)
 
 if __name__ == "__main__":
     asyncio.run(main())

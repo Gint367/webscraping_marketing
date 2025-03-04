@@ -1,0 +1,165 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+
+[INFO] Processing: Spilker GmbH
+[INFO] Found the following reports for Spilker GmbH: 19
+
+[INFO] Processing: Dätwyler Sealing Solutions
+[INFO] Found the following reports for Dätwyler Sealing Solutions: 7
+
+[INFO] Processing: Paul Hafner GmbH Werkzeugbau
+[INFO] Found the following reports for Paul Hafner GmbH Werkzeugbau: 17
+
+[INFO] Processing: EWM AG
+[INFO] Found the following reports for EWM AG: 11
+
+[INFO] Processing: EWS Weigele GmbH & Co. KG
+[INFO] Found the following reports for EWS Weigele GmbH & Co. KG: 15
+
+[INFO] Processing: UBC Composites GmbH
+[INFO] Found the following reports for UBC Composites GmbH: 8
+
+[INFO] Processing: Krämer + Grebe GmbH & Co. KG Modellbau
+[INFO] Found the following reports for Krämer + Grebe GmbH & Co. KG Modellbau: 11
+
+[INFO] Processing: MHT Mold & Hotrunner Technology AG
+[INFO] Found the following reports for MHT Mold & Hotrunner Technology AG: 18
+
+[INFO] Processing: Siebenwurst Werkzeugbau GmbH
+[INFO] Found the following reports for Siebenwurst Werkzeugbau GmbH: 20
+
+[INFO] Processing: Starrag GmbH
+[INFO] Found the following reports for Starrag GmbH: 8
+
+[INFO] Processing: Lorch Schweißtechnik GmbH
+[INFO] Found the following reports for Lorch Schweißtechnik GmbH: 19
+
+[INFO] Processing: Seco Tools GmbH
+[INFO] Found the following reports for Seco Tools GmbH: 16
+
+[INFO] Processing: Preßwerkzeugbau Großdubrau GmbH
+[INFO] Found the following reports for Preßwerkzeugbau Großdubrau GmbH: 15
+
+[INFO] Processing: WKFS Werkzeug-Komponenten-Fertigung
+[INFO] Found the following reports for WKFS Werkzeug-Komponenten-Fertigung: 17
+
+[INFO] Processing: FKT Formenbau und Kunststofftechnik GmbH
+[INFO] Found the following reports for FKT Formenbau und Kunststofftechnik GmbH: 16
+
+[INFO] Processing: WAGNER Tooling Systems Baublies GmbH
+[INFO] Found the following reports for WAGNER Tooling Systems Baublies GmbH: 5
+
+[INFO] Processing: Wohlhaupter GmbH
+[INFO] Found the following reports for Wohlhaupter GmbH: 19
+
+[INFO] Processing: DESTACO Europe GmbH
+[INFO] No dictionary reports found for DESTACO Europe GmbH (data might be incomplete).
+
+[INFO] Processing: WOMA GmbH
+[INFO] Found the following reports for WOMA GmbH: 8
+
+[INFO] Processing: HYWEMA Josef Schwahlen GmbH & Co. KG
+[INFO] Found the following reports for HYWEMA Josef Schwahlen GmbH & Co. KG: 15
+
+[INFO] Processing: Eugen Drohmann GmbH easycut
+[INFO] Found the following reports for Eugen Drohmann GmbH easycut: 16
+
+[INFO] Processing: Werkzeugbau + Kunststoffverarbeitung
+[INFO] Found the following reports for Werkzeugbau + Kunststoffverarbeitung: 19
+
+[INFO] Processing: HILMA-RÖMHELD GmbH
+[INFO] Found the following reports for HILMA-RÖMHELD GmbH: 3
+
+[INFO] Processing: Modell Technik Formenbau GmbH
+[INFO] Found the following reports for Modell Technik Formenbau GmbH: 8
+
+[INFO] Processing: SCHAUFLER Tooling GmbH & Co. KG
+[INFO] Found the following reports for SCHAUFLER Tooling GmbH & Co. KG: 15
+
+[INFO] Processing: PFAFF Werkzeug- und Formenbau GmbH & Co. KG
+[ERROR] 'PFAFF Werkzeug- und Formenbau GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for PFAFF Werkzeug- und Formenbau GmbH & Co. KG.
+
+[INFO] Processing: Klaus Baier Werkzeugbau und Stanztechnik
+[INFO] Found the following reports for Klaus Baier Werkzeugbau und Stanztechnik: 15
+
+[INFO] Processing: PSM Protech GmbH & Co. KG
+[INFO] Found the following reports for PSM Protech GmbH & Co. KG: 6
+
+[INFO] Processing: Klaus Backes GmbH
+[INFO] Found the following reports for Klaus Backes GmbH: 20
+
+[INFO] Processing: HEINRICHS GmbH & Co. KG
+[INFO] Found the following reports for HEINRICHS GmbH & Co. KG: 12
+
+[INFO] Processing: SD Automotive GmbH
+[INFO] Found the following reports for SD Automotive GmbH: 14
+
+[INFO] Processing: Peiseler GmbH & Co. KG
+[ERROR] 'Peiseler GmbH & Co. KG' returned NoneType. Skipping to next company.
+[INFO] No valid (dict) reports to store for Peiseler GmbH & Co. KG.
+
+[INFO] Processing: Agathon GmbH & Co.KG
+[INFO] Found the following reports for Agathon GmbH & Co.KG: 18
+
+[INFO] Processing: Hack Formenbau GmbH
+[INFO] Found the following reports for Hack Formenbau GmbH: 15
+
+[INFO] Processing: Zeltwanger Maschinenbau GmbH
+[INFO] Found the following reports for Zeltwanger Maschinenbau GmbH: 11
+
+[INFO] Processing: Finke Formenbau GmbH
+[INFO] Found the following reports for Finke Formenbau GmbH: 16
+
+[INFO] Processing: S. Müller GmbH & Co. Werkzeugbau KG.
+[INFO] Found the following reports for S. Müller GmbH & Co. Werkzeugbau KG.: 9
+
+[INFO] Processing: Roth Werkzeugbau GmbH
+[INFO] Found the following reports for Roth Werkzeugbau GmbH: 20
+
+[INFO] Processing: Lahnwerk GmbH
+[INFO] Found the following reports for Lahnwerk GmbH: 18
+
+[INFO] Processing: Emil Arnold GmbH & Co.
+[INFO] Found the following reports for Emil Arnold GmbH & Co.: 15
+
+[INFO] Processing: Wissler & Rademacher GmbH & Co. KG
+[INFO] Found the following reports for Wissler & Rademacher GmbH & Co. KG: 16
+
+[INFO] Processing: Müller Modell- und Formenbau
+[INFO] Found the following reports for Müller Modell- und Formenbau: 20
+
+[INFO] Processing: Modellbau Schönheide GmbH
+[INFO] Found the following reports for Modellbau Schönheide GmbH: 20
+
+[INFO] Processing: M + W Maschinen- und Werkzeugbau GmbH
+[INFO] Found the following reports for M + W Maschinen- und Werkzeugbau GmbH: 20
+
+[INFO] Processing: Heckler Aktiengesellschaft
+[INFO] Found the following reports for Heckler Aktiengesellschaft: 8
+
+[INFO] Processing: FWE - Formen- und Werkzeugbau
+[INFO] Found the following reports for FWE - Formen- und Werkzeugbau: 15
+
+[INFO] Processing: FMF-WWF Werkzeug- und Prototypenbau GmbH
+[INFO] Found the following reports for FMF-WWF Werkzeug- und Prototypenbau GmbH: 6
+
+[INFO] Processing: H. Horst Hähl
+[INFO] Found the following reports for H. Horst Hähl: 15
+
+[INFO] Processing: GF Meco Eckel GmbH & Co. KG
+[INFO] No dictionary reports found for GF Meco Eckel GmbH & Co. KG (data might be incomplete).
+
+[INFO] Processing: Ehrlich Werkzeug- und Gerätebau GmbH
+[INFO] Found the following reports for Ehrlich Werkzeug- und Gerätebau GmbH: 19
+
+[INFO] Processing: Heck & Becker GmbH & Co. KG
+[INFO] Found the following reports for Heck & Becker GmbH & Co. KG: 17
+
+[INFO] Processing: Schäfer GmbH & Co. KG
+[INFO] Found the following reports for Schäfer GmbH & Co. KG: 20
+
+[INFO] Processing: Manfred Albrecht GmbH
+[INFO] Found the following reports for Manfred Albrecht GmbH: 20
+[DONE] Results written to: companies_werkzeugbau_output.csv
+Folders created under: bundesanzeiger_local_data

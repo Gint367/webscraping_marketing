@@ -1,64 +1,59 @@
 {
-    "instruction": "From the crawled content, extract the following details:\n1. Company Name\n2. Keywords related to machines\n3. Machines category used in manufacturing process\nNotes: Avoid generic terms or repetitions for the keywords.\nReturn the results in JSON format with the following structure:\n{  \"company_name\": \"<Company Name>\",  \"keywords\": [\"<Keyword 1>\", \"<Keyword 2>\", ...],  \"machines\": [\"<Machine 1>\", \"<Machine 2>\", ...]}",
+    "instruction": "From the crawled content, extract the following details:\n1. Company Name\n2. Products that the company offers(Products can either be a machines or parts produced by machines.)\n3. Machines that the company uses in their manufacturing process\n4. Type of Process that their machine uses in their manufacturing process(e.g Milling, Driling, Turning, Grinding, etc)\n5. Whether the company offers contract manufacturing services (yes or no)\nNotes: Only write if its specifically mentioned.\n",
+    "parameters": {
+        "temperature": 0.1,
+        "max_tokens": 800
+    },
     "data": [
         [
             {
                 "company_name": "Hüttenbrauck",
-                "keywords": [
-                    "Aluminium",
-                    "Stahl",
-                    "Profil",
-                    "Kaltgewalzt",
-                    "Stranggepresst",
-                    "Qualitätsvorgaben"
+                "products": [
+                    "Aluminiumprofile",
+                    "Stahlprofile"
                 ],
-                "machines": [
-                    "Kaltwalzmaschine",
-                    "Strangpressmaschine"
-                ],
+                "machines": [],
+                "process_type": [],
+                "lohnfertigung": false,
                 "error": false
             }
         ],
         [
             {
-                "company_name": "Gülde GmbH & Co. KG",
-                "keywords": [
-                    "Kaltwalzen",
-                    "Bandstahl",
-                    "Blankstahl",
-                    "Flachdraht",
-                    "Vollprofile",
-                    "rostbeständige Stähle"
+                "company_name": "Forst Technologie GmbH & Co. KG",
+                "products": [
+                    "Räumwerkzeuge",
+                    "Räummaschinen"
                 ],
-                "machines": [],
+                "machines": [
+                    "Drallräummaschinen",
+                    "Tubusräummaschinen",
+                    "Turbinenscheibenräummaschinen",
+                    "Innenräummaschinen",
+                    "Harträummaschinen",
+                    "Außenräummaschinen"
+                ],
+                "process_type": [],
+                "lohnfertigung": true,
                 "error": false
             }
         ],
         [
             {
                 "company_name": "Schröder Group",
-                "keywords": [
-                    "Blech",
-                    "Schwenkbiegemaschine",
-                    "Maschinenbau",
-                    "Industrie",
-                    "EuroBLECH"
-                ],
-                "machines": [
-                    "Schwenkbiegemaschine"
-                ],
+                "products": [],
+                "machines": [],
+                "process_type": [],
+                "lohnfertigung": false,
                 "error": false
             },
             {
                 "company_name": "SCHRÖDER Group",
-                "keywords": [
-                    "Blechbearbeitungsmaschinen",
-                    "Schwenkbiegen",
-                    "Schneiden",
-                    "Sicken",
-                    "Bördeln",
-                    "Runden",
-                    "Automationssysteme"
+                "products": [
+                    "Maschinen",
+                    "Steuerungssoftware",
+                    "Automationssysteme",
+                    "Ausstellungs- und Gebrauchtmaschinen"
                 ],
                 "machines": [
                     "MAK 4 Evolution UD",
@@ -70,10 +65,18 @@
                     "PowerBend Universal",
                     "PowerBend Multi",
                     "MAKU",
-                    "EVO Heavy Duty",
                     "PDC",
-                    "PDC NC"
+                    "PDC NC",
+                    "PowerShear"
                 ],
+                "process_type": [
+                    "Biegen",
+                    "Schneiden",
+                    "Sicken",
+                    "Bördeln",
+                    "Runden"
+                ],
+                "lohnfertigung": false,
                 "error": false
             }
         ]

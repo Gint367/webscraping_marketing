@@ -1,0 +1,210 @@
+[
+    {
+        "company_name": "Hüttenbrauck Profil GmbH",
+        "products": [
+            "Aluminiumprofile",
+            "Anlagenbau",
+            "Lohnfertigung",
+            "Maschinenbau",
+            "Produktentwicklung",
+            "Stahlprofile"
+        ],
+        "machines": [
+            "Bohren",
+            "CNC-Fräsbearbeitung",
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Laserbearbeitung",
+            "Schweißmaschinen",
+            "Stanzen"
+        ],
+        "process_type": [
+            "CNC-Bearbeitung",
+            "Mechanische Bearbeitung",
+            "Montage",
+            "Montage von Modulgruppen",
+            "Oberflächenbehandlung",
+            "Strangpressen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Terrot Textilmaschinen GmbH",
+        "products": [
+            "Double-Jersey Maschinen",
+            "Rundstrickmaschinen",
+            "Single-Jersey Maschinen"
+        ],
+        "machines": [
+            "Rundstrickmaschinen"
+        ],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Pacoma GmbH",
+        "products": [
+            "Automatisierungslösungen",
+            "Hydraulikzylinder",
+            "Hydraulische Zylinder",
+            "Kundenspezifische Zylinder",
+            "Prototypen",
+            "Sonderanfertigungen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Metallbearbeitungsmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Finite Element Method (FEM)",
+            "Friction Welding",
+            "Metallbearbeitung",
+            "Montage",
+            "Oberflächenbehandlung",
+            "Roller Burnishing",
+            "Skiving"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hans Schröder Maschinenbau GmbH",
+        "products": [
+            "Automatisierungslösungen",
+            "Blechbearbeitungsmaschinen",
+            "Industrielle Dienstleistungen",
+            "Schwenkbiegemaschinen",
+            "Sicken- und Bördelmaschinen",
+            "Tafelscheren"
+        ],
+        "machines": [
+            "Abkantpressen",
+            "Blechschneidemaschinen",
+            "Schweißmaschinen",
+            "Schwenkbiegemaschinen",
+            "Sicken- und Bördelmaschinen",
+            "Tafelscheren"
+        ],
+        "process_type": [
+            "Blechbearbeitung",
+            "Montage",
+            "Schweißen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Forst Technologie GmbH & Co. KG",
+        "products": [
+            "Dienstleistungen",
+            "Ersatzteile",
+            "Forstmaschinen",
+            "Räummaschinen",
+            "Räumwerkzeuge",
+            "Zubehör für Forstwirtschaft"
+        ],
+        "machines": [
+            "CNC-Schärfmaschinen",
+            "Entgratungsanlagen",
+            "Holzerntemaschinen",
+            "Räummaschinen",
+            "Seilwinden",
+            "Sägewerke"
+        ],
+        "process_type": [
+            "Holzverarbeitung",
+            "Härten",
+            "Lagerung",
+            "Metallbearbeitung",
+            "Montage",
+            "Schärfen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "R. Scheuchl GmbH",
+        "products": [
+            "Absauganlagen",
+            "Gießereitechnik",
+            "Luftfilteranlagen",
+            "Luftreinigungssysteme",
+            "Verfahrenstechnik",
+            "Wärmerückgewinnung"
+        ],
+        "machines": [
+            "Absauganlagen",
+            "Filteranlagen",
+            "Fräsmaschinen",
+            "Kühlanlagen",
+            "Luftreinigungssysteme",
+            "Roboter"
+        ],
+        "process_type": [
+            "Entgraten / Fräsen",
+            "Gießen",
+            "Kühlen",
+            "Montage",
+            "Reparatur",
+            "Wartung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Christian Maier GmbH & Co. KG",
+        "products": [
+            "Automatisierungslösungen",
+            "Drehdurchführungen",
+            "Laserbeschichtung",
+            "Sensorik",
+            "Sondermaschinen",
+            "Zerspanungswerkzeuge"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Montagemaschinen"
+        ],
+        "process_type": [
+            "CNC-Bearbeitung",
+            "Kunststoffverarbeitung",
+            "Metallbearbeitung",
+            "Montage",
+            "Oberflächenbehandlung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Deharde GmbH",
+        "products": [
+            "Aerospace",
+            "Anlagen",
+            "Automatisierungstechnik",
+            "Individuelle Maschinenlösungen",
+            "Precision Parts",
+            "Sondermaschinenbau"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitung",
+            "Montage",
+            "Oberflächenbearbeitung",
+            "Oberflächenbehandlung",
+            "Zerspanung"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    }
+]

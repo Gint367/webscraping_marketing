@@ -1,0 +1,179 @@
+{
+    "instruction": "Extrahieren Sie aus dem Text die fünf prägnantesten und spezifischsten Schlüsselwörter im Zusammenhang mit Maschinentypen (auf Deutsch). Vermeiden Sie dabei Wiederholungen sowie generische oder unspezifische Begriffe wie \"Automatisierung\", \"Technologie\" oder \"Produktion\" und ähnliche allgemeine Begriffe.",
+    "data": [
+        [
+            {
+                "company_name": "Ring Maschinenbau GmbH",
+                "keywords": [
+                    "Perforiermaschinen",
+                    "Werkzeuge",
+                    "Vertragsperforation",
+                    "Maschinenbau",
+                    "Wartungsservice"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Finke Formenbau GmbH",
+                "keywords": [
+                    "Spritzgießen",
+                    "Druckgussformen",
+                    "Stanzwerkzeuge",
+                    "Umformtechnik",
+                    "Vorrichtungsbau"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Laetus",
+                "keywords": [
+                    "Pharma Serialization",
+                    "Lebensmittelverfolgbarkeit",
+                    "Kosmetikverfolgbarkeit",
+                    "Beverage Traceability",
+                    "Lubricants Track & Trace"
+                ],
+                "error": false
+            },
+            {
+                "company_name": "Laetus",
+                "keywords": [
+                    "Track and Trace Maschinen",
+                    "Vision Inspection Geräte",
+                    "Serialization",
+                    "Aggregation",
+                    "Blister Inspektion"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "AWM GmbH",
+                "keywords": [
+                    "Spritzgießwerkzeuge",
+                    "Sondermaschinen",
+                    "Werkzeugbau",
+                    "Automatisierungslösungen",
+                    "Medizintechnik"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Werner Bauser GmbH",
+                "keywords": [
+                    "Spritzgussmaschinen",
+                    "Zahnräder",
+                    "Zahnradkomponenten",
+                    "Getriebeanwendungen",
+                    "Werkzeugbau"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "HERBERT Maschinen- und Anlagenbau GmbH & Co. KG",
+                "keywords": [
+                    "Reifenheizpressen",
+                    "Reifenformen",
+                    "Reifenform-Container",
+                    "Reifenbautrommeln",
+                    "Heizbalgpressen"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "Hüttenbrauck",
+                "keywords": [
+                    "Stahlprofile",
+                    "Aluprofile",
+                    "Fenster- und Türenhersteller",
+                    "Möbelindustrie",
+                    "Fahrzeugbau"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "agathon GmbH",
+                "keywords": [
+                    "Moulds",
+                    "Folding Frames",
+                    "Spinner Moulds",
+                    "Silicone Moulds",
+                    "Carrierless Moulds"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "ARKU Maschinenbau GmbH",
+                "keywords": [
+                    "Entgratmaschinen",
+                    "Rollennivellierer",
+                    "Coilanlagen",
+                    "Laserentgratungsmaschinen",
+                    "Kantenverrundungsmaschinen"
+                ],
+                "error": false
+            }
+        ],
+        [
+            {
+                "company_name": "wolfcraft",
+                "keywords": [
+                    "Werkzeug",
+                    "Befestigungstechnik",
+                    "Holzbearbeitung",
+                    "Bauzubehör",
+                    "Montagesysteme"
+                ],
+                "error": false
+            },
+            {
+                "company_name": "wolfcraft",
+                "keywords": [
+                    "Handwagen",
+                    "Klemmzange",
+                    "Federzange",
+                    "Bohrset",
+                    "Werkbank"
+                ],
+                "error": false
+            },
+            {
+                "company_name": "wolfcraft",
+                "keywords": [
+                    "Maschinenzubehör",
+                    "Bohrer",
+                    "Stichsägeblätter",
+                    "Fräser",
+                    "Bohrkronen"
+                ],
+                "error": false
+            },
+            {
+                "company_name": "Wolfcraft",
+                "keywords": [
+                    "Werkzeuge",
+                    "Bau",
+                    "Montage",
+                    "Zubehör",
+                    "Handwerk"
+                ],
+                "error": false
+            }
+        ]
+    ]
+}
