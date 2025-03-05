@@ -8,6 +8,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from deutschland.bundesanzeiger import Bundesanzeiger
 import sys
+import random
 
 def sanitize_filename(name: str) -> str:
     """Sanitizes strings (company names, report names) by replacing spaces, ampersands, German Umlauts, etc."""
@@ -195,38 +196,148 @@ def store_files_locally(base_dir: str, company: str, report_name: str, raw_html:
 
     return folder_path
 
-def get_reports_with_retry(company: str) -> dict:
+def get_reports_with_retry(company: str, max_retries: int = 5, 
+                          max_delay_seconds: int = 300, 
+                          backoff_factor: float = 2.0) -> dict:
     """
-    Repeatedly tries to fetch 'data = ba.get_reports(company)' with a 10-second
-    delay before each attempt. If an exception or invalid data is returned,
-    it retries indefinitely.
+    Fetches reports with exponential backoff retry mechanism.
+    
+    Args:
+        company: Company name to search for
+        max_retries: Maximum number of retries before giving up (default: 5)
+        max_delay_seconds: Maximum delay in seconds between retries (default: 300, or 5 minutes)
+        backoff_factor: Exponential factor for backoff calculation (default: 2.0)
+        
+    Returns:
+        Dictionary with report data if successful, empty dict otherwise
     """
+    attempt = 0
     
     while True:
+        attempt += 1
         ba = Bundesanzeiger()
-        time.sleep(10)
+        
+        # Calculate delay based on attempt number with exponential backoff
+        if attempt > 1:
+            # Calculate base delay with exponential backoff: factor^(attempt-1)
+            delay = min(max_delay_seconds, 10 * (backoff_factor ** (attempt - 2)))
+            
+            # Add a small random jitter (±15%) to avoid thundering herd problem
+            jitter = random.uniform(0.85, 1.15)
+            actual_delay = delay * jitter
+            
+            print(f"[RETRY] Attempt {attempt}/{max_retries} for {company}. " 
+                  f"Waiting {actual_delay:.2f} seconds...")
+            time.sleep(actual_delay)
+        
         try:
             data = ba.get_reports(company)
             if not data:
-                print(f"[WARN] No or empty data for {company}, retrying...")
-            else:
-                return data
+                print(f"[WARN] No or empty data for {company}")
+                if attempt >= max_retries:
+                    print(f"[ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up.")
+                    return {}
+                print(f"[INFO] Will retry ({attempt}/{max_retries})...")
+                continue
+            
+            return data
+            
         except AttributeError as e:
             # Specific case for 'NoneType' errors (move to next company)
             if "'NoneType' object has no attribute" in str(e):
                 print(f"[ERROR] '{company}' returned NoneType. Skipping to next company.")
                 return {}  # Return an empty dict to indicate failure but move on
 
-            # Otherwise, retry
+            # Otherwise, retry if we haven't exceeded max_retries
             print(f"[ERROR] AttributeError while fetching data for {company}: {e}")
-            print("[INFO] Retrying...")
+            if attempt >= max_retries:
+                print(f"[ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up.")
+                return {}
+            print(f"[INFO] Will retry ({attempt}/{max_retries})...")
+            
+        except Exception as e:
+            # Handle any other exceptions
+            print(f"[ERROR] Exception while fetching data for {company}: {e}")
+            if attempt >= max_retries:
+                print(f"[ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up.")
+                return {}
+            print(f"[INFO] Will retry ({attempt}/{max_retries})...")
 
-def process_company(company: str, base_dir: str) -> dict:
+def company_folder_exists(base_dir: str, company: str) -> bool:
+    """
+    Checks if a folder for the company exists and is not empty.
+    Returns True if the folder exists and has content, False otherwise.
+    """
+    safe_company = sanitize_filename(company)
+    company_folder = os.path.join(base_dir, safe_company)
+    
+    if not os.path.exists(company_folder):
+        return False
+    
+    # Check if the folder is not empty
+    if os.path.isdir(company_folder):
+        # Check if there's at least one directory (indicating a report folder)
+        for _, dirs, files in os.walk(company_folder):
+            if dirs or files:  # If there are any subdirectories or files
+                return True
+            break  # Only check the top level
+    
+    return False
+
+def find_latest_jahresabschluss_locally(base_dir: str, company: str) -> tuple:
+    """
+    Searches for the latest Jahresabschluss HTML file in the company's local folder.
+    Returns (html_content, folder_path) if found, otherwise (None, None).
+    """
+    safe_company = sanitize_filename(company)
+    company_folder = os.path.join(base_dir, safe_company)
+    
+    if not os.path.exists(company_folder) or not os.path.isdir(company_folder):
+        return None, None
+    
+    # Find all report folders
+    report_folders = []
+    for item in os.listdir(company_folder):
+        item_path = os.path.join(company_folder, item)
+        if os.path.isdir(item_path) and "jahresabschluss" in item.lower():
+            report_folders.append(item_path)
+    
+    if not report_folders:
+        return None, None
+    
+    # Sort by folder name as a proxy for sorting by date (most recent last)
+    report_folders.sort()
+    latest_folder = report_folders[-1]
+    
+    # Find HTML file in the latest folder
+    html_file = None
+    for file in os.listdir(latest_folder):
+        if file.endswith(".html") and "raw_report" in file:
+            html_file = os.path.join(latest_folder, file)
+            break
+    
+    if not html_file or not os.path.exists(html_file):
+        return None, None
+    
+    # Read HTML content
+    try:
+        with open(html_file, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        return html_content, latest_folder
+    except Exception as e:
+        print(f"[ERROR] Failed to read HTML file {html_file}: {e}")
+        return None, None
+
+def process_company(company: str, base_dir: str, max_retries: int = 5, 
+                   max_delay_seconds: int = 300, backoff_factor: float = 2.0) -> dict:
     """
     Fetches ALL reports for a given company (retrying if needed),
     sorts them by date (converted to datetime), stores them locally,
     and extracts data from the LATEST Jahresabschluss.
     Prints the names of all found reports, even if none are used.
+    
+    If the company folder already exists, will extract data from local files
+    without making API calls.
     """
     # Default result for CSV columns
     result_latest = {
@@ -239,8 +350,31 @@ def process_company(company: str, base_dir: str) -> dict:
         "Note": ""
     }
 
-    # 1) Get all data with retry
-    data = get_reports_with_retry(company)
+    # Check if company folder already exists and is not empty
+    if company_folder_exists(base_dir, company):
+        print(f"[INFO] {company} folder exists - using local data for extraction.")
+        result_latest["Note"] = "Folder exists | Used local data |"
+        
+        # Try to find and extract data from local HTML file
+        html_content, folder_path = find_latest_jahresabschluss_locally(base_dir, company)
+        if html_content:
+            print(f"[INFO] Found local HTML for {company}, extracting data...")
+            parsed = extract_financial_data_from_html(html_content, debug=False)
+            result_latest["Technische Anlagen Start"] = parsed["Technische Anlagen Start"]
+            result_latest["Technische Anlagen End"] = parsed["Technische Anlagen End"]
+            result_latest["Sachanlagen Start"] = parsed["Sachanlagen Start"]
+            result_latest["Sachanlagen End"] = parsed["Sachanlagen End"]
+            result_latest["Start Date"] = parsed["Start Date"]
+            result_latest["End Date"] = parsed["End Date"]
+            result_latest["Note"] = folder_path  # local folder path
+        else:
+            print(f"[WARN] No suitable HTML found locally for {company}")
+            result_latest["Note"] = "Local data exists but no suitable HTML found"
+            
+        return result_latest
+
+    # 1) Get all data with retry and exponential backoff
+    data = get_reports_with_retry(company, max_retries, max_delay_seconds, backoff_factor)
     # data is typically a dict with some keys -> each is a report
 
     # 2) Print names of all found reports
@@ -307,16 +441,17 @@ def process_company(company: str, base_dir: str) -> dict:
     return result_latest
 
 
-def main(input_csv: str):
+def main(input_csv: str, max_retries: int = 5, max_delay_seconds: int = 300, backoff_factor: float = 2.0):
     """
     Reads companies from 'companies.csv', processes each, and writes extracted
     data to 'companies_output.csv'.  
     This version:
+      - skips companies that already have a folder with content,
       - sorts by datetime, 
       - prints all report names,
       - extracts from HTML rather than .txt,
-      - retries on fetch errors,
-      - waits 10s before each fetch attempt.
+      - retries on fetch errors with exponential backoff,
+      - configurable retry parameters.
     """
     if not os.path.exists(input_csv):
         print(f"[ERROR] Input file '{input_csv}' not found.")
@@ -344,19 +479,35 @@ def main(input_csv: str):
         empty_df = pd.DataFrame(columns=output_columns)
         empty_df.to_csv(output_csv, index=False)
 
-    # 2) Read the input CSV with company names
-    df_input = pd.read_csv(input_csv)
+    # 2) Read the input CSV with company names, with more robust parsing options
+    try:
+        df_input = pd.read_csv(input_csv)
+    except pd.errors.ParserError as e:
+        print(f"[WARN] Error parsing CSV with default settings: {e}")
+        print("[INFO] Trying with different parsing settings...")
+        try:
+            # Try reading with quoting and different engine
+            df_input = pd.read_csv(input_csv, quoting=pd.io.common.csv.QUOTE_NONE, 
+                                   engine='python', error_bad_lines=False, warn_bad_lines=True)
+        except Exception:
+            # If that fails, try reading with a single column
+            print("[INFO] Trying with single column reading...")
+            df_input = pd.read_csv(input_csv, header=0, names=["company name"])
+
+    # Make sure we have the expected column
+    if "company name" not in df_input.columns:
+        print("[ERROR] Could not find 'company name' column in the input file")
+        sys.exit(1)
 
     # 3) For each company, process and append a single row to the output file
     for _, row in df_input.iterrows():
         company_name = str(row["company name"]).strip()
         print(f"\n[INFO] Processing: {company_name}")
 
-        # Call your existing function to get extracted data
-        extracted = process_company(company_name, base_dir)  # must be defined elsewhere
+        # Call your existing function to get extracted data with retry parameters
+        extracted = process_company(company_name, base_dir, max_retries, max_delay_seconds, backoff_factor)
 
         # Build a dict for the new row
-        # (Note: "company name" column wasn't in your original 'needed_cols', but we add it for clarity.)
         new_row = {
             "company name": company_name,
             "Technische Anlagen Start": extracted["Technische Anlagen Start"],
@@ -379,8 +530,15 @@ def main(input_csv: str):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("[ERROR] Usage: python app.py <input_csv>")
+        print("[ERROR] Usage: python app.py <input_csv> [max_retries] [max_delay_seconds] [backoff_factor]")
         sys.exit(1)
 
     input_csv = sys.argv[1]
-    main(input_csv)
+    
+    # Parse optional command line arguments for retry parameters
+    max_retries = int(sys.argv[2]) if len(sys.argv) > 2 else 5
+    max_delay_seconds = int(sys.argv[3]) if len(sys.argv) > 3 else 300  # 5 minutes default
+    backoff_factor = float(sys.argv[4]) if len(sys.argv) > 4 else 2.0
+    
+    print(f"[CONFIG] Using max_retries={max_retries}, max_delay={max_delay_seconds}s, backoff_factor={backoff_factor}")
+    main(input_csv, max_retries, max_delay_seconds, backoff_factor)
