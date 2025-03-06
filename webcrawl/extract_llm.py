@@ -29,17 +29,17 @@ class Company(BaseModel):
     "Notes: Only write if it's specifically mentioned.\n"
 ) """
 prompt = """
-Funktionen:
-- Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
-- Namen des Unternehmens(in Company Name: ,legale Bezeichnung, schön Formattiert)
-- URL des Unternehmens(in Main URL: )
+Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifizierung von Fertigungsmaschinen, die von vielen Unternehmen eingesetzt werden. Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
+Folgende Informationen sind erforderlich:
+- Namen des Unternehmens(in 'Company Name: ',legale Bezeichnung, schön Formattiert)
+- URL des Unternehmens(in 'Main URL: ')
 - Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet(Schreiben im Pluralform).
 - Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.
 - Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (keine Maschinen, die als eigene Produkte verkauft werden)(Schreiben im Pluralform).
 - Gibt Maschinen nur als allgemeine Maschinenkategorie aus, ohne genaue Modell- oder Markennamen. Beispiel: "HIGH SPEED EAGLE V9" wird als "Fräsmaschinen" ausgegeben, "GANTRY EAGLE 1200" als "Erodiermaschinen".
 - Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt (keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können, sondern nur die tatsächlich genutzten Verfahren).
 - Nutzt eine vordefinierte Liste typischer Produktionsprozesse aus verschiedenen Branchen (z. B. Metallbearbeitung, Holzbearbeitung, Kunststoffverarbeitung) zur besseren Identifikation und Zuordnung.
-- Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. "Transport", "Logistik"), werden nicht als relevante Keywords aufgenommen.
+- Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. "Transport", "Logistik"), werden nicht als relevante Keywords aufgenommen(Schreiben im Pluralform).
 - Bietet das Unternehmen Lohnfertigung oder Auftragsfertigung für externe Kunden an?
 
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.

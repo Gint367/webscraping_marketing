@@ -1,0 +1,3590 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+2025-03-05 17:10:18 [CONFIG] Using base_dir='bundesanzeiger_local_maschinenbau', max_retries=5, max_delay=300s, backoff_factor=2.0
+
+2025-03-05 17:10:18 [INFO] Processing: Water & Wastewater Technic WWT GmbH
+2025-03-05 17:10:27 [INFO] Found the following reports for Water & Wastewater Technic WWT GmbH: 17
+
+2025-03-05 17:10:27 [INFO] Processing: Nikon Precision Europe GmbH
+2025-03-05 17:10:44 [INFO] Found the following reports for Nikon Precision Europe GmbH: 17
+
+2025-03-05 17:10:44 [INFO] Processing: TLT-Turbo GmbH
+2025-03-05 17:11:05 [INFO] Found the following reports for TLT-Turbo GmbH: 2
+
+2025-03-05 17:11:05 [INFO] Processing: Manfred Merklinger
+2025-03-05 17:11:29 [INFO] Found the following reports for Manfred Merklinger: 17
+
+2025-03-05 17:11:29 [INFO] Processing: Vollenda-Werk GmbH
+2025-03-05 17:11:36 [INFO] Found the following reports for Vollenda-Werk GmbH: 16
+
+2025-03-05 17:11:37 [INFO] Processing: K. Schulten GmbH & Co. KG
+2025-03-05 17:11:45 [INFO] Found the following reports for K. Schulten GmbH & Co. KG: 16
+
+2025-03-05 17:11:45 [INFO] Processing: Hugo MIEBACH GmbH
+2025-03-05 17:11:55 [INFO] Found the following reports for Hugo MIEBACH GmbH: 20
+
+2025-03-05 17:11:56 [INFO] Processing: H.I.T. Maschinenbau GmbH + Co. KG
+2025-03-05 17:12:05 [INFO] Found the following reports for H.I.T. Maschinenbau GmbH + Co. KG: 16
+
+2025-03-05 17:12:06 [INFO] Processing: Maschinenbau Karp GmbH
+2025-03-05 17:12:11 [INFO] Found the following reports for Maschinenbau Karp GmbH: 10
+
+2025-03-05 17:12:11 [INFO] Processing: Profilator GmbH & Co. KG
+2025-03-05 17:12:26 [INFO] No dictionary reports found for Profilator GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:12:26 [INFO] Processing: Eugen Arnold GmbH.
+2025-03-05 17:12:53 [INFO] Found the following reports for Eugen Arnold GmbH.: 18
+
+2025-03-05 17:12:53 [INFO] Processing: Mahr Unipre GmbH
+2025-03-05 17:12:59 [INFO] Found the following reports for Mahr Unipre GmbH: 2
+
+2025-03-05 17:12:59 [INFO] Processing: AMOVA GmbH
+2025-03-05 17:13:13 [INFO] Found the following reports for AMOVA GmbH: 4
+
+2025-03-05 17:13:13 [INFO] Processing: UW Pensions GmbH
+2025-03-05 17:14:54 [INFO] Found the following reports for UW Pensions GmbH: 4
+
+2025-03-05 17:14:54 [INFO] Processing: DMT Drehmaschinen GmbH & Co. KG
+2025-03-05 17:15:01 [INFO] Found the following reports for DMT Drehmaschinen GmbH & Co. KG: 16
+
+2025-03-05 17:15:01 [INFO] Processing: Wetzel GmbH
+2025-03-05 17:15:12 [INFO] Found the following reports for Wetzel GmbH: 16
+
+2025-03-05 17:15:12 [INFO] Processing: CEROBEAR GmbH
+2025-03-05 17:15:20 [INFO] Found the following reports for CEROBEAR GmbH: 15
+
+2025-03-05 17:15:20 [INFO] Processing: HAAS Schleifmaschinen GmbH
+2025-03-05 17:15:33 [INFO] Found the following reports for HAAS Schleifmaschinen GmbH: 16
+
+2025-03-05 17:15:33 [INFO] Processing: Röltgen GmbH & Co. KG
+2025-03-05 17:15:41 [INFO] Found the following reports for Röltgen GmbH & Co. KG: 17
+
+2025-03-05 17:15:41 [INFO] Processing: ROTA Verpackungstechnik GmbH & Co. KG
+2025-03-05 17:15:49 [INFO] Found the following reports for ROTA Verpackungstechnik GmbH & Co. KG: 16
+
+2025-03-05 17:15:49 [INFO] Processing: AMS Arneburger
+2025-03-05 17:15:59 [INFO] Found the following reports for AMS Arneburger: 18
+
+2025-03-05 17:15:59 [INFO] Processing: Heckmann Maschinenbau
+2025-03-05 17:16:08 [INFO] Found the following reports for Heckmann Maschinenbau: 20
+
+2025-03-05 17:16:08 [INFO] Processing: WALTERWERK KIEL GmbH & Co. KG
+2025-03-05 17:16:16 [INFO] Found the following reports for WALTERWERK KIEL GmbH & Co. KG: 16
+
+2025-03-05 17:16:16 [INFO] Processing: Nürmont Installations GmbH & Co. KG
+2025-03-05 17:16:29 [INFO] No dictionary reports found for Nürmont Installations GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:16:29 [INFO] Processing: Centa-Antriebe Kirschey GmbH
+2025-03-05 17:16:39 [INFO] Found the following reports for Centa-Antriebe Kirschey GmbH: 12
+
+2025-03-05 17:16:39 [INFO] Processing: SCHROEDER + BAUER Werkzeugbau
+2025-03-05 17:18:06 [INFO] Found the following reports for SCHROEDER + BAUER Werkzeugbau: 6
+
+2025-03-05 17:18:06 [INFO] Processing: NOXON Automation GmbH + Co. KG
+2025-03-05 17:18:10 [INFO] Found the following reports for NOXON Automation GmbH + Co. KG: 6
+
+2025-03-05 17:18:10 [INFO] Processing: Baumann Maschinenbau
+2025-03-05 17:18:20 [INFO] Found the following reports for Baumann Maschinenbau: 18
+
+2025-03-05 17:18:20 [INFO] Processing: Holz-Her GmbH
+2025-03-05 17:18:29 [INFO] Found the following reports for Holz-Her GmbH: 18
+
+2025-03-05 17:18:29 [INFO] Processing: BAUSCH Germany GmbH
+2025-03-05 17:18:50 [INFO] Found the following reports for BAUSCH Germany GmbH: 7
+
+2025-03-05 17:18:50 [INFO] Processing: b + b Automations- und
+2025-03-05 17:19:02 [INFO] Found the following reports for b + b Automations- und: 14
+
+2025-03-05 17:19:02 [INFO] Processing: Gala Kunststoff- und Kautschukmaschinen
+2025-03-05 17:19:14 [INFO] Found the following reports for Gala Kunststoff- und Kautschukmaschinen: 11
+
+2025-03-05 17:19:14 [INFO] Processing: Krah Pipes GmbH & Co. KG
+2025-03-05 17:19:14 [ERROR] 'Krah Pipes GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 17:19:14 [INFO] No valid (dict) reports to store for Krah Pipes GmbH & Co. KG.
+
+2025-03-05 17:19:14 [INFO] Processing: LKS Maschinenbau GmbH
+2025-03-05 17:19:20 [INFO] Found the following reports for LKS Maschinenbau GmbH: 11
+
+2025-03-05 17:19:20 [INFO] Processing: Herzog GmbH
+2025-03-05 17:19:29 [INFO] Found the following reports for Herzog GmbH: 16
+
+2025-03-05 17:19:29 [INFO] Processing: Bremer Werk für Montagesysteme GmbH
+2025-03-05 17:19:37 [INFO] Found the following reports for Bremer Werk für Montagesysteme GmbH: 16
+
+2025-03-05 17:19:37 [INFO] Processing: HECHT Technologie GmbH
+2025-03-05 17:21:55 [INFO] Found the following reports for HECHT Technologie GmbH: 18
+
+2025-03-05 17:21:55 [INFO] Processing: Behringer GmbH
+2025-03-05 17:22:05 [INFO] Found the following reports for Behringer GmbH: 16
+
+2025-03-05 17:22:05 [INFO] Processing: Amandus Kahl GmbH & Co. KG
+2025-03-05 17:22:19 [INFO] Found the following reports for Amandus Kahl GmbH & Co. KG: 1
+
+2025-03-05 17:22:19 [INFO] Processing: Blohm Jung GmbH
+2025-03-05 17:22:31 [INFO] No dictionary reports found for Blohm Jung GmbH (data might be incomplete).
+
+2025-03-05 17:22:31 [INFO] Processing: Garant Maschinenhandel GmbH
+2025-03-05 17:22:43 [INFO] Found the following reports for Garant Maschinenhandel GmbH: 2
+
+2025-03-05 17:22:43 [INFO] Processing: ab-Apparatebau Berghaus GmbH
+2025-03-05 17:25:14 [INFO] Found the following reports for ab-Apparatebau Berghaus GmbH: 15
+
+2025-03-05 17:25:14 [INFO] Processing: Weimar-Werk GmbH
+2025-03-05 17:25:24 [INFO] Found the following reports for Weimar-Werk GmbH: 18
+
+2025-03-05 17:25:24 [INFO] Processing: J. Schmalz GmbH
+2025-03-05 17:25:35 [INFO] Found the following reports for J. Schmalz GmbH: 16
+
+2025-03-05 17:25:35 [INFO] Processing: Baumer Inspection GmbH
+2025-03-05 17:25:48 [INFO] Found the following reports for Baumer Inspection GmbH: 9
+
+2025-03-05 17:25:48 [INFO] Processing: Fritz Werner Industrie-Ausrüstungen GmbH
+2025-03-05 17:25:59 [INFO] Found the following reports for Fritz Werner Industrie-Ausrüstungen GmbH: 12
+
+2025-03-05 17:25:59 [INFO] Processing: DESOTEC GmbH Sondermaschinenbau
+2025-03-05 17:26:05 [INFO] Found the following reports for DESOTEC GmbH Sondermaschinenbau: 13
+
+2025-03-05 17:26:05 [INFO] Processing: Böckmann Maschinenbau GmbH
+2025-03-05 17:26:28 [INFO] Found the following reports for Böckmann Maschinenbau GmbH: 16
+
+2025-03-05 17:26:28 [INFO] Processing: Satisloh GmbH
+2025-03-05 17:26:36 [INFO] Found the following reports for Satisloh GmbH: 17
+
+2025-03-05 17:26:36 [INFO] Processing: EnviroFALK GmbH
+2025-03-05 17:26:49 [INFO] Found the following reports for EnviroFALK GmbH: 5
+
+2025-03-05 17:26:49 [INFO] Processing: Amixon GmbH
+2025-03-05 17:26:56 [INFO] Found the following reports for Amixon GmbH: 15
+
+2025-03-05 17:26:56 [INFO] Processing: Erwin Quarder Systemtechnik GmbH
+2025-03-05 17:27:04 [INFO] Found the following reports for Erwin Quarder Systemtechnik GmbH: 16
+
+2025-03-05 17:27:04 [INFO] Processing: EWIKON Heißkanalsysteme GmbH
+2025-03-05 17:27:19 [INFO] Found the following reports for EWIKON Heißkanalsysteme GmbH: 8
+
+2025-03-05 17:27:19 [INFO] Processing: LENSER Filtration GmbH
+2025-03-05 17:27:33 [INFO] No dictionary reports found for LENSER Filtration GmbH (data might be incomplete).
+
+2025-03-05 17:27:33 [INFO] Processing: Maschinenbau Schlottwitz GmbH & Co. KG
+2025-03-05 17:27:40 [INFO] Found the following reports for Maschinenbau Schlottwitz GmbH & Co. KG: 16
+
+2025-03-05 17:27:40 [INFO] Processing: vhf camfacture AG
+2025-03-05 17:27:49 [INFO] Found the following reports for vhf camfacture AG: 18
+
+2025-03-05 17:27:49 [INFO] Processing: SEMA Maschinenbau GmbH
+2025-03-05 17:27:57 [INFO] Found the following reports for SEMA Maschinenbau GmbH: 15
+
+2025-03-05 17:27:57 [INFO] Processing: Paul Wurth Deutschland GmbH
+2025-03-05 17:29:32 [INFO] Found the following reports for Paul Wurth Deutschland GmbH: 6
+
+2025-03-05 17:29:32 [INFO] Processing: Ilmberger
+2025-03-05 17:29:42 [INFO] Found the following reports for Ilmberger: 18
+
+2025-03-05 17:29:42 [INFO] Processing: Brülls Maschinen- + Gerätebau GmbH
+2025-03-05 17:29:49 [INFO] Found the following reports for Brülls Maschinen- + Gerätebau GmbH: 15
+
+2025-03-05 17:29:49 [INFO] Processing: BVM BRUNNER GMBH & Co. KG
+2025-03-05 17:33:12 [INFO] Found the following reports for BVM BRUNNER GMBH & Co. KG: 16
+
+2025-03-05 17:33:12 [INFO] Processing: B&B Verpackungstechnik GmbH
+2025-03-05 17:33:22 [INFO] Found the following reports for B&B Verpackungstechnik GmbH: 18
+
+2025-03-05 17:33:22 [INFO] Processing: LIQUI Filter GmbH
+2025-03-05 17:33:29 [INFO] Found the following reports for LIQUI Filter GmbH: 14
+
+2025-03-05 17:33:30 [INFO] Processing: Elopak GmbH
+2025-03-05 17:33:48 [INFO] Found the following reports for Elopak GmbH: 3
+
+2025-03-05 17:33:48 [INFO] Processing: Maier Packaging GmbH
+2025-03-05 17:34:00 [INFO] Found the following reports for Maier Packaging GmbH: 12
+
+2025-03-05 17:34:00 [INFO] Processing: Renold GmbH
+2025-03-05 17:34:15 [INFO] Found the following reports for Renold GmbH: 15
+
+2025-03-05 17:34:15 [INFO] Processing: Bausch+Ströbel SE + Co. KG
+2025-03-05 17:36:09 [INFO] No dictionary reports found for Bausch+Ströbel SE + Co. KG (data might be incomplete).
+
+2025-03-05 17:36:09 [INFO] Processing: Th. Buschhoff GmbH & Co.
+2025-03-05 17:36:22 [INFO] Found the following reports for Th. Buschhoff GmbH & Co.: 16
+
+2025-03-05 17:36:22 [INFO] Processing: ZIMM Germany GmbH
+2025-03-05 17:36:34 [INFO] Found the following reports for ZIMM Germany GmbH: 8
+
+2025-03-05 17:36:34 [INFO] Processing: Bauer Unternehmensgruppe GmbH & Co. KG
+2025-03-05 17:36:49 [INFO] Found the following reports for Bauer Unternehmensgruppe GmbH & Co. KG: 5
+
+2025-03-05 17:36:49 [INFO] Processing: Otto Christ Aktiengesellschaft
+2025-03-05 17:37:00 [INFO] Found the following reports for Otto Christ Aktiengesellschaft: 10
+
+2025-03-05 17:37:00 [INFO] Processing: Clemens GmbH & Co. KG
+2025-03-05 17:37:09 [INFO] Found the following reports for Clemens GmbH & Co. KG: 19
+
+2025-03-05 17:37:09 [INFO] Processing: Sandvik Holding GmbH
+2025-03-05 17:37:27 [INFO] Found the following reports for Sandvik Holding GmbH: 12
+
+2025-03-05 17:37:27 [INFO] Processing: HCR-Heinrich Cremer GmbH
+2025-03-05 17:37:36 [INFO] Found the following reports for HCR-Heinrich Cremer GmbH: 17
+
+2025-03-05 17:37:36 [INFO] Processing: Rodriguez GmbH
+2025-03-05 17:37:46 [INFO] Found the following reports for Rodriguez GmbH: 18
+
+2025-03-05 17:37:46 [INFO] Processing: P. W. Lenzen GmbH & Co. KG
+2025-03-05 17:38:01 [INFO] No dictionary reports found for P. W. Lenzen GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:38:01 [INFO] Processing: Dahmen Maschinen- u. Formenbau GmbH & Co. KG
+2025-03-05 17:38:02 [ERROR] 'Dahmen Maschinen- u. Formenbau GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 17:38:02 [INFO] No valid (dict) reports to store for Dahmen Maschinen- u. Formenbau GmbH & Co. KG.
+
+2025-03-05 17:38:02 [INFO] Processing: Wilhelm Kissendorfer OHG Präzisions-
+2025-03-05 17:38:02 [ERROR] 'Wilhelm Kissendorfer OHG Präzisions-' returned NoneType. Skipping to next company.
+2025-03-05 17:38:02 [INFO] No valid (dict) reports to store for Wilhelm Kissendorfer OHG Präzisions-.
+
+2025-03-05 17:38:02 [INFO] Processing: DALEKTRON GmbH Etikettendrucksysteme
+2025-03-05 17:38:09 [INFO] Found the following reports for DALEKTRON GmbH Etikettendrucksysteme: 16
+
+2025-03-05 17:38:09 [INFO] Processing: M. Jürgensen GmbH & Co KG
+2025-03-05 17:38:19 [INFO] Found the following reports for M. Jürgensen GmbH & Co KG: 13
+
+2025-03-05 17:38:19 [INFO] Processing: HIMA Paul Hildebrandt GmbH
+2025-03-05 17:38:30 [INFO] Found the following reports for HIMA Paul Hildebrandt GmbH: 12
+
+2025-03-05 17:38:30 [INFO] Processing: Maschinenfabrik Köppern GmbH & Co. KG
+2025-03-05 17:38:42 [INFO] No dictionary reports found for Maschinenfabrik Köppern GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:38:42 [INFO] Processing: Sumitomo (SHI)
+2025-03-05 17:38:58 [INFO] Found the following reports for Sumitomo (SHI): 13
+
+2025-03-05 17:38:58 [INFO] Processing: Stromag Dessau GmbH
+2025-03-05 17:39:07 [INFO] Found the following reports for Stromag Dessau GmbH: 9
+
+2025-03-05 17:39:07 [INFO] Processing: INTERTEX-Maschinenbau
+2025-03-05 17:39:15 [INFO] Found the following reports for INTERTEX-Maschinenbau: 16
+
+2025-03-05 17:39:15 [INFO] Processing: Hanke Crimp-Technik GmbH
+2025-03-05 17:39:23 [INFO] Found the following reports for Hanke Crimp-Technik GmbH: 16
+
+2025-03-05 17:39:23 [INFO] Processing: Kranservice Rheinberg GmbH
+2025-03-05 17:39:37 [INFO] Found the following reports for Kranservice Rheinberg GmbH: 10
+
+2025-03-05 17:39:37 [INFO] Processing: PSA Technology GmbH
+2025-03-05 17:39:46 [INFO] Found the following reports for PSA Technology GmbH: 17
+
+2025-03-05 17:39:46 [INFO] Processing: Dango & Dienenthal Maschinenbau GmbH
+2025-03-05 17:39:54 [INFO] Found the following reports for Dango & Dienenthal Maschinenbau GmbH: 16
+
+2025-03-05 17:39:54 [INFO] Processing: PPS Dietle GmbH
+2025-03-05 17:40:03 [INFO] Found the following reports for PPS Dietle GmbH: 18
+
+2025-03-05 17:40:03 [INFO] Processing: Wehrhahn GmbH
+2025-03-05 17:40:12 [INFO] Found the following reports for Wehrhahn GmbH: 19
+
+2025-03-05 17:40:12 [INFO] Processing: Heidelberg Instruments Mikrotechnik GmbH
+2025-03-05 17:40:21 [INFO] Found the following reports for Heidelberg Instruments Mikrotechnik GmbH: 17
+
+2025-03-05 17:40:22 [INFO] Processing: RESA Systems GmbH
+2025-03-05 17:40:34 [INFO] Found the following reports for RESA Systems GmbH: 18
+
+2025-03-05 17:40:34 [INFO] Processing: Rühle GmbH
+2025-03-05 17:40:43 [INFO] Found the following reports for Rühle GmbH: 14
+
+2025-03-05 17:40:43 [INFO] Processing: WSM Walower Stahl- und Maschinenbau GmbH
+2025-03-05 17:40:50 [INFO] Found the following reports for WSM Walower Stahl- und Maschinenbau GmbH: 15
+
+2025-03-05 17:40:50 [INFO] Processing: ALD Vacuum Technologies GmbH
+2025-03-05 17:41:04 [INFO] Found the following reports for ALD Vacuum Technologies GmbH: 11
+
+2025-03-05 17:41:04 [INFO] Processing: Heinrich Dreher GmbH & Co. KG
+2025-03-05 17:42:22 [INFO] Found the following reports for Heinrich Dreher GmbH & Co. KG: 15
+
+2025-03-05 17:42:22 [INFO] Processing: Saphir Maschinenbau GmbH
+2025-03-05 17:42:35 [INFO] Found the following reports for Saphir Maschinenbau GmbH: 1
+
+2025-03-05 17:42:35 [INFO] Processing: Zwick GmbH & Co. KG
+2025-03-05 17:42:51 [INFO] Found the following reports for Zwick GmbH & Co. KG: 10
+
+2025-03-05 17:42:51 [INFO] Processing: BlitzRotary GmbH
+2025-03-05 17:43:05 [INFO] No dictionary reports found for BlitzRotary GmbH (data might be incomplete).
+
+2025-03-05 17:43:05 [INFO] Processing: Alzmetall Werkzeugmaschinenfabrik und
+2025-03-05 17:43:14 [INFO] Found the following reports for Alzmetall Werkzeugmaschinenfabrik und: 16
+
+2025-03-05 17:43:14 [INFO] Processing: Franke GmbH
+2025-03-05 17:43:19 [INFO] Found the following reports for Franke GmbH: 1
+
+2025-03-05 17:43:19 [INFO] Processing: Krifft & Zipsner GmbH Maschinenbau
+2025-03-05 17:43:26 [INFO] Found the following reports for Krifft & Zipsner GmbH Maschinenbau: 14
+
+2025-03-05 17:43:26 [INFO] Processing: Lohmann Systemtechnik GmbH
+2025-03-05 17:43:33 [INFO] Found the following reports for Lohmann Systemtechnik GmbH: 14
+
+2025-03-05 17:43:33 [INFO] Processing: Ehlgötz Kompressoren und Motoren GmbH
+2025-03-05 17:43:40 [INFO] Found the following reports for Ehlgötz Kompressoren und Motoren GmbH: 16
+
+2025-03-05 17:43:40 [INFO] Processing: Venjakob Maschinenbau GmbH & Co.
+2025-03-05 17:43:45 [INFO] Found the following reports for Venjakob Maschinenbau GmbH & Co.: 2
+
+2025-03-05 17:43:45 [INFO] Processing: Maschinenbau Bardowick GmbH
+2025-03-05 17:43:48 [INFO] Found the following reports for Maschinenbau Bardowick GmbH: 6
+
+2025-03-05 17:43:48 [INFO] Processing: NOVAPAX Maschinenbau GmbH & Co. KG
+2025-03-05 17:43:55 [INFO] Found the following reports for NOVAPAX Maschinenbau GmbH & Co. KG: 15
+
+2025-03-05 17:43:55 [INFO] Processing: Weiler Werkzeugmaschinen GmbH
+2025-03-05 17:44:09 [INFO] Found the following reports for Weiler Werkzeugmaschinen GmbH: 4
+
+2025-03-05 17:44:09 [INFO] Processing: E. Zimmermann GmbH
+2025-03-05 17:44:20 [INFO] Found the following reports for E. Zimmermann GmbH: 18
+
+2025-03-05 17:44:20 [INFO] Processing: SMT Scharf AG
+2025-03-05 17:44:26 [ERROR] 'SMT Scharf AG' returned NoneType. Skipping to next company.
+2025-03-05 17:44:26 [INFO] No valid (dict) reports to store for SMT Scharf AG.
+
+2025-03-05 17:44:26 [INFO] Processing: PROFILMETALL GmbH
+2025-03-05 17:44:35 [INFO] Found the following reports for PROFILMETALL GmbH: 19
+
+2025-03-05 17:44:35 [INFO] Processing: MSB GmbH & Co. KG
+2025-03-05 17:44:44 [INFO] Found the following reports for MSB GmbH & Co. KG: 18
+
+2025-03-05 17:44:44 [INFO] Processing: PERO - Aktiengesellschaft P. Erbel
+2025-03-05 17:44:52 [INFO] Found the following reports for PERO - Aktiengesellschaft P. Erbel: 16
+
+2025-03-05 17:44:52 [INFO] Processing: IPTE Germany GmbH
+2025-03-05 17:45:05 [INFO] Found the following reports for IPTE Germany GmbH: 17
+
+2025-03-05 17:45:05 [INFO] Processing: Buddenkotte Apparatebau GmbH & Co. KG
+2025-03-05 17:45:13 [INFO] Found the following reports for Buddenkotte Apparatebau GmbH & Co. KG: 15
+
+2025-03-05 17:45:13 [INFO] Processing: Karl-Josef Ewald GmbH
+2025-03-05 17:45:57 [INFO] Found the following reports for Karl-Josef Ewald GmbH: 16
+
+2025-03-05 17:45:57 [INFO] Processing: DREHMO GmbH
+2025-03-05 17:46:07 [INFO] Found the following reports for DREHMO GmbH: 19
+
+2025-03-05 17:46:07 [INFO] Processing: Fritz Fackert GmbH & Co. KG
+2025-03-05 17:46:14 [INFO] Found the following reports for Fritz Fackert GmbH & Co. KG: 15
+
+2025-03-05 17:46:14 [INFO] Processing: Hans Hundegger AG
+2025-03-05 17:46:20 [INFO] Found the following reports for Hans Hundegger AG: 6
+
+2025-03-05 17:46:20 [INFO] Processing: MINDA Industrieanlagen GmbH
+2025-03-05 17:46:29 [INFO] Found the following reports for MINDA Industrieanlagen GmbH: 19
+
+2025-03-05 17:46:29 [INFO] Processing: Dürkopp Adler GmbH
+2025-03-05 17:46:39 [INFO] Found the following reports for Dürkopp Adler GmbH: 12
+
+2025-03-05 17:46:39 [INFO] Processing: Affeldt - Maschinenbau GmbH
+2025-03-05 17:47:00 [INFO] Found the following reports for Affeldt - Maschinenbau GmbH: 14
+
+2025-03-05 17:47:00 [INFO] Processing: FATH GmbH
+2025-03-05 17:47:12 [INFO] Found the following reports for FATH GmbH: 14
+
+2025-03-05 17:47:12 [INFO] Processing: GUK-Falzmaschinen
+2025-03-05 17:47:19 [INFO] Found the following reports for GUK-Falzmaschinen: 13
+
+2025-03-05 17:47:19 [INFO] Processing: SFT GmbH Tiefbohrzentrum
+2025-03-05 17:47:26 [INFO] Found the following reports for SFT GmbH Tiefbohrzentrum: 16
+
+2025-03-05 17:47:26 [INFO] Processing: STRABAG BMTI GmbH & Co. KG
+2025-03-05 17:47:47 [INFO] No dictionary reports found for STRABAG BMTI GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:47:47 [INFO] Processing: RUFF GmbH
+2025-03-05 17:47:56 [INFO] Found the following reports for RUFF GmbH: 18
+
+2025-03-05 17:47:56 [INFO] Processing: ASYS Automatic Systems GmbH & Co. KG
+2025-03-05 17:48:03 [INFO] Found the following reports for ASYS Automatic Systems GmbH & Co. KG: 14
+
+2025-03-05 17:48:03 [INFO] Processing: SFA Mechanische Fertigung
+2025-03-05 17:48:12 [INFO] Found the following reports for SFA Mechanische Fertigung: 20
+
+2025-03-05 17:48:12 [INFO] Processing: AViTEQ Vibrationstechnik GmbH
+2025-03-05 17:48:19 [INFO] Found the following reports for AViTEQ Vibrationstechnik GmbH: 16
+
+2025-03-05 17:48:19 [INFO] Processing: Maschinenfabrik
+2025-03-05 17:48:27 [INFO] Found the following reports for Maschinenfabrik: 8
+
+2025-03-05 17:48:27 [INFO] Processing: Stoba Präzisionstechnik GmbH & Co. KG
+2025-03-05 17:48:31 [INFO] No dictionary reports found for Stoba Präzisionstechnik GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 17:48:31 [INFO] Processing: fimotec fischer GmbH & Co. KG
+2025-03-05 17:48:37 [INFO] Found the following reports for fimotec fischer GmbH & Co. KG: 12
+
+2025-03-05 17:48:37 [INFO] Processing: Fette Compacting GmbH
+2025-03-05 17:48:52 [INFO] Found the following reports for Fette Compacting GmbH: 1
+
+2025-03-05 17:48:52 [INFO] Processing: transfluid Maschinenbau GmbH
+2025-03-05 17:49:00 [INFO] Found the following reports for transfluid Maschinenbau GmbH: 16
+
+2025-03-05 17:49:00 [INFO] Processing: Signode Packaging Systems GmbH
+2025-03-05 17:49:07 [INFO] No dictionary reports found for Signode Packaging Systems GmbH (data might be incomplete).
+
+2025-03-05 17:49:07 [INFO] Processing: A. Monforts Textilmaschinen
+2025-03-05 17:49:16 [INFO] Found the following reports for A. Monforts Textilmaschinen: 14
+
+2025-03-05 17:49:16 [INFO] Processing: Schäfer und Flottmann
+2025-03-05 17:53:34 [INFO] Found the following reports for Schäfer und Flottmann: 16
+
+2025-03-05 17:53:34 [INFO] Processing: Nordischer Maschinenbau
+2025-03-05 17:53:40 [INFO] No dictionary reports found for Nordischer Maschinenbau (data might be incomplete).
+
+2025-03-05 17:53:40 [INFO] Processing: Robert Koch GmbH
+2025-03-05 17:53:49 [INFO] Found the following reports for Robert Koch GmbH: 20
+
+2025-03-05 17:53:49 [INFO] Processing: Müller Apparatebau GmbH
+2025-03-05 17:54:00 [INFO] Found the following reports for Müller Apparatebau GmbH: 16
+
+2025-03-05 17:54:00 [INFO] Processing: Flottweg SE
+2025-03-05 17:54:11 [INFO] Found the following reports for Flottweg SE: 9
+
+2025-03-05 17:54:11 [INFO] Processing: Heinrich Frey Maschinenbau GmbH
+2025-03-05 17:54:34 [INFO] Found the following reports for Heinrich Frey Maschinenbau GmbH: 16
+
+2025-03-05 17:54:34 [INFO] Processing: SMB Spezialmaschinenbau GmbH& Co. KG
+2025-03-05 17:54:49 [INFO] Found the following reports for SMB Spezialmaschinenbau GmbH& Co. KG: 9
+
+2025-03-05 17:54:49 [INFO] Processing: PERFECTA
+2025-03-05 17:54:58 [INFO] Found the following reports for PERFECTA: 17
+
+2025-03-05 17:54:58 [INFO] Processing: Zimmer & Kreim GmbH & Co. KG
+2025-03-05 17:59:27 [INFO] Found the following reports for Zimmer & Kreim GmbH & Co. KG: 16
+
+2025-03-05 17:59:27 [INFO] Processing: Müller Maschinen und Anlagen
+2025-03-05 17:59:36 [INFO] Found the following reports for Müller Maschinen und Anlagen: 20
+
+2025-03-05 17:59:36 [INFO] Processing: Gebr. Schmid GmbH
+2025-03-05 17:59:47 [INFO] Found the following reports for Gebr. Schmid GmbH: 17
+
+2025-03-05 17:59:47 [INFO] Processing: Wolfgang Preinfalk GmbH
+2025-03-05 17:59:59 [INFO] Found the following reports for Wolfgang Preinfalk GmbH: 18
+
+2025-03-05 17:59:59 [INFO] Processing: Karl Welker KG
+2025-03-05 18:10:18 [INFO] No dictionary reports found for Karl Welker KG (data might be incomplete).
+
+2025-03-05 18:10:18 [INFO] Processing: AMADA WELD TECH GmbH
+2025-03-05 18:10:21 [INFO] Found the following reports for AMADA WELD TECH GmbH: 5
+
+2025-03-05 18:10:21 [INFO] Processing: M & A - Dieterle GmbH
+2025-03-05 18:14:33 [INFO] Found the following reports for M & A - Dieterle GmbH: 15
+
+2025-03-05 18:14:33 [INFO] Processing: AUMUND Fördertechnik GmbH
+2025-03-05 18:14:48 [INFO] No dictionary reports found for AUMUND Fördertechnik GmbH (data might be incomplete).
+
+2025-03-05 18:14:48 [INFO] Processing: Fritsch Bakery Technologies
+2025-03-05 18:14:54 [INFO] No dictionary reports found for Fritsch Bakery Technologies (data might be incomplete).
+
+2025-03-05 18:14:54 [INFO] Processing: Ziegler + Schenk GmbH & Co. KG
+2025-03-05 18:25:15 [INFO] Found the following reports for Ziegler + Schenk GmbH & Co. KG: 7
+
+2025-03-05 18:25:15 [INFO] Processing: Heiber und Schröder Maschinenbau GmbH
+2025-03-05 18:25:22 [INFO] Found the following reports for Heiber und Schröder Maschinenbau GmbH: 15
+
+2025-03-05 18:25:22 [INFO] Processing: KÖRA-PACKMAT Maschinenbau GmbH
+2025-03-05 18:25:33 [INFO] Found the following reports for KÖRA-PACKMAT Maschinenbau GmbH: 19
+
+2025-03-05 18:25:33 [INFO] Processing: GEBHARDT Fördertechnik GmbH
+2025-03-05 18:25:46 [INFO] Found the following reports for GEBHARDT Fördertechnik GmbH: 4
+
+2025-03-05 18:25:46 [INFO] Processing: Intercontinentale Ziegra Eismaschinen
+2025-03-05 18:25:56 [INFO] Found the following reports for Intercontinentale Ziegra Eismaschinen: 20
+
+2025-03-05 18:25:56 [INFO] Processing: Polyplan-GmbH Polyurethan-Maschinen
+2025-03-05 18:26:03 [INFO] Found the following reports for Polyplan-GmbH Polyurethan-Maschinen: 14
+
+2025-03-05 18:26:03 [INFO] Processing: Rudolf Geiger Maschinenbau GmbH
+2025-03-05 18:26:25 [INFO] Found the following reports for Rudolf Geiger Maschinenbau GmbH: 14
+
+2025-03-05 18:26:25 [INFO] Processing: FEUTRON Klimasimulation GMBH
+2025-03-05 18:26:33 [INFO] Found the following reports for FEUTRON Klimasimulation GMBH: 16
+
+2025-03-05 18:26:33 [INFO] Processing: Borries Markier-Systeme GmbH
+2025-03-05 18:26:41 [INFO] Found the following reports for Borries Markier-Systeme GmbH: 15
+
+2025-03-05 18:26:41 [INFO] Processing: Mayer GmbH & Co. KG
+2025-03-05 18:26:51 [INFO] Found the following reports for Mayer GmbH & Co. KG: 19
+
+2025-03-05 18:26:51 [INFO] Processing: M B N - Maschinenbaubetriebe
+2025-03-05 18:26:52 [ERROR] 'M B N - Maschinenbaubetriebe' returned NoneType. Skipping to next company.
+2025-03-05 18:26:52 [INFO] No valid (dict) reports to store for M B N - Maschinenbaubetriebe.
+
+2025-03-05 18:26:52 [INFO] Processing: Maschinenbau Karl Ley GmbH & Co. KG
+2025-03-05 18:27:15 [INFO] Found the following reports for Maschinenbau Karl Ley GmbH & Co. KG: 15
+
+2025-03-05 18:27:15 [INFO] Processing: ISRA VISION GmbH
+2025-03-05 18:27:33 [INFO] Found the following reports for ISRA VISION GmbH: 9
+
+2025-03-05 18:27:33 [INFO] Processing: Mabeg Systems GmbH
+2025-03-05 18:27:39 [INFO] Found the following reports for Mabeg Systems GmbH: 13
+
+2025-03-05 18:27:39 [INFO] Processing: Gipson Metallverarbeitung GmbH
+2025-03-05 18:27:47 [INFO] Found the following reports for Gipson Metallverarbeitung GmbH: 14
+
+2025-03-05 18:27:47 [INFO] Processing: LOGOPAK Systeme GmbH & Co. KG
+2025-03-05 18:28:01 [INFO] No dictionary reports found for LOGOPAK Systeme GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 18:28:01 [INFO] Processing: Göpfert Maschinen GmbH
+2025-03-05 18:28:15 [INFO] Found the following reports for Göpfert Maschinen GmbH: 10
+
+2025-03-05 18:28:15 [INFO] Processing: Markem-Imaje GmbH
+2025-03-05 18:28:35 [INFO] Found the following reports for Markem-Imaje GmbH: 4
+
+2025-03-05 18:28:35 [INFO] Processing: Graewe GmbH Maschinenbau
+2025-03-05 18:28:42 [INFO] Found the following reports for Graewe GmbH Maschinenbau: 16
+
+2025-03-05 18:28:42 [INFO] Processing: Berg & Co. GmbH
+2025-03-05 18:28:52 [INFO] Found the following reports for Berg & Co. GmbH: 14
+
+2025-03-05 18:28:52 [INFO] Processing: Sutco RecyclingTechnik GmbH
+2025-03-05 18:29:09 [INFO] No dictionary reports found for Sutco RecyclingTechnik GmbH (data might be incomplete).
+
+2025-03-05 18:29:09 [INFO] Processing: Wilhelm Fischer
+2025-03-05 18:29:19 [INFO] Found the following reports for Wilhelm Fischer: 20
+
+2025-03-05 18:29:19 [INFO] Processing: Wellgo Werkzeugbau und Spritzgussteile GmbH
+2025-03-05 18:29:26 [INFO] Found the following reports for Wellgo Werkzeugbau und Spritzgussteile GmbH: 16
+
+2025-03-05 18:29:26 [INFO] Processing: Körber Supply Chain Automation Eisenberg GmbH
+2025-03-05 18:36:03 [INFO] No dictionary reports found for Körber Supply Chain Automation Eisenberg GmbH (data might be incomplete).
+
+2025-03-05 18:36:03 [INFO] Processing: Presstec Pressentechnologie GmbH
+2025-03-05 18:36:11 [INFO] Found the following reports for Presstec Pressentechnologie GmbH: 15
+
+2025-03-05 18:36:11 [INFO] Processing: Grimm Maschinenbau GmbH
+2025-03-05 18:36:22 [INFO] Found the following reports for Grimm Maschinenbau GmbH: 16
+
+2025-03-05 18:36:22 [INFO] Processing: Gröneweg Maschinenbau GmbH
+2025-03-05 18:36:31 [INFO] Found the following reports for Gröneweg Maschinenbau GmbH: 16
+
+2025-03-05 18:36:31 [INFO] Processing: HELLER Maschinen & Technologie AG
+2025-03-05 18:44:10 [INFO] Found the following reports for HELLER Maschinen & Technologie AG: 9
+
+2025-03-05 18:44:10 [INFO] Processing: Holmatec Maschinenbau GmbH & Co. KG
+2025-03-05 18:44:13 [INFO] Found the following reports for Holmatec Maschinenbau GmbH & Co. KG: 6
+
+2025-03-05 18:44:13 [INFO] Processing: miho Inspektionssysteme GmbH
+2025-03-05 18:44:22 [INFO] Found the following reports for miho Inspektionssysteme GmbH: 16
+
+2025-03-05 18:44:22 [INFO] Processing: Otto Bihler Maschinenfabrik GmbH & Co. KG
+2025-03-05 18:44:31 [INFO] Found the following reports for Otto Bihler Maschinenfabrik GmbH & Co. KG: 16
+
+2025-03-05 18:44:31 [INFO] Processing: telerob Gesellschaft für
+2025-03-05 18:44:41 [INFO] Found the following reports for telerob Gesellschaft für: 19
+
+2025-03-05 18:44:41 [INFO] Processing: Zahnradfertigung Ott GmbH u.Co.KG
+2025-03-05 18:44:41 [ERROR] 'Zahnradfertigung Ott GmbH u.Co.KG' returned NoneType. Skipping to next company.
+2025-03-05 18:44:41 [INFO] No valid (dict) reports to store for Zahnradfertigung Ott GmbH u.Co.KG.
+
+2025-03-05 18:44:41 [INFO] Processing: Alfons Haar Maschinenbau GmbH & Co. KG
+2025-03-05 18:45:01 [INFO] Found the following reports for Alfons Haar Maschinenbau GmbH & Co. KG: 6
+
+2025-03-05 18:45:01 [INFO] Processing: Francotyp-Postalia
+2025-03-05 18:45:08 [ERROR] 'Francotyp-Postalia' returned NoneType. Skipping to next company.
+2025-03-05 18:45:08 [INFO] No valid (dict) reports to store for Francotyp-Postalia.
+
+2025-03-05 18:45:08 [INFO] Processing: HEFTER Systemform GmbH
+2025-03-05 18:45:10 [ERROR] 'HEFTER Systemform GmbH' returned NoneType. Skipping to next company.
+2025-03-05 18:45:10 [INFO] No valid (dict) reports to store for HEFTER Systemform GmbH.
+
+2025-03-05 18:45:10 [INFO] Processing: Pharmaplan GmbH
+2025-03-05 18:45:21 [INFO] Found the following reports for Pharmaplan GmbH: 19
+
+2025-03-05 18:45:21 [INFO] Processing: Körber Pharma Inspection GmbH
+2025-03-05 18:45:23 [INFO] No dictionary reports found for Körber Pharma Inspection GmbH (data might be incomplete).
+
+2025-03-05 18:45:23 [INFO] Processing: Haff & Schneider GmbH & Co. OHG
+2025-03-05 18:45:30 [INFO] Found the following reports for Haff & Schneider GmbH & Co. OHG: 13
+
+2025-03-05 18:45:30 [INFO] Processing: Haimer GmbH
+2025-03-05 18:45:41 [INFO] Found the following reports for Haimer GmbH: 19
+
+2025-03-05 18:45:41 [INFO] Processing: Fertigungstechnik Weißenfels GmbH
+2025-03-05 18:45:49 [INFO] Found the following reports for Fertigungstechnik Weißenfels GmbH: 17
+
+2025-03-05 18:45:49 [INFO] Processing: Herbert Hänchen GmbH
+2025-03-05 18:45:58 [INFO] Found the following reports for Herbert Hänchen GmbH: 16
+
+2025-03-05 18:45:58 [INFO] Processing: Josef Meissner GmbH & Co. KG
+2025-03-05 18:46:10 [INFO] Found the following reports for Josef Meissner GmbH & Co. KG: 12
+
+2025-03-05 18:46:10 [INFO] Processing: MSK Verpackungs-Systeme GmbH
+2025-03-05 18:46:19 [INFO] Found the following reports for MSK Verpackungs-Systeme GmbH: 16
+
+2025-03-05 18:46:19 [INFO] Processing: seepex GmbH
+2025-03-05 18:46:30 [INFO] Found the following reports for seepex GmbH: 14
+
+2025-03-05 18:46:30 [INFO] Processing: Rieckermann GmbH
+2025-03-05 18:46:39 [INFO] Found the following reports for Rieckermann GmbH: 20
+
+2025-03-05 18:46:39 [INFO] Processing: ALWID GmbH
+2025-03-05 18:46:49 [INFO] Found the following reports for ALWID GmbH: 19
+
+2025-03-05 18:46:49 [INFO] Processing: HSM GmbH & Co. KG
+2025-03-05 18:46:53 [ERROR] 'HSM GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 18:46:53 [INFO] No valid (dict) reports to store for HSM GmbH & Co. KG.
+
+2025-03-05 18:46:53 [INFO] Processing: Vollmer Werke Maschinenfabrik GmbH
+2025-03-05 18:47:04 [INFO] Found the following reports for Vollmer Werke Maschinenfabrik GmbH: 10
+
+2025-03-05 18:47:04 [INFO] Processing: G.U.N.T. Gerätebau GmbH
+2025-03-05 18:47:19 [INFO] Found the following reports for G.U.N.T. Gerätebau GmbH: 15
+
+2025-03-05 18:47:19 [INFO] Processing: SM Calvörde Sondermaschinenbau
+2025-03-05 18:47:26 [INFO] Found the following reports for SM Calvörde Sondermaschinenbau: 14
+
+2025-03-05 18:47:26 [INFO] Processing: Rolls-Royce Solutions Magdeburg GmbH
+2025-03-05 18:47:31 [INFO] No dictionary reports found for Rolls-Royce Solutions Magdeburg GmbH (data might be incomplete).
+
+2025-03-05 18:47:31 [INFO] Processing: Boart Longyear GmbH & Co. KG
+2025-03-05 18:47:42 [INFO] Found the following reports for Boart Longyear GmbH & Co. KG: 20
+
+2025-03-05 18:47:42 [INFO] Processing: Heitec-Heisskanaltechnik GmbH
+2025-03-05 18:47:49 [INFO] Found the following reports for Heitec-Heisskanaltechnik GmbH: 16
+
+2025-03-05 18:47:49 [INFO] Processing: MITEX GmbH
+2025-03-05 18:47:58 [INFO] Found the following reports for MITEX GmbH: 18
+
+2025-03-05 18:47:59 [INFO] Processing: S. Dunkes GmbH Maschinenfabrik
+2025-03-05 18:48:06 [INFO] Found the following reports for S. Dunkes GmbH Maschinenfabrik: 16
+
+2025-03-05 18:48:06 [INFO] Processing: Weil Technology GmbH
+2025-03-05 18:48:15 [INFO] Found the following reports for Weil Technology GmbH: 16
+
+2025-03-05 18:48:15 [INFO] Processing: HOMAG Plattenaufteiltechnik GmbH
+2025-03-05 18:48:17 [ERROR] 'HOMAG Plattenaufteiltechnik GmbH' returned NoneType. Skipping to next company.
+2025-03-05 18:48:17 [INFO] No valid (dict) reports to store for HOMAG Plattenaufteiltechnik GmbH.
+
+2025-03-05 18:48:17 [INFO] Processing: Hiller GmbH
+2025-03-05 18:48:25 [INFO] Found the following reports for Hiller GmbH: 16
+
+2025-03-05 18:48:25 [INFO] Processing: SIEMAG TECBERG GmbH
+2025-03-05 18:48:42 [INFO] No dictionary reports found for SIEMAG TECBERG GmbH (data might be incomplete).
+
+2025-03-05 18:48:42 [INFO] Processing: Ferdinand Henneken GmbH
+2025-03-05 18:53:12 [INFO] Found the following reports for Ferdinand Henneken GmbH: 15
+
+2025-03-05 18:53:12 [INFO] Processing: Aachener Maschinenbau GmbH
+2025-03-05 18:53:21 [INFO] Found the following reports for Aachener Maschinenbau GmbH: 19
+
+2025-03-05 18:53:21 [INFO] Processing: INOTEC GmbH
+2025-03-05 18:53:23 [ERROR] 'INOTEC GmbH' returned NoneType. Skipping to next company.
+2025-03-05 18:53:23 [INFO] No valid (dict) reports to store for INOTEC GmbH.
+
+2025-03-05 18:53:23 [INFO] Processing: MDL Anchor Lamina GmbH
+2025-03-05 18:53:24 [INFO] Found the following reports for MDL Anchor Lamina GmbH: 1
+
+2025-03-05 18:53:24 [INFO] Processing: Franz Kessler GmbH
+2025-03-05 18:53:36 [INFO] Found the following reports for Franz Kessler GmbH: 12
+
+2025-03-05 18:53:36 [INFO] Processing: goracon systemtechnik GmbH
+2025-03-05 18:53:44 [INFO] Found the following reports for goracon systemtechnik GmbH: 16
+
+2025-03-05 18:53:44 [INFO] Processing: Werkzeugmaschinenfabrik
+2025-03-05 18:53:56 [INFO] Found the following reports for Werkzeugmaschinenfabrik: 14
+
+2025-03-05 18:53:56 [INFO] Processing: Neugart GmbH
+2025-03-05 18:54:10 [INFO] Found the following reports for Neugart GmbH: 8
+
+2025-03-05 18:54:10 [INFO] Processing: Herrmann Ultraschalltechnik
+2025-03-05 18:54:20 [INFO] Found the following reports for Herrmann Ultraschalltechnik: 12
+
+2025-03-05 18:54:21 [INFO] Processing: MB Bäuerle GmbH
+2025-03-05 18:54:29 [INFO] Found the following reports for MB Bäuerle GmbH: 17
+
+2025-03-05 18:54:29 [INFO] Processing: HEGLA GmbH & Co. KG
+2025-03-05 18:54:32 [ERROR] 'HEGLA GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 18:54:32 [INFO] No valid (dict) reports to store for HEGLA GmbH & Co. KG.
+
+2025-03-05 18:54:32 [INFO] Processing: Gräbener Maschinentechnik GmbH & Co. KG
+2025-03-05 18:56:52 [INFO] Found the following reports for Gräbener Maschinentechnik GmbH & Co. KG: 4
+
+2025-03-05 18:56:52 [INFO] Processing: KraussMaffei Extrusion GmbH
+2025-03-05 18:57:02 [INFO] Found the following reports for KraussMaffei Extrusion GmbH: 4
+
+2025-03-05 18:57:02 [INFO] Processing: Heinrich Wagner Sinto
+2025-03-05 18:57:10 [INFO] Found the following reports for Heinrich Wagner Sinto: 16
+
+2025-03-05 18:57:11 [INFO] Processing: technotrans SE
+2025-03-05 18:57:13 [ERROR] 'technotrans SE' returned NoneType. Skipping to next company.
+2025-03-05 18:57:13 [INFO] No valid (dict) reports to store for technotrans SE.
+
+2025-03-05 18:57:13 [INFO] Processing: PLAKOMA GmbH Hütten- und Walzwerktechnik
+2025-03-05 18:57:20 [INFO] Found the following reports for PLAKOMA GmbH Hütten- und Walzwerktechnik: 12
+
+2025-03-05 18:57:20 [INFO] Processing: Manz AG
+2025-03-05 18:57:26 [INFO] No dictionary reports found for Manz AG (data might be incomplete).
+
+2025-03-05 18:57:26 [INFO] Processing: PRESTO GmbH & Co. KG
+2025-03-05 18:57:35 [INFO] Found the following reports for PRESTO GmbH & Co. KG: 20
+
+2025-03-05 18:57:35 [INFO] Processing: ERLAS Erlanger Lasertechnik GmbH
+2025-03-05 18:57:43 [INFO] Found the following reports for ERLAS Erlanger Lasertechnik GmbH: 15
+
+2025-03-05 18:57:43 [INFO] Processing: MADO GmbH
+2025-03-05 18:57:51 [INFO] Found the following reports for MADO GmbH: 16
+
+2025-03-05 18:57:51 [INFO] Processing: Wöhler Brush Tech GmbH
+2025-03-05 18:57:59 [INFO] Found the following reports for Wöhler Brush Tech GmbH: 16
+
+2025-03-05 18:57:59 [INFO] Processing: schoen + sandt machinery GmbH
+2025-03-05 18:58:07 [INFO] Found the following reports for schoen + sandt machinery GmbH: 16
+
+2025-03-05 18:58:07 [INFO] Processing: Huber Kunststoff & Technik GmbH
+2025-03-05 18:58:18 [INFO] Found the following reports for Huber Kunststoff & Technik GmbH: 16
+
+2025-03-05 18:58:18 [INFO] Processing: SOMIC Verpackungsmaschinen GmbH & Co. KG
+2025-03-05 18:58:27 [INFO] Found the following reports for SOMIC Verpackungsmaschinen GmbH & Co. KG: 17
+
+2025-03-05 18:58:27 [INFO] Processing: Peter Huber Kältemaschinenbau SE
+2025-03-05 18:58:27 [ERROR] 'Peter Huber Kältemaschinenbau SE' returned NoneType. Skipping to next company.
+2025-03-05 18:58:27 [INFO] No valid (dict) reports to store for Peter Huber Kältemaschinenbau SE.
+
+2025-03-05 18:58:27 [INFO] Processing: Becker Sonder-Maschinenbau GmbH
+2025-03-05 18:58:50 [INFO] Found the following reports for Becker Sonder-Maschinenbau GmbH: 16
+
+2025-03-05 18:58:50 [INFO] Processing: Albert & Hummel GmbH
+2025-03-05 18:59:00 [INFO] Found the following reports for Albert & Hummel GmbH: 16
+
+2025-03-05 18:59:00 [INFO] Processing: Ludwig Hunger Maschinenfabrik GmbH
+2025-03-05 18:59:09 [INFO] Found the following reports for Ludwig Hunger Maschinenfabrik GmbH: 20
+
+2025-03-05 18:59:09 [INFO] Processing: Gebrüder Tigges GmbH & Co. KG
+2025-03-05 19:00:27 [INFO] Found the following reports for Gebrüder Tigges GmbH & Co. KG: 16
+
+2025-03-05 19:00:27 [INFO] Processing: STC Spinnzwirn GmbH
+2025-03-05 19:00:29 [INFO] Found the following reports for STC Spinnzwirn GmbH: 4
+
+2025-03-05 19:00:29 [INFO] Processing: Rudi Hutt Maschinenbau GmbH & Co. KG
+2025-03-05 19:00:46 [INFO] No dictionary reports found for Rudi Hutt Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 19:00:46 [INFO] Processing: Hüttenhölscher Maschinenbau
+2025-03-05 19:00:46 [ERROR] 'Hüttenhölscher Maschinenbau' returned NoneType. Skipping to next company.
+2025-03-05 19:00:46 [INFO] No valid (dict) reports to store for Hüttenhölscher Maschinenbau.
+
+2025-03-05 19:00:46 [INFO] Processing: Heyde Maschinen - Service GmbH
+2025-03-05 19:05:16 [INFO] Found the following reports for Heyde Maschinen - Service GmbH: 16
+
+2025-03-05 19:05:16 [INFO] Processing: Chr. Mayr GmbH + Co. KG
+2025-03-05 19:05:45 [INFO] No dictionary reports found for Chr. Mayr GmbH + Co. KG (data might be incomplete).
+
+2025-03-05 19:05:45 [INFO] Processing: Jäckle Schweiß- und Schneidtechnik GmbH
+2025-03-05 19:05:50 [INFO] Found the following reports for Jäckle Schweiß- und Schneidtechnik GmbH: 10
+
+2025-03-05 19:05:50 [INFO] Processing: Fr. Jacob Söhne GmbH & Co. KG
+2025-03-05 19:06:07 [INFO] No dictionary reports found for Fr. Jacob Söhne GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 19:06:07 [INFO] Processing: FUJI EUROPE CORPORATION GmbH
+2025-03-05 19:06:32 [INFO] Found the following reports for FUJI EUROPE CORPORATION GmbH: 5
+
+2025-03-05 19:06:32 [INFO] Processing: Lüttmann Werkzeugmaschinen
+2025-03-05 19:06:40 [INFO] Found the following reports for Lüttmann Werkzeugmaschinen: 16
+
+2025-03-05 19:06:40 [INFO] Processing: JOA EUROPE GmbH
+2025-03-05 19:06:48 [INFO] Found the following reports for JOA EUROPE GmbH: 16
+
+2025-03-05 19:06:48 [INFO] Processing: Kampf Schneid- und Wickeltechnik
+2025-03-05 19:07:00 [INFO] Found the following reports for Kampf Schneid- und Wickeltechnik: 13
+
+2025-03-05 19:07:00 [INFO] Processing: Cohu GmbH
+2025-03-05 19:07:13 [INFO] Found the following reports for Cohu GmbH: 7
+
+2025-03-05 19:07:13 [INFO] Processing: BMS Maschinenfabrik GmbH
+2025-03-05 19:07:24 [INFO] Found the following reports for BMS Maschinenfabrik GmbH: 15
+
+2025-03-05 19:07:24 [INFO] Processing: Walter Maschinenbau GmbH
+2025-03-05 19:07:35 [INFO] Found the following reports for Walter Maschinenbau GmbH: 16
+
+2025-03-05 19:07:35 [INFO] Processing: SMA Sächsische Maschinen- und Anlagenbau GmbH
+2025-03-05 19:07:37 [INFO] Found the following reports for SMA Sächsische Maschinen- und Anlagenbau GmbH: 3
+
+2025-03-05 19:07:37 [INFO] Processing: ANDRITZ Metals Germany GmbH
+2025-03-05 19:08:23 [INFO] No dictionary reports found for ANDRITZ Metals Germany GmbH (data might be incomplete).
+
+2025-03-05 19:08:23 [INFO] Processing: ANDRITZ Kaiser GmbH
+2025-03-05 19:08:46 [INFO] No dictionary reports found for ANDRITZ Kaiser GmbH (data might be incomplete).
+
+2025-03-05 19:08:46 [INFO] Processing: Manfred Kaiser Maschinenbau GmbH
+2025-03-05 19:09:08 [INFO] Found the following reports for Manfred Kaiser Maschinenbau GmbH: 16
+
+2025-03-05 19:09:08 [INFO] Processing: Kallfass GmbH Maschinen plus Automation
+2025-03-05 19:09:15 [INFO] Found the following reports for Kallfass GmbH Maschinen plus Automation: 12
+
+2025-03-05 19:09:15 [INFO] Processing: KOEPFER Zahnrad- und Getriebetechnik
+2025-03-05 19:09:32 [INFO] Found the following reports for KOEPFER Zahnrad- und Getriebetechnik: 6
+
+2025-03-05 19:09:32 [INFO] Processing: Sumitomo (SHI) Demag
+2025-03-05 19:09:50 [INFO] Found the following reports for Sumitomo (SHI) Demag: 10
+
+2025-03-05 19:09:50 [INFO] Processing: Klingelnberg GmbH
+2025-03-05 19:10:02 [INFO] Found the following reports for Klingelnberg GmbH: 12
+
+2025-03-05 19:10:02 [INFO] Processing: KAPP GmbH & Co. KG
+2025-03-05 19:10:17 [INFO] Found the following reports for KAPP GmbH & Co. KG: 9
+
+2025-03-05 19:10:17 [INFO] Processing: WUMAG TEXROLL GmbH & Co. KG
+2025-03-05 19:10:27 [INFO] Found the following reports for WUMAG TEXROLL GmbH & Co. KG: 17
+
+2025-03-05 19:10:27 [INFO] Processing: Merz Maschinenfabrik GmbH
+2025-03-05 19:10:37 [INFO] Found the following reports for Merz Maschinenfabrik GmbH: 20
+
+2025-03-05 19:10:37 [INFO] Processing: H. Leiter GmbH
+2025-03-05 19:10:47 [INFO] Found the following reports for H. Leiter GmbH: 16
+
+2025-03-05 19:10:47 [INFO] Processing: Kautex Maschinenbau GmbH
+2025-03-05 19:10:56 [INFO] Found the following reports for Kautex Maschinenbau GmbH: 16
+
+2025-03-05 19:10:56 [INFO] Processing: Keller Lufttechnik GmbH + Co. KG
+2025-03-05 19:11:20 [INFO] Found the following reports for Keller Lufttechnik GmbH + Co. KG: 16
+
+2025-03-05 19:11:20 [INFO] Processing: PEKRUN GETRIEBEBAU GmbH
+2025-03-05 19:11:28 [INFO] Found the following reports for PEKRUN GETRIEBEBAU GmbH: 15
+
+2025-03-05 19:11:28 [INFO] Processing: OMAG Maschinenbau GmbH
+2025-03-05 19:11:30 [INFO] Found the following reports for OMAG Maschinenbau GmbH: 2
+
+2025-03-05 19:11:30 [INFO] Processing: Tellen Maschinenbau GmbH & Co. KG
+2025-03-05 19:11:52 [INFO] Found the following reports for Tellen Maschinenbau GmbH & Co. KG: 15
+
+2025-03-05 19:11:52 [INFO] Processing: D + E GmbH
+2025-03-05 19:12:02 [INFO] Found the following reports for D + E GmbH: 12
+
+2025-03-05 19:12:02 [INFO] Processing: Hotmobil Deutschland GmbH
+2025-03-05 19:12:03 [ERROR] 'Hotmobil Deutschland GmbH' returned NoneType. Skipping to next company.
+2025-03-05 19:12:03 [INFO] No valid (dict) reports to store for Hotmobil Deutschland GmbH.
+
+2025-03-05 19:12:03 [INFO] Processing: Kiener Maschinenbau GmbH
+2025-03-05 19:12:13 [INFO] Found the following reports for Kiener Maschinenbau GmbH: 9
+
+2025-03-05 19:12:14 [INFO] Processing: LACOM GmbH
+2025-03-05 19:12:22 [INFO] Found the following reports for LACOM GmbH: 14
+
+2025-03-05 19:12:22 [INFO] Processing: KINKELE GmbH & Co. KG
+2025-03-05 19:12:31 [INFO] Found the following reports for KINKELE GmbH & Co. KG: 20
+
+2025-03-05 19:12:31 [INFO] Processing: Kirchgässner Elektrotechnik GmbH
+2025-03-05 19:12:38 [INFO] Found the following reports for Kirchgässner Elektrotechnik GmbH: 15
+
+2025-03-05 19:12:38 [INFO] Processing: Klaus-Maschinenbau GmbH & Co. KG
+2025-03-05 19:12:47 [INFO] Found the following reports for Klaus-Maschinenbau GmbH & Co. KG: 14
+
+2025-03-05 19:12:47 [INFO] Processing: ROTOX GmbH
+2025-03-05 19:13:05 [INFO] No dictionary reports found for ROTOX GmbH (data might be incomplete).
+
+2025-03-05 19:13:05 [INFO] Processing: Memminger-IRO GmbH
+2025-03-05 19:13:18 [INFO] No dictionary reports found for Memminger-IRO GmbH (data might be incomplete).
+
+2025-03-05 19:13:18 [INFO] Processing: Karl Marbach GmbH & Co. KG
+2025-03-05 19:13:33 [INFO] Found the following reports for Karl Marbach GmbH & Co. KG: 2
+
+2025-03-05 19:13:33 [INFO] Processing: Ohrmann GmbH
+2025-03-05 19:13:43 [INFO] Found the following reports for Ohrmann GmbH: 19
+
+2025-03-05 19:13:43 [INFO] Processing: Oerlikon Metco WOKA GmbH
+2025-03-05 19:13:55 [INFO] No dictionary reports found for Oerlikon Metco WOKA GmbH (data might be incomplete).
+
+2025-03-05 19:13:55 [INFO] Processing: Detlef Klockow Maschinenbau GmbH
+2025-03-05 19:14:02 [INFO] Found the following reports for Detlef Klockow Maschinenbau GmbH: 15
+
+2025-03-05 19:14:02 [INFO] Processing: Knecht Maschinenbau GmbH
+2025-03-05 19:14:12 [INFO] Found the following reports for Knecht Maschinenbau GmbH: 19
+
+2025-03-05 19:14:12 [INFO] Processing: Paul Pleiger Maschinenfabrik
+2025-03-05 19:14:13 [ERROR] 'Paul Pleiger Maschinenfabrik' returned NoneType. Skipping to next company.
+2025-03-05 19:14:13 [INFO] No valid (dict) reports to store for Paul Pleiger Maschinenfabrik.
+
+2025-03-05 19:14:13 [INFO] Processing: Karl Eugen Fischer GmbH
+2025-03-05 19:14:27 [INFO] Found the following reports for Karl Eugen Fischer GmbH: 5
+
+2025-03-05 19:14:27 [INFO] Processing: KNUTH WERKZEUGMASCHINEN GMBH
+2025-03-05 19:14:36 [INFO] Found the following reports for KNUTH WERKZEUGMASCHINEN GMBH: 17
+
+2025-03-05 19:14:36 [INFO] Processing: Harmonic Drive AG
+2025-03-05 19:14:48 [INFO] Found the following reports for Harmonic Drive AG: 11
+
+2025-03-05 19:14:48 [INFO] Processing: HOBART GmbH
+2025-03-05 19:15:01 [INFO] Found the following reports for HOBART GmbH: 6
+
+2025-03-05 19:15:01 [INFO] Processing: BEKO TECHNOLOGIES GMBH
+2025-03-05 19:15:11 [INFO] Found the following reports for BEKO TECHNOLOGIES GMBH: 16
+
+2025-03-05 19:15:11 [INFO] Processing: Albert Koch
+2025-03-05 19:15:22 [INFO] Found the following reports for Albert Koch: 20
+
+2025-03-05 19:15:22 [INFO] Processing: Koch Technology GmbH & Co. KG
+2025-03-05 19:15:34 [INFO] Found the following reports for Koch Technology GmbH & Co. KG: 12
+
+2025-03-05 19:15:34 [INFO] Processing: Werner Koch Maschinentechnik GmbH
+2025-03-05 19:20:03 [INFO] Found the following reports for Werner Koch Maschinentechnik GmbH: 16
+
+2025-03-05 19:20:03 [INFO] Processing: elexis AG
+2025-03-05 19:20:20 [INFO] Found the following reports for elexis AG: 3
+
+2025-03-05 19:20:20 [INFO] Processing: SHB Hebezeugbau GmbH
+2025-03-05 19:20:23 [INFO] Found the following reports for SHB Hebezeugbau GmbH: 5
+
+2025-03-05 19:20:23 [INFO] Processing: Köhl Maschinen-Betriebs GmbH
+2025-03-05 19:25:05 [INFO] Found the following reports for Köhl Maschinen-Betriebs GmbH: 2
+
+2025-03-05 19:25:05 [INFO] Processing: Aulbach Automation GmbH abk Pressenbau
+2025-03-05 19:25:11 [INFO] Found the following reports for Aulbach Automation GmbH abk Pressenbau: 12
+
+2025-03-05 19:25:11 [INFO] Processing: Zeulenroda Presstechnik GmbH
+2025-03-05 19:25:15 [INFO] Found the following reports for Zeulenroda Presstechnik GmbH: 7
+
+2025-03-05 19:25:15 [INFO] Processing: Liebig GmbH
+2025-03-05 19:25:24 [INFO] Found the following reports for Liebig GmbH: 15
+
+2025-03-05 19:25:24 [INFO] Processing: Glaston Germany GmbH
+2025-03-05 19:25:37 [INFO] Found the following reports for Glaston Germany GmbH: 13
+
+2025-03-05 19:25:37 [INFO] Processing: DELLNER BUBENZER GERMANY GmbH
+2025-03-05 19:25:40 [INFO] Found the following reports for DELLNER BUBENZER GERMANY GmbH: 5
+
+2025-03-05 19:25:40 [INFO] Processing: Gebr. Bellmer GmbH Maschinenfabrik
+2025-03-05 19:25:51 [INFO] Found the following reports for Gebr. Bellmer GmbH Maschinenfabrik: 11
+
+2025-03-05 19:25:51 [INFO] Processing: Kirschner Maschinen- und Metallbau GmbH
+2025-03-05 19:31:28 [INFO] Found the following reports for Kirschner Maschinen- und Metallbau GmbH: 14
+
+2025-03-05 19:31:28 [INFO] Processing: Genauigkeits Maschinenbau
+2025-03-05 19:31:41 [INFO] Found the following reports for Genauigkeits Maschinenbau: 15
+
+2025-03-05 19:31:41 [INFO] Processing: TS Henschel GmbH
+2025-03-05 19:38:19 [INFO] Found the following reports for TS Henschel GmbH: 8
+
+2025-03-05 19:38:19 [INFO] Processing: BISONtec GmbH
+2025-03-05 19:38:27 [INFO] Found the following reports for BISONtec GmbH: 15
+
+2025-03-05 19:38:27 [INFO] Processing: Kordel Antriebstechnik GmbH
+2025-03-05 19:38:36 [INFO] Found the following reports for Kordel Antriebstechnik GmbH: 17
+
+2025-03-05 19:38:36 [INFO] Processing: Columbus McKinnon
+2025-03-05 19:38:48 [INFO] Found the following reports for Columbus McKinnon: 15
+
+2025-03-05 19:38:48 [INFO] Processing: voestalpine Böhler Welding
+2025-03-05 19:38:59 [INFO] Found the following reports for voestalpine Böhler Welding: 8
+
+2025-03-05 19:38:59 [INFO] Processing: Stahl- und Maschinenbau
+2025-03-05 19:39:08 [INFO] Found the following reports for Stahl- und Maschinenbau: 16
+
+2025-03-05 19:39:08 [INFO] Processing: Burgsmüller GmbH
+2025-03-05 19:39:18 [INFO] Found the following reports for Burgsmüller GmbH: 19
+
+2025-03-05 19:39:18 [INFO] Processing: Bertschinger GmbH & Co. KG
+2025-03-05 19:39:27 [INFO] Found the following reports for Bertschinger GmbH & Co. KG: 18
+
+2025-03-05 19:39:27 [INFO] Processing: SCM GROUP Deutschland GmbH
+2025-03-05 19:39:38 [INFO] Found the following reports for SCM GROUP Deutschland GmbH: 16
+
+2025-03-05 19:39:38 [INFO] Processing: Kötters Maschinenbau GmbH
+2025-03-05 19:39:57 [INFO] Found the following reports for Kötters Maschinenbau GmbH: 7
+
+2025-03-05 19:39:57 [INFO] Processing: LANG GmbH & Co. KG
+2025-03-05 19:40:06 [INFO] Found the following reports for LANG GmbH & Co. KG: 16
+
+2025-03-05 19:40:06 [INFO] Processing: G. Kraft Maschinenbau GmbH
+2025-03-05 19:40:20 [INFO] Found the following reports for G. Kraft Maschinenbau GmbH: 10
+
+2025-03-05 19:40:20 [INFO] Processing: Kraham Maschinenbau GmbH
+2025-03-05 19:40:28 [INFO] Found the following reports for Kraham Maschinenbau GmbH: 16
+
+2025-03-05 19:40:28 [INFO] Processing: Snap-on Equipment GmbH
+2025-03-05 19:40:43 [INFO] Found the following reports for Snap-on Equipment GmbH: 16
+
+2025-03-05 19:40:43 [INFO] Processing: HK-CON GmbH Maschinenbau
+2025-03-05 19:40:55 [INFO] Found the following reports for HK-CON GmbH Maschinenbau: 15
+
+2025-03-05 19:40:55 [INFO] Processing: DIRKRA Sondermaschinenbau GmbH & Co. KG
+2025-03-05 19:40:57 [INFO] Found the following reports for DIRKRA Sondermaschinenbau GmbH & Co. KG: 3
+
+2025-03-05 19:40:57 [INFO] Processing: Dipl.Ing. S c h i n d l e r & Wagner
+2025-03-05 19:48:53 [INFO] No dictionary reports found for Dipl.Ing. S c h i n d l e r & Wagner (data might be incomplete).
+
+2025-03-05 19:48:53 [INFO] Processing: MFT Maschinenfabrik Thale GmbH
+2025-03-05 19:49:02 [INFO] Found the following reports for MFT Maschinenfabrik Thale GmbH: 18
+
+2025-03-05 19:49:02 [INFO] Processing: J.G. Weisser Söhne GmbH & Co. KG
+2025-03-05 19:52:22 [INFO] Found the following reports for J.G. Weisser Söhne GmbH & Co. KG: 15
+
+2025-03-05 19:52:22 [INFO] Processing: Nordson Engineering GmbH
+2025-03-05 19:52:34 [INFO] Found the following reports for Nordson Engineering GmbH: 13
+
+2025-03-05 19:52:34 [INFO] Processing: Gehring Production GmbH + Co. KG
+2025-03-05 19:59:12 [INFO] Found the following reports for Gehring Production GmbH + Co. KG: 2
+
+2025-03-05 19:59:12 [INFO] Processing: Trützschler Group SE
+2025-03-05 19:59:21 [INFO] Found the following reports for Trützschler Group SE: 2
+
+2025-03-05 19:59:21 [INFO] Processing: KRUMBEIN rationell GmbH & Co. KG
+2025-03-05 19:59:28 [INFO] Found the following reports for KRUMBEIN rationell GmbH & Co. KG: 14
+
+2025-03-05 19:59:28 [INFO] Processing: Lindauer DORNIER GmbH
+2025-03-05 19:59:40 [INFO] Found the following reports for Lindauer DORNIER GmbH: 18
+
+2025-03-05 19:59:40 [INFO] Processing: LET Meschede GmbH
+2025-03-05 19:59:49 [INFO] Found the following reports for LET Meschede GmbH: 18
+
+2025-03-05 19:59:49 [INFO] Processing: bedo Verpackungstechnik GmbH
+2025-03-05 19:59:57 [INFO] Found the following reports for bedo Verpackungstechnik GmbH: 17
+
+2025-03-05 19:59:57 [INFO] Processing: Burghardt + Schmidt GmbH
+2025-03-05 20:00:08 [INFO] Found the following reports for Burghardt + Schmidt GmbH: 16
+
+2025-03-05 20:00:08 [INFO] Processing: August Mössner GmbH + Co. KG
+2025-03-05 20:04:00 [INFO] Found the following reports for August Mössner GmbH + Co. KG: 16
+
+2025-03-05 20:04:00 [INFO] Processing: Kienle + Spiess GmbH
+2025-03-05 20:04:17 [INFO] Found the following reports for Kienle + Spiess GmbH: 12
+
+2025-03-05 20:04:17 [INFO] Processing: Hoshizaki Deutschland Zweigniederlassung
+2025-03-05 20:04:49 [INFO] Found the following reports for Hoshizaki Deutschland Zweigniederlassung: 3
+
+2025-03-05 20:04:49 [INFO] Processing: Kumera Getriebe GmbH
+2025-03-05 20:04:51 [INFO] Found the following reports for Kumera Getriebe GmbH: 3
+
+2025-03-05 20:04:52 [INFO] Processing: Hans von der Heyde GmbH & Co. KG
+2025-03-05 20:07:14 [INFO] Found the following reports for Hans von der Heyde GmbH & Co. KG: 6
+
+2025-03-05 20:07:14 [INFO] Processing: Messer Cutting Systems GmbH
+2025-03-05 20:07:35 [INFO] Found the following reports for Messer Cutting Systems GmbH: 7
+
+2025-03-05 20:07:35 [INFO] Processing: Pipetronics GmbH & Co. KG
+2025-03-05 20:07:38 [INFO] Found the following reports for Pipetronics GmbH & Co. KG: 6
+
+2025-03-05 20:07:38 [INFO] Processing: Maschinenbau Kaltenbach GmbH
+2025-03-05 20:07:47 [INFO] Found the following reports for Maschinenbau Kaltenbach GmbH: 20
+
+2025-03-05 20:07:47 [INFO] Processing: Lang Technik GmbH
+2025-03-05 20:07:58 [INFO] Found the following reports for Lang Technik GmbH: 19
+
+2025-03-05 20:07:58 [INFO] Processing: Anthon GmbH
+2025-03-05 20:08:09 [INFO] Found the following reports for Anthon GmbH: 19
+
+2025-03-05 20:08:09 [INFO] Processing: Langguth GmbH
+2025-03-05 20:08:19 [INFO] Found the following reports for Langguth GmbH: 17
+
+2025-03-05 20:08:19 [INFO] Processing: Polytype Converting GmbH
+2025-03-05 20:08:21 [INFO] Found the following reports for Polytype Converting GmbH: 3
+
+2025-03-05 20:08:21 [INFO] Processing: GOEBEL Schneid- und Wickelsysteme GmbH
+2025-03-05 20:08:29 [INFO] Found the following reports for GOEBEL Schneid- und Wickelsysteme GmbH: 15
+
+2025-03-05 20:08:29 [INFO] Processing: KOHLER Maschinenbau GmbH
+2025-03-05 20:08:41 [INFO] Found the following reports for KOHLER Maschinenbau GmbH: 17
+
+2025-03-05 20:08:42 [INFO] Processing: Stahl- und Apparatebau
+2025-03-05 20:08:51 [INFO] Found the following reports for Stahl- und Apparatebau: 17
+
+2025-03-05 20:08:51 [INFO] Processing: Lehde Mechanik GmbH
+2025-03-05 20:13:19 [INFO] Found the following reports for Lehde Mechanik GmbH: 15
+
+2025-03-05 20:13:19 [INFO] Processing: Andritz Fiedler GmbH
+2025-03-05 20:13:42 [INFO] No dictionary reports found for Andritz Fiedler GmbH (data might be incomplete).
+
+2025-03-05 20:13:42 [INFO] Processing: SBS Bühnentechnik GmbH
+2025-03-05 20:13:56 [INFO] Found the following reports for SBS Bühnentechnik GmbH: 8
+
+2025-03-05 20:13:56 [INFO] Processing: Günther Maschinenbau GmbH
+2025-03-05 20:14:06 [INFO] Found the following reports for Günther Maschinenbau GmbH: 20
+
+2025-03-05 20:14:06 [INFO] Processing: LEMMER-FULLWOOD GmbH
+2025-03-05 20:14:15 [INFO] Found the following reports for LEMMER-FULLWOOD GmbH: 16
+
+2025-03-05 20:14:15 [INFO] Processing: Hamül Maschinenbau Plauen GmbH & Co. KG
+2025-03-05 20:14:30 [INFO] Found the following reports for Hamül Maschinenbau Plauen GmbH & Co. KG: 9
+
+2025-03-05 20:14:30 [INFO] Processing: HAMUEL Maschinenbau GmbH & Co. KG
+2025-03-05 20:14:47 [INFO] Found the following reports for HAMUEL Maschinenbau GmbH & Co. KG: 5
+
+2025-03-05 20:14:47 [INFO] Processing: Dr. Schulze GmbH
+2025-03-05 20:14:56 [INFO] Found the following reports for Dr. Schulze GmbH: 16
+
+2025-03-05 20:14:56 [INFO] Processing: Geibel & Hotz GmbH
+2025-03-05 20:15:18 [INFO] Found the following reports for Geibel & Hotz GmbH: 16
+
+2025-03-05 20:15:19 [INFO] Processing: Werner Lieb GmbH & Co. KG
+2025-03-05 20:15:29 [INFO] Found the following reports for Werner Lieb GmbH & Co. KG: 16
+
+2025-03-05 20:15:29 [INFO] Processing: Beinbauer Automotive GmbH & Co. KG
+2025-03-05 20:15:42 [INFO] No dictionary reports found for Beinbauer Automotive GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:15:42 [INFO] Processing: MWN in Niefern Maschinenfabrik GmbH
+2025-03-05 20:15:50 [INFO] Found the following reports for MWN in Niefern Maschinenfabrik GmbH: 14
+
+2025-03-05 20:15:50 [INFO] Processing: Wilhelm Lippelt GmbH & Co KG
+2025-03-05 20:20:53 [INFO] Found the following reports for Wilhelm Lippelt GmbH & Co KG: 15
+
+2025-03-05 20:20:53 [INFO] Processing: ILLIG Maschinenbau GmbH & Co. KG
+2025-03-05 20:21:03 [INFO] Found the following reports for ILLIG Maschinenbau GmbH & Co. KG: 2
+
+2025-03-05 20:21:03 [INFO] Processing: Lock Antriebstechnik GmbH
+2025-03-05 20:21:14 [INFO] Found the following reports for Lock Antriebstechnik GmbH: 17
+
+2025-03-05 20:21:14 [INFO] Processing: PRÄWEMA Antriebstechnik GmbH
+2025-03-05 20:21:23 [INFO] Found the following reports for PRÄWEMA Antriebstechnik GmbH: 15
+
+2025-03-05 20:21:23 [INFO] Processing: Witt & Sohn AG
+2025-03-05 20:21:31 [INFO] Found the following reports for Witt & Sohn AG: 16
+
+2025-03-05 20:21:31 [INFO] Processing: Nagel
+2025-03-05 20:21:38 [INFO] Found the following reports for Nagel: 8
+
+2025-03-05 20:21:38 [INFO] Processing: LAMBDA Gesellschaft für Gastechnik mbH
+2025-03-05 20:21:53 [INFO] Found the following reports for LAMBDA Gesellschaft für Gastechnik mbH: 4
+
+2025-03-05 20:21:54 [INFO] Processing: Heinrich Löwenkamp Maschinenbau GmbH
+2025-03-05 20:22:16 [INFO] Found the following reports for Heinrich Löwenkamp Maschinenbau GmbH: 15
+
+2025-03-05 20:22:16 [INFO] Processing: pro-beam GmbH & Co. KGaA
+2025-03-05 20:22:33 [INFO] Found the following reports for pro-beam GmbH & Co. KGaA: 2
+
+2025-03-05 20:22:33 [INFO] Processing: PLÜMAT Maschinenbau
+2025-03-05 20:22:41 [INFO] Found the following reports for PLÜMAT Maschinenbau: 14
+
+2025-03-05 20:22:41 [INFO] Processing: JW Froehlich Maschinenfabrik GmbH
+2025-03-05 20:22:44 [INFO] Found the following reports for JW Froehlich Maschinenfabrik GmbH: 6
+
+2025-03-05 20:22:44 [INFO] Processing: Logaer Maschinenbau GmbHb.H.
+2025-03-05 20:22:45 [ERROR] 'Logaer Maschinenbau GmbHb.H.' returned NoneType. Skipping to next company.
+2025-03-05 20:22:45 [INFO] No valid (dict) reports to store for Logaer Maschinenbau GmbHb.H..
+
+2025-03-05 20:22:45 [INFO] Processing: Koenig & Bauer Kammann GmbH
+2025-03-05 20:22:46 [ERROR] 'Koenig & Bauer Kammann GmbH' returned NoneType. Skipping to next company.
+2025-03-05 20:22:46 [INFO] No valid (dict) reports to store for Koenig & Bauer Kammann GmbH.
+
+2025-03-05 20:22:46 [INFO] Processing: Groeneveld-BEKA GmbH
+2025-03-05 20:22:48 [INFO] Found the following reports for Groeneveld-BEKA GmbH: 3
+
+2025-03-05 20:22:48 [INFO] Processing: ruhlamat GmbH
+2025-03-05 20:22:57 [INFO] Found the following reports for ruhlamat GmbH: 16
+
+2025-03-05 20:22:57 [INFO] Processing: WEIMA Maschinenbau GmbH
+2025-03-05 20:23:11 [INFO] Found the following reports for WEIMA Maschinenbau GmbH: 9
+
+2025-03-05 20:23:11 [INFO] Processing: FRANKA EMIKA GmbH
+2025-03-05 20:23:14 [INFO] Found the following reports for FRANKA EMIKA GmbH: 5
+
+2025-03-05 20:23:14 [INFO] Processing: Stadler Anlagenbau GmbH
+2025-03-05 20:27:46 [INFO] Found the following reports for Stadler Anlagenbau GmbH: 16
+
+2025-03-05 20:27:46 [INFO] Processing: PAMA paper machinery GmbH
+2025-03-05 20:27:51 [INFO] Found the following reports for PAMA paper machinery GmbH: 8
+
+2025-03-05 20:27:51 [INFO] Processing: Merkle Schweißanlagen-Technik GmbH
+2025-03-05 20:28:00 [INFO] Found the following reports for Merkle Schweißanlagen-Technik GmbH: 19
+
+2025-03-05 20:28:00 [INFO] Processing: WF-Maschinenbau und Blechformtechnik
+2025-03-05 20:28:09 [INFO] Found the following reports for WF-Maschinenbau und Blechformtechnik: 20
+
+2025-03-05 20:28:09 [INFO] Processing: ebu Umformtechnik GmbH
+2025-03-05 20:28:14 [INFO] Found the following reports for ebu Umformtechnik GmbH: 10
+
+2025-03-05 20:28:14 [INFO] Processing: ystral gmbh
+2025-03-05 20:28:22 [INFO] Found the following reports for ystral gmbh: 17
+
+2025-03-05 20:28:22 [INFO] Processing: FLP Microfinishing GmbH
+2025-03-05 20:28:31 [INFO] Found the following reports for FLP Microfinishing GmbH: 17
+
+2025-03-05 20:28:31 [INFO] Processing: MPM Micro Präzision Marx GmbH
+2025-03-05 20:28:39 [INFO] Found the following reports for MPM Micro Präzision Marx GmbH: 16
+
+2025-03-05 20:28:39 [INFO] Processing: POMA Systems GmbH
+2025-03-05 20:28:43 [INFO] Found the following reports for POMA Systems GmbH: 9
+
+2025-03-05 20:28:43 [INFO] Processing: EDM Technik Maschinenbau GmbH
+2025-03-05 20:28:50 [INFO] Found the following reports for EDM Technik Maschinenbau GmbH: 15
+
+2025-03-05 20:28:50 [INFO] Processing: Mayer & Cie. GmbH & Co. KG
+2025-03-05 20:29:04 [INFO] Found the following reports for Mayer & Cie. GmbH & Co. KG: 4
+
+2025-03-05 20:29:04 [INFO] Processing: MEIKO Maschinenbau GmbH & Co. KG
+2025-03-05 20:29:17 [INFO] No dictionary reports found for MEIKO Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:29:17 [INFO] Processing: AUTOPSTENHOJ GmbH
+2025-03-05 20:29:20 [INFO] Found the following reports for AUTOPSTENHOJ GmbH: 4
+
+2025-03-05 20:29:20 [INFO] Processing: Motan GmbH
+2025-03-05 20:29:30 [INFO] Found the following reports for Motan GmbH: 16
+
+2025-03-05 20:29:30 [INFO] Processing: RSGetriebe GmbH
+2025-03-05 20:29:38 [INFO] Found the following reports for RSGetriebe GmbH: 7
+
+2025-03-05 20:29:38 [INFO] Processing: Pedax GmbH
+2025-03-05 20:29:47 [INFO] Found the following reports for Pedax GmbH: 18
+
+2025-03-05 20:29:47 [INFO] Processing: H. F. Meyer Maschinenbau GmbH & Co. KG
+2025-03-05 20:30:08 [INFO] Found the following reports for H. F. Meyer Maschinenbau GmbH & Co. KG: 6
+
+2025-03-05 20:30:08 [INFO] Processing: Schott & Meissner
+2025-03-05 20:30:22 [INFO] Found the following reports for Schott & Meissner: 17
+
+2025-03-05 20:30:22 [INFO] Processing: Karl Menzel Maschinenfabrik GmbH & Co.
+2025-03-05 20:30:47 [INFO] Found the following reports for Karl Menzel Maschinenfabrik GmbH & Co.: 17
+
+2025-03-05 20:30:47 [INFO] Processing: Piller Blowers & Compressors GmbH
+2025-03-05 20:30:58 [INFO] Found the following reports for Piller Blowers & Compressors GmbH: 9
+
+2025-03-05 20:30:58 [INFO] Processing: INP Deutschland GmbH
+2025-03-05 20:31:09 [INFO] Found the following reports for INP Deutschland GmbH: 14
+
+2025-03-05 20:31:09 [INFO] Processing: LINAK GmbH
+2025-03-05 20:31:18 [INFO] Found the following reports for LINAK GmbH: 14
+
+2025-03-05 20:31:18 [INFO] Processing: SOMAtic GmbH
+2025-03-05 20:31:27 [INFO] Found the following reports for SOMAtic GmbH: 19
+
+2025-03-05 20:31:27 [INFO] Processing: MicroStep Europa GmbH
+2025-03-05 20:31:35 [INFO] Found the following reports for MicroStep Europa GmbH: 16
+
+2025-03-05 20:31:35 [INFO] Processing: Manfred Blind GmbH
+2025-03-05 20:31:45 [INFO] Found the following reports for Manfred Blind GmbH: 20
+
+2025-03-05 20:31:45 [INFO] Processing: Heiza-Werkstätten Wärmetechnik GmbH
+2025-03-05 20:31:49 [INFO] Found the following reports for Heiza-Werkstätten Wärmetechnik GmbH: 7
+
+2025-03-05 20:31:49 [INFO] Processing: Kiefel GmbH
+2025-03-05 20:32:00 [INFO] Found the following reports for Kiefel GmbH: 15
+
+2025-03-05 20:32:00 [INFO] Processing: DANOBAT-OVERBECK GmbH
+2025-03-05 20:32:03 [INFO] Found the following reports for DANOBAT-OVERBECK GmbH: 5
+
+2025-03-05 20:32:03 [INFO] Processing: Mosca GmbH
+2025-03-05 20:32:14 [INFO] Found the following reports for Mosca GmbH: 11
+
+2025-03-05 20:32:15 [INFO] Processing: Werner Maschinenbau GmbH
+2025-03-05 20:32:24 [INFO] Found the following reports for Werner Maschinenbau GmbH: 19
+
+2025-03-05 20:32:24 [INFO] Processing: KOLLER Maschinen- und Anlagenbau GmbH
+2025-03-05 20:34:44 [INFO] Found the following reports for KOLLER Maschinen- und Anlagenbau GmbH: 16
+
+2025-03-05 20:34:44 [INFO] Processing: MS Powertrain Technologie GmbH
+2025-03-05 20:34:46 [ERROR] 'MS Powertrain Technologie GmbH' returned NoneType. Skipping to next company.
+2025-03-05 20:34:46 [INFO] No valid (dict) reports to store for MS Powertrain Technologie GmbH.
+
+2025-03-05 20:34:46 [INFO] Processing: Top-Werk GmbH
+2025-03-05 20:34:58 [INFO] Found the following reports for Top-Werk GmbH: 8
+
+2025-03-05 20:34:58 [INFO] Processing: Salzhausener Maschinenbautechnik
+2025-03-05 20:35:09 [INFO] Found the following reports for Salzhausener Maschinenbautechnik: 17
+
+2025-03-05 20:35:09 [INFO] Processing: W. Müller GmbH
+2025-03-05 20:35:18 [INFO] Found the following reports for W. Müller GmbH: 16
+
+2025-03-05 20:35:18 [INFO] Processing: Maschinenfabrik Johann Leimbach GmbH
+2025-03-05 20:35:26 [INFO] Found the following reports for Maschinenfabrik Johann Leimbach GmbH: 18
+
+2025-03-05 20:35:26 [INFO] Processing: Leipert-Maschinenbau GmbH
+2025-03-05 20:35:34 [INFO] Found the following reports for Leipert-Maschinenbau GmbH: 15
+
+2025-03-05 20:35:34 [INFO] Processing: Alexander Binzel Schweisstechnik
+2025-03-05 20:35:49 [INFO] No dictionary reports found for Alexander Binzel Schweisstechnik (data might be incomplete).
+
+2025-03-05 20:35:49 [INFO] Processing: Kaibel und Sieber GmbH
+2025-03-05 20:35:56 [INFO] Found the following reports for Kaibel und Sieber GmbH: 15
+
+2025-03-05 20:35:56 [INFO] Processing: Kottmann u. Berger GmbH
+2025-03-05 20:41:36 [INFO] Found the following reports for Kottmann u. Berger GmbH: 15
+
+2025-03-05 20:41:36 [INFO] Processing: JORADO Maschinenbau GmbH
+2025-03-05 20:41:45 [INFO] Found the following reports for JORADO Maschinenbau GmbH: 16
+
+2025-03-05 20:41:45 [INFO] Processing: Mall + Herlan GmbH
+2025-03-05 20:41:55 [INFO] Found the following reports for Mall + Herlan GmbH: 20
+
+2025-03-05 20:41:55 [INFO] Processing: Continental Trebbin
+2025-03-05 20:41:56 [ERROR] 'Continental Trebbin' returned NoneType. Skipping to next company.
+2025-03-05 20:41:56 [INFO] No valid (dict) reports to store for Continental Trebbin.
+
+2025-03-05 20:41:56 [INFO] Processing: NILES-SIMMONS Industrieanlagen GmbH
+2025-03-05 20:42:10 [INFO] No dictionary reports found for NILES-SIMMONS Industrieanlagen GmbH (data might be incomplete).
+
+2025-03-05 20:42:10 [INFO] Processing: HEGENSCHEIDT-MFD GmbH
+2025-03-05 20:42:24 [INFO] Found the following reports for HEGENSCHEIDT-MFD GmbH: 2
+
+2025-03-05 20:42:25 [INFO] Processing: REA Elektronik GmbH
+2025-03-05 20:42:44 [INFO] Found the following reports for REA Elektronik GmbH: 13
+
+2025-03-05 20:42:44 [INFO] Processing: Piller Entgrattechnik GmbH
+2025-03-05 20:42:51 [INFO] Found the following reports for Piller Entgrattechnik GmbH: 14
+
+2025-03-05 20:42:51 [INFO] Processing: airinotec GmbH
+2025-03-05 20:42:59 [INFO] Found the following reports for airinotec GmbH: 17
+
+2025-03-05 20:42:59 [INFO] Processing: HOSOKAWA KOLB GmbH
+2025-03-05 20:43:12 [INFO] No dictionary reports found for HOSOKAWA KOLB GmbH (data might be incomplete).
+
+2025-03-05 20:43:12 [INFO] Processing: RONO Maschinenbau GmbH
+2025-03-05 20:43:20 [INFO] Found the following reports for RONO Maschinenbau GmbH: 16
+
+2025-03-05 20:43:20 [INFO] Processing: Dornieden Anlagentechnik GmbH
+2025-03-05 20:43:25 [INFO] Found the following reports for Dornieden Anlagentechnik GmbH: 9
+
+2025-03-05 20:43:25 [INFO] Processing: Maschinenfabrik Lauffer GmbH & Co KG
+2025-03-05 20:43:48 [INFO] Found the following reports for Maschinenfabrik Lauffer GmbH & Co KG: 16
+
+2025-03-05 20:43:48 [INFO] Processing: Hackforth Holding GmbH & Co. KG
+2025-03-05 20:44:04 [INFO] No dictionary reports found for Hackforth Holding GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:44:04 [INFO] Processing: Oswald Elektromotoren GmbH
+2025-03-05 20:44:14 [INFO] Found the following reports for Oswald Elektromotoren GmbH: 19
+
+2025-03-05 20:44:14 [INFO] Processing: MMD Werkzeugmaschinen-Vertrieb GmbH
+2025-03-05 20:44:21 [INFO] Found the following reports for MMD Werkzeugmaschinen-Vertrieb GmbH: 16
+
+2025-03-05 20:44:21 [INFO] Processing: MBO WITT Maschinenbau GmbH
+2025-03-05 20:44:24 [INFO] Found the following reports for MBO WITT Maschinenbau GmbH: 6
+
+2025-03-05 20:44:24 [INFO] Processing: SMG Sportplatzmaschinenbau GmbH
+2025-03-05 20:44:34 [INFO] Found the following reports for SMG Sportplatzmaschinenbau GmbH: 20
+
+2025-03-05 20:44:34 [INFO] Processing: Schneider & Ozga GmbH & Co. KG
+2025-03-05 20:44:37 [INFO] Found the following reports for Schneider & Ozga GmbH & Co. KG: 5
+
+2025-03-05 20:44:37 [INFO] Processing: bdtronic GmbH
+2025-03-05 20:44:38 [ERROR] 'bdtronic GmbH' returned NoneType. Skipping to next company.
+2025-03-05 20:44:38 [INFO] No valid (dict) reports to store for bdtronic GmbH.
+
+2025-03-05 20:44:38 [INFO] Processing: Heinzmann GmbH & Co. KG
+2025-03-05 20:44:51 [INFO] Found the following reports for Heinzmann GmbH & Co. KG: 14
+
+2025-03-05 20:44:51 [INFO] Processing: PTR Strahltechnik GmbH
+2025-03-05 20:44:56 [INFO] Found the following reports for PTR Strahltechnik GmbH: 7
+
+2025-03-05 20:44:56 [INFO] Processing: JBT Alco-food-machines GmbH
+2025-03-05 20:44:57 [INFO] Found the following reports for JBT Alco-food-machines GmbH: 1
+
+2025-03-05 20:44:57 [INFO] Processing: AUMA Riester GmbH & Co. KG
+2025-03-05 20:45:12 [INFO] No dictionary reports found for AUMA Riester GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:45:12 [INFO] Processing: Gebr. Reinfurt GmbH Co. KG
+2025-03-05 20:45:24 [INFO] Found the following reports for Gebr. Reinfurt GmbH Co. KG: 14
+
+2025-03-05 20:45:24 [INFO] Processing: Christian Pfeiffer
+2025-03-05 20:45:35 [INFO] Found the following reports for Christian Pfeiffer: 19
+
+2025-03-05 20:45:35 [INFO] Processing: Stromag GmbH
+2025-03-05 20:45:46 [INFO] Found the following reports for Stromag GmbH: 19
+
+2025-03-05 20:45:46 [INFO] Processing: STIEBER GmbH
+2025-03-05 20:45:55 [INFO] Found the following reports for STIEBER GmbH: 19
+
+2025-03-05 20:45:55 [INFO] Processing: WAFIOS Umformtechnik GmbH
+2025-03-05 20:46:03 [INFO] Found the following reports for WAFIOS Umformtechnik GmbH: 16
+
+2025-03-05 20:46:03 [INFO] Processing: OLBRICH GmbH
+2025-03-05 20:46:12 [INFO] Found the following reports for OLBRICH GmbH: 16
+
+2025-03-05 20:46:13 [INFO] Processing: Mikron Germany GmbH
+2025-03-05 20:46:14 [INFO] Found the following reports for Mikron Germany GmbH: 2
+
+2025-03-05 20:46:14 [INFO] Processing: Wöhr Autoparksysteme GmbH
+2025-03-05 20:46:24 [INFO] Found the following reports for Wöhr Autoparksysteme GmbH: 5
+
+2025-03-05 20:46:24 [INFO] Processing: Strama - MPS Maschinenbau GmbH & Co. KG
+2025-03-05 20:46:39 [INFO] No dictionary reports found for Strama - MPS Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:46:39 [INFO] Processing: Rehfuss Drive Solutions GmbH
+2025-03-05 20:46:41 [INFO] Found the following reports for Rehfuss Drive Solutions GmbH: 3
+
+2025-03-05 20:46:41 [INFO] Processing: Troester GmbH & Co. KG
+2025-03-05 20:46:52 [INFO] Found the following reports for Troester GmbH & Co. KG: 11
+
+2025-03-05 20:46:52 [INFO] Processing: Brückner Trockentechnik GmbH & Co. KG
+2025-03-05 20:47:06 [INFO] No dictionary reports found for Brückner Trockentechnik GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 20:47:06 [INFO] Processing: Heidrive GmbH
+2025-03-05 20:47:12 [INFO] Found the following reports for Heidrive GmbH: 11
+
+2025-03-05 20:47:12 [INFO] Processing: MULTIPOND Wägetechnik GmbH
+2025-03-05 20:47:25 [INFO] Found the following reports for MULTIPOND Wägetechnik GmbH: 12
+
+2025-03-05 20:47:25 [INFO] Processing: POKOLM Frästechnik GmbH & Co. KG
+2025-03-05 20:47:33 [INFO] Found the following reports for POKOLM Frästechnik GmbH & Co. KG: 16
+
+2025-03-05 20:47:33 [INFO] Processing: Aumann AG
+2025-03-05 20:47:36 [ERROR] 'Aumann AG' returned NoneType. Skipping to next company.
+2025-03-05 20:47:36 [INFO] No valid (dict) reports to store for Aumann AG.
+
+2025-03-05 20:47:36 [INFO] Processing: Borsig GmbH
+2025-03-05 20:47:53 [INFO] Found the following reports for Borsig GmbH: 6
+
+2025-03-05 20:47:53 [INFO] Processing: VEMAG Maschinenbau GmbH
+2025-03-05 20:48:02 [INFO] Found the following reports for VEMAG Maschinenbau GmbH: 17
+
+2025-03-05 20:48:02 [INFO] Processing: Sturm Holding GmbH
+2025-03-05 20:48:13 [INFO] Found the following reports for Sturm Holding GmbH: 17
+
+2025-03-05 20:48:13 [INFO] Processing: Peter Prinzing GmbH
+2025-03-05 20:51:37 [INFO] Found the following reports for Peter Prinzing GmbH: 15
+
+2025-03-05 20:51:37 [INFO] Processing: Stäubli Tec-Systems GmbH
+2025-03-05 20:51:52 [INFO] No dictionary reports found for Stäubli Tec-Systems GmbH (data might be incomplete).
+
+2025-03-05 20:51:52 [INFO] Processing: Römheld GmbH Friedrichshütte
+2025-03-05 20:52:11 [INFO] No dictionary reports found for Römheld GmbH Friedrichshütte (data might be incomplete).
+
+2025-03-05 20:52:11 [INFO] Processing: TRACTO-TECHNIK GmbH & Co. KG
+2025-03-05 20:52:12 [ERROR] 'TRACTO-TECHNIK GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 20:52:12 [INFO] No valid (dict) reports to store for TRACTO-TECHNIK GmbH & Co. KG.
+
+2025-03-05 20:52:12 [INFO] Processing: Rampf Holding GmbH + Co. KG
+2025-03-05 20:54:19 [INFO] Found the following reports for Rampf Holding GmbH + Co. KG: 6
+
+2025-03-05 20:54:19 [INFO] Processing: HOBEMA Maschinenfabrik
+2025-03-05 20:54:27 [INFO] Found the following reports for HOBEMA Maschinenfabrik: 16
+
+2025-03-05 20:54:27 [INFO] Processing: Rattunde AG
+2025-03-05 20:54:35 [INFO] Found the following reports for Rattunde AG: 5
+
+2025-03-05 20:54:35 [INFO] Processing: Heyligenstaedt Werkzeugmaschinen GmbH
+2025-03-05 20:54:43 [INFO] Found the following reports for Heyligenstaedt Werkzeugmaschinen GmbH: 16
+
+2025-03-05 20:54:43 [INFO] Processing: ASW-Karg Wire Technology GmbH
+2025-03-05 20:54:44 [ERROR] 'ASW-Karg Wire Technology GmbH' returned NoneType. Skipping to next company.
+2025-03-05 20:54:44 [INFO] No valid (dict) reports to store for ASW-Karg Wire Technology GmbH.
+
+2025-03-05 20:54:44 [INFO] Processing: Hoffmann Räumtechnik GmbH
+2025-03-05 20:54:52 [INFO] Found the following reports for Hoffmann Räumtechnik GmbH: 15
+
+2025-03-05 20:54:52 [INFO] Processing: HIGHYAG Lasertechnologie GmbH
+2025-03-05 20:55:01 [INFO] Found the following reports for HIGHYAG Lasertechnologie GmbH: 15
+
+2025-03-05 20:55:01 [INFO] Processing: REBS Zentralschmiertechnik GmbH
+2025-03-05 20:55:09 [INFO] Found the following reports for REBS Zentralschmiertechnik GmbH: 15
+
+2025-03-05 20:55:09 [INFO] Processing: Jonas & Redmann Group GmbH
+2025-03-05 20:55:20 [INFO] Found the following reports for Jonas & Redmann Group GmbH: 9
+
+2025-03-05 20:55:20 [INFO] Processing: Reich GmbH
+2025-03-05 20:55:28 [INFO] Found the following reports for Reich GmbH: 12
+
+2025-03-05 20:55:28 [INFO] Processing: KABATEC GmbH & Co. KG
+2025-03-05 20:55:35 [INFO] Found the following reports for KABATEC GmbH & Co. KG: 15
+
+2025-03-05 20:55:35 [INFO] Processing: Renner GmbH
+2025-03-05 20:55:43 [INFO] Found the following reports for Renner GmbH: 15
+
+2025-03-05 20:55:43 [INFO] Processing: MAWI GmbH Maschinen
+2025-03-05 20:55:50 [INFO] Found the following reports for MAWI GmbH Maschinen: 16
+
+2025-03-05 20:55:50 [INFO] Processing: SMS Maschinenbau GmbH
+2025-03-05 20:56:00 [INFO] Found the following reports for SMS Maschinenbau GmbH: 20
+
+2025-03-05 20:56:00 [INFO] Processing: Maschinenbau Leicht GmbH
+2025-03-05 20:56:11 [INFO] Found the following reports for Maschinenbau Leicht GmbH: 16
+
+2025-03-05 20:56:11 [INFO] Processing: Friedrich Hippe
+2025-03-05 20:56:21 [INFO] Found the following reports for Friedrich Hippe: 18
+
+2025-03-05 20:56:21 [INFO] Processing: Richter GmbH & Co. KG
+2025-03-05 20:56:31 [INFO] Found the following reports for Richter GmbH & Co. KG: 18
+
+2025-03-05 20:56:31 [INFO] Processing: Getriebebau Nossen GmbH & Co. KG
+2025-03-05 20:56:37 [INFO] Found the following reports for Getriebebau Nossen GmbH & Co. KG: 13
+
+2025-03-05 20:56:37 [INFO] Processing: Bernhard Upmann
+2025-03-05 20:56:46 [INFO] Found the following reports for Bernhard Upmann: 19
+
+2025-03-05 20:56:46 [INFO] Processing: MultiWeigh GmbH
+2025-03-05 20:56:50 [INFO] Found the following reports for MultiWeigh GmbH: 6
+
+2025-03-05 20:56:50 [INFO] Processing: Hermann Reckers GmbH & Co. KG
+2025-03-05 21:02:35 [INFO] No dictionary reports found for Hermann Reckers GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:02:35 [INFO] Processing: WERINOX-Edelstahltechnik GmbH
+2025-03-05 21:02:43 [INFO] Found the following reports for WERINOX-Edelstahltechnik GmbH: 16
+
+2025-03-05 21:02:43 [INFO] Processing: Roess Nature Group GmbH & Co. KG
+2025-03-05 21:02:45 [INFO] Found the following reports for Roess Nature Group GmbH & Co. KG: 2
+
+2025-03-05 21:02:45 [INFO] Processing: Helmut Rohde GmbH
+2025-03-05 21:05:02 [INFO] Found the following reports for Helmut Rohde GmbH: 16
+
+2025-03-05 21:05:02 [INFO] Processing: Theegarten-Pactec GmbH & Co. KG
+2025-03-05 21:05:11 [INFO] Found the following reports for Theegarten-Pactec GmbH & Co. KG: 17
+
+2025-03-05 21:05:12 [INFO] Processing: Maschinenfabrik Gustav Eirich
+2025-03-05 21:05:37 [INFO] Found the following reports for Maschinenfabrik Gustav Eirich: 16
+
+2025-03-05 21:05:37 [INFO] Processing: Robert Bürkle GmbH
+2025-03-05 21:05:48 [INFO] Found the following reports for Robert Bürkle GmbH: 12
+
+2025-03-05 21:05:48 [INFO] Processing: Rollon GmbH
+2025-03-05 21:05:57 [INFO] Found the following reports for Rollon GmbH: 19
+
+2025-03-05 21:05:57 [INFO] Processing: Bentec GmbH Drilling & Oilfield Systems
+2025-03-05 21:06:06 [INFO] Found the following reports for Bentec GmbH Drilling & Oilfield Systems: 15
+
+2025-03-05 21:06:06 [INFO] Processing: TURBOMACH GmbH
+2025-03-05 21:06:14 [INFO] Found the following reports for TURBOMACH GmbH: 16
+
+2025-03-05 21:06:14 [INFO] Processing: Hürner Luft- und Umwelttechnik GmbH
+2025-03-05 21:06:17 [INFO] Found the following reports for Hürner Luft- und Umwelttechnik GmbH: 5
+
+2025-03-05 21:06:17 [INFO] Processing: AMTRION GmbH
+2025-03-05 21:06:18 [ERROR] 'AMTRION GmbH' returned NoneType. Skipping to next company.
+2025-03-05 21:06:18 [INFO] No valid (dict) reports to store for AMTRION GmbH.
+
+2025-03-05 21:06:18 [INFO] Processing: TESOMA GmbH
+2025-03-05 21:06:26 [INFO] Found the following reports for TESOMA GmbH: 17
+
+2025-03-05 21:06:26 [INFO] Processing: L & R Montagetechnik GmbH
+2025-03-05 21:06:35 [INFO] Found the following reports for L & R Montagetechnik GmbH: 16
+
+2025-03-05 21:06:35 [INFO] Processing: Franz Ruberg & Co GmbH Mühlenbau
+2025-03-05 21:06:43 [INFO] Found the following reports for Franz Ruberg & Co GmbH Mühlenbau: 15
+
+2025-03-05 21:06:43 [INFO] Processing: Harburg-Freudenberger
+2025-03-05 21:06:55 [INFO] No dictionary reports found for Harburg-Freudenberger (data might be incomplete).
+
+2025-03-05 21:06:55 [INFO] Processing: Ruf Maschinenbau GmbH & Co. KG
+2025-03-05 21:07:18 [INFO] No dictionary reports found for Ruf Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:07:18 [INFO] Processing: Winkler und Dünnebier
+2025-03-05 21:07:33 [INFO] Found the following reports for Winkler und Dünnebier: 8
+
+2025-03-05 21:07:33 [INFO] Processing: GEISS AG
+2025-03-05 21:07:42 [INFO] Found the following reports for GEISS AG: 16
+
+2025-03-05 21:07:42 [INFO] Processing: AXA Entwicklungs- und Maschinenbau GmbH
+2025-03-05 21:07:52 [INFO] Found the following reports for AXA Entwicklungs- und Maschinenbau GmbH: 16
+
+2025-03-05 21:07:53 [INFO] Processing: K. Sandern GmbH Maschinenbau
+2025-03-05 21:08:07 [INFO] Found the following reports for K. Sandern GmbH Maschinenbau: 16
+
+2025-03-05 21:08:07 [INFO] Processing: Nordson BKG GmbH
+2025-03-05 21:08:35 [INFO] Found the following reports for Nordson BKG GmbH: 10
+
+2025-03-05 21:08:35 [INFO] Processing: WACHTEL ABT GmbH
+2025-03-05 21:17:01 [INFO] No dictionary reports found for WACHTEL ABT GmbH (data might be incomplete).
+
+2025-03-05 21:17:01 [INFO] Processing: KAMA GmbH
+2025-03-05 21:17:10 [INFO] Found the following reports for KAMA GmbH: 18
+
+2025-03-05 21:17:10 [INFO] Processing: Schaaf Technologie GmbH
+2025-03-05 21:17:19 [INFO] Found the following reports for Schaaf Technologie GmbH: 15
+
+2025-03-05 21:17:19 [INFO] Processing: OBE GmbH & Co. KG
+2025-03-05 21:17:31 [INFO] No dictionary reports found for OBE GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:17:31 [INFO] Processing: Weckenmann Anlagentechnik GmbH & Co. KG
+2025-03-05 21:17:39 [INFO] Found the following reports for Weckenmann Anlagentechnik GmbH & Co. KG: 14
+
+2025-03-05 21:17:39 [INFO] Processing: Erwin Junker Maschinenfabrik GmbH
+2025-03-05 21:18:03 [INFO] Found the following reports for Erwin Junker Maschinenfabrik GmbH: 16
+
+2025-03-05 21:18:03 [INFO] Processing: J + P Maschinenbau GmbH
+2025-03-05 21:18:21 [INFO] Found the following reports for J + P Maschinenbau GmbH: 7
+
+2025-03-05 21:18:21 [INFO] Processing: Schiele Maschinenbau GmbH
+2025-03-05 21:18:30 [INFO] Found the following reports for Schiele Maschinenbau GmbH: 18
+
+2025-03-05 21:18:30 [INFO] Processing: Schnaithmann Maschinenbau GmbH
+2025-03-05 21:18:52 [INFO] Found the following reports for Schnaithmann Maschinenbau GmbH: 14
+
+2025-03-05 21:18:52 [INFO] Processing: MAJA-Maschinenfabrik
+2025-03-05 21:19:02 [INFO] Found the following reports for MAJA-Maschinenfabrik: 20
+
+2025-03-05 21:19:02 [INFO] Processing: OKA-Spezialmaschinenfabrik GmbH & Co. KG
+2025-03-05 21:19:07 [INFO] Found the following reports for OKA-Spezialmaschinenfabrik GmbH & Co. KG: 10
+
+2025-03-05 21:19:07 [INFO] Processing: Bosch Industriekessel GmbH
+2025-03-05 21:19:25 [INFO] No dictionary reports found for Bosch Industriekessel GmbH (data might be incomplete).
+
+2025-03-05 21:19:25 [INFO] Processing: Rationator Maschinenbau GmbH
+2025-03-05 21:19:33 [INFO] Found the following reports for Rationator Maschinenbau GmbH: 16
+
+2025-03-05 21:19:33 [INFO] Processing: Stefani Maschinenbau GmbH
+2025-03-05 21:19:41 [INFO] Found the following reports for Stefani Maschinenbau GmbH: 16
+
+2025-03-05 21:19:41 [INFO] Processing: Eckart Maschinenbau GmbH
+2025-03-05 21:19:50 [INFO] Found the following reports for Eckart Maschinenbau GmbH: 16
+
+2025-03-05 21:19:50 [INFO] Processing: Osthoff Senge GmbH & Co. KG
+2025-03-05 21:19:57 [INFO] Found the following reports for Osthoff Senge GmbH & Co. KG: 15
+
+2025-03-05 21:19:57 [INFO] Processing: Emil Schmid Maschinenbau GmbH & Co. KG
+2025-03-05 21:20:13 [INFO] No dictionary reports found for Emil Schmid Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:20:13 [INFO] Processing: Kunststofftechnik Schmid GmbH & Co. KG
+2025-03-05 21:20:19 [INFO] Found the following reports for Kunststofftechnik Schmid GmbH & Co. KG: 8
+
+2025-03-05 21:20:19 [INFO] Processing: SCHMIDT Technology GmbH
+2025-03-05 21:20:32 [INFO] Found the following reports for SCHMIDT Technology GmbH: 9
+
+2025-03-05 21:20:32 [INFO] Processing: Ampack GmbH
+2025-03-05 21:20:45 [INFO] Found the following reports for Ampack GmbH: 11
+
+2025-03-05 21:20:45 [INFO] Processing: FlexLink Systems GmbH
+2025-03-05 21:20:54 [INFO] Found the following reports for FlexLink Systems GmbH: 18
+
+2025-03-05 21:20:54 [INFO] Processing: H & T ProduktionsTechnologie GmbH
+2025-03-05 21:26:39 [INFO] No dictionary reports found for H & T ProduktionsTechnologie GmbH (data might be incomplete).
+
+2025-03-05 21:26:39 [INFO] Processing: kocher-plastik Maschinenbau-GmbH.
+2025-03-05 21:27:05 [INFO] Found the following reports for kocher-plastik Maschinenbau-GmbH.: 16
+
+2025-03-05 21:27:05 [INFO] Processing: Ondal Medical Systems GmbH
+2025-03-05 21:27:20 [INFO] Found the following reports for Ondal Medical Systems GmbH: 1
+
+2025-03-05 21:27:20 [INFO] Processing: Zwickauer Werkzeug- und
+2025-03-05 21:27:29 [INFO] Found the following reports for Zwickauer Werkzeug- und: 19
+
+2025-03-05 21:27:29 [INFO] Processing: Witels-Albert GmbH
+2025-03-05 21:27:43 [INFO] Found the following reports for Witels-Albert GmbH: 6
+
+2025-03-05 21:27:43 [INFO] Processing: FRIEDRICH KOCKS GmbH & Co. KG
+2025-03-05 21:27:53 [INFO] Found the following reports for FRIEDRICH KOCKS GmbH & Co. KG: 20
+
+2025-03-05 21:27:53 [INFO] Processing: Diversey Deutschland GmbH & Co. OHG
+2025-03-05 21:28:07 [INFO] Found the following reports for Diversey Deutschland GmbH & Co. OHG: 12
+
+2025-03-05 21:28:07 [INFO] Processing: Neue ZWL Zahnradwerk Leipzig GmbH
+2025-03-05 21:28:17 [INFO] Found the following reports for Neue ZWL Zahnradwerk Leipzig GmbH: 8
+
+2025-03-05 21:28:17 [INFO] Processing: WS - Wärmeprozesstechnik GmbH
+2025-03-05 21:28:25 [INFO] Found the following reports for WS - Wärmeprozesstechnik GmbH: 16
+
+2025-03-05 21:28:25 [INFO] Processing: STAMA Stahl- und Maschinenbau
+2025-03-05 21:28:34 [INFO] Found the following reports for STAMA Stahl- und Maschinenbau: 18
+
+2025-03-05 21:28:34 [INFO] Processing: ELMAKO GmbH & Co. KG
+2025-03-05 21:28:41 [INFO] Found the following reports for ELMAKO GmbH & Co. KG: 15
+
+2025-03-05 21:28:41 [INFO] Processing: GLAMA Maschinenbau GmbH
+2025-03-05 21:28:49 [INFO] Found the following reports for GLAMA Maschinenbau GmbH: 17
+
+2025-03-05 21:28:49 [INFO] Processing: Ing. Fritz Schroeder GmbH & Co. KG
+2025-03-05 21:31:07 [INFO] Found the following reports for Ing. Fritz Schroeder GmbH & Co. KG: 16
+
+2025-03-05 21:31:07 [INFO] Processing: Spatz & Heitmüller GmbH & Co. KG
+2025-03-05 21:31:22 [INFO] Found the following reports for Spatz & Heitmüller GmbH & Co. KG: 9
+
+2025-03-05 21:31:22 [INFO] Processing: Ulmer Werkzeugschleiftechnik GmbH & Co. KG
+2025-03-05 21:31:30 [INFO] Found the following reports for Ulmer Werkzeugschleiftechnik GmbH & Co. KG: 16
+
+2025-03-05 21:31:30 [INFO] Processing: MGT Maschinen- und Gerätebau GmbH
+2025-03-05 21:31:38 [INFO] Found the following reports for MGT Maschinen- und Gerätebau GmbH: 15
+
+2025-03-05 21:31:38 [INFO] Processing: RKT Rodinger Kunststoff-Technik GmbH
+2025-03-05 21:31:54 [INFO] Found the following reports for RKT Rodinger Kunststoff-Technik GmbH: 7
+
+2025-03-05 21:31:54 [INFO] Processing: BBM Maschinenbau und Vertriebs GmbH
+2025-03-05 21:32:03 [INFO] Found the following reports for BBM Maschinenbau und Vertriebs GmbH: 17
+
+2025-03-05 21:32:03 [INFO] Processing: SCHUKO H. Schulte-Südhoff GmbH
+2025-03-05 21:32:13 [INFO] Found the following reports for SCHUKO H. Schulte-Südhoff GmbH: 20
+
+2025-03-05 21:32:13 [INFO] Processing: VIBRA MASCHINENFABRIK
+2025-03-05 21:32:24 [INFO] Found the following reports for VIBRA MASCHINENFABRIK: 20
+
+2025-03-05 21:32:24 [INFO] Processing: HOLZER GmbH
+2025-03-05 21:32:31 [INFO] Found the following reports for HOLZER GmbH: 4
+
+2025-03-05 21:32:31 [INFO] Processing: Hastamat Verpackungstechnik GmbH
+2025-03-05 21:32:47 [INFO] No dictionary reports found for Hastamat Verpackungstechnik GmbH (data might be incomplete).
+
+2025-03-05 21:32:47 [INFO] Processing: Stiebel-Getriebebau GmbH & Co. KG
+2025-03-05 21:32:56 [INFO] Found the following reports for Stiebel-Getriebebau GmbH & Co. KG: 17
+
+2025-03-05 21:32:56 [INFO] Processing: Brosa GmbH
+2025-03-05 21:33:05 [INFO] Found the following reports for Brosa GmbH: 15
+
+2025-03-05 21:33:05 [INFO] Processing: Hemro Manufacturing Germany GmbH
+2025-03-05 21:33:08 [INFO] Found the following reports for Hemro Manufacturing Germany GmbH: 4
+
+2025-03-05 21:33:08 [INFO] Processing: komax Kabelverarbeitungs-
+2025-03-05 21:33:17 [INFO] Found the following reports for komax Kabelverarbeitungs-: 16
+
+2025-03-05 21:33:17 [INFO] Processing: Gerätebau Wiedtal Schützeichel
+2025-03-05 21:33:23 [INFO] Found the following reports for Gerätebau Wiedtal Schützeichel: 10
+
+2025-03-05 21:33:23 [INFO] Processing: M.A.i. GmbH & Co. KG
+2025-03-05 21:33:26 [ERROR] 'M.A.i. GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 21:33:26 [INFO] No valid (dict) reports to store for M.A.i. GmbH & Co. KG.
+
+2025-03-05 21:33:26 [INFO] Processing: RAMME Electric Machines GmbH
+2025-03-05 21:33:30 [INFO] Found the following reports for RAMME Electric Machines GmbH: 8
+
+2025-03-05 21:33:30 [INFO] Processing: ECONO-PAK GmbH
+2025-03-05 21:33:38 [INFO] Found the following reports for ECONO-PAK GmbH: 15
+
+2025-03-05 21:33:38 [INFO] Processing: ETT Verpackungstechnik GmbH
+2025-03-05 21:33:46 [INFO] Found the following reports for ETT Verpackungstechnik GmbH: 16
+
+2025-03-05 21:33:46 [INFO] Processing: Sebald Maschinenbau GmbH
+2025-03-05 21:34:09 [INFO] Found the following reports for Sebald Maschinenbau GmbH: 15
+
+2025-03-05 21:34:09 [INFO] Processing: Maschinenfabrik Seydelmann KG
+2025-03-05 21:34:10 [ERROR] 'Maschinenfabrik Seydelmann KG' returned NoneType. Skipping to next company.
+2025-03-05 21:34:10 [INFO] No valid (dict) reports to store for Maschinenfabrik Seydelmann KG.
+
+2025-03-05 21:34:10 [INFO] Processing: Maschinenbau Hellwig GmbH
+2025-03-05 21:34:18 [INFO] Found the following reports for Maschinenbau Hellwig GmbH: 15
+
+2025-03-05 21:34:18 [INFO] Processing: Kahl u. Schlichterle Maschinen- Geräte-
+2025-03-05 21:34:19 [ERROR] 'Kahl u. Schlichterle Maschinen- Geräte-' returned NoneType. Skipping to next company.
+2025-03-05 21:34:19 [INFO] No valid (dict) reports to store for Kahl u. Schlichterle Maschinen- Geräte-.
+
+2025-03-05 21:34:19 [INFO] Processing: STAMA Maschinenfabrik GmbH
+2025-03-05 21:34:33 [INFO] No dictionary reports found for STAMA Maschinenfabrik GmbH (data might be incomplete).
+
+2025-03-05 21:34:33 [INFO] Processing: Rögelberg Getriebe GmbH & Co. KG
+2025-03-05 21:34:43 [INFO] Found the following reports for Rögelberg Getriebe GmbH & Co. KG: 14
+
+2025-03-05 21:34:43 [INFO] Processing: UNICOR GmbH
+2025-03-05 21:34:52 [INFO] Found the following reports for UNICOR GmbH: 20
+
+2025-03-05 21:34:52 [INFO] Processing: G. Staehle GmbH u. Co. KG
+2025-03-05 21:35:03 [INFO] Found the following reports for G. Staehle GmbH u. Co. KG: 7
+
+2025-03-05 21:35:03 [INFO] Processing: Gottlob Stahl
+2025-03-05 21:35:28 [INFO] Found the following reports for Gottlob Stahl: 18
+
+2025-03-05 21:35:28 [INFO] Processing: Grün GmbH Spezialmaschinenfabrik
+2025-03-05 21:35:38 [INFO] Found the following reports for Grün GmbH Spezialmaschinenfabrik: 20
+
+2025-03-05 21:35:38 [INFO] Processing: Breyer GmbH Maschinenfabrik
+2025-03-05 21:36:02 [INFO] Found the following reports for Breyer GmbH Maschinenfabrik: 16
+
+2025-03-05 21:36:02 [INFO] Processing: A-Z Formen- und Maschinenbau GmbH
+2025-03-05 21:36:03 [ERROR] 'A-Z Formen- und Maschinenbau GmbH' returned NoneType. Skipping to next company.
+2025-03-05 21:36:03 [INFO] No valid (dict) reports to store for A-Z Formen- und Maschinenbau GmbH.
+
+2025-03-05 21:36:03 [INFO] Processing: Hesse GmbH
+2025-03-05 21:36:10 [INFO] Found the following reports for Hesse GmbH: 7
+
+2025-03-05 21:36:10 [INFO] Processing: FAWEMA GmbH
+2025-03-05 21:36:19 [INFO] Found the following reports for FAWEMA GmbH: 20
+
+2025-03-05 21:36:19 [INFO] Processing: HDG - Verpackungsmaschinen GmbH
+2025-03-05 21:36:27 [INFO] Found the following reports for HDG - Verpackungsmaschinen GmbH: 14
+
+2025-03-05 21:36:27 [INFO] Processing: Zahoransky AG
+2025-03-05 21:36:38 [INFO] Found the following reports for Zahoransky AG: 9
+
+2025-03-05 21:36:38 [INFO] Processing: DGS Diesel- und Getriebeservice GmbH
+2025-03-05 21:36:46 [INFO] Found the following reports for DGS Diesel- und Getriebeservice GmbH: 15
+
+2025-03-05 21:36:46 [INFO] Processing: FGB: Präzisionsmaschinenbau
+2025-03-05 21:36:55 [INFO] Found the following reports for FGB: Präzisionsmaschinenbau: 20
+
+2025-03-05 21:36:55 [INFO] Processing: BMA Braunschweigische
+2025-03-05 21:37:05 [INFO] Found the following reports for BMA Braunschweigische: 12
+
+2025-03-05 21:37:05 [INFO] Processing: BC Extrusion Holding GmbH
+2025-03-05 21:37:19 [INFO] Found the following reports for BC Extrusion Holding GmbH: 7
+
+2025-03-05 21:37:19 [INFO] Processing: Richard Stihler GmbH
+2025-03-05 21:37:27 [INFO] Found the following reports for Richard Stihler GmbH: 16
+
+2025-03-05 21:37:27 [INFO] Processing: SEM Elektrotechnik und Maschinenbau GmbH
+2025-03-05 21:37:36 [INFO] Found the following reports for SEM Elektrotechnik und Maschinenbau GmbH: 16
+
+2025-03-05 21:37:36 [INFO] Processing: Motoreninstandsetzungswerk
+2025-03-05 21:37:44 [INFO] Found the following reports for Motoreninstandsetzungswerk: 16
+
+2025-03-05 21:37:44 [INFO] Processing: DEBAG Deutsche Backofenbau GmbH
+2025-03-05 21:37:53 [INFO] Found the following reports for DEBAG Deutsche Backofenbau GmbH: 18
+
+2025-03-05 21:37:53 [INFO] Processing: Strauß Verpackungsmaschinen GmbH
+2025-03-05 21:38:06 [INFO] Found the following reports for Strauß Verpackungsmaschinen GmbH: 15
+
+2025-03-05 21:38:06 [INFO] Processing: KOBRA Formen GmbH
+2025-03-05 21:38:16 [INFO] Found the following reports for KOBRA Formen GmbH: 10
+
+2025-03-05 21:38:16 [INFO] Processing: IP Gansow GmbH
+2025-03-05 21:38:25 [INFO] Found the following reports for IP Gansow GmbH: 17
+
+2025-03-05 21:38:25 [INFO] Processing: Tennant GmbH & Co. KG
+2025-03-05 21:38:39 [INFO] Found the following reports for Tennant GmbH & Co. KG: 16
+
+2025-03-05 21:38:39 [INFO] Processing: SKR Antriebstechnik GmbH Antriebselemente
+2025-03-05 21:38:47 [INFO] Found the following reports for SKR Antriebstechnik GmbH Antriebselemente: 17
+
+2025-03-05 21:38:47 [INFO] Processing: Janz Tec AG
+2025-03-05 21:38:55 [INFO] Found the following reports for Janz Tec AG: 12
+
+2025-03-05 21:38:55 [INFO] Processing: POLAR Cutting Technologies GmbH
+2025-03-05 21:38:55 [ERROR] 'POLAR Cutting Technologies GmbH' returned NoneType. Skipping to next company.
+2025-03-05 21:38:55 [INFO] No valid (dict) reports to store for POLAR Cutting Technologies GmbH.
+
+2025-03-05 21:38:55 [INFO] Processing: Suffel Fördertechnik GmbH & Co. KG
+2025-03-05 21:38:56 [ERROR] 'Suffel Fördertechnik GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 21:38:56 [INFO] No valid (dict) reports to store for Suffel Fördertechnik GmbH & Co. KG.
+
+2025-03-05 21:38:56 [INFO] Processing: Spaleck GmbH & Co. KG
+2025-03-05 21:39:06 [INFO] Found the following reports for Spaleck GmbH & Co. KG: 19
+
+2025-03-05 21:39:06 [INFO] Processing: FPS Werkzeugmaschinen GmbH
+2025-03-05 21:39:13 [INFO] Found the following reports for FPS Werkzeugmaschinen GmbH: 16
+
+2025-03-05 21:39:13 [INFO] Processing: Pockauer Werkzeugbau Oertel GmbH
+2025-03-05 21:39:22 [INFO] Found the following reports for Pockauer Werkzeugbau Oertel GmbH: 17
+
+2025-03-05 21:39:22 [INFO] Processing: DISCO HI-TEC EUROPE GmbH
+2025-03-05 21:39:30 [INFO] Found the following reports for DISCO HI-TEC EUROPE GmbH: 13
+
+2025-03-05 21:39:30 [INFO] Processing: Gutmann Anlagentechnik GmbH
+2025-03-05 21:48:01 [INFO] Found the following reports for Gutmann Anlagentechnik GmbH: 9
+
+2025-03-05 21:48:01 [INFO] Processing: Kawasaki Gas Turbine Europe GmbH
+2025-03-05 21:48:23 [INFO] Found the following reports for Kawasaki Gas Turbine Europe GmbH: 17
+
+2025-03-05 21:48:23 [INFO] Processing: MEM Maschinenbau GmbH
+2025-03-05 21:48:34 [INFO] Found the following reports for MEM Maschinenbau GmbH: 14
+
+2025-03-05 21:48:34 [INFO] Processing: THIES GmbH & Co. KG
+2025-03-05 21:48:45 [INFO] Found the following reports for THIES GmbH & Co. KG: 15
+
+2025-03-05 21:48:45 [INFO] Processing: Waldrich Siegen
+2025-03-05 21:48:56 [INFO] Found the following reports for Waldrich Siegen: 13
+
+2025-03-05 21:48:56 [INFO] Processing: VENTAPP GmbH
+2025-03-05 21:49:05 [INFO] Found the following reports for VENTAPP GmbH: 18
+
+2025-03-05 21:49:05 [INFO] Processing: Aumann Limbach-Oberfrohna GmbH
+2025-03-05 21:49:11 [INFO] Found the following reports for Aumann Limbach-Oberfrohna GmbH: 5
+
+2025-03-05 21:49:11 [INFO] Processing: EKATO HOLDING GmbH
+2025-03-05 21:49:26 [INFO] Found the following reports for EKATO HOLDING GmbH: 6
+
+2025-03-05 21:49:26 [INFO] Processing: Manroland Sheetfed GmbH
+2025-03-05 21:49:38 [INFO] Found the following reports for Manroland Sheetfed GmbH: 13
+
+2025-03-05 21:49:38 [INFO] Processing: Toss GmbH & Co KG Verpackungssysteme
+2025-03-05 21:49:49 [INFO] Found the following reports for Toss GmbH & Co KG Verpackungssysteme: 20
+
+2025-03-05 21:49:49 [INFO] Processing: FilaTech Filament
+2025-03-05 21:49:57 [INFO] Found the following reports for FilaTech Filament: 17
+
+2025-03-05 21:49:57 [INFO] Processing: TÜNKERS Maschinenbau GmbH
+2025-03-05 21:50:10 [INFO] Found the following reports for TÜNKERS Maschinenbau GmbH: 9
+
+2025-03-05 21:50:10 [INFO] Processing: NIMAK GmbH
+2025-03-05 21:50:20 [INFO] Found the following reports for NIMAK GmbH: 18
+
+2025-03-05 21:50:20 [INFO] Processing: Hako GmbH
+2025-03-05 21:50:31 [INFO] Found the following reports for Hako GmbH: 13
+
+2025-03-05 21:50:31 [INFO] Processing: Urban GmbH & Co. Maschinenbau KG
+2025-03-05 21:50:57 [INFO] No dictionary reports found for Urban GmbH & Co. Maschinenbau KG (data might be incomplete).
+
+2025-03-05 21:50:57 [INFO] Processing: Gebr. Eickhoff Maschinenfabrik
+2025-03-05 21:51:05 [INFO] Found the following reports for Gebr. Eickhoff Maschinenfabrik: 16
+
+2025-03-05 21:51:05 [INFO] Processing: ZAE-Antriebs Systeme GmbH & Co. KG
+2025-03-05 21:51:18 [INFO] No dictionary reports found for ZAE-Antriebs Systeme GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:51:18 [INFO] Processing: Carl Cloos Schweißtechnik GmbH
+2025-03-05 21:51:30 [INFO] Found the following reports for Carl Cloos Schweißtechnik GmbH: 14
+
+2025-03-05 21:51:30 [INFO] Processing: VEIT GmbH
+2025-03-05 21:51:39 [INFO] Found the following reports for VEIT GmbH: 17
+
+2025-03-05 21:51:40 [INFO] Processing: VHV Anlagenbau GmbH
+2025-03-05 21:51:48 [INFO] Found the following reports for VHV Anlagenbau GmbH: 16
+
+2025-03-05 21:51:48 [INFO] Processing: GMN Paul Müller Industrie GmbH & Co. KG
+2025-03-05 21:52:01 [INFO] No dictionary reports found for GMN Paul Müller Industrie GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 21:52:01 [INFO] Processing: Baumer hhs GmbH
+2025-03-05 21:52:15 [INFO] Found the following reports for Baumer hhs GmbH: 7
+
+2025-03-05 21:52:15 [INFO] Processing: COMUNA - metall
+2025-03-05 21:52:22 [INFO] Found the following reports for COMUNA - metall: 15
+
+2025-03-05 21:52:22 [INFO] Processing: GERB
+2025-03-05 21:52:32 [INFO] Found the following reports for GERB: 19
+
+2025-03-05 21:52:32 [INFO] Processing: GEORGII KOBOLD GmbH & Co. KG
+2025-03-05 21:52:39 [INFO] Found the following reports for GEORGII KOBOLD GmbH & Co. KG: 16
+
+2025-03-05 21:52:39 [INFO] Processing: uniROTA Maplan Schwerin GmbH
+2025-03-05 21:52:42 [INFO] Found the following reports for uniROTA Maplan Schwerin GmbH: 5
+
+2025-03-05 21:52:42 [INFO] Processing: PALLMANN Maschinenfabrik
+2025-03-05 21:52:55 [INFO] Found the following reports for PALLMANN Maschinenfabrik: 7
+
+2025-03-05 21:52:55 [INFO] Processing: Intego GmbH
+2025-03-05 21:53:04 [INFO] Found the following reports for Intego GmbH: 20
+
+2025-03-05 21:53:04 [INFO] Processing: Carl Kurt Walther GmbH & Co. KG
+2025-03-05 21:53:48 [INFO] Found the following reports for Carl Kurt Walther GmbH & Co. KG: 17
+
+2025-03-05 21:53:48 [INFO] Processing: KROENERT GmbH & Co KG
+2025-03-05 21:54:01 [INFO] Found the following reports for KROENERT GmbH & Co KG: 3
+
+2025-03-05 21:54:01 [INFO] Processing: ALPMA Alpenland Maschinenbau GmbH
+2025-03-05 21:54:11 [INFO] Found the following reports for ALPMA Alpenland Maschinenbau GmbH: 16
+
+2025-03-05 21:54:11 [INFO] Processing: Hans Weber Maschinenfabrik GmbH
+2025-03-05 21:54:24 [INFO] Found the following reports for Hans Weber Maschinenfabrik GmbH: 1
+
+2025-03-05 21:54:24 [INFO] Processing: new HESTA blow moulding solutions
+2025-03-05 21:54:25 [INFO] Found the following reports for new HESTA blow moulding solutions: 2
+
+2025-03-05 21:54:25 [INFO] Processing: Dr. Fritsch Sondermaschinen GmbH
+2025-03-05 21:54:34 [INFO] Found the following reports for Dr. Fritsch Sondermaschinen GmbH: 18
+
+2025-03-05 21:54:34 [INFO] Processing: Schwäbische Werkzeugmaschinen GmbH
+2025-03-05 21:54:49 [INFO] No dictionary reports found for Schwäbische Werkzeugmaschinen GmbH (data might be incomplete).
+
+2025-03-05 21:54:49 [INFO] Processing: AMC-Industrietechnik GmbH
+2025-03-05 21:54:53 [INFO] Found the following reports for AMC-Industrietechnik GmbH: 7
+
+2025-03-05 21:54:53 [INFO] Processing: Hennecke GmbH
+2025-03-05 21:55:03 [INFO] Found the following reports for Hennecke GmbH: 20
+
+2025-03-05 21:55:03 [INFO] Processing: WAFIOS Aktiengesellschaft
+2025-03-05 21:55:14 [INFO] Found the following reports for WAFIOS Aktiengesellschaft: 9
+
+2025-03-05 21:55:14 [INFO] Processing: Weisig Maschinenbau GmbH
+2025-03-05 21:55:21 [INFO] Found the following reports for Weisig Maschinenbau GmbH: 15
+
+2025-03-05 21:55:21 [INFO] Processing: UFT Umwelt- und Fluid-Technik
+2025-03-05 21:55:29 [INFO] Found the following reports for UFT Umwelt- und Fluid-Technik: 16
+
+2025-03-05 21:55:29 [INFO] Processing: ETW Energietechnik GmbH
+2025-03-05 21:55:38 [INFO] Found the following reports for ETW Energietechnik GmbH: 17
+
+2025-03-05 21:55:38 [INFO] Processing: Andreas Hofer Hochdrucktechnik GmbH
+2025-03-05 21:55:51 [INFO] Found the following reports for Andreas Hofer Hochdrucktechnik GmbH: 11
+
+2025-03-05 21:55:51 [INFO] Processing: Interlit Filtration GmbH
+2025-03-05 21:55:54 [INFO] Found the following reports for Interlit Filtration GmbH: 6
+
+2025-03-05 21:55:54 [INFO] Processing: Günther Wensing GmbH und Co. KG
+2025-03-05 21:56:01 [INFO] Found the following reports for Günther Wensing GmbH und Co. KG: 15
+
+2025-03-05 21:56:01 [INFO] Processing: NEUHAUS NEOTEC
+2025-03-05 21:56:19 [INFO] No dictionary reports found for NEUHAUS NEOTEC (data might be incomplete).
+
+2025-03-05 21:56:19 [INFO] Processing: Ludwig Schwerdtel GmbH
+2025-03-05 21:56:29 [INFO] Found the following reports for Ludwig Schwerdtel GmbH: 20
+
+2025-03-05 21:56:29 [INFO] Processing: J. Engelsmann AG
+2025-03-05 21:56:36 [INFO] Found the following reports for J. Engelsmann AG: 9
+
+2025-03-05 21:56:36 [INFO] Processing: L.B. Bohle Maschinen und Verfahren
+2025-03-05 22:01:06 [INFO] Found the following reports for L.B. Bohle Maschinen und Verfahren: 16
+
+2025-03-05 22:01:06 [INFO] Processing: Westeria GmbH
+2025-03-05 22:01:15 [INFO] Found the following reports for Westeria GmbH: 16
+
+2025-03-05 22:01:15 [INFO] Processing: Kutter- und Gerätebau Wetter GmbH
+2025-03-05 22:01:23 [INFO] Found the following reports for Kutter- und Gerätebau Wetter GmbH: 16
+
+2025-03-05 22:01:23 [INFO] Processing: Weyrauch GmbH & Co. KG
+2025-03-05 22:01:41 [INFO] Found the following reports for Weyrauch GmbH & Co. KG: 1
+
+2025-03-05 22:01:41 [INFO] Processing: Widmann Maschinen GmbH & Co. KG
+2025-03-05 22:09:52 [INFO] Found the following reports for Widmann Maschinen GmbH & Co. KG: 10
+
+2025-03-05 22:09:52 [INFO] Processing: Bihl + Wiedemann GmbH
+2025-03-05 22:10:03 [INFO] Found the following reports for Bihl + Wiedemann GmbH: 15
+
+2025-03-05 22:10:03 [INFO] Processing: ERLENBACH GmbH
+2025-03-05 22:10:12 [ERROR] 'ERLENBACH GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:10:12 [INFO] No valid (dict) reports to store for ERLENBACH GmbH.
+
+2025-03-05 22:10:12 [INFO] Processing: Gustav Wiegard Maschinenfabrik GmbH
+2025-03-05 22:10:20 [INFO] Found the following reports for Gustav Wiegard Maschinenfabrik GmbH: 15
+
+2025-03-05 22:10:20 [INFO] Processing: REFORM Grinding Technology GmbH
+2025-03-05 22:10:25 [INFO] Found the following reports for REFORM Grinding Technology GmbH: 9
+
+2025-03-05 22:10:25 [INFO] Processing: Wieneke-Anlagenbau
+2025-03-05 22:10:33 [INFO] Found the following reports for Wieneke-Anlagenbau: 15
+
+2025-03-05 22:10:33 [INFO] Processing: Bellmer GapCon GmbH
+2025-03-05 22:10:45 [INFO] Found the following reports for Bellmer GapCon GmbH: 1
+
+2025-03-05 22:10:45 [INFO] Processing: Horstkemper Maschinenbau GmbH
+2025-03-05 22:10:53 [INFO] Found the following reports for Horstkemper Maschinenbau GmbH: 16
+
+2025-03-05 22:10:53 [INFO] Processing: Elektrowerk Hannover
+2025-03-05 22:11:03 [INFO] Found the following reports for Elektrowerk Hannover: 19
+
+2025-03-05 22:11:03 [INFO] Processing: RACO-ELEKTRO-Maschinen GmbH
+2025-03-05 22:11:11 [INFO] Found the following reports for RACO-ELEKTRO-Maschinen GmbH: 15
+
+2025-03-05 22:11:11 [INFO] Processing: vision-tec gmbH
+2025-03-05 22:11:33 [INFO] Found the following reports for vision-tec gmbH: 7
+
+2025-03-05 22:11:33 [INFO] Processing: A & W Maschinenbau GmbH
+2025-03-05 22:11:43 [INFO] Found the following reports for A & W Maschinenbau GmbH: 20
+
+2025-03-05 22:11:43 [INFO] Processing: WISTA Werkzeugfertigungs- GmbH
+2025-03-05 22:11:50 [INFO] Found the following reports for WISTA Werkzeugfertigungs- GmbH: 14
+
+2025-03-05 22:11:50 [INFO] Processing: Winkel GmbH
+2025-03-05 22:12:00 [INFO] Found the following reports for Winkel GmbH: 17
+
+2025-03-05 22:12:00 [INFO] Processing: Koch Pac-Systeme GmbH
+2025-03-05 22:12:13 [INFO] Found the following reports for Koch Pac-Systeme GmbH: 14
+
+2025-03-05 22:12:13 [INFO] Processing: Laempe Mössner Sinto GmbH
+2025-03-05 22:12:23 [INFO] Found the following reports for Laempe Mössner Sinto GmbH: 4
+
+2025-03-05 22:12:23 [INFO] Processing: JÖST GmbH + Co. KG
+2025-03-05 22:12:36 [INFO] Found the following reports for JÖST GmbH + Co. KG: 9
+
+2025-03-05 22:12:36 [INFO] Processing: Gössling Verwaltungs - GmbH
+2025-03-05 22:12:44 [INFO] Found the following reports for Gössling Verwaltungs - GmbH: 14
+
+2025-03-05 22:12:44 [INFO] Processing: A B Graphic International GmbH
+2025-03-05 22:12:55 [INFO] Found the following reports for A B Graphic International GmbH: 17
+
+2025-03-05 22:12:55 [INFO] Processing: SME Sondermaschinenbau Engelsdorf GmbH
+2025-03-05 22:13:02 [INFO] Found the following reports for SME Sondermaschinenbau Engelsdorf GmbH: 16
+
+2025-03-05 22:13:02 [INFO] Processing: H & H Schalldämpfer und Gerätebau GmbH
+2025-03-05 22:13:10 [INFO] Found the following reports for H & H Schalldämpfer und Gerätebau GmbH: 15
+
+2025-03-05 22:13:10 [INFO] Processing: Ottemeier Werkzeug-
+2025-03-05 22:13:18 [INFO] Found the following reports for Ottemeier Werkzeug-: 16
+
+2025-03-05 22:13:18 [INFO] Processing: Bardenhagen Maschinenbau u.
+2025-03-05 22:13:24 [INFO] Found the following reports for Bardenhagen Maschinenbau u.: 12
+
+2025-03-05 22:13:24 [INFO] Processing: Actemium conntronic GmbH
+2025-03-05 22:13:25 [INFO] Found the following reports for Actemium conntronic GmbH: 1
+
+2025-03-05 22:13:25 [INFO] Processing: GHD Georg Hartmann
+2025-03-05 22:13:32 [INFO] Found the following reports for GHD Georg Hartmann: 13
+
+2025-03-05 22:13:32 [INFO] Processing: Profiroll Technologies GmbH
+2025-03-05 22:13:44 [INFO] Found the following reports for Profiroll Technologies GmbH: 1
+
+2025-03-05 22:13:45 [INFO] Processing: Maschinenbau Wüst GmbH
+2025-03-05 22:14:08 [INFO] Found the following reports for Maschinenbau Wüst GmbH: 17
+
+2025-03-05 22:14:08 [INFO] Processing: Yamazaki Mazak Deutschland GmbH
+2025-03-05 22:14:18 [INFO] Found the following reports for Yamazaki Mazak Deutschland GmbH: 17
+
+2025-03-05 22:14:18 [INFO] Processing: ACCRETECH (Europe) GmbH
+2025-03-05 22:14:27 [INFO] Found the following reports for ACCRETECH (Europe) GmbH: 17
+
+2025-03-05 22:14:27 [INFO] Processing: Klöckner Desma Elastomertechnik GmbH
+2025-03-05 22:14:28 [ERROR] 'Klöckner Desma Elastomertechnik GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:14:28 [INFO] No valid (dict) reports to store for Klöckner Desma Elastomertechnik GmbH.
+
+2025-03-05 22:14:28 [INFO] Processing: Weinmann Holzbausystemtechnik GmbH
+2025-03-05 22:14:30 [ERROR] 'Weinmann Holzbausystemtechnik GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:14:30 [INFO] No valid (dict) reports to store for Weinmann Holzbausystemtechnik GmbH.
+
+2025-03-05 22:14:30 [INFO] Processing: ROTORCOMP VERDICHTER GmbH
+2025-03-05 22:14:46 [INFO] No dictionary reports found for ROTORCOMP VERDICHTER GmbH (data might be incomplete).
+
+2025-03-05 22:14:46 [INFO] Processing: Haitian International Germany GmbH
+2025-03-05 22:15:03 [INFO] Found the following reports for Haitian International Germany GmbH: 7
+
+2025-03-05 22:15:03 [INFO] Processing: Deckel Maho Seebach GmbH
+2025-03-05 22:15:07 [ERROR] 'Deckel Maho Seebach GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:15:07 [INFO] No valid (dict) reports to store for Deckel Maho Seebach GmbH.
+
+2025-03-05 22:15:07 [INFO] Processing: Kyffhäuser Maschinenfabrik Artern GmbH
+2025-03-05 22:15:15 [INFO] Found the following reports for Kyffhäuser Maschinenfabrik Artern GmbH: 15
+
+2025-03-05 22:15:15 [INFO] Processing: KRONEN GmbH
+2025-03-05 22:15:24 [INFO] Found the following reports for KRONEN GmbH: 11
+
+2025-03-05 22:15:24 [INFO] Processing: Druckguss Service Deutschland GmbH
+2025-03-05 22:15:34 [INFO] Found the following reports for Druckguss Service Deutschland GmbH: 16
+
+2025-03-05 22:15:34 [INFO] Processing: Maschinenfabrik Wüstwillenroth GmbH
+2025-03-05 22:15:42 [INFO] Found the following reports for Maschinenfabrik Wüstwillenroth GmbH: 16
+
+2025-03-05 22:15:42 [INFO] Processing: Masa GmbH
+2025-03-05 22:15:51 [INFO] Found the following reports for Masa GmbH: 17
+
+2025-03-05 22:15:51 [INFO] Processing: ANDRITZ Separation GmbH
+2025-03-05 22:16:05 [INFO] No dictionary reports found for ANDRITZ Separation GmbH (data might be incomplete).
+
+2025-03-05 22:16:05 [INFO] Processing: Tisora Sondermaschinen GmbH
+2025-03-05 22:16:12 [INFO] Found the following reports for Tisora Sondermaschinen GmbH: 15
+
+2025-03-05 22:16:12 [INFO] Processing: Winkler + Dünnebier GmbH
+2025-03-05 22:16:32 [INFO] Found the following reports for Winkler + Dünnebier GmbH: 2
+
+2025-03-05 22:16:32 [INFO] Processing: Maschinenfabrik Herkules GmbH & Co. KG
+2025-03-05 22:16:47 [INFO] Found the following reports for Maschinenfabrik Herkules GmbH & Co. KG: 10
+
+2025-03-05 22:16:47 [INFO] Processing: Kuper Maschinen und Anlagen GmbH
+2025-03-05 22:19:45 [INFO] Found the following reports for Kuper Maschinen und Anlagen GmbH: 13
+
+2025-03-05 22:19:45 [INFO] Processing: Alfa Laval Mid Europe GmbH
+2025-03-05 22:19:59 [INFO] Found the following reports for Alfa Laval Mid Europe GmbH: 17
+
+2025-03-05 22:19:59 [INFO] Processing: CEDS DURADRIVE GmbH
+2025-03-05 22:20:05 [INFO] Found the following reports for CEDS DURADRIVE GmbH: 10
+
+2025-03-05 22:20:05 [INFO] Processing: PFAFF Industriesysteme und Maschinen
+2025-03-05 22:20:18 [INFO] Found the following reports for PFAFF Industriesysteme und Maschinen: 12
+
+2025-03-05 22:20:18 [INFO] Processing: Dorst Technologies GmbH & Co. KG
+2025-03-05 22:20:30 [INFO] Found the following reports for Dorst Technologies GmbH & Co. KG: 10
+
+2025-03-05 22:20:30 [INFO] Processing: Wilhelm B a h m ü l l e r
+2025-03-05 22:20:43 [INFO] Found the following reports for Wilhelm B a h m ü l l e r: 16
+
+2025-03-05 22:20:43 [INFO] Processing: Alfred H. Schütte GmbH & Co. KG
+2025-03-05 22:21:01 [INFO] Found the following reports for Alfred H. Schütte GmbH & Co. KG: 4
+
+2025-03-05 22:21:01 [INFO] Processing: Bühler GmbH
+2025-03-05 22:21:10 [INFO] Found the following reports for Bühler GmbH: 11
+
+2025-03-05 22:21:10 [INFO] Processing: STRACK NORMA GmbH & Co. KG
+2025-03-05 22:24:35 [INFO] Found the following reports for STRACK NORMA GmbH & Co. KG: 14
+
+2025-03-05 22:24:35 [INFO] Processing: KELLER HCW GmbH
+2025-03-05 22:24:48 [INFO] Found the following reports for KELLER HCW GmbH: 20
+
+2025-03-05 22:24:48 [INFO] Processing: KTR Systems GmbH
+2025-03-05 22:25:00 [INFO] Found the following reports for KTR Systems GmbH: 13
+
+2025-03-05 22:25:00 [INFO] Processing: TOMRA SYSTEMS GmbH
+2025-03-05 22:25:12 [INFO] Found the following reports for TOMRA SYSTEMS GmbH: 15
+
+2025-03-05 22:25:13 [INFO] Processing: Rexnord GmbH
+2025-03-05 22:25:26 [INFO] Found the following reports for Rexnord GmbH: 12
+
+2025-03-05 22:25:26 [INFO] Processing: MIWE Michael Wenz GmbH
+2025-03-05 22:25:37 [INFO] Found the following reports for MIWE Michael Wenz GmbH: 10
+
+2025-03-05 22:25:37 [INFO] Processing: BÖWE SYSTEC GmbH
+2025-03-05 22:25:51 [INFO] Found the following reports for BÖWE SYSTEC GmbH: 10
+
+2025-03-05 22:25:51 [INFO] Processing: VON ARDENNE Holding SE & Co. KGaA
+2025-03-05 22:25:54 [INFO] Found the following reports for VON ARDENNE Holding SE & Co. KGaA: 1
+
+2025-03-05 22:25:54 [INFO] Processing: Nussbaum Custom Lifts GmbH
+2025-03-05 22:25:55 [INFO] Found the following reports for Nussbaum Custom Lifts GmbH: 1
+
+2025-03-05 22:25:55 [INFO] Processing: Starrag Technology GmbH
+2025-03-05 22:26:14 [INFO] Found the following reports for Starrag Technology GmbH: 1
+
+2025-03-05 22:26:14 [INFO] Processing: SAMAG Saalfelder Werkzeugmaschinen GmbH
+2025-03-05 22:26:30 [INFO] Found the following reports for SAMAG Saalfelder Werkzeugmaschinen GmbH: 8
+
+2025-03-05 22:26:30 [INFO] Processing: Metzner Maschinenbau GmbH
+2025-03-05 22:26:53 [INFO] Found the following reports for Metzner Maschinenbau GmbH: 15
+
+2025-03-05 22:26:53 [INFO] Processing: T R I M A Triebeser Maschinenbau GmbH
+2025-03-05 22:27:00 [INFO] Found the following reports for T R I M A Triebeser Maschinenbau GmbH: 14
+
+2025-03-05 22:27:00 [INFO] Processing: Quadient Germany GmbH & Co. KG
+2025-03-05 22:27:18 [INFO] Found the following reports for Quadient Germany GmbH & Co. KG: 3
+
+2025-03-05 22:27:18 [INFO] Processing: Comau Deutschland GmbH
+2025-03-05 22:27:28 [INFO] Found the following reports for Comau Deutschland GmbH: 17
+
+2025-03-05 22:27:28 [INFO] Processing: Krallmann GmbH
+2025-03-05 22:27:38 [INFO] Found the following reports for Krallmann GmbH: 20
+
+2025-03-05 22:27:38 [INFO] Processing: Sielaff GmbH & Co. KG
+2025-03-05 22:27:54 [INFO] Found the following reports for Sielaff GmbH & Co. KG: 8
+
+2025-03-05 22:27:54 [INFO] Processing: Vietz WV-GmbH
+2025-03-05 22:27:56 [INFO] Found the following reports for Vietz WV-GmbH: 2
+
+2025-03-05 22:27:56 [INFO] Processing: Ferromatik Milacron GmbH
+2025-03-05 22:28:07 [INFO] Found the following reports for Ferromatik Milacron GmbH: 13
+
+2025-03-05 22:28:07 [INFO] Processing: Weiss Spindeltechnologie GmbH
+2025-03-05 22:28:17 [INFO] Found the following reports for Weiss Spindeltechnologie GmbH: 17
+
+2025-03-05 22:28:17 [INFO] Processing: Schlatter Deutschland GmbH & Co. KG
+2025-03-05 22:28:25 [INFO] Found the following reports for Schlatter Deutschland GmbH & Co. KG: 13
+
+2025-03-05 22:28:25 [INFO] Processing: KARL MAYER Technische Textilien GmbH
+2025-03-05 22:34:16 [INFO] Found the following reports for KARL MAYER Technische Textilien GmbH: 5
+
+2025-03-05 22:34:16 [INFO] Processing: Ringfeder Power-Transmission GmbH
+2025-03-05 22:34:27 [INFO] Found the following reports for Ringfeder Power-Transmission GmbH: 20
+
+2025-03-05 22:34:27 [INFO] Processing: Bobst Bielefeld GmbH
+2025-03-05 22:34:53 [INFO] No dictionary reports found for Bobst Bielefeld GmbH (data might be incomplete).
+
+2025-03-05 22:34:53 [INFO] Processing: zirkon Druckmaschinen GmbH
+2025-03-05 22:35:05 [INFO] Found the following reports for zirkon Druckmaschinen GmbH: 1
+
+2025-03-05 22:35:05 [INFO] Processing: Weckerle GmbH
+2025-03-05 22:35:17 [INFO] Found the following reports for Weckerle GmbH: 16
+
+2025-03-05 22:35:17 [INFO] Processing: Gehring Technologies GmbH
+2025-03-05 22:35:33 [INFO] Found the following reports for Gehring Technologies GmbH: 1
+
+2025-03-05 22:35:33 [INFO] Processing: KASTO Maschinenbau GmbH & Co. KG
+2025-03-05 22:35:41 [INFO] Found the following reports for KASTO Maschinenbau GmbH & Co. KG: 16
+
+2025-03-05 22:35:41 [INFO] Processing: SVQ GmbH
+2025-03-05 22:35:50 [INFO] Found the following reports for SVQ GmbH: 15
+
+2025-03-05 22:35:50 [INFO] Processing: Grenzebach Maschinenbau GmbH
+2025-03-05 22:36:05 [INFO] Found the following reports for Grenzebach Maschinenbau GmbH: 5
+
+2025-03-05 22:36:05 [INFO] Processing: Karl Heesemann Maschinenfabrik
+2025-03-05 22:36:13 [INFO] Found the following reports for Karl Heesemann Maschinenfabrik: 16
+
+2025-03-05 22:36:13 [INFO] Processing: ANDRITZ Küsters GmbH
+2025-03-05 22:36:36 [INFO] No dictionary reports found for ANDRITZ Küsters GmbH (data might be incomplete).
+
+2025-03-05 22:36:36 [INFO] Processing: ANDRITZ Maerz GmbH
+2025-03-05 22:36:59 [INFO] No dictionary reports found for ANDRITZ Maerz GmbH (data might be incomplete).
+
+2025-03-05 22:36:59 [INFO] Processing: GEDA GmbH
+2025-03-05 22:37:10 [INFO] Found the following reports for GEDA GmbH: 16
+
+2025-03-05 22:37:10 [INFO] Processing: Probat-Werke
+2025-03-05 22:37:27 [INFO] Found the following reports for Probat-Werke: 3
+
+2025-03-05 22:37:27 [INFO] Processing: Rosink GmbH + Co. Maschinenfabrik
+2025-03-05 22:37:34 [INFO] Found the following reports for Rosink GmbH + Co. Maschinenfabrik: 16
+
+2025-03-05 22:37:35 [INFO] Processing: DMT Demminer Maschinenbau Technik GmbH
+2025-03-05 22:37:42 [INFO] Found the following reports for DMT Demminer Maschinenbau Technik GmbH: 15
+
+2025-03-05 22:37:42 [INFO] Processing: Musterfirma GmbH
+2025-03-05 22:37:44 [INFO] No dictionary reports found for Musterfirma GmbH (data might be incomplete).
+
+2025-03-05 22:37:44 [INFO] Processing: Hötten Anlagenbau GmbH
+2025-03-05 22:40:12 [INFO] No dictionary reports found for Hötten Anlagenbau GmbH (data might be incomplete).
+
+2025-03-05 22:40:12 [INFO] Processing: Bräutigam Bergbau-
+2025-03-05 22:40:21 [INFO] Found the following reports for Bräutigam Bergbau-: 19
+
+2025-03-05 22:40:21 [INFO] Processing: MAKA Systems GmbH
+2025-03-05 22:40:30 [INFO] Found the following reports for MAKA Systems GmbH: 15
+
+2025-03-05 22:40:30 [INFO] Processing: Dürkopp Fördertechnik GmbH
+2025-03-05 22:40:40 [INFO] Found the following reports for Dürkopp Fördertechnik GmbH: 13
+
+2025-03-05 22:40:40 [INFO] Processing: MAE Maschinen- und Apparatebau
+2025-03-05 22:40:42 [ERROR] 'MAE Maschinen- und Apparatebau' returned NoneType. Skipping to next company.
+2025-03-05 22:40:42 [INFO] No valid (dict) reports to store for MAE Maschinen- und Apparatebau.
+
+2025-03-05 22:40:42 [INFO] Processing: INKA System GmbH
+2025-03-05 22:40:51 [INFO] Found the following reports for INKA System GmbH: 18
+
+2025-03-05 22:40:51 [INFO] Processing: SCHULZ Unternehmensfamilie e.K.
+2025-03-05 22:40:51 [ERROR] 'SCHULZ Unternehmensfamilie e.K.' returned NoneType. Skipping to next company.
+2025-03-05 22:40:51 [INFO] No valid (dict) reports to store for SCHULZ Unternehmensfamilie e.K..
+
+2025-03-05 22:40:51 [INFO] Processing: Steremat Induktion GmbH
+2025-03-05 22:40:57 [INFO] Found the following reports for Steremat Induktion GmbH: 11
+
+2025-03-05 22:40:57 [INFO] Processing: R. Weiss Packaging GmbH & Co. KG
+2025-03-05 22:41:15 [INFO] No dictionary reports found for R. Weiss Packaging GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 22:41:15 [INFO] Processing: GERNEP GmbH Etikettiertechnik
+2025-03-05 22:41:16 [ERROR] 'GERNEP GmbH Etikettiertechnik' returned NoneType. Skipping to next company.
+2025-03-05 22:41:16 [INFO] No valid (dict) reports to store for GERNEP GmbH Etikettiertechnik.
+
+2025-03-05 22:41:16 [INFO] Processing: August Weckermann KG
+2025-03-05 22:41:17 [ERROR] 'August Weckermann KG' returned NoneType. Skipping to next company.
+2025-03-05 22:41:17 [INFO] No valid (dict) reports to store for August Weckermann KG.
+
+2025-03-05 22:41:17 [INFO] Processing: elumatec AG
+2025-03-05 22:41:29 [INFO] Found the following reports for elumatec AG: 9
+
+2025-03-05 22:41:29 [INFO] Processing: Gallus Druckmaschinen GmbH
+2025-03-05 22:41:32 [ERROR] 'Gallus Druckmaschinen GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:41:32 [INFO] No valid (dict) reports to store for Gallus Druckmaschinen GmbH.
+
+2025-03-05 22:41:32 [INFO] Processing: SSL Maschinenbau GmbH
+2025-03-05 22:41:46 [INFO] Found the following reports for SSL Maschinenbau GmbH: 15
+
+2025-03-05 22:41:46 [INFO] Processing: Bystronic Maschinenbau GmbH
+2025-03-05 22:42:01 [INFO] Found the following reports for Bystronic Maschinenbau GmbH: 1
+
+2025-03-05 22:42:01 [INFO] Processing: KD Stahl- und Maschinenbau GmbH
+2025-03-05 22:42:02 [INFO] Found the following reports for KD Stahl- und Maschinenbau GmbH: 1
+
+2025-03-05 22:42:02 [INFO] Processing: MAXIMATOR GmbH
+2025-03-05 22:42:13 [INFO] Found the following reports for MAXIMATOR GmbH: 20
+
+2025-03-05 22:42:13 [INFO] Processing: LOESCH Verpackungstechnik GmbH
+2025-03-05 22:42:28 [INFO] No dictionary reports found for LOESCH Verpackungstechnik GmbH (data might be incomplete).
+
+2025-03-05 22:42:28 [INFO] Processing: ZIPPE Industrieanlagen GmbH
+2025-03-05 22:42:39 [INFO] Found the following reports for ZIPPE Industrieanlagen GmbH: 17
+
+2025-03-05 22:42:39 [INFO] Processing: Rothenpieler Zerspanungs-Centrum GmbH
+2025-03-05 22:42:47 [INFO] Found the following reports for Rothenpieler Zerspanungs-Centrum GmbH: 16
+
+2025-03-05 22:42:47 [INFO] Processing: RB Solutions GmbH & Co. KG
+2025-03-05 22:43:15 [INFO] Found the following reports for RB Solutions GmbH & Co. KG: 4
+
+2025-03-05 22:43:15 [INFO] Processing: Walther Trowal GmbH & Co. KG
+2025-03-05 22:43:15 [ERROR] 'Walther Trowal GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-05 22:43:15 [INFO] No valid (dict) reports to store for Walther Trowal GmbH & Co. KG.
+
+2025-03-05 22:43:15 [INFO] Processing: Korsch Aktiengesellschaft
+2025-03-05 22:43:25 [INFO] Found the following reports for Korsch Aktiengesellschaft: 17
+
+2025-03-05 22:43:25 [INFO] Processing: TM Verwaltungs GmbH
+2025-03-05 22:43:39 [INFO] Found the following reports for TM Verwaltungs GmbH: 12
+
+2025-03-05 22:43:39 [INFO] Processing: HELL Gravure Systems GmbH & Co. KG
+2025-03-05 22:43:54 [INFO] Found the following reports for HELL Gravure Systems GmbH & Co. KG: 4
+
+2025-03-05 22:43:54 [INFO] Processing: SHW SCHMIEDETECHNIK GmbH & Co. KG
+2025-03-05 22:44:03 [INFO] No dictionary reports found for SHW SCHMIEDETECHNIK GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 22:44:03 [INFO] Processing: BW Papersystems Stuttgart GmbH
+2025-03-05 22:44:20 [INFO] Found the following reports for BW Papersystems Stuttgart GmbH: 1
+
+2025-03-05 22:44:21 [INFO] Processing: Robert Nyblad GmbH
+2025-03-05 22:44:29 [INFO] Found the following reports for Robert Nyblad GmbH: 16
+
+2025-03-05 22:44:29 [INFO] Processing: Westphal Präzisionstechnik GmbH & Co. KG
+2025-03-05 22:44:36 [INFO] Found the following reports for Westphal Präzisionstechnik GmbH & Co. KG: 15
+
+2025-03-05 22:44:36 [INFO] Processing: CHOCOTECH GmbH
+2025-03-05 22:44:44 [INFO] Found the following reports for CHOCOTECH GmbH: 16
+
+2025-03-05 22:44:44 [INFO] Processing: T R E I F - Maschinenbau GmbH
+2025-03-05 22:45:00 [INFO] Found the following reports for T R E I F - Maschinenbau GmbH: 16
+
+2025-03-05 22:45:00 [INFO] Processing: Maschinenbau Scholz GmbH & Co. KG
+2025-03-05 22:45:12 [INFO] Found the following reports for Maschinenbau Scholz GmbH & Co. KG: 17
+
+2025-03-05 22:45:12 [INFO] Processing: Maschinen & Formenbau
+2025-03-05 22:45:23 [INFO] Found the following reports for Maschinen & Formenbau: 20
+
+2025-03-05 22:45:23 [INFO] Processing: HOMAG Kantentechnik GmbH
+2025-03-05 22:45:26 [ERROR] 'HOMAG Kantentechnik GmbH' returned NoneType. Skipping to next company.
+2025-03-05 22:45:26 [INFO] No valid (dict) reports to store for HOMAG Kantentechnik GmbH.
+
+2025-03-05 22:45:26 [INFO] Processing: Rhein-Getriebe GmbH
+2025-03-05 22:45:44 [INFO] Found the following reports for Rhein-Getriebe GmbH: 16
+
+2025-03-05 22:45:44 [INFO] Processing: STEINERT GmbH
+2025-03-05 22:45:54 [INFO] Found the following reports for STEINERT GmbH: 17
+
+2025-03-05 22:45:54 [INFO] Processing: ESPERA-WERKE GMBH
+2025-03-05 22:46:02 [INFO] Found the following reports for ESPERA-WERKE GMBH: 16
+
+2025-03-05 22:46:03 [INFO] Processing: sera GmbH
+2025-03-05 22:46:13 [INFO] Found the following reports for sera GmbH: 19
+
+2025-03-05 22:46:13 [INFO] Processing: OSSBERGER GmbH + Co KG
+2025-03-05 22:46:17 [INFO] Found the following reports for OSSBERGER GmbH + Co KG: 7
+
+2025-03-05 22:46:17 [INFO] Processing: NABERTHERM GmbH
+2025-03-05 22:46:25 [INFO] Found the following reports for NABERTHERM GmbH: 15
+
+2025-03-05 22:46:25 [INFO] Processing: PETERS Maschinenbau GmbH & Co. KG
+2025-03-05 22:46:35 [INFO] Found the following reports for PETERS Maschinenbau GmbH & Co. KG: 17
+
+2025-03-05 22:46:35 [INFO] Processing: Wohlenberg Buchbindesysteme GmbH
+2025-03-05 22:46:45 [INFO] Found the following reports for Wohlenberg Buchbindesysteme GmbH: 20
+
+2025-03-05 22:46:45 [INFO] Processing: Gustav Göckel Maschinenfabrik GmbH
+2025-03-05 22:46:53 [INFO] Found the following reports for Gustav Göckel Maschinenfabrik GmbH: 16
+
+2025-03-05 22:46:53 [INFO] Processing: Sollich KG
+2025-03-05 22:46:54 [INFO] No dictionary reports found for Sollich KG (data might be incomplete).
+
+2025-03-05 22:46:54 [INFO] Processing: Dienst-Verpackungstechnik GmbH
+2025-03-05 22:47:04 [INFO] Found the following reports for Dienst-Verpackungstechnik GmbH: 16
+
+2025-03-05 22:47:04 [INFO] Processing: Hermann Bilz GmbH & Co KG
+2025-03-05 22:52:40 [INFO] Found the following reports for Hermann Bilz GmbH & Co KG: 15
+
+2025-03-05 22:52:40 [INFO] Processing: RILE Management und Vertriebs GmbH
+2025-03-05 22:52:48 [INFO] Found the following reports for RILE Management und Vertriebs GmbH: 15
+
+2025-03-05 22:52:48 [INFO] Processing: Mohrbach Verpackungsmaschinen GmbH
+2025-03-05 22:52:57 [INFO] Found the following reports for Mohrbach Verpackungsmaschinen GmbH: 16
+
+2025-03-05 22:52:57 [INFO] Processing: EWK Umwelttechnik GmbH
+2025-03-05 22:53:06 [INFO] Found the following reports for EWK Umwelttechnik GmbH: 15
+
+2025-03-05 22:53:06 [INFO] Processing: KALLFASS Verpackungsmaschinen GmbH
+2025-03-05 22:53:16 [INFO] Found the following reports for KALLFASS Verpackungsmaschinen GmbH: 16
+
+2025-03-05 22:53:16 [INFO] Processing: FORTUNA Spezialmaschinen GmbH
+2025-03-05 22:53:24 [INFO] Found the following reports for FORTUNA Spezialmaschinen GmbH: 15
+
+2025-03-05 22:53:24 [INFO] Processing: Loeser GmbH
+2025-03-05 22:53:36 [INFO] Found the following reports for Loeser GmbH: 19
+
+2025-03-05 22:53:36 [INFO] Processing: Andreas Maier GmbH & Co. KG
+2025-03-05 22:53:53 [INFO] No dictionary reports found for Andreas Maier GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 22:53:53 [INFO] Processing: Hedrich GmbH
+2025-03-05 22:54:05 [INFO] Found the following reports for Hedrich GmbH: 13
+
+2025-03-05 22:54:05 [INFO] Processing: ROMAI Robert Maier GmbH
+2025-03-05 22:54:13 [INFO] Found the following reports for ROMAI Robert Maier GmbH: 14
+
+2025-03-05 22:54:13 [INFO] Processing: BAT Bohr- und Anlagentechnik GmbH
+2025-03-05 22:54:21 [INFO] Found the following reports for BAT Bohr- und Anlagentechnik GmbH: 14
+
+2025-03-05 22:54:21 [INFO] Processing: Felix Böttcher GmbH & Co. KG
+2025-03-05 23:04:40 [INFO] No dictionary reports found for Felix Böttcher GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 23:04:40 [INFO] Processing: NAMAC Maschinenbau GmbH & Co. KG
+2025-03-05 23:04:46 [INFO] Found the following reports for NAMAC Maschinenbau GmbH & Co. KG: 12
+
+2025-03-05 23:04:46 [INFO] Processing: Oskar Dilo Maschinenfabrik
+2025-03-05 23:04:47 [ERROR] 'Oskar Dilo Maschinenfabrik' returned NoneType. Skipping to next company.
+2025-03-05 23:04:47 [INFO] No valid (dict) reports to store for Oskar Dilo Maschinenfabrik.
+
+2025-03-05 23:04:47 [INFO] Processing: Neue Herbold
+2025-03-05 23:04:56 [INFO] Found the following reports for Neue Herbold: 16
+
+2025-03-05 23:04:56 [INFO] Processing: Albrecht Bäumer
+2025-03-05 23:05:08 [INFO] Found the following reports for Albrecht Bäumer: 20
+
+2025-03-05 23:05:08 [INFO] Processing: BEKUM - Maschinenfabriken
+2025-03-05 23:05:19 [INFO] Found the following reports for BEKUM - Maschinenfabriken: 13
+
+2025-03-05 23:05:19 [INFO] Processing: Mahlo GmbH & Co. KG
+2025-03-05 23:05:23 [INFO] Found the following reports for Mahlo GmbH & Co. KG: 5
+
+2025-03-05 23:05:23 [INFO] Processing: VTD Vakuumtechnik Dresden GmbH
+2025-03-05 23:05:37 [INFO] Found the following reports for VTD Vakuumtechnik Dresden GmbH: 10
+
+2025-03-05 23:05:37 [INFO] Processing: Schmalenberger GmbH + Co. KG
+2025-03-05 23:05:47 [INFO] Found the following reports for Schmalenberger GmbH + Co. KG: 19
+
+2025-03-05 23:05:47 [INFO] Processing: BÜLTMANN GmbH
+2025-03-05 23:05:56 [INFO] Found the following reports for BÜLTMANN GmbH: 18
+
+2025-03-05 23:05:56 [INFO] Processing: Torgauer Maschinenbau GmbH
+2025-03-05 23:06:07 [INFO] Found the following reports for Torgauer Maschinenbau GmbH: 14
+
+2025-03-05 23:06:07 [INFO] Processing: Günther Heisskanaltechnik GmbH
+2025-03-05 23:06:16 [INFO] Found the following reports for Günther Heisskanaltechnik GmbH: 14
+
+2025-03-05 23:06:16 [INFO] Processing: CFT GmbH - Compact Filter Technic
+2025-03-05 23:06:25 [INFO] Found the following reports for CFT GmbH - Compact Filter Technic: 16
+
+2025-03-05 23:06:25 [INFO] Processing: SÜMA Maschinengesellschaft GmbH
+2025-03-05 23:06:28 [INFO] Found the following reports for SÜMA Maschinengesellschaft GmbH: 6
+
+2025-03-05 23:06:28 [INFO] Processing: Kern & Sohn GmbH
+2025-03-05 23:06:38 [INFO] Found the following reports for Kern & Sohn GmbH: 16
+
+2025-03-05 23:06:38 [INFO] Processing: Dreiling Maschinenbau GmbH
+2025-03-05 23:06:46 [INFO] Found the following reports for Dreiling Maschinenbau GmbH: 16
+
+2025-03-05 23:06:46 [INFO] Processing: Mehrer Compression GmbH
+2025-03-05 23:06:58 [INFO] Found the following reports for Mehrer Compression GmbH: 8
+
+2025-03-05 23:06:58 [INFO] Processing: ELHA-MASCHINENBAU Liemke KG
+2025-03-05 23:06:59 [ERROR] 'ELHA-MASCHINENBAU Liemke KG' returned NoneType. Skipping to next company.
+2025-03-05 23:06:59 [INFO] No valid (dict) reports to store for ELHA-MASCHINENBAU Liemke KG.
+
+2025-03-05 23:06:59 [INFO] Processing: WEBER Schraubautomaten GmbH
+2025-03-05 23:07:11 [INFO] Found the following reports for WEBER Schraubautomaten GmbH: 10
+
+2025-03-05 23:07:11 [INFO] Processing: Hans & Jos. Kronenberg GmbH
+2025-03-05 23:07:20 [INFO] Found the following reports for Hans & Jos. Kronenberg GmbH: 19
+
+2025-03-05 23:07:20 [INFO] Processing: TML Technik GmbH
+2025-03-05 23:07:29 [INFO] Found the following reports for TML Technik GmbH: 16
+
+2025-03-05 23:07:29 [INFO] Processing: ASS Maschinenbau GmbH
+2025-03-05 23:07:31 [ERROR] 'ASS Maschinenbau GmbH' returned NoneType. Skipping to next company.
+2025-03-05 23:07:31 [INFO] No valid (dict) reports to store for ASS Maschinenbau GmbH.
+
+2025-03-05 23:07:31 [INFO] Processing: Simon Nann GmbH & Co. KG
+2025-03-05 23:07:39 [INFO] Found the following reports for Simon Nann GmbH & Co. KG: 15
+
+2025-03-05 23:07:39 [INFO] Processing: WEISS GmbH
+2025-03-05 23:07:46 [INFO] Found the following reports for WEISS GmbH: 8
+
+2025-03-05 23:07:46 [INFO] Processing: FISSEK GmbH
+2025-03-05 23:07:54 [INFO] Found the following reports for FISSEK GmbH: 16
+
+2025-03-05 23:07:54 [INFO] Processing: AGTOS Gesellschaft für
+2025-03-05 23:08:02 [INFO] Found the following reports for AGTOS Gesellschaft für: 14
+
+2025-03-05 23:08:02 [INFO] Processing: WTO-Werkzeug-Einrichtungen GmbH
+2025-03-05 23:11:19 [INFO] Found the following reports for WTO-Werkzeug-Einrichtungen GmbH: 16
+
+2025-03-05 23:11:19 [INFO] Processing: Sealpac GmbH
+2025-03-05 23:11:28 [INFO] Found the following reports for Sealpac GmbH: 16
+
+2025-03-05 23:11:28 [INFO] Processing: Karl Klink GmbH
+2025-03-05 23:11:40 [INFO] Found the following reports for Karl Klink GmbH: 16
+
+2025-03-05 23:11:40 [INFO] Processing: Felss Group GmbH
+2025-03-05 23:11:56 [INFO] Found the following reports for Felss Group GmbH: 5
+
+2025-03-05 23:11:56 [INFO] Processing: Stelzer Rührtechnik
+2025-03-05 23:12:06 [INFO] Found the following reports for Stelzer Rührtechnik: 18
+
+2025-03-05 23:12:06 [INFO] Processing: Kracht GmbH
+2025-03-05 23:12:17 [INFO] Found the following reports for Kracht GmbH: 18
+
+2025-03-05 23:12:17 [INFO] Processing: MAP Werkzeugmaschinen GmbH
+2025-03-05 23:12:26 [INFO] Found the following reports for MAP Werkzeugmaschinen GmbH: 15
+
+2025-03-05 23:12:26 [INFO] Processing: RIPPERT GmbH & Co. KG
+2025-03-05 23:12:36 [INFO] Found the following reports for RIPPERT GmbH & Co. KG: 19
+
+2025-03-05 23:12:36 [INFO] Processing: Miksch GmbH
+2025-03-05 23:12:46 [INFO] Found the following reports for Miksch GmbH: 20
+
+2025-03-05 23:12:46 [INFO] Processing: Baljer & Zembrod GmbH & Co. KG
+2025-03-05 23:12:56 [INFO] Found the following reports for Baljer & Zembrod GmbH & Co. KG: 18
+
+2025-03-05 23:12:56 [INFO] Processing: K. H. Arnold GmbH & Co. KG
+2025-03-05 23:13:33 [INFO] No dictionary reports found for K. H. Arnold GmbH & Co. KG (data might be incomplete).
+
+2025-03-05 23:13:33 [INFO] Processing: Schwanog Siegfried Güntert GmbH
+2025-03-05 23:13:42 [INFO] Found the following reports for Schwanog Siegfried Güntert GmbH: 16
+
+2025-03-05 23:13:42 [INFO] Processing: innomatec Sales GmbH
+2025-03-05 23:13:44 [INFO] Found the following reports for innomatec Sales GmbH: 2
+
+2025-03-05 23:13:44 [INFO] Processing: Teubert Maschinenbau GmbH
+2025-03-05 23:13:52 [INFO] Found the following reports for Teubert Maschinenbau GmbH: 16
+
+2025-03-05 23:13:52 [INFO] Processing: Hans Wanner GmbH
+2025-03-05 23:14:03 [INFO] Found the following reports for Hans Wanner GmbH: 18
+
+2025-03-05 23:14:03 [INFO] Processing: Grunwald GmbH
+2025-03-05 23:14:13 [INFO] Found the following reports for Grunwald GmbH: 20
+
+2025-03-05 23:14:13 [INFO] Processing: Licon mt GmbH & Co. KG
+2025-03-05 23:14:22 [INFO] Found the following reports for Licon mt GmbH & Co. KG: 15
+
+2025-03-05 23:14:22 [INFO] Processing: Form + Test Seidner & Co.
+2025-03-05 23:14:31 [INFO] Found the following reports for Form + Test Seidner & Co.: 19
+
+2025-03-05 23:14:31 [INFO] Processing: KF Engineering GmbH
+2025-03-05 23:14:34 [INFO] Found the following reports for KF Engineering GmbH: 5
+
+2025-03-05 23:14:34 [INFO] Processing: HUNING Anlagenbau GmbH & Co. KG
+2025-03-05 23:14:40 [INFO] Found the following reports for HUNING Anlagenbau GmbH & Co. KG: 8
+
+2025-03-05 23:14:40 [INFO] Processing: ROVEMA GmbH
+2025-03-05 23:15:05 [INFO] Found the following reports for ROVEMA GmbH: 7
+
+2025-03-05 23:15:05 [INFO] Processing: Binder GmbH
+2025-03-05 23:15:14 [INFO] Found the following reports for Binder GmbH: 13
+
+2025-03-05 23:15:14 [INFO] Processing: Hecker Werke GmbH
+2025-03-05 23:15:27 [INFO] Found the following reports for Hecker Werke GmbH: 17
+
+2025-03-05 23:15:27 [INFO] Processing: AMSBECK-Maschinentechnik GmbH
+2025-03-05 23:15:36 [INFO] Found the following reports for AMSBECK-Maschinentechnik GmbH: 18
+
+2025-03-05 23:15:36 [INFO] Processing: Buckau-Wolf GmbH
+2025-03-05 23:15:37 [INFO] Found the following reports for Buckau-Wolf GmbH: 1
+
+2025-03-05 23:15:37 [INFO] Processing: Simon Möhringer Anlagenbau GmbH
+2025-03-05 23:20:07 [INFO] Found the following reports for Simon Möhringer Anlagenbau GmbH: 16
+
+2025-03-05 23:20:07 [INFO] Processing: GoGaS Goch GmbH & Co. KG
+2025-03-05 23:20:15 [INFO] Found the following reports for GoGaS Goch GmbH & Co. KG: 16
+
+2025-03-05 23:20:15 [INFO] Processing: Uth GmbH
+2025-03-05 23:20:27 [INFO] Found the following reports for Uth GmbH: 18
+
+2025-03-05 23:20:27 [INFO] Processing: Haugg-Kühlerfabrik GmbH
+2025-03-05 23:20:39 [INFO] Found the following reports for Haugg-Kühlerfabrik GmbH: 20
+
+2025-03-05 23:20:39 [INFO] Processing: schwartz GmbH
+2025-03-05 23:20:50 [INFO] Found the following reports for schwartz GmbH: 17
+
+2025-03-05 23:20:50 [INFO] Processing: FONG'S EUROPE GMBH
+2025-03-05 23:21:00 [INFO] Found the following reports for FONG'S EUROPE GMBH: 13
+
+2025-03-05 23:21:00 [INFO] Processing: Gämmerler GmbH
+2025-03-05 23:21:17 [INFO] Found the following reports for Gämmerler GmbH: 15
+
+2025-03-05 23:21:17 [INFO] Processing: Instron GmbH
+2025-03-05 23:21:34 [INFO] Found the following reports for Instron GmbH: 2
+
+2025-03-05 23:21:34 [INFO] Processing: JENSEN GmbH
+2025-03-05 23:21:44 [INFO] Found the following reports for JENSEN GmbH: 18
+
+2025-03-05 23:21:44 [INFO] Processing: David Brown Santasalo Germany GmbH
+2025-03-05 23:21:47 [INFO] Found the following reports for David Brown Santasalo Germany GmbH: 4
+
+2025-03-05 23:21:47 [INFO] Processing: Dana Motion Systems Deutschland GmbH
+2025-03-05 23:22:33 [INFO] Found the following reports for Dana Motion Systems Deutschland GmbH: 2
+
+2025-03-05 23:22:33 [INFO] Processing: LUEHR FILTER GmbH
+2025-03-05 23:22:47 [INFO] Found the following reports for LUEHR FILTER GmbH: 8
+
+2025-03-05 23:22:47 [INFO] Processing: TRAPO GmbH
+2025-03-05 23:22:56 [INFO] Found the following reports for TRAPO GmbH: 19
+
+2025-03-05 23:22:56 [INFO] Processing: Gebrüder Lödige Maschinenbau GmbH
+2025-03-05 23:23:08 [INFO] Found the following reports for Gebrüder Lödige Maschinenbau GmbH: 8
+
+2025-03-05 23:23:08 [INFO] Processing: Michael Glatt Maschinenbau GmbH
+2025-03-05 23:23:20 [INFO] Found the following reports for Michael Glatt Maschinenbau GmbH: 16
+
+2025-03-05 23:23:20 [INFO] Processing: Schneeberger GmbH
+2025-03-05 23:23:30 [INFO] Found the following reports for Schneeberger GmbH: 16
+
+2025-03-05 23:23:30 [INFO] Processing: LECHLER GmbH
+2025-03-05 23:23:40 [INFO] Found the following reports for LECHLER GmbH: 17
+
+2025-03-05 23:23:40 [INFO] Processing: BHS-Sonthofen GmbH
+2025-03-05 23:23:53 [INFO] Found the following reports for BHS-Sonthofen GmbH: 7
+
+2025-03-05 23:23:53 [INFO] Processing: Meypack Verpackungssystemtechnik GmbH
+2025-03-05 23:24:02 [INFO] Found the following reports for Meypack Verpackungssystemtechnik GmbH: 16
+
+2025-03-05 23:24:02 [INFO] Processing: Thielenhaus Technologies GmbH
+2025-03-05 23:24:18 [INFO] Found the following reports for Thielenhaus Technologies GmbH: 8
+
+2025-03-05 23:24:18 [INFO] Processing: SHW Werkzeugmaschinen GmbH
+2025-03-05 23:24:27 [INFO] Found the following reports for SHW Werkzeugmaschinen GmbH: 19
+
+2025-03-05 23:24:27 [INFO] Processing: Linck Holzverarbeitungstechnik GmbH
+2025-03-05 23:24:39 [INFO] Found the following reports for Linck Holzverarbeitungstechnik GmbH: 11
+
+2025-03-05 23:24:39 [INFO] Processing: Heinrich Georg GmbH Maschinenfabrik
+2025-03-05 23:25:04 [INFO] Found the following reports for Heinrich Georg GmbH Maschinenfabrik: 17
+
+2025-03-05 23:25:04 [INFO] Processing: Silica Verfahrenstechnik GmbH
+2025-03-05 23:25:20 [INFO] Found the following reports for Silica Verfahrenstechnik GmbH: 9
+
+2025-03-05 23:25:20 [INFO] Processing: Buss-SMS-Canzler GmbH
+2025-03-05 23:25:32 [INFO] Found the following reports for Buss-SMS-Canzler GmbH: 19
+
+2025-03-05 23:25:32 [INFO] Processing: Pfister Waagen Bilanciai GmbH
+2025-03-05 23:25:41 [INFO] Found the following reports for Pfister Waagen Bilanciai GmbH: 16
+
+2025-03-05 23:25:41 [INFO] Processing: 2E mechatronic GmbH & Co. KG
+2025-03-05 23:25:45 [INFO] Found the following reports for 2E mechatronic GmbH & Co. KG: 9
+
+2025-03-05 23:25:45 [INFO] Processing: SHW Storage & Handling Solutions GmbH
+2025-03-05 23:25:53 [INFO] Found the following reports for SHW Storage & Handling Solutions GmbH: 15
+
+2025-03-05 23:25:53 [INFO] Processing: KLINGER SCHÖNEBERG GmbH
+2025-03-05 23:29:19 [INFO] Found the following reports for KLINGER SCHÖNEBERG GmbH: 15
+
+2025-03-05 23:29:19 [INFO] Processing: ALMIG Kompressoren GmbH
+2025-03-05 23:29:28 [INFO] Found the following reports for ALMIG Kompressoren GmbH: 16
+
+2025-03-05 23:29:28 [INFO] Processing: ATR Industrie-Elektronik GmbH
+2025-03-05 23:29:42 [INFO] Found the following reports for ATR Industrie-Elektronik GmbH: 11
+
+2025-03-05 23:29:42 [INFO] Processing: GHH Rand Schraubenkompressoren GmbH
+2025-03-05 23:29:56 [INFO] Found the following reports for GHH Rand Schraubenkompressoren GmbH: 4
+
+2025-03-05 23:29:56 [INFO] Processing: Avermann Maschinenfabrik GmbH & Co. KG
+2025-03-05 23:30:06 [INFO] Found the following reports for Avermann Maschinenfabrik GmbH & Co. KG: 14
+
+2025-03-05 23:30:06 [INFO] Processing: Möllers Packaging Technology GmbH
+2025-03-05 23:30:41 [INFO] Found the following reports for Möllers Packaging Technology GmbH: 1
+
+2025-03-05 23:30:41 [INFO] Processing: Thom Metall- und Maschinenbau GmbH
+2025-03-05 23:30:49 [INFO] Found the following reports for Thom Metall- und Maschinenbau GmbH: 16
+
+2025-03-05 23:30:49 [INFO] Processing: DMG MORI Global Marketing GmbH
+2025-03-05 23:31:03 [INFO] Found the following reports for DMG MORI Global Marketing GmbH: 8
+
+2025-03-05 23:31:03 [INFO] Processing: Eilhauer Maschinenbau GmbH
+2025-03-05 23:31:11 [INFO] Found the following reports for Eilhauer Maschinenbau GmbH: 17
+
+2025-03-05 23:31:11 [INFO] Processing: Salvagnini Deutschland GmbH
+2025-03-05 23:31:19 [INFO] Found the following reports for Salvagnini Deutschland GmbH: 15
+
+2025-03-05 23:31:20 [INFO] Processing: Maschinen- und Industriebau Feld GmbH
+2025-03-05 23:31:28 [INFO] Found the following reports for Maschinen- und Industriebau Feld GmbH: 15
+
+2025-03-05 23:31:28 [INFO] Processing: Helmers Maschinenbau GmbH
+2025-03-05 23:31:38 [INFO] Found the following reports for Helmers Maschinenbau GmbH: 19
+
+2025-03-05 23:31:38 [INFO] Processing: MBM Industrie GmbH
+2025-03-05 23:31:52 [INFO] Found the following reports for MBM Industrie GmbH: 11
+
+2025-03-05 23:31:52 [INFO] Processing: SKS Sondermaschinen-
+2025-03-05 23:32:00 [INFO] Found the following reports for SKS Sondermaschinen-: 16
+
+2025-03-05 23:32:00 [INFO] Processing: KOMAGE Gellner Maschinenfabrik KG
+2025-03-05 23:32:00 [ERROR] 'KOMAGE Gellner Maschinenfabrik KG' returned NoneType. Skipping to next company.
+2025-03-05 23:32:00 [INFO] No valid (dict) reports to store for KOMAGE Gellner Maschinenfabrik KG.
+
+2025-03-05 23:32:00 [INFO] Processing: Stadler Maschinenbau GmbH
+2025-03-05 23:32:34 [INFO] Found the following reports for Stadler Maschinenbau GmbH: 3
+
+2025-03-05 23:32:34 [INFO] Processing: Schneider Werk St. Wendel
+2025-03-05 23:32:44 [INFO] Found the following reports for Schneider Werk St. Wendel: 19
+
+2025-03-05 23:32:44 [INFO] Processing: Dittrich & Greipl GmbH
+2025-03-05 23:33:49 [INFO] Found the following reports for Dittrich & Greipl GmbH: 17
+
+2025-03-05 23:33:49 [INFO] Processing: Mohr Hebetechnik GmbH
+2025-03-05 23:34:00 [INFO] Found the following reports for Mohr Hebetechnik GmbH: 17
+
+2025-03-05 23:34:00 [INFO] Processing: Bock Maschinenbau GmbH.
+2025-03-05 23:34:11 [INFO] Found the following reports for Bock Maschinenbau GmbH.: 19
+
+2025-03-05 23:34:11 [INFO] Processing: August Börkey Nachf. GmbH
+2025-03-05 23:34:19 [INFO] Found the following reports for August Börkey Nachf. GmbH: 16
+
+2025-03-05 23:34:19 [INFO] Processing: MBK Maschinenbau GmbH
+2025-03-05 23:34:30 [INFO] Found the following reports for MBK Maschinenbau GmbH: 20
+
+2025-03-05 23:34:30 [INFO] Processing: Weisstaler Bödenpresswerke GmbH
+2025-03-05 23:34:39 [INFO] Found the following reports for Weisstaler Bödenpresswerke GmbH: 20
+
+2025-03-05 23:34:39 [INFO] Processing: EHRET GmbH Life Science Solutions
+2025-03-05 23:37:10 [INFO] Found the following reports for EHRET GmbH Life Science Solutions: 7
+
+2025-03-05 23:37:10 [INFO] Processing: Pouch Partners GmbH
+2025-03-05 23:37:14 [INFO] Found the following reports for Pouch Partners GmbH: 4
+
+2025-03-05 23:37:14 [INFO] Processing: Emil Wirth Maschinenbau GmbH
+2025-03-05 23:37:39 [INFO] Found the following reports for Emil Wirth Maschinenbau GmbH: 15
+
+2025-03-05 23:37:39 [INFO] Processing: ENGMATEC GmbH
+2025-03-05 23:37:49 [INFO] Found the following reports for ENGMATEC GmbH: 20
+
+2025-03-05 23:37:49 [INFO] Processing: GEMAG Gelenauer Maschinenbau AG
+2025-03-05 23:38:03 [INFO] Found the following reports for GEMAG Gelenauer Maschinenbau AG: 7
+
+2025-03-05 23:38:03 [INFO] Processing: Haulick + Roos GmbH
+2025-03-05 23:38:11 [INFO] Found the following reports for Haulick + Roos GmbH: 17
+
+2025-03-05 23:38:11 [INFO] Processing: Heinz & Feld GmbH Präzisions-.
+2025-03-05 23:43:40 [INFO] Found the following reports for Heinz & Feld GmbH Präzisions-.: 14
+
+2025-03-05 23:43:40 [INFO] Processing: Steinlen Elektromaschinenbau GmbH
+2025-03-05 23:43:48 [INFO] Found the following reports for Steinlen Elektromaschinenbau GmbH: 16
+
+2025-03-05 23:43:48 [INFO] Processing: Jürgens Holding GmbH
+2025-03-05 23:44:00 [INFO] Found the following reports for Jürgens Holding GmbH: 6
+
+2025-03-05 23:44:00 [INFO] Processing: Röcher GmbH & Co. KG
+2025-03-05 23:47:23 [INFO] Found the following reports for Röcher GmbH & Co. KG: 16
+
+2025-03-05 23:47:23 [INFO] Processing: Rötzer Maschinenbau GmbH
+2025-03-05 23:47:32 [INFO] Found the following reports for Rötzer Maschinenbau GmbH: 16
+
+2025-03-05 23:47:32 [INFO] Processing: Schöpstal Maschinenbau GmbH
+2025-03-05 23:47:40 [INFO] Found the following reports for Schöpstal Maschinenbau GmbH: 16
+
+2025-03-05 23:47:41 [INFO] Processing: Tüschen & Zimmermann GmbH & Co. KG
+2025-03-05 23:47:48 [INFO] Found the following reports for Tüschen & Zimmermann GmbH & Co. KG: 16
+
+2025-03-05 23:47:48 [INFO] Processing: VAMA Maschinenbau GmbH
+2025-03-05 23:47:56 [INFO] Found the following reports for VAMA Maschinenbau GmbH: 16
+
+2025-03-05 23:47:56 [INFO] Processing: Vom Hagen & Funke GmbH
+2025-03-05 23:48:06 [INFO] Found the following reports for Vom Hagen & Funke GmbH: 20
+
+2025-03-05 23:48:06 [INFO] Processing: PreTec GmbH & Co. KG
+2025-03-05 23:48:32 [INFO] Found the following reports for PreTec GmbH & Co. KG: 8
+
+2025-03-05 23:48:32 [INFO] Processing: Nederman GmbH
+2025-03-05 23:48:50 [INFO] Found the following reports for Nederman GmbH: 14
+
+2025-03-05 23:48:50 [INFO] Processing: Schleifstein Maschinentechnik GmbH
+2025-03-05 23:48:58 [INFO] Found the following reports for Schleifstein Maschinentechnik GmbH: 16
+
+2025-03-05 23:48:58 [INFO] Processing: Wolf Produktionssysteme GmbH & Co. KG
+2025-03-05 23:49:00 [INFO] Found the following reports for Wolf Produktionssysteme GmbH & Co. KG: 1
+
+2025-03-05 23:49:00 [INFO] Processing: Schrage GmbH Maschinen- u. Apparatebau
+2025-03-05 23:53:12 [INFO] Found the following reports for Schrage GmbH Maschinen- u. Apparatebau: 16
+
+2025-03-05 23:53:12 [INFO] Processing: bielomatik GmbH
+2025-03-05 23:53:23 [INFO] Found the following reports for bielomatik GmbH: 13
+
+2025-03-05 23:53:23 [INFO] Processing: Düring Schweißtechnik GmbH
+2025-03-05 23:58:01 [INFO] Found the following reports for Düring Schweißtechnik GmbH: 16
+
+2025-03-05 23:58:01 [INFO] Processing: DMA Maschinen- und Anlagenbau
+2025-03-05 23:58:16 [INFO] Found the following reports for DMA Maschinen- und Anlagenbau: 9
+
+2025-03-05 23:58:16 [INFO] Processing: MBH Maschinenbau & Blechtechnik GmbH
+2025-03-05 23:58:27 [INFO] Found the following reports for MBH Maschinenbau & Blechtechnik GmbH: 19
+
+2025-03-05 23:58:27 [INFO] Processing: WIDOS Wilhelm Dommer Söhne GmbH
+2025-03-05 23:58:37 [INFO] Found the following reports for WIDOS Wilhelm Dommer Söhne GmbH: 20
+
+2025-03-05 23:58:37 [INFO] Processing: Epple Maschinen GmbH
+2025-03-06 00:02:03 [INFO] Found the following reports for Epple Maschinen GmbH: 17
+
+2025-03-06 00:02:03 [INFO] Processing: Beer + Blumenauer GmbH
+2025-03-06 00:02:12 [INFO] Found the following reports for Beer + Blumenauer GmbH: 16
+
+2025-03-06 00:02:12 [INFO] Processing: ASD Maschinenbau GmbH
+2025-03-06 00:02:25 [INFO] Found the following reports for ASD Maschinenbau GmbH: 4
+
+2025-03-06 00:02:25 [INFO] Processing: Josef Romberger Maschinenfabrik GmbH
+2025-03-06 00:02:33 [INFO] Found the following reports for Josef Romberger Maschinenfabrik GmbH: 16
+
+2025-03-06 00:02:33 [INFO] Processing: Schwarz Elektromotoren GmbH
+2025-03-06 00:02:42 [INFO] Found the following reports for Schwarz Elektromotoren GmbH: 17
+
+2025-03-06 00:02:43 [INFO] Processing: MASCHINPEX Maschinenbau GmbH
+2025-03-06 00:02:50 [INFO] Found the following reports for MASCHINPEX Maschinenbau GmbH: 16
+
+2025-03-06 00:02:50 [INFO] Processing: BW Papersystems Hamburg GmbH
+2025-03-06 00:03:04 [INFO] No dictionary reports found for BW Papersystems Hamburg GmbH (data might be incomplete).
+
+2025-03-06 00:03:04 [INFO] Processing: SKET Verseilmaschinenbau GmbH
+2025-03-06 00:03:14 [INFO] Found the following reports for SKET Verseilmaschinenbau GmbH: 18
+
+2025-03-06 00:03:14 [INFO] Processing: MN Maschinenbau Niederwürschnitz
+2025-03-06 00:03:22 [INFO] Found the following reports for MN Maschinenbau Niederwürschnitz: 15
+
+2025-03-06 00:03:22 [INFO] Processing: motan operations gmbh
+2025-03-06 00:03:23 [INFO] Found the following reports for motan operations gmbh: 1
+
+2025-03-06 00:03:23 [INFO] Processing: Huss Maschinenbau GmbH
+2025-03-06 00:03:45 [INFO] Found the following reports for Huss Maschinenbau GmbH: 14
+
+2025-03-06 00:03:45 [INFO] Processing: CERTUSS Dampfautomaten GmbH & Co. KG
+2025-03-06 00:03:54 [INFO] Found the following reports for CERTUSS Dampfautomaten GmbH & Co. KG: 17
+
+2025-03-06 00:03:54 [INFO] Processing: GTA Maschinensysteme GmbH
+2025-03-06 00:04:01 [INFO] Found the following reports for GTA Maschinensysteme GmbH: 14
+
+2025-03-06 00:04:01 [INFO] Processing: HEIN LEHMANN GmbH
+2025-03-06 00:04:16 [INFO] No dictionary reports found for HEIN LEHMANN GmbH (data might be incomplete).
+
+2025-03-06 00:04:16 [INFO] Processing: Wessel GmbH Kessel- und Apparatebau
+2025-03-06 00:08:48 [INFO] Found the following reports for Wessel GmbH Kessel- und Apparatebau: 16
+
+2025-03-06 00:08:48 [INFO] Processing: MOMAC Gesellschaft für Maschinenbau
+2025-03-06 00:08:57 [INFO] Found the following reports for MOMAC Gesellschaft für Maschinenbau: 14
+
+2025-03-06 00:08:57 [INFO] Processing: Raussendorf Maschinen- und
+2025-03-06 00:09:05 [INFO] Found the following reports for Raussendorf Maschinen- und: 15
+
+2025-03-06 00:09:05 [INFO] Processing: Buhmann Systeme GmbH
+2025-03-06 00:09:14 [INFO] Found the following reports for Buhmann Systeme GmbH: 17
+
+2025-03-06 00:09:14 [INFO] Processing: ematec AG
+2025-03-06 00:09:21 [INFO] Found the following reports for ematec AG: 14
+
+2025-03-06 00:09:21 [INFO] Processing: Albert-Frankenthal GmbH
+2025-03-06 00:09:36 [INFO] Found the following reports for Albert-Frankenthal GmbH: 11
+
+2025-03-06 00:09:36 [INFO] Processing: SWF Krantechnik GmbH
+2025-03-06 00:09:47 [INFO] Found the following reports for SWF Krantechnik GmbH: 20
+
+2025-03-06 00:09:47 [INFO] Processing: Jung Werkzeugbau GmbH
+2025-03-06 00:09:57 [INFO] Found the following reports for Jung Werkzeugbau GmbH: 17
+
+2025-03-06 00:09:57 [INFO] Processing: HEKUMA GmbH
+2025-03-06 00:10:15 [INFO] Found the following reports for HEKUMA GmbH: 9
+
+2025-03-06 00:10:15 [INFO] Processing: Heinen Freezing Gmbh & Co. KG
+2025-03-06 00:10:31 [INFO] Found the following reports for Heinen Freezing Gmbh & Co. KG: 2
+
+2025-03-06 00:10:31 [INFO] Processing: Heidolph Instruments GmbH & Co. KG
+2025-03-06 00:10:40 [INFO] Found the following reports for Heidolph Instruments GmbH & Co. KG: 18
+
+2025-03-06 00:10:40 [INFO] Processing: WWerkzeugmaschinenbau Ziegenhain GmbH
+2025-03-06 00:10:41 [ERROR] 'WWerkzeugmaschinenbau Ziegenhain GmbH' returned NoneType. Skipping to next company.
+2025-03-06 00:10:41 [INFO] No valid (dict) reports to store for WWerkzeugmaschinenbau Ziegenhain GmbH.
+
+2025-03-06 00:10:41 [INFO] Processing: BEHN + BATES Maschinenfabrik
+2025-03-06 00:10:55 [INFO] Found the following reports for BEHN + BATES Maschinenfabrik: 5
+
+2025-03-06 00:10:55 [INFO] Processing: HOMAG Bohrsysteme GmbH
+2025-03-06 00:11:03 [INFO] Found the following reports for HOMAG Bohrsysteme GmbH: 6
+
+2025-03-06 00:11:03 [INFO] Processing: Benz GmbH Werkzeugsysteme
+2025-03-06 00:11:05 [ERROR] 'Benz GmbH Werkzeugsysteme' returned NoneType. Skipping to next company.
+2025-03-06 00:11:05 [INFO] No valid (dict) reports to store for Benz GmbH Werkzeugsysteme.
+
+2025-03-06 00:11:05 [INFO] Processing: Sieber Maschinenbau GmbH
+2025-03-06 00:11:15 [INFO] Found the following reports for Sieber Maschinenbau GmbH: 20
+
+2025-03-06 00:11:15 [INFO] Processing: SCHREYER SCHLEIFMASCHINEN GmbH
+2025-03-06 00:11:18 [INFO] Found the following reports for SCHREYER SCHLEIFMASCHINEN GmbH: 7
+
+2025-03-06 00:11:18 [INFO] Processing: BAM GmbH
+2025-03-06 00:11:28 [INFO] Found the following reports for BAM GmbH: 18
+
+2025-03-06 00:11:28 [INFO] Processing: Maschinenbau Böhmer GmbH
+2025-03-06 00:11:38 [INFO] Found the following reports for Maschinenbau Böhmer GmbH: 16
+
+2025-03-06 00:11:38 [INFO] Processing: Peter Feckl Maschinenbau GmbH
+2025-03-06 00:11:46 [INFO] Found the following reports for Peter Feckl Maschinenbau GmbH: 16
+
+2025-03-06 00:11:46 [INFO] Processing: Hackerodt Beteiligungs- und Verwaltungs
+2025-03-06 00:11:54 [INFO] Found the following reports for Hackerodt Beteiligungs- und Verwaltungs: 16
+
+2025-03-06 00:11:54 [INFO] Processing: heinicke Maschinen & Metallbau GmbH
+2025-03-06 00:15:28 [INFO] Found the following reports for heinicke Maschinen & Metallbau GmbH: 15
+
+2025-03-06 00:15:28 [INFO] Processing: Kruse + Sohn
+2025-03-06 00:15:38 [INFO] Found the following reports for Kruse + Sohn: 20
+
+2025-03-06 00:15:38 [INFO] Processing: M. KOLB Steinbearbeitungsmaschinen GmbH
+2025-03-06 00:15:42 [INFO] Found the following reports for M. KOLB Steinbearbeitungsmaschinen GmbH: 10
+
+2025-03-06 00:15:43 [INFO] Processing: Bilfinger Noell GmbH
+2025-03-06 00:15:45 [ERROR] 'Bilfinger Noell GmbH' returned NoneType. Skipping to next company.
+2025-03-06 00:15:45 [INFO] No valid (dict) reports to store for Bilfinger Noell GmbH.
+
+2025-03-06 00:15:45 [INFO] Processing: Hans Mattis GmbH
+2025-03-06 00:19:11 [INFO] Found the following reports for Hans Mattis GmbH: 16
+
+2025-03-06 00:19:11 [INFO] Processing: SHM Stegherr GmbH
+2025-03-06 00:19:13 [INFO] Found the following reports for SHM Stegherr GmbH: 3
+
+2025-03-06 00:19:13 [INFO] Processing: ELSO Elbe GmbH & Co. KG
+2025-03-06 00:19:28 [INFO] No dictionary reports found for ELSO Elbe GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 00:19:28 [INFO] Processing: Hager Sondermaschinenbau GmbH
+2025-03-06 00:19:53 [INFO] Found the following reports for Hager Sondermaschinenbau GmbH: 17
+
+2025-03-06 00:19:53 [INFO] Processing: Aschaffenburger Maschinenfabrik
+2025-03-06 00:20:02 [INFO] Found the following reports for Aschaffenburger Maschinenfabrik: 17
+
+2025-03-06 00:20:02 [INFO] Processing: Herrhammer GmbH Spezialmaschinen
+2025-03-06 00:20:12 [INFO] Found the following reports for Herrhammer GmbH Spezialmaschinen: 16
+
+2025-03-06 00:20:12 [INFO] Processing: BBG GmbH & Co. KG
+2025-03-06 00:20:26 [INFO] Found the following reports for BBG GmbH & Co. KG: 15
+
+2025-03-06 00:20:26 [INFO] Processing: BSB Metallverformung
+2025-03-06 00:20:33 [INFO] Found the following reports for BSB Metallverformung: 13
+
+2025-03-06 00:20:33 [INFO] Processing: Eberlein Apparatebau GmbH
+2025-03-06 00:25:02 [INFO] Found the following reports for Eberlein Apparatebau GmbH: 16
+
+2025-03-06 00:25:02 [INFO] Processing: HIEBER GmbH Ideen aus Stahl
+2025-03-06 00:25:10 [INFO] Found the following reports for HIEBER GmbH Ideen aus Stahl: 15
+
+2025-03-06 00:25:10 [INFO] Processing: Linn High Therm GmbH
+2025-03-06 00:25:18 [INFO] Found the following reports for Linn High Therm GmbH: 17
+
+2025-03-06 00:25:18 [INFO] Processing: prüfbau Dr.-Ing. H. Dürner GmbH
+2025-03-06 00:25:26 [INFO] Found the following reports for prüfbau Dr.-Ing. H. Dürner GmbH: 16
+
+2025-03-06 00:25:26 [INFO] Processing: Schechtl Maschinenbau GmbH
+2025-03-06 00:25:36 [INFO] Found the following reports for Schechtl Maschinenbau GmbH: 18
+
+2025-03-06 00:25:36 [INFO] Processing: Stürmer Maschinen GmbH
+2025-03-06 00:29:06 [INFO] Found the following reports for Stürmer Maschinen GmbH: 14
+
+2025-03-06 00:29:06 [INFO] Processing: Wartinger Maschinenbau GmbH
+2025-03-06 00:29:09 [INFO] Found the following reports for Wartinger Maschinenbau GmbH: 4
+
+2025-03-06 00:29:09 [INFO] Processing: Werner Rathmann Maschinenbau GmbH
+2025-03-06 00:29:18 [INFO] Found the following reports for Werner Rathmann Maschinenbau GmbH: 17
+
+2025-03-06 00:29:18 [INFO] Processing: W. Berger Werkzeug-
+2025-03-06 00:29:30 [INFO] Found the following reports for W. Berger Werkzeug-: 16
+
+2025-03-06 00:29:30 [INFO] Processing: Maschinenfabrik Frömag GmbH & Co. KG
+2025-03-06 00:29:38 [INFO] Found the following reports for Maschinenfabrik Frömag GmbH & Co. KG: 15
+
+2025-03-06 00:29:38 [INFO] Processing: WIMA Wilsdruffer
+2025-03-06 00:29:45 [INFO] Found the following reports for WIMA Wilsdruffer: 15
+
+2025-03-06 00:29:45 [INFO] Processing: HASSIA-REDATRON GmbH
+2025-03-06 00:29:53 [INFO] Found the following reports for HASSIA-REDATRON GmbH: 14
+
+2025-03-06 00:29:53 [INFO] Processing: BIESSE DEUTSCHLAND GmbH
+2025-03-06 00:30:12 [INFO] Found the following reports for BIESSE DEUTSCHLAND GmbH: 16
+
+2025-03-06 00:30:12 [INFO] Processing: STREICHER Maschinenbau GmbH & Co. KG
+2025-03-06 00:30:28 [INFO] No dictionary reports found for STREICHER Maschinenbau GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 00:30:28 [INFO] Processing: SBS Ecoclean GmbH
+2025-03-06 00:30:32 [INFO] Found the following reports for SBS Ecoclean GmbH: 4
+
+2025-03-06 00:30:32 [INFO] Processing: NSM Magnettechnik GmbH
+2025-03-06 00:30:33 [ERROR] 'NSM Magnettechnik GmbH' returned NoneType. Skipping to next company.
+2025-03-06 00:30:33 [INFO] No valid (dict) reports to store for NSM Magnettechnik GmbH.
+
+2025-03-06 00:30:33 [INFO] Processing: Pressta-Eisele GmbH
+2025-03-06 00:30:42 [INFO] Found the following reports for Pressta-Eisele GmbH: 15
+
+2025-03-06 00:30:42 [INFO] Processing: OLKO-Maschinentechnik GmbH
+2025-03-06 00:30:58 [INFO] Found the following reports for OLKO-Maschinentechnik GmbH: 7
+
+2025-03-06 00:30:58 [INFO] Processing: Stekla Maschinenbau GmbH
+2025-03-06 00:30:59 [ERROR] 'Stekla Maschinenbau GmbH' returned NoneType. Skipping to next company.
+2025-03-06 00:30:59 [INFO] No valid (dict) reports to store for Stekla Maschinenbau GmbH.
+
+2025-03-06 00:30:59 [INFO] Processing: EWAB Engineering GmbH
+2025-03-06 00:31:10 [INFO] Found the following reports for EWAB Engineering GmbH: 19
+
+2025-03-06 00:31:10 [INFO] Processing: Bühler GmbH
+2025-03-06 00:31:10 [INFO] Bühler GmbH folder exists - using local data for extraction.
+2025-03-06 00:31:10 [INFO] Found local HTML for Bühler GmbH, extracting data...
+
+2025-03-06 00:31:10 [INFO] Processing: Unterschütz Sondermaschinenbau GmbH
+2025-03-06 00:31:19 [INFO] Found the following reports for Unterschütz Sondermaschinenbau GmbH: 17
+
+2025-03-06 00:31:19 [INFO] Processing: Fooke GmbH
+2025-03-06 00:31:30 [INFO] Found the following reports for Fooke GmbH: 20
+
+2025-03-06 00:31:30 [INFO] Processing: WEKAL Maschinenbau GmbH
+2025-03-06 00:31:41 [INFO] Found the following reports for WEKAL Maschinenbau GmbH: 20
+
+2025-03-06 00:31:41 [INFO] Processing: Kurre Spezialmaschinenbau GmbH
+2025-03-06 00:31:48 [INFO] Found the following reports for Kurre Spezialmaschinenbau GmbH: 16
+
+2025-03-06 00:31:48 [INFO] Processing: Stock Maschinenbau GmbH
+2025-03-06 00:32:00 [INFO] Found the following reports for Stock Maschinenbau GmbH: 16
+
+2025-03-06 00:32:00 [INFO] Processing: ATEC Pharmatechnik GmbH
+2025-03-06 00:32:12 [INFO] Found the following reports for ATEC Pharmatechnik GmbH: 15
+
+2025-03-06 00:32:12 [INFO] Processing: VAF Gesellschaft für Verkettungsanlagen
+2025-03-06 00:32:22 [INFO] Found the following reports for VAF Gesellschaft für Verkettungsanlagen: 16
+
+2025-03-06 00:32:22 [INFO] Processing: GERMA Sondermaschinen-
+2025-03-06 00:32:29 [INFO] Found the following reports for GERMA Sondermaschinen-: 15
+
+2025-03-06 00:32:29 [INFO] Processing: WESPA Metallsägenfabrik
+2025-03-06 00:32:39 [INFO] Found the following reports for WESPA Metallsägenfabrik: 18
+
+2025-03-06 00:32:39 [INFO] Processing: Horst Rottler Maschinenbau GmbH
+2025-03-06 00:32:46 [INFO] Found the following reports for Horst Rottler Maschinenbau GmbH: 15
+
+2025-03-06 00:32:46 [INFO] Processing: FUCO-HEG Maschinenbau GmbH
+2025-03-06 00:32:54 [INFO] Found the following reports for FUCO-HEG Maschinenbau GmbH: 16
+
+2025-03-06 00:32:54 [INFO] Processing: Schneider GmbH & Co. KG
+2025-03-06 00:33:04 [INFO] Found the following reports for Schneider GmbH & Co. KG: 18
+
+2025-03-06 00:33:04 [INFO] Processing: GM Getränketechnik & Maschinenbau
+2025-03-06 00:33:12 [INFO] Found the following reports for GM Getränketechnik & Maschinenbau: 16
+
+2025-03-06 00:33:12 [INFO] Processing: Konrad Busche GmbH & Co. KG
+2025-03-06 00:33:30 [INFO] No dictionary reports found for Konrad Busche GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 00:33:30 [INFO] Processing: Trendelkamp Technologie GmbH
+2025-03-06 00:33:37 [INFO] Found the following reports for Trendelkamp Technologie GmbH: 15
+
+2025-03-06 00:33:37 [INFO] Processing: ITW MORLOCK GmbH
+2025-03-06 00:33:52 [INFO] No dictionary reports found for ITW MORLOCK GmbH (data might be incomplete).
+
+2025-03-06 00:33:52 [INFO] Processing: FRICKE Abfülltechnik GmbH & Co. KG
+2025-03-06 00:33:55 [INFO] Found the following reports for FRICKE Abfülltechnik GmbH & Co. KG: 4
+
+2025-03-06 00:33:55 [INFO] Processing: HEESS GmbH & Co KG
+2025-03-06 00:34:07 [INFO] Found the following reports for HEESS GmbH & Co KG: 19
+
+2025-03-06 00:34:07 [INFO] Processing: STASSKOL GmbH
+2025-03-06 00:34:25 [INFO] Found the following reports for STASSKOL GmbH: 10
+
+2025-03-06 00:34:25 [INFO] Processing: Palamides GmbH
+2025-03-06 00:34:36 [INFO] Found the following reports for Palamides GmbH: 18
+
+2025-03-06 00:34:36 [INFO] Processing: NTG Neue Technologien GmbH & Co. KG
+2025-03-06 00:34:48 [INFO] Found the following reports for NTG Neue Technologien GmbH & Co. KG: 17
+
+2025-03-06 00:34:48 [INFO] Processing: Reichmann & Sohn GmbH
+2025-03-06 00:35:53 [INFO] Found the following reports for Reichmann & Sohn GmbH: 18
+
+2025-03-06 00:35:53 [INFO] Processing: Elmar Gehrig
+2025-03-06 00:43:24 [INFO] No dictionary reports found for Elmar Gehrig (data might be incomplete).
+
+2025-03-06 00:43:24 [INFO] Processing: RAPID Maschinenbau GmbH
+2025-03-06 00:43:34 [INFO] Found the following reports for RAPID Maschinenbau GmbH: 20
+
+2025-03-06 00:43:34 [INFO] Processing: Kurt Breuning IRCO-Maschinenbau GmbH
+2025-03-06 00:43:42 [INFO] Found the following reports for Kurt Breuning IRCO-Maschinenbau GmbH: 15
+
+2025-03-06 00:43:42 [INFO] Processing: Bernhard Ide Werkzeug- und Maschinenbau
+2025-03-06 00:43:51 [INFO] Found the following reports for Bernhard Ide Werkzeug- und Maschinenbau: 17
+
+2025-03-06 00:43:51 [INFO] Processing: Tilgert Walzwerksmaschinenbau GmbH
+2025-03-06 00:43:59 [INFO] Found the following reports for Tilgert Walzwerksmaschinenbau GmbH: 17
+
+2025-03-06 00:43:59 [INFO] Processing: Wilhelm Möller
+2025-03-06 00:44:10 [INFO] Found the following reports for Wilhelm Möller: 19
+
+2025-03-06 00:44:10 [INFO] Processing: KronTec Maschinenbau GmbH
+2025-03-06 00:44:18 [INFO] Found the following reports for KronTec Maschinenbau GmbH: 16
+
+2025-03-06 00:44:18 [INFO] Processing: Wilhelm Severt
+2025-03-06 00:44:26 [INFO] Found the following reports for Wilhelm Severt: 15
+
+2025-03-06 00:44:26 [INFO] Processing: MAGEBA International GmbH
+2025-03-06 00:44:29 [INFO] Found the following reports for MAGEBA International GmbH: 4
+
+2025-03-06 00:44:29 [INFO] Processing: Walter Blombach GmbH
+2025-03-06 00:44:38 [INFO] Found the following reports for Walter Blombach GmbH: 18
+
+2025-03-06 00:44:38 [INFO] Processing: Westerceller Maschinenbau GmbH
+2025-03-06 00:44:46 [INFO] Found the following reports for Westerceller Maschinenbau GmbH: 16
+
+2025-03-06 00:44:46 [INFO] Processing: Mayr & Wilhelm GmbH & Co. KG
+2025-03-06 00:44:56 [INFO] Found the following reports for Mayr & Wilhelm GmbH & Co. KG: 16
+
+2025-03-06 00:44:56 [INFO] Processing: ERKA Maschinenbau GmbH
+2025-03-06 00:45:06 [INFO] Found the following reports for ERKA Maschinenbau GmbH: 18
+
+2025-03-06 00:45:06 [INFO] Processing: VetterTec GmbH
+2025-03-06 00:45:13 [INFO] Found the following reports for VetterTec GmbH: 12
+
+2025-03-06 00:45:13 [INFO] Processing: FPT Robotik GmbH & Co. KG
+2025-03-06 00:45:22 [INFO] Found the following reports for FPT Robotik GmbH & Co. KG: 18
+
+2025-03-06 00:45:22 [INFO] Processing: Eckel & Sohn Maschinenbau GmbH & Co. KG
+2025-03-06 00:45:30 [INFO] Found the following reports for Eckel & Sohn Maschinenbau GmbH & Co. KG: 14
+
+2025-03-06 00:45:30 [INFO] Processing: ITW Diagraph GmbH
+2025-03-06 00:45:33 [INFO] No dictionary reports found for ITW Diagraph GmbH (data might be incomplete).
+
+2025-03-06 00:45:33 [INFO] Processing: Beck Packautomaten GmbH & Co. KG
+2025-03-06 00:45:41 [INFO] Found the following reports for Beck Packautomaten GmbH & Co. KG: 15
+
+2025-03-06 00:45:41 [INFO] Processing: ERMAFA
+2025-03-06 00:45:51 [INFO] Found the following reports for ERMAFA: 19
+
+2025-03-06 00:45:51 [INFO] Processing: Industrieofen- und Anlagenbau GmbH
+2025-03-06 00:45:59 [INFO] Found the following reports for Industrieofen- und Anlagenbau GmbH: 15
+
+2025-03-06 00:45:59 [INFO] Processing: Bergmann & Steffen GmbH
+2025-03-06 00:46:08 [INFO] Found the following reports for Bergmann & Steffen GmbH: 14
+
+2025-03-06 00:46:08 [INFO] Processing: Siegfried GmbH & Co. Metall KG
+2025-03-06 00:46:27 [INFO] Found the following reports for Siegfried GmbH & Co. Metall KG: 2
+
+2025-03-06 00:46:27 [INFO] Processing: Ruchser GmbH Maschinen- und Gerätebau
+2025-03-06 00:46:36 [INFO] Found the following reports for Ruchser GmbH Maschinen- und Gerätebau: 15
+
+2025-03-06 00:46:36 [INFO] Processing: Arthur Weissbach GmbH Maschinenfabrik
+2025-03-06 00:46:44 [INFO] Found the following reports for Arthur Weissbach GmbH Maschinenfabrik: 15
+
+2025-03-06 00:46:44 [INFO] Processing: Kegelmann Technik GmbH
+2025-03-06 00:46:54 [INFO] Found the following reports for Kegelmann Technik GmbH: 16
+
+2025-03-06 00:46:54 [INFO] Processing: Maschinenfabrik Stolpen GmbH
+2025-03-06 00:47:04 [INFO] Found the following reports for Maschinenfabrik Stolpen GmbH: 15
+
+2025-03-06 00:47:04 [INFO] Processing: SMF Maschinenfabrik GmbH
+2025-03-06 00:47:13 [INFO] Found the following reports for SMF Maschinenfabrik GmbH: 16
+
+2025-03-06 00:47:13 [INFO] Processing: Haver NIAGARA GmbH
+2025-03-06 00:47:26 [INFO] Found the following reports for Haver NIAGARA GmbH: 5
+
+2025-03-06 00:47:26 [INFO] Processing: KALTENBACH GmbH + Co. KG
+2025-03-06 00:47:37 [INFO] Found the following reports for KALTENBACH GmbH + Co. KG: 20
+
+2025-03-06 00:47:37 [INFO] Processing: Ruberg-Mischtechnik GmbH + Co. KG
+2025-03-06 00:47:41 [INFO] Found the following reports for Ruberg-Mischtechnik GmbH + Co. KG: 7
+
+2025-03-06 00:47:41 [INFO] Processing: H. G. SCHMALE GmbH
+2025-03-06 00:47:59 [INFO] Found the following reports for H. G. SCHMALE GmbH: 15
+
+2025-03-06 00:47:59 [INFO] Processing: Sander Maschinenbau GmbH & Co. KG
+2025-03-06 00:48:09 [INFO] Found the following reports for Sander Maschinenbau GmbH & Co. KG: 18
+
+2025-03-06 00:48:09 [INFO] Processing: Rotodecor GmbH
+2025-03-06 00:48:19 [INFO] Found the following reports for Rotodecor GmbH: 18
+
+2025-03-06 00:48:19 [INFO] Processing: GK Sondermaschinenbau GmbH
+2025-03-06 00:48:26 [INFO] Found the following reports for GK Sondermaschinenbau GmbH: 13
+
+2025-03-06 00:48:26 [INFO] Processing: Maschinenbau Ehehalt GmbH
+2025-03-06 00:48:33 [INFO] Found the following reports for Maschinenbau Ehehalt GmbH: 16
+
+2025-03-06 00:48:33 [INFO] Processing: Ing. Kurt Schade GmbH & Co. KG
+2025-03-06 00:49:50 [INFO] Found the following reports for Ing. Kurt Schade GmbH & Co. KG: 14
+
+2025-03-06 00:49:50 [INFO] Processing: Pematech AG
+2025-03-06 00:49:57 [INFO] Found the following reports for Pematech AG: 13
+
+2025-03-06 00:49:57 [INFO] Processing: Temafa Maschinenfabrik GmbH
+2025-03-06 00:50:06 [INFO] Found the following reports for Temafa Maschinenfabrik GmbH: 14
+
+2025-03-06 00:50:06 [INFO] Processing: SerWeMa GmbH & Co. KG
+2025-03-06 00:50:14 [INFO] Found the following reports for SerWeMa GmbH & Co. KG: 16
+
+2025-03-06 00:50:14 [INFO] Processing: Wilhelm Niemann GmbH & Co. KG
+2025-03-06 01:00:31 [INFO] No dictionary reports found for Wilhelm Niemann GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 01:00:31 [INFO] Processing: AKE - Systemtechnik GmbH
+2025-03-06 01:00:40 [INFO] Found the following reports for AKE - Systemtechnik GmbH: 16
+
+2025-03-06 01:00:40 [INFO] Processing: Merz Verpackungsmaschinen GmbH
+2025-03-06 01:04:05 [INFO] Found the following reports for Merz Verpackungsmaschinen GmbH: 17
+
+2025-03-06 01:04:05 [INFO] Processing: Automation Sonder- und
+2025-03-06 01:06:28 [INFO] Found the following reports for Automation Sonder- und: 15
+
+2025-03-06 01:06:28 [INFO] Processing: Müssel Maschinenbau GmbH
+2025-03-06 01:06:37 [INFO] Found the following reports for Müssel Maschinenbau GmbH: 16
+
+2025-03-06 01:06:37 [INFO] Processing: Obermeyer Maschinenbau GmbH & Co. KG
+2025-03-06 01:06:53 [INFO] Found the following reports for Obermeyer Maschinenbau GmbH & Co. KG: 1
+
+2025-03-06 01:06:53 [INFO] Processing: ATS Industrial Automation GmbH & Co. KG
+2025-03-06 01:07:18 [INFO] Found the following reports for ATS Industrial Automation GmbH & Co. KG: 3
+
+2025-03-06 01:07:18 [INFO] Processing: Breuer Motoren GmbH & Co. KG
+2025-03-06 01:07:27 [INFO] Found the following reports for Breuer Motoren GmbH & Co. KG: 15
+
+2025-03-06 01:07:27 [INFO] Processing: Schmid GmbH Maschinenbau
+2025-03-06 01:07:36 [INFO] Found the following reports for Schmid GmbH Maschinenbau: 16
+
+2025-03-06 01:07:36 [INFO] Processing: R. Weiss Maschinenbau GmbH
+2025-03-06 01:07:48 [INFO] Found the following reports for R. Weiss Maschinenbau GmbH: 14
+
+2025-03-06 01:07:48 [INFO] Processing: topex GmbH
+2025-03-06 01:07:58 [INFO] Found the following reports for topex GmbH: 20
+
+2025-03-06 01:07:58 [INFO] Processing: Höflinger Umwelttechnik
+2025-03-06 01:18:02 [INFO] Found the following reports for Höflinger Umwelttechnik: 5
+
+2025-03-06 01:18:02 [INFO] Processing: ZENO - Zerkleinerungs
+2025-03-06 01:18:07 [INFO] Found the following reports for ZENO - Zerkleinerungs: 10
+
+2025-03-06 01:18:07 [INFO] Processing: WINEMA Maschinenbau GmbH
+2025-03-06 01:18:15 [INFO] Found the following reports for WINEMA Maschinenbau GmbH: 16
+
+2025-03-06 01:18:15 [INFO] Processing: RAKO Maschinenbau GmbH & Co. KG
+2025-03-06 01:18:22 [INFO] Found the following reports for RAKO Maschinenbau GmbH & Co. KG: 16
+
+2025-03-06 01:18:23 [INFO] Processing: Friedhelm Selbach GmbH
+2025-03-06 01:22:53 [INFO] Found the following reports for Friedhelm Selbach GmbH: 15
+
+2025-03-06 01:22:53 [INFO] Processing: Emmendinger Maschinenbau GmbH
+2025-03-06 01:23:03 [INFO] Found the following reports for Emmendinger Maschinenbau GmbH: 19
+
+2025-03-06 01:23:03 [INFO] Processing: Dr. Boy GmbH & Co. KG
+2025-03-06 01:23:15 [INFO] Found the following reports for Dr. Boy GmbH & Co. KG: 16
+
+2025-03-06 01:23:15 [INFO] Processing: WKB Systems GmbH
+2025-03-06 01:23:22 [INFO] Found the following reports for WKB Systems GmbH: 13
+
+2025-03-06 01:23:22 [INFO] Processing: Isimat GmbH Siebdruckmaschinen
+2025-03-06 01:23:36 [INFO] Found the following reports for Isimat GmbH Siebdruckmaschinen: 13
+
+2025-03-06 01:23:36 [INFO] Processing: Hinterkopf GmbH
+2025-03-06 01:23:47 [INFO] Found the following reports for Hinterkopf GmbH: 20
+
+2025-03-06 01:23:47 [INFO] Processing: Gebr. Ruberg GmbH und Co. KG
+2025-03-06 01:23:54 [INFO] Found the following reports for Gebr. Ruberg GmbH und Co. KG: 16
+
+2025-03-06 01:23:54 [INFO] Processing: SEMA Mechanik GmbH & Co. KG
+2025-03-06 01:26:12 [INFO] Found the following reports for SEMA Mechanik GmbH & Co. KG: 17
+
+2025-03-06 01:26:12 [INFO] Processing: Normpack GmbH
+2025-03-06 01:26:21 [INFO] Found the following reports for Normpack GmbH: 20
+
+2025-03-06 01:26:21 [INFO] Processing: Franz H. Bruder GmbH
+2025-03-06 01:28:46 [INFO] Found the following reports for Franz H. Bruder GmbH: 16
+
+2025-03-06 01:28:46 [INFO] Processing: Kristen + Görmann KG
+2025-03-06 01:28:48 [ERROR] 'Kristen + Görmann KG' returned NoneType. Skipping to next company.
+2025-03-06 01:28:48 [INFO] No valid (dict) reports to store for Kristen + Görmann KG.
+
+2025-03-06 01:28:48 [INFO] Processing: Carrier Transicold Deutschland GmbH
+2025-03-06 01:28:58 [INFO] Found the following reports for Carrier Transicold Deutschland GmbH: 19
+
+2025-03-06 01:28:58 [INFO] Processing: Rapid Shape GmbH
+2025-03-06 01:29:09 [INFO] Found the following reports for Rapid Shape GmbH: 11
+
+2025-03-06 01:29:09 [INFO] Processing: Theodor Kekeisen GmbH & Co. KG
+2025-03-06 01:29:16 [INFO] Found the following reports for Theodor Kekeisen GmbH & Co. KG: 14
+
+2025-03-06 01:29:16 [INFO] Processing: Adolf Müller GmbH u. Co. KG
+2025-03-06 01:29:35 [INFO] Found the following reports for Adolf Müller GmbH u. Co. KG: 16
+
+2025-03-06 01:29:35 [INFO] Processing: MTI Mischtechnik International GmbH
+2025-03-06 01:29:41 [INFO] Found the following reports for MTI Mischtechnik International GmbH: 11
+
+2025-03-06 01:29:41 [INFO] Processing: Industrie-Partner GmbH Radebeul-Coswig
+2025-03-06 01:29:49 [INFO] Found the following reports for Industrie-Partner GmbH Radebeul-Coswig: 16
+
+2025-03-06 01:29:49 [INFO] Processing: deconta GmbH
+2025-03-06 01:30:02 [INFO] Found the following reports for deconta GmbH: 10
+
+2025-03-06 01:30:02 [INFO] Processing: Heinz Bergmann
+2025-03-06 01:30:12 [INFO] Found the following reports for Heinz Bergmann: 19
+
+2025-03-06 01:30:12 [INFO] Processing: Heidelberg Web Carton Converting GmbH
+2025-03-06 01:30:15 [ERROR] 'Heidelberg Web Carton Converting GmbH' returned NoneType. Skipping to next company.
+2025-03-06 01:30:15 [INFO] No valid (dict) reports to store for Heidelberg Web Carton Converting GmbH.
+
+2025-03-06 01:30:15 [INFO] Processing: TVI Entwicklung und Produktion GmbH
+2025-03-06 01:30:23 [INFO] Found the following reports for TVI Entwicklung und Produktion GmbH: 16
+
+2025-03-06 01:30:23 [INFO] Processing: SEMPUCO Werkzeugmaschinenfabrik GmbH
+2025-03-06 01:30:32 [INFO] Found the following reports for SEMPUCO Werkzeugmaschinenfabrik GmbH: 15
+
+2025-03-06 01:30:32 [INFO] Processing: H. G. Ridder Automatisierungs-GmbH.
+2025-03-06 01:30:38 [INFO] Found the following reports for H. G. Ridder Automatisierungs-GmbH.: 15
+
+2025-03-06 01:30:38 [INFO] Processing: Gronemeyer Maschinenfabrik GmbH & Co.
+2025-03-06 01:30:46 [INFO] Found the following reports for Gronemeyer Maschinenfabrik GmbH & Co.: 14
+
+2025-03-06 01:30:46 [INFO] Processing: Herzog Maschinenfabrik GmbH & Co. KG
+2025-03-06 01:31:14 [INFO] Found the following reports for Herzog Maschinenfabrik GmbH & Co. KG: 13
+
+2025-03-06 01:31:14 [INFO] Processing: A.T.A. Anlagentechnik Aschersleben
+2025-03-06 01:31:22 [INFO] Found the following reports for A.T.A. Anlagentechnik Aschersleben: 16
+
+2025-03-06 01:31:22 [INFO] Processing: Schubert Maschinen- und Anlagenbau GmbH
+2025-03-06 01:34:47 [INFO] Found the following reports for Schubert Maschinen- und Anlagenbau GmbH: 16
+
+2025-03-06 01:34:47 [INFO] Processing: Schepers GmbH & Co. KG
+2025-03-06 01:34:57 [INFO] Found the following reports for Schepers GmbH & Co. KG: 18
+
+2025-03-06 01:34:57 [INFO] Processing: Maschinenfabrik H. Schlüter GmbH
+2025-03-06 01:35:08 [INFO] Found the following reports for Maschinenfabrik H. Schlüter GmbH: 20
+
+2025-03-06 01:35:08 [INFO] Processing: Greiffenberger Aktiengesellschaft
+2025-03-06 01:35:10 [ERROR] 'Greiffenberger Aktiengesellschaft' returned NoneType. Skipping to next company.
+2025-03-06 01:35:10 [INFO] No valid (dict) reports to store for Greiffenberger Aktiengesellschaft.
+
+2025-03-06 01:35:10 [INFO] Processing: Automaten-Service Siegfried Roesler GmbH
+2025-03-06 01:39:41 [INFO] Found the following reports for Automaten-Service Siegfried Roesler GmbH: 16
+
+2025-03-06 01:39:41 [INFO] Processing: Rainer Krüger-Maschinenbau e.K.
+2025-03-06 01:39:58 [INFO] No dictionary reports found for Rainer Krüger-Maschinenbau e.K. (data might be incomplete).
+
+2025-03-06 01:39:58 [INFO] Processing: SR-Schindler
+2025-03-06 01:40:13 [INFO] Found the following reports for SR-Schindler: 9
+
+2025-03-06 01:40:13 [INFO] Processing: Schneider Maschinenbau GmbH + Co. KG
+2025-03-06 01:40:22 [INFO] Found the following reports for Schneider Maschinenbau GmbH + Co. KG: 20
+
+2025-03-06 01:40:22 [INFO] Processing: PLANAX GmbH
+2025-03-06 01:40:34 [INFO] Found the following reports for PLANAX GmbH: 13
+
+2025-03-06 01:40:34 [INFO] Processing: ZIERER Karussell-
+2025-03-06 01:40:47 [INFO] Found the following reports for ZIERER Karussell-: 6
+
+2025-03-06 01:40:47 [INFO] Processing: ALUP-Kompressoren GmbH
+2025-03-06 01:41:09 [INFO] Found the following reports for ALUP-Kompressoren GmbH: 2
+
+2025-03-06 01:41:09 [INFO] Processing: bdg Gesellschaft für Montage-
+2025-03-06 01:45:39 [INFO] Found the following reports for bdg Gesellschaft für Montage-: 15
+
+2025-03-06 01:45:39 [INFO] Processing: Brother Sewing Machines Europe GmbH
+2025-03-06 01:45:50 [INFO] Found the following reports for Brother Sewing Machines Europe GmbH: 16
+
+2025-03-06 01:45:50 [INFO] Processing: Dr. Keller Maschinen GmbH
+2025-03-06 01:46:04 [INFO] Found the following reports for Dr. Keller Maschinen GmbH: 13
+
+2025-03-06 01:46:04 [INFO] Processing: Friedrich Maschinen- und Werkzeugbau
+2025-03-06 01:47:17 [INFO] Found the following reports for Friedrich Maschinen- und Werkzeugbau: 14
+
+2025-03-06 01:47:17 [INFO] Processing: Freund Maschinenfabrik GmbH & Co. KG
+2025-03-06 01:47:40 [INFO] Found the following reports for Freund Maschinenfabrik GmbH & Co. KG: 15
+
+2025-03-06 01:47:40 [INFO] Processing: HURCO GmbH Werkzeugmaschinen
+2025-03-06 01:47:48 [INFO] Found the following reports for HURCO GmbH Werkzeugmaschinen: 15
+
+2025-03-06 01:47:48 [INFO] Processing: JATO GmbH Stahl- Maschinen-
+2025-03-06 01:47:56 [INFO] Found the following reports for JATO GmbH Stahl- Maschinen-: 16
+
+2025-03-06 01:47:56 [INFO] Processing: K.R. Pfiffner GmbH
+2025-03-06 01:48:05 [INFO] Found the following reports for K.R. Pfiffner GmbH: 19
+
+2025-03-06 01:48:05 [INFO] Processing: Adam Kühlerfabrik u. Motorenservice GmbH
+2025-03-06 01:48:13 [INFO] Found the following reports for Adam Kühlerfabrik u. Motorenservice GmbH: 15
+
+2025-03-06 01:48:13 [INFO] Processing: Vulkan Technic GmbH
+2025-03-06 01:48:21 [INFO] Found the following reports for Vulkan Technic GmbH: 17
+
+2025-03-06 01:48:21 [INFO] Processing: WMV Apparatebau GmbH
+2025-03-06 01:48:31 [INFO] Found the following reports for WMV Apparatebau GmbH: 19
+
+2025-03-06 01:48:31 [INFO] Processing: WTH-Wärmetechnik
+2025-03-06 01:48:40 [INFO] Found the following reports for WTH-Wärmetechnik: 20
+
+2025-03-06 01:48:40 [INFO] Processing: Zirbus technology GmbH
+2025-03-06 01:48:49 [INFO] Found the following reports for Zirbus technology GmbH: 17
+
+2025-03-06 01:48:49 [INFO] Processing: TTS Cleantec GmbH
+2025-03-06 01:49:03 [INFO] Found the following reports for TTS Cleantec GmbH: 1
+
+2025-03-06 01:49:03 [INFO] Processing: Festo Didactic SE
+2025-03-06 01:49:15 [INFO] No dictionary reports found for Festo Didactic SE (data might be incomplete).
+
+2025-03-06 01:49:15 [INFO] Processing: Hochland Natec GmbH
+2025-03-06 01:49:35 [INFO] No dictionary reports found for Hochland Natec GmbH (data might be incomplete).
+
+2025-03-06 01:49:35 [INFO] Processing: Ferag Deutschland GmbH
+2025-03-06 01:49:38 [INFO] Found the following reports for Ferag Deutschland GmbH: 5
+
+2025-03-06 01:49:38 [INFO] Processing: Baier GmbH + Co KG Maschinenfabrik
+2025-03-06 01:50:05 [INFO] Found the following reports for Baier GmbH + Co KG Maschinenfabrik: 4
+
+2025-03-06 01:50:05 [INFO] Processing: Flexlift Hubgeräte GmbH
+2025-03-06 01:50:14 [INFO] Found the following reports for Flexlift Hubgeräte GmbH: 16
+
+2025-03-06 01:50:14 [INFO] Processing: Heinrich Greve Maschinen- u. Apparatebau
+2025-03-06 02:00:14 [INFO] No dictionary reports found for Heinrich Greve Maschinen- u. Apparatebau (data might be incomplete).
+
+2025-03-06 02:00:14 [INFO] Processing: H + W Werner Höhmann GmbH
+2025-03-06 02:04:48 [INFO] Found the following reports for H + W Werner Höhmann GmbH: 16
+
+2025-03-06 02:04:48 [INFO] Processing: M. Brück GmbH & Co. KG
+2025-03-06 02:05:00 [INFO] Found the following reports for M. Brück GmbH & Co. KG: 17
+
+2025-03-06 02:05:00 [INFO] Processing: Otto Künnecke GmbH
+2025-03-06 02:05:09 [INFO] Found the following reports for Otto Künnecke GmbH: 15
+
+2025-03-06 02:05:09 [INFO] Processing: Renner Etikettiertechnik GmbH
+2025-03-06 02:05:16 [INFO] Found the following reports for Renner Etikettiertechnik GmbH: 15
+
+2025-03-06 02:05:16 [INFO] Processing: WiWa Wilhelm Wagner GmbH & Co. KG
+2025-03-06 02:05:16 [ERROR] 'WiWa Wilhelm Wagner GmbH & Co. KG' returned NoneType. Skipping to next company.
+2025-03-06 02:05:16 [INFO] No valid (dict) reports to store for WiWa Wilhelm Wagner GmbH & Co. KG.
+
+2025-03-06 02:05:16 [INFO] Processing: Edwards GmbH
+2025-03-06 02:05:26 [INFO] Found the following reports for Edwards GmbH: 18
+
+2025-03-06 02:05:26 [INFO] Processing: düspohl Maschinenbau GmbH
+2025-03-06 02:05:34 [INFO] Found the following reports for düspohl Maschinenbau GmbH: 13
+
+2025-03-06 02:05:34 [INFO] Processing: Eberhard AG
+2025-03-06 02:05:50 [INFO] Found the following reports for Eberhard AG: 8
+
+2025-03-06 02:05:50 [INFO] Processing: AMIS Maschinen-Vertriebs- GmbH
+2025-03-06 02:06:00 [INFO] Found the following reports for AMIS Maschinen-Vertriebs- GmbH: 19
+
+2025-03-06 02:06:00 [INFO] Processing: QuickWood Vertrieb GmbH
+2025-03-06 02:06:05 [INFO] Found the following reports for QuickWood Vertrieb GmbH: 11
+
+2025-03-06 02:06:05 [INFO] Processing: Völker GmbH
+2025-03-06 02:06:14 [INFO] Found the following reports for Völker GmbH: 15
+
+2025-03-06 02:06:14 [INFO] Processing: Prima Power GmbH
+2025-03-06 02:06:34 [INFO] Found the following reports for Prima Power GmbH: 13
+
+2025-03-06 02:06:34 [INFO] Processing: ATIS technischer Industrieservice GmbH
+2025-03-06 02:06:42 [INFO] Found the following reports for ATIS technischer Industrieservice GmbH: 16
+
+2025-03-06 02:06:42 [INFO] Processing: Pohle + Rehling GmbH
+2025-03-06 02:06:52 [INFO] Found the following reports for Pohle + Rehling GmbH: 20
+
+2025-03-06 02:06:52 [INFO] Processing: G.D. Automatische
+2025-03-06 02:07:03 [INFO] Found the following reports for G.D. Automatische: 17
+
+2025-03-06 02:07:03 [INFO] Processing: Engel Deutschland GmbH
+2025-03-06 02:07:16 [INFO] Found the following reports for Engel Deutschland GmbH: 17
+
+2025-03-06 02:07:16 [INFO] Processing: Ergewa Maschinentechnik Vertriebs GmbH
+2025-03-06 02:07:23 [INFO] Found the following reports for Ergewa Maschinentechnik Vertriebs GmbH: 16
+
+2025-03-06 02:07:23 [INFO] Processing: Häcker Automation GmbH
+2025-03-06 02:08:31 [INFO] Found the following reports for Häcker Automation GmbH: 16
+
+2025-03-06 02:08:31 [INFO] Processing: IGENO Fahrzeug-
+2025-03-06 02:08:41 [INFO] Found the following reports for IGENO Fahrzeug-: 20
+
+2025-03-06 02:08:41 [INFO] Processing: Trident Maschinen GmbH & Co. KG
+2025-03-06 02:08:42 [INFO] Found the following reports for Trident Maschinen GmbH & Co. KG: 1
+
+2025-03-06 02:08:42 [INFO] Processing: Matsuura Machinery GmbH
+2025-03-06 02:08:50 [INFO] Found the following reports for Matsuura Machinery GmbH: 14
+
+2025-03-06 02:08:50 [INFO] Processing: German Bionic Systems GmbH
+2025-03-06 02:08:53 [INFO] Found the following reports for German Bionic Systems GmbH: 4
+
+2025-03-06 02:08:53 [INFO] Processing: Höchsmann GmbH
+2025-03-06 02:09:03 [INFO] Found the following reports for Höchsmann GmbH: 19
+
+2025-03-06 02:09:03 [INFO] Processing: ANCA Europe GmbH
+2025-03-06 02:09:08 [INFO] Found the following reports for ANCA Europe GmbH: 8
+
+2025-03-06 02:09:08 [INFO] Processing: SOLAYER GmbH
+2025-03-06 02:09:15 [INFO] Found the following reports for SOLAYER GmbH: 15
+
+2025-03-06 02:09:15 [INFO] Processing: MOUNTEK GmbH
+2025-03-06 02:09:22 [INFO] Found the following reports for MOUNTEK GmbH: 16
+
+2025-03-06 02:09:22 [INFO] Processing: Heinkel Process Technology GmbH
+2025-03-06 02:09:30 [INFO] Found the following reports for Heinkel Process Technology GmbH: 16
+
+2025-03-06 02:09:30 [INFO] Processing: Autotherm
+2025-03-06 02:09:39 [INFO] Found the following reports for Autotherm: 20
+
+2025-03-06 02:09:39 [INFO] Processing: Boma Maschinenbau GmbH
+2025-03-06 02:09:47 [INFO] Found the following reports for Boma Maschinenbau GmbH: 17
+
+2025-03-06 02:09:47 [INFO] Processing: Greidenweis GmbH
+2025-03-06 02:09:54 [INFO] Found the following reports for Greidenweis GmbH: 14
+
+2025-03-06 02:09:54 [INFO] Processing: Robert Höhne
+2025-03-06 02:16:36 [INFO] No dictionary reports found for Robert Höhne (data might be incomplete).
+
+2025-03-06 02:16:36 [INFO] Processing: Held Technologie GmbH
+2025-03-06 02:16:47 [INFO] Found the following reports for Held Technologie GmbH: 20
+
+2025-03-06 02:16:47 [INFO] Processing: METALL + PLASTIC GmbH
+2025-03-06 02:17:01 [INFO] Found the following reports for METALL + PLASTIC GmbH: 11
+
+2025-03-06 02:17:01 [INFO] Processing: Inductotherm Deutschland GmbH
+2025-03-06 02:17:09 [INFO] Found the following reports for Inductotherm Deutschland GmbH: 16
+
+2025-03-06 02:17:09 [INFO] Processing: M+M Turbinen-Technik GmbH
+2025-03-06 02:17:40 [INFO] Found the following reports for M+M Turbinen-Technik GmbH: 15
+
+2025-03-06 02:17:40 [INFO] Processing: AERO-LIFT Vakuumtechnik GmbH
+2025-03-06 02:17:47 [INFO] Found the following reports for AERO-LIFT Vakuumtechnik GmbH: 15
+
+2025-03-06 02:17:47 [INFO] Processing: Brother
+2025-03-06 02:17:53 [INFO] Found the following reports for Brother: 6
+
+2025-03-06 02:17:53 [INFO] Processing: IWK Verpackungstechnik GmbH
+2025-03-06 02:18:04 [INFO] Found the following reports for IWK Verpackungstechnik GmbH: 11
+
+2025-03-06 02:18:04 [INFO] Processing: Tietjen Verfahrenstechnik GmbH
+2025-03-06 02:18:51 [INFO] Found the following reports for Tietjen Verfahrenstechnik GmbH: 16
+
+2025-03-06 02:18:51 [INFO] Processing: khb maschinen- und anlagenbau GmbH
+2025-03-06 02:18:57 [INFO] Found the following reports for khb maschinen- und anlagenbau GmbH: 13
+
+2025-03-06 02:18:57 [INFO] Processing: Allstein GmbH
+2025-03-06 02:19:02 [INFO] Found the following reports for Allstein GmbH: 9
+
+2025-03-06 02:19:02 [INFO] Processing: RITAG RITTERHUDER ARMATUREN
+2025-03-06 02:19:11 [INFO] Found the following reports for RITAG RITTERHUDER ARMATUREN: 18
+
+2025-03-06 02:19:11 [INFO] Processing: Supfina Grieshaber GmbH & Co. KG
+2025-03-06 02:19:20 [INFO] Found the following reports for Supfina Grieshaber GmbH & Co. KG: 17
+
+2025-03-06 02:19:20 [INFO] Processing: Theilen Maschinenbau GmbH
+2025-03-06 02:19:43 [INFO] Found the following reports for Theilen Maschinenbau GmbH: 14
+
+2025-03-06 02:19:43 [INFO] Processing: Seuthe GmbH
+2025-03-06 02:19:53 [INFO] Found the following reports for Seuthe GmbH: 20
+
+2025-03-06 02:19:53 [INFO] Processing: Kalman Hafner GmbH Schmuckschleuderguss
+2025-03-06 02:20:00 [INFO] Found the following reports for Kalman Hafner GmbH Schmuckschleuderguss: 15
+
+2025-03-06 02:20:00 [INFO] Processing: Amada Machinery Europe GmbH
+2025-03-06 02:20:38 [INFO] Found the following reports for Amada Machinery Europe GmbH: 3
+
+2025-03-06 02:20:38 [INFO] Processing: dpm Daum + Partner Maschinenbau GmbH
+2025-03-06 02:20:46 [INFO] Found the following reports for dpm Daum + Partner Maschinenbau GmbH: 16
+
+2025-03-06 02:20:46 [INFO] Processing: Huning Maschinenbau GmbH
+2025-03-06 02:20:55 [INFO] Found the following reports for Huning Maschinenbau GmbH: 19
+
+2025-03-06 02:20:55 [INFO] Processing: Uniccomp GmbH
+2025-03-06 02:21:10 [INFO] No dictionary reports found for Uniccomp GmbH (data might be incomplete).
+
+2025-03-06 02:21:10 [INFO] Processing: Friedrich Sailer GmbH
+2025-03-06 02:21:20 [INFO] Found the following reports for Friedrich Sailer GmbH: 19
+
+2025-03-06 02:21:20 [INFO] Processing: Härtwig Maschinenbau GmbH & Co. KG
+2025-03-06 02:21:28 [INFO] Found the following reports for Härtwig Maschinenbau GmbH & Co. KG: 17
+
+2025-03-06 02:21:28 [INFO] Processing: Schiess Werkzeugmaschinenfabrik GmbH
+2025-03-06 02:21:30 [INFO] Found the following reports for Schiess Werkzeugmaschinenfabrik GmbH: 3
+
+2025-03-06 02:21:30 [INFO] Processing: Joachim Richter Systeme und Maschinen
+2025-03-06 02:21:47 [INFO] Found the following reports for Joachim Richter Systeme und Maschinen: 12
+
+2025-03-06 02:21:47 [INFO] Processing: ROBUST HABICHT & HEUSER GMBH & Co. KG
+2025-03-06 02:21:54 [INFO] Found the following reports for ROBUST HABICHT & HEUSER GMBH & Co. KG: 15
+
+2025-03-06 02:21:54 [INFO] Processing: Hüttlin GmbH
+2025-03-06 02:22:09 [INFO] No dictionary reports found for Hüttlin GmbH (data might be incomplete).
+2025-03-06 02:22:09 [DONE] Results written to: company_maschinenbauer_BA_output.csv
+2025-03-06 02:22:09 [INFO] Folders created under: bundesanzeiger_local_maschinenbau

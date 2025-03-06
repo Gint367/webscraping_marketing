@@ -1,6 +1,7 @@
 import json
 import os
 import csv
+import re
 from datetime import datetime
 from pathlib import Path
 from bs4 import BeautifulSoup
@@ -64,6 +65,11 @@ def filter_word_rows(input_html, search_word):
     soup = BeautifulSoup(input_html, 'html.parser')
     results = []
     
+    def meets_length_criteria(word):
+        """Check if a word meets the minimum length criteria of 5 characters excluding whitespace"""
+        clean_word = word.strip()
+        return len(clean_word) >= 5
+    
     for table in soup.find_all('table'):
         # Get table name from preceding header or paragraph
         table_name = "Unknown Table"
@@ -126,39 +132,87 @@ def filter_word_rows(input_html, search_word):
             
         for row in data_rows:
             cells = [td.text.strip() for td in row.find_all('td')]
-            row_text = ' '.join(cells).lower()
+            row_text = ' '.join(cells)
             
-            if search_word.lower() in row_text:
-                row_dict = {}
+            # Special handling for "technische Anlagen"
+            if search_word.lower() == "technische anlagen":
+                # Find the position of "technische Anlagen" in the text
+                match_pos = row_text.lower().find(search_word.lower())
                 
-                # Add all header levels
-                for level, header_row in enumerate(normalized_headers, 1):
-                    row_dict[f'header{level}'] = header_row[:len(cells)]  # Limit headers to actual columns
-                
-                # Create values dictionary using all cells
-                values = {}
-                last_header = normalized_headers[-1] if normalized_headers else []
-                
-                for i, cell in enumerate(cells):
-                    if i == 0:  # First column always uses Column1 as key
-                        values["Column1"] = cell
-                    else:
-                        # For other columns, create unique keys by combining header text with column position
-                        header_key = last_header[i] if i < len(last_header) else f"Column{i+1}"
-                        if header_key in values:  # If key already exists
-                            # Find how many times this key has been used
-                            count = 1
-                            while f"{header_key}_{count}" in values:
-                                count += 1
-                            header_key = f"{header_key}_{count}"
-                        values[header_key] = cell
+                if match_pos >= 0:
+                    # Check if the match is valid by examining what comes before it
+                    is_valid_match = True
+                    
+                    # Get text before "technische Anlagen"
+                    text_before = row_text[:match_pos].strip()
+                    
+                    if text_before:
+                        # Check the last word before "technische Anlagen"
+                        # If it's longer than 5 characters, the match is invalid
+                        words_before = text_before.split()
+                        if words_before and meets_length_criteria(words_before[-1]):
+                            is_valid_match = False
+                    
+                    if is_valid_match:
+                        # Create row dictionary
+                        row_dict = {}
+                        
+                        # Add all header levels
+                        for level, header_row in enumerate(normalized_headers, 1):
+                            row_dict[f'header{level}'] = header_row[:len(cells)]
+                        
+                        # Create values dictionary
+                        values = {}
+                        last_header = normalized_headers[-1] if normalized_headers else []
+                        
+                        for i, cell in enumerate(cells):
+                            if i == 0:
+                                values["Column1"] = cell
+                            else:
+                                header_key = last_header[i] if i < len(last_header) else f"Column{i+1}"
+                                if header_key in values:
+                                    count = 1
+                                    while f"{header_key}_{count}" in values:
+                                        count += 1
+                                    header_key = f"{header_key}_{count}"
+                                values[header_key] = cell
+                        
+                        row_dict['values'] = values
+                        matching_rows.append(row_dict)
+            else:
+                # For other search terms, use the original logic
+                if search_word.lower() in row_text.lower():
+                    # Create row dictionary
+                    row_dict = {}
+                    
+                    # Add all header levels
+                    for level, header_row in enumerate(normalized_headers, 1):
+                        row_dict[f'header{level}'] = header_row[:len(cells)]  # Limit headers to actual columns
+                    
+                    # Create values dictionary using all cells
+                    values = {}
+                    last_header = normalized_headers[-1] if normalized_headers else []
+                    
+                    for i, cell in enumerate(cells):
+                        if i == 0:  # First column always uses Column1 as key
+                            values["Column1"] = cell
+                        else:
+                            # For other columns, create unique keys by combining header text with column position
+                            header_key = last_header[i] if i < len(last_header) else f"Column{i+1}"
+                            if header_key in values:  # If key already exists
+                                # Find how many times this key has been used
+                                count = 1
+                                while f"{header_key}_{count}" in values:
+                                    count += 1
+                                header_key = f"{header_key}_{count}"
+                            values[header_key] = cell
 
-                row_dict['values'] = values
-                matching_rows.append(row_dict)
+                    row_dict['values'] = values
+                    matching_rows.append(row_dict)
         
         if matching_rows:
             results.append({
-                'table_name': table_name,
+                'table_name': table_name[:100],
                 'header_levels': len(normalized_headers),
                 'matching_rows': matching_rows
             })

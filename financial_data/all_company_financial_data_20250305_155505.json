@@ -1,0 +1,35 @@
+{
+  "Steeltec_GmbH": [
+    {
+      "umsatz": 10631149.79,
+      "table_name": "Gewinn- und Verlustrechnung",
+      "error": false
+    },
+    {
+      "umsatz": 0,
+      "table_name": "Umsatzidentifikation",
+      "error": false
+    }
+  ],
+  "A": [
+    {
+      "umsatz": 126563318.04,
+      "table_name": "Umsatzerlöse nach Absatzgebieten",
+      "error": false
+    }
+  ],
+  "a": [
+    {
+      "umsatz": 5810943.37,
+      "table_name": "Income Statement",
+      "error": false
+    }
+  ],
+  "ASTOR_Schneidwerkzeuge_GmbH": [
+    {
+      "umsatz": 128277368.64,
+      "table_name": "Umsatz und Erträge",
+      "error": false
+    }
+  ]
+}

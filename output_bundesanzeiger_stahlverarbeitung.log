@@ -1,0 +1,264 @@
+nohup: ignoring input
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+2025-03-06 14:47:37 [CONFIG] Using base_dir='bundesanzeiger_local_stahlverarbeitung', max_retries=5, max_delay=300s, backoff_factor=2.0
+
+2025-03-06 14:47:38 [INFO] Processing: ABERLE Stahlguss GmbH (location: Hornberg)
+2025-03-06 14:47:45 [INFO] Found the following reports for ABERLE Stahlguss GmbH: 16
+
+2025-03-06 14:47:45 [INFO] Processing: Mannstaedt GmbH (location: Troisdorf)
+2025-03-06 14:47:53 [INFO] Found the following reports for Mannstaedt GmbH: 9
+
+2025-03-06 14:47:53 [INFO] Processing: Erich Ulrich GmbH & Co. KG (location: Bad Dürrheim)
+2025-03-06 14:48:02 [INFO] Found the following reports for Erich Ulrich GmbH & Co. KG: 16
+
+2025-03-06 14:48:02 [INFO] Processing: Rolf Körner GmbH (location: Niederzier)
+2025-03-06 14:48:10 [INFO] Found the following reports for Rolf Körner GmbH: 16
+
+2025-03-06 14:48:10 [INFO] Processing: Schubert & Salzer GmbH (location: Ingolstadt)
+2025-03-06 14:48:29 [INFO] No dictionary reports found for Schubert & Salzer GmbH (data might be incomplete).
+
+2025-03-06 14:48:29 [INFO] Processing: Auerhammer Metallwerk GmbH (location: Aue-Bad Schlema)
+2025-03-06 14:48:31 [INFO] Found the following reports for Auerhammer Metallwerk GmbH: 2
+
+2025-03-06 14:48:31 [INFO] Processing: Mannesmann Grossrohr GmbH (location: Salzgitter)
+2025-03-06 14:48:43 [ERROR] 'Mannesmann Grossrohr GmbH Salzgitter' returned NoneType. Skipping to next company.
+2025-03-06 14:48:43 [INFO] No valid (dict) reports to store for Mannesmann Grossrohr GmbH.
+
+2025-03-06 14:48:43 [INFO] Processing: Klaus Kuhn Edelstahlgießerei GmbH (location: Radevormwald)
+2025-03-06 14:48:52 [INFO] Found the following reports for Klaus Kuhn Edelstahlgießerei GmbH: 16
+
+2025-03-06 14:48:52 [INFO] Processing: Badische Drahtwerke GmbH (location: Kehl)
+2025-03-06 14:49:01 [INFO] Found the following reports for Badische Drahtwerke GmbH: 15
+
+2025-03-06 14:49:01 [INFO] Processing: BRUGG German Pipe GmbH (location: Nordhausen)
+2025-03-06 14:49:03 [INFO] Found the following reports for BRUGG German Pipe GmbH: 3
+
+2025-03-06 14:49:04 [INFO] Processing: BRUGG Rohrsysteme GmbH (location: Wunstorf)
+2025-03-06 14:49:12 [INFO] Found the following reports for BRUGG Rohrsysteme GmbH: 16
+
+2025-03-06 14:49:12 [INFO] Processing: BKB-Profiltechnik GmbH (location: Sundern (Sauerland))
+2025-03-06 14:49:20 [INFO] Found the following reports for BKB-Profiltechnik GmbH: 16
+
+2025-03-06 14:49:20 [INFO] Processing: Marsberger Metallguss Gebr. Cordt GmbH (location: Marsberg)
+2025-03-06 14:49:21 [INFO] Found the following reports for Marsberger Metallguss Gebr. Cordt GmbH: 1
+
+2025-03-06 14:49:21 [INFO] Processing: Betafence GmbH (location: Schwalmtal)
+2025-03-06 14:49:34 [INFO] Found the following reports for Betafence GmbH: 15
+
+2025-03-06 14:49:34 [INFO] Processing: ESW Röhrenwerke GmbH (location: Eschweiler)
+2025-03-06 14:49:44 [INFO] Found the following reports for ESW Röhrenwerke GmbH: 19
+
+2025-03-06 14:49:44 [INFO] Processing: Vornbäumen Stahlseile GmbH & Co. KG (location: Bad Iburg)
+2025-03-06 14:49:53 [INFO] Found the following reports for Vornbäumen Stahlseile GmbH & Co. KG: 16
+
+2025-03-06 14:49:53 [INFO] Processing: Chr. Höver & Sohn GmbH & Co. KG (location: Lindlar)
+2025-03-06 14:50:02 [INFO] Found the following reports for Chr. Höver & Sohn GmbH & Co. KG: 18
+
+2025-03-06 14:50:02 [INFO] Processing: Drölle GmbH (location: Schwäbisch Hall)
+2025-03-06 14:50:12 [INFO] Found the following reports for Drölle GmbH: 20
+
+2025-03-06 14:50:12 [INFO] Processing: Hammerwerke Haspe (location: Hagen)
+2025-03-06 14:50:23 [INFO] Found the following reports for Hammerwerke Haspe: 19
+
+2025-03-06 14:50:23 [INFO] Processing: Hermann Klincke J. H. Sohn GmbH & Co. KG (location: Altena)
+2025-03-06 14:52:42 [INFO] Found the following reports for Hermann Klincke J. H. Sohn GmbH & Co. KG: 17
+
+2025-03-06 14:52:42 [INFO] Processing: Salzgitter Mannesmann Grobblech GmbH (location: Mülheim an der Ruhr)
+2025-03-06 14:52:43 [ERROR] 'Salzgitter Mannesmann Grobblech GmbH Mülheim' returned NoneType. Skipping to next company.
+2025-03-06 14:52:43 [INFO] No valid (dict) reports to store for Salzgitter Mannesmann Grobblech GmbH.
+
+2025-03-06 14:52:43 [INFO] Processing: B & F Metallbautechnik GmbH (location: Wildeshausen)
+2025-03-06 14:52:52 [INFO] Found the following reports for B & F Metallbautechnik GmbH: 15
+
+2025-03-06 14:52:52 [INFO] Processing: Franken-Apparatebau GmbH (location: Oberhausen)
+2025-03-06 14:57:22 [INFO] Found the following reports for Franken-Apparatebau GmbH: 16
+
+2025-03-06 14:57:22 [INFO] Processing: KÖBO GmbH & Co. KG (location: Wuppertal)
+2025-03-06 14:57:30 [INFO] Found the following reports for KÖBO GmbH & Co. KG: 15
+
+2025-03-06 14:57:30 [INFO] Processing: Haller Industriebau GmbH (location: Villingen-Schwenningen)
+2025-03-06 14:57:40 [INFO] Found the following reports for Haller Industriebau GmbH: 16
+
+2025-03-06 14:57:40 [INFO] Processing: DIEPA Drahtseilwerk Dietz GmbH & Co. KG (location: Neustadt bei Coburg)
+2025-03-06 14:57:40 [ERROR] 'DIEPA Drahtseilwerk Dietz GmbH & Co. KG Neustadt' returned NoneType. Skipping to next company.
+2025-03-06 14:57:40 [INFO] No valid (dict) reports to store for DIEPA Drahtseilwerk Dietz GmbH & Co. KG.
+
+2025-03-06 14:57:40 [INFO] Processing: Geisselmann GmbH (location: Freiberg am Neckar)
+2025-03-06 14:57:51 [INFO] Found the following reports for Geisselmann GmbH: 20
+
+2025-03-06 14:57:51 [INFO] Processing: fischer Hydroforming GmbH (location: Menden (Sauerland))
+2025-03-06 14:58:04 [INFO] No dictionary reports found for fischer Hydroforming GmbH (data might be incomplete).
+
+2025-03-06 14:58:04 [INFO] Processing: Lindemann GmbH & Co. KG (location: Bünde)
+2025-03-06 14:58:15 [INFO] Found the following reports for Lindemann GmbH & Co. KG: 20
+
+2025-03-06 14:58:15 [INFO] Processing: Karl Georg GmbH (location: Ingelbach)
+2025-03-06 14:58:26 [INFO] Found the following reports for Karl Georg GmbH: 20
+
+2025-03-06 14:58:26 [INFO] Processing: Kimmel GmbH & Co. KG (location: Simbach)
+2025-03-06 14:58:32 [INFO] Found the following reports for Kimmel GmbH & Co. KG: 10
+
+2025-03-06 14:58:32 [INFO] Processing: Glave Gruppe GmbH (location: Norden)
+2025-03-06 14:58:43 [INFO] Found the following reports for Glave Gruppe GmbH: 8
+
+2025-03-06 14:58:43 [INFO] Processing: Friedrich Graepel Aktiengesellschaft (location: Löningen)
+2025-03-06 14:58:59 [INFO] Found the following reports for Friedrich Graepel Aktiengesellschaft: 18
+
+2025-03-06 14:58:59 [INFO] Processing: Deutsche Nickel GmbH (location: Schwerte)
+2025-03-06 14:59:11 [INFO] Found the following reports for Deutsche Nickel GmbH: 20
+
+2025-03-06 14:59:11 [INFO] Processing: Dillenberg GmbH & Co. KG (location: Düsseldorf)
+2025-03-06 15:01:48 [INFO] Found the following reports for Dillenberg GmbH & Co. KG: 16
+
+2025-03-06 15:01:48 [INFO] Processing: Eisenwerk Bassum GmbH (location: Bassum)
+2025-03-06 15:01:57 [INFO] Found the following reports for Eisenwerk Bassum GmbH: 20
+
+2025-03-06 15:01:57 [INFO] Processing: Quadrus Metalltechnik GmbH (location: Schmidgaden)
+2025-03-06 15:02:06 [INFO] Found the following reports for Quadrus Metalltechnik GmbH: 16
+
+2025-03-06 15:02:06 [INFO] Processing: Dossmann GmbH (location: Walldürn)
+2025-03-06 15:02:14 [INFO] Found the following reports for Dossmann GmbH: 16
+
+2025-03-06 15:02:14 [INFO] Processing: VTN Witten GmbH (location: Witten)
+2025-03-06 15:02:29 [INFO] Found the following reports for VTN Witten GmbH: 9
+
+2025-03-06 15:02:29 [INFO] Processing: DWK Drahtwerk Köln GmbH (location: Köln)
+2025-03-06 15:02:38 [INFO] Found the following reports for DWK Drahtwerk Köln GmbH: 16
+
+2025-03-06 15:02:38 [INFO] Processing: Röhrenwerk Kupferdreh Carl Hamm GmbH (location: Essen)
+2025-03-06 15:02:46 [INFO] Found the following reports for Röhrenwerk Kupferdreh Carl Hamm GmbH: 16
+
+2025-03-06 15:02:46 [INFO] Processing: Ahlers Edelstahltechnik GmbH (location: Versmold)
+2025-03-06 15:02:54 [INFO] Found the following reports for Ahlers Edelstahltechnik GmbH: 13
+
+2025-03-06 15:02:54 [INFO] Processing: Welser Profile Deutschland GmbH (location: Bönen)
+2025-03-06 15:03:00 [INFO] Found the following reports for Welser Profile Deutschland GmbH: 12
+
+2025-03-06 15:03:00 [INFO] Processing: Ervin Germany GmbH (location: Sprockhövel)
+2025-03-06 15:03:07 [INFO] Found the following reports for Ervin Germany GmbH: 14
+
+2025-03-06 15:03:07 [INFO] Processing: EZM Edelstahlzieherei Mark GmbH (location: Wetter (Ruhr))
+2025-03-06 15:03:16 [INFO] Found the following reports for EZM Edelstahlzieherei Mark GmbH: 14
+
+2025-03-06 15:03:16 [INFO] Processing: H&G Produktion und Service GmbH (location: Burbach)
+2025-03-06 15:11:16 [INFO] Found the following reports for H&G Produktion und Service GmbH: 2
+
+2025-03-06 15:11:16 [INFO] Processing: Butting Könnern GmbH (location: Könnern)
+2025-03-06 15:11:18 [INFO] Found the following reports for Butting Könnern GmbH: 2
+
+2025-03-06 15:11:19 [INFO] Processing: Power-Cast Zitzmann GmbH & Co. KG (location: Stockheim)
+2025-03-06 15:11:27 [INFO] No dictionary reports found for Power-Cast Zitzmann GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 15:11:27 [INFO] Processing: Filigran Trägersysteme GmbH & Co. KG (location: Leese)
+2025-03-06 15:11:35 [INFO] Found the following reports for Filigran Trägersysteme GmbH & Co. KG: 16
+
+2025-03-06 15:11:35 [INFO] Processing: Energietechnik Essen GmbH (location: Essen)
+2025-03-06 15:11:49 [INFO] Found the following reports for Energietechnik Essen GmbH: 3
+
+2025-03-06 15:11:49 [INFO] Processing: Hüntelmann GmbH & Co. KG (location: Werpeloh)
+2025-03-06 15:11:58 [INFO] Found the following reports for Hüntelmann GmbH & Co. KG: 18
+
+2025-03-06 15:11:58 [INFO] Processing: Flanschenwerk Bebitz GmbH (location: Könnern OT Bebitz)
+2025-03-06 15:12:06 [INFO] Found the following reports for Flanschenwerk Bebitz GmbH: 14
+
+2025-03-06 15:12:06 [INFO] Processing: LTI-Metalltechnik GmbH (location: Schöntal)
+2025-03-06 15:12:24 [INFO] Found the following reports for LTI-Metalltechnik GmbH: 1
+
+2025-03-06 15:12:24 [INFO] Processing: Gontermann-Peipers GmbH (location: Siegen)
+2025-03-06 15:12:34 [INFO] Found the following reports for Gontermann-Peipers GmbH: 16
+
+2025-03-06 15:12:34 [INFO] Processing: JAHN GmbH (location: Tambach-Dietharz)
+2025-03-06 15:12:43 [INFO] Found the following reports for JAHN GmbH: 19
+
+2025-03-06 15:12:43 [INFO] Processing: Z & J Technologies GmbH (location: Düren)
+2025-03-06 15:13:06 [INFO] No dictionary reports found for Z & J Technologies GmbH (data might be incomplete).
+
+2025-03-06 15:13:06 [INFO] Processing: FRANK Walz- und Schmiedetechnik GmbH (location: Hatzfeld (Eder))
+2025-03-06 15:13:15 [INFO] Found the following reports for FRANK Walz- und Schmiedetechnik GmbH: 16
+
+2025-03-06 15:13:15 [INFO] Processing: G ü l d e GmbH & Co KG Kaltwalzwerk (location: Kamen)
+2025-03-06 15:13:23 [INFO] Found the following reports for G ü l d e GmbH & Co KG Kaltwalzwerk: 15
+
+2025-03-06 15:13:23 [INFO] Processing: Isselburg Guß- und Bearbeitung GmbH (location: Isselburg)
+2025-03-06 15:13:43 [INFO] No dictionary reports found for Isselburg Guß- und Bearbeitung GmbH (data might be incomplete).
+
+2025-03-06 15:13:43 [INFO] Processing: INMET Stahl GmbH & Co. KG (location: Bochum)
+2025-03-06 15:13:51 [INFO] Found the following reports for INMET Stahl GmbH & Co. KG: 15
+
+2025-03-06 15:13:51 [INFO] Processing: THIELE GmbH + Co. KG (location: Iserlohn)
+2025-03-06 15:14:02 [INFO] Found the following reports for THIELE GmbH + Co. KG: 20
+
+2025-03-06 15:14:02 [INFO] Processing: Gebhardt - Stahl - GmbH (location: Werl)
+2025-03-06 15:14:15 [INFO] Found the following reports for Gebhardt - Stahl - GmbH: 11
+
+2025-03-06 15:14:15 [INFO] Processing: Otto Junker GmbH (location: Simmerath)
+2025-03-06 15:14:25 [INFO] Found the following reports for Otto Junker GmbH: 7
+
+2025-03-06 15:14:25 [INFO] Processing: R. Kind Beteiligungs GmbH (location: Lindlar)
+2025-03-06 15:14:26 [ERROR] 'R. Kind Beteiligungs GmbH Lindlar' returned NoneType. Skipping to next company.
+2025-03-06 15:14:26 [INFO] No valid (dict) reports to store for R. Kind Beteiligungs GmbH.
+
+2025-03-06 15:14:26 [INFO] Processing: H. Hüttenbrauck Profil GmbH (location: Fröndenberg/Ruhr)
+2025-03-06 15:14:27 [ERROR] 'H. Hüttenbrauck Profil GmbH Fröndenberg/Ruhr' returned NoneType. Skipping to next company.
+2025-03-06 15:14:27 [INFO] No valid (dict) reports to store for H. Hüttenbrauck Profil GmbH.
+
+2025-03-06 15:14:27 [INFO] Processing: Kilian Tiefbohren GmbH (location: Langenfeld (Rheinland))
+2025-03-06 15:14:28 [ERROR] 'Kilian Tiefbohren GmbH Langenfeld' returned NoneType. Skipping to next company.
+2025-03-06 15:14:28 [INFO] No valid (dict) reports to store for Kilian Tiefbohren GmbH.
+
+2025-03-06 15:14:28 [INFO] Processing: Heidenreich & Harbeck GmbH (location: Mölln)
+2025-03-06 15:14:35 [INFO] Found the following reports for Heidenreich & Harbeck GmbH: 13
+
+2025-03-06 15:14:36 [INFO] Processing: Heinz Gothe GmbH & Co. KG (location: Mönchengladbach)
+2025-03-06 15:24:37 [INFO] Found the following reports for Heinz Gothe GmbH & Co. KG: 1
+
+2025-03-06 15:24:37 [INFO] Processing: Drahtwerk St. Ingbert GmbH (location: St. Ingbert)
+2025-03-06 15:24:46 [INFO] Found the following reports for Drahtwerk St. Ingbert GmbH: 16
+
+2025-03-06 15:24:46 [INFO] Processing: Kemper GmbH (location: Vreden)
+2025-03-06 15:24:55 [INFO] Found the following reports for Kemper GmbH: 19
+
+2025-03-06 15:24:55 [INFO] Processing: Salzgitter Europlatinen GmbH (location: Salzgitter)
+2025-03-06 15:24:56 [ERROR] 'Salzgitter Europlatinen GmbH Salzgitter' returned NoneType. Skipping to next company.
+2025-03-06 15:24:56 [INFO] No valid (dict) reports to store for Salzgitter Europlatinen GmbH.
+
+2025-03-06 15:24:56 [INFO] Processing: Pleissner Guss GmbH (location: Herzberg am Harz)
+2025-03-06 15:25:10 [INFO] Found the following reports for Pleissner Guss GmbH: 6
+
+2025-03-06 15:25:10 [INFO] Processing: Walzwerke Einsal GmbH (location: Nachrodt-Wiblingwerde)
+2025-03-06 15:25:11 [ERROR] 'Walzwerke Einsal GmbH Nachrodt-Wiblingwerde' returned NoneType. Skipping to next company.
+2025-03-06 15:25:11 [INFO] No valid (dict) reports to store for Walzwerke Einsal GmbH.
+
+2025-03-06 15:25:11 [INFO] Processing: König Metall GmbH & Co. KG (location: Gaggenau)
+2025-03-06 15:25:12 [INFO] Found the following reports for König Metall GmbH & Co. KG: 1
+
+2025-03-06 15:25:12 [INFO] Processing: Schwering & Hasse Elektrodraht GmbH (location: Lügde)
+2025-03-06 15:25:30 [INFO] No dictionary reports found for Schwering & Hasse Elektrodraht GmbH (data might be incomplete).
+
+2025-03-06 15:25:30 [INFO] Processing: Friedr. Lohmann GmbH (location: Witten)
+2025-03-06 15:25:39 [INFO] Found the following reports for Friedr. Lohmann GmbH: 15
+
+2025-03-06 15:25:39 [INFO] Processing: Rösler Oberflächentechnik GmbH (location: Bad Staffelstein)
+2025-03-06 15:26:01 [INFO] No dictionary reports found for Rösler Oberflächentechnik GmbH (data might be incomplete).
+
+2025-03-06 15:26:01 [INFO] Processing: Karl Diederichs GmbH & Co. KG (location: Remscheid)
+2025-03-06 15:29:32 [INFO] No dictionary reports found for Karl Diederichs GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 15:29:32 [INFO] Processing: Wilhelm Sönnecken GmbH (location: Wuppertal)
+2025-03-06 15:29:36 [INFO] Found the following reports for Wilhelm Sönnecken GmbH: 2
+
+2025-03-06 15:29:36 [INFO] Processing: Drahtwerk Wagener GmbH & Co. KG (location: Altena)
+2025-03-06 15:29:37 [ERROR] 'Drahtwerk Wagener GmbH & Co. KG Altena' returned NoneType. Skipping to next company.
+2025-03-06 15:29:37 [INFO] No valid (dict) reports to store for Drahtwerk Wagener GmbH & Co. KG.
+
+2025-03-06 15:29:37 [INFO] Processing: Mack Alu-Systeme GmbH (location: Klettgau)
+2025-03-06 15:29:47 [INFO] Found the following reports for Mack Alu-Systeme GmbH: 16
+
+2025-03-06 15:29:47 [INFO] Processing: BBV Baustahl und Blechverarbeitungs- (location: Brandenburg an der Havel)
+2025-03-06 15:29:50 [INFO] Found the following reports for BBV Baustahl und Blechverarbeitungs-: 6
+
+2025-03-06 15:29:50 [INFO] Processing: von Schaewen GmbH (location: Essen)
+2025-03-06 15:30:12 [INFO] Found the following reports for von Schaewen GmbH: 1
+
+2025-03-06 15:30:12 [INFO] Processing: Metallbau Möller GmbH & Co KG (location: Erfurt)
+2025-03-06 15:33:41 [INFO] Found the following reports for Metallbau Möller GmbH & Co KG: 16

@@ -12,7 +12,7 @@ venv/
 .vscode/
 
 # Ignore other files or directories
-bundesanzeiger_local_data*/
+bundesanzeiger_local*/
 test_bundesanzeiger_local_data/
 test_folder*/
 crawled*/
