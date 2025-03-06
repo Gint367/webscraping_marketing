@@ -333,7 +333,8 @@ def find_latest_jahresabschluss_locally(base_dir: str, company: str) -> tuple:
         return None, None
 
 def process_company(company: str, base_dir: str, max_retries: int = 5, 
-                   max_delay_seconds: int = 300, backoff_factor: float = 2.0) -> dict:
+                   max_delay_seconds: int = 300, backoff_factor: float = 2.0,
+                   location: str = None) -> dict:
     """
     Fetches ALL reports for a given company (retrying if needed),
     sorts them by date (converted to datetime), stores them locally,
@@ -342,6 +343,14 @@ def process_company(company: str, base_dir: str, max_retries: int = 5,
     
     If the company folder already exists, will extract data from local files
     without making API calls.
+    
+    Args:
+        company: Company name to search for
+        base_dir: Directory to store data
+        max_retries: Maximum number of retries
+        max_delay_seconds: Maximum delay between retries
+        backoff_factor: Exponential factor for backoff
+        location: Optional location of the company
     """
     # Default result for CSV columns
     result_latest = {
@@ -354,10 +363,15 @@ def process_company(company: str, base_dir: str, max_retries: int = 5,
         "Note": ""
     }
 
+    # Create search term combining company name and location if provided
+    search_term = company
+    if location and location.strip():
+        search_term = f"{company} {location.strip().split()[0]}" # Use first word of location
+
     # Check if company folder already exists and is not empty
     if company_folder_exists(base_dir, company):
         print(f"{get_timestamp()} [INFO] {company} folder exists - using local data for extraction.")
-        result_latest["Note"] = "Folder exists | Used local data |"
+        result_latest["Note"] = "Folder exists | Used local data | "
         
         # Try to find and extract data from local HTML file
         html_content, folder_path = find_latest_jahresabschluss_locally(base_dir, company)
@@ -370,15 +384,15 @@ def process_company(company: str, base_dir: str, max_retries: int = 5,
             result_latest["Sachanlagen End"] = parsed["Sachanlagen End"]
             result_latest["Start Date"] = parsed["Start Date"]
             result_latest["End Date"] = parsed["End Date"]
-            result_latest["Note"] = folder_path  # local folder path
+            result_latest["Note"] = result_latest["Note"] + folder_path  # local folder path
         else:
             print(f"{get_timestamp()} [WARN] No suitable HTML found locally for {company}")
             result_latest["Note"] = "Local data exists but no suitable HTML found"
             
         return result_latest
 
-    # 1) Get all data with retry and exponential backoff
-    data = get_reports_with_retry(company, max_retries, max_delay_seconds, backoff_factor)
+    # 1) Get all data with retry and exponential backoff - using search_term (company + location)
+    data = get_reports_with_retry(search_term, max_retries, max_delay_seconds, backoff_factor)
     # data is typically a dict with some keys -> each is a report
 
     # 2) Print names of all found reports
@@ -451,6 +465,7 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
     Reads companies from 'companies.csv', processes each, and writes extracted
     data to 'companies_output.csv'.  
     This version:
+      - reads both company name and location (if available)
       - skips companies that already have a folder with content,
       - sorts by datetime, 
       - prints all report names,
@@ -470,6 +485,7 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
     # Columns we want in the output
     output_columns = [
         "company name",
+        "location",
         "Technische Anlagen Start",
         "Technische Anlagen End",
         "Sachanlagen Start",
@@ -507,14 +523,19 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
     # 3) For each company, process and append a single row to the output file
     for _, row in df_input.iterrows():
         company_name = str(row["company name"]).strip()
-        print(f"\n{get_timestamp()} [INFO] Processing: {company_name}")
+        # Get location if it exists in the CSV, otherwise use None
+        location = str(row["location"]).strip() if "location" in row and not pd.isna(row["location"]) else None
+        
+        location_info = f" (location: {location})" if location else ""
+        print(f"\n{get_timestamp()} [INFO] Processing: {company_name}{location_info}")
 
         # Call your existing function to get extracted data with retry parameters
-        extracted = process_company(company_name, base_dir, max_retries, max_delay_seconds, backoff_factor)
+        extracted = process_company(company_name, base_dir, max_retries, max_delay_seconds, backoff_factor, location)
 
         # Build a dict for the new row
         new_row = {
             "company name": company_name,
+            "location": location if location else "",
             "Technische Anlagen Start": extracted["Technische Anlagen Start"],
             "Technische Anlagen End": extracted["Technische Anlagen End"],
             "Sachanlagen Start": extracted["Sachanlagen Start"],
@@ -535,7 +556,7 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"{get_timestamp()} [ERROR] Usage: python app.py <input_csv> [base_dir] [max_retries] [max_delay_seconds] [backoff_factor]")
+        print(f"{get_timestamp()} [ERROR] Usage: python app.py <input_csv> [output_dir] [max_retries] [max_delay_seconds] [backoff_factor]")
         print(f"{get_timestamp()} [INFO]  Default base_dir: bundesanzeiger_local_data")
         sys.exit(1)
 
