@@ -6,6 +6,12 @@ from datetime import datetime
 from pathlib import Path
 from bs4 import BeautifulSoup
 
+# Constants
+MAX_PRECEDING_ELEMENTS = 3
+MIN_WORD_LENGTH = 5
+DEFAULT_COLUMN_PREFIX = "Column"
+MAX_TABLE_NAME_LENGTH = 100
+
 def clean_html(input_html, filter_word=None):
     """Extracts tables and their preceding headers/paragraphs from the input HTML.
     
@@ -32,7 +38,7 @@ def clean_html(input_html, filter_word=None):
             current = table
             count = 0
             
-            while count < 3:
+            while count < MAX_PRECEDING_ELEMENTS:
                 current = current.find_previous() # Use find_previous instead of find_previous_sibling
                 if not current:
                     break
@@ -68,7 +74,7 @@ def filter_word_rows(input_html, search_word):
     def meets_length_criteria(word):
         """Check if a word meets the minimum length criteria of 5 characters excluding whitespace"""
         clean_word = word.strip()
-        return len(clean_word) >= 5
+        return len(clean_word) >= MIN_WORD_LENGTH
     
     for table in soup.find_all('table'):
         # Get table name from preceding header or paragraph
@@ -87,19 +93,22 @@ def filter_word_rows(input_html, search_word):
         thead = table.find('thead')
         
         if thead:
+            # If the table has a proper thead element, extract headers from it
             for row in thead.find_all('tr'):
                 header_cells = []
                 for cell in row.find_all(['th', 'td']):
                     text = cell.text.strip()
                     colspan = int(cell.get('colspan', 1))
-                    # Repeat the text for colspan times
+                    # Handle colspan by duplicating the header text across multiple columns
+                    # This ensures alignment with data cells that will appear below this header
                     header_cells.extend([text] * colspan)
                 header_rows.append(header_cells)
         else:
-            # Fallback to previous logic for tables without thead
+            # For tables without thead, try to identify headers from the top rows
             found_data = False
             for row in table.find_all('tr'):
                 if row.find_all('th'):
+                    # If row contains th elements, treat it as a header row
                     header_cells = []
                     for cell in row.find_all(['th', 'td']):
                         text = cell.text.strip()
@@ -107,26 +116,32 @@ def filter_word_rows(input_html, search_word):
                         header_cells.extend([text] * colspan)
                     header_rows.append(header_cells)
                 elif not found_data:
+                    # If we haven't found data yet and there's no header,
+                    # use the first row with content as header
                     cells = [td.text.strip() for td in row.find_all('td')]
-                    if any(cells):
-                        if not header_rows:
+                    if any(cells):  # Check if row has any non-empty cells
+                        if not header_rows:  # Only use as header if we don't have headers yet
                             header_rows.append(cells)
-                        found_data = True
+                        found_data = True  # Mark that we've found data rows
 
         if not header_rows:
-            continue
+            continue  # Skip tables without identifiable headers
 
-        # Normalize headers: remove empty strings and newlines
+        # Normalize headers: clean up text and handle empty headers
+        # This creates consistent header values for mapping to data cells
         normalized_headers = []
         for row in header_rows:
             clean_row = []
             for cell in row:
-                clean_cell = ' '.join(cell.split())  # Remove extra whitespace and newlines
-                clean_row.append(clean_cell if clean_cell else f"Column{len(clean_row)+1}")
+                # Remove extra whitespace and newlines from header text
+                clean_cell = ' '.join(cell.split())
+                # For empty headers, generate a placeholder name based on position
+                clean_row.append(clean_cell if clean_cell else f"{DEFAULT_COLUMN_PREFIX}{len(clean_row)+1}")
             normalized_headers.append(clean_row)
             
         # Process data rows
         matching_rows = []
+        # Get data rows either from tbody or by skipping header rows
         data_rows = (table.find('tbody').find_all('tr') if table.find('tbody') else 
                     table.find_all('tr')[len(header_rows):])
             
@@ -134,85 +149,59 @@ def filter_word_rows(input_html, search_word):
             cells = [td.text.strip() for td in row.find_all('td')]
             row_text = ' '.join(cells)
             
-            # Special handling for "technische Anlagen"
-            if search_word.lower() == "technische anlagen":
-                # Find the position of "technische Anlagen" in the text
-                match_pos = row_text.lower().find(search_word.lower())
+            # Find the position of search word in the text
+            match_pos = row_text.lower().find(search_word.lower())
+            
+            if match_pos >= 0:
+                # Check if the match is valid by examining what comes before it
+                is_valid_match = True
                 
-                if match_pos >= 0:
-                    # Check if the match is valid by examining what comes before it
-                    is_valid_match = True
-                    
-                    # Get text before "technische Anlagen"
-                    text_before = row_text[:match_pos].strip()
-                    
-                    if text_before:
-                        # Check the last word before "technische Anlagen"
-                        # If it's longer than 5 characters, the match is invalid
-                        words_before = text_before.split()
-                        if words_before and meets_length_criteria(words_before[-1]):
-                            is_valid_match = False
-                    
-                    if is_valid_match:
-                        # Create row dictionary
-                        row_dict = {}
-                        
-                        # Add all header levels
-                        for level, header_row in enumerate(normalized_headers, 1):
-                            row_dict[f'header{level}'] = header_row[:len(cells)]
-                        
-                        # Create values dictionary
-                        values = {}
-                        last_header = normalized_headers[-1] if normalized_headers else []
-                        
-                        for i, cell in enumerate(cells):
-                            if i == 0:
-                                values["Column1"] = cell
-                            else:
-                                header_key = last_header[i] if i < len(last_header) else f"Column{i+1}"
-                                if header_key in values:
-                                    count = 1
-                                    while f"{header_key}_{count}" in values:
-                                        count += 1
-                                    header_key = f"{header_key}_{count}"
-                                values[header_key] = cell
-                        
-                        row_dict['values'] = values
-                        matching_rows.append(row_dict)
-            else:
-                # For other search terms, use the original logic
-                if search_word.lower() in row_text.lower():
+                # Get text before search word
+                text_before = row_text[:match_pos].strip()
+                
+                if text_before:
+                    # Check the last word before search word
+                    # If it's longer than 5 characters, the match is invalid
+                    words_before = text_before.split()
+                    if words_before and meets_length_criteria(words_before[-1]):
+                        is_valid_match = False
+                
+                if is_valid_match:
                     # Create row dictionary
                     row_dict = {}
                     
-                    # Add all header levels
+                    # Add all header levels to preserve the table's hierarchical structure
+                    # This keeps track of all header rows that this data belongs to
                     for level, header_row in enumerate(normalized_headers, 1):
-                        row_dict[f'header{level}'] = header_row[:len(cells)]  # Limit headers to actual columns
+                        # Limit headers to the actual number of columns in this data row
+                        row_dict[f'header{level}'] = header_row[:len(cells)]
                     
-                    # Create values dictionary using all cells
+                    # Create values dictionary mapping headers to cell values
                     values = {}
+                    # Use the last (most specific) header row for column names
                     last_header = normalized_headers[-1] if normalized_headers else []
                     
                     for i, cell in enumerate(cells):
-                        if i == 0:  # First column always uses Column1 as key
-                            values["Column1"] = cell
+                        if i == 0:
+                            # Always use a consistent key for the first column
+                            values[f"{DEFAULT_COLUMN_PREFIX}1"] = cell
                         else:
-                            # For other columns, create unique keys by combining header text with column position
-                            header_key = last_header[i] if i < len(last_header) else f"Column{i+1}"
-                            if header_key in values:  # If key already exists
-                                # Find how many times this key has been used
+                            # For other columns, try to use the header text as key
+                            header_key = last_header[i] if i < len(last_header) else f"{DEFAULT_COLUMN_PREFIX}{i+1}"
+                            # Handle duplicate keys by appending a numeric suffix
+                            if header_key in values:
                                 count = 1
                                 while f"{header_key}_{count}" in values:
                                     count += 1
                                 header_key = f"{header_key}_{count}"
                             values[header_key] = cell
-
+                    
                     row_dict['values'] = values
                     matching_rows.append(row_dict)
         
         if matching_rows:
             results.append({
-                'table_name': table_name[:100],
+                'table_name': table_name[:MAX_TABLE_NAME_LENGTH],
                 'header_levels': len(normalized_headers),
                 'matching_rows': matching_rows
             })
