@@ -162,7 +162,7 @@ def generate_csv_report(input_dir: str,
     # Prepare CSV headers
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
     
-    with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
+    with open(output_file, 'w', newline='', encoding='utf-8-sig') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(headers)
         
@@ -178,10 +178,10 @@ def generate_csv_report(input_dir: str,
                 
                 # Only write to CSV if at least one value is not empty
                 if any(values):
-                    writer.writerow([company_name, table_name] + values)
+                    writer.writerow([company_name, table_name.replace('\n', ' ')] + values)
 
 if __name__ == "__main__":
-    input_directory = "./bundesanzeiger_local_data_output"
+    input_directory = "./bundesanzeiger_local_maschinenbau_output"
     N = 3  # Parameter N - change this value as needed
     
     # Generate report using original extract_values
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     # generate_csv_report(input_directory, f"machine_report_n{N}_v2.csv", N, extract_values_v2)
     
     # Generate report using extract_values_v3 with filter words
-    filter_words = ["anschaffungs", "abschreibung", "buchwert"]
+    filter_words = ["anschaffungs","ahk", "abschreibung", "buchwert"]
     generate_csv_report(
         input_directory, 
         f"machine_report_n{N}_v3.csv", 

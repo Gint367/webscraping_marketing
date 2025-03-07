@@ -5,6 +5,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 from bs4 import BeautifulSoup
+import sys
 
 # Constants
 MAX_PRECEDING_ELEMENTS = 3
@@ -92,7 +93,7 @@ def filter_word_rows(input_html, search_word):
         header_rows = []
         thead = table.find('thead')
         
-        if thead:
+        if (thead):
             # If the table has a proper thead element, extract headers from it
             for row in thead.find_all('tr'):
                 header_cells = []
@@ -201,7 +202,7 @@ def filter_word_rows(input_html, search_word):
         
         if matching_rows:
             results.append({
-                'table_name': table_name[:MAX_TABLE_NAME_LENGTH],
+                'table_name': ' '.join(table_name.split())[:MAX_TABLE_NAME_LENGTH], # Clean table name and limit length
                 'header_levels': len(normalized_headers),
                 'matching_rows': matching_rows
             })
@@ -241,7 +242,11 @@ def get_latest_subfolder(company_folder):
 
 
 if __name__ == "__main__":
-    input_dir = "./bundesanzeiger_local_data"
+    if len(sys.argv) < 2:
+        print("Usage: python clean_html.py <input_dir>")
+        sys.exit(1)
+    
+    input_dir = sys.argv[1]
     output_dir = f"{input_dir}_output"
     os.makedirs(output_dir, exist_ok=True)
     

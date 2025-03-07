@@ -832,3 +832,559 @@ nohup: ignoring input
 2025-03-06 15:30:18 [INFO] Found the following reports for BMA Braunschweigische: 11
 
 2025-03-06 15:30:18 [INFO] Processing: BVM BRUNNER GMBH & Co. KG (location: Reutlingen)
+2025-03-06 15:33:47 [INFO] Found the following reports for BVM BRUNNER GMBH & Co. KG: 17
+
+2025-03-06 15:33:47 [INFO] Processing: Aschaffenburger Maschinenfabrik (location: Aschaffenburg)
+2025-03-06 15:33:57 [INFO] Found the following reports for Aschaffenburger Maschinenfabrik: 17
+
+2025-03-06 15:33:57 [INFO] Processing: MADO GmbH (location: Dornhan)
+2025-03-06 15:34:06 [INFO] Found the following reports for MADO GmbH: 20
+
+2025-03-06 15:34:06 [INFO] Processing: Schepers GmbH & Co. KG (location: Vreden)
+2025-03-06 15:34:19 [INFO] Found the following reports for Schepers GmbH & Co. KG: 6
+
+2025-03-06 15:34:19 [INFO] Processing: STEINERT GmbH (location: Köln)
+2025-03-06 15:34:28 [INFO] Found the following reports for STEINERT GmbH: 16
+
+2025-03-06 15:34:28 [INFO] Processing: Motoreninstandsetzungswerk (location: Kiel)
+2025-03-06 15:34:35 [INFO] Found the following reports for Motoreninstandsetzungswerk: 14
+
+2025-03-06 15:34:35 [INFO] Processing: PFAFF Industriesysteme und Maschinen (location: Kaiserslautern)
+2025-03-06 15:34:47 [INFO] Found the following reports for PFAFF Industriesysteme und Maschinen: 12
+
+2025-03-06 15:34:47 [INFO] Processing: Hemro Manufacturing Germany GmbH (location: Hamburg)
+2025-03-06 15:34:50 [INFO] Found the following reports for Hemro Manufacturing Germany GmbH: 6
+
+2025-03-06 15:34:50 [INFO] Processing: KAPP GmbH & Co. KG (location: Coburg)
+2025-03-06 15:35:04 [INFO] Found the following reports for KAPP GmbH & Co. KG: 4
+
+2025-03-06 15:35:04 [INFO] Processing: Miksch GmbH (location: Göppingen)
+2025-03-06 15:35:13 [INFO] Found the following reports for Miksch GmbH: 18
+
+2025-03-06 15:35:13 [INFO] Processing: K.R. Pfiffner GmbH (location: Zimmern ob Rottweil)
+2025-03-06 15:35:23 [INFO] Found the following reports for K.R. Pfiffner GmbH: 18
+
+2025-03-06 15:35:23 [INFO] Processing: Stromag GmbH (location: Unna)
+2025-03-06 15:35:33 [INFO] Found the following reports for Stromag GmbH: 17
+
+2025-03-06 15:35:33 [INFO] Processing: Herzog GmbH (location: Oldenburg (Oldenburg))
+2025-03-06 15:35:44 [INFO] Found the following reports for Herzog GmbH: 20
+
+2025-03-06 15:35:44 [INFO] Processing: bedo Verpackungstechnik GmbH (location: Lübeck)
+2025-03-06 15:35:52 [INFO] Found the following reports for bedo Verpackungstechnik GmbH: 16
+
+2025-03-06 15:35:52 [INFO] Processing: STIEBER GmbH (location: Heidelberg)
+2025-03-06 15:36:02 [INFO] Found the following reports for STIEBER GmbH: 19
+
+2025-03-06 15:36:02 [INFO] Processing: H.I.T. Maschinenbau GmbH + Co. KG (location: Ettringen)
+2025-03-06 15:36:11 [INFO] Found the following reports for H.I.T. Maschinenbau GmbH + Co. KG: 17
+
+2025-03-06 15:36:11 [INFO] Processing: Gebr. Reinfurt GmbH Co. KG (location: Rimpar)
+2025-03-06 15:36:21 [INFO] Found the following reports for Gebr. Reinfurt GmbH Co. KG: 12
+
+2025-03-06 15:36:21 [INFO] Processing: CERTUSS Dampfautomaten GmbH & Co. KG (location: Krefeld)
+2025-03-06 15:36:30 [INFO] Found the following reports for CERTUSS Dampfautomaten GmbH & Co. KG: 18
+
+2025-03-06 15:36:30 [INFO] Processing: RIPPERT GmbH & Co. KG (location: Herzebrock-Clarholz)
+2025-03-06 15:36:39 [INFO] Found the following reports for RIPPERT GmbH & Co. KG: 17
+
+2025-03-06 15:36:39 [INFO] Processing: HEESS GmbH & Co KG (location: Lampertheim)
+2025-03-06 15:36:49 [INFO] Found the following reports for HEESS GmbH & Co KG: 18
+
+2025-03-06 15:36:49 [INFO] Processing: KOBRA Formen GmbH (location: Lengenfeld)
+2025-03-06 15:37:00 [INFO] Found the following reports for KOBRA Formen GmbH: 11
+
+2025-03-06 15:37:00 [INFO] Processing: MITEX GmbH (location: Erkrath)
+2025-03-06 15:37:11 [INFO] Found the following reports for MITEX GmbH: 18
+
+2025-03-06 15:37:11 [INFO] Processing: Josef Meissner GmbH & Co. KG (location: Köln)
+2025-03-06 15:37:24 [INFO] Found the following reports for Josef Meissner GmbH & Co. KG: 3
+
+2025-03-06 15:37:24 [INFO] Processing: BÜLTMANN GmbH (location: Neuenrade)
+2025-03-06 15:37:35 [INFO] Found the following reports for BÜLTMANN GmbH: 20
+
+2025-03-06 15:37:35 [INFO] Processing: REFORM Grinding Technology GmbH (location: Fulda)
+2025-03-06 15:37:40 [INFO] Found the following reports for REFORM Grinding Technology GmbH: 9
+
+2025-03-06 15:37:40 [INFO] Processing: LANG GmbH & Co. KG (location: Hüttenberg)
+2025-03-06 15:37:55 [INFO] Found the following reports for LANG GmbH & Co. KG: 16
+
+2025-03-06 15:37:55 [INFO] Processing: Zeulenroda Presstechnik GmbH (location: Zeulenroda-Triebes)
+2025-03-06 15:37:59 [INFO] Found the following reports for Zeulenroda Presstechnik GmbH: 6
+
+2025-03-06 15:37:59 [INFO] Processing: AMADA WELD TECH GmbH (location: Puchheim)
+2025-03-06 15:38:02 [INFO] Found the following reports for AMADA WELD TECH GmbH: 5
+
+2025-03-06 15:38:02 [INFO] Processing: Kawasaki Gas Turbine Europe GmbH (location: Bad Homburg v. d. Höhe)
+2025-03-06 15:38:10 [INFO] Found the following reports for Kawasaki Gas Turbine Europe GmbH: 16
+
+2025-03-06 15:38:10 [INFO] Processing: W. Müller GmbH (location: Troisdorf)
+2025-03-06 15:38:21 [INFO] Found the following reports for W. Müller GmbH: 19
+
+2025-03-06 15:38:21 [INFO] Processing: Columbus McKinnon (location: Kissing)
+2025-03-06 15:38:27 [INFO] Found the following reports for Columbus McKinnon: 10
+
+2025-03-06 15:38:27 [INFO] Processing: MAXIMATOR GmbH (location: Nordhausen)
+2025-03-06 15:38:37 [INFO] Found the following reports for MAXIMATOR GmbH: 16
+
+2025-03-06 15:38:37 [INFO] Processing: Pressta-Eisele GmbH (location: Bullay)
+2025-03-06 15:38:45 [INFO] Found the following reports for Pressta-Eisele GmbH: 16
+
+2025-03-06 15:38:45 [INFO] Processing: Polyplan-GmbH Polyurethan-Maschinen (location: Straßlach)
+2025-03-06 15:38:53 [INFO] Found the following reports for Polyplan-GmbH Polyurethan-Maschinen: 15
+
+2025-03-06 15:38:53 [INFO] Processing: Hans Wanner GmbH (location: Wangen im Allgäu)
+2025-03-06 15:39:02 [INFO] Found the following reports for Hans Wanner GmbH: 16
+
+2025-03-06 15:39:02 [INFO] Processing: GEMAG Gelenauer Maschinenbau AG (location: Gelenau/Erzgeb.)
+2025-03-06 15:39:03 [ERROR] 'GEMAG Gelenauer Maschinenbau AG Gelenau/Erzgeb.' returned NoneType. Skipping to next company.
+2025-03-06 15:39:03 [INFO] No valid (dict) reports to store for GEMAG Gelenauer Maschinenbau AG.
+
+2025-03-06 15:39:03 [INFO] Processing: Boart Longyear GmbH & Co. KG (location: Eiterfeld)
+2025-03-06 15:39:13 [INFO] Found the following reports for Boart Longyear GmbH & Co. KG: 19
+
+2025-03-06 15:39:13 [INFO] Processing: AMSBECK-Maschinentechnik GmbH (location: Everswinkel)
+2025-03-06 15:39:22 [INFO] Found the following reports for AMSBECK-Maschinentechnik GmbH: 18
+
+2025-03-06 15:39:22 [INFO] Processing: RESA Systems GmbH (location: Saarwellingen)
+2025-03-06 15:39:32 [INFO] Found the following reports for RESA Systems GmbH: 17
+
+2025-03-06 15:39:32 [INFO] Processing: WMV Apparatebau GmbH (location: Windeck)
+2025-03-06 15:39:42 [INFO] Found the following reports for WMV Apparatebau GmbH: 19
+
+2025-03-06 15:39:42 [INFO] Processing: Maschinen & Formenbau (location: Neustadt am Rübenberge)
+2025-03-06 15:39:43 [ERROR] 'Maschinen & Formenbau Neustadt am Rübenberge' returned NoneType. Skipping to next company.
+2025-03-06 15:39:43 [INFO] No valid (dict) reports to store for Maschinen & Formenbau.
+
+2025-03-06 15:39:43 [INFO] Processing: Heinen Freezing Gmbh & Co. KG (location: Varel)
+2025-03-06 15:39:58 [INFO] Found the following reports for Heinen Freezing Gmbh & Co. KG: 2
+
+2025-03-06 15:39:58 [INFO] Processing: JÖST GmbH + Co. KG (location: Dülmen)
+2025-03-06 15:40:14 [INFO] No dictionary reports found for JÖST GmbH + Co. KG (data might be incomplete).
+
+2025-03-06 15:40:14 [INFO] Processing: Masa GmbH (location: Andernach)
+2025-03-06 15:40:25 [INFO] Found the following reports for Masa GmbH: 9
+
+2025-03-06 15:40:25 [INFO] Processing: Gala Kunststoff- und Kautschukmaschinen (location: Xanten)
+2025-03-06 15:40:40 [INFO] Found the following reports for Gala Kunststoff- und Kautschukmaschinen: 11
+
+2025-03-06 15:40:40 [INFO] Processing: Fertigungstechnik Weißenfels GmbH (location: Weißenfels)
+2025-03-06 15:40:49 [INFO] Found the following reports for Fertigungstechnik Weißenfels GmbH: 16
+
+2025-03-06 15:40:49 [INFO] Processing: KÖRA-PACKMAT Maschinenbau GmbH (location: Villingendorf)
+2025-03-06 15:41:00 [INFO] Found the following reports for KÖRA-PACKMAT Maschinenbau GmbH: 20
+
+2025-03-06 15:41:00 [INFO] Processing: Ilmberger (location: Straubing)
+2025-03-06 15:41:10 [INFO] Found the following reports for Ilmberger: 20
+
+2025-03-06 15:41:10 [INFO] Processing: Tietjen Verfahrenstechnik GmbH (location: Hemdingen)
+2025-03-06 15:41:18 [INFO] Found the following reports for Tietjen Verfahrenstechnik GmbH: 17
+
+2025-03-06 15:41:18 [INFO] Processing: Zwick GmbH & Co. KG (location: Ulm)
+2025-03-06 15:41:33 [INFO] No dictionary reports found for Zwick GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 15:41:33 [INFO] Processing: Kalman Hafner GmbH Schmuckschleuderguss (location: Pforzheim)
+2025-03-06 15:41:40 [INFO] Found the following reports for Kalman Hafner GmbH Schmuckschleuderguss: 15
+
+2025-03-06 15:41:40 [INFO] Processing: Vollmer Werke Maschinenfabrik GmbH (location: Biberach an der Riß)
+2025-03-06 15:41:52 [INFO] Found the following reports for Vollmer Werke Maschinenfabrik GmbH: 10
+
+2025-03-06 15:41:52 [INFO] Processing: Schmalenberger GmbH + Co. KG (location: Tübingen)
+2025-03-06 15:41:56 [INFO] Found the following reports for Schmalenberger GmbH + Co. KG: 8
+
+2025-03-06 15:41:57 [INFO] Processing: Burgsmüller GmbH (location: Einbeck)
+2025-03-06 15:41:59 [INFO] Found the following reports for Burgsmüller GmbH: 3
+
+2025-03-06 15:41:59 [INFO] Processing: NIMAK GmbH (location: Wissen)
+2025-03-06 15:42:09 [INFO] Found the following reports for NIMAK GmbH: 17
+
+2025-03-06 15:42:09 [INFO] Processing: Hecker Werke GmbH (location: Weil im Schönbuch)
+2025-03-06 15:42:17 [INFO] Found the following reports for Hecker Werke GmbH: 17
+
+2025-03-06 15:42:18 [INFO] Processing: Bernhard Ide Werkzeug- und Maschinenbau (location: Ostfildern)
+2025-03-06 15:42:25 [INFO] Found the following reports for Bernhard Ide Werkzeug- und Maschinenbau: 17
+
+2025-03-06 15:42:25 [INFO] Processing: Werkzeugmaschinenfabrik (location: Coburg)
+2025-03-06 15:42:43 [INFO] Found the following reports for Werkzeugmaschinenfabrik: 1
+
+2025-03-06 15:42:43 [INFO] Processing: Zirbus technology GmbH (location: Bad Grund (Harz))
+2025-03-06 15:42:44 [ERROR] 'Zirbus technology GmbH Bad Grund (Harz)' returned NoneType. Skipping to next company.
+2025-03-06 15:42:44 [INFO] No valid (dict) reports to store for Zirbus technology GmbH.
+
+2025-03-06 15:42:44 [INFO] Processing: Flottweg SE (location: Vilsbiburg)
+2025-03-06 15:42:55 [INFO] Found the following reports for Flottweg SE: 10
+
+2025-03-06 15:42:55 [INFO] Processing: Kracht GmbH (location: Werdohl)
+2025-03-06 15:45:32 [INFO] Found the following reports for Kracht GmbH: 16
+
+2025-03-06 15:45:32 [INFO] Processing: GEDA GmbH (location: Asbach-Bäumenheim)
+2025-03-06 15:45:47 [INFO] Found the following reports for GEDA GmbH: 8
+
+2025-03-06 15:45:47 [INFO] Processing: Normpack GmbH (location: Küssaberg)
+2025-03-06 15:45:57 [INFO] Found the following reports for Normpack GmbH: 19
+
+2025-03-06 15:45:57 [INFO] Processing: Oswald Elektromotoren GmbH (location: Miltenberg)
+2025-03-06 15:46:07 [INFO] Found the following reports for Oswald Elektromotoren GmbH: 18
+
+2025-03-06 15:46:07 [INFO] Processing: PSA Technology GmbH (location: Bitburg)
+2025-03-06 15:46:14 [INFO] Found the following reports for PSA Technology GmbH: 11
+
+2025-03-06 15:46:14 [INFO] Processing: Mikron Germany GmbH (location: Rottweil)
+2025-03-06 15:46:16 [INFO] Found the following reports for Mikron Germany GmbH: 2
+
+2025-03-06 15:46:16 [INFO] Processing: ZIPPE Industrieanlagen GmbH (location: Wertheim)
+2025-03-06 15:46:27 [INFO] Found the following reports for ZIPPE Industrieanlagen GmbH: 17
+
+2025-03-06 15:46:27 [INFO] Processing: Friedrich Sailer GmbH (location: Neu-Ulm)
+2025-03-06 15:47:42 [INFO] Found the following reports for Friedrich Sailer GmbH: 19
+
+2025-03-06 15:47:42 [INFO] Processing: Schäfer und Flottmann (location: Gevelsberg)
+2025-03-06 15:47:50 [INFO] Found the following reports for Schäfer und Flottmann: 14
+
+2025-03-06 15:47:50 [INFO] Processing: Intego GmbH (location: Erlangen)
+2025-03-06 15:47:59 [INFO] Found the following reports for Intego GmbH: 17
+
+2025-03-06 15:47:59 [INFO] Processing: Seuthe GmbH (location: Hemer)
+2025-03-06 15:48:09 [INFO] Found the following reports for Seuthe GmbH: 18
+
+2025-03-06 15:48:09 [INFO] Processing: Nordson BKG GmbH (location: Münster)
+2025-03-06 15:48:18 [INFO] Found the following reports for Nordson BKG GmbH: 11
+
+2025-03-06 15:48:18 [INFO] Processing: M. Jürgensen GmbH & Co KG (location: Sörup)
+2025-03-06 15:48:22 [INFO] No dictionary reports found for M. Jürgensen GmbH & Co KG (data might be incomplete).
+
+2025-03-06 15:48:22 [INFO] Processing: EHRET GmbH Life Science Solutions (location: Freiburg im Breisgau)
+2025-03-06 15:48:26 [INFO] Found the following reports for EHRET GmbH Life Science Solutions: 7
+
+2025-03-06 15:48:26 [INFO] Processing: WF-Maschinenbau und Blechformtechnik (location: Sendenhorst)
+2025-03-06 15:48:36 [INFO] Found the following reports for WF-Maschinenbau und Blechformtechnik: 20
+
+2025-03-06 15:48:36 [INFO] Processing: WTH-Wärmetechnik (location: Hildesheim)
+2025-03-06 15:48:46 [INFO] Found the following reports for WTH-Wärmetechnik: 20
+
+2025-03-06 15:48:46 [INFO] Processing: vhf camfacture AG (location: Ammerbuch)
+2025-03-06 15:48:55 [INFO] Found the following reports for vhf camfacture AG: 17
+
+2025-03-06 15:48:55 [INFO] Processing: BÖWE SYSTEC GmbH (location: Augsburg)
+2025-03-06 15:49:04 [INFO] Found the following reports for BÖWE SYSTEC GmbH: 15
+
+2025-03-06 15:49:04 [INFO] Processing: Schneider GmbH & Co. KG (location: Fronhausen)
+2025-03-06 15:49:14 [INFO] Found the following reports for Schneider GmbH & Co. KG: 19
+
+2025-03-06 15:49:14 [INFO] Processing: Hako GmbH (location: Bad Oldesloe)
+2025-03-06 15:49:26 [INFO] Found the following reports for Hako GmbH: 13
+
+2025-03-06 15:49:26 [INFO] Processing: Anthon GmbH (location: Flensburg)
+2025-03-06 15:49:37 [INFO] Found the following reports for Anthon GmbH: 19
+
+2025-03-06 15:49:37 [INFO] Processing: Maschinenfabrik Johann Leimbach GmbH (location: Wuppertal)
+2025-03-06 15:49:46 [INFO] Found the following reports for Maschinenfabrik Johann Leimbach GmbH: 19
+
+2025-03-06 15:49:46 [INFO] Processing: Karl Klink GmbH (location: Niefern-Öschelbronn)
+2025-03-06 15:52:11 [INFO] Found the following reports for Karl Klink GmbH: 16
+
+2025-03-06 15:52:11 [INFO] Processing: SKR Antriebstechnik GmbH Antriebselemente (location: Gomadingen)
+2025-03-06 15:52:19 [INFO] Found the following reports for SKR Antriebstechnik GmbH Antriebselemente: 18
+
+2025-03-06 15:52:19 [INFO] Processing: Intercontinentale Ziegra Eismaschinen (location: Isernhagen)
+2025-03-06 15:52:30 [INFO] Found the following reports for Intercontinentale Ziegra Eismaschinen: 20
+
+2025-03-06 15:52:30 [INFO] Processing: Rühle GmbH (location: Grafenhausen)
+2025-03-06 15:52:39 [INFO] Found the following reports for Rühle GmbH: 19
+
+2025-03-06 15:52:39 [INFO] Processing: Lindauer DORNIER GmbH (location: Lindau (Bodensee))
+2025-03-06 15:52:46 [INFO] Found the following reports for Lindauer DORNIER GmbH: 11
+
+2025-03-06 15:52:46 [INFO] Processing: Lang Technik GmbH (location: Holzmaden)
+2025-03-06 15:52:50 [INFO] Found the following reports for Lang Technik GmbH: 9
+
+2025-03-06 15:52:51 [INFO] Processing: Spaleck GmbH & Co. KG (location: Bocholt)
+2025-03-06 15:53:00 [INFO] Found the following reports for Spaleck GmbH & Co. KG: 20
+
+2025-03-06 15:53:00 [INFO] Processing: E. Zimmermann GmbH (location: Öhringen)
+2025-03-06 15:57:33 [INFO] Found the following reports for E. Zimmermann GmbH: 16
+
+2025-03-06 15:57:33 [INFO] Processing: topex GmbH (location: Erkenbrechtsweiler)
+2025-03-06 15:57:40 [INFO] Found the following reports for topex GmbH: 14
+
+2025-03-06 15:57:40 [INFO] Processing: Dr. Boy GmbH & Co. KG (location: Neustadt (Wied))
+2025-03-06 16:07:50 [INFO] No dictionary reports found for Dr. Boy GmbH & Co. KG (data might be incomplete).
+
+2025-03-06 16:07:50 [INFO] Processing: Breyer GmbH Maschinenfabrik (location: Singen (Hohentwiel))
+2025-03-06 16:07:58 [INFO] Found the following reports for Breyer GmbH Maschinenfabrik: 16
+
+2025-03-06 16:07:58 [INFO] Processing: PRESTO GmbH & Co. KG (location: Bad Laer)
+2025-03-06 16:08:04 [INFO] Found the following reports for PRESTO GmbH & Co. KG: 11
+
+2025-03-06 16:08:04 [INFO] Processing: Heyligenstaedt Werkzeugmaschinen GmbH (location: Gießen)
+2025-03-06 16:08:14 [INFO] Found the following reports for Heyligenstaedt Werkzeugmaschinen GmbH: 16
+
+2025-03-06 16:08:14 [INFO] Processing: BSB Metallverformung (location: Burgau)
+2025-03-06 16:08:20 [INFO] Found the following reports for BSB Metallverformung: 13
+
+2025-03-06 16:08:20 [INFO] Processing: KALLFASS Verpackungsmaschinen GmbH (location: Nürtingen)
+2025-03-06 16:08:29 [INFO] Found the following reports for KALLFASS Verpackungsmaschinen GmbH: 17
+
+2025-03-06 16:08:29 [INFO] Processing: Müller Maschinen und Anlagen (location: Gefrees)
+2025-03-06 16:08:35 [INFO] Found the following reports for Müller Maschinen und Anlagen: 11
+
+2025-03-06 16:08:35 [INFO] Processing: Dittrich & Greipl GmbH (location: Grafenau)
+2025-03-06 16:08:41 [INFO] Found the following reports for Dittrich & Greipl GmbH: 11
+
+2025-03-06 16:08:41 [INFO] Processing: Sturm Holding GmbH (location: Salching)
+2025-03-06 16:08:51 [INFO] Found the following reports for Sturm Holding GmbH: 17
+
+2025-03-06 16:08:51 [INFO] Processing: SMS Maschinenbau GmbH (location: Albstadt)
+2025-03-06 16:08:59 [INFO] Found the following reports for SMS Maschinenbau GmbH: 17
+
+2025-03-06 16:08:59 [INFO] Processing: Motan GmbH (location: Friedrichsdorf)
+2025-03-06 16:09:06 [INFO] Found the following reports for Motan GmbH: 12
+
+2025-03-06 16:09:06 [INFO] Processing: KOHLER Maschinenbau GmbH (location: Lahr/Schwarzwald)
+2025-03-06 16:09:06 [ERROR] 'KOHLER Maschinenbau GmbH Lahr/Schwarzwald' returned NoneType. Skipping to next company.
+2025-03-06 16:09:06 [INFO] No valid (dict) reports to store for KOHLER Maschinenbau GmbH.
+
+2025-03-06 16:09:06 [INFO] Processing: Theegarten-Pactec GmbH & Co. KG (location: Dresden)
+2025-03-06 16:09:15 [INFO] Found the following reports for Theegarten-Pactec GmbH & Co. KG: 17
+
+2025-03-06 16:09:15 [INFO] Processing: Reichmann & Sohn GmbH (location: Weißenhorn)
+2025-03-06 16:09:40 [INFO] Found the following reports for Reichmann & Sohn GmbH: 17
+
+2025-03-06 16:09:40 [INFO] Processing: Baumann Maschinenbau (location: Solms)
+2025-03-06 16:09:48 [INFO] Found the following reports for Baumann Maschinenbau: 16
+
+2025-03-06 16:09:48 [INFO] Processing: ALMIG Kompressoren GmbH (location: Köngen)
+2025-03-06 16:09:57 [INFO] Found the following reports for ALMIG Kompressoren GmbH: 16
+
+2025-03-06 16:09:57 [INFO] Processing: Mosca GmbH (location: Waldbrunn)
+2025-03-06 16:10:10 [INFO] Found the following reports for Mosca GmbH: 7
+
+2025-03-06 16:10:10 [INFO] Processing: Bardenhagen Maschinenbau u. (location: Horneburg)
+2025-03-06 16:10:16 [INFO] Found the following reports for Bardenhagen Maschinenbau u.: 12
+
+2025-03-06 16:10:16 [INFO] Processing: Maschinenbau Leicht GmbH (location: Hallstadt)
+2025-03-06 16:10:26 [INFO] Found the following reports for Maschinenbau Leicht GmbH: 18
+
+2025-03-06 16:10:26 [INFO] Processing: Wehrhahn GmbH (location: Delmenhorst)
+2025-03-06 16:10:36 [INFO] Found the following reports for Wehrhahn GmbH: 19
+
+2025-03-06 16:10:36 [INFO] Processing: Vom Hagen & Funke GmbH (location: Sprockhövel)
+2025-03-06 16:10:48 [INFO] Found the following reports for Vom Hagen & Funke GmbH: 19
+
+2025-03-06 16:10:48 [INFO] Processing: Weil Technology GmbH (location: Müllheim)
+2025-03-06 16:16:21 [INFO] Found the following reports for Weil Technology GmbH: 3
+
+2025-03-06 16:16:21 [INFO] Processing: Rexnord GmbH (location: Betzdorf)
+2025-03-06 16:16:36 [INFO] Found the following reports for Rexnord GmbH: 12
+
+2025-03-06 16:16:36 [INFO] Processing: WEISS GmbH (location: Buchen (Odenwald))
+2025-03-06 16:16:45 [INFO] Found the following reports for WEISS GmbH: 19
+
+2025-03-06 16:16:45 [INFO] Processing: GHH Rand Schraubenkompressoren GmbH (location: Oberhausen)
+2025-03-06 16:17:01 [INFO] Found the following reports for GHH Rand Schraubenkompressoren GmbH: 4
+
+2025-03-06 16:17:01 [INFO] Processing: Wetzel GmbH (location: Grenzach-Wyhlen)
+2025-03-06 16:17:14 [INFO] Found the following reports for Wetzel GmbH: 9
+
+2025-03-06 16:17:14 [INFO] Processing: T R E I F - Maschinenbau GmbH (location: Oberlahr)
+2025-03-06 16:17:22 [INFO] Found the following reports for T R E I F - Maschinenbau GmbH: 16
+
+2025-03-06 16:17:22 [INFO] Processing: Eilhauer Maschinenbau GmbH (location: Langenhagen)
+2025-03-06 16:17:30 [INFO] Found the following reports for Eilhauer Maschinenbau GmbH: 16
+
+2025-03-06 16:17:30 [INFO] Processing: Haulick + Roos GmbH (location: Pforzheim)
+2025-03-06 16:17:39 [INFO] Found the following reports for Haulick + Roos GmbH: 17
+
+2025-03-06 16:17:39 [INFO] Processing: Langguth GmbH (location: Senden)
+2025-03-06 16:17:51 [INFO] Found the following reports for Langguth GmbH: 20
+
+2025-03-06 16:17:51 [INFO] Processing: K. Sandern GmbH Maschinenbau (location: Geeste)
+2025-03-06 16:17:59 [INFO] Found the following reports for K. Sandern GmbH Maschinenbau: 16
+
+2025-03-06 16:17:59 [INFO] Processing: M. Brück GmbH & Co. KG (location: Düren)
+2025-03-06 16:18:13 [INFO] Found the following reports for M. Brück GmbH & Co. KG: 17
+
+2025-03-06 16:18:13 [INFO] Processing: Behringer GmbH (location: Kirchardt)
+2025-03-06 16:18:23 [INFO] Found the following reports for Behringer GmbH: 10
+
+2025-03-06 16:18:23 [INFO] Processing: telerob Gesellschaft für (location: Ostfildern)
+2025-03-06 16:18:33 [INFO] Found the following reports for telerob Gesellschaft für: 19
+
+2025-03-06 16:18:33 [INFO] Processing: Brosa GmbH (location: Tettnang)
+2025-03-06 16:18:34 [INFO] Found the following reports for Brosa GmbH: 1
+
+2025-03-06 16:18:34 [INFO] Processing: VEMAG Maschinenbau GmbH (location: Verden (Aller))
+2025-03-06 16:18:35 [ERROR] 'VEMAG Maschinenbau GmbH Verden (Aller)' returned NoneType. Skipping to next company.
+2025-03-06 16:18:35 [INFO] No valid (dict) reports to store for VEMAG Maschinenbau GmbH.
+
+2025-03-06 16:18:35 [INFO] Processing: Manfred Kaiser Maschinenbau GmbH (location: Vrees)
+2025-03-06 16:18:43 [INFO] Found the following reports for Manfred Kaiser Maschinenbau GmbH: 14
+
+2025-03-06 16:18:43 [INFO] Processing: MBK Maschinenbau GmbH (location: Kißlegg)
+2025-03-06 16:18:52 [INFO] Found the following reports for MBK Maschinenbau GmbH: 16
+
+2025-03-06 16:18:52 [INFO] Processing: DMG MORI Global Marketing GmbH (location: Wernau (Neckar))
+2025-03-06 16:18:56 [INFO] Found the following reports for DMG MORI Global Marketing GmbH: 7
+
+2025-03-06 16:18:56 [INFO] Processing: Heinz Bergmann (location: Lathen)
+2025-03-06 16:25:38 [INFO] Found the following reports for Heinz Bergmann: 13
+
+2025-03-06 16:25:38 [INFO] Processing: Stiebel-Getriebebau GmbH & Co. KG (location: Waldbröl)
+2025-03-06 16:25:48 [INFO] Found the following reports for Stiebel-Getriebebau GmbH & Co. KG: 17
+
+2025-03-06 16:25:48 [INFO] Processing: Walter Maschinenbau GmbH (location: Tübingen)
+2025-03-06 16:26:03 [INFO] No dictionary reports found for Walter Maschinenbau GmbH (data might be incomplete).
+
+2025-03-06 16:26:03 [INFO] Processing: Linn High Therm GmbH (location: Hirschbach)
+2025-03-06 16:26:12 [INFO] Found the following reports for Linn High Therm GmbH: 17
+
+2025-03-06 16:26:12 [INFO] Processing: BAT Bohr- und Anlagentechnik GmbH (location: Krayenberggemeinde OT Merkers)
+2025-03-06 16:26:13 [ERROR] 'BAT Bohr- und Anlagentechnik GmbH Krayenberggemeinde OT Merkers' returned NoneType. Skipping to next company.
+2025-03-06 16:26:13 [INFO] No valid (dict) reports to store for BAT Bohr- und Anlagentechnik GmbH.
+
+2025-03-06 16:26:13 [INFO] Processing: Dürkopp Adler GmbH (location: Bielefeld)
+2025-03-06 16:26:23 [INFO] Found the following reports for Dürkopp Adler GmbH: 11
+
+2025-03-06 16:26:23 [INFO] Processing: HOBART GmbH (location: Offenburg)
+2025-03-06 16:26:37 [INFO] No dictionary reports found for HOBART GmbH (data might be incomplete).
+
+2025-03-06 16:26:37 [INFO] Processing: Greidenweis GmbH (location: Spaichingen)
+2025-03-06 16:26:44 [INFO] Found the following reports for Greidenweis GmbH: 14
+
+2025-03-06 16:26:44 [INFO] Processing: Winkel GmbH (location: Illingen)
+2025-03-06 16:29:20 [INFO] Found the following reports for Winkel GmbH: 12
+
+2025-03-06 16:29:20 [INFO] Processing: Bräutigam Bergbau- (location: Moers)
+2025-03-06 16:29:29 [INFO] Found the following reports for Bräutigam Bergbau-: 19
+
+2025-03-06 16:29:29 [INFO] Processing: Maschinenfabrik (location: Bochum)
+2025-03-06 16:29:39 [INFO] Found the following reports for Maschinenfabrik: 18
+
+2025-03-06 16:29:39 [INFO] Processing: Freund Maschinenfabrik GmbH & Co. KG (location: Paderborn)
+2025-03-06 16:29:48 [INFO] Found the following reports for Freund Maschinenfabrik GmbH & Co. KG: 16
+
+2025-03-06 16:29:48 [INFO] Processing: Merz Maschinenfabrik GmbH (location: Hechingen)
+2025-03-06 16:29:57 [INFO] Found the following reports for Merz Maschinenfabrik GmbH: 20
+
+2025-03-06 16:29:57 [INFO] Processing: SOMIC Verpackungsmaschinen GmbH & Co. KG (location: Amerang)
+2025-03-06 16:30:07 [INFO] Found the following reports for SOMIC Verpackungsmaschinen GmbH & Co. KG: 17
+
+2025-03-06 16:30:07 [INFO] Processing: SÜMA Maschinengesellschaft GmbH (location: Nordhausen)
+2025-03-06 16:30:10 [INFO] Found the following reports for SÜMA Maschinengesellschaft GmbH: 6
+
+2025-03-06 16:30:10 [INFO] Processing: KRONEN GmbH (location: Kehl)
+2025-03-06 16:30:19 [INFO] Found the following reports for KRONEN GmbH: 18
+
+2025-03-06 16:30:19 [INFO] Processing: SHB Hebezeugbau GmbH (location: Saalfeld/Saale)
+2025-03-06 16:30:20 [ERROR] 'SHB Hebezeugbau GmbH Saalfeld/Saale' returned NoneType. Skipping to next company.
+2025-03-06 16:30:20 [INFO] No valid (dict) reports to store for SHB Hebezeugbau GmbH.
+
+2025-03-06 16:30:20 [INFO] Processing: RUFF GmbH (location: Grafing bei München)
+2025-03-06 16:30:21 [ERROR] 'RUFF GmbH Grafing bei München' returned NoneType. Skipping to next company.
+2025-03-06 16:30:21 [INFO] No valid (dict) reports to store for RUFF GmbH.
+
+2025-03-06 16:30:21 [INFO] Processing: Klingelnberg GmbH (location: Hückeswagen)
+2025-03-06 16:30:31 [INFO] Found the following reports for Klingelnberg GmbH: 20
+
+2025-03-06 16:30:31 [INFO] Processing: AMS Arneburger (location: Arneburg)
+2025-03-06 16:30:44 [INFO] Found the following reports for AMS Arneburger: 20
+
+2025-03-06 16:30:44 [INFO] Processing: Binder GmbH (location: Tuttlingen)
+2025-03-06 16:30:56 [INFO] Found the following reports for Binder GmbH: 8
+
+2025-03-06 16:30:56 [INFO] Processing: Trützschler Group SE (location: Mönchengladbach)
+2025-03-06 16:31:05 [INFO] Found the following reports for Trützschler Group SE: 2
+
+2025-03-06 16:31:05 [INFO] Processing: Emmendinger Maschinenbau GmbH (location: Emmendingen)
+2025-03-06 16:31:15 [INFO] Found the following reports for Emmendinger Maschinenbau GmbH: 16
+
+2025-03-06 16:31:15 [INFO] Processing: sera GmbH (location: Immenhausen)
+2025-03-06 16:31:25 [INFO] Found the following reports for sera GmbH: 20
+
+2025-03-06 16:31:25 [INFO] Processing: LEMMER-FULLWOOD GmbH (location: Lohmar)
+2025-03-06 16:31:34 [INFO] Found the following reports for LEMMER-FULLWOOD GmbH: 17
+
+2025-03-06 16:31:34 [INFO] Processing: Elektrowerk Hannover (location: Hannover)
+2025-03-06 16:31:45 [INFO] Found the following reports for Elektrowerk Hannover: 19
+
+2025-03-06 16:31:45 [INFO] Processing: FEUTRON Klimasimulation GMBH (location: Langenwetzendorf)
+2025-03-06 16:31:53 [INFO] Found the following reports for FEUTRON Klimasimulation GMBH: 15
+
+2025-03-06 16:31:53 [INFO] Processing: KOLLER Maschinen- und Anlagenbau GmbH (location: Celle)
+2025-03-06 16:34:20 [INFO] Found the following reports for KOLLER Maschinen- und Anlagenbau GmbH: 18
+
+2025-03-06 16:34:20 [INFO] Processing: ZIMM Germany GmbH (location: Ohorn)
+2025-03-06 16:34:21 [INFO] Found the following reports for ZIMM Germany GmbH: 2
+
+2025-03-06 16:34:21 [INFO] Processing: Affeldt - Maschinenbau GmbH (location: Neuendorf bei Elmshorn)
+2025-03-06 16:34:29 [INFO] Found the following reports for Affeldt - Maschinenbau GmbH: 14
+
+2025-03-06 16:34:29 [INFO] Processing: IPTE Germany GmbH (location: Heroldsberg)
+2025-03-06 16:34:37 [INFO] Found the following reports for IPTE Germany GmbH: 16
+
+2025-03-06 16:34:37 [INFO] Processing: TRAPO GmbH (location: Gescher)
+2025-03-06 16:34:38 [INFO] No dictionary reports found for TRAPO GmbH (data might be incomplete).
+
+2025-03-06 16:34:38 [INFO] Processing: UNICOR GmbH (location: Haßfurt)
+2025-03-06 16:34:48 [INFO] Found the following reports for UNICOR GmbH: 20
+
+2025-03-06 16:34:48 [INFO] Processing: Hager Sondermaschinenbau GmbH (location: Möttingen)
+2025-03-06 16:34:56 [INFO] Found the following reports for Hager Sondermaschinenbau GmbH: 17
+
+2025-03-06 16:34:56 [INFO] Processing: SMG Sportplatzmaschinenbau GmbH (location: Vöhringen)
+2025-03-06 16:35:06 [INFO] Found the following reports for SMG Sportplatzmaschinenbau GmbH: 18
+
+2025-03-06 16:35:06 [INFO] Processing: MIWE Michael Wenz GmbH (location: Arnstein)
+2025-03-06 16:35:17 [INFO] Found the following reports for MIWE Michael Wenz GmbH: 10
+
+2025-03-06 16:35:17 [INFO] Processing: Schrage GmbH Maschinen- u. Apparatebau (location: Soest)
+2025-03-06 16:39:34 [INFO] Found the following reports for Schrage GmbH Maschinen- u. Apparatebau: 16
+
+2025-03-06 16:39:34 [INFO] Processing: Renold GmbH (location: Einbeck)
+2025-03-06 16:39:51 [INFO] Found the following reports for Renold GmbH: 13
+
+2025-03-06 16:39:51 [INFO] Processing: VENTAPP GmbH (location: Kempen)
+2025-03-06 16:40:01 [INFO] Found the following reports for VENTAPP GmbH: 19
+
+2025-03-06 16:40:01 [INFO] Processing: WEBER Schraubautomaten GmbH (location: Wolfratshausen)
+2025-03-06 16:40:13 [INFO] Found the following reports for WEBER Schraubautomaten GmbH: 9
+
+2025-03-06 16:40:13 [INFO] Processing: KALTENBACH GmbH + Co. KG (location: Lörrach)
+2025-03-06 16:40:26 [INFO] Found the following reports for KALTENBACH GmbH + Co. KG: 16
+
+2025-03-06 16:40:26 [INFO] Processing: Albrecht Bäumer (location: Freudenberg)
+2025-03-06 16:40:40 [INFO] Found the following reports for Albrecht Bäumer: 20
+
+2025-03-06 16:40:40 [INFO] Processing: Kruse + Sohn (location: Edewecht)
+2025-03-06 16:40:49 [INFO] Found the following reports for Kruse + Sohn: 16
+
+2025-03-06 16:40:49 [INFO] Processing: Palamides GmbH (location: Renningen)
+2025-03-06 16:40:58 [INFO] Found the following reports for Palamides GmbH: 18
+
+2025-03-06 16:40:58 [INFO] Processing: Karl Menzel Maschinenfabrik GmbH & Co. (location: Bielefeld)
+2025-03-06 16:41:07 [INFO] Found the following reports for Karl Menzel Maschinenfabrik GmbH & Co.: 17
+
+2025-03-06 16:41:07 [INFO] Processing: DELLNER BUBENZER GERMANY GmbH (location: Kirchen (Sieg))
+2025-03-06 16:41:08 [ERROR] 'DELLNER BUBENZER GERMANY GmbH Kirchen (Sieg)' returned NoneType. Skipping to next company.
+2025-03-06 16:41:08 [INFO] No valid (dict) reports to store for DELLNER BUBENZER GERMANY GmbH.
+
+2025-03-06 16:41:08 [INFO] Processing: Markem-Imaje GmbH (location: Stuttgart)
+2025-03-06 16:41:24 [INFO] No dictionary reports found for Markem-Imaje GmbH (data might be incomplete).
+
+2025-03-06 16:41:24 [INFO] Processing: voestalpine Böhler Welding (location: Eisenberg (Pfalz))
+2025-03-06 16:41:25 [ERROR] 'voestalpine Böhler Welding Eisenberg (Pfalz)' returned NoneType. Skipping to next company.
+2025-03-06 16:41:25 [INFO] No valid (dict) reports to store for voestalpine Böhler Welding.
+
+2025-03-06 16:41:25 [INFO] Processing: FRIEDRICH KOCKS GmbH & Co. KG (location: Hilden)
+2025-03-06 16:43:53 [INFO] Found the following reports for FRIEDRICH KOCKS GmbH & Co. KG: 15
+
+2025-03-06 16:43:53 [INFO] Processing: MINDA Industrieanlagen GmbH (location: Minden)
+2025-03-06 16:44:01 [INFO] Found the following reports for MINDA Industrieanlagen GmbH: 16
+
+2025-03-06 16:44:01 [INFO] Processing: Zwickauer Werkzeug- und (location: Zwickau)
+2025-03-06 16:44:11 [INFO] Found the following reports for Zwickauer Werkzeug- und: 19
+
+2025-03-06 16:44:11 [INFO] Processing: Renner GmbH (location: Güglingen)
+2025-03-06 16:44:20 [INFO] Found the following reports for Renner GmbH: 17
+2025-03-06 16:44:20 [DONE] Results written to: enriched_companies_output.csv
+2025-03-06 16:44:20 [INFO] Folders created under: bundesanzeiger_local_maschinenbau
