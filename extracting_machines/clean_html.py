@@ -236,8 +236,8 @@ def get_latest_subfolder(company_folder):
             print(f"Error processing {metadata_files[0]}: {e}")
             continue
     
-    print(f"Latest subfolder found: {latest_subfolder}")     
-    print(f"Latest date found: {latest_date}")   
+    #print(f"Latest subfolder found: {latest_subfolder}")     
+    #print(f"Latest date found: {latest_date}")   
     return latest_subfolder
 
 
@@ -247,7 +247,10 @@ if __name__ == "__main__":
         sys.exit(1)
     
     input_dir = sys.argv[1]
-    output_dir = f"{input_dir}_output"
+    # Extract the base name of the input directory
+    input_dir_name = os.path.basename(os.path.normpath(input_dir))
+    output_dir = os.path.join(os.getcwd(), f"{input_dir_name}_output")
+    print(f"Output directory: {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
     
     search_word = "technische Anlagen"

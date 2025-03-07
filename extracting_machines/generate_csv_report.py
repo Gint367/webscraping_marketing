@@ -2,6 +2,8 @@ import json
 import csv
 import os
 from typing import List, Dict
+import argparse
+from datetime import datetime
 
 def extract_company_name(filename: str) -> str:
     """
@@ -159,10 +161,14 @@ def generate_csv_report(input_dir: str,
         n (int): Maximum number of machine values to extract per company
         extract_func (callable): Function to use for extracting values from tables
     """
+    # Add timestamp to output filename
+    timestamp = datetime.now().strftime("%Y%m%d")
+    output_file_with_timestamp = output_file.replace('.csv', f'_{timestamp}.csv')
+    
     # Prepare CSV headers
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
     
-    with open(output_file, 'w', newline='', encoding='utf-8-sig') as csvfile:
+    with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(headers)
         
@@ -181,7 +187,15 @@ def generate_csv_report(input_dir: str,
                     writer.writerow([company_name, table_name.replace('\n', ' ')] + values)
 
 if __name__ == "__main__":
-    input_directory = "./bundesanzeiger_local_maschinenbau_output"
+    # Create argument parser
+    parser = argparse.ArgumentParser(description="Generate CSV report from JSON files.")
+    # Add input directory argument
+    parser.add_argument("input_directory", type=str, help="Path to the directory containing JSON files.")
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Get input directory from arguments
+    input_directory = args.input_directory
     N = 3  # Parameter N - change this value as needed
     
     # Generate report using original extract_values
