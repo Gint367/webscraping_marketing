@@ -29,7 +29,10 @@ class Company(BaseModel):
     "Notes: Only write if it's specifically mentioned.\n"
 ) """
 prompt = """
+## Task
 Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifizierung von Fertigungsmaschinen, die von vielen Unternehmen eingesetzt werden. Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
+
+## Instruction
 Folgende Informationen sind erforderlich:
 - Namen des Unternehmens(in 'Company Name: ',legale Bezeichnung, schön Formattiert)
 - URL des Unternehmens(in 'Main URL: ')
@@ -48,6 +51,8 @@ Folgende Informationen sind erforderlich:
 
 Einschränkungen:
 - Ergebnisse nur auf Deutsch.
+
+Denken Sie daran, dass Ihre Aufgabe darin besteht, die bereitgestellten Webseiten und Unterseiten gründlich zu durchsuchen, relevante Informationen über Fertigungsmaschinen zu ermitteln und die Ergebnisse in einem strukturierten Format zu präsentieren.
 """
 
 def ensure_output_directory(directory="llm_extracted_data"):

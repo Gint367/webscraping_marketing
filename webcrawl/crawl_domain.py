@@ -161,9 +161,9 @@ async def collect_internal_links(crawler, main_url, max_links=50):
     print(f"Site appears to {'' if uses_language_codes else 'not '}use language codes in URLs")
     
     # Common non-content pages to filter out (German and English)
-    non_content_keywords = [
-        'login', 'signup', 'register', 'impressum', 'datenschutz', 
-        'kontakt', 'contact', 'imprint', 'privacy', 'agb', 'cart', 
+    non_content_keywords = [ # allowed impressum
+        'login', 'signup', 'register', 'download', 'datenschutz', 
+        'kontakt', 'contact', 'privacy', 'agb', 'cart', 
         'warenkorb', 'checkout', 'search', 'suche', 'sitemap',
         'anmelden', 'registrieren', 'einkaufswagen', 'newsletter',
         'terms', 'conditions', 'faq', 'hilfe', 'help', 'support',
