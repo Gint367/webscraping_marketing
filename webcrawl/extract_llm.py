@@ -3,31 +3,22 @@ import json
 import asyncio
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Dict, Any, Optional
+from urllib.parse import urlparse
 from crawl4ai import AsyncWebCrawler, CacheMode, CrawlerMonitor, DisplayMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
+from crawl4ai.async_configs import LLMConfig
 import argparse
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
     company_url: str = Field(..., description="URL des Unternehmens.")
-    products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.")
-    machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.")
-    process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.")
+    products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.(in Pluralform)")
+    machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)")
+    process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)")
     lohnfertigung: bool = Field(..., description="Ob das Unternehmen Lohnfertigung anbietet")
-    #isGroup: bool = Field(..., description="Whether the company is a group of companies.")
 
-""" prompt = (
-    "From the crawled content, extract the following details:\n"
-    "1. Company Name\n"
-    "2. Products that the company offers (Products can either be machines or parts produced by machines.)\n"
-    "3. Machines that the company uses in their manufacturing process\n"
-    "4. Type of Process that their machine uses in their manufacturing process (e.g., Milling, Drilling, Turning, Grinding, etc.)\n"
-    "5. Whether the company offers contract manufacturing services (yes or no)\n"
-    "6. Whether the company is a company that consists of multiple subsidiary companies or divisions.)\n"
-    "Notes: Only write if it's specifically mentioned.\n"
-) """
 prompt = """
 ## Task
 Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifizierung von Fertigungsmaschinen, die von vielen Unternehmen eingesetzt werden. Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
@@ -47,7 +38,7 @@ Folgende Informationen sind erforderlich:
 
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.
 - Strikte Einhaltung der Datenwahrheit: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.
-- strukturierte Ergebnisse mit potenziellen Ansatzpunkten für E-Mail-Texte.
+- Ergebnisse immer in Pluralform.
 
 Einschränkungen:
 - Ergebnisse nur auf Deutsch.
@@ -82,21 +73,12 @@ async def process_files(file_paths, llm_strategy, output_dir):
         output_dir (str): Directory where the extracted data and combined results will be saved.
     Returns:
         list: A list of extracted content from each file.
-    The function performs the following steps:
-    1. Converts file paths to URLs with the file:// protocol.
-    2. Configures the web crawler with the specified LLM extraction strategy.
-    3. Uses the crawler to process the files asynchronously.
-    4. Saves the extracted content from each file to a JSON file in the output directory.
-    5. Combines all extracted data into a single JSON file with additional metadata and saves it in the output directory.
-    6. Prints the status of each file's extraction and the location of saved files.
-    If no data is successfully extracted, a message is printed indicating this.
     """
-    """Process one or more files with LLM extraction using arun_many"""
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
     
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
     )
     
@@ -112,11 +94,26 @@ async def process_files(file_paths, llm_strategy, output_dir):
         for idx, result in enumerate(results):
             file_path = file_paths[idx]
             if result.success and result.extracted_content:
-                # Create output filename based on input filename
-                basename = os.path.basename(file_path)
-                name_without_ext = os.path.splitext(basename)[0]
+                # Extract source URL info for validation and naming
+                original_url = result.url
+                parsed_url = urlparse(original_url)
+                
+                # Always use the URL for naming, regardless of whether it's a file or web URL
+                netloc = parsed_url.netloc
+                # For file URLs, netloc will be empty, so handle that case
+                if not netloc and parsed_url.path:
+                    # For file URLs, extract the filename from the path
+                    basename = os.path.basename(parsed_url.path)
+                    name_without_ext = os.path.splitext(basename)[0]
+                else:
+                    # For web URLs, remove 'www.' prefix if present
+                    if netloc.startswith('www.'):
+                        netloc = netloc[4:]
+                    name_without_ext = netloc
+                
                 output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
                 
+
                 # Save extracted content
                 with open(output_file, "w", encoding="utf-8") as f:
                     if isinstance(result.extracted_content, str):
@@ -131,47 +128,7 @@ async def process_files(file_paths, llm_strategy, output_dir):
                 print(f"No content extracted from {file_path}: {error_msg}")
         
         # Show usage stats
-        #llm_strategy.show_usage()
-        
-        # Save combined results if there's data
-        if extracted_data:
-            # Get the current date
-            current_date = datetime.now().strftime("%Y%m%d")
-            
-            # Save all extracted data to a combined JSON file
-            combined_file = os.path.join(output_dir, f"combined_extracted_data_{current_date}.json")
-            
-            # Process the results to ensure they're in the correct format
-            processed_results = []
-            for result in extracted_data:
-                # If the result is a JSON string, parse it first
-                if isinstance(result, str):
-                    try:
-                        parsed_result = json.loads(result)
-                        processed_results.append(parsed_result)
-                    except json.JSONDecodeError:
-                        print(f"Warning: Could not parse JSON string: {result}")
-                else:
-                    processed_results.append(result)
-            
-            # Include the prompt and parameters at the top of the JSON data
-            output_data = {
-                "instruction": prompt,
-                "parameters": {
-                    "model": llm_strategy.provider,
-                    "temperature": llm_strategy.extra_args.get("temperature", 0),
-                    "max_tokens": llm_strategy.extra_args.get("max_tokens", 0)
-                },
-                "data": processed_results
-            }
-            
-            with open(combined_file, "w", encoding="utf-8") as f:
-                json.dump(output_data, f, indent=4, ensure_ascii=False)
-            print(f"Combined data saved to {combined_file}")
-        else:
-            print("No data was successfully extracted")
-        
-        return extracted_data
+        llm_strategy.show_usage()
 
 async def main():
     parser = argparse.ArgumentParser(description='Extract data from markdown files using LLM')
@@ -188,21 +145,25 @@ async def main():
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
     
+    
     # Define LLM strategy once
     temperature = 0.7
     max_tokens = 1000
     llm_strategy = LLMExtractionStrategy(
-        provider="openai/gpt-4o-mini",
-        api_token='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',
+        llm_config = LLMConfig(
+            #provider="openai/gpt-4o-mini", 
+            provider="bedrock/amazon.nova-pro-v1:0", 
+            #api_token=os.getenv("OPENAI_API_KEY")
+        ),
         extraction_type="schema",
         schema=Company.model_json_schema(),
         instruction=prompt,
         chunk_token_threshold=4096,
         overlap_rate=0.1,
         input_format="markdown",
-        apply_chunking=True,
+        apply_chunking=False,
         extra_args={"temperature": temperature, "max_tokens": max_tokens},
-        verbose=True,
+        #verbose=True,
     )
     
     # Prepare list of files to process

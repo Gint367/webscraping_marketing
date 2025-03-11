@@ -3,15 +3,36 @@ import asyncio
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import re
-from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlerMonitor, CrawlerRunConfig, CacheMode, MemoryAdaptiveDispatcher, PruningContentFilter
+from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlResult, CrawlerMonitor, CrawlerRunConfig, CacheMode, DefaultMarkdownGenerator, MemoryAdaptiveDispatcher, PruningContentFilter
 import logging
 # Import the new function
 from excel_reader import read_urls_from_excel
+from get_company_by_category import read_urls_and_companies
+from get_company_by_top1machine import read_urls_and_companies_by_top1machine
+# Import to handle colorama recursion issues
+import sys
+
+# Add a function to disable colorama to prevent recursion errors
+def disable_colorama():
+    """
+    Disable colorama's text processing to prevent recursion errors with large outputs.
+    This is necessary when processing very large strings that can exceed Python's recursion limit.
+    """
+    try:
+        import colorama
+        # Disable colorama's text processing
+        colorama.deinit()
+        print("Colorama disabled to prevent recursion errors with large outputs.")
+    except ImportError:
+        pass
 
 def sanitize_filename(url):
     """Convert URL to a valid filename by removing scheme and replacing invalid characters"""
     parsed = urlparse(url)
     domain = parsed.netloc
+    # Remove 'www.' prefix if it exists
+    if domain.startswith('www.'):
+        domain = domain[4:]
     sanitized = re.sub(r'[\\/*?:"<>|]', '_', domain)
     return sanitized
 
@@ -161,13 +182,14 @@ async def collect_internal_links(crawler, main_url, max_links=50):
     print(f"Site appears to {'' if uses_language_codes else 'not '}use language codes in URLs")
     
     # Common non-content pages to filter out (German and English)
-    non_content_keywords = [ # allowed impressum
+    non_content_keywords = [
         'login', 'signup', 'register', 'download', 'datenschutz', 
         'kontakt', 'contact', 'privacy', 'agb', 'cart', 
         'warenkorb', 'checkout', 'search', 'suche', 'sitemap',
         'anmelden', 'registrieren', 'einkaufswagen', 'newsletter',
         'terms', 'conditions', 'faq', 'hilfe', 'help', 'support',
-        'nutzungsbedingungen', 'cookie'
+        'nutzungsbedingungen', 'cookie', 'imprint', 'impressum',
+        'disclaimer', 'rechtliches', 'legal', 'terms-of-service',
     ]
     
     # Non-German language codes to filter out
@@ -351,6 +373,11 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         max_links (int): Maximum internal links to crawl
         company_name (str, optional): Company name associated with the URL
     """
+    prune_filter = PruningContentFilter(
+        threshold=0.45,
+        min_word_threshold=30,
+        threshold_type="dynamic",
+    )
     
     # Create browser configuration
     browser_cfg = BrowserConfig(
@@ -365,7 +392,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
-        delay_before_return_html=3.0,
+        delay_before_return_html=2.0,
         word_count_threshold=20,
         #magic=True
     )
@@ -377,16 +404,19 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         exclude_external_links=True,
         exclude_social_media_links=True,
         word_count_threshold=50,
-        delay_before_return_html=2.0,
+        delay_before_return_html=1.0,
         #magic=True,
         #remove_forms=True,
         # Only extract the main content body
         excluded_tags=['header', 'footer', 'nav', 'img'],
-        excluded_selector="img"
+        excluded_selector="img",
+        markdown_generator= DefaultMarkdownGenerator(
+            content_filter=prune_filter,
+        )
     )
     
     try:
-        from crawl4ai import DisplayMode
+        from crawl4ai import DisplayMode # display mode can crash the program on background run
         dispatcher = MemoryAdaptiveDispatcher(
             memory_threshold_percent=70.0,
             check_interval=2.0,
@@ -424,84 +454,98 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     aggregate_content += f"Main URL: {main_url}\n"
     aggregate_content += f"Crawled on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
     
-    async with AsyncWebCrawler(config=browser_cfg) as crawler:
-        # Set German language header
-        crawler.crawler_strategy.set_custom_headers(
-            {"Accept-Language": "de-DE,de;q=0.9"}
-        )
+    # Temporarily increase recursion limit for large data processing
+    original_limit = sys.getrecursionlimit()
+    try:
+        sys.setrecursionlimit(10000)  # Increase the recursion limit
         
-        # Phase 1: Crawl the main URL
-        print(f"\n=== Phase 1: Crawling main URL: {main_url} ===\n")
-        main_result = await crawler.arun(main_url, config=main_crawl_config)
-        
-        if not main_result.success:
-            print(f"Failed to crawl main URL: {main_url}")
-            print(f"Error: {main_result.error if hasattr(main_result, 'error') else 'Unknown error'}")
-            return output_markdown_file, output_pruned_file, 0
-        
-        # Process main URL result
-        aggregate_content += f"## Main Page: {main_url}\n\n"
-        aggregate_content += f"### Title: {main_result.metadata.get('title', 'Untitled')}\n\n"
-        
-        # Add the raw content
-        aggregate_content += "### Content:\n\n"
-        aggregate_content += main_result.markdown + "\n\n" 
-        aggregate_content += "-" * 80 + "\n\n"
-        
-        print(f"Successfully crawled main URL: {main_url}")
-        
-        # Now collect internal links from the main result
-        internal_links = await collect_internal_links(crawler, main_url, max_links)
-        
-        # Remove the main URL from the list if present, as we've already crawled it
-        internal_links = [link for link in internal_links if link != main_url]
-        
-        # Phase 2: Crawl the internal links (body content only)
-        if internal_links:
-            print(f"\n=== Phase 2: Crawling {len(internal_links)} internal links (body only) ===\n")
-            # Now crawl all internal links at once using arun_many with body-only config
-            if dispatcher:
-                results = await crawler.arun_many(
-                    internal_links,
-                    config=body_only_config,
-                    #verbose=True,
-                    dispatcher=dispatcher
-                )
-            else:
-                results = await crawler.arun_many(
-                    internal_links,
-                    config=body_only_config,
-                    #verbose=True
-                )
+        async with AsyncWebCrawler(config=browser_cfg) as crawler:
+            # Set German language header
+            crawler.crawler_strategy.set_custom_headers(
+                {"Accept-Language": "de-DE,de;q=0.9"}
+            )
             
-            # Process results
-            for i, result in enumerate(results):
-                url = result.url if hasattr(result, 'url') else internal_links[i]
-                
-                if result.success:
-                    # Add the page content to our aggregate
-                    aggregate_content += f"## Page {i+1}: {url}\n\n"
-                    aggregate_content += f"### Title: {result.metadata.get('title', 'Untitled')}\n\n"
-                    
-                    # Add the content with links removed
-                    aggregate_content += "### Content (body only):\n\n"
-                    # Remove links from the content for the internal pages
-                    cleaned_content = remove_links_from_markdown(result.markdown)
-                    aggregate_content += cleaned_content + "\n\n"
-                    aggregate_content += "-" * 80 + "\n\n"
-                    
-                    print(f"Successfully crawled: {url}")
+            # Phase 1: Crawl the main URL
+            print(f"\n=== Phase 1: Crawling main URL: {main_url} ===\n")
+            main_result : CrawlResult = await crawler.arun(main_url, config=main_crawl_config)
+            
+            if not main_result.success:
+                print(f"Failed to crawl main URL: {main_url}")
+                print(f"Error: {main_result.error if hasattr(main_result, 'error') else 'Unknown error'}")
+                return output_markdown_file, output_pruned_file, 0
+            
+            # Process main URL result
+            aggregate_content += f"## Main Page: {main_url}\n\n"
+            aggregate_content += f"### Title: {main_result.metadata.get('title', 'Untitled')}\n\n"
+            
+            # Add the raw content
+            aggregate_content += "### Content:\n\n"
+            aggregate_content += main_result.markdown + "\n\n" 
+            aggregate_content += "-" * 80 + "\n\n"
+            
+            print(f"Successfully crawled main URL: {main_url}")
+            
+            # Now collect internal links from the main result
+            internal_links = await collect_internal_links(crawler, main_url, max_links)
+            
+            # Remove the main URL from the list if present, as we've already crawled it
+            internal_links = [link for link in internal_links if link != main_url]
+            
+            # Phase 2: Crawl the internal links (body content only)
+            if internal_links:
+                print(f"\n=== Phase 2: Crawling {len(internal_links)} internal links (body only) ===\n")
+                # Now crawl all internal links at once using arun_many with body-only config
+                if dispatcher:
+                    results : CrawlResult = await crawler.arun_many(
+                        internal_links,
+                        config=body_only_config,
+                        #verbose=True,
+                        dispatcher=dispatcher
+                    )
                 else:
-                    # Report failure
-                    error_msg = result.error if hasattr(result, 'error') else "Unknown error"
-                    aggregate_content += f"## Page {i+1}: {url}\n\n"
-                    aggregate_content += f"Failed to crawl: {error_msg}\n\n"
-                    aggregate_content += "-" * 80 + "\n\n"
+                    results : CrawlResult = await crawler.arun_many(
+                        internal_links,
+                        config=body_only_config,
+                        #verbose=True
+                    )
+                
+                # Process results
+                for i, result in enumerate(results):
+                    url = result.url if hasattr(result, 'url') else internal_links[i]
                     
-                    print(f"Failed to crawl: {url}, Error: {error_msg}")
-        else:
-            print("No additional internal links found to crawl")
-    
+                    if result.success:
+                        # Add the page content to our aggregate
+                        aggregate_content += f"## Page {i+1}: {url}\n\n"
+                        aggregate_content += f"### Title: {result.metadata.get('title', 'Untitled')}\n\n"
+                        
+                        # Add the content with links removed
+                        aggregate_content += "### Content (body only):\n\n"
+                        # Remove links from the content for the internal pages
+                        # Check if the result has a 'fit_markdown' attribute, else use 'markdown'
+                        content_to_clean = result.markdown.fit_markdown if hasattr(result.markdown, 'fit_markdown') else result.markdown
+                        cleaned_content = remove_links_from_markdown(content_to_clean)
+                        aggregate_content += cleaned_content + "\n\n"
+                        aggregate_content += "-" * 80 + "\n\n"
+                        
+                        print(f"Successfully crawled: {url}")
+                    else:
+                        # Report failure
+                        error_msg = result.error if hasattr(result, 'error') else "Unknown error"
+                        aggregate_content += f"## Page {i+1}: {url}\n\n"
+                        aggregate_content += f"Failed to crawl: {error_msg}\n\n"
+                        aggregate_content += "-" * 80 + "\n\n"
+                        
+                        print(f"Failed to crawl: {url}, Error: {error_msg}")
+            else:
+                print("No additional internal links found to crawl")
+            
+            # If the content gets very large, disable colorama to prevent recursion errors
+            if len(aggregate_content) > 100000:  # 100KB threshold
+                disable_colorama()
+                
+    finally:
+        # Restore original recursion limit
+        sys.setrecursionlimit(original_limit)
     
     # Write the aggregate content to file
     with open(output_markdown_file, "w", encoding="utf-8") as f:
@@ -543,34 +587,38 @@ async def main():
     
     if use_excel:
         # Specify the path to your Excel file
-        excel_file = "input_excel.xlsx"  # Update with your file path as needed
-        urls_and_companies = read_urls_from_excel(excel_file)
-        
+        excel_file = "input_excel_merged_20250310.xlsx"  # Update with your file path as needed
+        #urls_and_companies = read_urls_and_companies(excel_file, "Maschinenbauer")  # For specific category from excel
+        urls_and_companies = read_urls_and_companies_by_top1machine(excel_file) # For merged excel files from merge_excel.py
+        # print first 10 entries
+        #print(f"First 10 entries from Excel: {urls_and_companies[:20]}")
         if not urls_and_companies:
-            print("No valid URLs found in Excel file. Using default domains instead.")
-            # Fallback to hardcoded domains if Excel file is empty or invalid
-            domains = [
-                # ...existing hardcoded domains...
-            ]
-            # Convert to the same format as Excel reader output for consistent handling
-            urls_and_companies = [(url, None) for url in domains]
+            return print("No valid URLs found in Excel file. Using default domains instead.")
+            
     else:
         # List of domains to crawl (hardcoded)
         domains = [
-            # ...existing hardcoded domains...
+            [
+                ("https://www.pfaff-industrial.de/", "PFAFF Industriesysteme und Maschinen"),
+                
+            ]
         ]
         # Convert to the same format as Excel reader output for consistent handling
-        urls_and_companies = [(url, None) for url in domains]
+        urls_and_companies = [(url, company) for sublist in domains for url, company in sublist]
     
     # Create output directories
-    output_dir_aggregated = "domain_content_aggregated"
-    output_dir_pruned = "domain_content_pruned"
+    output_dir_aggregated = "domain_content_aggregated_maschinenbauer"
+    output_dir_pruned = "domain_content_pruned_maschinenbauer"
     
     # Crawl each domain
     results = []
     for url, company_name in urls_and_companies:
         company_info = f" ({company_name})" if company_name else ""
         print(f"\n{'='*40}\nStarting crawl of domain: {url}{company_info}\n{'='*40}\n")
+        
+        # Disable colorama before processing large amounts of data
+        disable_colorama()
+        
         markdown_file, pruned_file, page_count = await crawl_domain(
             url, 
             output_dir_aggregated=output_dir_aggregated, 
@@ -600,9 +648,17 @@ async def main():
         print("-"*40)
 
 if __name__ == "__main__":
+
     # Configure logging
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
+    
+    # Increase the recursion limit for the entire program
+    sys.setrecursionlimit(5000)
+    
+    # Disable colorama for potentially large outputs
+    disable_colorama()
+    
     asyncio.run(main())
