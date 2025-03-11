@@ -21,4 +21,6 @@ llm_extracted_*/
 test_crawled*/
 archive/
 
+*.log
+
 .gitignore

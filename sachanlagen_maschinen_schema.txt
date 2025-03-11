@@ -1,0 +1,17 @@
+{
+    'name': 'Financial Statement Table', 
+    'baseSelector': 'table.std_table', 
+    'baseFields': [], 
+    'fields': [
+        {
+            'name': 'sachanlagen', 
+            'selector': 'tbody > tr:nth-child(3) > td:nth-child(3)', 
+            'type': 'text'
+        }, 
+        {
+            'name': 'technische_anlagen_und_maschinen', 
+            'selector': 'tbody > tr:nth-child(6) > td:nth-child(3)', 
+            'type': 'text'
+        }
+    ]
+}

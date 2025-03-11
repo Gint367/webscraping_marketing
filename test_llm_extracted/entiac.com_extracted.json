@@ -1,0 +1,15 @@
+[
+    {
+        "company_name": "ENTIAC GmbH",
+        "company_url": "https://entiac.com/",
+        "products": [
+            "Cloud ERP",
+            "AutoID",
+            "Mobile Datenerfassung"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    }
+]

@@ -10,6 +10,25 @@ from deutschland.bundesanzeiger import Bundesanzeiger
 import sys
 import random
 
+def read_csv_with_encoding(input_csv):
+    try:
+        # Try reading with UTF-8 encoding
+        df_input = pd.read_csv(input_csv, encoding='utf-8')
+    except UnicodeDecodeError:
+        print(f"{get_timestamp()} [WARN] UTF-8 decoding failed. Trying with ISO-8859-1 encoding...")
+        try:
+            # Try reading with ISO-8859-1 encoding
+            df_input = pd.read_csv(input_csv, encoding='ISO-8859-1')
+        except UnicodeDecodeError:
+            print(f"{get_timestamp()} [ERROR] ISO-8859-1 decoding failed. Trying with Windows-1252 encoding...")
+            try:
+                # Try reading with Windows-1252 encoding
+                df_input = pd.read_csv(input_csv, encoding='Windows-1252')
+            except UnicodeDecodeError as e:
+                print(f"{get_timestamp()} [ERROR] Failed to read CSV file with multiple encodings: {e}")
+                sys.exit(1)
+    return df_input
+
 def sanitize_filename(name: str) -> str:
     """Sanitizes strings (company names, report names) by replacing spaces, ampersands, German Umlauts, etc."""
     umlaut_map = {
@@ -502,7 +521,7 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
 
     # 2) Read the input CSV with company names, with more robust parsing options
     try:
-        df_input = pd.read_csv(input_csv)
+        df_input = read_csv_with_encoding(input_csv)
     except pd.errors.ParserError as e:
         print(f"{get_timestamp()} [WARN] Error parsing CSV with default settings: {e}")
         print(f"{get_timestamp()} [INFO] Trying with different parsing settings...")

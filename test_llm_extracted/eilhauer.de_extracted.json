@@ -1,0 +1,23 @@
+[
+    {
+        "company_name": "Eilhauer Maschinenbau GmbH",
+        "company_url": "https://eilhauer.de/",
+        "products": [
+            "Sondermaschinen",
+            "Anlagen",
+            "Fertigung"
+        ],
+        "machines": [
+            "CNC-Maschinen",
+            "Schweißmaschinen",
+            "Montagemaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitung",
+            "Schweißen",
+            "Montage"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    }
+]

@@ -1,0 +1,23 @@
+[
+    {
+        "company_name": "GAteK-mbH",
+        "company_url": "https://gatek-mbh.de/de/home.html",
+        "products": [
+            "Automatisierte Fertigungsstraßen",
+            "Flexible Montagesysteme",
+            "Werkstückträgersysteme"
+        ],
+        "machines": [
+            "Montagesysteme",
+            "Fertigungssysteme",
+            "Werkstückträger"
+        ],
+        "process_type": [
+            "Automatisierung von Produktionsprozessen",
+            "Steuerungsverdrahtung",
+            "Anlagenmodernisierung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    }
+]

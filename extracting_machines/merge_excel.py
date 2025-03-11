@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from Levenshtein import distance
+from datetime import datetime
 
 def standardize_company_name(name):
     # Replace underscores with spaces
@@ -18,9 +19,15 @@ def normalize_company_name(name):
     name = name.replace('GmbH & Co.KG', 'GmbH & Co. KG')
     return name
 
-def process_machine_data(top_n=2):
+def process_machine_data(csv_file ="machine_report_maschinenbau_20250307.csv",top_n=2): 
+    """
+    Process the machine data from the CSV file, standardize company names,
+    then only keep rows with machine values > 20000,
+    and extract top N machine values for each company.
+    
+    """
     # Read the CSV file
-    csv_df = pd.read_csv('machine_report_n3_v3.csv')
+    csv_df = pd.read_csv(csv_file)
     
     # Standardize company names
     csv_df['Company'] = csv_df['Company'].apply(standardize_company_name)
@@ -36,9 +43,6 @@ def process_machine_data(top_n=2):
         var_name='Machine_Type',
         value_name='Machine_Value'
     )
-    # Show how many rows affected by the melt
-    # print(f"Rows before melt: {len(csv_df)}")
-    # print(f"Rows after melt: {len(melted_df)}")
     
     # Convert Machine_Value to numeric, handling any non-numeric values
     melted_df['Machine_Value'] = pd.to_numeric(melted_df['Machine_Value'], errors='coerce')
@@ -123,8 +127,8 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
             if ratio > best_ratio:
                 best_ratio = ratio
                 best_match = xlsx_company
-        
-        if best_ratio < 0.85:  # Threshold for problematic matches
+        Threshold = 0.85
+        if best_ratio < Threshold:  # Threshold for problematic matches
             problematic_matches.append({
                 'csv_company': csv_company,
                 'best_match': best_match,
@@ -155,7 +159,7 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
     print(f"Standard deviation: {stats['std_similarity']:.3f}")
     
     if problematic_matches:
-        print("\nPotentially Problematic Matches (similarity < 0.85):")
+        print(f"\nPotentially Problematic Matches (similarity < {Threshold}):")
         for match in sorted(problematic_matches, key=lambda x: x['similarity']):
             print(f"CSV: {match['csv_company']}")
             print(f"Best Match: {match['best_match']}")
@@ -166,9 +170,10 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
 
 def merge_with_xlsx(top_n=2):
     try:
-        machine_data = process_machine_data(top_n)
-        xlsx_file_path = 'Revenue and Market Insights.xlsx'
-        sheet_name = 'Focus_Data_Novo AI Market'
+        csv_file_path = 'machine_report_stahlverarbeitung_20250307.csv'
+        machine_data = process_machine_data(csv_file=csv_file_path,top_n=top_n)
+        xlsx_file_path = 'input_excel.xlsx'
+        sheet_name = 'Sheet1'  # Change this to the actual sheet name if needed
         xlsx_df = pd.read_excel(xlsx_file_path, sheet_name=sheet_name)
 
         # Normalize company names
@@ -176,7 +181,7 @@ def merge_with_xlsx(top_n=2):
         machine_data['Company'] = machine_data['Company'].apply(normalize_company_name)
 
         # Analyze similarities before matching
-        similarity_stats = analyze_company_similarities(
+        analyze_company_similarities(
             machine_data['Company'].unique(),
             xlsx_df['Firma1'].dropna().unique()
         )
@@ -193,7 +198,7 @@ def merge_with_xlsx(top_n=2):
         lowest_pairs = [(1.0, '', '')] * 5
 
         for csv_company in machine_data['Company'].unique():
-            best_match, ratio = find_best_match(csv_company, xlsx_companies, 0.84)
+            best_match, ratio = find_best_match(csv_company, xlsx_companies, 0.83)
             if best_match:
                 company_mapping[csv_company] = best_match
                 similarity_scores.append(ratio)
@@ -235,7 +240,8 @@ def merge_with_xlsx(top_n=2):
         merged_df = merged_df[columns_to_keep]
         
         # Save the merged dataframe to a new XLSX file
-        output_file_path = xlsx_file_path.replace('.xlsx', '_merged.xlsx')
+        current_date = datetime.now().strftime('%Y%m%d')
+        output_file_path = xlsx_file_path.replace('.xlsx', f'_merged_{current_date}.xlsx')
         merged_df.to_excel(output_file_path, index=False)
         print(f"Merged data saved to {output_file_path}")
         print("Successfully merged and saved the data!")

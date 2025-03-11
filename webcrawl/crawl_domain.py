@@ -11,6 +11,8 @@ from get_company_by_category import read_urls_and_companies
 from get_company_by_top1machine import read_urls_and_companies_by_top1machine
 # Import to handle colorama recursion issues
 import sys
+# Import argparse for command line arguments
+import argparse
 
 # Add a function to disable colorama to prevent recursion errors
 def disable_colorama():
@@ -25,6 +27,41 @@ def disable_colorama():
         print("Colorama disabled to prevent recursion errors with large outputs.")
     except ImportError:
         pass
+
+# Add a function to parse command line arguments
+def parse_args():
+    """
+    Parse command line arguments for the crawler.
+    
+    Returns:
+        argparse.Namespace: Parsed arguments
+    """
+    parser = argparse.ArgumentParser(description="Crawl domains from an Excel file and save content to markdown files")
+    
+    parser.add_argument(
+        "--excel", 
+        "-e", 
+        type=str, 
+        required=True,
+        help="Path to Excel file containing URLs and company names"
+    )
+    
+    parser.add_argument(
+        "--output", 
+        "-o", 
+        type=str, 
+        required=True,
+        help="Output directory for aggregated content"
+    )
+    
+    parser.add_argument(
+        "--max-links",
+        type=int,
+        default=60,
+        help="Maximum number of internal links to crawl per domain (default: 60)"
+    )
+    
+    return parser.parse_args()
 
 def sanitize_filename(url):
     """Convert URL to a valid filename by removing scheme and replacing invalid characters"""
@@ -359,7 +396,7 @@ def remove_links_from_markdown(markdown_text):
     
     return text_without_links
 
-async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregated", output_dir_pruned="domain_content_pruned", max_links=50, company_name=None):
+async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregated", max_links=50, company_name= None):
     """
     Crawl a main URL and all its internal links, then aggregate the content.
     Uses a two-phase approach:
@@ -369,9 +406,12 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     Args:
         main_url (str): URL to crawl
         output_dir_aggregated (str): Directory to save aggregated content
-        output_dir_pruned (str): Directory to save pruned content
         max_links (int): Maximum internal links to crawl
         company_name (str, optional): Company name associated with the URL
+    
+    Returns:
+        str: Path to the aggregated markdown file
+        int: Number of pages crawled
     """
     prune_filter = PruningContentFilter(
         threshold=0.45,
@@ -432,17 +472,13 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     
     # Ensure both output directories exist
     ensure_output_directory(output_dir_aggregated)
-    ensure_output_directory(output_dir_pruned)
     
     # Get domain name for the output file
     domain_name = sanitize_filename(main_url)
-    current_date = datetime.now().strftime("%Y%m%d")
     
     # Create output filenames in their respective directories
     #output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}_{current_date}.md")
-    #output_pruned_file = os.path.join(output_dir_pruned, f"{domain_name}_{current_date}.md")
     output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}.md")
-    output_pruned_file = os.path.join(output_dir_pruned, f"{domain_name}.md")
     
     # Initialize aggregate content
     aggregate_content = f"# Aggregated Content for {domain_name}\n\n"
@@ -472,7 +508,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
             if not main_result.success:
                 print(f"Failed to crawl main URL: {main_url}")
                 print(f"Error: {main_result.error if hasattr(main_result, 'error') else 'Unknown error'}")
-                return output_markdown_file, output_pruned_file, 0
+                return output_markdown_file, 0
             
             # Process main URL result
             aggregate_content += f"## Main Page: {main_url}\n\n"
@@ -496,14 +532,14 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
                 print(f"\n=== Phase 2: Crawling {len(internal_links)} internal links (body only) ===\n")
                 # Now crawl all internal links at once using arun_many with body-only config
                 if dispatcher:
-                    results : CrawlResult = await crawler.arun_many(
+                    results  = await crawler.arun_many(
                         internal_links,
                         config=body_only_config,
                         #verbose=True,
                         dispatcher=dispatcher
                     )
                 else:
-                    results : CrawlResult = await crawler.arun_many(
+                    results  = await crawler.arun_many(
                         internal_links,
                         config=body_only_config,
                         #verbose=True
@@ -522,10 +558,13 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
                         aggregate_content += "### Content (body only):\n\n"
                         # Remove links from the content for the internal pages
                         # Check if the result has a 'fit_markdown' attribute, else use 'markdown'
-                        content_to_clean = result.markdown.fit_markdown if hasattr(result.markdown, 'fit_markdown') else result.markdown
-                        cleaned_content = remove_links_from_markdown(content_to_clean)
-                        aggregate_content += cleaned_content + "\n\n"
-                        aggregate_content += "-" * 80 + "\n\n"
+                        if hasattr(result, 'markdown') and isinstance(result.markdown, (str, object)):
+                            content_to_clean = result.markdown.fit_markdown if hasattr(result.markdown, 'fit_markdown') else result.markdown
+                            cleaned_content = remove_links_from_markdown(content_to_clean)
+                            aggregate_content += cleaned_content + "\n\n"
+                        else:
+                            print(f"Unexpected markdown format for URL: {url}")
+                            aggregate_content += "Content could not be processed.\n\n"
                         
                         print(f"Successfully crawled: {url}")
                     else:
@@ -552,43 +591,39 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         f.write(aggregate_content)
     print(f"Aggregate content saved to {output_markdown_file}")
     
-    # Apply pruning to the collected content
-    print("Applying content pruning...")
-    pruning_filter = PruningContentFilter(threshold=0.6, min_word_threshold=50, threshold_type="dynamic")
-    
-    # Pruning works directly on the aggregate content
-    pruned_chunks = pruning_filter.filter_content(aggregate_content)
-                
-    # Combine the pruned chunks into a single document without metadata
-    pruned_content = f"# Pruned Content for {domain_name}\n\n"
-    
-    if pruned_chunks:
-        for chunk in pruned_chunks:
-            pruned_content += chunk + "\n\n"
-    else:
-        pruned_content += "No significant content found after pruning.\n"
-        
-    print(f"Raw content length: {len(aggregate_content)}")
-    print(f"Pruned content length: {len(pruned_content)}")
-    
-    # Write the pruned content to file
-    with open(output_pruned_file, "w", encoding="utf-8") as f:
-        f.write(pruned_content)
-    print(f"Pruned content saved to {output_pruned_file}")
-    
     # Count total pages crawled (main URL + internal links that were successfully crawled)
     total_crawled = 1 + len([r for r in results if getattr(r, 'success', False)]) if 'results' in locals() else 1
     
-    return output_markdown_file, output_pruned_file, total_crawled
+    return output_markdown_file, total_crawled
 
 async def main():
+    """
+    Main function to initiate the web crawling process.
+    This function parses command line arguments, reads URLs and company names from an Excel file or uses hardcoded domains,
+    creates the output directory, and then crawls each domain to collect data.
+    Arguments:
+        None
+    Command Line Arguments:
+        --excel: Path to the Excel file containing URLs and company names.
+        --output: Directory where the output files will be saved.
+        --max_links: Maximum number of links to crawl per domain.
+    Returns:
+        None
+    """
+    
+    # Parse command line arguments
+    args = parse_args()
+    
+    # Use arguments for Excel file and output directory
+    excel_file = args.excel
+    output_dir = args.output
+    max_links = args.max_links
+    
     # You can either use hardcoded domains or read from Excel
     use_excel = True  # Set to True to use Excel file
     
     if use_excel:
-        # Specify the path to your Excel file
-        excel_file = "input_excel_merged_20250310.xlsx"  # Update with your file path as needed
-        #urls_and_companies = read_urls_and_companies(excel_file, "Maschinenbauer")  # For specific category from excel
+        # Use the Excel file path from arguments
         urls_and_companies = read_urls_and_companies_by_top1machine(excel_file) # For merged excel files from merge_excel.py
         # print first 10 entries
         #print(f"First 10 entries from Excel: {urls_and_companies[:20]}")
@@ -606,9 +641,8 @@ async def main():
         # Convert to the same format as Excel reader output for consistent handling
         urls_and_companies = [(url, company) for sublist in domains for url, company in sublist]
     
-    # Create output directories
-    output_dir_aggregated = "domain_content_aggregated_maschinenbauer"
-    output_dir_pruned = "domain_content_pruned_maschinenbauer"
+    # Create output directory from arguments
+    output_dir = args.output
     
     # Crawl each domain
     results = []
@@ -619,18 +653,16 @@ async def main():
         # Disable colorama before processing large amounts of data
         disable_colorama()
         
-        markdown_file, pruned_file, page_count = await crawl_domain(
+        markdown_file, page_count = await crawl_domain(
             url, 
-            output_dir_aggregated=output_dir_aggregated, 
-            output_dir_pruned=output_dir_pruned,
-            max_links=60,
+            output_dir_aggregated=output_dir, 
+            max_links=max_links,
             company_name=company_name
         )
         results.append({
             "domain": url,
             "company_name": company_name,
             "markdown_file": markdown_file,
-            "pruned_file": pruned_file,
             "pages_crawled": page_count
         })
     
@@ -644,7 +676,6 @@ async def main():
             print(f"Company: {result['company_name']}")
         print(f"Pages crawled: {result['pages_crawled']}")
         print(f"Markdown file: {os.path.basename(result['markdown_file'])}")
-        print(f"Pruned file: {os.path.basename(result['pruned_file'])}")
         print("-"*40)
 
 if __name__ == "__main__":
