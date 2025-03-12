@@ -5,7 +5,7 @@ Step 1 : Run clean_html.py
     Parameter
     Input: 
     Output:
-    Notes: this extract the available tables from source. then filter tables containing "technische anlagen" in it and present the output as json
+    Notes: this extract the available tables from source. then filter tables containing "technische anlagen" in it and present the output as json.
 
 Step 2 : run generate_csv_report.py
     Parameter
@@ -33,3 +33,9 @@ Step 2 : Run extract_llm.py
     Input: 
     Output:
     Notes: this extract the defined keywords(lohnfertigung, produkt, maschinen, and prozess) from a given markdown file from step 1.
+
+Step 3 : Run pluralize_with_llm.py
+    Parameter
+    Input: 
+    Output:
+    Notes: this standardize the extracted keywords to their plural forms. when the length of output doesnt match the input the program will redo the file.the retries are using different temperature on each retry because using same temperature will resulting(at most time) 3x same failure and waste tokens.

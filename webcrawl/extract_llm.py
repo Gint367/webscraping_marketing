@@ -38,7 +38,9 @@ Folgende Informationen sind erforderlich:
   - **Keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können**, sondern nur die tatsächlich genutzten Verfahren.  
   - Nutzt eine **vordefinierte Liste typischer Produktionsprozesse** aus verschiedenen Branchen zur besseren Identifikation und Zuordnung.  
 - Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. **"Transport", "Logistik"**), werden nicht als relevante Keywords aufgenommen (Schreiben in der Pluralform).  
-- Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an?  
+- Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
+- Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing).
+- schreibe nur 3 Einträge aus jeder Kategorie.
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
 - **Strikte Einhaltung der Datenwahrheit**: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.  
 
