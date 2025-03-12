@@ -170,7 +170,7 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
 
 def merge_with_xlsx(top_n=2):
     try:
-        csv_file_path = 'machine_report_stahlverarbeitung_20250307.csv'
+        csv_file_path = 'machine_report_werkzeughersteller_20250307.csv'
         machine_data = process_machine_data(csv_file=csv_file_path,top_n=top_n)
         xlsx_file_path = 'input_excel.xlsx'
         sheet_name = 'Sheet1'  # Change this to the actual sheet name if needed

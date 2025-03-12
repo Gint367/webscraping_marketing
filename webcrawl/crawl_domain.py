@@ -185,11 +185,11 @@ async def collect_internal_links(crawler, main_url, max_links=50):
     
     # Configure crawler for link collection
     crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
-        word_count_threshold=10  # We want all pages, even small ones
+        word_count_threshold=5  # We want all pages, even small ones
     )
     
     # Crawl the main URL
@@ -416,7 +416,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     prune_filter = PruningContentFilter(
         threshold=0.45,
         min_word_threshold=30,
-        threshold_type="dynamic",
+        threshold_type="fixed",
     )
     
     # Create browser configuration
@@ -428,22 +428,22 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     
     # Create crawler configuration for main URL - complete crawl
     main_crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
-        delay_before_return_html=2.0,
-        word_count_threshold=20,
+        delay_before_return_html=1.0,
+        word_count_threshold=10,
         #magic=True
     )
     
     # Create crawler configuration for internal links - body only
     body_only_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
-        word_count_threshold=50,
+        word_count_threshold=20,
         delay_before_return_html=1.0,
         #magic=True,
         #remove_forms=True,
@@ -634,7 +634,7 @@ async def main():
         # List of domains to crawl (hardcoded)
         domains = [
             [
-                ("https://www.pfaff-industrial.de/", "PFAFF Industriesysteme und Maschinen"),
+                ("https://alles-in-metall.de/de/", "a.i.m. all in metal GmbH"),
                 
             ]
         ]
