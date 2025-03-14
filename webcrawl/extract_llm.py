@@ -14,9 +14,12 @@ import argparse
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
     company_url: str = Field(..., description="URL des Unternehmens.")
-    products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.(in Pluralform)")
-    machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)")
-    process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)")
+    products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.(in Pluralform)",
+                                min_items=1, max_items=3)
+    machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
+                                max_items=5)
+    process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
+                                max_items=5)
     lohnfertigung: bool = Field(..., description="Ob das Unternehmen Lohnfertigung anbietet")
 
 prompt = """
@@ -39,14 +42,13 @@ Folgende Informationen sind erforderlich:
   - Nutzt eine **vordefinierte Liste typischer Produktionsprozesse** aus verschiedenen Branchen zur besseren Identifikation und Zuordnung.  
 - Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. **"Transport", "Logistik"**), werden nicht als relevante Keywords aufgenommen (Schreiben in der Pluralform).  
 - Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
-- Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing).
+- Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
 - schreibe nur 3 Einträge aus jeder Kategorie.
+- benutze niemals ',', '&', und 'und' für die Einträge.
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
 - **Strikte Einhaltung der Datenwahrheit**: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.  
 
 ### **Typische Produktionsprozesse**  
-
-#### **Metallbearbeitung**
 - Drehen  
 - Fräsen  
 - Bohren  
@@ -54,48 +56,45 @@ Folgende Informationen sind erforderlich:
 - Erodieren  
 - Laserschneiden  
 - Wasserstrahlschneiden  
-- Biegen und Abkanten  
+- Biegen
+- Abkanten  
 - Schweißen  
 - Gießen  
 - Oberflächenbehandlung  
-- Montage und Endbearbeitung  
-
-#### **Holzbearbeitung**
+- Montagen
 - Zersägen  
 - Hobeln  
-- Fräsen und Profilieren  
-- Bohren und Dübeln  
-- Verleimen und Laminieren  
-- Drechseln  
-- Schleifen und Polieren  
-- Lackieren, Beizen, Ölen  
-- Montage  
-
-#### **Kunststoffverarbeitung**
+- Profilieren  
+- Dübeln  
+- Verleimen
+- Laminieren  
+- Drechseln 
+- Polieren  
+- Lackieren
+- Beizen
+- Ölen  
 - Spritzgießen  
 - Extrudieren  
 - Tiefziehen  
 - Blasformen  
-- Pressen und Gießen  
+- Pressen  
 - Schweißen  
-- Lackieren, Bedrucken, Kaschieren  
+- Bedrucken
+- Kaschieren  
 - Mechanische Bearbeitung  
-
-#### **Lebensmittelproduktion**
 - Mahlen  
-- Mischen und Kneten  
-- Extrudieren  
-- Pasteurisieren und Sterilisieren  
-- Trocknen und Gefriertrocknen  
-- Abfüllen und Verpacken  
-- Räuchern, Gären, Fermentieren  
-
-#### **Elektronikfertigung**
+- Mischen
+- Kneten 
+- Pasteurisieren
+- Trocknen
+- Abfüllen
+- Verpacken  
+- Räuchern
+- Gären
+- Fermentieren  
 - Leiterplattenfertigung  
 - Löten  
-- Spritzguss für Gehäuse  
-- Montage von Baugruppen  
-- Prüfung  
+- Spritzguss
 """
 
 def ensure_output_directory(directory="llm_extracted_data"):
