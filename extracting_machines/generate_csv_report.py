@@ -5,21 +5,24 @@ from typing import List, Dict
 import argparse
 from datetime import datetime
 
-def extract_company_name(filename: str) -> str:
+def extract_company_name(data: List[Dict]) -> str:
     """
-    Extracts and formats company name from a filtered JSON filename.
-    Replaces underscores with spaces and fixes special characters.
+    Extracts company name directly from the JSON data.
+    Cleans any trailing commas from the company name.
     
     Args:
-        filename (str): Name of the JSON file
+        data (List[Dict]): JSON data containing tables with company_name field
     
     Returns:
         str: Properly formatted company name
     """
-    name = filename.replace('_filtered.json', '')
-    # First replace special patterns, then handle remaining underscores
-    name = name.replace('_and_', ' & ').replace('_', ' ')
-    return name
+    if not data or len(data) == 0:
+        return "Unknown Company"
+    
+    # Get company name from the first table
+    company_name = data[0].get('company_name', 'Unknown Company')
+    
+    return company_name
 
 def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -> tuple[List[str], str, str]:
     """
@@ -113,7 +116,7 @@ def generate_csv_report(input_dir: str,
                 with open(file_path, 'r', encoding='utf-8') as jsonfile:
                     data = json.load(jsonfile)
                     
-                company_name = extract_company_name(filename)
+                company_name = extract_company_name(data)
                 values, table_name, _ = extract_func(data, n)
                 
                 # Only write to CSV if at least one value is not empty

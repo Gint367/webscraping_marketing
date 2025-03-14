@@ -1,6 +1,12 @@
 ## Extracting Machine assest from financial statement
 Folder Path: extracting_machine/
 
+Step 1 : Run get_bundesanzeiger_html.py
+    Parameter
+    Input: 
+    Output:
+    Notes: this will get the jahresabschluss data from bundesanzeiger. we use company name and location because there could be multiple company with same name. also using the first word for the location to ensure no weird search query. metadata has the original company name(good for matching later)
+
 Step 1 : Run clean_html.py
     Parameter
     Input: 
