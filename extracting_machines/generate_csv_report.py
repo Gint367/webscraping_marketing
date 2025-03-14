@@ -21,87 +21,13 @@ def extract_company_name(filename: str) -> str:
     name = name.replace('_and_', ' & ').replace('_', ' ')
     return name
 
-def extract_values(data: List[Dict], max_values: int) -> tuple[List[str], str]:
-    """
-    Original value extraction function. Finds the first table with row "values" 
-    that have a key length less than or equal to max_values.
-    
-    Args:
-        data (List[Dict]): JSON data containing tables and their rows
-        max_values (int): Maximum number of values to extract
-    
-    Returns:
-        tuple[List[str], str]: A tuple containing:
-            - List of numeric values (padded with empty strings if needed)
-            - Name of the table where values were found
-    """
-    for table in data:
-        table_name = table.get('table_name', '')[:100]
-        for row in table.get('matching_rows', []):
-            row_values = row.get('values', {})
-            # Check if number of keys in values is less than or equal to max_values
-            if len(row_values) <= max_values:
-                # Get only numeric values, replace non-numeric with empty string
-                numbers = [v if v.replace('.', '').replace(',', '').replace('0', '').isdigit() else '' 
-                          for v in row_values.values() if isinstance(v, str)]
-                # Pad with empty strings if needed
-                while len(numbers) < max_values:
-                    numbers.append('')
-                return numbers[:max_values], table_name
-    
-    # If no matching table found, return empty list and empty string
-    return [''] * max_values, ''
-
-def extract_values_v2(data: List[Dict], max_values: int) -> tuple[List[str], str]:
-    """
-    Enhanced value extraction function. Finds the first table with numeric values in "values"
-    that satisfies these conditions:
-    - Contains only numeric values (excluding values starting with 0)
-    - Number of numeric values is less than or equal to max_values
-    
-    Args:
-        data (List[Dict]): JSON data containing tables and their rows
-        max_values (int): Maximum number of values to extract
-    
-    Returns:
-        tuple[List[str], str]: A tuple containing:
-            - List of numeric values (padded with empty strings if needed)
-            - Name of the table where values were found
-    """
-    for table in data:
-        table_name = table.get('table_name', '')[:100]
-        for row in table.get('matching_rows', []):
-            row_values = row.get('values', {})
-            
-            # Filter numeric values
-            numeric_values = {}
-            for key, value in row_values.items():
-                # Check if value is string and contains only numbers, dots, and commas
-                if isinstance(value, str):
-                    # Skip values that start with 0
-                    if value.strip().startswith('0'):
-                        continue
-                    cleaned_value = value.replace('.', '').replace(',', '').strip()
-                    if cleaned_value.isdigit():
-                        numeric_values[key] = value
-            
-            # Check if number of numeric values is less than or equal to max_values
-            if len(numeric_values) <= max_values:
-                numbers = list(numeric_values.values())
-                # Pad with empty strings if needed
-                while len(numbers) < max_values:
-                    numbers.append('')
-                return numbers[:max_values], table_name
-    
-    # If no matching table found, return empty list and empty string
-    return [''] * max_values, ''
-
-def extract_values_v3(data: List[Dict], max_values: int, filter_words: List[str]) -> tuple[List[str], str]:
+def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -> tuple[List[str], str, str]:
     """
     Enhanced value extraction function with number cleaning:
     - Removes anything after the comma
     - Removes dots used as thousand separators
     - Converts to plain numbers without formatting
+    - Returns the maximum value for categorization
     """
     for table in data:
         table_name = table.get('table_name', '')[:100]
@@ -143,9 +69,17 @@ def extract_values_v3(data: List[Dict], max_values: int, filter_words: List[str]
                     numbers = list(numeric_values.values())
                     while len(numbers) < max_values:
                         numbers.append('')
-                    return numbers[:max_values], table_name
+                    
+                    # Get the maximum value for categorization
+                    max_value = ''
+                    if numbers:
+                        valid_numbers = [n for n in numbers if n]
+                        if valid_numbers:
+                            max_value = max(valid_numbers)
+                    
+                    return numbers[:max_values], table_name, max_value
     
-    return [''] * max_values, ''
+    return [''] * max_values, '', ''
 
 def generate_csv_report(input_dir: str, 
                        output_file: str, 
@@ -165,7 +99,7 @@ def generate_csv_report(input_dir: str,
     timestamp = datetime.now().strftime("%Y%m%d")
     output_file_with_timestamp = output_file.replace('.csv', f'_{timestamp}.csv')
     
-    # Prepare CSV headers
+    # Prepare CSV headers - removed Maschinen Park Size from headers
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
     
     with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
@@ -180,7 +114,7 @@ def generate_csv_report(input_dir: str,
                     data = json.load(jsonfile)
                     
                 company_name = extract_company_name(filename)
-                values, table_name = extract_func(data, n)
+                values, table_name, _ = extract_func(data, n)
                 
                 # Only write to CSV if at least one value is not empty
                 if any(values):
@@ -198,17 +132,12 @@ if __name__ == "__main__":
     input_directory = args.input_directory
     N = 3  # Parameter N - change this value as needed
     
-    # Generate report using original extract_values
-    # generate_csv_report(input_directory, f"machine_report_n{N}_v1.csv", N, extract_values)
-    
-    # Generate report using extract_values_v2
-    # generate_csv_report(input_directory, f"machine_report_n{N}_v2.csv", N, extract_values_v2)
-    
     # Generate report using extract_values_v3 with filter words
     filter_words = ["anschaffungs","ahk", "abschreibung", "buchwert"]
     generate_csv_report(
         input_directory, 
         f"machine_report_n{N}_v3.csv", 
         N,
-        lambda data, n: extract_values_v3(data, n, filter_words)
+        lambda data, n: extract_values(data, n, filter_words)
     )
+    print(f"CSV report generated: machine_report_n{N}_v3.csv")
