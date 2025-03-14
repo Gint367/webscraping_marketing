@@ -296,7 +296,20 @@ if __name__ == "__main__":
         if not html_files:
             print(f"No HTML files found in {latest_subfolder}")
             continue
-
+        
+        # Read company name from metadata file
+        metadata_files = list(Path(latest_subfolder).glob("*metadata.json"))
+        company_name = company_folder  # Default fallback
+        if metadata_files:
+            try:
+                with open(metadata_files[0], "r", encoding="utf-8") as f:
+                    metadata = json.load(f)
+                    company_name = metadata.get("company_name", company_folder)
+            except Exception as e:
+                print(f"Error reading metadata for {company_folder}: {e}")
+        
+        
+        
         # Process each HTML file
         for html_file in html_files:
             try:
@@ -317,6 +330,10 @@ if __name__ == "__main__":
 
                 if cleaned_html:
                     filtered_data = filter_word_rows(cleaned_html, search_word)
+                    
+                    # Add company name to each table in filtered_data
+                    for table in filtered_data:
+                        table["company_name"] = company_name
 
                     if filtered_data:
                         # Create output JSON file
