@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 import os
 import re
-import sys
 import argparse
 import csv
-from collections import defaultdict, Counter
+from collections import defaultdict
 from extracting_machines.unsanitize_filename import unsanitize_filename
 
 def check_duplicate_folders(base_dir):
@@ -64,8 +63,8 @@ def print_stats(affected_parents):
     # Count parents by number of duplicates
     duplicate_counts = get_duplicate_count_statistics(affected_parents)
     
-    print(f"\nResults Summary:")
-    print(f"===============")
+    print("\nResults Summary:")
+    print("===============")
     print(f"Total parent folders affected: {total_affected_parents}")
     print(f"Total potential duplicate folders: {total_duplicate_folders}")
     print(f"Parent folders with exactly 1 duplicate: {duplicate_counts[1]}")
@@ -156,8 +155,8 @@ def main():
             # Get duplicate counts for report
             duplicate_counts = get_duplicate_count_statistics(affected_parents)
             
-            f.write(f"Duplicate Folders Report\n")
-            f.write(f"=======================\n\n")
+            f.write("Duplicate Folders Report\n")
+            f.write("=======================\n\n")
             f.write(f"Base directory: {args.base_dir}\n")
             f.write(f"Total parent folders affected: {len(affected_parents)}\n")
             f.write(f"Total potential duplicate folders: {sum(len(folders) for folders in affected_parents.values())}\n")

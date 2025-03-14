@@ -1,7 +1,7 @@
 import os
 import json
 import argparse
-from typing import List, Dict, Any, Union
+from typing import List
 from litellm import completion
 
 # Global tracking of failed files

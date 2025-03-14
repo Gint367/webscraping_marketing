@@ -19,7 +19,7 @@ def clean_url(url):
         domain = urlparse('http://' + url).netloc
         if domain:
             return domain
-    except:
+    except Exception:
         pass
     
     return url

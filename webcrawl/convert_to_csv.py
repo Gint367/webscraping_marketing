@@ -2,7 +2,6 @@ import json
 import csv
 import sys
 import os
-import codecs
 
 def convert_json_to_csv(json_file_path, csv_file_path=None):
     """

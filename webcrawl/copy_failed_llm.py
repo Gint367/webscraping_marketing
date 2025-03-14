@@ -5,7 +5,6 @@ import sys
 import csv
 import shutil
 import argparse
-from pathlib import Path
 
 def extract_domain_from_path(file_path):
     """Extract domain name from file path like llm_extracted_data_maschinenbauer/elumatec.com_extracted.json"""
@@ -43,7 +42,7 @@ def copy_files(csv_file, source_folder, destination_folder):
                 print(f"Error copying {markdown_filename}: {str(e)}")
                 failed_count += 1
     
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"Files successfully copied: {copied_count}")
     print(f"Files failed: {failed_count}")
     print(f"Total files processed: {copied_count + failed_count}")

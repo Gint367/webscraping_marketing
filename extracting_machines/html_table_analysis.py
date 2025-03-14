@@ -2,7 +2,7 @@ import json
 import os
 import csv
 from collections import defaultdict
-from typing import Dict, List, Tuple
+from typing import Dict, List
 
 def read_json_files(folder_path: str) -> List[dict]:
     """Read all JSON files from the specified folder."""

@@ -83,7 +83,7 @@ def main():
                     stats['process_type_multi_word'] += len(result['process_type'])
     
     # Print statistics
-    print(f"\nAnalysis Results:")
+    print("\nAnalysis Results:")
     print(f"Total files with multi-word entries: {stats['files_with_multi_word']}")
     print(f"Total multi-word products: {stats['products_multi_word']}")
     print(f"Total multi-word machines: {stats['machines_multi_word']}")

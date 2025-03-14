@@ -53,8 +53,6 @@ def parse_date_str(date_str: str) -> datetime.datetime:
     except Exception:
         return datetime.datetime(1970, 1, 1, 0, 0, 0)
 
-import re
-from bs4 import BeautifulSoup
 
 def extract_financial_data_from_html(raw_html: str, debug: bool = False) -> dict:
     data = {

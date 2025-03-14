@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import unicodedata
 import re
 
 def unsanitize_filename(sanitized_name: str) -> str:

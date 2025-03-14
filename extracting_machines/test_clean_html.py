@@ -1,8 +1,5 @@
 import pytest
-from bs4 import BeautifulSoup
 import json
-import os
-from datetime import datetime
 from pathlib import Path
 import tempfile
 import shutil
