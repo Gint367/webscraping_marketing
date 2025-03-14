@@ -1,0 +1,137 @@
+Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3,Ort,technische Anlagen und Maschinen 2021/22,Maschinen_Park_Size,Maschinen_Park_var,hours_of_saving
+VAUTID GmbH,https://vautidgroup.com,False,Gussprodukte,Hardfacing-Schweißzusatzwerkstoffe,Verschleißschutzplatten,,,,,,,Ostfildern,522316.0,10-15,10,3750
+Eisenbau Krämer GmbH,https://www.eisenbau-kraemer.de,False,Kraftwerksrohre,Leitungsrohre,Premium Stahlrohre,,,,,,,Kreuztal,12535231.0,350-600,350,131250
+Friedr. Lohmann GmbH,https://www.lohmann-stahl.de,True,Blechprodukte,Stabstahlprodukte,hitzebeständige Güsse,,,,,,,Witten,11403794.0,200-350,200,75000
+IBF Industrielle Blechfertigung GmbH,http://www.ibf-biberach.de,True,Fertigungsdienstleistungen,Maßgeschneiderte Lösungen,Präzisionswerkzeuge,Biegemaschinen,CNC-Fräsmaschinen,Laserschneidmaschinen,Biegen,CNC-Fräsen,Laserschneiden,Biberach,2077425.0,80-120,80,30000
+Betafence GmbH,https://www.betafence.de,False,Gabionen,Tore,Zaunsysteme,,,,,,,Schwalmtal,216641.0,No Match,,
+Stahlhammer Bommern GmbH,https://stahlhammer.de,False,Hebezeuge,Schmiedestücke,,,,,Schmiedeverfahren,,,Hamm,3054967.0,120-200,120,45000
+HMS Maass GmbH & Co. KG,https://www.hms-maass.de,True,Hitzeschutzböden,Stahlböden,Traversen,FaserlaserLaserverfahren,Montageanlagen,Pulverbeschichtungsanlagen,CO2-Laserschneiden,Faserlaserschneiden,Metall-Aktivgas-Schweißens,Kalletal,607324.0,10-15,10,3750
+König & Co. GmbH,https://www.koenig-co.de,False,Behälterböden,Lagerböden,Sonderpressteile,,,,,,,Netphen,6980877.0,200-350,200,75000
+Kimmel GmbH & Co. KG,https://www.kimmel-metall.de,True,Blechverarbeitungen,Produktbeispiele,Pulverbeschichtungen,Biegemaschinen,Clinchen-Pressen,Lasermaschinen,Biegen,Clinchen,Dichtschäumen,Simbach,1976084.0,80-120,80,30000
+Rudi Göbel GmbH & Co. KG,https://www.rgoebel.de,False,Automotives,Industrietechniken,Leistungselektroniken,,,,,,,Helmbrechts,3262421.0,120-200,120,45000
+Ernst Strassacker GmbH & Co. KG,https://www.strassacker.com/de/,True,Auftragsarbeiten,Großprojekte,Sonderanfertigungen,,,,Gusstechniken,Handwerke,Moderne Fertigungstechniken,Süßen,650365.0,No Match,,
+PROGRESSIO Feinblechtechnik GmbH,https://www.progressio-feinblech.de,False,Blechbaugruppen,Blechteile,Werkstückträger,,,,,,,Aglasterhausen,204076.0,No Match,,
+Reinhold Mendritzki Kaltwalzwerk GmbH,https://www.mendritzki.de,False,Broschüren,Präzisionsteile,Schneidwerkzeuge,,,,,,,Plettenberg,18132881.0,350-600,350,131250
+Hammerwerk Erft,http://www.hammerwerk-erft.de/de/,True,Formwellen,Geschmiedete Ringe,Nahtlos gewalzte Ringe,,,,,,,Bad Münstereifel,3872394.0,120-200,120,45000
+PPM-Aberle GmbH & Co KG,https://www.ppm-aberle.de,True,Automobilkomponenten,Baugruppen,Präzisionsteile,Drehmaschinen,Fräsmaschinen,Zerspanungsmaschinen,Drehens,Fräsens,Zerspanens,Gutach (Schwarzwaldbahn),3568692.0,120-200,120,45000
+G. Schürfeld GmbH,https://www.schuerfeld-gmbh.de,True,Gesenkschmiedeprodukte,Schmiedeteile,Werkzeuge,3-D-Messmaschinen,HSC-Fräsmaschinen,hydraulische Pressen,Konstruktionen,Prägen,Qualitätssicherungen,Halver,2710966.0,120-200,120,45000
+KrampeHarex GmbH & Co. KG,https://www.krampeharex.com,False,Kunststoffmakrofasern,Kunststoffmikrofasern,Stahlfasern,,,,,,,Hamm,3750472.0,120-200,120,45000
+von Schaewen GmbH,https://www.von-schaewen.de,True,Flachprodukte,Großmechaniken,Schmiedeprodukte,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Drehen,Erodieren,Fräsen,Essen,3104768.0,120-200,120,45000
+Bartz-Werke GmbH,https://www.bartz-heiztechnik.de,False,Herde,Kaminöfen,,,,,,,,Dillingen,2990677.0,No Match,,
+Norican Group,https://www.noricangroup.com,False,Bearbeitungsmaschinen,Formenbaumaschinen,Gießereianlagen,Bearbeitungsmaschinen,Formenbaumaschinen,Gießereimaschinen,Bearbeitungen,Formenbauten,Gussformen,Wiehl,26994.0,No Match,,
+WiRoPa GmbH,https://wiropa.de,True,Baugruppen,Metallbauteile,Trommeln und Spulen,Abkantpressen,Laserschneidmaschinen,Plasmaschneidmaschinen,Abkantarbeiten,Laserschneiden,Plasmaschneiden,Gescher,1209742.0,21-40,21,7875
+Dörrenberg Edelstahl GmbH,https://www.doerrenberg.de,False,Beschichtung,Gussprodukte,Spezialstähle,,,,,,,Engelskirchen,8503088.0,200-350,200,75000
+MICROMETAL GmbH,https://www.micrometal.de,True,Bipolarplatten,Filter und Siebe,Heizelemente und Wärmetauscher,,,,Fotochemische Ätzungen,Reel-to-Reel-Ätzungen,Sheet Etchings,Müllheim,511953.0,10-15,10,3750
+Auerhammer Metallwerk GmbH,https://www.auerhammer.com,False,Metallbänder,Plattierte Werkstoffe,Thermobimetalle,,,,,,,Aue-Bad Schlema,4029804.0,120-200,120,45000
+Hörle Wire GmbH,https://horlewire.com/de/,False,Blankdrähte,Flachedrähte,verzinkte Produkte,,,,Drahtzieher,Verzinkungen,,Hagen,1381988.0,40-60,40,15000
+Albrecht Zwick GmbH,https://www.zwick-edelstahl.de,False,Blech,Rohren,Stabstähle,,,,,,,Hagen,373475.0,10-15,10,3750
+Sprint Metal Edelstahlziehereien GmbH,https://sprintmetal.schmolz-bickenbach.com,False,,,,,,,,,,Hemer,522672.0,10-15,10,3750
+WW-K Warmwalzwerk Königswinter GmbH,https://www.ww-k.net,False,,,,,,,,,,Königswinter,2020220.0,80-120,80,30000
+ERDMANN UNTERNEHMENSGRUPPE,http://erdmanngruppe.de,False,Fördertechniken,Landwirtschaft-Maschinenbauten,Maschinenbauten,,,,,,,Hagen,899778.0,15-20,15,5625
+Richard Stenzhorn GmbH,https://www.rst-wire.de,False,Flachdraht,Runddrähte,Vierkantdrähte,,,,,,,Velbert,2386271.0,80-120,80,30000
+DGH Heidenau GmbH & Co. KG,http://www.dghgroup.de,False,,,,,,,,,,Dohna,12103974.0,200-350,200,75000
+Südstahl GmbH & Co. KG,https://www.suedstahl.de,False,,,,,,,,,,Mertingen,1992465.0,80-120,80,30000
+Lebronze Alloys Germany GmbH,https://www.lebronze-alloys.com,False,Alliages Cuivre-Nickel-Etain,Alliages Cuivre-Nickel-Silicium,Alliages spinodaux,,,,Anlassen,Bohren,Drehen,Lüdenscheid,4730767.0,120-200,120,45000
+Eisenwerk Arnstadt GmbH,https://www.ewa-guss.de,False,Bremsklotzsohlen,Bremsklötze,"Gussstücke für Maschinen-, Fahrzeug- und Kraftwerksbau",,,,Bearbeitungsprozesse,Gießereiprozesse,,Arnstadt,1444935.0,No Match,,
+Nosta GmbH,https://www.nosta.com,True,Engineering-Lösungen,Hochwertige Komponenten,Standardprodukte,Drehmaschinen,Fräsmaschinen,Lasermaschinen,Automatenfertigungen,Drehen,Fräsen,Höchstädt a.d.Donau,1759093.0,60-80,60,22500
+CASAR Drahtseilwerk Saar GmbH,https://www.casar.de,False,Drahtseile,Minenseile,Spezialseile,,,,,,,Kirkel,4970829.0,120-200,120,45000
+Schmid GmbH,https://schmidgmbh.de,False,Karrieren,Lösungen,Projekte,,,,,,,Weiler-Simmerberg,1095336.0,15-20,15,5625
+JAHN GmbH,https://www.jahngmbh.de,False,Aluminiumkomponenten,Aluminiumprodukte,Lösungen,Aluminiumschweißmaschinen,CNC-Drehmaschinen,CNC-Fräszentren,CNC-Verfahren,Fließpressen,Stand- und Schweißfertigungen,Tambach-Dietharz,28494294.0,350-600,350,131250
+voestalpine Wire Germany GmbH,https://www.voestalpine.com,False,Automobilprodukte,Energieprodukte,Luft- und Raumfahrtprodukte,,,,,,,Finsterwalde,4014750.0,120-200,120,45000
+Bültmann-Gruppe GmbH,https://www.bueltmann-gruppe.com,True,Einbaufertige Systemteile,Rollprofile,Standard- und DIN-Profile,Lasermaschinen,Profilieranlagen,Werkzeugmaschinen,Biegen,Laserschneiden,Profilieren,Sundern (Sauerland),102639.0,No Match,,
+Steeltec GmbH,https://steeltec-group.com,False,Engineering steels,Stainless steels,Tool steels,,,,,,,Düsseldorf,11541379.0,No Match,,
+H. Hesse,https://www.hessekaltprofile.de,True,Bearbeitungen,Kaltprofile,Metallteile,Biegemaschinen,Rollformmaschinen,Stanzmaschinen,Biegen,Kaltwalzen,Schneiden,Schwerte,736834.0,15-20,15,5625
+Dossmann GmbH,https://www.dossmann-eisengiesserei.de,True,Antriebstechniken,Maschinenbauten,Pressenbauten,,,,Bearbeitungstechniken,Gusstechniken,Montagetechniken,Walldürn,2731024.0,120-200,120,45000
+Bödenpresswerk Daaden GmbH,https://bodenpresswerk.de,True,Flache Böden,Kesselböden,Klöpperböden,Kantenbearbeitungsmaschinen,Oberflächenbehandlungsmaschinen,Wärmebehandlungsmaschinen,Bördel,Kümpel,,Daaden,3199113.0,120-200,120,45000
+Mack Alu-Systeme GmbH,https://www.mack-alusysteme.de,True,Aluminium-Profile,Aluminium-Strangpressprofile,CNC-bearbeitete Baugruppen,CNC-Fräsmaschinen,Montagemaschinen,Schweißmaschinen,Aluminium-Schweißungen,Baugruppenmontagen,CNC-Bearbeitungen,Klettgau,1972557.0,80-120,80,30000
+Ostseestaal GmbH & Co. KG,http://www.ostseestaal.de,True,Architektur-Produkte,Maritime-Produkte,Produkte für erneuerbare Energien,Formmaschinen,Schneidemaschinen,Schweißmaschinen,Kaltumformungen,Montagen,Schweißens,Stralsund,1458921.0,40-60,40,15000
+Metallwerk Sundern Otto Brumberg,https://mesu.de/de/,False,,,,,,,,,,Sundern (Sauerland),1934966.0,80-120,80,30000
+THIELE GmbH & Co. KG,https://www.thiele.de,False,Flach- / DUALINK®-Ketten,Rundstahlketten,Super Flachketten,Bearbeitungsmaschinen,Oberflächenveredelungsmaschinen,Schmiedemaschinen,Mechanische Bearbeitungen,Oberflächenveredelungen,Schmieden,Iserlohn,14466228.0,350-600,350,131250
+FILIGRAN Trägersysteme GmbH & Co. KG,https://www.filigran.de,False,Decoiled Reinforcing Steels,FILIGRAN® Lattice Girders,FILIGRAN® Punching Shear Reinforcements,,,,,,,Leese,3057633.0,No Match,,
+vR production (DUKTUS) gmbh,https://www.vonroll-hydro.world/de/,False,Armaturen,Hydranten,Rohre,,,,,,,Wetzlar,9039202.0,200-350,200,75000
+Weinmann Aach AG,https://www.weinmann-aach.de,True,Aluminiums,Buntmetalle,Edelstähle,Erodiermaschinen,Fräsmaschinen,Sägen,Bearbeitungen,Oberflächenveredelungen,Veredelungen,Dornstetten,498185.0,10-15,10,3750
+Albert Hoffmann GmbH,https://albert-hoffmann.de/de/,True,Planung,Shredderanlagen und Rotoren,Stahlguss,,,,Gießereiprozesse,Mechanische Bearbeitungen,Wärmebehandlungen,Eschweiler,3078881.0,120-200,120,45000
+Lintorfer Eisengießerei GmbH,https://www.lintorfereg.de,False,Kokillen,Zubehörteile,,,,,,,,Ratingen,2464283.0,No Match,,
+Stahlrump GmbH & Co. KG,https://stahlrump.de/de/,False,,,,,,,,,,Iserlohn,6237664.0,200-350,200,75000
+Hagener Feinstahl GmbH,http://www.hagener-feinstahl.de/de/,True,Drähte,Ripinox® Betonrippenstähle,Seile und Litzen,,,,Drahtziehereien,EDM-Drahtproduktionen,Nichteisenmetallurgien,Hagen,2172448.0,80-120,80,30000
+WICKEDER PROFILE WALZWERK GmbH,http://www.wickeder-profile.de,False,Profile für Markisensysteme,Profile für Solaranlagen,Profile für Zaun- und Toranlagen,,,,,,,Wickede (Ruhr),1536834.0,60-80,60,22500
+GWG Gasflaschenwerk Grünhain GmbH,https://www.gasflaschenwerk.de,False,Kältemittelflaschen,Propangasflaschen,Treibgasflaschen,Handling-Roboter-Systeme,Schweißroboter,Ziehzentren,Roboter-Handling,Schweißen,Ziehen,Grünhain-Beierfeld,1114650.0,15-20,15,5625
+Warmpresswerk Max B. Schachmann GmbH,https://www.warmpresswerk.de,True,Bauteile für den Maschinenbau,Bauteile für die Lebensmittelproduktion,Schmiedeprodukte für die Medizintechnik,,,,Schmieden,Warmpressen,,Niederstadtfeld,2144867.0,No Match,,
+Eisenwerk Würth GmbH,https://www.wuerth-strahlmittel.de,False,Hochwertige Strahlmittel,Mehrwegstrahlmittel,Strahlmittel,,,,,,,Bad Friedrichshall,1650420.0,No Match,,
+ESTA-Rohr-Gesellschaft mbH,https://www.esta-rohr.de/de/,False,,,,,,,,,,Siegen,1823266.0,80-120,80,30000
+Sirch Behältertechnik GmbH,https://www.sirch.com,False,Containers,Railroad Containers,Tankservices,,,,,,,Löbichau,384023.0,10-15,10,3750
+Rudolf Wiegmann Umformtechnik GmbH,https://wiegmann-gruppe.de,False,Industriemontagen,Metallprofile,Pulverbeschichtungen,,,,,,,Bersenbrück,3308047.0,120-200,120,45000
+P.G.S. Plettenberger Gesenkschmiede GmbH,https://www.georg-group.de,False,Fahrzeugbauteile,Gesenkschmiedeteile,Maschinen- und Anlagenbauteile,,,,,,,Plettenberg,4638598.0,120-200,120,45000
+Kemptener Eisengießerei Adam Hönig AG,http://www.kemptener-eisengiesserei.de,False,Gusseisen mit Kugelgraphiten,Gusseisen mit Lamellengraphiten (DIN EN 1561),,,,,Bearbeitungen,Gießens,,Kempten (Allgäu),863460.0,15-20,15,5625
+SHB Stahl- und Hartgusswerk Bösdorf GmbH,https://www.shb-guss.de,True,Gießereiprodukte,Gussteile,Hartgusswerkstoffe,Erodiermaschinen,Fräsmaschinen,Gießmaschinen,Bearbeitungsprozesse,Gießprozesse,Qualitätssicherungsprozesse,Leipzig,2840489.0,No Match,,
+SÜD-Metall Beschläge GmbH,https://www.suedmetall.com,False,Beschläge,Handläufe,Metall- und Glasbauten,,,,,,,Ainring,226949.0,No Match,,
+Schindler Handhabetechnik GmbH,https://www.schindler-handhabe.de,False,Ersatzteile,Qualitätsservices,Technische Services,,,,,,,Bad Königshofen im Grabfeld,212036.0,No Match,,
+LTI-Metalltechnik GmbH,https://www.lti-metalltechnik.de,True,Blechbearbeitungsmaschinen,Konstruktionsdienstleistungen,Schweißtechnikmaschinen,CNC-Blechbearbeitungsmaschinen,Fräsmaschinen,Schweißmaschinen,Blechbearbeitungen,Schweisstechniken,Umformtechniken,Schöntal,5894802.0,200-350,200,75000
+ChromStahl Stahl- und Metallhandel GmbH,https://chromstahl.de,False,Dessinierte Edelstahlbleche,Edelstahlbleche,Geprägte Edelstahlbleche,Prägeanlagen,,,Oberflächenbearbeitungen,,,Garbsen,299164.0,No Match,,
+Bender-Ferndorf Rohr GmbH,http://www.bender-ferndorf.de/de/,False,,,,,,,,,,Kreuztal,3037348.0,120-200,120,45000
+INMET Stahl GmbH & Co. KG,https://www.inmet.de,False,Profile,Rohren,Spaltbänder,,,,,,,Bochum,5956827.0,200-350,200,75000
+KÖBO GmbH & Co. KG,https://www.koebo.com,False,Antriebsketten,Förderketten,Kettenräder und Scheiben,,,,,,,Wuppertal,105426.0,No Match,,
+Heuschkel Druckguß GmbH,https://www.heuschkel-druckguss.de,True,Aluminium-Druckgüsse,Zink-Druckgüsse,,Druckgießmaschinen,Druckgussformen,Kolbenkammern,Druckgießen,,,Nürnberg,249688.0,No Match,,
+BOS GmbH,https://www.bestofsteel.de,False,Fensterzargen,Stahlzargen,Türzargen,,,,,,,Emsdetten,1361650.0,21-40,21,7875
+Drahtwerk Waidhaus GmbH,http://www.drahtwerk-waidhaus.de,False,Beratungen & Planungen,Drähte,Litzen & Seile,,,,,,,Waidhaus,17266994.0,No Match,,
+Heinz Gothe GmbH & Co. KG,https://www.gothe-edelstahl.de,True,Apparatebauten,Behälterbauten,Rohre/Fittings,,,,,,,Mönchengladbach,378677.0,No Match,,
+Vulcast Germany GmbH,https://www.vulcast.de,False,,,,,,,,,,Jünkerath,1257355.0,40-60,40,15000
+Butting Könnern GmbH,https://www.butting.com/de/,False,Anlagenbau,Architektur und Design,"Behälter, Tanks und Apparate",,,,,,,Könnern,4071266.0,120-200,120,45000
+Gebhardt - Stahl - GmbH,https://www.gebhardt-stahl.de,False,Lufttechniken,Spezialprofile,Verstärkungsprofile,Heißluftschweißmaschinen,Körnerpressen,Luftdichtheitsprüfgeräte,Montagen,Rollformern,Schweißen,Werl,1558320.0,60-80,60,22500
+Rudolf Flender Rohr GmbH,https://www.flender-rohr.de,False,Leitungsrohre,Profilrohre,Rundrohre,,,,,,,Siegen,1781118.0,60-80,60,22500
+Badische Drahtwerke GmbH,https://bdw-kehl.com,False,Betonstahl-Produkte,Bewehrungsprodukte,Stahlgewebe,,,,,,,Kehl,4636438.0,120-200,120,45000
+PS Laser GmbH & Co. KG,https://www.ps-laser.de,True,Biegen und Kanten,Laserzuschnitte,Schweißbaugruppen,CNC-Maschinen,,,Kanten und Rundwalzen,Laserschneiden,Schweißen,Thedinghausen,4756606.0,120-200,120,45000
+Husemann & Hücking Profile GmbH,https://husemannhuecking.de,False,KP scharfkant-Übersichten,SEQUOIASTEELs,WP PROFIL-Übersichten,,,,,,,Iserlohn,552923.0,10-15,10,3750
+Saarschmiede GmbH Freiformschmiede,https://www.saarschmiede.com,True,Allgemeine Maschinen,Kraftwerksmaschinen,Speziallegierungen,CNC-gesteuerte Bearbeitungsmaschinen,Formmaschinen,Schmelzöfen,Formen,Mechanische Bearbeitungen,Schmelzen,Völklingen,30494.0,No Match,,
+Rolf Körner GmbH,https://www.rolfkoerner.de,False,Drahtgewebe,Filter,Ronden,Formmaschinen,Klebmaschinen,Lötmaschinen,Formen,Kleben,Löten,Niederzier,309580.0,10-15,10,3750
+DWK Drahtwerk Köln GmbH,http://www.dwk-koeln.de,False,Federstähle,Spezialstähle,Vorspannstähle,,,,,,,Köln,6161527.0,200-350,200,75000
+Wilhelm Schwarz & Co. Bewehrungstechnik,http://schwarz-bewehrungstechnik.de,False,Lagermatten,Listenmatten,Vorratsmatten,,,,,,,Schlüsselfeld,2091350.0,80-120,80,30000
+Busch + Kunz GmbH & Co. KG,https://www.busch-kunz.de,False,Reduzierstücke,Schweißfittings,T-Stücke,,,,,,,Burbach,2474969.0,80-120,80,30000
+FRANK Walz- und Schmiedetechnik GmbH,https://frank-original.com,False,Components for agricultural technologies,Wear parts,OEM products for agricultural machinery manufacturers,,,,,,,Hatzfeld (Eder),5090487.0,200-350,200,75000
+Franken-Apparatebau GmbH,https://franken-apparatebau.de,False,Apparates,Rohrleitungen,,,,,,,,Oberhausen,1431136.0,40-60,40,15000
+Dillenberg GmbH & Co. KG,https://www.dilco.de,True,Kontinuierlich gegossene Rohre,Sandguss- und Modellgussteile,Zentrifugalgießteile,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Endbearbeitungen,Kontinuierliches Gießen,Modellgüsse,Düsseldorf,1811416.0,80-120,80,30000
+Deutsche Nickel GmbH,https://www.deutsche-nickel.de,True,Nickeldrähte,Nickelstangen,Schweißzusatzwerkstoffe,,,,Drahtverarbeitungen,Stangenfertigungen,Wärmebehandlungen,Schwerte,4158819.0,120-200,120,45000
+Dorstener Drahtwerke,https://dorstener-drahtwerke.de,False,Drahtgewebe,Schwergewebe,Stahldraht,,,,Oberflächenbehandlungen,Schweißen,Weben,Dorsten,7316096.0,200-350,200,75000
+Wickeder Westfalenstahl GmbH,https://www.wickeder-group.de,False,,,,,,,,,,Wickede (Ruhr),5662257.0,200-350,200,75000
+Flanschenwerk Bebitz GmbH,http://www.bebitz.de,False,Flanschen,Schmiederinge,,,,,,,,Könnern OT Bebitz,683794.0,10-15,10,3750
+Hubl GmbH,https://www.hubl-gmbh.de,True,Beratungen,Blechtechniken,Engineerings,Biegenmaschinen,Blechbearbeitungsmaschinen,Laserschneidmaschinen,Biegen,Blechbearbeitungen,Laserschneiden,Vaihingen an der Enz,421482.0,No Match,,
+PHILIPP GmbH,https://www.philipp-gruppe.de,False,Bautechniken,Hydrauliksysteme und Komponenten,Seil- und Hebetechniken,,,,,,,Aschaffenburg,428525.0,10-15,10,3750
+Gülde GmbH & Co KG Kaltwalzwerk,https://www.guelde.de/de/,False,,,,,,,,,,Kamen,1625922.0,60-80,60,22500
+EZM Edelstahlzieherei Mark GmbH,https://www.ezm-mark.de,True,Blankstähle,Lohnarbeiten,Profile,,,,,,,Wetter (Ruhr),4489691.0,120-200,120,45000
+Gontermann-Peipers GmbH,https://www.gontermann-peipers.de,False,Gussprodukte,Nuklearbehälter,Walzen,,,,Handformgüsse,Kokillengüsse,Schleudergüsse,Siegen,6641545.0,No Match,,
+GeisslerWista GmbH,https://www.gmh-gruppe.de,False,Geschmiedete Produkte,Rohstahlprodukte,Warmgewalzte Produkte,,,,,,,Witten,4996530.0,120-200,120,45000
+Haller Industriebau GmbH,https://haller.de,False,Dachtechniken,Industriebauten,Werbetechniken,,,,,,,Villingen-Schwenningen,1391007.0,40-60,40,15000
+TPS-Technitube Röhrenwerke GmbH,https://www.tps-technitube.com,False,Edelstahlrohre,Flansche und Fittings,Ölfeldrohre,,,,,,,Daun,2961471.0,120-200,120,45000
+Gesellschaft für Wolfram-Industrie mbH,https://wolfram-industrie.de,False,Wolfram-Elektroden,Wolfram-Halbzeuge,Wolfram-Konstruktionsteile,,,,,,,Traunstein,658087.0,10-15,10,3750
+Stahl- und Drahtwerk Röslau,https://www.roeslau-draht.com,False,Federstahldrahts,Musiksaiten,Sonderprodukte,,,,,,,Röslau,1565437.0,60-80,60,22500
+Stahlkontor GmbH & Co KG,https://stahlkontor.com,False,Produkte für die Industrien,Produkte für die Luftfahrten,Produkte für die Verteidigungen,,,,,,,Hagen,1215603.0,21-40,21,7875
+Gabarró Deutschland GmbH,https://gabarro.eu/de/,False,G-BRIGHTs gezogene Drähte,G-MAXs geglühte gezogene Drähte,G-PACK+s geglühte gezogene Drähte,,,,Drahtziehen,Mechanische Entzundern,,Brandenburg an der Havel,5325509.0,200-350,200,75000
+Müller Feinblechbautechnik GmbH,https://www.mueller-fbt.de,True,Blechverarbeitungen,Reinraumtechniken,Vertragsfertigungen,Biegemaschinen,Laserschneidanlagen,Schweißroboter,Biegen,Entgraten,Laserschneiden,Frammersbach,2454314.0,80-120,80,30000
+NEDRI Industriedraht GmbH,https://www.nedri.de,False,Automatenstähle,Eisendrähte,gerichtete Stäbe,,,,,,,Hamm,399130.0,10-15,10,3750
+Gebr. Grieshaber GmbH,http://schwarzwaldstahl.de,False,Drähte,Ringe,Stabstähle,Drahtziehanlagen,Funkenspektrometer,Richtflügelmaschinen,Beizanlagen,Funkenspektrometer,Glühanlagen,Triberg im Schwarzwald,833439.0,15-20,15,5625
+Geisselmann GmbH,https://www.geisselmann.de/de/,False,,,,,,,,,,Freiberg am Neckar,126373.0,No Match,,
+Heidenreich & Harbeck GmbH,https://www.hh-moelln.de,True,Entwicklungsdienstleistungen,Modellbau-Dienstleistungen,Qualitäts-Gussteile,,,,Sandgussverfahren,gießtechnische Simulationen,mechanische Bearbeitungen,Mölln,3120763.0,120-200,120,45000
+König Metall GmbH & Co. KG,https://www.koenigmetall.com,True,Blechern,,,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegen,Isolierungen,Laserschneiden,Gaggenau,10555479.0,200-350,200,75000
+ZGG - Zeitzer Guss GmbH,https://www.silbitz-group.com/de/,False,Gussbauteile für Motoren,Gussbauteile für die Antriebstechnik,Windkrafttechniken mit hochbelastbaren Bauteilen,,,,,,,Zeitz,13701876.0,350-600,350,131250
+Hermann Klincke J. H. Sohn GmbH & Co. KG,https://www.claas-draht.de,False,Kaltkopfdrähte,durchgehärtete Wälzlagerdrähte,wärmebehandelbare Federstähle,Beizmaschinen,Drahtziehmaschinen,Glühmaschinen,Beizungen,Drahtzieher,Glühungen,Altena,201155.0,No Match,,
+BRUGG Rohrsysteme GmbH,https://www.bruggpipes.com,False,Rohrsysteme für Industrieanlagen,Rohrsysteme für Nah- und Fernwärme,Rohrsysteme für Warm- und Kaltwasser,,,,,,,Wunstorf,4383198.0,120-200,120,45000
+MetallArt GmbH,https://www.metallart-treppen.de,False,Geländer,Skulpturale Treppen,Treppen,,,,,,,Salach,1177625.0,21-40,21,7875
+Ervin Germany GmbH,https://www.ervin.eu,False,AMACASTS,AMACHROMES,AMASTEELS,,,,,,,Sprockhövel,10530164.0,No Match,,
+Mittelrheinische Metallgießerei H. Beyer GmbH & Co. KG,https://www.mmhb.de,False,Aluminiums,Messings,Rotgüsse / Bronzen / Bleibronzen,,,,,,,Andernach,510366.0,10-15,10,3750
+Adolf Föhl GmbH + Co. KG,https://www.foehl.de,True,Föhlan-Technologien,Hybrid-Technologien,Zinkdruckgüsse,Zinkdruckgüssesmaschinen,,,Föhlan-Technologien,Hybrid-Technologien,Zinkdruckgüsse,Rudersberg,2070607.0,80-120,80,30000
+Leonhard Breitenbach GmbH,https://www.breitenbach.de,True,Kalanderwalzen,Mischwalzen,"Thermowalzen, Kalanderwalzen & Walzenmäntel",Beschichtungsmaschinen,CNC-Maschinen,Schleifmaschinen,Beschichtungen,Konstruktionen,Schleifen,Siegen,679129.0,10-15,10,3750
+Feinblech Systeme GmbH,http://www.feinblech-systeme.de,True,Embedded Gehäuse,Medizinprodukte,Produkte für regenerative Energien,Biegemaschinen,Entgratmaschinen,Pulverbeschichtungsanlagen,Abkanten und Schwenkbiegen,Entgrattechniken,Montagetechniken,Finnentrop,569737.0,10-15,10,3750
+PAVOY GmbH,https://www.pavoy.de,False,Archivierungsschränke,Betriebliche Funktionsschränke,Defibrillatorschränke,,,,,,,Hillesheim,1235352.0,40-60,40,15000
+Quadrus Metalltechnik GmbH,https://www.quadrus.de,True,Blechbearbeitungen,Blechkonstruktionen,Blechzuschnitte,CNC-Laserschneidmaschinen,CNC-Rohrlaserschneidmaschinen,CNC-Stanz-Nibbelmaschinen,Lagerlogistiken,Laserschneiden,Montagen,Schmidgaden,5750589.0,200-350,200,75000
+TRIDELTA Hartferrite GmbH,https://tridelta.de/de/,False,Magnetismen,Sintertechnologien,Technische Keramiken,,,,,,,Hermsdorf,700234.0,15-20,15,5625
+Sachsen Guss GmbH,https://www.sachsenguss.de,True,Bearbeitete Gussteile,Gussteile bis 25 t,Gussteile mit Stückgewichten von bis zu 350 kg,Bearbeitungsmaschinen,Handformgussmaschinen,Maschinenformgussmaschinen,Handformgüsse,Maschinenformgüsse,Mechanische Bearbeitungen,Chemnitz,17250521.0,350-600,350,131250
+SCHORISCH Magis GmbH,https://schorisch-gruppe.de,False,Domains,,,,,,,,,Karstädt,767091.0,15-20,15,5625
+Ernst Möschle Behälterbau GmbH,https://moeschle.com,False,Brauereitanks,Fruchtsafttanks,Weintanks,,,,,,,Ortenberg,188393.0,No Match,,
+Lenz Kämper GmbH & Co. KG,http://www.lenzkaemper.de,True,Montagetechniken,Umformtechniken,Verbindungstechniken,,,,,,,Lüdenscheid,527101.0,10-15,10,3750
+Sumitomo Electric Hartmetallfabrik GmbH,https://www.sumitomotool.com,False,Bohrwerkzeuge,Drehwerkzeuge,Fräswerkzeuge,,,,,,,Lauchheim,8231064.0,200-350,200,75000
+Welser Profile Deutschland GmbH,https://www.welser.com,True,Profillösungen,Spezialprofile aus Stahl,Werkstoffe für Profilen,Biegemaschinen,Fügemaschinen,Qualitätssicherungsmaschinen,Biegen,Fügen,Qualitätssicherungen,Bönen,17602389.0,350-600,350,131250
+KRS - SEIGERT GmbH,https://www.krs-seigert.de,False,,,,,,,,,,Barchfeld-Immelborn,6340526.0,200-350,200,75000
+Julius Schüle Druckguss GmbH,https://www.schuele.de,False,Druckguss-Teile,Druckguss-Teile für die Industrien,Druckguss-Teile für die Mobilitätsbranchen,,,,,,,Schwäbisch Gmünd,1024461.0,21-40,21,7875
+Chr. Höver & Sohn GmbH & Co. KG,https://www.hoever-sohn.com,False,Sonderflansche,geschmiedete Lochscheiben,geschmiedete Ringe,,,,,,,Lindlar,1251788.0,15-20,15,5625
+Wöhrle GmbH & Co. KG,https://www.woehrle.de/de/,True,Baugruppen,"Stanz-, Zieh-, Press- und Drehteile",Werkzeuge,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,Mechanische Bearbeitung,Montageprozesse,Oberflächenveredelung,Wildberg,3105233.0,120-200,120,45000
+Saar-Hartmetall und Werkzeuge GmbH,https://www.saar-hartmetall.de,False,Hartmetallsorten,Walzwerksbedarfe,Zerspanungswerkzeuge,,,,,,,Püttlingen,466528.0,10-15,10,3750

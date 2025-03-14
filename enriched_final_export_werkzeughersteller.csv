@@ -1,0 +1,104 @@
+Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3,Ort,technische Anlagen und Maschinen 2021/22,Maschinen_Park_Size,Maschinen_Park_var,hours_of_saving
+wolfcraft GmbH,https://www.wolfcraft.com/en/,False,Handwerkzeuge,Maschinenzubehör,Werkstattausrüstungen,,,,,,,Kempenich,1882671.0,80-120,80,30000
+Steinbach & Vollmann GmbH,https://www.stuv.de,False,Beschläge,Scharniere,Schlösser,,,,,,,Heiligenhaus,233232.0,No Match,,
+Gerd Eisenblätter GmbH,https://www.eisenblaetter.de,False,Elektrogeräte,Polier- und Pflegemittel,Schleifwerkzeuge,Bandschleifer,Satiniermaschinen,Schleifmaschinen,Polieren,Satinieren,Schleifen,Geretsried,753481.0,15-20,15,5625
+VON ZITZEWITZ GRUPPE GmbH & Co. KG,https://www.cwalter.de/de/,False,Handwerkzeuge,Hydraulikwerkzeuge,Schraubwerkzeuge,,,,,,,Wuppertal,378195.0,10-15,10,3750
+Altrad Lescha Atika GmbH,https://www.lescha-atika.de,False,Baumaschinen,Gartenmaschinen,Holzbearbeitungsmaschinen,,,,,,,Burgau,234316.0,No Match,,
+Hufschmied Zerspanungssysteme GmbH,https://www.hufschmied.net,True,CNC-Fräser,Laserschneidanlagen,Schleifmaschinen,Fräsmaschinen,Laserschneidmaschinen,Schleifmaschinen,Fräsen,Laserschneiden,Schleifen,Bobingen,1909277.0,80-120,80,30000
+Inovatools Eckerle & Ertel GmbH,https://www.inovatools.eu,False,Kataloge,Werkzeugfinder,Werkzeugkonfiguratoren,,,,,,,Kinding,4993947.0,120-200,120,45000
+ZCC Cutting Tools Europe GmbH,https://www.zccct-europe.com,False,Bohrer,Drehwerkzeuge,Fräser,,,,Bohrungen,Drehungen,Fräsungen,Düsseldorf,786233.0,15-20,15,5625
+Heller Tools GmbH,https://www.hellertools.de/de/,False,Betonbohrer,Hammerbohrer,Meißel,,,,,,,Dinklage,1844253.0,80-120,80,30000
+Günter Effgen GmbH,https://effgen.com,False,Abrichtwerkzeuge,Polierwerkzeuge,Schleifwerkzeuge,Abrichtmaschinen,Poliermaschinen,Schleifmaschinen,Abrichten,Polierens,Schleifen,Herrstein,2411494.0,80-120,80,30000
+Gleason Cutting Tools GmbH,https://www.gleason.com/de/,False,Spannmittel,Verzahnungmaschinen,Werkzeuge,Fräsmaschinen,Honmaschinen,Schleifmaschinen,Fräsen,Honen,Schleifen,Eisenbach (Hochschwarzwald),1463496.0,40-60,40,15000
+Ruwac Industriesauger GmbH,https://www.ruwac.de,False,Absauganlagen,Akkusauger,Industriesauger,,,,,,,Melle,772093.0,15-20,15,5625
+HUNTER Deutschland GmbH,https://www.hunter.com/de/,False,Achsvermessungsanlagen,Radauswuchtmaschinen,Reifenmontiermaschinen,,,,,,,Puchheim,268826.0,No Match,,
+BDS Maschinen GmbH,https://www.bds-maschinen-gmbh.de,False,Kantenfräsmaschinen,Kernbohrer,Magnet-Kernbohrmaschinen,,,,,,,Mönchengladbach,1012828.0,No Match,,
+Elektrowerkzeuge GmbH Eibenstock,https://www.eibenstock.com/de/,False,Antriebe & Motoren,Elektrowerkzeuge,Zubehör,Bohrmaschinen,Schleifmaschinen,Sägen,Bohren,Schleifen,Sägen,Eibenstock,3496509.0,120-200,120,45000
+Joh. Clouth GmbH & Co. KG,https://www.clouth.com/de/,False,Kreppschaber,Schaberklingen,Streichmesser,,,,,,,Hückeswagen,826004.0,No Match,,
+KULLEN-KOTI GmbH,https://www.kullen.de/de/,False,Bürsten,Fachlexika,Kataloge,,,,,,,Reutlingen,1478335.0,40-60,40,15000
+Hartmetall-Werkzeugfabrik Paul Horn GmbH,https://www.horn-group.com,False,Hochharte Schneidstoffe,Sonderwerkzeuge,Zerspanungswerkzeuge,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehungen,Fräsungen,Schleifungen,Tübingen,18636469.0,No Match,,
+Eugen Lägler GmbH,https://www.laegler.com,False,Ersatzteile,Maschinen,Schleif- und Fräswerkzeuge,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen,Güglingen,459569.0,10-15,10,3750
+Spezialwerkzeuge GmbH Zella-Mehlis,https://swz-zm.de,True,Lohnräume,Räumwerkzeuge,Sonder Räumwerkzeuge,CNC-Schärfmaschinen,,,Härten,Schleifen,Spannen,Zella-Mehlis,3716827.0,120-200,120,45000
+Karl Schüßler GmbH & Co. KG,https://www.k-schuessler.de,False,Schrumpfsysteme,Werkzeugspannsysteme,Wuchtgeräte,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen,Bodelshausen,3238450.0,120-200,120,45000
+Fichtner & Schicht GmbH,https://fi-sch.de,True,Elektroformen,Modell- und Vorrichtungsbauten,Werkzeugbauten,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Elektroformen,Modellbauten,Werkzeugbauten,Schlangen,157104.0,No Match,,
+Anton Kessel GmbH,https://www.die-werkbank.com/de/,False,Arbeitstische,Rollcontainer,Werkbänke,,,,,,,Langenenslingen,467835.0,10-15,10,3750
+ZEROCLAMP GmbH,https://www.zeroclamp.com,False,Modulare Spannschienen Systeme,Nullpunktspannsysteme,Spanntechnik,,,,,,,Bruckmühl,1578816.0,60-80,60,22500
+LINCOLN ELECTRIC DEUTSCHLAND GmbH,https://www.oerlikon-welding.com,False,Cooper™ Schweiß-Cobots,HYPERFILL®,SPRINTER S-RANGE,,,,Schweißarbeiten,,,Eisenberg (Pfalz),7771442.0,200-350,200,75000
+Schwegler Werkzeugfabrik GmbH & Co. KG,https://www.schwegler.de,True,Dienstleistungen,Sonderanfertigungen,Werkzeuge,Bohrungen,Fräsmaschinen,Schleifungen,Bohren,Fräsen,Schleifen,Vöhringen,258476.0,No Match,,
+Mogatec GmbH,https://www.mogatec.de/de/,False,Gartengeräte,Heckenscheren,Kettensägen,Automatisierte Drahtschneidemaschinen,CNC-Maschinen,Laserschneidemaschinen,CNC-Bearbeitungen,Laserschneiden,Montagen,Drebach,4164958.0,120-200,120,45000
+Orbis Will GmbH + Co. KG,https://www.orbiswill.de,False,Bolzenschneider,Kunststoffteile,Zangen,2K-Spritzgussmaschinen,3K-Spritzgussmaschinen,Härteanlagen,Härten,Montagen,Spritzgießens,Ahaus,1550358.0,60-80,60,22500
+Kelch GmbH,https://www.kelch.de,False,Messmittel,Präzisionswerkzeuge,Werkzeugeinstellgeräte,,,,,,,Weinstadt,750472.0,15-20,15,5625
+MESTO Spritzenfabrik,https://www.mesto.de,False,Drucksprüher,Gießkannen,Sprühgeräte,,,,,,,Freiberg am Neckar,176421.0,No Match,,
+botek Präzisionsbohrtechnik GmbH,https://www.botek.de/de/,True,Einlippenbohrer,Fräser,Zweilippenbohrer,,,,Bohren,Fräsen,Schleifen,Riederich,13763332.0,350-600,350,131250
+Comet Schleifscheiben GmbH,http://www.comet-d.de,False,,,,,,,,,,St. Ingbert,2367278.0,No Match,,
+Stanley Black & Decker Deutschland GmbH,https://www.blackanddecker.de,False,Elektrowerkzeuge,Gartengeräte,Haushaltsreinigungen,,,,,,,Idstein,667898.0,10-15,10,3750
+J. König GmbH & Co. Werkzeugfabrik,https://www.j-koenig.de,False,Hilfsmittel,Maschinen,Werkzeuge,Diamantwerkzeuge,Fräsmaschinen,Schleifmaschinen,Diamantbearbeitungen,Fräsen,Schleifen,Karlsruhe,805250.0,15-20,15,5625
+Consul Werkstattausrüstung GmbH,https://www.consul-gmbh.com,False,Hebebühnen,Hebetechniken,Sonderlösungen,,,,,,,Halver,565872.0,10-15,10,3750
+SOLO Kleinmotoren GmbH,https://shop.solo.global,False,Akkugeräte,Spritzen,Sprühgeräte,,,,,,,Sindelfingen,670779.0,10-15,10,3750
+Paul Dümmel Werkzeugfabrik GmbH,https://www.duemmel.de/de/,False,Bohrungswerkzeuge,Drehwerkzeuge,Fräswerkzeuge,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Bohrungen,Drehungen,Fräsungen,Hülben,2317972.0,80-120,80,30000
+Weisskopf Werkzeuge GmbH,https://www.weisskopf-tools.de,False,Bohrwerkzeuge,Fräswerkzeuge,Werkzeuge,5-Achs-Schleifmaschinen,Beschichter,Schleifmaschinen,Beschichtungen,Fräsen,Schleifen,Meiningen,3149821.0,120-200,120,45000
+THERMOTEX NAGEL GmbH,https://www.thermo-tex.de/de/,False,Patchmaschinen,Thermotransferdrucksysteme,Transferpressen,Patchmaschinen,Thermotransferdrucker,Transferpressen,Bedrucke,Drucke,Montagen,Schutterwald,765231.0,15-20,15,5625
+Maschinenfabrik Otto Baier GmbH,https://www.baier-tools.com/de/,False,Elektrowerkzeuge,Ersatzteile,Zubehör,Bohrmaschinen,Fräsmaschinen,Mischmaschinen,Bohren,Fräsen,Mischen,Asperg,819579.0,15-20,15,5625
+BSW Zerspanungswerkzeuge GmbH,https://www.bsw-gmbh.com,False,CBN-Werkzeuge,CVD-Werkzeuge,PKD-Werkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen,Saarwellingen,3236196.0,120-200,120,45000
+GEDORE Automotive GmbH,https://www.gedore-automotive.com,False,Ersatzteile,Reparatur-Services,Spezialwerkzeuge,,,,,,,Donaueschingen,93135.0,No Match,,
+DreBo Werkzeugfabrik GmbH,https://www.drebo.de,False,Anwendungshinweise,Bohrwerkzeuge,Meißelwerkzeuge,,,,,,,Altshausen,1563900.0,No Match,,
+DALEX GmbH & Co. KG,https://www.dalex.de,False,Industriemaschinen,MF-Transformatoren,Roboterschweißzangen,Buckelschweißmaschinen,Punktschweißmaschinen,Rollnahtschweißmaschinen,Buckelschweißungen,Punktschweißungen,Rollnahtschweißungen,Wissen,357774.0,10-15,10,3750
+OTEC Präzisionsfinish GmbH,https://www.otec.de,False,Gleitschleifmaschinen,Schleif- und Poliersysteme,Verfahrensmittel,,,,Oberflächenbehandlungen,Polierens,Schleifen,Straubenhardt,2600234.0,120-200,120,45000
+CERATIZIT Balzheim GmbH & Co. KG,https://www.ceratizit.com/de/,False,Dienstleistungen,Hartmateriallösungen,Zerspanungswerkzeuglösungen,,,,,,,Balzheim,19526251.0,350-600,350,131250
+Feinhütte Halsbrücke GmbH,https://www.feinhuette.de/de/,False,Bleilegierungen,Legierungen,Metallformate,,,,Produktionen,Recyclings,Verarbeitungen,Halsbrücke,2907277.0,120-200,120,45000
+Rennsteig Werkzeuge GmbH,https://www.rennsteig.com/de/,False,Abisolierzangen,Aderendhülsen-Lösungen,Kabelscheren,,,,,,,Viernau,4830675.0,120-200,120,45000
+ZECHA Hartmetallwerkzeugfabrikation GmbH,https://www.zecha.de/de/,False,Mikrowerkzeuge,Schleifwerkzeuge,Stanzwerkzeuge,Fräsmaschinen,Schleifmaschinen,Stanzmaschinen,Fräsen,Schleifen,Stanzen,Königsbach-Stein,1183415.0,No Match,,
+Alfred Jäger GmbH,https://www.nakanishi-jaeger.com,False,Hochfrequenzspindeln,Motorspindeln,Synchron- und Asynchron-Motoren,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen,Ober-Mörlen,604216.0,10-15,10,3750
+FLEX-Elektrowerkzeuge GmbH,https://www.flex-tools.com,False,Akkuwerkzeuge,Luftreiniger,Staubsauger,,,,,,,Steinheim an der Murr,1255576.0,40-60,40,15000
+ELORA Werkzeugfabrik GmbH,https://www.elora.de,False,Schlüssel,Schraubenschlüssel,Steckdosen,,,,,,,Remscheid,34091.0,No Match,,
+United Salon Technologies GmbH,https://www.tondeo.com/de/,False,Friseurscheren,Haarstyler,Rasiermesser,,,,Montagen,Oberflächenbehandlungen,Schleifen,Solingen,1130918.0,21-40,21,7875
+MK-Tools-Service GmbH,https://www.mk-tools-service.de,True,PKD-Sonderwerkzeuge,VHM-Sonderwerkzeuge,sonstige Zerspanungswerkzeuge,CNC-Maschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen,Hauzenberg,1936093.0,80-120,80,30000
+CFH Löt- und Gasgeräte GmbH,https://cfh-gmbh.de,False,Anzünder,Elektrolötgeräte,Gaslötgeräte,,,,,,,Offenau,50873.0,No Match,,
+CEDIMA Diamantwerkzeug- und Maschinenbaugesellschaft mbH,https://www.cedima.com,False,Bohrer,Diamantwerkzeuge,Maschinen,Fräsmaschinen,Schleifmaschinen,Sägen,Fräsen,Schleifen,Sägen,Celle,222011.0,No Match,,
+Krebs & Riedel Schleifscheibenfabrik,https://www.krebs-riedel.de,False,CBNwerkzeuge,Schleifscheiben,Trennscheiben,Schleifmaschinen,Schleifspindeln,Schleifwerkzeugmaschinen,Schleifen,Schruppen,Trennungen,Bad Karlshafen,3183091.0,120-200,120,45000
+falch gmbh,https://www.falch.com/de/,False,Hochdruckreiniger,Wasserstrahlgeräte,Wasserstrahlroboter,,,,,,,Blaubeuren,4640365.0,120-200,120,45000
+Beissbarth GmbH,https://www.beissbarth-online.com,False,ADAS-Kalibriersysteme,Achsvermessungssysteme,Reifendiagnosesysteme,,,,,,,München,265745.0,No Match,,
+TKR Spezialwerkzeuge GmbH,https://www.tkrgroup.com,False,Kabelsysteme,Powertools,Spezialwerkzeuge,,,,,,,Gevelsberg,1248301.0,15-20,15,5625
+HOSCH Fördertechnik Recklinghausen GmbH,https://www.hosch-international.com/wp/,False,Schaber Typ A1,Schaber Typ B6,Schaber Typ C,,,,,,,Recklinghausen,102983.0,No Match,,
+Koll & Cie. GmbH & Co KG,https://kollgermany.de,False,Heckenscheren,Kreissägeblätter,Schneidwerkzeuge,Fräsmaschinen,Laserschneidmaschinen,Schleifmaschinen,Fräsen,Laserschneiden,Schleifen,Neunburg vorm Wald,1075306.0,15-20,15,5625
+INFIELD SAFETY GmbH,https://www.infield-safety.com,False,Gehörschutze,Schutzbrillen,Schutzbrillen mit Sehstärken,,,,,,,Solingen,251286.0,No Match,,
+Robert Röntgen GmbH & Co. KG,https://roentgen-saw.com/de/,False,Sägeblätter,Sägebänder,Zubehör,,,,,,,Remscheid,7377261.0,200-350,200,75000
+Weitkowitz GmbH,https://www.weitkowitz.de,False,Aderendhülsen,Kabelschuhe,Kabelverbinder,,,,,,,Peine,1980616.0,80-120,80,30000
+Wirth GmbH,https://www.wirth-gmbh.com/de/,False,Kantprofile,Spezialformteile,Vakuumhebegeräte,,,,Blechbearbeitungen,Handlings,Montagen,Landsberg,1422936.0,40-60,40,15000
+H. Schönenberger GmbH,https://www.schoenenberger-messer.de,False,Schneidleisten,Schneidrotoren,Unterwassergranulierungen UWG,Fräsmaschinen,Reparaturmaschinen,Schleifmaschinen,Fräsen,Reparaturen,Schleifen,Deizisau,484968.0,10-15,10,3750
+Klingspor AG,https://www.klingspor.de,False,Fiberscheiben,Schleifbänder,Schleifrollen,Bandschleifmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen,Haiger,20789765.0,350-600,350,131250
+Techtronic Industries GmbH,https://www.ttigroup.com,False,Bodenpflegeprodukte,Elektrowerkzeuge,Gartengeräte,,,,,,,Winnenden,70210.0,No Match,,
+PREBENA Wilfried Bornemann GmbH & Co. KG,https://prebena.de,False,Befestigungsmittel,Druckluftnagler,Kompressoren,Automatisierte Fertigungsmaschinen,Druckluftnagler,Kompressoren,Automatisierte Fertigungen,Montagen,Verpackungen,Schotten,687561.0,10-15,10,3750
+Bohle AG,https://www.bohle.com,False,Bademantelhaken,Handtuchhalter,Pullis,,,,,,,Haan,1167317.0,21-40,21,7875
+TBi Industries GmbH,https://www.tbi-industries.com,False,Kühleinheiten,Schweißbrenner,Schweißhelme,,,,,,,Fernwald,629847.0,10-15,10,3750
+ADGA - Adolf Gampper GmbH,https://adga.de/de/,False,Ausstattungen,Holzgliedermaßstäbe,Werbeflächen,,,,,,,Mainhardt,6858806.0,No Match,,
+FREUND VICTORIA Gartengeräte GmbH,https://www.freund-victoria.de,False,Gartengeräte,Scheren,Werkzeuge,,,,,,,Schorndorf,352222.0,No Match,,
+KS Tools Werkzeuge und Maschinen GmbH,https://www.kstools.com,False,Handwerkzeuge,KFZ-Spezialwerkzeuge,LKW-Spezialwerkzeuge,,,,,,,Heusenstamm,524197.0,10-15,10,3750
+FRAISA GmbH Präzisionswerkzeuge,https://www.fraisa.com/de/,False,Bohrwerkzeuge,Fräswerkzeuge,Gewindewerkzeuge,Bohrmaschinen,Fräsmaschinen,Gewindebohrmaschinen,Bohren,Fräsen,Gewinde,Willich,2678761.0,120-200,120,45000
+Bayerische Maß-Industrie,https://www.bmi.de/de/,False,Rahmen- / Kapselbandmaße,Taschenbandmaße,Wasserwaagen,,,,,,,Hersbruck,931251.0,21-40,21,7875
+Makita Engineering Germany GmbH,https://www.makita-engineering.de,False,Akkuwerkzeuge,Elektrowerkzeuge,Handwerkzeuge,,,,,,,Hamburg,1719701.0,60-80,60,22500
+SWM Werkzeugfabrik GmbH & Co. KG,https://www.werkzeugschmiede.de/de/,False,,,,,,,,,,Steinbach-Hallenberg,1340209.0,40-60,40,15000
+Mesko-Pinsel GmbH,https://www.mesko.eu,False,Bürsten,Kunststoffprodukte,Pinsel,,,,,,,Wieseth,2857744.0,120-200,120,45000
+Lessmann GmbH,https://www.lessmann.com,False,Industriebürsten,Streifenbürsten,Zubehör,,,,,,,Oettingen in Bayern,627369.0,10-15,10,3750
+HÜRNER Schweisstechnik GmbH,https://www.huerner.de/de/,False,Heizwendelschweißtechniken,Schweißmaschinen,Stumpfschweißtechniken,Erodiermaschinen,Fräsmaschinen,Laserschneidmaschinen,Montagen,Schnitte,Schweißungen,Mücke,80777.0,No Match,,
+"Wilhelm König, Maschinenbau GmbH",https://koenig-mtm.de,False,Hydraulische Spannsysteme,Mechanische Spannsysteme,Schnellwechselsysteme,,,,,,,Wertheim,2034766.0,80-120,80,30000
+MHS Schneidetechnik GmbH,https://mhs-schneidetechnik.de/de/,False,Brotschneidemaschinen,Fleisch- & Mehrzweckschneider,Gebrauchtmaschinen,,,,,,,Abstatt,152844.0,No Match,,
+Caisley International GmbH,https://www.caisley.de,False,Elektronische Identifizierungsmittel,Ohrmarken,Zubehörartikel,,,,Kunststoffspritzgüsse,Laserbeschriftungen,,Bocholt,2419495.0,80-120,80,30000
+FELO-Werkzeugfabrik GmbH,https://www.felo.com,False,Bits,Schraubendreher,Zangen,,,,,,,Neustadt (Hessen),1579089.0,60-80,60,22500
+Karl-Heinz Arnold GmbH,https://www.arno.de,False,Bohrwerkzeuge,Drehwerkzeuge,Fräswerkzeuge,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Bohrungen,Drehungen,Fräsungen,Ostfildern,2960141.0,120-200,120,45000
+TRIUSO Qualitätswerkzeuge GmbH,https://www.triuso.de,False,Arbeitsbekleidungen,Schneeschieber,Werkzeuge,,,,,,,Buchbach,153461.0,No Match,,
+Friedrich Duss,https://www.duss.com/de/,False,Bohrmaschinen,Diamantbohrmaschinen,Meisselhämmer,,,,,,,Neubulach,230347.0,No Match,,
+Paul Maschinenfabrik GmbH & Co. KG,https://www.paul.eu,False,Kreissägemaschinen,Lagersysteme,Spannbeton-Techniken,,,,,,,Dürmentingen,814128.0,15-20,15,5625
+BEHRINGER EISELE GmbH,https://www.behringer.net,False,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Fräsen,Schleifen,Sägen,Weilheim an der Teck,29587.0,No Match,,
+Probst GmbH,https://www.probst-handling.com,False,Baustellengeräte,Baustoffwerke,LKW-Kran-Anbaugeräte,,,,,,,Erdmannhausen,817759.0,15-20,15,5625
+Jäkel GmbH & Co. KG,https://www.jaekel.eu,False,Messer,Veredelungen,Verschleißteile,,,,,,,Diemelstadt,203875.0,No Match,,
+Starcke GmbH & Co. KG,https://www.starcke.de,False,Schleifbänder,Schleifmittel,Schleifscheiben,,,,Schleifen,,,Melle,6290840.0,No Match,,
+Oregon Tool GmbH,https://www.oregonproducts.com,False,Führungsschienen,Kettensägen,Sägeschienen,,,,,,,Fellbach,738056.0,15-20,15,5625
+Wiha Werkzeuge GmbH,https://www.wiha.com,False,Drehmomentschlüssel,Multitools,Schraubendreher,,,,,,,Schonach im Schwarzwald,3634213.0,120-200,120,45000
+MAFELL AG,https://www.mafell.de,False,Bohren,Schleifen,Sägen,,,,,,,Oberndorf am Neckar,2472872.0,80-120,80,30000
+HAZET-WERK,https://www.hazet.de/de/,False,Betriebseinrichtungen,Handwerkzeuge,Smart Serien,,,,,,,Remscheid,2343683.0,80-120,80,30000
+Alfra GmbH,https://www.alfra.de,False,Hebetechniken,Metallbauten,Schaltschrankbauten,Bohrmaschinen,Magnettechniken,Stanzmaschinen,Bohren,Magnettechniken,Stanzen,Hockenheim,252474.0,No Match,,
+Stanley Black & Decker Outdoor GmbH,https://www.mtdproducts.eu,False,Gartentraktoren,Kettensägen,Rasenmäher,,,,,,,Saarbrücken,2949082.0,120-200,120,45000
+Jäcklin GmbH,https://www.air-end.de,False,Rotoren,Schraubenverdichter,Verdichterstufen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehungen,Fräsungen,Schleifungen,Augsburg,1533687.0,60-80,60,22500
+Philipp Hafner GmbH & Co. KG,https://www.hafner-philipp.de,False,Messnormteile,Sondermessmaschinen,Standardmessgeräte,,,,,,,Fellbach,654338.0,No Match,,
+HPTec GmbH,https://www.bosch-pt.com/ww/,False,Gartengeräte,Werkzeuge,Werkzeugzubehör,,,,,,,Ravensburg,2089492.0,80-120,80,30000

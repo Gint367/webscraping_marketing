@@ -1,0 +1,100 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3
+AKO - Kunststoffe Alfred Kolb GmbH,https://www.ako-kolb.de/de/,True,Präzisionsbaugruppen,Spritzgusswerkzeuge,Thermoplastspritzgüsse,Entnahmeroboter,Spritzgießmaschinen,Zerspanungsmaschinen,Drehen,Erodieren,Fräsen
+Neuhäuser Präzisionswerkzeuge GmbH,https://www.neuhaeuser-controx.de,True,Composite Werkzeuge,Metallkreissägeblätter,Scheibenfräser,,,,,,
+ACTech GmbH,https://www.actech.de/de/,True,Gussteile,Kleinserien,Prototypen,Biegen und Abkantmaschinen,Drehmaschinen,Erodiermaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Schneider Form GmbH,https://www.schneider-form.de,True,CFK / Thermoformen,Druckgussformen,Spritzgießformen,CAD-Maschinen,Heiz- und Kühlgeräte,Materialtrockner,Ausproben,CAD-Konstruktionen,Druckgießverfahren
+Stolz & Seng GmbH,https://stolz-seng.de,True,Formen,Präzisionsteile,Werkzeuge,Spritzgussmaschinen,,,Spritzgießens,Weiterverarbeitungen,
+Carl Hilzinger-Thum GmbH & Co. KG,https://www.hilzinger-thum.de,False,Gummiwalzen,Technische Bürsten,Werkzeugbürsten,,,,,,
+Frielinghaus GmbH,https://www.frielinghaus.de,False,Mähmesserklingen,Rotorspitzen,Strohmesser,,,,Hartbeschichtungen,Pressungen,Prägungen und Schmiedearbeiten
+August Beck GmbH & Co. KG,https://beck.mapal.com,False,Bohrwerkzeuge,Entgratungswerzeuge,Reibahlen,,,,Biegen und Falten,Bohren,Drehen
+MWS Schneidwerkzeuge GmbH & Co KG,https://www.mendritzki.de,True,Bandstähle,Präzisionsteile,Schneidwerkzeuge,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Christian Karl Siebenwurst GmbH & Co. KG,https://siebenwurst.de,True,Formenbauten,Modellbauten,Tool Doctors,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Zeltwanger Maschinenbau GmbH,https://www.zeltwanger.de,True,Dichtheitsprüfungsgeräte,Fertigungsdienstleistungen,Thermomanagement-Lösungen,Dichtheitsprüfmaschinen,Fräsmaschinen,Thermomanagement-Maschinen,Fräsen,Prüfprozesse,Wärmebehandlungen
+SCHEUERMANN + HEILIG GmbH,https://www.sh-gmbh.de,True,Baugruppen,Federn,Stanz-Biegeteile,Exzenterpressen,Multi-Bearbeitungszentren,NC-Fertigungssysteme,Biegen und Abkanten,Montagen und Endbearbeitungen,Schweißen
+MHT Mold & Hotrunner Technology AG,https://www.mht-ag.de,False,Heisskanal-Systeme,Maschinenpartner,PET-Preform-Werkzeuge,,,,Blasformverfahren,Spritzgießverfahren,
+hapema GmbH,https://www.hapema-gmbh.de,True,Ersatz- / Verschleißteile,Prototypen-Fertigungen,Präzisions-Stanztechniken,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Montagen
+Siegfried Hofmann GmbH,https://www.hofmann-impulsgeber.de,True,Multikavitäten-Werkzeuge,Sondermaschinen,Spritzgusswerkzeuge,Fräsmaschinen,Handlingsysteme,Roboterlinien,Entgraten,Fräsen,Kühlungen
+Neuhaus Metallproduktions-GmbH,https://www.neuhaus-metall.de,True,Abkanten,Laserschneiden,Laserschweißen,Abkantpressen,Laserschneidmaschinen,Laserschweißmaschinen,Biegen und Abkanten,Laserschneiden,Schweißen
+WELLGO Gerätetechnik GmbH,https://www.wellgo.de,False,Antriebssysteme,Hygienespender,Sensorgriffe,Erodiermaschinen,Fräsmaschinen,Spritzgussmaschinen,Erodierverfahren,Fräsverfahren,Qualitätskontrollen
+EWM AG,https://www.ewm-group.com/de/,False,Schweißbrenner,Schweißgeräte,Schweißzusatzwerkstoffe,,,,Schweißens,,
+SD Automotive GmbH,https://www.sd-automotive.de,True,Ingenieuren,Karosseriebauten,Prototypenbauten,Biegen und Abkanten,CNC-Bearbeitungszentren,Fräsmaschinen,Biegens und Abkantens,Bohrens,Drehens
+Alfred Konrad Veith GmbH & Co. KG,https://veith-kg.de,True,Eladurs,Federelemente,Formenbauten,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Biege- und Abkantmaschinen,Bohren,Erodieren
+Eckerle GmbH,https://eckerle-gmbh.de,True,Formen- und Werkzeugbauten,Industrielackierungen,Spritzgüsse,3D-Koordinaten-Messmaschinen,Erodiermaschinen,Fräsmaschinen,Erodieren,Fräsen,Funktionskontrollen
+AWEBA Werkzeugbau GmbH Aue,https://www.aweba.de,True,Druckgießformen,Schneidwerkzeuge,Umformwerkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Horst Scholz GmbH & Co. KG,https://www.scholz-htik.de,True,Medizintechniken,Mikrotechniken,Technische Präzisionsteile,Erodiermaschinen,Formenbaumaschinen,Fräsmaschinen,Erodierverfahren,Formenbauten,Fräsverfahren
+Johannes Meier Werkzeugbau GmbH,https://www.jmw-werkzeugbau.de,True,Leerklingen,Prototypwerkzeuge,Transferwerkzeuge,Presshärtungswerkzeuge,Warmumformwerkzeuge,hochmoderne Maschinen,Bearbeitungen,Designs,Kleinserienproduktionen
+Lahnwerk GmbH,https://www.lahnwerk.de,True,Kokillen,Lehren und Vorrichtungen,Modelleinrichtungen,Biegemaschinen,Drehmaschinen,Erodiermaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+PFARR Stanztechnik GmbH,https://pfarr.de/de/,False,Bänder,Folien,Präzisionsstanzteile,,,,Legierungen,Plattierungen,Schneidungen
+Mürdter Metall-,https://muerdter.de/de/,True,Global Tooling-Lösungen,Leichtbau-Komponenten,Spritzgießwerkzeuge,,,,Lackierungen,Montagen,Spritzgießens
+Helmut Diebold GmbH & Co. Goldring-Werkzeugfabrik,https://www.hsk.com,True,Goldringe-Werkzeugaufnahmen,Messtechniken,Schrumpfgeräte,CNC-Bearbeitungszentren,CNC-Fräsmaschinen,Erodiermaschinen,Erodieren,Fräsen,Schleifen
+W.H. Augenstein GmbH,https://www.stanzteile-augenstein.de/de/,True,Steckkontakte,elektromagnetische Abschirmungen,technische Federn,Schnellläuferpressen,Transfer-Stanz-Biegeautomaten,,Biegetechniken,Stanzen,
+FKT Formenbau und Kunststofftechnik GmbH,http://www.fkt-triptis.de,True,Kunststoffkomponenten,Prototyping-Dienstleistungen,Spritzgießwerkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen
+SAV GmbH,https://www.sav.de/de/,False,Magnetsysteme,Spannfutter,Vorrichtungsbauten,,,,,,
+Jakob Lach GmbH & Co. KG,https://www.lach-diamant.de,True,Diamanten- und CBN-Werkzeuge,Fräser,Schleifscheiben,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Bohrungen,Drehungen,Erodierungen
+Heinz Schwarz GmbH & Co. KG,https://www.schwarz-werkzeugbau.de,True,Großwerkzeuge,Karosserieformen,Plattenschneidwerkzeuge,Abkantmaschinen,Biegemaschinen,Bohrmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Dienes Werke für Maschinenteile,https://www.dienes.de,False,Ersatzteile,Führungsleisten,Langmesser,,,,,,
+Modellbau Schönheide GmbH,https://www.mbschoenheide.de,False,Vorrichtungen,Werkzeuge,Zubehörteile,,,,,,
+Amberger Werkzeugbau GmbH,https://www.ambergerwerkzeugbau.de,False,,,,,,,,,
+BMI Technical Services GmbH,https://www.bmigroup.com,False,Abdichtungslösungen,Dachsysteme,Dachziegel,,,,,,
+Modell Technik Formenbau GmbH,https://www.modelltechnik.com,False,,,,,,,,,
+PSM Protech GmbH & Co. KG,https://www.psm-protech.com,False,Band-zu-Band-überformte Kontaktteile,Baugruppen,Kunststoff-Metall-Verbundteile,,,,Ingenieure,Lieferkettenmanagement,Produktionen
+CONCAD GmbH,https://www.concad-gmbh.de,True,Prototypen,Serienteile,Werkzeuge,Fräsmaschinen,Laserschneidanlagen,Pressen,Biegen,Fräsen,Laserschneiden
+Heckler Aktiengesellschaft,https://www.heckler.de,True,Fließpressteile,Kaltmassivumformungen von Stahl,Qualitätszertifikate,Fräsmaschinen,Schleifmaschinen,Spritzgießmaschinen,Kaltmassivumformungen,Schleifens,Spritzgießens
+TRIBO Hartstoff GmbH,https://www.tribo.de/de/,False,Stäbe,Verschleiße,Zerspanungsrohlinge,,,,,,
+CERATIZIT Deutschland GmbH,http://www.ceratizit.com,False,Dienstleistungen,Hartmateriallösungen,Schneidwerkzeugsysteme,,,,,,
+Agathon GmbH & Co. KG,https://www.agathon-moulds.com/de/,False,Formen,Maßgeschneiderte Lösungen,Schokoladenformen,Spritzgießmaschinen,,,Injektionen,Spritzgießens,
+PWG Profilrollen-Werkzeugbau GmbH,https://www.pwgnet.net,False,Dichtungshalteleisten,Führungsschienen,Spannbügel,Biegemaschinen,Fräsmaschinen,Prägemaschinen,Biegen,Eloxale,Fräsen
+TKW Molding GmbH,https://www.tkw-molding.com,True,Baugruppen,Musterteile,Prototypen,,,,After-Sales,Industrialisierungspartner: Von den Klein- bis zu den Großserien,Prototypen- & Pilotserienfertigungen
+FMF-WWF Werkzeug- und Prototypenbau GmbH,https://www.fmf-wwf.de,True,Kleinserien,Prototypen,Serienabsicherungswerkzeuge,Fräsmaschinen,Pressen,,Flächenaufbereitungen,Flächenrückführungen,Fräsen
+Finke Formenbau GmbH,https://www.finke-formenbau.de,True,"Mess-, Prüflehren, Abschneid-, Montagevorrichtungen","Spritz-, Druckgussformen","Stanz-, Umformwerkzeuge",Erodiermaschinen,Fräsmaschinen,,Erodierverfahren,Fräsverfahren,Spritzgießverfahren
+Wink Stanzwerkzeuge GmbH & Co. KG,https://www.wink.de,False,Flexible Dies,Rotationszylinder,SmartGap® Systeme,,,,,,
+Manfred Albrecht GmbH,https://www.albrecht-solingen.de,False,,,,,,,,,
+Bacher GmbH Metallverarbeitung,https://bacher-gmbh.de,True,Konstruktionen & Entwicklungen,Lasern & Abkanten,Montagen,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegen und Abkanten,Erodieren,Fräsen
+MEBA-Metall-Bandsägemaschinen GmbH,https://meba-saw.com,True,Bandsägen,Gehrungsbandsägen,Metallsägen,,,,,,
+HAVLAT Präzisionstechnik GmbH,https://www.havlat.de,True,Baugruppenmontagen,Präzisionsbauteile,Werkzeuge,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Drehungen,Erodierungen,Fräsungen
+Modell- und Formenbau Blasius Gerg GmbH,http://www.gerg.de,True,Designmodelle,Kleinserien,Prototypen,Autoklaven,CNC Portalmessmaschinen,Drehmaschinen,Biegen und Abkanten,Blasformen,Bohren
+Paul Hafner GmbH Werkzeugbau,https://www.paul-hafner.de,True,Baugruppenfertigungen,Stanz- und Umformtechniken,Werkzeugbauten,,,,Biegungen und Abkantungen,Bohrungen,Drehungen
+Ebmeyer Werkzeugbau GmbH,https://www.ebmeyer.eu,True,Werkzeuge für die Blechumformungen,,,Erodiermaschinen,Fräsmaschinen,Hydraulikpressen,Erodieren,Fräsen,Pressen
+Kremann und Esser GmbH & Co. KG,https://www.kremann-esser.de,True,Blaswerkzeuge,Optische Messtechniken,Spritzgießwerkzeuge,CNC-Maschinen,Fräsmaschinen,Messmaschinen,3D-Messtechniken,Extrusionsblasformen,Spritzgießverfahren
+Heimberger GmbH,https://www.heimberger.de,True,Baugruppen,CNC-Drehteile,CNC-Frästeile,CNC-Drehmaschinen,CNC-Fräsmaschinen,Honmaschinen,Bohrungen,Drehungen,Fräsungen
+Seco Tools GmbH,https://www.secotools.com,False,Bohrwerkzeuge,Drehwerkzeuge,Fräswerkzeuge,,,,,,
+Braunform GmbH,https://www.braunform.com/de/,True,Eigenprodukte,Kunststofftechniken,Spritzgießformen,CNC-Bearbeitungsmaschinen,Laserschneidmaschinen,Spritzgießmaschinen,CNC-Bearbeitungen,Laserschneidverfahren,Spritzgießverfahren
+Color Metal GmbH,https://www.color-metal.de,True,Kunststoffteile,Präzisionsformen,Werkzeuge,Erodiermaschinen,Fräsmaschinen,,Draht- und Senkerodierverfahren,Fräsverfahren,Spritzgießverfahren
+Wilke Werkzeugbau GmbH,http://www.wilke-tec.com,True,Entwicklungsdienstleistungen,Serviceleistungen,Strangpresswerkzeuge,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,CAD-Systeme,CNC-Programmierung,Erodieren
+Klaus Backes GmbH,http://www.backesgmbh.de,True,"Präzisionsdreh-, -fräs- und -schleifteile",Stanz- und Biegeteile,Werkzeuge,CNC-Bearbeitungszentren,,,Biegetechniken,Drehungen,Entwicklungen
+Postel Druckguß GmbH,http://www.postel.de,False,Beratungen,Konstruktionen,Produktionen,,,,,,
+S. Müller GmbH & Co. Werkzeugbau KG,http://www.wzb-mueller.de,False,Kunststoffteile,Magneten,Systeme,Spritzgießmaschinen,,,Spritzgießverfahren,,
+pro forma concept GmbH,https://www.proforma-concept.de,True,Druckgießwerkzeuge,Presswerkzeuge,Spritzgießwerkzeuge,Erodiermaschinen,Fräsmaschinen,,Spritzgießens,,
+Zimmermann Formen- und Werkzeugbau GmbH,https://ziform.de,True,Einzelkomponenten,Lohnbearbeitungen,Spritzgusswerkzeuge,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Erodierens,Fräsens,Spritzgießens
+Josef Weischer GmbH & Co. KG,https://www.weischer.de,True,Automatisierte Produktionsanlagen,Lehren,Werkzeuge,Biege- und Abkantmaschinen,Erodiermaschinen,Fräsmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Wohlhaupter GmbH,http://www.wohlhaupter.de,False,Bohrmaschinen,Bohrwerkzeuge,Sonderwerkzeuge,,,,,,
+Christian Dunkel GmbH,https://www.werkzeugbau-dunkel.de,True,Maschinen für Pipeline-Montage,Vorrichtungsdesigns,spezielle Maschinenkonstruktionen,Fräsmaschinen,Präzisionswerkzeugmaschinen,Schleifmaschinen,Fräsen,Präzisionsbearbeitungen,Schleifen
+BILZ WERKZEUGFABRIK GmbH & Co. KG,https://www.bilz.de,False,Gewindeschneidfutter,Schrumpfgeräte,Spannsysteme,,,,,,
+Krämer + Grebe GmbH & Co. KG Modellbau,https://kraemer-grebe.de,True,Druckgussformen,Kokillen,Modelle + Kernformwerkzeuge,Biegemaschinen,Erodiermaschinen,Fräsmaschinen,Biegen und Abkanten,Erodieren,Fräsen
+WTE Präzisionstechnik GmbH,https://wte.mapal.com,False,Bohrfuttertechnologien,Hydraulikspannfutter,Mikroschraubfutter,,,,,,
+Technolit GmbH,https://eshop.technolit.de,False,Chemisch-technische Produkte,Reinigungschemische Produkte,Technische Sprays,,,,,,
+INGERSOLL Werkzeuge GmbH,https://www.ingersoll-imc.de,False,Aufnahmen,Bohrer,Dreh- und Stechwerkzeuge,,,,,,
+Werkzeug- und Gerätebau Klingenthal GmbH,https://www.wgb.de,True,Druckgieß-Formen,Kunststoffteile,Spritzgieß-Formen,Erodiermaschinen,Fräsmaschinen,Spritzgießmaschinen,Erodieren,Fräsen,Spritzgießen
+MECO Maschinen-Elektro-Companie GmbH,http://www.meco-werkzeugbau.de,True,Blechbearbeitungsmaschinen,Blechbearbeitungswerkzeuge,Blechverarbeitungslösungen,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Biege- und Abkantarbeiten,Bohren,Erodieren
+a.i.m. all in metal GmbH,https://alles-in-metall.de,True,Karosseriebauteile,Komponenten,Normteile,CAD/CAM-Arbeitsplätze,Kaltfließpressverfahren,Laserschweißanlagen,Automatisierte Roboter Punktschweiß-Anlagen,CAD/CAM-Arbeitsplätze,Kaltfließpressen
+ISCAR Germany GmbH,https://www.iscar.de,False,Präzisions-Hartmetallwerkzeuge,Zerspanungsanwendungen,Zerspanungswerkzeuge,,,,,,
+KOMET Deutschland GmbH,https://cuttingtools.ceratizit.com/de/,False,,,,,,,,,
+Tillmann Werkzeugbau Profiltechnik GmbH,https://tillmann-gruppe.de/de/,True,Komponenten,Oberflächenveredelungen,Profilrohre,Fräsmaschinen,Laserschneidmaschinen,Schweißmaschinen,Laserschneiden,Oberflächenbehandlungen,Schweißen
+Spinner Werkzeugmaschinenfabrik GmbH,https://www.spinner.eu.com,False,Automationslösungen,Bearbeitungszentren,Drehmaschinen,Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Biegungen und Abkantungen,Drehungen,Erodierungen
+BKM Präzisionswerkzeuge,https://www.bkm-praezision.de,True,Prototypen,Stanz-Biegeteile,Stanzteile,Stanzanlagen,Stanzbiegeautomaten,"Zusatzeinrichtungen für Gewinde, Montieren, Laserschweißen, Gleitschleifen, Polieren und Tempern",Biege- und Abkantprozesse,Laserschneiden,Oberflächenbehandlungen
+Bharat Forge Daun GmbH,https://www.bf-daun.de,True,Aluminium-Techniken & Automobilteile,Bahntechniken,Fahrzeugtechniken,,,,Biegungen und Abkantungen,Bohrungen,Drehungen
+G - ELIT Präzisionswerkzeug-GmbH,https://g-elit.de,False,Hartstoffe,"Karbidsorten für die Luftfahrt-, Automobil-, Maschinenbau- und Unterhaltungselektronik-Sektoren",,,,,Extrusionen,Trocknungen,
+ASTOR Schneidwerkzeuge GmbH,https://www.astorblades.de,False,Abschneidemesser,Aufschnittmesser,Gattermesser,,,,,,
+Preßwerkzeugbau Großdubrau GmbH,http://www.pwb-online.de,False,Formenbauten,Spritzgussformen,Werkzeuge,Bohrmaschinen,CNC-gesteuerte Werkzeugmaschinen,Drehmaschinen,Bohrungen,Drehungen,Fräsungen
+Maucher Formenbau GmbH & Co. KG,https://www.maucher-kg.de,True,Kunststoffteile,Werkzeuge,technische Teile,CNC-Fräsmaschinen,,,Montagen,NC-Bearbeitungen,PU-Techniken
+Herbert Kaut GmbH & Co. KG,http://www.kaut.info,True,Kunststofftechniken,Lohnfertigungen,Spritzgussformen,,,,CNC-Fräsen,Erodieren,Spritzgießverfahren
+heimatec GmbH,https://heimatec.com,False,Präzisionswerkzeuge,Werkzeuge für Drehzentren,Werkzeuge für Langdrehautomaten,CNC-Bearbeitungszentren,CNC-Dreh-Fräszentren,CNC-Drehmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Klaus Baier GmbH & Co. KG,http://www.klausbaier.de,True,Baugruppen,Stanzteile,Werkzeuge,3-D-Koordinaten-Messmaschinen,Erodiermaschinen,Fräsmaschinen,Erodieren,Fräsen,Messen
+MÜLLER WALLAU,http://www.mueller-wallau.de,True,Kunststoffbauteile,Prototypen,Spritzgussformen,Bohrungen,Erodiermaschinen,Fräsmaschinen,Bohrens,Erodierens,Fräsens
+Meissner AG Modell- und Werkzeugfabrik,https://www.meissner.eu,True,Blasformen,Gießereiwerkzeuge,"Schäum-, Stanz- und Press-Pinchwerkzeuge",5-Achs-Fräsmaschinen,Bohrwerke,CNC Dreh- und Fräszentren,Biegen und Abkanten,Blasformen,Bohren
+WOLF Werkzeugtechnologie GmbH,https://www.wolf-gruppe.com,True,PVD-Beschichtungslösungen,Schnitthilfen,komplette Maschinenteile,Biegen und Abkantmaschinen,Erodiermaschinen,Fräsmaschinen,Biegungen und Abkantungen,Bohrungen,Drehungen
+Wissler & Rademacher GmbH & Co. KG,https://www.wissler-rademacher.de,True,Druckgüsse,Formenbauten,Gießereien,Druckgießmaschinen,Entgratpressen,Oberflächenbehandlungsmaschinen,Endbearbeitungen,Gießens,Montagen
+Wirth Werkzeugbau GmbH,https://werkzeugbau-wirth.de,True,Kunststoffteile,Spritzgießwerkzeuge,Spritzgusslösungen,,,,Bemusterungen,Konstruktionen,Serienfertigungen
+Ernst Klimmer GmbH,https://www.klimmer-gmbh.de,True,Flansche und Platten,Schellen,Ziehteile,Biegen und Abkanten,Laserschneidmaschinen,Montagemaschinen,Biegen und Abkanten,Feinschneiden,Laserschneiden
+SULO Metall Systeme GmbH,https://sulo.de,False,Depotcontainer,Mülltonnen,Papierkörbe,,,,,,
+WEBO Werkzeugbau Oberschwaben GmbH,http://www.webo.de.com,False,,,,,,,,,

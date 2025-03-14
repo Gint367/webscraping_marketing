@@ -13,7 +13,7 @@ Step 2 : run generate_csv_report.py
     Output:
     Notes: this get the relevant machine asset 
 
-Step 3 : run merge_excel.py
+Step 3 : run merge_csv_with_excel.py
     Parameter
     Input: 
     Output:
@@ -34,8 +34,48 @@ Step 2 : Run extract_llm.py
     Output:
     Notes: this extract the defined keywords(lohnfertigung, produkt, maschinen, and prozess) from a given markdown file from step 1.
 
+Step 2.5 (optional) : run check_llm_failures.py
+    Parameter
+    Input: 
+    Output:
+    Notes: Find values that has more than 1 words for each entry.
+
+Step 2.6 (optional) : run copy_failed_llm.py
+    Parameter
+    Input: 
+    Output:
+    Notes: copy the failed markdown files where you can redo with step 2 again. 
+
 Step 3 : Run pluralize_with_llm.py
     Parameter
     Input: 
     Output:
-    Notes: this standardize the extracted keywords to their plural forms. when the length of output doesnt match the input the program will redo the file.the retries are using different temperature on each retry because using same temperature will resulting(at most time) 3x same failure and waste tokens.
+    Notes: this standardize the extracted keywords to their plural forms. when the length of output doesnt match the input the program will redo the file.the retries are using different temperature on each retry because using same temperature will resulting(at most time) to 3x same failure and waste tokens.
+
+Step 3 : Run consolidate.py
+    Parameter
+    Input: 
+    Output:
+    Notes: this consolidates multiple JSON entries into a single entry per company. It processes JSON files, combines and deduplicates specific fields, and writes the consolidated data to an output JSON file. It chooses the longest company name. can filter out items based on keywords. also sorts by prioritizing words 'machine'.
+
+Step 5 : Run convert_to_csv.py
+    Parameter
+    Input: 
+    Output:
+    Notes: reads json file containing company records, extracts specific fields and writes them to a csv file. only takes first three items. uses BOM for better umlaut compability with excel.
+
+## Additional Steps
+Folder Path: root
+
+Step 1 : Run merge_technische_anlagen_with_keywords.py
+    Parameter
+    Input: 
+    Output:
+    Notes: merge the final csv with excel containing technische anlagen und maschinen. there could be problem where the company name from csv is the 'true' name of the company and thus wont match with the excel data. it tries to match with url when its not working.
+
+Step 1 : Run enrich_data.py
+    Parameter
+    Input: 
+    Output:
+    Notes: this add new column Maschinen_Park_var & hours_of_saving for the email marketing.
+

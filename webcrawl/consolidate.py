@@ -224,8 +224,7 @@ def main():
     parser.add_argument('input', help='Input JSON file or directory containing JSON files')
     parser.add_argument('--output', '-o', help='Output JSON file path (optional)')
     parser.add_argument('--filter', '-f', help='Path to a file containing words/substrings to filter out')
-    parser.add_argument('--exact', '-e', action='store_true', 
-                        help='Filter only exact word matches rather than substrings')
+    parser.add_argument('--exact', '-e', action='store_true', help='Filter only exact word matches rather than substrings')
     
     args = parser.parse_args()
     

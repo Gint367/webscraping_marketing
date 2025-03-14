@@ -35,6 +35,9 @@ def process_machine_data(csv_file ="machine_report_maschinenbau_20250307.csv",to
     # Identify machine columns (Machine_1, Machine_2, Machine_3)
     machine_cols = [col for col in csv_df.columns if 'Machine_' in col]
     
+    # Create a mapping of company to park size before melting
+    park_size_mapping = dict(zip(csv_df['Company'], csv_df['Maschinen Park Size']))
+    
     # Melt the dataframe to convert machine columns into rows
     melted_df = pd.melt(
         csv_df,
@@ -69,6 +72,9 @@ def process_machine_data(csv_file ="machine_report_maschinenbau_20250307.csv",to
             value = company_data.iloc[i]['Machine_Value'] if len(company_data) > i else np.nan
             values.append(value)
         result_df[f'Top{i+1}_Machine'] = values
+    
+    # Add the Maschinen Park Size column
+    result_df['Maschinen_Park_Size'] = result_df['Company'].map(park_size_mapping)
     
     return result_df
 
@@ -170,7 +176,7 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
 
 def merge_with_xlsx(top_n=2):
     try:
-        csv_file_path = 'machine_report_werkzeughersteller_20250307.csv'
+        csv_file_path = 'machine_report_maschinenbauer_20250312.csv'
         machine_data = process_machine_data(csv_file=csv_file_path,top_n=top_n)
         xlsx_file_path = 'input_excel.xlsx'
         sheet_name = 'Sheet1'  # Change this to the actual sheet name if needed
@@ -203,7 +209,6 @@ def merge_with_xlsx(top_n=2):
                 company_mapping[csv_company] = best_match
                 similarity_scores.append(ratio)
                 matched_companies += 1
-                #print(f"Matched: {csv_company} -> {best_match} (similarity: {ratio:.2f})")
                 
                 # Update lowest pairs list
                 lowest_pairs.append((ratio, csv_company, best_match))
@@ -234,9 +239,9 @@ def merge_with_xlsx(top_n=2):
             how='left'
         )
 
-        # Keep all original columns from xlsx_df plus only the machine columns from the merge
+        # Keep all original columns from xlsx_df plus the machine columns and Maschinen Park Size from the merge
         machine_cols = [f'Top{i+1}_Machine' for i in range(top_n)]
-        columns_to_keep = list(xlsx_df.columns) + machine_cols
+        columns_to_keep = list(xlsx_df.columns) + machine_cols + ['Maschinen_Park_Size']
         merged_df = merged_df[columns_to_keep]
         
         # Save the merged dataframe to a new XLSX file

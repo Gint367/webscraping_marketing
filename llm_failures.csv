@@ -1,0 +1,7 @@
+file,products_count,machines_count,process_type_count
+llm_extracted_data_werkzeughersteller/zeroclamp.com_extracted.json,2,0,0
+llm_extracted_data_werkzeughersteller/mogatec.de_extracted.json,0,1,0
+llm_extracted_data_werkzeughersteller/flex-tools.com_extracted.json,1,0,0
+llm_extracted_data_werkzeughersteller/ttigroup.com_extracted.json,1,0,0
+llm_extracted_data_werkzeughersteller/prebena.de_extracted.json,0,1,1
+llm_extracted_data_werkzeughersteller/alfra.de_extracted.json,3,0,1

@@ -482,7 +482,8 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
          max_delay_seconds: int = 300, backoff_factor: float = 2.0):
     """
     Reads companies from 'companies.csv', processes each, and writes extracted
-    data to 'companies_output.csv'.  
+    data to 'companies_output.csv'. 
+    CSV: "company name" (mandatory) & "location" (optional)
     This version:
       - reads both company name and location (if available)
       - skips companies that already have a folder with content,
@@ -575,7 +576,7 @@ def main(input_csv: str, base_dir: str = "bundesanzeiger_local_data", max_retrie
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print(f"{get_timestamp()} [ERROR] Usage: python app.py <input_csv> [output_dir] [max_retries] [max_delay_seconds] [backoff_factor]")
+        print(f"{get_timestamp()} [ERROR] Usage: python get_bundesanzeiger_html.py <input_csv> [output_dir] [max_retries] [max_delay_seconds] [backoff_factor]")
         print(f"{get_timestamp()} [INFO]  Default base_dir: bundesanzeiger_local_data")
         sys.exit(1)
 

@@ -1,0 +1,104 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3
+wolfcraft GmbH,https://www.wolfcraft.com/en/,False,Handwerkzeuge,Maschinenzubehör,Werkstattausrüstungen,,,,,,
+Steinbach & Vollmann GmbH,https://www.stuv.de,False,Beschläge,Scharniere,Schlösser,,,,,,
+Gerd Eisenblätter GmbH,https://www.eisenblaetter.de,False,Elektrogeräte,Polier- und Pflegemittel,Schleifwerkzeuge,Bandschleifer,Satiniermaschinen,Schleifmaschinen,Polieren,Satinieren,Schleifen
+VON ZITZEWITZ GRUPPE GmbH & Co. KG,https://www.cwalter.de/de/,False,Handwerkzeuge,Hydraulikwerkzeuge,Schraubwerkzeuge,,,,,,
+Altrad Lescha Atika GmbH,https://www.lescha-atika.de,False,Baumaschinen,Gartenmaschinen,Holzbearbeitungsmaschinen,,,,,,
+Hufschmied Zerspanungssysteme GmbH,https://www.hufschmied.net,True,CNC-Fräser,Laserschneidanlagen,Schleifmaschinen,Fräsmaschinen,Laserschneidmaschinen,Schleifmaschinen,Fräsen,Laserschneiden,Schleifen
+Inovatools Eckerle & Ertel GmbH,https://www.inovatools.eu,False,Kataloge,Werkzeugfinder,Werkzeugkonfiguratoren,,,,,,
+ZCC Cutting Tools Europe GmbH,https://www.zccct-europe.com,False,Bohrer,Drehwerkzeuge,Fräser,,,,Bohrungen,Drehungen,Fräsungen
+Heller Tools GmbH,https://www.hellertools.de/de/,False,Beton- & Steinbohrer,Hammerbohrer,Meißel,,,,,,
+Günter Effgen GmbH,https://effgen.com,False,Abrichtwerkzeuge,Polierwerkzeuge,Schleifwerkzeuge,Abrichtmaschinen,Poliermaschinen,Schleifmaschinen,Abrichten,Polierens,Schleifen
+Gleason Cutting Tools GmbH,https://www.gleason.com/de/,False,Spannmittel,Verzahnungmaschinen,Werkzeuge,Fräsmaschinen,Honmaschinen,Schleifmaschinen,Fräsen,Honen,Schleifen
+Ruwac Industriesauger GmbH,https://www.ruwac.de,False,Absauganlagen,Akkusauger,Industriesauger,,,,,,
+HUNTER Deutschland GmbH,https://www.hunter.com/de/,False,Achsvermessungsanlagen,Radauswuchtmaschinen,Reifenmontiermaschinen,,,,,,
+BDS Maschinen GmbH,https://www.bds-maschinen-gmbh.de,False,Kantenfräsmaschinen,Kernbohrer,Magnet-Kernbohrmaschinen,,,,,,
+Elektrowerkzeuge GmbH Eibenstock,https://www.eibenstock.com/de/,False,Antriebe & Motoren,Elektrowerkzeuge,Zubehör,Bohrmaschinen,Schleifmaschinen,Sägen,Bohren,Schleifen,Sägen
+Joh. Clouth GmbH & Co. KG,https://www.clouth.com/de/,False,Kreppschaber,Schaberklingen,Streichmesser,,,,,,
+KULLEN-KOTI GmbH,https://www.kullen.de/de/,False,Bürsten,Fachlexika,Kataloge,,,,,,
+Hartmetall-Werkzeugfabrik Paul Horn GmbH,https://www.horn-group.com,False,Hochharte Schneidstoffe,Sonderwerkzeuge,Zerspanungswerkzeuge,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehungen,Fräsungen,Schleifungen
+Eugen Lägler GmbH,https://www.laegler.com,False,Ersatzteile,Maschinen,Schleif- und Fräswerkzeuge,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen
+Spezialwerkzeuge GmbH Zella-Mehlis,https://swz-zm.de,True,Lohnräume,Räumwerkzeuge,Sonder Räumwerkzeuge,CNC-Schärfmaschinen,,,Härten,Schleifen,Spannen
+Karl Schüßler GmbH & Co. KG,https://www.k-schuessler.de,False,Schrumpfsysteme,Werkzeugspannsysteme,Wuchtgeräte,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen
+Fichtner & Schicht GmbH,https://fi-sch.de,True,Elektroformen,Modell- und Vorrichtungsbauten,Werkzeugbauten,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Elektroformen,Modellbauten,Werkzeugbauten
+Anton Kessel GmbH,https://www.die-werkbank.com/de/,False,Arbeitstische,Rollcontainer,Werkbänke,,,,,,
+ZEROCLAMP GmbH,https://www.zeroclamp.com,False,Modulare Spannschienen Systeme,Nullpunktspannsysteme,Spanntechnik,,,,,,
+LINCOLN ELECTRIC DEUTSCHLAND GmbH,https://www.oerlikon-welding.com,False,Cooper™ Schweiß-Cobots,HYPERFILL®,SPRINTER S-RANGE,,,,Schweißarbeiten,,
+Schwegler Werkzeugfabrik GmbH & Co. KG,https://www.schwegler.de,True,Dienstleistungen,Sonderanfertigungen,Werkzeuge,Bohrungen,Fräsmaschinen,Schleifungen,Bohren,Fräsen,Schleifen
+Mogatec GmbH,https://www.mogatec.de/de/,False,Gartengeräte,Heckenscheren,Kettensägen,Automatisierte Drahtschneidemaschinen,CNC-Maschinen,Laserschneidemaschinen,CNC-Bearbeitungen,Laserschneiden,Montagen
+Orbis Will GmbH + Co. KG,https://www.orbiswill.de,False,Bolzenschneider,Kunststoffteile,Zangen,2K-Spritzgussmaschinen,3K-Spritzgussmaschinen,Härteanlagen,Härten,Montagen,Spritzgießens
+Kelch GmbH,https://www.kelch.de,False,Messmittel,Präzisionswerkzeuge,Werkzeugeinstellgeräte,,,,,,
+MESTO Spritzenfabrik,https://www.mesto.de,False,Drucksprüher,Gießkannen,Sprühgeräte,,,,,,
+botek Präzisionsbohrtechnik GmbH,https://www.botek.de/de/,True,Einlippenbohrer,Fräser,Zweilippenbohrer,,,,Bohren,Fräsen,Schleifen
+Comet Schleifscheiben GmbH,http://www.comet-d.de,False,,,,,,,,,
+Stanley Black & Decker Deutschland GmbH,https://www.blackanddecker.de,False,Elektrowerkzeuge,Gartengeräte,Haushaltsreinigungen,,,,,,
+J. König GmbH & Co. Werkzeugfabrik,https://www.j-koenig.de,False,Hilfsmittel,Maschinen,Werkzeuge,Diamantwerkzeuge,Fräsmaschinen,Schleifmaschinen,Diamantbearbeitungen,Fräsen,Schleifen
+Consul Werkstattausrüstung GmbH,https://www.consul-gmbh.com,False,Hebebühnen,Hebetechniken,Sonderlösungen,,,,,,
+SOLO Kleinmotoren GmbH,https://shop.solo.global,False,Akkugeräte,Spritzen,Sprühgeräte,,,,,,
+Paul Dümmel Werkzeugfabrik GmbH,https://www.duemmel.de/de/,False,Bohrungswerkzeuge,Drehwerkzeuge,Fräswerkzeuge,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Bohrungen,Drehungen,Fräsungen
+Weisskopf Werkzeuge GmbH,https://www.weisskopf-tools.de,False,Bohrwerkzeuge,Fräswerkzeuge,Werkzeuge,5-Achs-Schleifmaschinen,Beschichter,Schleifmaschinen,Beschichtungen,Fräsen,Schleifen
+THERMOTEX NAGEL GmbH,https://www.thermo-tex.de/de/,False,Patchmaschinen,Thermotransferdrucksysteme,Transferpressen,Patchmaschinen,Thermotransferdrucker,Transferpressen,Bedrucke,Drucke,Montagen
+Maschinenfabrik Otto Baier GmbH,https://www.baier-tools.com/de/,False,Elektrowerkzeuge,Ersatzteile,Zubehör,Bohrmaschinen,Fräsmaschinen,Mischmaschinen,Bohren,Fräsen,Mischen
+BSW Zerspanungswerkzeuge GmbH,https://www.bsw-gmbh.com,False,CBN-Werkzeuge,CVD-Werkzeuge,PKD-Werkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen
+GEDORE Automotive GmbH,https://www.gedore-automotive.com,False,Ersatzteile,Reparatur-Services,Spezialwerkzeuge,,,,,,
+DreBo Werkzeugfabrik GmbH,https://www.drebo.de,False,Anwendungshinweise,Bohrwerkzeuge,Meißelwerkzeuge,,,,,,
+DALEX GmbH & Co. KG,https://www.dalex.de,False,Industriemaschinen,MF-Transformatoren,Roboterschweißzangen,Buckelschweißmaschinen,Punktschweißmaschinen,Rollnahtschweißmaschinen,Buckelschweißungen,Punktschweißungen,Rollnahtschweißungen
+OTEC Präzisionsfinish GmbH,https://www.otec.de,False,Gleitschleifmaschinen,Schleif- und Poliersysteme,Verfahrensmittel,,,,Oberflächenbehandlungen,Polierens,Schleifen
+CERATIZIT Balzheim GmbH & Co. KG,https://www.ceratizit.com/de/,False,Dienstleistungen,Hartmateriallösungen,Zerspanungswerkzeuglösungen,,,,,,
+Feinhütte Halsbrücke GmbH,https://www.feinhuette.de/de/,False,Blei- und Zinnlegierungen,Legierungen,Metallformate,,,,Produktionen,Recyclings,Verarbeitungen
+Rennsteig Werkzeuge GmbH,https://www.rennsteig.com/de/,False,Abisolierzangen,Aderendhülsen-Lösungen,Kabelscheren,,,,,,
+ZECHA Hartmetallwerkzeugfabrikation GmbH,https://www.zecha.de/de/,False,Mikrowerkzeuge,Schleifwerkzeuge,Stanzwerkzeuge,Fräsmaschinen,Schleifmaschinen,Stanzmaschinen,Fräsen,Schleifen,Stanzen
+Alfred Jäger GmbH,https://www.nakanishi-jaeger.com,False,Hochfrequenzspindeln,Motorspindeln,Synchron- und Asynchron-Motoren,Bohrmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen
+FLEX-Elektrowerkzeuge GmbH,https://www.flex-tools.com,False,Akkuwerkzeuge,Luftreiniger,Staubsauger,,,,,,
+ELORA Werkzeugfabrik GmbH,https://www.elora.de,False,Schlüssel,Schraubenschlüssel,Steckdosen,,,,,,
+United Salon Technologies GmbH,https://www.tondeo.com/de/,False,Friseurscheren,Haarstyler,Rasiermesser,,,,Montagen,Oberflächenbehandlungen,Schleifen
+MK-Tools-Service GmbH,https://www.mk-tools-service.de,True,PKD-Sonderwerkzeuge,VHM-Sonderwerkzeuge,sonstige Zerspanungswerkzeuge,CNC-Maschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen
+CFH Löt- und Gasgeräte GmbH,https://cfh-gmbh.de,False,Anzünder,Elektrolötgeräte,Gaslötgeräte,,,,,,
+CEDIMA Diamantwerkzeug- und Maschinenbaugesellschaft mbH,https://www.cedima.com,False,Bohrer,Diamantwerkzeuge,Maschinen,Fräsmaschinen,Schleifmaschinen,Sägen,Fräsen,Schleifen,Sägen
+Krebs & Riedel Schleifscheibenfabrik,https://www.krebs-riedel.de,False,CBN- und Diamantwerkzeuge,Schleifscheiben,Trennscheiben,Schleifmaschinen,Schleifspindeln,Schleifwerkzeugmaschinen,Schleifen,Schruppen,Trennungen
+falch gmbh,https://www.falch.com/de/,False,Hochdruckreiniger,Wasserstrahlgeräte,Wasserstrahlroboter,,,,,,
+Beissbarth GmbH,https://www.beissbarth-online.com,False,ADAS-Kalibriersysteme,Achsvermessungssysteme,Reifendiagnosesysteme,,,,,,
+TKR Spezialwerkzeuge GmbH,https://www.tkrgroup.com,False,Kabelsysteme,Powertools,Spezialwerkzeuge,,,,,,
+HOSCH Fördertechnik Recklinghausen GmbH,https://www.hosch-international.com/wp/,False,Schaber Typ A1,Schaber Typ B6,Schaber Typ C,,,,,,
+Koll & Cie. GmbH & Co KG,https://kollgermany.de,False,Heckenscheren,Kreissägeblätter,Schneidwerkzeuge,Fräsmaschinen,Laserschneidmaschinen,Schleifmaschinen,Fräsen,Laserschneiden,Schleifen
+INFIELD SAFETY GmbH,https://www.infield-safety.com,False,Gehörschutze,Schutzbrillen,Schutzbrillen mit Sehstärken,,,,,,
+Robert Röntgen GmbH & Co. KG,https://roentgen-saw.com/de/,False,Sägeblätter,Sägebänder,Zubehör,,,,,,
+Weitkowitz GmbH,https://www.weitkowitz.de,False,Aderendhülsen,Kabelschuhe,Kabelverbinder,,,,,,
+Wirth GmbH,https://www.wirth-gmbh.com/de/,False,Kant- und Stahlleichtprofile,Spezialformteile,Vakuumhebegeräte,,,,Blechbearbeitungen,Handlings,Montagen
+H. Schönenberger GmbH,https://www.schoenenberger-messer.de,False,Schneidleisten,Schneidrotoren,Unterwassergranulierungen UWG,Fräsmaschinen,Reparaturmaschinen,Schleifmaschinen,Fräsen,Reparaturen,Schleifen
+Klingspor AG,https://www.klingspor.de,False,Fiberscheiben,Schleifbänder,Schleifrollen,Bandschleifmaschinen,Fräsmaschinen,Schleifmaschinen,Bohren,Fräsen,Schleifen
+Techtronic Industries GmbH,https://www.ttigroup.com,False,Bodenpflegeprodukte,Elektrowerkzeuge,Gartengeräte,,,,,,
+PREBENA Wilfried Bornemann GmbH & Co. KG,https://prebena.de,False,Befestigungsmittel,Druckluftnagler,Kompressoren,Automatisierte Fertigungsmaschinen,Druckluftnagler,Kompressoren,Automatisierte Fertigungen,Montagen,Verpackungen
+Bohle AG,https://www.bohle.com,False,Bademantelhaken,Handtuchhalter,Pullis,,,,,,
+TBi Industries GmbH,https://www.tbi-industries.com,False,Kühleinheiten,Schweißbrenner,Schweißhelme,,,,,,
+ADGA - Adolf Gampper GmbH,https://adga.de/de/,False,Ausstattungen,Holzgliedermaßstäbe,Werbeflächen,,,,,,
+FREUND VICTORIA Gartengeräte GmbH,https://www.freund-victoria.de,False,Garten- und Schneeräumgeräte,Scheren,Werkzeuge,,,,,,
+KS Tools Werkzeuge und Maschinen GmbH,https://www.kstools.com,False,Handwerkzeuge,KFZ-Spezialwerkzeuge,LKW-Spezialwerkzeuge,,,,,,
+FRAISA GmbH Präzisionswerkzeuge,https://www.fraisa.com/de/,False,Bohrwerkzeuge,Fräswerkzeuge,Gewindewerkzeuge,Bohrmaschinen,Fräsmaschinen,Gewindebohrmaschinen,Bohren,Fräsen,Gewinde
+Bayerische Maß-Industrie,https://www.bmi.de/de/,False,Rahmen- / Kapselbandmaße,Taschenbandmaße,Wasserwaagen,,,,,,
+Makita Engineering Germany GmbH,https://www.makita-engineering.de,False,Akkuwerkzeuge,Elektrowerkzeuge,Handwerkzeuge,,,,,,
+SWM Werkzeugfabrik GmbH & Co. KG,https://www.werkzeugschmiede.de/de/,False,,,,,,,,,
+Mesko-Pinsel GmbH,https://www.mesko.eu,False,Bürsten,Kunststoffprodukte,Pinsel,,,,,,
+Lessmann GmbH,https://www.lessmann.com,False,Industriebürsten,Streifenbürsten,Zubehör,,,,,,
+HÜRNER Schweisstechnik GmbH,https://www.huerner.de/de/,False,Heizwendelschweißtechniken,Schweißmaschinen,Stumpfschweißtechniken,Erodiermaschinen,Fräsmaschinen,Laserschneidmaschinen,Montagen,Schnitte,Schweißungen
+"Wilhelm König, Maschinenbau GmbH",https://koenig-mtm.de,False,Hydraulische Spannsysteme,Mechanische Spannsysteme,Schnellwechselsysteme,,,,,,
+MHS Schneidetechnik GmbH,https://mhs-schneidetechnik.de/de/,False,Brotschneidemaschinen,Fleisch- & Mehrzweckschneider,Gebrauchtmaschinen,,,,,,
+Caisley International GmbH,https://www.caisley.de,False,Elektronische Identifizierungsmittel,Ohrmarken,Zubehörartikel,,,,Kunststoffspritzgüsse,Laserbeschriftungen,
+FELO-Werkzeugfabrik GmbH,https://www.felo.com,False,Bits,Schraubendreher,Zangen,,,,,,
+Karl-Heinz Arnold GmbH,https://www.arno.de,False,Bohrwerkzeuge,Drehwerkzeuge,Fräswerkzeuge,Bohrmaschinen,Drehmaschinen,Fräsmaschinen,Bohrungen,Drehungen,Fräsungen
+TRIUSO Qualitätswerkzeuge GmbH,https://www.triuso.de,False,Arbeitsbekleidungen,Schneeschieber,Werkzeuge,,,,,,
+Friedrich Duss,https://www.duss.com/de/,False,Bohrmaschinen,Diamantbohrmaschinen,Meisselhämmer,,,,,,
+Paul Maschinenfabrik GmbH & Co. KG,https://www.paul.eu,False,Kreissägemaschinen,Lagersysteme,Spannbeton-Techniken,,,,,,
+BEHRINGER EISELE GmbH,https://www.behringer.net,False,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Fräsen,Schleifen,Sägen
+Probst GmbH,https://www.probst-handling.com,False,Baustellengeräte,Baustoffwerke,LKW-Kran-Anbaugeräte,,,,,,
+Jäkel GmbH & Co. KG,https://www.jaekel.eu,False,Messer,Veredelungen,Verschleißteile,,,,,,
+Starcke GmbH & Co. KG,https://www.starcke.de,False,Schleifbänder,Schleifmittel,Schleifscheiben,,,,Schleifen,,
+Oregon Tool GmbH,https://www.oregonproducts.com,False,Führungsschienen,Kettensägen,Sägeschienen,,,,,,
+Wiha Werkzeuge GmbH,https://www.wiha.com,False,Drehmomentschlüssel,Multitools,Schraubendreher,,,,,,
+MAFELL AG,https://www.mafell.de,False,Bohren,Schleifen,Sägen,,,,,,
+HAZET-WERK,https://www.hazet.de/de/,False,Betriebs- und Werkstatteinrichtungen,Handwerkzeuge,Smart Serien,,,,,,
+Alfra GmbH,https://www.alfra.de,False,Hebetechniken,Metallbauten,Schaltschrankbauten,Bohrmaschinen,Magnettechniken,Stanzmaschinen,Bohren,Magnettechniken,Stanzen
+Stanley Black & Decker Outdoor GmbH,https://www.mtdproducts.eu,False,Gartentraktoren,Kettensägen,Rasenmäher,,,,,,
+Jäcklin GmbH,https://www.air-end.de,False,Rotoren,Schraubenverdichter,Verdichterstufen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehungen,Fräsungen,Schleifungen
+Philipp Hafner GmbH & Co. KG,https://www.hafner-philipp.de,False,Messnormteile,Sondermessmaschinen,Standardmessgeräte,,,,,,
+HPTec GmbH,https://www.bosch-pt.com/ww/,False,Gartengeräte,Werkzeuge,Werkzeugzubehör,,,,,,

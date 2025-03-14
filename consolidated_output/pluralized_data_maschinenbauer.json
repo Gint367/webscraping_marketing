@@ -1,0 +1,5703 @@
+[
+    {
+        "company_name": "Albrecht Bäumer",
+        "company_url": "https://www.baeumer.com/en/",
+        "products": [
+            "Anlagenbauten",
+            "Schaumschneidemaschinen",
+            "Software"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenbau Scholz GmbH & Co. KG",
+        "company_url": "https://www.scholz-autoclaves.com",
+        "products": [
+            "Anlagen",
+            "Autoklaven",
+            "Schnellverschlüsse"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BMA Braunschweigische Maschinenbauanstalt GmbH",
+        "company_url": "https://www.bma-worldwide.com",
+        "products": [
+            "EPC-Lösungen",
+            "Extraktionsanlagen",
+            "Kristallisationsanlagen"
+        ],
+        "machines": [
+            "Trockner",
+            "Verdampfer",
+            "Zentrifugen"
+        ],
+        "process_type": [
+            "Extraktionen",
+            "Kristallisationen",
+            "Verdampfungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "MWN in Niefern Maschinenfabrik GmbH",
+        "company_url": "http://www.mwn-niefern.de",
+        "products": [
+            "Breitstreckwalzen",
+            "Presswalzen",
+            "Saugwalzen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "elumatec AG",
+        "company_url": "https://www.elumatec.com/de/",
+        "products": [
+            "Maschinen und Anlagen für den Fenster- & Fassadenbau"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Eckart Maschinenbau GmbH",
+        "company_url": "https://www.eckart-de.com",
+        "products": [
+            "Beschickungstechniken",
+            "Güllefässer",
+            "Multi Misch-Schaufeln"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "FORTUNA Spezialmaschinen GmbH",
+        "company_url": "https://www.fortuna-gmbh.de",
+        "products": [
+            "Pressmaschinen",
+            "Schärfmaschinen",
+            "Spaltmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "CEROBEAR GmbH",
+        "company_url": "https://www.cerobear.com/de/",
+        "products": [
+            "Keramikrollen und -ringe",
+            "Ultraharte Stahlringe",
+            "Wälzlagerkäfige"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Franz Ruberg & Co GmbH",
+        "company_url": "https://franz-ruberg.de",
+        "products": [
+            "Annahme- und Lagertechniken",
+            "Fördertechniken",
+            "Verfahrenstechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Breyer GmbH Maschinenfabrik",
+        "company_url": "https://www.breyer-extr.com",
+        "products": [
+            "Extrusionsanlagen",
+            "Gebrauchtmaschinen",
+            "Komponenten"
+        ],
+        "machines": [
+            "Breitschlitzdüsen",
+            "Extruder",
+            "Glättmaschinen",
+            "Kaschierungen",
+            "Stapelanlagen",
+            "Sägen",
+            "Temperiergeräte",
+            "Visualisierungen",
+            "Wickelmaschinen"
+        ],
+        "process_type": [
+            "Coextrusionen",
+            "Extrusionen",
+            "Glättungen",
+            "Kaschierungen",
+            "Stapel",
+            "Sägen",
+            "Temperierungen",
+            "Visualisierungen",
+            "Wicklungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "T R E I F - Maschinenbau GmbH",
+        "company_url": "https://www.treif.de/de/",
+        "products": [
+            "Brotschneidemaschinen",
+            "Portioniermaschinen",
+            "Schneidemaschinen",
+            "Würfelmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Brotschneiden",
+            "Portionieren",
+            "Schneiden",
+            "Würfeln"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "RKT Rodinger Kunststoff-Technik GmbH",
+        "company_url": "https://www.rkt.de/de/",
+        "products": [
+            "Design Engineerings",
+            "Kunststoffspritzgüsse",
+            "Werkzeugbauten"
+        ],
+        "machines": [
+            "CNC-Bearbeitungsmaschinen",
+            "Lasermaschinen",
+            "Spritzgießmaschinen"
+        ],
+        "process_type": [
+            "Design Engineerings",
+            "Kunststoffspritzgüsse",
+            "Werkzeugbauten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "WIDOS Wilhelm Dommer Söhne GmbH",
+        "company_url": "https://www.widos.de",
+        "products": [
+            "Baustellenmaschinen",
+            "Heizwendel-Schweißmaschinen",
+            "Muffenschweißmaschinen",
+            "Schweißmaschinen",
+            "Werkstattmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "TML Technik GmbH",
+        "company_url": "https://www.tml.de",
+        "products": [
+            "Spezialmaschinen",
+            "Teleskop-Ausleger",
+            "Teleskopbagger"
+        ],
+        "machines": [
+            "Hydraulikpressen",
+            "Richtmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Hydraulikprozesse",
+            "Richtprozesse",
+            "Schweißprozesse"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "MSK Verpackungs-Systeme GmbH",
+        "company_url": "https://www.msk.de",
+        "products": [
+            "Fördersysteme",
+            "Palettiersysteme",
+            "Verpackungssysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Pematech AG",
+        "company_url": "https://pematech.de",
+        "products": [
+            "Montagelinien",
+            "Prüflinien",
+            "Softwarelösungen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Integrationsprozesse",
+            "Montageprozesse",
+            "Prüfprozesse"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Mehrer Compression GmbH",
+        "company_url": "https://www.mehrer.de",
+        "products": [
+            "Kolbenkompressoren",
+            "Membrankompressoren",
+            "Systemlösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gebr. Schmid GmbH",
+        "company_url": "https://schmid-group.com",
+        "products": [
+            "Lösungen für die Elektronikindustrien",
+            "Lösungen für die Photovoltaik- und Glasindustrien",
+            "Maschinen und Automatisierungssysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schwarz Elektromotoren GmbH",
+        "company_url": "https://www.schwarz-elektromotoren.de",
+        "products": [
+            "Elektrofahrzeuge",
+            "Löschsysteme",
+            "Windenergien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "LAMBDA Gesellschaft für Gastechnik mbH",
+        "company_url": "https://www.lambda.de",
+        "products": [
+            "Blockheizkraftwerke",
+            "Fackeln",
+            "Schwachgasbehandlungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Tennant GmbH & Co. KG",
+        "company_url": "http://de.tennantco.com",
+        "products": [
+            "Cleaner",
+            "Extraktoren",
+            "Scrubber"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "EWK Umwelttechnik GmbH",
+        "company_url": "https://www.valmet.com",
+        "products": [
+            "Automatisierungslösungen",
+            "Dienstleistungen",
+            "Technologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Krifft & Zipsner GmbH Maschinenbau",
+        "company_url": "https://www.krifft-zipsner.de/de/",
+        "products": [
+            "Anlagenkonstruktionen",
+            "Fördertechniken",
+            "Stapelwender"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "STASSKOL GmbH",
+        "company_url": "https://www.stasskol.de",
+        "products": [
+            "Dichtungselemente",
+            "Digitale Lösungen",
+            "Hochleistungspolymere"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WS Wärmeprozesstechnik GmbH",
+        "company_url": "https://flox.com/de/",
+        "products": [
+            "Brennersysteme",
+            "FLOX® Brenner",
+            "Green Gas Ready Lösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Linck Holzverarbeitungstechnik GmbH",
+        "company_url": "https://www.linck.com",
+        "products": [
+            "Profilierlinien",
+            "Reduzierlinien",
+            "Sägewerksanlagen"
+        ],
+        "machines": [
+            "Mechanisierungsmaschinen",
+            "Profiliermaschinen",
+            "Spanmaschinen",
+            "Sägemaschinen"
+        ],
+        "process_type": [
+            "Mechanisierungen",
+            "Profilieren",
+            "Späne",
+            "Sägen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hugo MIEBACH GmbH",
+        "company_url": "https://www.miebach.de",
+        "products": [
+            "Reparaturservices",
+            "Schaltanlagen",
+            "Schweißmaschinen",
+            "Zemente"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SOMIC Verpackungsmaschinen GmbH & Co. KG",
+        "company_url": "https://www.somic-packaging.com",
+        "products": [
+            "Kollations- und Gruppiersysteme",
+            "Produkthandlings- und Transportsysteme",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hans Hundegger AG",
+        "company_url": "https://www.hundegger.de",
+        "products": [
+            "Abbundmaschinen",
+            "Plattenbearbeitungsmaschinen",
+            "Zuschnittmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Temafa Maschinenfabrik GmbH",
+        "company_url": "https://www.temafa.com",
+        "products": [
+            "Air-Engineering-Lösungen",
+            "Fasermischanlagen",
+            "Recyclinganlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "NTG Neue Technologien GmbH & Co. KG",
+        "company_url": "https://www.ntg.de",
+        "products": [
+            "Ionenstrahl-Bearbeitungen",
+            "Teilchen-Beschleuniger",
+            "Vakuum-Technologien"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Lohnfertigungsmaschinen",
+            "Sondermaschinen"
+        ],
+        "process_type": [
+            "Elektronikfertigungen",
+            "Metallbearbeitungen",
+            "Präzisionsfertigungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "ruhlamat GmbH",
+        "company_url": "https://www.ruhlamat.com",
+        "products": [
+            "Kartensysteme und Passsysteme",
+            "Montagesysteme und Automatisierungssysteme",
+            "Original Equipment Manufacturing"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungsprozesse",
+            "Montageprozesse",
+            "Qualitätssicherungsprozesse"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Sumitomo (SHI)",
+        "company_url": "https://emeia.sumitomodrive.com",
+        "products": [
+            "Aktuatoren",
+            "Getriebe- & Getriebemotoren",
+            "Industriegetriebe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gebr. Reinfurt GmbH Co. KG",
+        "company_url": "https://www.grw.de/de/",
+        "products": [
+            "Kugellager",
+            "Prüftechniken",
+            "Zubehörteile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WTO-Werkzeug-Einrichtungen GmbH",
+        "company_url": "https://www.wto-tools.com/de/",
+        "products": [
+            "CoolSpeed® Ultra-High-Speed-Werkzeugspindeln",
+            "Präzisionswerkzeughalter",
+            "Werkzeugsysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "bdg Gesellschaft für Montage- und Prüfsysteme",
+        "company_url": "https://bdg-online.de",
+        "products": [
+            "Automationsanlagen",
+            "Beratungsdienstleistungen",
+            "Prüfsysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wilhelm Fischer Spezialmaschinenfabrik GmbH",
+        "company_url": "https://www.wilhelm-fischer.de",
+        "products": [
+            "Automatisierungslösungen",
+            "Dienstleistungen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Aachener Maschinenbau GmbH",
+        "company_url": "http://www.amba.de/de/",
+        "products": [
+            "All-in-one Schraubenmaschinen",
+            "All-in-one Speichenmaschinen",
+            "Rohrumformungs-Maschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Kaltumformungen von Metallen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "JW Froehlich Maschinenfabrik GmbH",
+        "company_url": "https://www.jwf.com",
+        "products": [
+            "Batterien",
+            "Brennstoffzellen",
+            "Elektrische Antriebseinheiten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Eberlein Apparatebau GmbH",
+        "company_url": "https://www.eberlein-apparatebau.de",
+        "products": [
+            "Blechteile aus Aluminium- und Stahlwerkstoffen",
+            "Konstruktionen",
+            "Werkzeugbauten"
+        ],
+        "machines": [
+            "3D Laserschneiden / Schweißen",
+            "3D Messen",
+            "Baugruppen / Gerätemontagen",
+            "CNC Biegen",
+            "CNC Fräsen",
+            "CNC Stanzen / Laserschneiden",
+            "MAG CMT Roboterschweißen"
+        ],
+        "process_type": [
+            "3D Laserschweißen",
+            "Baugruppenmontagen",
+            "Biegen",
+            "CNC-Fräsen",
+            "Gewindeformen",
+            "Konstruktionen für Stanz- & Umformtechnik",
+            "Laserschneiden",
+            "MAG Roboter Schweißen",
+            "Rollen",
+            "Signieren",
+            "Stanzen",
+            "Umformen",
+            "Werkzeugbauten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "ILLIG Maschinenbau GmbH & Co. KG",
+        "company_url": "https://www.illig.de",
+        "products": [
+            "Thermoformmaschinen",
+            "Verpackungsmaschinen",
+            "Werkzeuge"
+        ],
+        "machines": [
+            "Thermoformmaschinen",
+            "Verpackungsmaschinen",
+            "Werkzeugmaschinen"
+        ],
+        "process_type": [
+            "Thermoformungen",
+            "Verpackungsprozesse",
+            "Werkzeugherstellungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Theegarten-Pactec GmbH & Co. KG",
+        "company_url": "https://www.theegarten-pactec.de",
+        "products": [
+            "Integrierte Verpackungssysteme",
+            "Systemkomponenten",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Christian Pfeiffer Maschinenfabrik GmbH",
+        "company_url": "https://www.christianpfeiffer.com/en/",
+        "products": [
+            "Diaphragmen",
+            "Mühlen",
+            "Separatoren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Karl Eugen Fischer GmbH",
+        "company_url": "https://kefischer.de",
+        "products": [
+            "Extrusionsmaschinen",
+            "RFID-Systeme",
+            "Schneidmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "REBS Zentralschmiertechnik GmbH",
+        "company_url": "https://www.rebs.de/de/",
+        "products": [
+            "Kettenschmiersysteme",
+            "Zentralschmiersysteme",
+            "Öl-Luft-Schmierungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Starrag Technology GmbH",
+        "company_url": "https://www.starrag.com",
+        "products": [
+            "CNC-Drehmaschinen",
+            "CNC-Fräsmaschinen",
+            "CNC-Schleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Drehen",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PEKRUN GETRIEBEBAU GmbH",
+        "company_url": "https://www.pekrun.de",
+        "products": [
+            "Mühlen-Getriebeeinheiten",
+            "Turbo-Getriebeeinheiten",
+            "Walzwerk-Getriebeeinheiten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "MultiWeigh GmbH",
+        "company_url": "https://www.multiweigh.com",
+        "products": [
+            "Einzellösungen",
+            "Multihead-Waagen",
+            "Sonderverpackungslösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kutter- und Gerätebau Wetter GmbH",
+        "company_url": "https://kgwetter.de",
+        "products": [
+            "Kutter",
+            "Mischwölfe",
+            "Wölfe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Alfa Laval Mid Europe GmbH",
+        "company_url": "https://www.alfalaval.de",
+        "products": [
+            "Plattenwärmetauscher",
+            "Separatoren",
+            "Services"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "TVI Entwicklung und Produktion GmbH",
+        "company_url": "https://tvi-gmbh.de",
+        "products": [
+            "Einlegesysteme",
+            "Portioniersysteme",
+            "Temperiersysteme"
+        ],
+        "machines": [
+            "Einlegemaschinen",
+            "Portioniermaschinen",
+            "Temperiermaschinen"
+        ],
+        "process_type": [
+            "Einlegungen",
+            "Portionierungen",
+            "Temperierungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gottlob Stahl Wäschereimaschinenbau GmbH",
+        "company_url": "https://stahl-waeschereimaschinen.de",
+        "products": [
+            "Trockenschränke",
+            "Waschmaschinen",
+            "Wäschetrockner"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "VetterTec GmbH",
+        "company_url": "http://www.vettertec.de",
+        "products": [
+            "Brauereiausrüstungen",
+            "Komplexe Trocknungssysteme",
+            "Mechanische Entwässerungsanlagen",
+            "Trockner"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Krallmann GmbH",
+        "company_url": "https://www.krallmann.de",
+        "products": [
+            "Anlaufprozesse",
+            "Innovationsgestaltungen",
+            "Kunststoffverarbeitungen",
+            "Werkzeugbauten"
+        ],
+        "machines": [],
+        "process_type": [
+            "Kunststoffspritzgießverfahren",
+            "Werkzeugbauten"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Reich GmbH",
+        "company_url": "http://www.reich-gmbh.com",
+        "products": [
+            "Drehteile",
+            "Komponenten für Einspritzanlagen",
+            "Kugellager"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "bielomatik GmbH",
+        "company_url": "http://www.bielomatik.com/en/",
+        "products": [
+            "Automatisierungs- und Endbearbeitungssysteme",
+            "Kunststoffschweißsysteme",
+            "Technologiezentren"
+        ],
+        "machines": [],
+        "process_type": [
+            "2-Schritt-Laserschweißen",
+            "Heißplattenschweißen",
+            "Infrarotschweißen",
+            "Laserschweißen",
+            "Ultraschallschweißen",
+            "Vibrationsschweißen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Alfred H. Schütte GmbH & Co. KG",
+        "company_url": "https://www.schuette.de",
+        "products": [
+            "Mehrspindel-Drehautomaten",
+            "Schleifmaschinen",
+            "Software"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "SKR Antriebstechnik GmbH",
+        "company_url": "https://www.skr.biz",
+        "products": [
+            "Keil-/Keilrippenriemen",
+            "Riemenscheiben",
+            "Zahnriemen"
+        ],
+        "machines": [
+            "CNC-Maschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "CNC-Bearbeitungen",
+            "Erodierungen",
+            "Fräsen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "STEINERT GmbH",
+        "company_url": "https://steinertglobal.com/de/",
+        "products": [
+            "Magnetabscheider",
+            "STEINERT.digital",
+            "Sensorsortiersysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "RONO Maschinenbau GmbH",
+        "company_url": "https://ro-no.com",
+        "products": [
+            "Dienstleistungen",
+            "Ersatzteile",
+            "Maschinen"
+        ],
+        "machines": [
+            "Pilotanlagen",
+            "Prozessmodule",
+            "Verfahrenstechnikmaschinen"
+        ],
+        "process_type": [
+            "Lebensmitteltechnologien",
+            "Prozesstechniken",
+            "Verfahrenstechniken"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Buhmann Systeme GmbH",
+        "company_url": "https://buhmann.com",
+        "products": [
+            "Automatisierungslösungen für Verpackungsprozesse",
+            "Endverpackungsmaschinen",
+            "Formenbauten für Silikonformteile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "MSB GmbH & Co. KG",
+        "company_url": "https://www.schmittwerke.com",
+        "products": [
+            "Sondermaschinen",
+            "Teilefertigungen im Kundenauftrag",
+            "Werkzeug-und Werkstück-Handling Systeme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "IPTE Germany GmbH",
+        "company_url": "https://www.ipte.com",
+        "products": [
+            "Montagelösungen",
+            "Produktionssysteme",
+            "Testlösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PLAKOMA GmbH",
+        "company_url": "https://www.plakoma.de/de/",
+        "products": [
+            "Fertigungslösungen",
+            "Maschinen- und Anlagenbauten",
+            "Montage- und Instandhaltungsdienstleistungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Andreas Hofer Hochdrucktechnik GmbH",
+        "company_url": "https://www.hofer-hochdrucktechnik.de",
+        "products": [
+            "Elektrolyseure",
+            "Kompressoren & Kompressoranlagen",
+            "Wasserstofftankstellen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WIMA Wilsdruffer",
+        "company_url": "http://www.wima-maschinen.de",
+        "products": [
+            "Dichtetrenner",
+            "Doppelschwertwäschen",
+            "Lamellenabschneider",
+            "Sandfänge",
+            "Siebmaschinen",
+            "Vertragsfertigungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Gehring Technologies GmbH",
+        "company_url": "https://www.gehring-group.com",
+        "products": [
+            "E-Mobilitätslösungen",
+            "Honmaschinen",
+            "Laseranlagen"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Lasermaschinen"
+        ],
+        "process_type": [
+            "Honen",
+            "Laserschweißen",
+            "Laserstrukturieren"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Mall + Herlan GmbH",
+        "company_url": "http://www.mall-herlan.de",
+        "products": [
+            "Aluminium- und Stahl-Aerosoldosenlinien",
+            "Aluminium-Flaschenlinien",
+            "komplette Linien oder einzelne Maschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Dekorationsanwendungen",
+            "Halsungen und Qualitätskontrollen",
+            "Materialzufuhren",
+            "Zylinderproduktionen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Huning Maschinenbau GmbH",
+        "company_url": "https://www.huning-maschinenbau.de",
+        "products": [
+            "Anlagenbauten",
+            "Blechbearbeitungen",
+            "Metallverarbeitungsmaschinen"
+        ],
+        "machines": [
+            "Abkantmaschinen",
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Lasermaschinen",
+            "Schleifmaschinen",
+            "Walzmaschinen"
+        ],
+        "process_type": [
+            "Abkanttechniken",
+            "Drehtechniken",
+            "Frästechniken",
+            "Lasertechniken",
+            "Schleiftechniken",
+            "Walztechniken"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "MINDA Industrieanlagen GmbH",
+        "company_url": "https://www.minda.com/de/",
+        "products": [
+            "Anlagen für die Bahntechnik",
+            "Anlagen für die Intralogistik",
+            "Anlagenbaulösungen",
+            "Fahrzeugwäschesysteme",
+            "Fördertechniksysteme",
+            "Intralogistikanlagen für die Wellpappenindustrien",
+            "Intralogistiksysteme",
+            "Lösungen für die Massivholzindustrien",
+            "Lösungen für die Reifenindustrien",
+            "Transportlösungen für die Holzwerkstoffindustrien",
+            "Vorrichtungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "RB Solutions GmbH & Co. KG",
+        "company_url": "https://rbs-germany.de",
+        "products": [
+            "Anlagen",
+            "Baugruppen",
+            "Sondermaschinen"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Montagemaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Fräsen",
+            "Montagen",
+            "Schweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Heidrive GmbH",
+        "company_url": "https://www.heidrive.com",
+        "products": [
+            "Asynchronprodukte",
+            "Servoregler",
+            "Synchron-Servoprodukte"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "MFT Maschinenfabrik Thale GmbH",
+        "company_url": "http://www.mft-thale.de",
+        "products": [
+            "Ersatzteile",
+            "Reparaturen",
+            "maschinentechnische Ausrüstungen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Herstellungen",
+            "Konstruktionen",
+            "Montagen",
+            "Schweißfertigungen",
+            "Zerspanende Lohnarbeiten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "schwartz GmbH",
+        "company_url": "https://schwartz-wba.com",
+        "products": [
+            "Thermo-Inline-Printer",
+            "Wärmebehandlungsanlagen für Aluminium",
+            "Wärmebehandlungsanlagen für das Presshärten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ALD Vacuum Technologies GmbH",
+        "company_url": "https://www.ald-vt.com",
+        "products": [
+            "Vakuummetallurgiesysteme",
+            "Vakuumwärmebehandlungssysteme",
+            "Wärmebehandlungsdienstleistungen"
+        ],
+        "machines": [
+            "Beschichtungsanlagen",
+            "Gießsysteme",
+            "Vakuumöfen"
+        ],
+        "process_type": [
+            "Sintern",
+            "Vakuummetallurgien",
+            "Vakuumwärmebehandlungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Pipetronics GmbH & Co. KG",
+        "company_url": "https://www.pipetronics.de",
+        "products": [
+            "Spachtel- und Verpress-Systeme",
+            "elektrische Fräsroboter",
+            "hydraulische Fräsroboter"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "UFT Umwelt- und Fluid-Technik",
+        "company_url": "https://www.uft.eu",
+        "products": [
+            "Elektrotechniken",
+            "Hydro-Mechaniken",
+            "Prozessleittechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "DIRKRA Sondermaschinenbau GmbH & Co. KG",
+        "company_url": "https://dirkra.de",
+        "products": [
+            "Reinigungstechnologien",
+            "Schleifzentren",
+            "Sondermaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Stahl- und Apparatebau Hans Leffer GmbH & Co. KG",
+        "company_url": "https://www.leffer.de/de/",
+        "products": [
+            "Druckbehälter",
+            "Reaktoren",
+            "Wärmeaustauscher"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Dürkopp Fördertechnik GmbH",
+        "company_url": "http://www.duerkopp-web.de",
+        "products": [
+            "Materialhandhabungen",
+            "Software",
+            "Sortiersysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Adolf Müller GmbH u. Co. KG",
+        "company_url": "https://www.mueller-machines.com",
+        "products": [
+            "After-Sales-Services",
+            "Schneidemaschinen",
+            "Wickelmaschinen"
+        ],
+        "machines": [
+            "Laminiermaschinen",
+            "Rollenschneider",
+            "Schmalschneidmaschinen",
+            "Spulmaschinen",
+            "Sägegatter"
+        ],
+        "process_type": [
+            "Automatisierungstechniken",
+            "Elektromontagen",
+            "Pneumatiken",
+            "mechanische Montagen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Amada Machinery Europe GmbH",
+        "company_url": "https://amada-machinery.com",
+        "products": [
+            "Bandsägemaschinen",
+            "Kreissägemaschinen",
+            "Sägebänder"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Fräsen",
+            "Schleifen",
+            "Sägen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KRACHT GmbH",
+        "company_url": "https://www.kracht.eu",
+        "products": [
+            "Fluidmessgeräte",
+            "Pumpen",
+            "Ventile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Werkzeugmaschinenfabrik WALDRICH COBURG",
+        "company_url": "https://www.waldrich-coburg.de",
+        "products": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Drehen",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Gebrüder Tigges GmbH & Co. KG",
+        "company_url": "https://tigges.com",
+        "products": [
+            "Eisengussteile",
+            "Kettenrollen",
+            "Landmaschinen"
+        ],
+        "machines": [
+            "Bearbeitungsmaschinen",
+            "Gießmaschinen",
+            "Wärmebehandlungsmaschinen"
+        ],
+        "process_type": [
+            "Gussverfahren",
+            "Mechanische Bearbeitungen",
+            "Wärmebehandlungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "SEALPAC GmbH",
+        "company_url": "https://www.sealpac.de",
+        "products": [
+            "Thermoformer",
+            "Traysealder",
+            "Verpackungslösungen"
+        ],
+        "machines": [
+            "Thermoformer",
+            "Traysealer"
+        ],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "AMADA WELD TECH GmbH",
+        "company_url": "https://www.amadaweldtech.eu",
+        "products": [
+            "Lasermarkiergeräte",
+            "Laserschneidgeräte",
+            "Laserschweißgeräte"
+        ],
+        "machines": [],
+        "process_type": [
+            "Lasermarkierungen",
+            "Laserschneidungen",
+            "Laserschweißen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenbau Hellwig GmbH",
+        "company_url": "https://hellwig-gmbh.de",
+        "products": [
+            "Aufarbeitungen von Werkzeugmaschinen",
+            "Modernisierungen von Werkzeugmaschinen",
+            "Spezial-Kabelsysteme und Sonderleitungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SOLAYER GmbH",
+        "company_url": "https://solayer.de",
+        "products": [
+            "Funktionale und optische Schichten",
+            "Sputtertechnologien",
+            "Vakuumbeschichtungssysteme"
+        ],
+        "machines": [],
+        "process_type": [
+            "Plasmatechnologien",
+            "Vakuumbeschichtungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Mayr & Wilhelm GmbH & Co. KG",
+        "company_url": "https://mayr-wilhelm.de",
+        "products": [
+            "Helix-Rohrbündel®",
+            "Twisted Tubes®",
+            "Wärmetauscher"
+        ],
+        "machines": [
+            "Fertigungsanlagen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Fertigungsverfahren",
+            "Schweißens"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "RSGetriebe GmbH",
+        "company_url": "https://www.rsgetriebe.de",
+        "products": [
+            "Extrudergetriebe",
+            "Flachgetriebe",
+            "Prüfstandsgetriebe",
+            "Schaltgetriebe",
+            "Schwerlastgetriebe",
+            "Schwungmassen",
+            "Sondergetriebe",
+            "Spielarme Planetengetriebe",
+            "Spindelantriebe & Antriebe für Werkzeugmaschinen",
+            "Turbogetriebe",
+            "Verteilergetriebe",
+            "Verzahnungsteile & Antriebselemente"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Montagen",
+            "Qualitätssicherungen",
+            "Zerspanungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KOBRA Formen GmbH",
+        "company_url": "https://www.kobragroup.com",
+        "products": [
+            "Betonsteinformen",
+            "Härtestandards",
+            "Technologien"
+        ],
+        "machines": [
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Fräsbearbeitungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "A & W Maschinenbau GmbH",
+        "company_url": "https://www.a-w-maschinenbau.de",
+        "products": [
+            "Behälter",
+            "Blechbearbeitungen",
+            "Stahlbauten"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Drehen",
+            "Erodieren",
+            "Fräsen",
+            "Schleifen",
+            "Schweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KOEPFER Zahnrad- und Getriebetechnik",
+        "company_url": "https://www.koepfer.com",
+        "products": [
+            "Getriebekomponenten",
+            "Kettenräder",
+            "Zahnräder"
+        ],
+        "machines": [],
+        "process_type": [
+            "Hartbearbeitung",
+            "Messen, Prüfen, Montieren",
+            "Weichbearbeitung",
+            "Wärmebehandlung"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Eugen Arnold GmbH",
+        "company_url": "https://www.arnoldgroup.com",
+        "products": [
+            "Elektrische Begleitheizsysteme",
+            "Isoliersysteme",
+            "Vor-Ort-Bearbeitungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Lang Technik GmbH",
+        "company_url": "https://lang-technik.de",
+        "products": [
+            "Automatisierungssysteme",
+            "Nullpunktspannsysteme",
+            "Werkstückspanntechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schnaithmann Maschinenbau GmbH",
+        "company_url": "https://www.schnaithmann.de",
+        "products": [
+            "Anlagenbauten",
+            "Arbeitsplätze",
+            "Transfersysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Fritz Werner Industrie-Ausrüstungen GmbH",
+        "company_url": "https://www.fritz-werner.com",
+        "products": [
+            "Fälle",
+            "Kugeln",
+            "Tassen"
+        ],
+        "machines": [
+            "Bandverkettungsmaschinen",
+            "Bleikernpressen",
+            "Boden- und Halspressen",
+            "Fallmessungsmaschinen",
+            "Glühmaschinen",
+            "Kugelprüfmaschinen",
+            "Kugeltransferpressen",
+            "Lackiermaschinen",
+            "Lade- und Montagemaschinen",
+            "Rillmaschinen",
+            "Stanzen",
+            "Tiefziehpressen",
+            "Verpackungsmaschinen",
+            "Wäge- und Messmaschinen",
+            "Wägemaschinen",
+            "Ziehpressen",
+            "Zündereinführ- und Lackiermaschinen",
+            "Zündhütcheneinführmaschinen"
+        ],
+        "process_type": [
+            "Bandverkettungen",
+            "Bleikernpressen",
+            "Boden- und Halspressen",
+            "Fallmessungen",
+            "Glühen",
+            "Kugelprüfungen",
+            "Kugeltransfers",
+            "Lackierungen",
+            "Laden und Montieren",
+            "Rillen",
+            "Stanzen",
+            "Tiefziehen",
+            "Verpackungen",
+            "Wägen",
+            "Wägen und Messen",
+            "Ziehen",
+            "Zündereinführungen und Lackierungen",
+            "Zündhütcheneinführungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PFAFF Industriesysteme und Maschinen",
+        "company_url": "https://www.pfaff-industrial.de",
+        "products": [
+            "Nähmaschinen",
+            "Robotiken",
+            "Schweißmaschinen"
+        ],
+        "machines": [
+            "Nähmaschinen",
+            "Roboter",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Nähen",
+            "Schweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Fertigungstechnik Weißenfels GmbH",
+        "company_url": "https://www.ftw.info",
+        "products": [
+            "Mehrachsschwenksysteme",
+            "NC-Rundtischsysteme mit HIRTH-Klemmungen / Baureihen TT",
+            "NC-Rundtischsysteme mit NC-Klemmungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Günther Maschinenbau GmbH",
+        "company_url": "https://www.guenther-maschinenbau.de",
+        "products": [
+            "Injektoren",
+            "Lakeaufbereitungen",
+            "Tumbler"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Prima Power GmbH",
+        "company_url": "https://www.primapower.com/de/",
+        "products": [
+            "Automatisierungslösungen",
+            "Blechbearbeitungsmaschinen",
+            "Softwarelösungen"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "Laserschneidmaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Biegeprozesse",
+            "Laserschneiden",
+            "Stanzen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schneeberger GmbH",
+        "company_url": "https://www.schneeberger.com/de/",
+        "products": [
+            "Kugelgewindetriebe",
+            "Linearführungen",
+            "Profilschienenführungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SAMAG Saalfelder Werkzeugmaschinen GmbH",
+        "company_url": "https://www.samag.de",
+        "products": [],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Baljer & Zembrod GmbH & Co. KG",
+        "company_url": "https://www.bz.ag",
+        "products": [
+            "Holzbearbeitungsmaschinen",
+            "Schrott- und Abfallbehandlungsmaschinen",
+            "Sondermaschinen"
+        ],
+        "machines": [
+            "CNC-Fräsmaschinen",
+            "Debarking-Maschinen",
+            "Schwerlastkrane"
+        ],
+        "process_type": [
+            "CNC-Bearbeitungen",
+            "Debarkings",
+            "Schwerlasthandhabungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gala Kunststoff- und Kautschukmaschinen",
+        "company_url": "https://maag.com",
+        "products": [
+            "Filtrationssysteme",
+            "Pelletierungssysteme",
+            "Pumpsysteme"
+        ],
+        "machines": [
+            "Filtriermaschinen",
+            "Pelletisierungsmaschinen",
+            "Pumpen"
+        ],
+        "process_type": [
+            "Extrusionen",
+            "Pelletierungen",
+            "Recycling"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Winkler und Dünnebier Süßwarenmaschinen GmbH",
+        "company_url": "https://www.w-u-d.com/de/",
+        "products": [
+            "Fertigungsanlagen für Gummi und Gelee",
+            "Fertigungsanlagen für Hartbonbons",
+            "Fertigungsanlagen für Schokolade"
+        ],
+        "machines": [
+            "Formen",
+            "Gießstationen",
+            "Zubehör"
+        ],
+        "process_type": [
+            "Formen",
+            "Gießens",
+            "Nachbehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Erwin Junker Maschinenfabrik GmbH",
+        "company_url": "https://www.junker-group.com",
+        "products": [
+            "Filtrationssysteme",
+            "Hochpräzise Schleifmaschinen",
+            "Schleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Haugg-Kühlerfabrik GmbH",
+        "company_url": "https://www.haugg-group.com",
+        "products": [
+            "Autokühler und KFZ-Klimaanlagen",
+            "Industriekühler",
+            "Kühlerreparatur und Instandsetzung"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wieneke Anlagenbau und Verfahrenstechnik GmbH",
+        "company_url": "https://www.wieneke.de",
+        "products": [
+            "Entwicklungen",
+            "Konzeptionen",
+            "Logistiklösungen"
+        ],
+        "machines": [
+            "Abkantmaschinen",
+            "Bolzenschweißmaschinen",
+            "Gesenkbiegemaschinen",
+            "Laserschneidmaschinen",
+            "Oberflächenbehandlungsmaschinen",
+            "Schleifmaschinen",
+            "Schweißmaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Abkanten/Gesenkbiegen",
+            "Bolzenschweißen",
+            "Oberflächenbehandlungen",
+            "Schweißen/Schleifen",
+            "Stanzen/Laserschneiden"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "BHS-Sonthofen GmbH",
+        "company_url": "https://www.bhs-sonthofen.de",
+        "products": [
+            "Filtriermaschinen",
+            "Mischer",
+            "Trockner"
+        ],
+        "machines": [],
+        "process_type": [
+            "Filtrierungen",
+            "Mischungen",
+            "Trocknungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Flottweg SE",
+        "company_url": "https://www.flottweg.com/de/",
+        "products": [
+            "Decanterzentrifugen",
+            "Separatoren",
+            "Tricanter®"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ASYS Automatic Systems GmbH & Co. KG",
+        "company_url": "https://www.asys-micro.de",
+        "products": [
+            "Einzelkomponenten",
+            "Micronicfabs",
+            "Roboter"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Groenveld-BEKA Zentralschmieranlagen",
+        "company_url": "https://www.groenveld-beka.com",
+        "products": [],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Häcker Automation GmbH",
+        "company_url": "https://www.haecker-automation.de/en/",
+        "products": [
+            "Dosiersysteme",
+            "Laserlötmaschinen",
+            "PCB-Baugruppen und 3D-Baugruppen"
+        ],
+        "machines": [
+            "Lötmaschinen",
+            "Montagemaschinen",
+            "Prüfmaschinen"
+        ],
+        "process_type": [
+            "3D-Montagen",
+            "Dosierprozesse",
+            "PCB-Montagen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "GHH Rand Schraubenkompressoren GmbH",
+        "company_url": "https://oem-solutions.ingersollrand.com",
+        "products": [],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Brosa GmbH",
+        "company_url": "https://www.brosa.net",
+        "products": [
+            "Kraftmessachsen",
+            "Kraftmesshülsen",
+            "Kraftmessringe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hanke Crimp-Technik GmbH",
+        "company_url": "http://www.hankect.de",
+        "products": [
+            "Crimppressen",
+            "Crimpwerkzeuge",
+            "Sonderanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Mayer & Cie. GmbH & Co. KG",
+        "company_url": "https://www.mayercie.com",
+        "products": [
+            "Ersatzteile",
+            "Flechtmaschinen",
+            "Rundstrickmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KIEFEL GmbH",
+        "company_url": "https://www.kiefel.com",
+        "products": [
+            "Faserverpackungen",
+            "Kunststoffverpackungen",
+            "Medizinische und pharmazeutische Lösungen"
+        ],
+        "machines": [
+            "Hochfrequenzschweißmaschinen",
+            "Thermoformmaschinen"
+        ],
+        "process_type": [
+            "Hochfrequenzschweißen",
+            "Thermoformen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "G. Staehle GmbH u. Co. KG",
+        "company_url": "https://www.columbus-clean.com",
+        "products": [
+            "Einscheibenmaschinen",
+            "Kehrmaschinen",
+            "Reinigungsautomaten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "TURBOMACH GmbH",
+        "company_url": "https://www.solarturbines.com",
+        "products": [
+            "Gaskompressoren",
+            "Gasturbinen",
+            "Stromgeneratoren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Michael Glatt Maschinenbau GmbH",
+        "company_url": "https://www.glattistgutgmbh.de",
+        "products": [
+            "Apparate",
+            "Behälter",
+            "Sonderbauten"
+        ],
+        "machines": [
+            "Bearbeitungszentren",
+            "Erodiermaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Auslieferungen",
+            "Konstruktionen",
+            "Planungen",
+            "TÜV-Prüfungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WINKEL GmbH",
+        "company_url": "https://www.winkel.de",
+        "products": [
+            "Linearachsen",
+            "Linearführungen",
+            "Schlauchtrommeln"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Heinz & Feld GmbH Präzisions- und Sondermaschinenbau",
+        "company_url": "https://www.heinz-feld.de",
+        "products": [
+            "Automatisierungslösungen",
+            "Montageanlagen",
+            "Sondermaschinen"
+        ],
+        "machines": [
+            "CNC-Maschinen",
+            "Messtechnikanlagen",
+            "Robotersysteme"
+        ],
+        "process_type": [
+            "Dreharbeiten",
+            "Fräsarbeiten",
+            "Schleifarbeiten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "W. MÜLLER GmbH",
+        "company_url": "https://www.w-mueller-gmbh.de",
+        "products": [
+            "Blasformen",
+            "Extrusionsschlauchköpfe",
+            "Hohlkörper"
+        ],
+        "machines": [],
+        "process_type": [
+            "Extrusionsblasformen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "IWK Verpackungstechnik GmbH",
+        "company_url": "https://www.iwk.de",
+        "products": [
+            "Kartoniermaschinen",
+            "Tubenfüllmaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "CFT GmbH - Compact Filter Technic",
+        "company_url": "https://cft-gmbh.de",
+        "products": [
+            "Entstaubungsanlagen",
+            "Ventilatoren",
+            "Wetterkühlsysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gerätebau Wiedtal Schützeichel GmbH & Co. KG",
+        "company_url": "https://www.schuetzeichel.de",
+        "products": [
+            "Bohrdienstleistungen",
+            "Diamantwerkzeuge",
+            "Maschinenbaulösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "ROVEMA GmbH",
+        "company_url": "https://www.rovema.com",
+        "products": [
+            "Dienstleistungen",
+            "Verpackungslösungen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [
+            "Endverpackungsmaschinen",
+            "Kartoniermaschinen",
+            "Schlauchbeutelmaschinen"
+        ],
+        "process_type": [
+            "Generalüberholungen",
+            "Maschinenmodernisierungen",
+            "Verpackungsprozesse"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "vision-tec gmbh",
+        "company_url": "https://www.vision-tec.de",
+        "products": [
+            "Ausleitsysteme",
+            "Flaschenkontrollen",
+            "Kastenkontrollen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BMS Maschinenfabrik GmbH",
+        "company_url": "https://www.bms-maschinenfabrik.de/de/",
+        "products": [
+            "Packer",
+            "Palettierer",
+            "Transporteure"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KALTENBACH GmbH + Co. KG",
+        "company_url": "https://www.kaltenbach.com/de/",
+        "products": [
+            "Ausklinkroboter",
+            "Bandsägen",
+            "Blechbearbeitungen",
+            "Bohrmaschinen",
+            "Kreissägen",
+            "Lackieranlagen",
+            "Strahlanlagen"
+        ],
+        "machines": [
+            "Bohren",
+            "Fräsen",
+            "Lackieren",
+            "Strahlen",
+            "Sägen"
+        ],
+        "process_type": [
+            "Bohren",
+            "Fräsen",
+            "Lackieren",
+            "Strahlen",
+            "Sägen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "VENTAPP GmbH",
+        "company_url": "https://www.ventapp.de/de/",
+        "products": [
+            "Apparatebauten / Blechfertigungen",
+            "Industrieklappen",
+            "Ventilatoren"
+        ],
+        "machines": [
+            "Kantenbiegemaschinen",
+            "Lasermaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Kantenbiegen",
+            "Laserschneiden",
+            "Schweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "HEESS GmbH & Co KG",
+        "company_url": "https://www.heess.com",
+        "products": [
+            "Automatisierungskomponenten",
+            "Härtemaschinen",
+            "Reinigungsanlagen"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Laserschneidmaschinen"
+        ],
+        "process_type": [
+            "Erodieren",
+            "Fräsen",
+            "Laserschneiden"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Zeulenroda Presstechnik GmbH",
+        "company_url": "https://www.zeulenroda-presstechnik.de",
+        "products": [
+            "Hydraulische Pressen",
+            "Mechanische Pressen",
+            "Spezial-Pressensysteme"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Biegen",
+            "Prägungen",
+            "Schnitte"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Grün GmbH Spezialmaschinenfabrik",
+        "company_url": "https://gruen-gmbh.de/de/",
+        "products": [
+            "Absturzsicherungssysteme",
+            "Dachgeräte",
+            "Straßenbaumaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BEKO TECHNOLOGIES GMBH",
+        "company_url": "https://www.beko-technologies.com/de/",
+        "products": [
+            "Druckluftfilter",
+            "Drucklufttrockner",
+            "Kondensattechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Karl Heesemann Maschinenfabrik",
+        "company_url": "https://www.heesemann.de",
+        "products": [
+            "Schleifmaschinen für Holz",
+            "Schleifmaschinen für Metall",
+            "Schleifmaschinen für andere Werkstoffe"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Erodieren",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Engel Deutschland GmbH",
+        "company_url": "https://www.engelglobal.com/de/",
+        "products": [
+            "Automationen",
+            "Digitale Lösungen",
+            "Spritzgießmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KASTO Maschinenbau GmbH & Co. KG",
+        "company_url": "https://www.kasto.com/de/",
+        "products": [
+            "Lager",
+            "Mehre",
+            "Sägen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Manroland Sheetfed GmbH",
+        "company_url": "http://www.manrolandsheetfed.com",
+        "products": [
+            "Druckmaschinen",
+            "Drucksysteme",
+            "Verbrauchsmaterialien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HIGHYAG Lasertechnologie GmbH",
+        "company_url": "https://ii-vi.com",
+        "products": [
+            "Lasersysteme",
+            "Netzwerkkomponenten",
+            "Optiken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Dorst Technologies GmbH & Co. KG",
+        "company_url": "https://www.dorst-technologies.com/de/",
+        "products": [
+            "Axiale Pulverpressen",
+            "Isostatische Pulverpressen",
+            "Kalibrierpressen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gebrüder Lödige Maschinenbau GmbH",
+        "company_url": "https://www.loedige.de",
+        "products": [
+            "Granuliersysteme",
+            "Mischsysteme",
+            "Trocknungssysteme"
+        ],
+        "machines": [
+            "Granulierer",
+            "Mischer",
+            "Trockner"
+        ],
+        "process_type": [
+            "Granulierungen",
+            "Mischungen",
+            "Trocknungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "NABERTHERM GmbH",
+        "company_url": "https://nabertherm.com",
+        "products": [
+            "Dentalöfen",
+            "Industrielle Öfen",
+            "Kunststofföfen",
+            "Laboröfen",
+            "Prozesssteuerungen und Dokumentationen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Laempe Mössner Sinto GmbH",
+        "company_url": "https://www.laempe.com",
+        "products": [
+            "3D-Drucker",
+            "Kernschießmaschinen",
+            "Mischer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Rodriguez GmbH",
+        "company_url": "https://www.rodriguez.de",
+        "products": [
+            "Lineartechniken",
+            "Präzisionslager",
+            "kundenspezifische Lösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Rollon GmbH",
+        "company_url": "https://www.rollon.com",
+        "products": [
+            "Bogenführungen",
+            "Linearführungen",
+            "Teleskopschienen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "TLT-Turbo GmbH",
+        "company_url": "https://www.tlt-turbo.com/de/",
+        "products": [
+            "Mechanische Brüdenverdichtungen",
+            "Optimierungen & Wartungen",
+            "Services & Supports"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "DIENST Packsystems GmbH",
+        "company_url": "https://www.dienst-packsystems.de",
+        "products": [
+            "Horizontale Kartonierer",
+            "Top Loads",
+            "Vertikale Kartonierer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "sera GmbH",
+        "company_url": "https://www.sera-web.com",
+        "products": [
+            "Dosiersysteme",
+            "Pumpentechnologien",
+            "Wasserstofftechnologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WEBER Schraubautomaten GmbH",
+        "company_url": "https://www.weber-online.com",
+        "products": [
+            "Handschrauber",
+            "Stationärschrauber",
+            "Steuerungstechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HEGENSCHEIDT-MFD GmbH",
+        "company_url": "https://www.hegenscheidt-mfd.com",
+        "products": [
+            "Komplettlösungen",
+            "Maschinen zur Radsatzbearbeitung",
+            "Walzmaschinen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Metallbearbeitungen",
+            "Montagen",
+            "Oberflächenbehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ab-Apparatebau Berghaus GmbH",
+        "company_url": "https://www.ab-berghaus.de",
+        "products": [
+            "Blechverarbeitungen",
+            "Laserschneidungen",
+            "Stanzen"
+        ],
+        "machines": [
+            "Kantmaschinen",
+            "Laserschneidmaschinen",
+            "Roboter-Schweißmaschinen",
+            "Schweißmaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Hochpräzise Messungen",
+            "Kanten und Umformungen",
+            "Manuelle Schweißverfahren",
+            "Programmierungen",
+            "Spanabhebende Bearbeitungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Schmalenberger GmbH + Co. KG",
+        "company_url": "https://schmalenberger.de",
+        "products": [
+            "Kreiselpumpen",
+            "Pumpen für Oberflächentechnik und Reinigungsanlagen",
+            "Pumpen für Werkzeugmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HURCO GmbH Werkzeugmaschinen",
+        "company_url": "https://www.hurco.de",
+        "products": [
+            "CNC-Bearbeitungszentren",
+            "CNC-Drehmaschinen",
+            "CNC-Steuerungen"
+        ],
+        "machines": [
+            "Bearbeitungszentren",
+            "Drehmaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Drehen",
+            "Fräsen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Troester GmbH & Co. KG",
+        "company_url": "https://www.troester.de",
+        "products": [
+            "Gummiprodukte",
+            "Kabelprodukte",
+            "Verbindungskomponenten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SOMAtic GmbH",
+        "company_url": "https://www.somatic-gmbh.de",
+        "products": [
+            "Montagevollautomaten – auch für schnelle Montagezyklen",
+            "Teilautomaten mit Handbestückung bzw. Handentnahme",
+            "komplexe Gesamtanlagen aus verketteten Montagevollautomaten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schmid GmbH Maschinenbau",
+        "company_url": "https://www.schmid-maschinen.de",
+        "products": [
+            "Bearbeitungszentren",
+            "Flexible Fertigungssysteme",
+            "Sonder-Werkzeugmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kordel Antriebstechnik GmbH",
+        "company_url": "https://www.kordel.de",
+        "products": [
+            "Antriebstechnologien",
+            "Getriebesysteme",
+            "Getriebetechnologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Pfaff-silberblau",
+        "company_url": "https://www.pfaff-silberblau.com",
+        "products": [
+            "Antriebskomponenten",
+            "Elektroseilwinden",
+            "Hubtische"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Actemium conntronic GmbH",
+        "company_url": "https://www.welding.actemium.de",
+        "products": [
+            "Anlagen",
+            "Dienstleistungen",
+            "Schweißmaschinen"
+        ],
+        "machines": [
+            "Kondensatorentladungs-Schweißmaschinen",
+            "Laserschweißmaschinen",
+            "Lichtbogenschweißmaschinen",
+            "Widerstandsschweißmaschinen"
+        ],
+        "process_type": [
+            "Kondensatorentladungs-Schweißverfahren",
+            "Laserschweißverfahren",
+            "Lichtbogenschweißverfahren",
+            "Widerstandsschweißverfahren"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Wolfgang Preinfalk GmbH",
+        "company_url": "https://www.pwhueber.de/de/",
+        "products": [
+            "Getriebebauten",
+            "Komponenten",
+            "Lohnfertigungen"
+        ],
+        "machines": [
+            "Bohr- und Fräsmaschinen",
+            "Drehmaschinen",
+            "Messmaschinen",
+            "Schleifmaschinen",
+            "Verzahnungsmaschinen",
+            "Wärmebehandlungsmaschinen"
+        ],
+        "process_type": [
+            "Bohrungen und Fräsungen",
+            "Drehungen",
+            "Messungen",
+            "Schleifungen",
+            "Verzahnungen",
+            "Wärmebehandlungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "SEMPUCO Werkzeugmaschinenfabrik GmbH",
+        "company_url": "https://www.sempuco.com",
+        "products": [
+            "Baugruppen",
+            "Fräsköpfe",
+            "Rundtische"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Josef Meissner GmbH & Co. KG",
+        "company_url": "https://www.josefmeissner.com/de/",
+        "products": [
+            "Anlagen & Verfahren",
+            "Dienstleistungen",
+            "Referenzen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Beschaffungen & Lieferungen",
+            "Engineerings",
+            "Forschungen & Entwicklungen",
+            "Lizenzierungen",
+            "Modernisierungen",
+            "Montagen & Inbetriebnahmen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gebr. Eickhoff Maschinenfabrik",
+        "company_url": "https://www.eickhoff-bochum.de",
+        "products": [
+            "Fördermaschinen",
+            "Getriebe",
+            "Maschinen für die Rohstoffgewinnung"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Gießmaschinen"
+        ],
+        "process_type": [
+            "Gießereitechniken",
+            "Kunststoffverarbeitungen",
+            "Metallbearbeitungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wilhelm Bahmüller",
+        "company_url": "https://www.bahmueller.de/de/",
+        "products": [
+            "Präzisionsschleifmaschinen",
+            "Präzisionswerkzeuge",
+            "Wellpappenverarbeitungsanlagen"
+        ],
+        "machines": [
+            "Automatisierungssysteme",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Präzisionsschleifen",
+            "Wellpappenverarbeitungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Heinrich Georg GmbH Maschinenfabrik",
+        "company_url": "https://www.georg.com/de/",
+        "products": [
+            "Bearbeitungszentren",
+            "Coilverarbeitungsmaschinen",
+            "Walzenschleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Bearbeitungen",
+            "Coilverarbeitungen",
+            "Walzenschleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "DGS Diesel- und Getriebeservice GmbH",
+        "company_url": "https://www.dgs-mainz.de/de/",
+        "products": [
+            "Automatik-Getriebe",
+            "Dieselmotoren",
+            "Elektromotoren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HOLZER GmbH",
+        "company_url": "https://holzer-gmbh.com",
+        "products": [
+            "Auffang-Systeme",
+            "Montage- und Prüfautomation",
+            "Montage- und Prüfdienstleistungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Westphal Präzisionstechnik GmbH & Co. KG",
+        "company_url": "https://www.westphal-mechanik.de",
+        "products": [
+            "Montagelinien",
+            "Rundschalttische",
+            "Zuführsysteme"
+        ],
+        "machines": [
+            "Bearbeitungszentren",
+            "CNC-Dreh- und CNC-Fräsmaschinen",
+            "Draht- und Senkerodiermaschinen"
+        ],
+        "process_type": [
+            "Bearbeitung (z. B. Fräsen)",
+            "Rollieren",
+            "Schweißen",
+            "Verklemmen",
+            "Verschrauben oder Nieten",
+            "Verstemmen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "HOMAG Bohrsysteme GmbH",
+        "company_url": "https://www.homag.com",
+        "products": [
+            "Dienstleistungen",
+            "Maschinen",
+            "Software"
+        ],
+        "machines": [
+            "Automatisierungssysteme",
+            "Bohr- und Fräsmaschinen",
+            "CNC-Bearbeitungszentren",
+            "Kantenanleimmaschinen und Tenoner",
+            "Oberflächentechnikmaschinen",
+            "Planfräsmaschinen",
+            "Plattenaufteil- und Schneidmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Bohr- und Fräsbearbeitungen",
+            "CNC-Bearbeitungen",
+            "Kantenanleimungen",
+            "Oberflächenbearbeitungen",
+            "Planfräsen",
+            "Plattenaufteilungen und Schneiden"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Werner Lieb GmbH & Co. KG",
+        "company_url": "https://www.werner-lieb.de",
+        "products": [
+            "Halbleiter",
+            "Hochleistungselektroniken",
+            "Vollintegrierte Systeme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Nordson BKG GmbH",
+        "company_url": "https://www.nordson.com/en/",
+        "products": [
+            "Adhäsive Dispensiersysteme",
+            "Fluid Dispensiersysteme",
+            "Präzisionsmesssysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Sielaff GmbH & Co. KG",
+        "company_url": "https://sielaff.de",
+        "products": [
+            "Rücknahmesysteme",
+            "Serviceleistungen",
+            "Vending-Linien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ECONO-PAK GmbH",
+        "company_url": "https://econopak.eu",
+        "products": [
+            "Aufrichter",
+            "Kartonierer",
+            "Verschließer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Horstkemper Maschinenbau GmbH",
+        "company_url": "https://www.horstkemper.de",
+        "products": [
+            "Lager- und Materialflusssysteme",
+            "Pressenautomationen",
+            "Sondermaschinenbauten",
+            "Transport- und Handlingstechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PERFECTA",
+        "company_url": "https://www.perfecta.de/de/",
+        "products": [
+            "Beladungen",
+            "Schnitte",
+            "Schüttelungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ystral gmbh",
+        "company_url": "https://ystral.com/en/",
+        "products": [
+            "Disperser",
+            "Inline-Disperser",
+            "Mixer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "H. F. Meyer Maschinenbau GmbH & Co. KG",
+        "company_url": "https://www.hfmeyer.de",
+        "products": [
+            "Dosentechniken",
+            "Filtrationen",
+            "Sondermaschinenbauten"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Lackieranlagen",
+            "Montagemaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Kunststoffverarbeitungen",
+            "Metallbearbeitungen",
+            "Oberflächenbehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "OLBRICH GmbH",
+        "company_url": "https://www.olbrich.com",
+        "products": [
+            "Technologische Lösungen für die Bodenbelagsindustrien",
+            "Technologische Lösungen für die Wandbekleidungsindustrien",
+            "Technologische Lösungen für die technischen Textilindustrien"
+        ],
+        "machines": [],
+        "process_type": [
+            "Antriebs- und Steuerungstechniken",
+            "Beschichtungen",
+            "Drucken und Lackieren",
+            "Kalandrierungen",
+            "Konfektionierungen",
+            "Laminierungen und Kaschierungen",
+            "Prägungen und Glättungen",
+            "Trocknungen",
+            "Wicklungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SCHUKO H. Schulte-Südhoff GmbH",
+        "company_url": "https://www.schuko.de/de/",
+        "products": [
+            "Absaug- & Filtertechniken",
+            "Entsorgungstechniken",
+            "Oberflächentechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Motan GmbH",
+        "company_url": "https://www.motan-group.com",
+        "products": [
+            "Dosiersysteme",
+            "Material Handling Systeme",
+            "Mischsysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SCHNEIDER GmbH & Co. KG",
+        "company_url": "https://www.schneider-om.com",
+        "products": [
+            "Ophthalmische Maschinen",
+            "Präzisionsoptikmaschinen",
+            "Ultra-Präzisionsoptikmaschinen"
+        ],
+        "machines": [
+            "Poliermaschinen",
+            "Schleifmaschinen",
+            "Zentriermaschinen"
+        ],
+        "process_type": [
+            "Polieren",
+            "Schleifen",
+            "Zentrieren"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "airinotec GmbH",
+        "company_url": "https://www.airinotec.com",
+        "products": [
+            "Hygiene-Klimalösungen",
+            "Klima- und Lüftungsanlagen",
+            "Prozesslufttechniken & Wärmerückgewinnungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Weisstaler Bödenpresswerke GmbH",
+        "company_url": "https://weisstaler.de/de/",
+        "products": [
+            "Böden",
+            "Ovale Verschlüsse für Druckbehälter",
+            "Sonderpressteile"
+        ],
+        "machines": [
+            "Bördelmaschinen",
+            "Kümpelmaschinen",
+            "Pressmaschinen"
+        ],
+        "process_type": [
+            "Bördel",
+            "Kümpel",
+            "Pressen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "H.I.T. Maschinenbau GmbH + Co. KG",
+        "company_url": "https://hit-maschinenbau.de",
+        "products": [
+            "Hobeltechniken",
+            "Leimholztechniken",
+            "Sägetechniken"
+        ],
+        "machines": [
+            "Hobelmaschinen",
+            "Leimpressen",
+            "Sägemaschinen"
+        ],
+        "process_type": [
+            "Hobel",
+            "Leime",
+            "Sägen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wöhr Autoparksysteme GmbH",
+        "company_url": "https://woehr.de/de/",
+        "products": [
+            "Combilifte",
+            "Parklifte",
+            "Parksysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ROTA Verpackungstechnik GmbH & Co. KG",
+        "company_url": "https://www.rota.de",
+        "products": [
+            "Etikettiermaschinen",
+            "Füll- und Verschließmaschinen",
+            "Kleinchargenmaschinen",
+            "Maschinen für die aseptischen Primärverpackungen von parenteralen Medikamenten",
+            "Sterilisationsmaschinen",
+            "Waschmaschinen",
+            "komplette Verpackungslinien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Pfister Waagen Bilanciai GmbH",
+        "company_url": "https://www.pfister-waagen.de",
+        "products": [
+            "Gleisfahrzeugwaagen",
+            "Plattformwaagen",
+            "Straßenfahrzeugwaagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "FPS Werkzeugmaschinen GmbH",
+        "company_url": "https://www.fpsgermany.com",
+        "products": [
+            "Generalüberholte Maschinen",
+            "Neumaschinen",
+            "Zubehör"
+        ],
+        "machines": [
+            "Bohrmaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Montagen",
+            "Zerspanungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Ferdinand Henneken GmbH",
+        "company_url": "https://henneken-tumbler.de",
+        "products": [
+            "Injektoren",
+            "Lakemischer",
+            "Tumbler"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KABATEC GmbH & Co. KG",
+        "company_url": "https://www.kabatec.com",
+        "products": [
+            "Zubehör",
+            "automatisierte Plattformen für Datenleitungen",
+            "automatisierte Plattformen für Hochvoltleitungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Nikon Precision Europe GmbH",
+        "company_url": "https://www.nikonprecision.com",
+        "products": [
+            "Deep UV",
+            "Immersion and Multiple Patterning",
+            "i-Line"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Rationator Maschinenbau GmbH",
+        "company_url": "https://www.rationator.de",
+        "products": [
+            "Abfüllungen",
+            "Aufstellungen",
+            "Verschlüsse"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Vulkan Technic GmbH",
+        "company_url": "https://vulkantechnic.de",
+        "products": [
+            "Semiautomatische Applikationen",
+            "Vollautomatische Klebebandapplikationen",
+            "Vollautomatische Schaumband-Applikationen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KARL MAYER Technische Textilien GmbH",
+        "company_url": "https://www.karlmayer.com/de/",
+        "products": [
+            "Kettvorbereitungsanlagen",
+            "Technische Textilien",
+            "Wirkmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Vollmer Werke Maschinenfabrik GmbH",
+        "company_url": "https://www.vollmer-group.com/de/",
+        "products": [
+            "Erodiermaschinen",
+            "Lasermaschinen",
+            "Schleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Aumann Limbach-Oberfrohna GmbH",
+        "company_url": "https://www.aumann.com",
+        "products": [
+            "Branchenlösungen",
+            "Spezialmaschinen",
+            "automatisierte Fertigungslinien"
+        ],
+        "machines": [
+            "Drahtbearbeitungsmaschinen",
+            "Messsysteme",
+            "Montage- und Handhabungstechnik",
+            "Wickelmaschinen"
+        ],
+        "process_type": [
+            "Automationen",
+            "Drahtherstellungen",
+            "Kontaktieren",
+            "Laminierungen & Beschichtungen",
+            "Montagetechniken",
+            "Schweißtechniken",
+            "Wickeltechniken"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Mosca GmbH",
+        "company_url": "https://www.mosca.com",
+        "products": [
+            "Stretch Wrapping Maschinen",
+            "Umreifungsbänder",
+            "Umreifungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kurt Breuning IRCO-Maschinenbau GmbH",
+        "company_url": "https://www.breuning-irco.de",
+        "products": [
+            "Stangenlademagazine für kurze Werkstoffstangen",
+            "Stangenlademagazine für lange Werkstoffstangen",
+            "Werkstücke automatisch beladen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "J.G. Weisser Söhne GmbH & Co. KG",
+        "company_url": "https://www.weisser-web.com",
+        "products": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Rotationsdrehen",
+            "Universalbearbeitungen",
+            "Unrunddrehen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KLINGER SCHÖNEBERG GmbH",
+        "company_url": "https://www.klinger-schoeneberg.de/de/",
+        "products": [
+            "Industriearmaturen",
+            "Kugelhähne",
+            "Ventile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenfabrik Lauffer GmbH & Co KG",
+        "company_url": "https://lauffer.de",
+        "products": [
+            "Formtechnologien",
+            "Laminiersysteme",
+            "Pulvertechnologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KTR Systems GmbH",
+        "company_url": "https://www.ktr.com/de/",
+        "products": [
+            "Bremsen",
+            "Hydraulik-Komponenten",
+            "Kupplungen",
+            "Kühler"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Grunwald GmbH",
+        "company_url": "https://www.grunwald-wangen.de",
+        "products": [
+            "Becherfüller",
+            "Eimerfüller",
+            "Sonstige Maschinenlösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WF-Maschinenbau und Blechformtechnik",
+        "company_url": "https://wf-maschinenbau.com/de/",
+        "products": [
+            "Endprodukte wie Räder, Felgen, Motoren und Antriebsstränge",
+            "Komponenten für E-Antriebe",
+            "Metalldruckmaschinen"
+        ],
+        "machines": [
+            "Drückmaschinen",
+            "Nabenanformmaschinen",
+            "Profiliermaschinen",
+            "Rohreinzieh- und Verschließmaschinen",
+            "Rädermaschinen",
+            "Sondermaschinen",
+            "Streck- und Drückwalzmaschinen",
+            "Universalmaschinen"
+        ],
+        "process_type": [
+            "Drückwalzen",
+            "Metalldrücke",
+            "Metallverarbeitungen",
+            "Umformtechniken"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "telerob Gesellschaft für Fernhantierungstechnik mbH",
+        "company_url": "https://www.telerob.com/de/",
+        "products": [
+            "Taktische Raketensysteme",
+            "Unbemannte Bodenfahrzeuge",
+            "Unbemannte Luftfahrzeuge"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Dana Motion Systems Deutschland GmbH",
+        "company_url": "https://www.piv-extruderdrives.com",
+        "products": [
+            "Doppelschrauben-Extruderantriebe",
+            "Einzelschrauben-Extruderantriebe",
+            "Rack-and-Pinion-Antriebe für Spritzgießmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Richard Stihler GmbH",
+        "company_url": "https://www.stihler-apparatebau.de",
+        "products": [
+            "Kolonnen",
+            "Rührbehälter",
+            "Wärmetauscher"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Karl Marbach GmbH & Co. KG",
+        "company_url": "https://www.marbach.com",
+        "products": [
+            "Maschinen und Ausrüstungen",
+            "Stanzwerkzeuge",
+            "Thermoformwerkzeuge"
+        ],
+        "machines": [
+            "Stanzmaschinen",
+            "Thermoformmaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "process_type": [
+            "Stanzen",
+            "Thermoformen",
+            "Verpackungsproduktionen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "HEINRICH WAGNER SINTO Maschinenfabrik GmbH",
+        "company_url": "https://www.wagner-sinto.de/de/",
+        "products": [
+            "Kastengebundene Formmaschinen und -anlagen",
+            "Kastenlose Formmaschinen und -anlagen",
+            "Vakuum-Prozess Formmaschinen und -anlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "GEISS AG",
+        "company_url": "https://www.geiss-ttt.com",
+        "products": [
+            "Automationslösungen",
+            "CNC-Bearbeitungszentren",
+            "Thermoformanlagen"
+        ],
+        "machines": [],
+        "process_type": [
+            "CNC-Bearbeitungen",
+            "Thermoformen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ACCRETECH (Europe) GmbH",
+        "company_url": "https://www.accretech.eu/de/",
+        "products": [
+            "Formmessgeräte",
+            "Oberflächenmessgeräte",
+            "Prozesssteuerungslösungen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Drehen",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Mohrbach Verpackungsmaschinen GmbH",
+        "company_url": "https://mohrbach.com",
+        "products": [
+            "Kartonaufrichter",
+            "Kartonverdeckler",
+            "Kartonverschließer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Lock Antriebstechnik GmbH",
+        "company_url": "https://www.lockdrives.com",
+        "products": [
+            "Antriebstechniken für den Gewächshausbau",
+            "Antriebstechniken für den Stallbau",
+            "Elektroantriebe und mechatronische Endschalter"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Syntegon Technology GmbH",
+        "company_url": "https://www.syntegon.com/de/",
+        "products": [
+            "Montage- und Verpackungslösungen für Medizinprodukte",
+            "Prozesstechnikmaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [
+            "Montagemaschinen",
+            "Prozesstechnikmaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "process_type": [
+            "Montagen",
+            "Prozesstechniken",
+            "Verpackungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WESPA Metallsägenfabrik",
+        "company_url": "https://www.wespa-simonds.de",
+        "products": [
+            "Bi-Metallbandsägen",
+            "Hartmetallbandsägen",
+            "Sägebänder"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "EnviroFALK GmbH",
+        "company_url": "https://www.envirofalk.com/de/",
+        "products": [
+            "Ionenaustauscher",
+            "Reinstwasseranlagen",
+            "Wasseraufbereitungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "AKE - Systemtechnik GmbH",
+        "company_url": "https://www.ake-systemtechnik.com/de/",
+        "products": [
+            "Batteriefertigungs- und Prüfsysteme",
+            "Fördertechniken",
+            "Roboter- und Sonderanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Garant Maschinenhandel GmbH",
+        "company_url": "https://www.garant-maschinen.de/de/",
+        "products": [
+            "E-Commerce-Versandtaschen",
+            "Papiertragetaschen",
+            "Papiertüten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Piller Blowers & Compressors GmbH",
+        "company_url": "https://www.piller.de",
+        "products": [
+            "Bläser",
+            "Kompressoren",
+            "industrielle Wärmepumpen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "A. Monforts Textilmaschinen GmbH & Co. KG",
+        "company_url": "https://www.monforts.de",
+        "products": [
+            "Färbeanlagen",
+            "Krumpfanlagen",
+            "Maschinen & Anlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "FAWEMA GmbH",
+        "company_url": "https://fawema.com",
+        "products": [
+            "Gebrauchte Maschinen",
+            "Lösungen für Schüttgüter",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Koch Pac-Systeme GmbH",
+        "company_url": "https://koch-pac-systeme.com",
+        "products": [
+            "Blistermaschinen",
+            "Kartonverpackungsmaschinen",
+            "Verpackungslinien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "seepex GmbH",
+        "company_url": "https://www.seepex.com",
+        "products": [
+            "Digitale Lösungen",
+            "Pumpen",
+            "Pumpsysteme"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "MBK Maschinenbau GmbH",
+        "company_url": "https://www.mbk-kisslegg.de",
+        "products": [
+            "Drahtricht- und Schneideanlagen",
+            "Gitterträgerschweißmaschinen",
+            "Mattenschweißmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "AXA Entwicklungs- und Maschinenbau GmbH",
+        "company_url": "https://www.axa-maschinenbau.de",
+        "products": [
+            "Fahrständer-Bearbeitungszentren",
+            "Original-Komponenten",
+            "Portal-Bearbeitungszentren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "SVQ GmbH",
+        "company_url": "https://www.global-retool-group.com/de/",
+        "products": [
+            "Montagesysteme",
+            "Retrofit- und Retool-Lösungen",
+            "Schweißmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Montageprozesse",
+            "Retrofit-Prozesse",
+            "Schweißprozesse"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Waldrich Siegen",
+        "company_url": "https://www.waldrichsiegen.de",
+        "products": [
+            "Drehfräsmaschinen",
+            "Horizontaldrehmaschinen",
+            "Portalfräsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Amandus Kahl GmbH & Co. KG",
+        "company_url": "https://www.akahl.com/de/",
+        "products": [
+            "Biomasseanlagen",
+            "Futtermittelanlagen",
+            "Pelletpressen"
+        ],
+        "machines": [
+            "Bandkühler/Bandtrockner",
+            "Batch FB - Wirbelschichtanlagen für die Chargenverarbeitung",
+            "Brechwalzenstühle",
+            "Conti FB",
+            "DISTAMAT",
+            "Dosierförderer & Schneckenförderer",
+            "Durchlaufmischer",
+            "EAPR",
+            "ESEP",
+            "Expander",
+            "Extruder",
+            "Gewebebandtrockner",
+            "Granulierstühle",
+            "Hammermühlen",
+            "Hydrothermische Reaktoren",
+            "Kollermühlen",
+            "Konditionierer",
+            "Laboratory Plants",
+            "Mischkonditionierer",
+            "Pelletpressen",
+            "Rotospray®",
+            "Sonderlösungen",
+            "Vakuum Coater",
+            "Verweilkonditionierer",
+            "Zellenrad-Durchlaufwaagen"
+        ],
+        "process_type": [
+            "Agglomerationen",
+            "Coatings",
+            "Dosierungen",
+            "Konditionierungen",
+            "Mikroverkapselungen",
+            "Mischungen & Konditionierungen",
+            "Pelletierungen",
+            "Sprühgranulationen",
+            "Sprühtrocknungs-Agglomerationen",
+            "Systemsteuerungen",
+            "Trocknungen & Kühlungen",
+            "Veredelungen",
+            "Wirbelschichttechnologien",
+            "Zerkleinerungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Profiroll Technologies GmbH",
+        "company_url": "https://www.profiroll.de",
+        "products": [
+            "Profil- und Gewindewalzmaschinen",
+            "Ringwalzmaschinen",
+            "Verzahnungswalzmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Gewindewalzen",
+            "Profilwalzen",
+            "Ringwalzen",
+            "Verzahnungswalzen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BOMA Maschinenbau GmbH",
+        "company_url": "https://boma.de",
+        "products": [
+            "Metallbauten",
+            "Oberflächenbehandlungen",
+            "Zerspanungen"
+        ],
+        "machines": [
+            "Bearbeitungszentren",
+            "CNC-Drehmaschinen",
+            "CNC-Fräsmaschinen"
+        ],
+        "process_type": [
+            "Lackieren",
+            "Montagen",
+            "Qualitätskontrollen",
+            "Schlossern Fertigungen",
+            "Schweißen",
+            "Spritzverzinken",
+            "Strahlen",
+            "Zerspanungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "MIWE Michael Wenz GmbH",
+        "company_url": "https://www.miwe.de",
+        "products": [
+            "Backöfen",
+            "Beschickungs- und Transportsysteme",
+            "Bäckereikältetechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Klingelnberg GmbH",
+        "company_url": "https://klingelnberg.com",
+        "products": [
+            "Fasenradmaschinen",
+            "Präzisionsmesszentren",
+            "zylindrische Zahnradmaschinen"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Messmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Fräsen",
+            "Messen",
+            "Schleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HELD Technologie GmbH",
+        "company_url": "https://www.held-tech.de",
+        "products": [
+            "HELD Doppelbandpressen",
+            "Stahlbänder",
+            "Technologieparks"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Masa GmbH",
+        "company_url": "http://www.masa-group.com/de/",
+        "products": [
+            "Betonsteinfertigungsanlagen",
+            "Kalksandsteinfertigungsanlagen",
+            "Porenbetonfertigungsanlagen"
+        ],
+        "machines": [
+            "Anlagensteuerungssysteme",
+            "Betonmischer",
+            "Betonsteinfertigungsmaschinen",
+            "Betontransportsysteme",
+            "Bordsteinpressen",
+            "Dosier- und Mischanlagen",
+            "Kalksandsteinpressen",
+            "Oberflächenbearbeitungsmaschinen",
+            "Porenbetonschneidanlagen",
+            "Produkt-Handling-Systeme"
+        ],
+        "process_type": [
+            "Betonsteinfertigungen",
+            "Bordsteinfertigungen",
+            "Kalksandsteinfertigungen",
+            "Porenbetonfertigungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Ulmer Werkzeugschleiftechnik GmbH & Co. KG",
+        "company_url": "https://werkzeugschleifen.de",
+        "products": [
+            "Endenbearbeitungsmaschinen",
+            "Rundschleifmaschinen",
+            "Werkzeugschleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Endenbearbeitungen",
+            "Geometrie-/Werkzeugschleifen",
+            "Kontur-/Rundschleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Korsch Aktiengesellschaft",
+        "company_url": "https://www.korsch.com/de/",
+        "products": [
+            "Lösungen",
+            "Produktfinder",
+            "Tablettiermaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Presstec Pressentechnologie GmbH",
+        "company_url": "https://www.presstec.com",
+        "products": [
+            "Pressenbauteile & -ersatzteile",
+            "Pressenmodernisierungen",
+            "Pressenreparaturen & -überholungen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Elektrotechnische Anlagenentwicklungen",
+            "Mechanische Teilefertigungen",
+            "Montagen",
+            "Pressenbaukonstruktionen",
+            "Visualisierungen und Werkstoffprüfungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Schöpstal Maschinenbau GmbH",
+        "company_url": "https://www.schoepstal-maschinenbau.de",
+        "products": [
+            "Edelstahlbaugruppen & -anlagen",
+            "Hochwertige Fassaden",
+            "Maschinen & Anlagen"
+        ],
+        "machines": [
+            "CNC-Fräsmaschinen",
+            "Laserschneidmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Mechanische Bearbeitungen",
+            "Schweißtechniken",
+            "Zuschnitte & Umformungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Industrieofen- und Anlagenbau GmbH",
+        "company_url": "https://www.industrieofen-und-anlagenbau.de",
+        "products": [
+            "Ersatzteile für Wärmebehandlungsanlagen und Öfen",
+            "einzelne Industrieöfen",
+            "voll automatisierte Wärmebehandlungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WAFIOS Umformtechnik GmbH",
+        "company_url": "https://www.wafios-umformtechnik.de",
+        "products": [
+            "Dienstleistungen",
+            "Maschinen",
+            "Werkzeuge"
+        ],
+        "machines": [
+            "Gewindeschneidautomaten",
+            "Gewindewalzmaschinen",
+            "Kaltumformer"
+        ],
+        "process_type": [
+            "Gewindeschneidungen",
+            "Gewindewalzungen",
+            "Kaltumformungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Erwin Quarder Systemtechnik GmbH",
+        "company_url": "https://www.quarder.de",
+        "products": [
+            "Hochspannungsmechatroniken",
+            "Kunststoff-Hybridbauteile",
+            "Sensorintegrationen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "J. Schmalz GmbH",
+        "company_url": "https://www.schmalz.com/de/",
+        "products": [
+            "Vakuum-Greifsysteme",
+            "Vakuum-Komponenten",
+            "Vakuum-Spanntechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Höchsmann GmbH",
+        "company_url": "https://www.hoechsmann.com",
+        "products": [
+            "Auktionen",
+            "Bewertungen",
+            "Gebrauchtmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HDG - Verpackungsmaschinen GmbH",
+        "company_url": "https://hdg-packaging.com",
+        "products": [
+            "Beutel",
+            "Verpackungslösungen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Heiber und Schröder Maschinenbau GmbH",
+        "company_url": "https://heiber-schroeder.com/de/",
+        "products": [
+            "Fenstereinklebemaschinen",
+            "Kartonaufrichtemaschinen",
+            "Verpackungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Salzhausener Maschinenbautechnik",
+        "company_url": "https://www.salmatec.de/de/",
+        "products": [
+            "Konditioneure",
+            "Pelletierpressen",
+            "Thermische Behandlungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PRESTO GmbH & Co. KG",
+        "company_url": "https://www.presto.eu/de/",
+        "products": [
+            "Abfallentsorgungsanlagen",
+            "Entwässerungstechniken",
+            "Gebrauchtmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wilhelm Severt Maschinenbau GmbH",
+        "company_url": "http://www.severt.de",
+        "products": [
+            "Roboter-Komplettlösungen",
+            "Roboterperipherien",
+            "Werkstück-Positionierer"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Brennschneiden",
+            "Handschweißen",
+            "Mechanische Bearbeitungen",
+            "Montagen",
+            "Roboterschweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Bock Maschinenbau GmbH",
+        "company_url": "https://www.bock-gmbh.com",
+        "products": [
+            "Schwerkonstruktionen",
+            "Spezialmaschinen",
+            "Stahlbauten"
+        ],
+        "machines": [
+            "Abkantpressen und Scheren",
+            "Biegemaschinen",
+            "Drehzentren",
+            "Flammschneidmaschinen",
+            "Fräsmaschinen",
+            "Hebezeuge",
+            "Sandstrahl- und Lackieranlagen",
+            "Schweißgeräte",
+            "Sägemaschinen",
+            "Vibrationsspannungsabbau"
+        ],
+        "process_type": [
+            "Lackierungen",
+            "Maschinenbauten",
+            "Metallbearbeitungen",
+            "Sandstrahlen",
+            "Schweißarbeiten",
+            "Schwerkonstruktionen",
+            "Stahlverarbeitungen",
+            "Vibrationsspannungsabbauten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "NIMAK GmbH",
+        "company_url": "https://www.nimak.de/de/",
+        "products": [
+            "Handschweißzangen",
+            "Roboterschweißzangen",
+            "Schweißmaschinen"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Lötmaschinen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Klebstoffaufträge",
+            "Widerstandsschweißens"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Vollenda-Werk GmbH",
+        "company_url": "http://www.vollenda.de",
+        "products": [
+            "Füllsysteme für Pulverlack für Big Bags und Kartons",
+            "Füllsysteme für Schüttgüter und Flüssigkeiten",
+            "kombinierte Abfüllsysteme und bewegliche Maschinen für Pulverlack"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Venjakob Maschinenbau GmbH & Co.",
+        "company_url": "https://www.venjakob.de",
+        "products": [
+            "Abluftreinigungsanlagen",
+            "Beschichtungsanlagen",
+            "Lackieranlagen"
+        ],
+        "machines": [
+            "Fördertechnik- und Handhabungsmaschinen",
+            "Spritzlackiermaschinen",
+            "Walzenauftragsmaschinen"
+        ],
+        "process_type": [
+            "Fördertechniken",
+            "Spritzlackierungen",
+            "Walzenaufträge"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "LEMMER-FULLWOOD GmbH",
+        "company_url": "https://www.lemmer-fullwood.info",
+        "products": [
+            "Automatische Fütterungen",
+            "Melksysteme",
+            "Milchlagerungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BBM Maschinenbau und Vertriebs GmbH",
+        "company_url": "https://bbm-germany.de",
+        "products": [
+            "Doppelstationsanlagen",
+            "Einstationsanlagen",
+            "Spritzstreckblasanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "M+M Turbinen-Technik GmbH",
+        "company_url": "https://www.turbinen-technik.de/de/",
+        "products": [
+            "Dampfturbinen",
+            "Qualitäten & Nachhaltigkeiten",
+            "Services"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Zahoransky AG",
+        "company_url": "https://www.zahoransky.com/de/",
+        "products": [
+            "Maschinen und Formen für die Produktion von Bürsten",
+            "Maschinen und Formen für die Produktion von Personal Care Produkten",
+            "Maschinen und Formen für die Produktion von medizinischen Produkten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Eckel & Sohn Maschinenbau GmbH & Co. KG",
+        "company_url": "https://www.eckel-sohn.de",
+        "products": [
+            "Fördermaschinen",
+            "Inspektionssysteme",
+            "Montagemaschinen",
+            "Sortiermaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "UTH GmbH",
+        "company_url": "https://uth-gmbh.com",
+        "products": [
+            "roll-ex® Add-on Versionen",
+            "roll-ex® TRF Zahnradextruder mit Walzenfütterungen",
+            "roll-ex® Zahnradpumpen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Feinstrainer",
+            "Hochdruckanwendungen",
+            "Präzise Extrusionen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bihl + Wiedemann GmbH",
+        "company_url": "https://www.bihl-wiedemann.de",
+        "products": [
+            "AS-Interface Master/Gateways",
+            "AS-Interface Module",
+            "Sicherheitskomponenten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ERMAFA Sondermaschinen- und Anlagenbau GmbH",
+        "company_url": "https://ermafa.de",
+        "products": [
+            "Automationslösungen",
+            "Maschinen für die Kunststoff- und Kautschukindustrie",
+            "Sondermaschinen"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Kalander",
+            "Mischwalzen"
+        ],
+        "process_type": [
+            "Recyclings",
+            "Verarbeitungen von Kunststoffen und Kautschuken",
+            "Vulkanisationen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Stadler Anlagenbau GmbH",
+        "company_url": "https://w-stadler.de",
+        "products": [
+            "Komponenten",
+            "STADLERconnects",
+            "Sortieranlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "OLKO-Maschinentechnik GmbH",
+        "company_url": "https://www.ts-olko.com/de/",
+        "products": [
+            "Befahrungs-, Hilfsfahr- und Notfahranlagen",
+            "Bremssysteme, Aggregate und Hydraulik",
+            "Fördermaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenbau Kaltenbach GmbH",
+        "company_url": "https://www.ka-ma.com",
+        "products": [
+            "Freizeitparkanlagen",
+            "Silosteller",
+            "Wanderkräne"
+        ],
+        "machines": [
+            "Montagemaschinen",
+            "Schweißmaschinen",
+            "Zerspanungsmaschinen"
+        ],
+        "process_type": [
+            "Montageprozesse",
+            "Schweißprozesse",
+            "Zerspanungsprozesse"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Harmonic Drive AG",
+        "company_url": "https://harmonicdrive.de/de/",
+        "products": [
+            "Harmonic Drive® Getriebe",
+            "Harmonic Drive® Mechatroniken",
+            "Harmonic Planetengetriebe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bellmer GmbH",
+        "company_url": "https://www.bellmer.com",
+        "products": [
+            "Dienstleistungen",
+            "Papiermaschinen",
+            "Trenntechnologien"
+        ],
+        "machines": [
+            "Papiermaschinen",
+            "Pumpen und Dosiersysteme",
+            "Trennmaschinen"
+        ],
+        "process_type": [
+            "Beschichtungsprozesse",
+            "Papierherstellungen",
+            "Wasser- und Schlammbehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Torgauer Maschinenbau GmbH",
+        "company_url": "https://www.tmb-torgauermaschinenbau.de",
+        "products": [
+            "Automatisierungslösungen für Flachgläser",
+            "Automatisierungslösungen für die PV-Solar-Industrien",
+            "Handling-Lösungen"
+        ],
+        "machines": [
+            "Beschickungs- und Stapelanlagen",
+            "Flachglasbearbeitungsmaschinen",
+            "Förder- und Verkettungseinrichtungen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Handlings"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Buckau-Wolf GmbH",
+        "company_url": "https://www.buckau-wolf.com",
+        "products": [
+            "Mischtechniken",
+            "Verdampfungskristallisatoren",
+            "Zentrifugen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenbau Böhmer GmbH",
+        "company_url": "https://www.boehmer-maschinenbau.de",
+        "products": [
+            "Automationen",
+            "Gießerei-Automationen",
+            "Sprühtechniken"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Auswuchttechniken",
+            "Druckgussprozesse",
+            "Koordinatenmessungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Schwanog Siegfried Güntert GmbH",
+        "company_url": "https://www.schwanog.com/de/",
+        "products": [
+            "Profilwerkzeugsysteme",
+            "Wechselplatten",
+            "kundenspezifische Werkzeuge"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Erodieren",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "GUK-Falzmaschinen",
+        "company_url": "http://www.guk-falzmaschinen.com",
+        "products": [
+            "Drehtechniken",
+            "Falzmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Ludwig Schwerdtel GmbH",
+        "company_url": "https://schwerdtel.biz",
+        "products": [
+            "Dosiergeräte",
+            "Materialzuführungen",
+            "Mehrkomponenten-Dosierungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "L.B. Bohle Maschinen und Verfahren",
+        "company_url": "https://www.lbbohle.de",
+        "products": [
+            "Granulationssysteme",
+            "Mahlmaschinen",
+            "Siebmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Granulationen",
+            "Mahlungen und Siebungen",
+            "Wiegen und Dosieren"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Gräbener Maschinentechnik GmbH & Co. KG",
+        "company_url": "https://www.graebener.com/de/",
+        "products": [
+            "Engineering-Dienstleistungen",
+            "Fertigungsanlagen",
+            "Produktionslabor-Dienstleistungen"
+        ],
+        "machines": [
+            "Hydroforming-Maschinen",
+            "Richtmaschinen",
+            "Schneidemaschinen",
+            "Schweißmaschinen"
+        ],
+        "process_type": [
+            "Hydroformungen",
+            "Richtens",
+            "Schneidens",
+            "Schweißens"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Herrmann Ultraschalltechnik GmbH & Co. KG",
+        "company_url": "https://www.herrmannultraschall.com/de/",
+        "products": [
+            "Ultraschall-Schweißmaschinen",
+            "Ultraschall-Systeme",
+            "Ultraschallgeneratoren"
+        ],
+        "machines": [],
+        "process_type": [
+            "Ultraschalllaminieren",
+            "Ultraschallschweißen",
+            "Ultraschallsiegeln"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KronTec Maschinenbau GmbH",
+        "company_url": "https://www.krontec.de",
+        "products": [
+            "Aluminiumprodukte",
+            "Edelstahlprodukte",
+            "Hochwertige Kunststoffprodukte",
+            "Titanprodukte"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Drehungen",
+            "Fräsungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "M. Brück GmbH & Co. KG",
+        "company_url": "https://www.brueck.net/de/",
+        "products": [
+            "Perforierpressen",
+            "Spezialpressen",
+            "Streckmetallmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Lohnfertigungen",
+            "Schweisstechniken",
+            "Services & Wartungen",
+            "Werkzeugbauten"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Boart Longyear GmbH & Co. KG",
+        "company_url": "https://www.boartlongyear.com",
+        "products": [],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KNUTH WERKZEUGMASCHINEN GMBH",
+        "company_url": "https://www.knuth.com",
+        "products": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WMV Apparatebau GmbH",
+        "company_url": "https://www.wmv.com",
+        "products": [
+            "Anlagen zur Oberflächenbehandlung",
+            "Beschichtungsanlagen",
+            "Zentrifugen"
+        ],
+        "machines": [
+            "Beschichtungsmaschinen",
+            "Temperanlagen",
+            "Zentrifugen"
+        ],
+        "process_type": [
+            "Beschichtungen",
+            "Reinigungen",
+            "Tempern",
+            "Trocknungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Ringfeder Power-Transmission GmbH",
+        "company_url": "https://www.ringfeder.com",
+        "products": [
+            "Dämpfungskomponenten",
+            "Kupplungen",
+            "Schacht-Naben-Verbindungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Burghardt + Schmidt GmbH",
+        "company_url": "https://b-s-germany.de",
+        "products": [
+            "Längsteilanlagen",
+            "Streck-Biege-Richtanlagen",
+            "Verpackungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hürner Luft- und Umwelttechnik GmbH",
+        "company_url": "https://www.hlu.eu",
+        "products": [
+            "Anlagenbauten",
+            "Kunststoffapparatebauten",
+            "Kunststoffventilatoren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schechtl Maschinenbau GmbH",
+        "company_url": "https://schechtl.de",
+        "products": [
+            "Profiliermaschinen",
+            "Schwenkbiegemaschinen",
+            "Tafelscheren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "K.R. Pfiffner GmbH",
+        "company_url": "https://www.pfiffner.com",
+        "products": [
+            "Maschinen",
+            "Rundtaktmaschinen",
+            "Serviceleistungen"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Drehungen",
+            "Fräsungen",
+            "Schleifungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Otto Christ Aktiengesellschaft",
+        "company_url": "https://www.christ-ag.com",
+        "products": [
+            "Nutzfahrzeug-Waschanlagen",
+            "PKW-Waschanlagen",
+            "Waschanlagen-Chemien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WUMAG TEXROLL GmbH & Co. KG",
+        "company_url": "https://www.wumag-texroll.com/de/",
+        "products": [
+            "Sondermaschinen und Anlagenbau",
+            "Technische Walzen",
+            "Zylinder"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Borries Markier-Systeme GmbH",
+        "company_url": "https://borries.com/de/",
+        "products": [
+            "Lasermarkierer",
+            "Markiersysteme",
+            "Prägewerkzeuge"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HAAS Schleifmaschinen GmbH",
+        "company_url": "http://www.haas-schleifmaschinen.de",
+        "products": [
+            "Komponenten",
+            "Schleifmaschinen",
+            "Werkzeuge"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Erodieren",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "HELL Gravure Systems GmbH & Co. KG",
+        "company_url": "https://www.hell-gravure-systems.com",
+        "products": [
+            "Graviersysteme",
+            "Servicedienstleistungen",
+            "Softwarelösungen"
+        ],
+        "machines": [
+            "Graviermaschinen",
+            "Lasersysteme",
+            "Softwaresysteme"
+        ],
+        "process_type": [
+            "Elektromechanische Gravuren",
+            "Lasergravuren",
+            "Softwarebasierte Kalibrierungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "IP Gansow GmbH",
+        "company_url": "https://www.ipcworldwide.com/de/",
+        "products": [
+            "Dampferzeuger",
+            "Einscheibenmaschinen",
+            "Fensterreinigungsgeräte",
+            "Hochdruckreiniger",
+            "Kehrmaschinen",
+            "Reinigungsmaschinen",
+            "Reinigungswagen",
+            "Reinstwasserreinigungssysteme",
+            "Spender",
+            "Staubsauger",
+            "Trockner",
+            "manuelle Bodenpflege"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "GoGaS Goch GmbH & Co. KG",
+        "company_url": "https://www.gogas.com",
+        "products": [
+            "Gebäudelösungen",
+            "Prozesstechnik",
+            "Wasserstoffe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Behringer GmbH",
+        "company_url": "http://www.behringer.net",
+        "products": [
+            "Bandsägen",
+            "Kreissägen",
+            "Profilbearbeitungsmaschinen"
+        ],
+        "machines": [
+            "Bandsägen",
+            "Kreissägen",
+            "Profilbearbeitungsmaschinen"
+        ],
+        "process_type": [
+            "Bandsägen",
+            "Kreissägen",
+            "Profilbearbeitungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Mikron Germany GmbH",
+        "company_url": "https://www.mikron.com",
+        "products": [
+            "Automationslösungen",
+            "Bearbeitungssysteme",
+            "Schneidwerkzeuge"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kampf Schneid- und Wickeltechnik",
+        "company_url": "https://www.kampf.de/de/",
+        "products": [
+            "Flexible Filme",
+            "Flexible Verpackungen",
+            "Technische Anwendungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BSB Metallverformung",
+        "company_url": "https://www.bsb-bwb.de/de/",
+        "products": [
+            "Druckluftbehälter",
+            "Schweißbaugruppen",
+            "Stanz- und Umformteile"
+        ],
+        "machines": [
+            "Laserschweißmaschinen",
+            "Pulver- und Nasslack-Beschichtungsanlagen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Beschichtungen",
+            "Schweißens",
+            "Stanzen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Kallfass GmbH Maschinen plus Automation",
+        "company_url": "https://www.kallfass-online.com",
+        "products": [
+            "Automationslösungen",
+            "Sortierer",
+            "Sägen"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Pressen",
+            "Sägen"
+        ],
+        "process_type": [
+            "Hobel",
+            "Sortierungen",
+            "Sägen",
+            "Verleimungen/Verpressungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Otto Künnecke GmbH",
+        "company_url": "https://www.kuennecke.com",
+        "products": [
+            "Automatisierungslösungen",
+            "Maschinenlösungen",
+            "Softwarelösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "TÜNKERS Maschinenbau GmbH",
+        "company_url": "https://www.tuenkers.de",
+        "products": [
+            "Greifertechniken",
+            "Spanntechniken",
+            "Umformtechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bühler GmbH",
+        "company_url": "http://www.buhlergroup.com",
+        "products": [
+            "Lösungen für die Lebensmittel- und Futtermittelindustrie",
+            "Lösungen für die fortgeschrittenen Materialindustrie",
+            "Prozesstechnologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PALLMANN Maschinenfabrik",
+        "company_url": "https://www.pallmann.eu",
+        "products": [
+            "Maschinen und Komplettsysteme für die Aufbereitung und Zerkleinerung von Materialien",
+            "Zerkleinerungstechnologie für das Recycling von Wertstoffen",
+            "Zerkleinerungstechnologie für die Holzindustrie"
+        ],
+        "machines": [],
+        "process_type": [
+            "Aufbereitungsprozesse",
+            "Zerkleinerungsprozesse"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PTR Strahltechnik GmbH",
+        "company_url": "https://www.ptr-ebeam.com/de/",
+        "products": [
+            "Elektronenstrahl-Generatoren",
+            "Elektronenstrahlmaschinen",
+            "Lohnfertigungsdienstleistungen"
+        ],
+        "machines": [
+            "Elektronenstrahlmaschinen",
+            "Lohnfertigungsmaschinen"
+        ],
+        "process_type": [
+            "Elektronenstrahlbohren",
+            "Elektronenstrahloberflächenbehandlungen",
+            "Elektronenstrahlschweißen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Rattunde AG",
+        "company_url": "https://rattunde.one",
+        "products": [
+            "Endenbearbeitungssysteme",
+            "Spanlostrennmaschinen",
+            "Sägebearbeitungszentren"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bernhard Upmann",
+        "company_url": "https://www.upmann.de",
+        "products": [
+            "Gebrauchtmaschinen",
+            "Lösungen für die Agrarindustrie",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [
+            "Annahmemaschinen",
+            "Aufbereitungs- und Sortiermaschinen",
+            "Lagerungsmaschinen",
+            "Luftreinigungsmaschinen",
+            "Umverpackungsmaschinen",
+            "Verpackungsmaschinen",
+            "Wiege- und Zählmaschinen"
+        ],
+        "process_type": [
+            "Annahmen",
+            "Aufbereitungen & Sortierungen",
+            "Lager",
+            "Luftreinigungen",
+            "Umverpackungen",
+            "Verpackungen",
+            "Wiegungen & Zählungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "AUTOPSTENHOJ GmbH",
+        "company_url": "https://www.autopstenhoj.com/de/",
+        "products": [
+            "Hebebühnen",
+            "Prüftechniken",
+            "Speziallösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Regal Rexnord",
+        "company_url": "https://www.regalrexnord.com",
+        "products": [
+            "Antriebe und Steuerungen",
+            "Gebläse und Luftfördersysteme",
+            "Lager"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "WEISS GmbH",
+        "company_url": "https://www.weiss-world.com",
+        "products": [
+            "Drehindexiertische",
+            "Lineare Achsen",
+            "Roboter"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "NAGEL Maschinen- und Werkzeugfabrik GmbH",
+        "company_url": "https://www.nagel.com",
+        "products": [
+            "Honmaschinen",
+            "Honwerkzeuge",
+            "Superfinish-Maschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KALLFASS Verpackungsmaschinen GmbH",
+        "company_url": "https://www.kallfass.de",
+        "products": [
+            "Folienverpackungsmaschinen",
+            "Papierverpackungsmaschinen",
+            "Verpackungsmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ATR Industrie-Elektronik GmbH",
+        "company_url": "https://www.atrie.de",
+        "products": [
+            "MSR-Elektronik",
+            "Schaltanlagen",
+            "Steuerungsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Carl Cloos Schweißtechnik GmbH",
+        "company_url": "https://www.cloos.de",
+        "products": [
+            "Automatisierte Schweiß- und Schneidsysteme",
+            "Hochwertige Schweißgeräte",
+            "Schweißprozesse"
+        ],
+        "machines": [],
+        "process_type": [
+            "Laserschweißverfahren",
+            "Metallschutzgasschweißverfahren",
+            "Wolframschutzgasschweißverfahren"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Keller Lufttechnik GmbH + Co. KG",
+        "company_url": "https://www.keller-lufttechnik.de",
+        "products": [
+            "Absaugarme",
+            "Absauglösungen",
+            "Absaugtische"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Helmers Maschinenbau GmbH",
+        "company_url": "https://helmers-move.de",
+        "products": [
+            "Automatisierungstechnik",
+            "Lagertechniken & -systeme",
+            "Rohrbahnförder- & Zerlegetechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Wulf Johannsen KG GmbH & Co.",
+        "company_url": "https://www.wulf-johannsen.de",
+        "products": [
+            "Dieselmotoren",
+            "Ersatzteile",
+            "Gasmotoren",
+            "Pumpen"
+        ],
+        "machines": [
+            "Erodiermaschinen",
+            "Fräsmaschinen",
+            "Metallspritzmaschinen",
+            "Pumpen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Getriebeinstandsetzungen",
+            "Gleitlagerherstellungen",
+            "Kaltgasspritzen",
+            "Kurbelwellenschleifereien",
+            "Metallspritzen",
+            "Pumpeninstandsetzungen",
+            "Thermischer Verschleißschutz",
+            "Turboladerreparaturen",
+            "Zylinderkopfinstandsetzungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "POKOLM Frästechnik GmbH & Co. KG",
+        "company_url": "https://www.pokolm.de",
+        "products": [
+            "Aufnahmesysteme",
+            "Beratungen",
+            "Fräswerkzeuge"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "KELLER HCW GmbH",
+        "company_url": "https://www.keller.de",
+        "products": [
+            "Automatisierungen",
+            "Maschinen und Anlagen",
+            "Thermische Prozesse"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Stiebel-Getriebebau GmbH & Co. KG",
+        "company_url": "https://www.stiebel.de",
+        "products": [
+            "Antriebseinheiten",
+            "Getriebemotoren",
+            "Pumpenantriebe"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bystronic Maschinenbau GmbH",
+        "company_url": "https://www.bystronic.com/de/",
+        "products": [
+            "Abkantpressen",
+            "Biegeautomationen",
+            "Laserschneidmaschinen"
+        ],
+        "machines": [
+            "Abkantpressen",
+            "Laserschneidmaschinen",
+            "Rohrlaser"
+        ],
+        "process_type": [
+            "Biegeprozesse",
+            "Laserschneidens",
+            "Rohrschneidens"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "LECHLER GmbH",
+        "company_url": "https://www.lechler.com",
+        "products": [
+            "Düsen",
+            "Düsensysteme",
+            "Düsentechnologien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "GLAMA Maschinenbau GmbH",
+        "company_url": "http://www.glama.de",
+        "products": [
+            "Automatisierungslösungen",
+            "Manipulatoren",
+            "Roboter"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Anthon GmbH",
+        "company_url": "https://www.anthon.de",
+        "products": [
+            "Handlings / Peripherien",
+            "Industrielle Sägeanlagen",
+            "Verpackungslinien"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Polyplan-GmbH",
+        "company_url": "https://www.polyplangmbh.de",
+        "products": [
+            "Automatisierte De-/Palettierlösungen",
+            "Automatisierungslösungen",
+            "Robotergeführte Polyurethan-Technologien"
+        ],
+        "machines": [
+            "Dosieranlagen",
+            "Roboter",
+            "Schäumanlagen"
+        ],
+        "process_type": [
+            "Automatisierte Fertigungen",
+            "Polyurethan-Verarbeitungen",
+            "Robotergeführte Prozesse"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Zirkon Druckmaschinen GmbH",
+        "company_url": "https://www.zirkon-print.de",
+        "products": [
+            "Druckmaschinen",
+            "Retrofit-Lösungen",
+            "Serviceleistungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BBG GmbH & Co. KG",
+        "company_url": "https://www.bbg-mbh.com",
+        "products": [
+            "Formenträgersysteme",
+            "Pressen",
+            "Werkzeuge"
+        ],
+        "machines": [
+            "Formenbaumaschinen",
+            "Pressen",
+            "Spritzgießmaschinen"
+        ],
+        "process_type": [
+            "Formenbauten",
+            "Pressen",
+            "Spritzgießverfahren"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "PRÄWEMA Antriebstechnik GmbH",
+        "company_url": "http://www.praewema.de",
+        "products": [
+            "Maschinen",
+            "Services",
+            "Werkzeuge"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Honmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Drehungen",
+            "Honungen",
+            "Schleifungen",
+            "Verzahnungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Robert Bürkle GmbH",
+        "company_url": "https://www.burkle.tech",
+        "products": [
+            "Anlagen für die Fußbodenindustrie",
+            "Anlagen für die Möbelindustrie",
+            "Anlagen für die Türenindustrie"
+        ],
+        "machines": [
+            "Beschichtungsanlagen",
+            "Laminieranlagen",
+            "Pressen"
+        ],
+        "process_type": [
+            "Laminierungen",
+            "Oberflächenveredelungen",
+            "Pressungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "G. Kraft Maschinenbau GmbH",
+        "company_url": "https://www.kraft-maschinenbau.de",
+        "products": [
+            "Automatisierungslösungen",
+            "Maschinen",
+            "Sondermaschinen"
+        ],
+        "machines": [
+            "Fräsmaschinen",
+            "Fördersysteme",
+            "Sägen"
+        ],
+        "process_type": [
+            "Automatisierungen",
+            "Montagen",
+            "Zerspanungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Otto Bihler Maschinenfabrik GmbH & Co. KG",
+        "company_url": "https://www.bihler.de/de/",
+        "products": [
+            "Maschinen",
+            "Prozessmodule / Peripheriegeräte",
+            "Schweißtechnik"
+        ],
+        "machines": [],
+        "process_type": [
+            "Biegen",
+            "Schweißtechniken",
+            "Stanzen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenfabrik Gustav Eirich",
+        "company_url": "https://www.eirich.de/de/",
+        "products": [
+            "Granuliertechnik & Pelletiertechnik",
+            "Mahltechnik",
+            "Mischtechnik"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "VAF Gesellschaft für Verkettungsanlagen",
+        "company_url": "https://www.vaf-sondermaschinen.de",
+        "products": [
+            "Montageanlagen für Powertrains",
+            "Steuerungstechniken",
+            "Umbauten von Bestandsanlagen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "KRONEN GmbH",
+        "company_url": "https://www.kronen.eu",
+        "products": [
+            "Maschinen",
+            "SMART Lösungen",
+            "Verarbeitungslinien"
+        ],
+        "machines": [
+            "Entkeimungsmaschinen",
+            "Fördermaschinen",
+            "Mischmaschinen",
+            "Schneidemaschinen",
+            "Schälmaschinen",
+            "Trocknungsmaschinen",
+            "Verpackungsmaschinen",
+            "Vorbereitungsmaschinen",
+            "Waschmaschinen",
+            "Wägemaschinen"
+        ],
+        "process_type": [
+            "Entkeimungen",
+            "Förderungen",
+            "Mischungen",
+            "Schneidungen",
+            "Schälungen",
+            "Trocknungen",
+            "Verpackungen",
+            "Vorbereitungen",
+            "Wiegungen",
+            "Wäschen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "GHD Georg Hartmann Maschinenbau GmbH",
+        "company_url": "https://www.ghd.net",
+        "products": [
+            "Schneidemaschinen",
+            "Verpackungsmaschinen",
+            "Verschließgeräte"
+        ],
+        "machines": [
+            "Schneidemaschinen",
+            "Verpackungsmaschinen",
+            "Verschließgeräte"
+        ],
+        "process_type": [
+            "Schneiden",
+            "Verpacken",
+            "Verschließen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "PROFILMETALL GmbH",
+        "company_url": "https://www.profilmetall.de",
+        "products": [
+            "3D-gebogene Profile",
+            "Beschichtete Profile",
+            "Rollgeformte Profile"
+        ],
+        "machines": [
+            "Ausklingmaschinen",
+            "Automatisierungsmaschinen",
+            "Beschichtungsmaschinen",
+            "Biegemaschinen",
+            "Clinchenmaschinen",
+            "Entgratmaschinen",
+            "Fixlängenfertigungsmaschinen",
+            "Fügemaschinen",
+            "Nietmaschinen",
+            "Prägemaschinen",
+            "Richtmaschinen",
+            "Rollformmaschinen",
+            "Schrägschneidmaschinen",
+            "Schweißmaschinen",
+            "Schäummaschinen",
+            "Stanzmaschinen",
+            "Toxmaschinen",
+            "Trennmaschinen",
+            "Verbindungsmaschinen",
+            "Veredelungsmaschinen",
+            "Zusammenbaumaschinen"
+        ],
+        "process_type": [
+            "Ausklingen",
+            "Automatisieren",
+            "Beschichten",
+            "Biegen",
+            "Clinchen",
+            "Entgraten",
+            "Fixlängenfertigen",
+            "Fügen",
+            "Nieten",
+            "Prägen",
+            "Richten",
+            "Rollformen",
+            "Schrägschneiden",
+            "Schweißen",
+            "Schäumen",
+            "Stanzen",
+            "Toxen",
+            "Trennen",
+            "Verbinden",
+            "Veredeln",
+            "Zusammenbauen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "ENGMATEC GmbH",
+        "company_url": "https://www.engmatec.de",
+        "products": [
+            "Engineerings",
+            "Montageanlagen",
+            "Prüftechniken"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "ALZMETALL GmbH & Co. KG",
+        "company_url": "https://alzmetall.de",
+        "products": [
+            "Bearbeitungszentren",
+            "Bohrmaschinen",
+            "Gießereiprodukte"
+        ],
+        "machines": [
+            "Bohrmaschinen",
+            "Fräsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Bohren",
+            "Fräsen",
+            "Schleifen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Satisloh GmbH",
+        "company_url": "https://www.satisloh.com",
+        "products": [
+            "optische Beschichtungsmaschinen",
+            "optische Maschinen",
+            "optische Softwarelösungen"
+        ],
+        "machines": [
+            "Beschichtungsmaschinen",
+            "Graviermaschinen",
+            "Poliermaschinen",
+            "Reinigungsmaschinen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Beschichtungen",
+            "Gravieren",
+            "Polierens",
+            "Reinigungen",
+            "Schleifen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "J. Engelsmann AG",
+        "company_url": "https://www.engelsmann.de",
+        "products": [
+            "Big Bag Handling Systeme",
+            "Industrielle Anlagen",
+            "Siebmaschinen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "vhf camfacture AG",
+        "company_url": "https://www.vhf.de",
+        "products": [
+            "CAM-Software",
+            "CNC-Fräsmaschinen",
+            "Fräswerkzeuge"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Zimmer & Kreim GmbH & Co. KG",
+        "company_url": "https://www.zk-system.com",
+        "products": [
+            "Automatisierungslösungen",
+            "Senkerodiermaschinen",
+            "Softwarelösungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Haitian International Germany GmbH",
+        "company_url": "https://haitiangermany.com",
+        "products": [
+            "Energieeffiziente servo-hydraulische und elektrische IMM",
+            "HT·XTEND intelligente Maschinenmerkmale",
+            "Spritzgießmaschinen"
+        ],
+        "machines": [],
+        "process_type": [
+            "Kunststoffverarbeitungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Maschinenbau Karp GmbH",
+        "company_url": "https://karp-maschinenfabrik.de",
+        "products": [
+            "Dreh- und Frästeile",
+            "Große Maschinenbauteile",
+            "Komplett einbaufertige Werkzeuge"
+        ],
+        "machines": [
+            "Drehmaschinen",
+            "Erodiermaschinen",
+            "Fräsmaschinen"
+        ],
+        "process_type": [
+            "Materialveredelungen",
+            "Oberflächenbehandlungen",
+            "Prozessoptimierungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "H. Leiter GmbH",
+        "company_url": "https://leergutleiter.com",
+        "products": [
+            "Betrieb, Wartung und Reinigung von Inhouse-Sortieranlagen",
+            "Logistik- und Sortierlösungen im Leergut Segment",
+            "Sortierdienstleistungen einschließlich vorgelagerter Logistik"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    }
+]

@@ -1,0 +1,336 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3,Ort,technische Anlagen und Maschinen 2021/22,Maschinen_Park_Size
+Albrecht Bäumer,https://www.baeumer.com/en/,False,Anlagenbauten,Schaumschneidemaschinen,Software,,,,,,,Freudenberg,1118210.0,21-40
+Maschinenbau Scholz GmbH & Co. KG,https://www.scholz-autoclaves.com,False,Anlagen,Autoklaven,Schnellverschlüsse,,,,,,,Coesfeld,4518516.0,120-200
+MWN in Niefern Maschinenfabrik GmbH,http://www.mwn-niefern.de,False,Breitstreckwalzen,Presswalzen,Saugwalzen,,,,,,,Niefern-Öschelbronn,540969.0,10-15
+elumatec AG,https://www.elumatec.com/de/,False,Maschinen und Anlagen für den Fenster- & Fassadenbau,,,,,,,,,Mühlacker,507883.0,10-15
+Eckart Maschinenbau GmbH,https://www.eckart-de.com,False,Beschickungstechniken,Güllefässer,Multi Misch-Schaufeln,,,,,,,Schaufling,262392.0,No Match
+FORTUNA Spezialmaschinen GmbH,https://www.fortuna-gmbh.de,False,Pressmaschinen,Schärfmaschinen,Spaltmaschinen,,,,,,,Weil der Stadt,1325190.0,40-60
+CEROBEAR GmbH,https://www.cerobear.com/de/,False,Keramikrollen und -ringe,Ultraharte Stahlringe,Wälzlagerkäfige,,,,,,,Herzogenrath,5454191.0,200-350
+Franz Ruberg & Co GmbH,https://franz-ruberg.de,False,Annahme- und Lagertechniken,Fördertechniken,Verfahrenstechniken,,,,,,,Nieheim,51969.0,No Match
+Breyer GmbH Maschinenfabrik,https://www.breyer-extr.com,False,Extrusionsanlagen,Gebrauchtmaschinen,Komponenten,Breitschlitzdüsen,Extruder,Glättmaschinen,Coextrusionen,Extrusionen,Glättungen,Singen (Hohentwiel),565547.0,10-15
+T R E I F - Maschinenbau GmbH,https://www.treif.de/de/,False,Brotschneidemaschinen,Portioniermaschinen,Schneidemaschinen,,,,Brotschneiden,Portionieren,Schneiden,Oberlahr,1673634.0,60-80
+RKT Rodinger Kunststoff-Technik GmbH,https://www.rkt.de/de/,True,Design Engineerings,Kunststoffspritzgüsse,Werkzeugbauten,CNC-Bearbeitungsmaschinen,Lasermaschinen,Spritzgießmaschinen,Design Engineerings,Kunststoffspritzgüsse,Werkzeugbauten,Roding,1643441.0,60-80
+WIDOS Wilhelm Dommer Söhne GmbH,https://www.widos.de,False,Baustellenmaschinen,Heizwendel-Schweißmaschinen,Muffenschweißmaschinen,,,,,,,Ditzingen,28655.0,No Match
+TML Technik GmbH,https://www.tml.de,False,Spezialmaschinen,Teleskop-Ausleger,Teleskopbagger,Hydraulikpressen,Richtmaschinen,Schweißmaschinen,Hydraulikprozesse,Richtprozesse,Schweißprozesse,Monheim am Rhein,446748.0,10-15
+MSK Verpackungs-Systeme GmbH,https://www.msk.de,False,Fördersysteme,Palettiersysteme,Verpackungssysteme,,,,,,,Kleve,36875.0,No Match
+Pematech AG,https://pematech.de,True,Montagelinien,Prüflinien,Softwarelösungen,,,,Integrationsprozesse,Montageprozesse,Prüfprozesse,Radolfzell am Bodensee,203476.0,No Match
+Mehrer Compression GmbH,https://www.mehrer.de,False,Kolbenkompressoren,Membrankompressoren,Systemlösungen,,,,,,,Balingen,291690.0,No Match
+Gebr. Schmid GmbH,https://schmid-group.com,False,Lösungen für die Elektronikindustrien,Lösungen für die Photovoltaik- und Glasindustrien,Maschinen und Automatisierungssysteme,,,,,,,Freudenstadt,1954375.0,80-120
+Schwarz Elektromotoren GmbH,https://www.schwarz-elektromotoren.de,False,Elektrofahrzeuge,Löschsysteme,Windenergien,,,,,,,Rehau,2392776.0,80-120
+LAMBDA Gesellschaft für Gastechnik mbH,https://www.lambda.de,False,Blockheizkraftwerke,Fackeln,Schwachgasbehandlungsanlagen,,,,,,,Herten,1208490.0,40-60
+Tennant GmbH & Co. KG,http://de.tennantco.com,False,Cleaner,Extraktoren,Scrubber,,,,,,,Unna,1426415.0,40-60
+EWK Umwelttechnik GmbH,https://www.valmet.com,False,Automatisierungslösungen,Dienstleistungen,Technologien,,,,,,,Kaiserslautern,135752.0,No Match
+Krifft & Zipsner GmbH Maschinenbau,https://www.krifft-zipsner.de/de/,False,Anlagenkonstruktionen,Fördertechniken,Stapelwender,,,,,,,Steinebach/Sieg,102509.0,No Match
+STASSKOL GmbH,https://www.stasskol.de,False,Dichtungselemente,Digitale Lösungen,Hochleistungspolymere,,,,,,,Staßfurt,1010283.0,21-40
+WS Wärmeprozesstechnik GmbH,https://flox.com/de/,False,Brennersysteme,FLOX® Brenner,Green Gas Ready Lösungen,,,,,,,Renningen,426140.0,10-15
+Linck Holzverarbeitungstechnik GmbH,https://www.linck.com,False,Profilierlinien,Reduzierlinien,Sägewerksanlagen,Mechanisierungsmaschinen,Profiliermaschinen,Spanmaschinen,Mechanisierungen,Profilieren,Späne,Oberkirch,3078177.0,120-200
+Hugo MIEBACH GmbH,https://www.miebach.de,False,Reparaturservices,Schaltanlagen,Schweißmaschinen,,,,,,,Dortmund,123281.0,No Match
+SOMIC Verpackungsmaschinen GmbH & Co. KG,https://www.somic-packaging.com,False,Kollations- und Gruppiersysteme,Produkthandlings- und Transportsysteme,Verpackungsmaschinen,,,,,,,Amerang,999583.0,21-40
+Hans Hundegger AG,https://www.hundegger.de,False,Abbundmaschinen,Plattenbearbeitungsmaschinen,Zuschnittmaschinen,,,,,,,Hawangen,167545.0,No Match
+Temafa Maschinenfabrik GmbH,https://www.temafa.com,False,Air-Engineering-Lösungen,Fasermischanlagen,Recyclinganlagen,,,,,,,Bergisch Gladbach,1324163.0,40-60
+NTG Neue Technologien GmbH & Co. KG,https://www.ntg.de,True,Ionenstrahl-Bearbeitungen,Teilchen-Beschleuniger,Vakuum-Technologien,Fräsmaschinen,Lohnfertigungsmaschinen,Sondermaschinen,Elektronikfertigungen,Metallbearbeitungen,Präzisionsfertigungen,Gelnhausen,4245230.0,120-200
+ruhlamat GmbH,https://www.ruhlamat.com,True,Kartensysteme und Passsysteme,Montagesysteme und Automatisierungssysteme,Original Equipment Manufacturing,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Automatisierungsprozesse,Montageprozesse,Qualitätssicherungsprozesse,Gerstungen OT Marksuh,2342530.0,80-120
+Sumitomo (SHI),https://emeia.sumitomodrive.com,False,Aktuatoren,Getriebe- & Getriebemotoren,Industriegetriebe,,,,,,,Markt Indersdorf,6834400.0,200-350
+Gebr. Reinfurt GmbH Co. KG,https://www.grw.de/de/,False,Kugellager,Prüftechniken,Zubehörteile,,,,,,,Rimpar,8007232.0,200-350
+WTO-Werkzeug-Einrichtungen GmbH,https://www.wto-tools.com/de/,False,CoolSpeed® Ultra-High-Speed-Werkzeugspindeln,Präzisionswerkzeughalter,Werkzeugsysteme,,,,,,,Ohlsbach,830929.0,15-20
+Wilhelm Fischer Spezialmaschinenfabrik GmbH,https://www.wilhelm-fischer.de,False,Automatisierungslösungen,Dienstleistungen,Verpackungsmaschinen,,,,,,,Durach,753248.0,15-20
+Aachener Maschinenbau GmbH,http://www.amba.de/de/,False,All-in-one Schraubenmaschinen,All-in-one Speichenmaschinen,Rohrumformungs-Maschinen,,,,Kaltumformungen von Metallen,,,Alsdorf,302372.0,10-15
+JW Froehlich Maschinenfabrik GmbH,https://www.jwf.com,False,Batterien,Brennstoffzellen,Elektrische Antriebseinheiten,,,,,,,Leinfelden-Echterdingen,84765.0,No Match
+Eberlein Apparatebau GmbH,https://www.eberlein-apparatebau.de,True,Blechteile aus Aluminium- und Stahlwerkstoffen,Konstruktionen,Werkzeugbauten,3D Laserschneiden / Schweißen,3D Messen,Baugruppen / Gerätemontagen,3D Laserschweißen,Baugruppenmontagen,Biegen,Langenzenn,173450.0,No Match
+ILLIG Maschinenbau GmbH & Co. KG,https://www.illig.de,False,Thermoformmaschinen,Verpackungsmaschinen,Werkzeuge,Thermoformmaschinen,Verpackungsmaschinen,Werkzeugmaschinen,Thermoformungen,Verpackungsprozesse,Werkzeugherstellungen,Heilbronn,4671265.0,120-200
+Theegarten-Pactec GmbH & Co. KG,https://www.theegarten-pactec.de,False,Integrierte Verpackungssysteme,Systemkomponenten,Verpackungsmaschinen,,,,,,,Dresden,1001757.0,21-40
+Christian Pfeiffer Maschinenfabrik GmbH,https://www.christianpfeiffer.com/en/,False,Diaphragmen,Mühlen,Separatoren,,,,,,,Beckum,785581.0,15-20
+Karl Eugen Fischer GmbH,https://kefischer.de,False,Extrusionsmaschinen,RFID-Systeme,Schneidmaschinen,,,,,,,Burgkunstadt,2347590.0,80-120
+REBS Zentralschmiertechnik GmbH,https://www.rebs.de/de/,False,Kettenschmiersysteme,Zentralschmiersysteme,Öl-Luft-Schmierungen,,,,,,,Ratingen,652264.0,10-15
+Starrag Technology GmbH,https://www.starrag.com,False,CNC-Drehmaschinen,CNC-Fräsmaschinen,CNC-Schleifmaschinen,,,,Drehen,Fräsen,Schleifen,Mönchengladbach,380161.0,10-15
+PEKRUN GETRIEBEBAU GmbH,https://www.pekrun.de,False,Mühlen-Getriebeeinheiten,Turbo-Getriebeeinheiten,Walzwerk-Getriebeeinheiten,,,,,,,Iserlohn,1128607.0,21-40
+MultiWeigh GmbH,https://www.multiweigh.com,False,Einzellösungen,Multihead-Waagen,Sonderverpackungslösungen,,,,,,,Wetzlar,527954.0,10-15
+Kutter- und Gerätebau Wetter GmbH,https://kgwetter.de,False,Kutter,Mischwölfe,Wölfe,,,,,,,Biedenkopf,469848.0,10-15
+Alfa Laval Mid Europe GmbH,https://www.alfalaval.de,False,Plattenwärmetauscher,Separatoren,Services,,,,,,,Glinde,57158.0,No Match
+TVI Entwicklung und Produktion GmbH,https://tvi-gmbh.de,False,Einlegesysteme,Portioniersysteme,Temperiersysteme,Einlegemaschinen,Portioniermaschinen,Temperiermaschinen,Einlegungen,Portionierungen,Temperierungen,Bruckmühl,739675.0,15-20
+Gottlob Stahl Wäschereimaschinenbau GmbH,https://stahl-waeschereimaschinen.de,False,Trockenschränke,Waschmaschinen,Wäschetrockner,,,,,,,Sindelfingen,858657.0,15-20
+VetterTec GmbH,http://www.vettertec.de,False,Brauereiausrüstungen,Komplexe Trocknungssysteme,Mechanische Entwässerungsanlagen,,,,,,,Kassel,541067.0,10-15
+Krallmann GmbH,https://www.krallmann.de,False,Anlaufprozesse,Innovationsgestaltungen,Kunststoffverarbeitungen,,,,Kunststoffspritzgießverfahren,Werkzeugbauten,,Hiddenhausen,35348.0,No Match
+Reich GmbH,http://www.reich-gmbh.com,False,Drehteile,Komponenten für Einspritzanlagen,Kugellager,,,,,,,Mellrichstadt,34365840.0,350-600
+bielomatik GmbH,http://www.bielomatik.com/en/,False,Automatisierungs- und Endbearbeitungssysteme,Kunststoffschweißsysteme,Technologiezentren,,,,2-Schritt-Laserschweißen,Heißplattenschweißen,Infrarotschweißen,Römerstein,921672.0,21-40
+Alfred H. Schütte GmbH & Co. KG,https://www.schuette.de,True,Mehrspindel-Drehautomaten,Schleifmaschinen,Software,,,,,,,Köln,2525224.0,120-200
+SKR Antriebstechnik GmbH,https://www.skr.biz,False,Keil-/Keilrippenriemen,Riemenscheiben,Zahnriemen,CNC-Maschinen,Erodiermaschinen,Fräsmaschinen,CNC-Bearbeitungen,Erodierungen,Fräsen,Gomadingen,1367234.0,40-60
+STEINERT GmbH,https://steinertglobal.com/de/,False,Magnetabscheider,STEINERT.digital,Sensorsortiersysteme,,,,,,,Köln,3403839.0,120-200
+RONO Maschinenbau GmbH,https://ro-no.com,False,Dienstleistungen,Ersatzteile,Maschinen,Pilotanlagen,Prozessmodule,Verfahrenstechnikmaschinen,Lebensmitteltechnologien,Prozesstechniken,Verfahrenstechniken,Selmsdorf,1279107.0,40-60
+Buhmann Systeme GmbH,https://buhmann.com,True,Automatisierungslösungen für Verpackungsprozesse,Endverpackungsmaschinen,Formenbauten für Silikonformteile,,,,,,,Weiler-Simmerberg,438164.0,10-15
+MSB GmbH & Co. KG,https://www.schmittwerke.com,True,Sondermaschinen,Teilefertigungen im Kundenauftrag,Werkzeug-und Werkstück-Handling Systeme,,,,,,,Bischofsheim a.d.Rhön,319169.0,10-15
+IPTE Germany GmbH,https://www.ipte.com,False,Montagelösungen,Produktionssysteme,Testlösungen,,,,,,,Heroldsberg,77238.0,No Match
+PLAKOMA GmbH,https://www.plakoma.de/de/,True,Fertigungslösungen,Maschinen- und Anlagenbauten,Montage- und Instandhaltungsdienstleistungen,,,,,,,Nalbach,398293.0,10-15
+Andreas Hofer Hochdrucktechnik GmbH,https://www.hofer-hochdrucktechnik.de,False,Elektrolyseure,Kompressoren & Kompressoranlagen,Wasserstofftankstellen,,,,,,,Mülheim an der Ruhr,818972.0,15-20
+WIMA Wilsdruffer,http://www.wima-maschinen.de,True,Dichtetrenner,Doppelschwertwäschen,Lamellenabschneider,,,,,,,Wilsdruff,290634.0,No Match
+Gehring Technologies GmbH,https://www.gehring-group.com,True,E-Mobilitätslösungen,Honmaschinen,Laseranlagen,Erodiermaschinen,Fräsmaschinen,Lasermaschinen,Honen,Laserschweißen,Laserstrukturieren,Ostfildern,1073571.0,21-40
+Mall + Herlan GmbH,http://www.mall-herlan.de,False,Aluminium- und Stahl-Aerosoldosenlinien,Aluminium-Flaschenlinien,komplette Linien oder einzelne Maschinen,,,,Dekorationsanwendungen,Halsungen und Qualitätskontrollen,Materialzufuhren,Pfinztal,132506.0,No Match
+Huning Maschinenbau GmbH,https://www.huning-maschinenbau.de,True,Anlagenbauten,Blechbearbeitungen,Metallverarbeitungsmaschinen,Abkantmaschinen,Drehmaschinen,Fräsmaschinen,Abkanttechniken,Drehtechniken,Frästechniken,Melle,2286933.0,80-120
+MINDA Industrieanlagen GmbH,https://www.minda.com/de/,False,Anlagen für die Bahntechnik,Anlagen für die Intralogistik,Anlagenbaulösungen,,,,,,,Minden,619982.0,10-15
+RB Solutions GmbH & Co. KG,https://rbs-germany.de,True,Anlagen,Baugruppen,Sondermaschinen,Fräsmaschinen,Montagemaschinen,Schweißmaschinen,Fräsen,Montagen,Schweißen,Ortenberg,286356.0,No Match
+Heidrive GmbH,https://www.heidrive.com,False,Asynchronprodukte,Servoregler,Synchron-Servoprodukte,,,,,,,Kelheim,2499740.0,80-120
+MFT Maschinenfabrik Thale GmbH,http://www.mft-thale.de,True,Ersatzteile,Reparaturen,maschinentechnische Ausrüstungen,Drehmaschinen,Fräsmaschinen,Schweißmaschinen,Herstellungen,Konstruktionen,Montagen,Thale,1631165.0,60-80
+schwartz GmbH,https://schwartz-wba.com,False,Thermo-Inline-Printer,Wärmebehandlungsanlagen für Aluminium,Wärmebehandlungsanlagen für das Presshärten,,,,,,,Simmerath,2622956.0,120-200
+ALD Vacuum Technologies GmbH,https://www.ald-vt.com,True,Vakuummetallurgiesysteme,Vakuumwärmebehandlungssysteme,Wärmebehandlungsdienstleistungen,Beschichtungsanlagen,Gießsysteme,Vakuumöfen,Sintern,Vakuummetallurgien,Vakuumwärmebehandlungen,Hanau,1671686.0,60-80
+Pipetronics GmbH & Co. KG,https://www.pipetronics.de,False,Spachtel- und Verpress-Systeme,elektrische Fräsroboter,hydraulische Fräsroboter,,,,,,,Stutensee,2446168.0,80-120
+UFT Umwelt- und Fluid-Technik,https://www.uft.eu,False,Elektrotechniken,Hydro-Mechaniken,Prozessleittechniken,,,,,,,Bad Mergentheim,49964.0,No Match
+DIRKRA Sondermaschinenbau GmbH & Co. KG,https://dirkra.de,True,Reinigungstechnologien,Schleifzentren,Sondermaschinen,,,,,,,Stolberg (Rheinland),1469927.0,40-60
+Stahl- und Apparatebau Hans Leffer GmbH & Co. KG,https://www.leffer.de/de/,False,Druckbehälter,Reaktoren,Wärmeaustauscher,,,,,,,Saarbrücken,466309.0,10-15
+Dürkopp Fördertechnik GmbH,http://www.duerkopp-web.de,False,Materialhandhabungen,Software,Sortiersysteme,,,,,,,Bielefeld,1860172.0,80-120
+Adolf Müller GmbH u. Co. KG,https://www.mueller-machines.com,False,After-Sales-Services,Schneidemaschinen,Wickelmaschinen,Laminiermaschinen,Rollenschneider,Schmalschneidmaschinen,Automatisierungstechniken,Elektromontagen,Pneumatiken,Scheeßel,158310.0,No Match
+Amada Machinery Europe GmbH,https://amada-machinery.com,False,Bandsägemaschinen,Kreissägemaschinen,Sägebänder,Fräsmaschinen,Schleifmaschinen,,Fräsen,Schleifen,Sägen,Haan,418176.0,10-15
+KRACHT GmbH,https://www.kracht.eu,False,Fluidmessgeräte,Pumpen,Ventile,,,,,,,Werdohl,9783393.0,200-350
+Werkzeugmaschinenfabrik WALDRICH COBURG,https://www.waldrich-coburg.de,True,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen,Coburg,1250366.0,40-60
+Gebrüder Tigges GmbH & Co. KG,https://tigges.com,True,Eisengussteile,Kettenrollen,Landmaschinen,Bearbeitungsmaschinen,Gießmaschinen,Wärmebehandlungsmaschinen,Gussverfahren,Mechanische Bearbeitungen,Wärmebehandlungen,Oelde,481855.0,10-15
+SEALPAC GmbH,https://www.sealpac.de,False,Thermoformer,Traysealder,Verpackungslösungen,Thermoformer,Traysealer,,,,,Oldenburg (Oldenburg),1817135.0,80-120
+AMADA WELD TECH GmbH,https://www.amadaweldtech.eu,False,Lasermarkiergeräte,Laserschneidgeräte,Laserschweißgeräte,,,,Lasermarkierungen,Laserschneidungen,Laserschweißen,Puchheim,295047.0,No Match
+Maschinenbau Hellwig GmbH,https://hellwig-gmbh.de,False,Aufarbeitungen von Werkzeugmaschinen,Modernisierungen von Werkzeugmaschinen,Spezial-Kabelsysteme und Sonderleitungen,,,,,,,Sprockhövel,150187.0,No Match
+SOLAYER GmbH,https://solayer.de,False,Funktionale und optische Schichten,Sputtertechnologien,Vakuumbeschichtungssysteme,,,,Plasmatechnologien,Vakuumbeschichtungen,,Karlstein am Main,95288.0,No Match
+Mayr & Wilhelm GmbH & Co. KG,https://mayr-wilhelm.de,False,Helix-Rohrbündel®,Twisted Tubes®,Wärmetauscher,Fertigungsanlagen,Schweißmaschinen,,Fertigungsverfahren,Schweißens,,Buchholz in der Nordheide,681053.0,10-15
+RSGetriebe GmbH,https://www.rsgetriebe.de,True,Extrudergetriebe,Flachgetriebe,Prüfstandsgetriebe,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Montagen,Qualitätssicherungen,Zerspanungen,Sonthofen,2549491.0,120-200
+KOBRA Formen GmbH,https://www.kobragroup.com,False,Betonsteinformen,Härtestandards,Technologien,Fräsmaschinen,,,Fräsbearbeitungen,,,Lengenfeld,13496640.0,350-600
+A & W Maschinenbau GmbH,https://www.a-w-maschinenbau.de,True,Behälter,Blechbearbeitungen,Stahlbauten,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Drehen,Erodieren,Fräsen,Thyrnau,3480240.0,120-200
+KOEPFER Zahnrad- und Getriebetechnik,https://www.koepfer.com,False,Getriebekomponenten,Kettenräder,Zahnräder,,,,Hartbearbeitung,"Messen, Prüfen, Montieren",Weichbearbeitung,Furtwangen im Schwarzwald,9152115.0,200-350
+Eugen Arnold GmbH,https://www.arnoldgroup.com,False,Elektrische Begleitheizsysteme,Isoliersysteme,Vor-Ort-Bearbeitungen,,,,,,,Filderstadt,1024707.0,21-40
+Lang Technik GmbH,https://lang-technik.de,False,Automatisierungssysteme,Nullpunktspannsysteme,Werkstückspanntechniken,,,,,,,Holzmaden,6059698.0,200-350
+Schnaithmann Maschinenbau GmbH,https://www.schnaithmann.de,False,Anlagenbauten,Arbeitsplätze,Transfersysteme,,,,,,,Remshalden,449551.0,10-15
+Fritz Werner Industrie-Ausrüstungen GmbH,https://www.fritz-werner.com,False,Fälle,Kugeln,Tassen,Bandverkettungsmaschinen,Bleikernpressen,Boden- und Halspressen,Bandverkettungen,Bleikernpressen,Boden- und Halspressen,Geisenheim,71559.0,No Match
+Fertigungstechnik Weißenfels GmbH,https://www.ftw.info,False,Mehrachsschwenksysteme,NC-Rundtischsysteme mit HIRTH-Klemmungen / Baureihen TT,NC-Rundtischsysteme mit NC-Klemmungen,,,,,,,Weißenfels,771538.0,15-20
+Günther Maschinenbau GmbH,https://www.guenther-maschinenbau.de,False,Injektoren,Lakeaufbereitungen,Tumbler,,,,,,,Eppertshausen,49374.0,No Match
+Prima Power GmbH,https://www.primapower.com/de/,False,Automatisierungslösungen,Blechbearbeitungsmaschinen,Softwarelösungen,Biegemaschinen,Laserschneidmaschinen,Stanzmaschinen,Biegeprozesse,Laserschneiden,Stanzen,Neufahrn bei Freising,380471.0,10-15
+Schneeberger GmbH,https://www.schneeberger.com/de/,False,Kugelgewindetriebe,Linearführungen,Profilschienenführungen,,,,,,,Höfen an der Enz,11816882.0,350-600
+SAMAG Saalfelder Werkzeugmaschinen GmbH,https://www.samag.de,False,,,,,,,,,,Saalfeld/Saale,18380516.0,350-600
+Baljer & Zembrod GmbH & Co. KG,https://www.bz.ag,False,Holzbearbeitungsmaschinen,Schrott- und Abfallbehandlungsmaschinen,Sondermaschinen,CNC-Fräsmaschinen,Debarking-Maschinen,Schwerlastkrane,CNC-Bearbeitungen,Debarkings,Schwerlasthandhabungen,Altshausen,465667.0,10-15
+Gala Kunststoff- und Kautschukmaschinen,https://maag.com,False,Filtrationssysteme,Pelletierungssysteme,Pumpsysteme,Filtriermaschinen,Pelletisierungsmaschinen,Pumpen,Extrusionen,Pelletierungen,Recycling,Xanten,436840.0,10-15
+Winkler und Dünnebier Süßwarenmaschinen GmbH,https://www.w-u-d.com/de/,False,Fertigungsanlagen für Gummi und Gelee,Fertigungsanlagen für Hartbonbons,Fertigungsanlagen für Schokolade,Formen,Gießstationen,Zubehör,Formen,Gießens,Nachbehandlungen,Rengsdorf,323253.0,10-15
+Erwin Junker Maschinenfabrik GmbH,https://www.junker-group.com,False,Filtrationssysteme,Hochpräzise Schleifmaschinen,Schleifmaschinen,,,,,,,Nordrach,1969415.0,80-120
+Haugg-Kühlerfabrik GmbH,https://www.haugg-group.com,False,Autokühler und KFZ-Klimaanlagen,Industriekühler,Kühlerreparatur und Instandsetzung,,,,,,,Aachen,389112.0,10-15
+Wieneke Anlagenbau und Verfahrenstechnik GmbH,https://www.wieneke.de,True,Entwicklungen,Konzeptionen,Logistiklösungen,Abkantmaschinen,Bolzenschweißmaschinen,Gesenkbiegemaschinen,Abkanten/Gesenkbiegen,Bolzenschweißen,Oberflächenbehandlungen,Bad Driburg,868683.0,15-20
+BHS-Sonthofen GmbH,https://www.bhs-sonthofen.de,False,Filtriermaschinen,Mischer,Trockner,,,,Filtrierungen,Mischungen,Trocknungen,Sonthofen,3593608.0,120-200
+Flottweg SE,https://www.flottweg.com/de/,False,Decanterzentrifugen,Separatoren,Tricanter®,,,,,,,Vilsbiburg,8794116.0,200-350
+ASYS Automatic Systems GmbH & Co. KG,https://www.asys-micro.de,False,Einzelkomponenten,Micronicfabs,Roboter,,,,,,,Schorndorf,239777.0,No Match
+Häcker Automation GmbH,https://www.haecker-automation.de/en/,True,Dosiersysteme,Laserlötmaschinen,PCB-Baugruppen und 3D-Baugruppen,Lötmaschinen,Montagemaschinen,Prüfmaschinen,3D-Montagen,Dosierprozesse,PCB-Montagen,Waltershausen,851836.0,15-20
+GHH Rand Schraubenkompressoren GmbH,https://oem-solutions.ingersollrand.com,False,,,,,,,,,,Oberhausen,37440.0,No Match
+Brosa GmbH,https://www.brosa.net,False,Kraftmessachsen,Kraftmesshülsen,Kraftmessringe,,,,,,,Tettnang,1367054.0,40-60
+Hanke Crimp-Technik GmbH,http://www.hankect.de,False,Crimppressen,Crimpwerkzeuge,Sonderanlagen,,,,,,,Zittau,828291.0,15-20
+Mayer & Cie. GmbH & Co. KG,https://www.mayercie.com,False,Ersatzteile,Flechtmaschinen,Rundstrickmaschinen,,,,,,,Albstadt,378176.0,10-15
+KIEFEL GmbH,https://www.kiefel.com,False,Faserverpackungen,Kunststoffverpackungen,Medizinische und pharmazeutische Lösungen,Hochfrequenzschweißmaschinen,Thermoformmaschinen,,Hochfrequenzschweißen,Thermoformen,,Freilassing,8177044.0,200-350
+G. Staehle GmbH u. Co. KG,https://www.columbus-clean.com,False,Einscheibenmaschinen,Kehrmaschinen,Reinigungsautomaten,,,,,,,Stuttgart,5907309.0,200-350
+TURBOMACH GmbH,https://www.solarturbines.com,False,Gaskompressoren,Gasturbinen,Stromgeneratoren,,,,,,,Griesheim,53308.0,No Match
+Michael Glatt Maschinenbau GmbH,https://www.glattistgutgmbh.de,False,Apparate,Behälter,Sonderbauten,Bearbeitungszentren,Erodiermaschinen,Fräsmaschinen,Auslieferungen,Konstruktionen,Planungen,Abensberg,1834111.0,80-120
+WINKEL GmbH,https://www.winkel.de,False,Linearachsen,Linearführungen,Schlauchtrommeln,,,,,,,Illingen,3443600.0,120-200
+Heinz & Feld GmbH Präzisions- und Sondermaschinenbau,https://www.heinz-feld.de,True,Automatisierungslösungen,Montageanlagen,Sondermaschinen,CNC-Maschinen,Messtechnikanlagen,Robotersysteme,Dreharbeiten,Fräsarbeiten,Schleifarbeiten,Saarwellingen,643569.0,10-15
+W. MÜLLER GmbH,https://www.w-mueller-gmbh.de,False,Blasformen,Extrusionsschlauchköpfe,Hohlkörper,,,,Extrusionsblasformen,,,Troisdorf,1716805.0,60-80
+IWK Verpackungstechnik GmbH,https://www.iwk.de,False,Kartoniermaschinen,Tubenfüllmaschinen,Verpackungsmaschinen,,,,,,,Stutensee,1570182.0,60-80
+CFT GmbH - Compact Filter Technic,https://cft-gmbh.de,False,Entstaubungsanlagen,Ventilatoren,Wetterkühlsysteme,,,,,,,Gladbeck,809984.0,15-20
+Gerätebau Wiedtal Schützeichel GmbH & Co. KG,https://www.schuetzeichel.de,True,Bohrdienstleistungen,Diamantwerkzeuge,Maschinenbaulösungen,,,,,,,Neustadt (Wied),1572812.0,60-80
+ROVEMA GmbH,https://www.rovema.com,False,Dienstleistungen,Verpackungslösungen,Verpackungsmaschinen,Endverpackungsmaschinen,Kartoniermaschinen,Schlauchbeutelmaschinen,Generalüberholungen,Maschinenmodernisierungen,Verpackungsprozesse,Fernwald,1999426.0,80-120
+vision-tec gmbh,https://www.vision-tec.de,False,Ausleitsysteme,Flaschenkontrollen,Kastenkontrollen,,,,,,,Kassel,228043.0,No Match
+BMS Maschinenfabrik GmbH,https://www.bms-maschinenfabrik.de/de/,False,Packer,Palettierer,Transporteure,,,,,,,Pfatter,180638.0,No Match
+KALTENBACH GmbH + Co. KG,https://www.kaltenbach.com/de/,False,Ausklinkroboter,Bandsägen,Blechbearbeitungen,Bohren,Fräsen,Lackieren,Bohren,Fräsen,Lackieren,Lörrach,101595.0,No Match
+VENTAPP GmbH,https://www.ventapp.de/de/,True,Apparatebauten / Blechfertigungen,Industrieklappen,Ventilatoren,Kantenbiegemaschinen,Lasermaschinen,Schweißmaschinen,Kantenbiegen,Laserschneiden,Schweißen,Kempen,397352.0,10-15
+HEESS GmbH & Co KG,https://www.heess.com,True,Automatisierungskomponenten,Härtemaschinen,Reinigungsanlagen,Erodiermaschinen,Fräsmaschinen,Laserschneidmaschinen,Erodieren,Fräsen,Laserschneiden,Lampertheim,86790.0,No Match
+Zeulenroda Presstechnik GmbH,https://www.zeulenroda-presstechnik.de,True,Hydraulische Pressen,Mechanische Pressen,Spezial-Pressensysteme,Erodiermaschinen,Fräsmaschinen,Stanzmaschinen,Biegen,Prägungen,Schnitte,Zeulenroda-Triebes,1300555.0,40-60
+Grün GmbH Spezialmaschinenfabrik,https://gruen-gmbh.de/de/,False,Absturzsicherungssysteme,Dachgeräte,Straßenbaumaschinen,,,,,,,Wilnsdorf,162018.0,No Match
+BEKO TECHNOLOGIES GMBH,https://www.beko-technologies.com/de/,False,Druckluftfilter,Drucklufttrockner,Kondensattechniken,,,,,,,Neuss,691369.0,10-15
+Karl Heesemann Maschinenfabrik,https://www.heesemann.de,False,Schleifmaschinen für Holz,Schleifmaschinen für Metall,Schleifmaschinen für andere Werkstoffe,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen,Bad Oeynhausen,140668.0,No Match
+Engel Deutschland GmbH,https://www.engelglobal.com/de/,True,Automationen,Digitale Lösungen,Spritzgießmaschinen,,,,,,,Nürnberg,1397129.0,40-60
+KASTO Maschinenbau GmbH & Co. KG,https://www.kasto.com/de/,False,Lager,Mehre,Sägen,,,,,,,Achern,881433.0,15-20
+Manroland Sheetfed GmbH,http://www.manrolandsheetfed.com,False,Druckmaschinen,Drucksysteme,Verbrauchsmaterialien,,,,,,,Offenbach am Main,6612454.0,200-350
+HIGHYAG Lasertechnologie GmbH,https://ii-vi.com,False,Lasersysteme,Netzwerkkomponenten,Optiken,,,,,,,Kleinmachnow,644272.0,10-15
+Dorst Technologies GmbH & Co. KG,https://www.dorst-technologies.com/de/,False,Axiale Pulverpressen,Isostatische Pulverpressen,Kalibrierpressen,,,,,,,Kochel am See,1932378.0,80-120
+Gebrüder Lödige Maschinenbau GmbH,https://www.loedige.de,False,Granuliersysteme,Mischsysteme,Trocknungssysteme,Granulierer,Mischer,Trockner,Granulierungen,Mischungen,Trocknungen,Paderborn,2495263.0,80-120
+NABERTHERM GmbH,https://nabertherm.com,False,Dentalöfen,Industrielle Öfen,Kunststofföfen,,,,,,,Lilienthal,1046252.0,21-40
+Laempe Mössner Sinto GmbH,https://www.laempe.com,False,3D-Drucker,Kernschießmaschinen,Mischer,,,,,,,Barleben,1793218.0,60-80
+Rodriguez GmbH,https://www.rodriguez.de,False,Lineartechniken,Präzisionslager,kundenspezifische Lösungen,,,,,,,Eschweiler,383368.0,10-15
+Rollon GmbH,https://www.rollon.com,False,Bogenführungen,Linearführungen,Teleskopschienen,,,,,,,Düsseldorf,408435.0,10-15
+TLT-Turbo GmbH,https://www.tlt-turbo.com/de/,False,Mechanische Brüdenverdichtungen,Optimierungen & Wartungen,Services & Supports,,,,,,,Zweibrücken,1076374.0,21-40
+sera GmbH,https://www.sera-web.com,False,Dosiersysteme,Pumpentechnologien,Wasserstofftechnologien,,,,,,,Immenhausen,1764721.0,60-80
+WEBER Schraubautomaten GmbH,https://www.weber-online.com,False,Handschrauber,Stationärschrauber,Steuerungstechniken,,,,,,,Wolfratshausen,1335955.0,40-60
+HEGENSCHEIDT-MFD GmbH,https://www.hegenscheidt-mfd.com,False,Komplettlösungen,Maschinen zur Radsatzbearbeitung,Walzmaschinen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Metallbearbeitungen,Montagen,Oberflächenbehandlungen,Erkelenz,1662309.0,60-80
+ab-Apparatebau Berghaus GmbH,https://www.ab-berghaus.de,True,Blechverarbeitungen,Laserschneidungen,Stanzen,Kantmaschinen,Laserschneidmaschinen,Roboter-Schweißmaschinen,Hochpräzise Messungen,Kanten und Umformungen,Manuelle Schweißverfahren,Sulzbach/Saar,55530.0,No Match
+Schmalenberger GmbH + Co. KG,https://schmalenberger.de,False,Kreiselpumpen,Pumpen für Oberflächentechnik und Reinigungsanlagen,Pumpen für Werkzeugmaschinen,,,,,,,Tübingen,126902.0,No Match
+HURCO GmbH Werkzeugmaschinen,https://www.hurco.de,False,CNC-Bearbeitungszentren,CNC-Drehmaschinen,CNC-Steuerungen,Bearbeitungszentren,Drehmaschinen,Fräsmaschinen,Automatisierungen,Drehen,Fräsen,Pliening,72241.0,No Match
+Troester GmbH & Co. KG,https://www.troester.de,False,Gummiprodukte,Kabelprodukte,Verbindungskomponenten,,,,,,,Hannover,2829056.0,120-200
+SOMAtic GmbH,https://www.somatic-gmbh.de,False,Montagevollautomaten – auch für schnelle Montagezyklen,Teilautomaten mit Handbestückung bzw. Handentnahme,komplexe Gesamtanlagen aus verketteten Montagevollautomaten,,,,,,,Harth-Pöllnitz,255277.0,No Match
+Schmid GmbH Maschinenbau,https://www.schmid-maschinen.de,False,Bearbeitungszentren,Flexible Fertigungssysteme,Sonder-Werkzeugmaschinen,,,,,,,Biberach an der Riß,21048.0,No Match
+Kordel Antriebstechnik GmbH,https://www.kordel.de,False,Antriebstechnologien,Getriebesysteme,Getriebetechnologien,,,,,,,Dülmen,3714164.0,120-200
+Actemium conntronic GmbH,https://www.welding.actemium.de,True,Anlagen,Dienstleistungen,Schweißmaschinen,Kondensatorentladungs-Schweißmaschinen,Laserschweißmaschinen,Lichtbogenschweißmaschinen,Kondensatorentladungs-Schweißverfahren,Laserschweißverfahren,Lichtbogenschweißverfahren,Augsburg,537345.0,10-15
+Wolfgang Preinfalk GmbH,https://www.pwhueber.de/de/,True,Getriebebauten,Komponenten,Lohnfertigungen,Bohr- und Fräsmaschinen,Drehmaschinen,Messmaschinen,Bohrungen und Fräsungen,Drehungen,Messungen,St. Ingbert,5281209.0,200-350
+SEMPUCO Werkzeugmaschinenfabrik GmbH,https://www.sempuco.com,False,Baugruppen,Fräsköpfe,Rundtische,,,,,,,Greiz,1693876.0,60-80
+Josef Meissner GmbH & Co. KG,https://www.josefmeissner.com/de/,False,Anlagen & Verfahren,Dienstleistungen,Referenzen,,,,Beschaffungen & Lieferungen,Engineerings,Forschungen & Entwicklungen,Köln,157712.0,No Match
+Gebr. Eickhoff Maschinenfabrik,https://www.eickhoff-bochum.de,False,Fördermaschinen,Getriebe,Maschinen für die Rohstoffgewinnung,Erodiermaschinen,Fräsmaschinen,Gießmaschinen,Gießereitechniken,Kunststoffverarbeitungen,Metallbearbeitungen,Bochum,246668.0,No Match
+Heinrich Georg GmbH Maschinenfabrik,https://www.georg.com/de/,False,Bearbeitungszentren,Coilverarbeitungsmaschinen,Walzenschleifmaschinen,,,,Bearbeitungen,Coilverarbeitungen,Walzenschleifen,Kreuztal,7387116.0,200-350
+DGS Diesel- und Getriebeservice GmbH,https://www.dgs-mainz.de/de/,False,Automatik-Getriebe,Dieselmotoren,Elektromotoren,,,,,,,Mainz,181274.0,No Match
+HOLZER GmbH,https://holzer-gmbh.com,True,Auffang-Systeme,Montage- und Prüfautomation,Montage- und Prüfdienstleistungen,,,,,,,Herbrechtingen,189057.0,No Match
+Westphal Präzisionstechnik GmbH & Co. KG,https://www.westphal-mechanik.de,True,Montagelinien,Rundschalttische,Zuführsysteme,Bearbeitungszentren,CNC-Dreh- und CNC-Fräsmaschinen,Draht- und Senkerodiermaschinen,Bearbeitung (z. B. Fräsen),Rollieren,Schweißen,Celle,734180.0,15-20
+HOMAG Bohrsysteme GmbH,https://www.homag.com,False,Dienstleistungen,Maschinen,Software,Automatisierungssysteme,Bohr- und Fräsmaschinen,CNC-Bearbeitungszentren,Automatisierungen,Bohr- und Fräsbearbeitungen,CNC-Bearbeitungen,Herzebrock-Clarholz,969474.0,21-40
+Werner Lieb GmbH & Co. KG,https://www.werner-lieb.de,False,Halbleiter,Hochleistungselektroniken,Vollintegrierte Systeme,,,,,,,Rödental,499052.0,10-15
+Nordson BKG GmbH,https://www.nordson.com/en/,False,Adhäsive Dispensiersysteme,Fluid Dispensiersysteme,Präzisionsmesssysteme,,,,,,,Münster,2264260.0,80-120
+Sielaff GmbH & Co. KG,https://sielaff.de,False,Rücknahmesysteme,Serviceleistungen,Vending-Linien,,,,,,,Herrieden,3527480.0,120-200
+ECONO-PAK GmbH,https://econopak.eu,False,Aufrichter,Kartonierer,Verschließer,,,,,,,Flonheim,473145.0,10-15
+Horstkemper Maschinenbau GmbH,https://www.horstkemper.de,False,Lager- und Materialflusssysteme,Pressenautomationen,Sondermaschinenbauten,,,,,,,Rietberg,1851260.0,80-120
+PERFECTA,https://www.perfecta.de/de/,False,Beladungen,Schnitte,Schüttelungen,,,,,,,Bautzen,460754.0,10-15
+ystral gmbh,https://ystral.com/en/,False,Disperser,Inline-Disperser,Mixer,,,,,,,Ballrechten-Dottingen,1319040.0,40-60
+H. F. Meyer Maschinenbau GmbH & Co. KG,https://www.hfmeyer.de,False,Dosentechniken,Filtrationen,Sondermaschinenbauten,Erodiermaschinen,Fräsmaschinen,Lackieranlagen,Kunststoffverarbeitungen,Metallbearbeitungen,Oberflächenbehandlungen,Neustadt in Holstein,80486.0,No Match
+OLBRICH GmbH,https://www.olbrich.com,False,Technologische Lösungen für die Bodenbelagsindustrien,Technologische Lösungen für die Wandbekleidungsindustrien,Technologische Lösungen für die technischen Textilindustrien,,,,Antriebs- und Steuerungstechniken,Beschichtungen,Drucken und Lackieren,Bocholt,1848583.0,80-120
+SCHUKO H. Schulte-Südhoff GmbH,https://www.schuko.de/de/,False,Absaug- & Filtertechniken,Entsorgungstechniken,Oberflächentechniken,,,,,,,Bad Laer,958567.0,21-40
+Motan GmbH,https://www.motan-group.com,False,Dosiersysteme,Material Handling Systeme,Mischsysteme,,,,,,,Friedrichsdorf,127608.0,No Match
+SCHNEIDER GmbH & Co. KG,https://www.schneider-om.com,False,Ophthalmische Maschinen,Präzisionsoptikmaschinen,Ultra-Präzisionsoptikmaschinen,Poliermaschinen,Schleifmaschinen,Zentriermaschinen,Polieren,Schleifen,Zentrieren,Fronhausen,1587645.0,60-80
+airinotec GmbH,https://www.airinotec.com,False,Hygiene-Klimalösungen,Klima- und Lüftungsanlagen,Prozesslufttechniken & Wärmerückgewinnungen,,,,,,,Bayreuth,89454.0,No Match
+Weisstaler Bödenpresswerke GmbH,https://weisstaler.de/de/,False,Böden,Ovale Verschlüsse für Druckbehälter,Sonderpressteile,Bördelmaschinen,Kümpelmaschinen,Pressmaschinen,Bördel,Kümpel,Pressen,Burbach,1755498.0,60-80
+H.I.T. Maschinenbau GmbH + Co. KG,https://hit-maschinenbau.de,False,Hobeltechniken,Leimholztechniken,Sägetechniken,Hobelmaschinen,Leimpressen,Sägemaschinen,Hobel,Leime,Sägen,Ettringen,456100.0,10-15
+Wöhr Autoparksysteme GmbH,https://woehr.de/de/,False,Combilifte,Parklifte,Parksysteme,,,,,,,Friolzheim,1071305.0,21-40
+ROTA Verpackungstechnik GmbH & Co. KG,https://www.rota.de,False,Etikettiermaschinen,Füll- und Verschließmaschinen,Kleinchargenmaschinen,,,,,,,Wehr,184693.0,No Match
+Pfister Waagen Bilanciai GmbH,https://www.pfister-waagen.de,False,Gleisfahrzeugwaagen,Plattformwaagen,Straßenfahrzeugwaagen,,,,,,,Affing,77130.0,No Match
+FPS Werkzeugmaschinen GmbH,https://www.fpsgermany.com,False,Generalüberholte Maschinen,Neumaschinen,Zubehör,Bohrmaschinen,Fräsmaschinen,,Montagen,Zerspanungen,,Warngau,147642.0,No Match
+Ferdinand Henneken GmbH,https://henneken-tumbler.de,False,Injektoren,Lakemischer,Tumbler,,,,,,,Bad Wünnenberg,535086.0,10-15
+KABATEC GmbH & Co. KG,https://www.kabatec.com,False,Zubehör,automatisierte Plattformen für Datenleitungen,automatisierte Plattformen für Hochvoltleitungen,,,,,,,Burghaun,589938.0,10-15
+Nikon Precision Europe GmbH,https://www.nikonprecision.com,False,Deep UV,Immersion and Multiple Patterning,i-Line,,,,,,,Langen (Hessen),48761.0,No Match
+Rationator Maschinenbau GmbH,https://www.rationator.de,False,Abfüllungen,Aufstellungen,Verschlüsse,,,,,,,Hillesheim,236395.0,No Match
+Vulkan Technic GmbH,https://vulkantechnic.de,False,Semiautomatische Applikationen,Vollautomatische Klebebandapplikationen,Vollautomatische Schaumband-Applikationen,,,,,,,Wiesbaum,163867.0,No Match
+KARL MAYER Technische Textilien GmbH,https://www.karlmayer.com/de/,False,Kettvorbereitungsanlagen,Technische Textilien,Wirkmaschinen,,,,,,,Chemnitz,291335.0,No Match
+Vollmer Werke Maschinenfabrik GmbH,https://www.vollmer-group.com/de/,False,Erodiermaschinen,Lasermaschinen,Schleifmaschinen,,,,,,,Biberach an der Riß,972181.0,21-40
+Aumann Limbach-Oberfrohna GmbH,https://www.aumann.com,True,Branchenlösungen,Spezialmaschinen,automatisierte Fertigungslinien,Drahtbearbeitungsmaschinen,Messsysteme,Montage- und Handhabungstechnik,Automationen,Drahtherstellungen,Kontaktieren,Limbach-Oberfrohna,805145.0,15-20
+Mosca GmbH,https://www.mosca.com,False,Stretch Wrapping Maschinen,Umreifungsbänder,Umreifungsmaschinen,,,,,,,Waldbrunn,1349282.0,40-60
+Kurt Breuning IRCO-Maschinenbau GmbH,https://www.breuning-irco.de,False,Stangenlademagazine für kurze Werkstoffstangen,Stangenlademagazine für lange Werkstoffstangen,Werkstücke automatisch beladen,,,,,,,Steinenbronn,404451.0,10-15
+J.G. Weisser Söhne GmbH & Co. KG,https://www.weisser-web.com,True,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,,,,Rotationsdrehen,Universalbearbeitungen,Unrunddrehen,St. Georgen im Schwarzwald,104350.0,No Match
+KLINGER SCHÖNEBERG GmbH,https://www.klinger-schoeneberg.de/de/,False,Industriearmaturen,Kugelhähne,Ventile,,,,,,,Graben-Neudorf,658015.0,10-15
+Maschinenfabrik Lauffer GmbH & Co KG,https://lauffer.de,False,Formtechnologien,Laminiersysteme,Pulvertechnologien,,,,,,,Horb am Neckar,388445.0,10-15
+KTR Systems GmbH,https://www.ktr.com/de/,False,Bremsen,Hydraulik-Komponenten,Kupplungen,,,,,,,Rheine,1777912.0,60-80
+Grunwald GmbH,https://www.grunwald-wangen.de,False,Becherfüller,Eimerfüller,Sonstige Maschinenlösungen,,,,,,,Wangen im Allgäu,642715.0,10-15
+WF-Maschinenbau und Blechformtechnik,https://wf-maschinenbau.com/de/,True,"Endprodukte wie Räder, Felgen, Motoren und Antriebsstränge",Komponenten für E-Antriebe,Metalldruckmaschinen,Drückmaschinen,Nabenanformmaschinen,Profiliermaschinen,Drückwalzen,Metalldrücke,Metallverarbeitungen,Sendenhorst,1224596.0,40-60
+telerob Gesellschaft für Fernhantierungstechnik mbH,https://www.telerob.com/de/,False,Taktische Raketensysteme,Unbemannte Bodenfahrzeuge,Unbemannte Luftfahrzeuge,,,,,,,Ostfildern,37875.0,No Match
+Dana Motion Systems Deutschland GmbH,https://www.piv-extruderdrives.com,False,Doppelschrauben-Extruderantriebe,Einzelschrauben-Extruderantriebe,Rack-and-Pinion-Antriebe für Spritzgießmaschinen,,,,,,,Bad Homburg v. d. Höhe,3019531.0,120-200
+Richard Stihler GmbH,https://www.stihler-apparatebau.de,False,Kolonnen,Rührbehälter,Wärmetauscher,,,,,,,Lahr/Schwarzwald,263880.0,No Match
+Karl Marbach GmbH & Co. KG,https://www.marbach.com,True,Maschinen und Ausrüstungen,Stanzwerkzeuge,Thermoformwerkzeuge,Stanzmaschinen,Thermoformmaschinen,Verpackungsmaschinen,Stanzen,Thermoformen,Verpackungsproduktionen,Heilbronn,1061147.0,21-40
+HEINRICH WAGNER SINTO Maschinenfabrik GmbH,https://www.wagner-sinto.de/de/,False,Kastengebundene Formmaschinen und -anlagen,Kastenlose Formmaschinen und -anlagen,Vakuum-Prozess Formmaschinen und -anlagen,,,,,,,Bad Laasphe,2136526.0,80-120
+GEISS AG,https://www.geiss-ttt.com,False,Automationslösungen,CNC-Bearbeitungszentren,Thermoformanlagen,,,,CNC-Bearbeitungen,Thermoformen,,Seßlach,4889059.0,120-200
+ACCRETECH (Europe) GmbH,https://www.accretech.eu/de/,False,Formmessgeräte,Oberflächenmessgeräte,Prozesssteuerungslösungen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehen,Fräsen,Schleifen,München,92623.0,No Match
+Mohrbach Verpackungsmaschinen GmbH,https://mohrbach.com,False,Kartonaufrichter,Kartonverdeckler,Kartonverschließer,,,,,,,Höhfröschen,468489.0,10-15
+Lock Antriebstechnik GmbH,https://www.lockdrives.com,False,Antriebstechniken für den Gewächshausbau,Antriebstechniken für den Stallbau,Elektroantriebe und mechatronische Endschalter,,,,,,,Ertingen,3414996.0,120-200
+WESPA Metallsägenfabrik,https://www.wespa-simonds.de,False,Bi-Metallbandsägen,Hartmetallbandsägen,Sägebänder,,,,,,,Melsungen,1982839.0,80-120
+EnviroFALK GmbH,https://www.envirofalk.com/de/,False,Ionenaustauscher,Reinstwasseranlagen,Wasseraufbereitungsanlagen,,,,,,,Westerburg,110185.0,No Match
+AKE - Systemtechnik GmbH,https://www.ake-systemtechnik.com/de/,False,Batteriefertigungs- und Prüfsysteme,Fördertechniken,Roboter- und Sonderanlagen,,,,,,,Reinsdorf,713756.0,15-20
+Garant Maschinenhandel GmbH,https://www.garant-maschinen.de/de/,False,E-Commerce-Versandtaschen,Papiertragetaschen,Papiertüten,,,,,,,Lengerich,62586.0,No Match
+Piller Blowers & Compressors GmbH,https://www.piller.de,False,Bläser,Kompressoren,industrielle Wärmepumpen,,,,,,,Moringen,2448795.0,80-120
+A. Monforts Textilmaschinen GmbH & Co. KG,https://www.monforts.de,False,Färbeanlagen,Krumpfanlagen,Maschinen & Anlagen,,,,,,,Mönchengladbach,80986.0,No Match
+FAWEMA GmbH,https://fawema.com,False,Gebrauchte Maschinen,Lösungen für Schüttgüter,Verpackungsmaschinen,,,,,,,Engelskirchen,74274.0,No Match
+Koch Pac-Systeme GmbH,https://koch-pac-systeme.com,False,Blistermaschinen,Kartonverpackungsmaschinen,Verpackungslinien,,,,,,,Pfalzgrafenweiler,2999816.0,120-200
+seepex GmbH,https://www.seepex.com,False,Digitale Lösungen,Pumpen,Pumpsysteme,,,,,,,Bottrop,3528813.0,120-200
+MBK Maschinenbau GmbH,https://www.mbk-kisslegg.de,False,Drahtricht- und Schneideanlagen,Gitterträgerschweißmaschinen,Mattenschweißmaschinen,,,,,,,Kißlegg,815502.0,15-20
+AXA Entwicklungs- und Maschinenbau GmbH,https://www.axa-maschinenbau.de,False,Fahrständer-Bearbeitungszentren,Original-Komponenten,Portal-Bearbeitungszentren,,,,,,,Schöppingen,4513644.0,120-200
+SVQ GmbH,https://www.global-retool-group.com/de/,True,Montagesysteme,Retrofit- und Retool-Lösungen,Schweißmaschinen,,,,Montageprozesse,Retrofit-Prozesse,Schweißprozesse,Lebach,1368957.0,40-60
+Waldrich Siegen,https://www.waldrichsiegen.de,False,Drehfräsmaschinen,Horizontaldrehmaschinen,Portalfräsmaschinen,,,,,,,Siegen,7703058.0,200-350
+Amandus Kahl GmbH & Co. KG,https://www.akahl.com/de/,False,Biomasseanlagen,Futtermittelanlagen,Pelletpressen,Bandkühler/Bandtrockner,Batch FB - Wirbelschichtanlagen für die Chargenverarbeitung,Brechwalzenstühle,Agglomerationen,Coatings,Dosierungen,Reinbek,238020.0,No Match
+Profiroll Technologies GmbH,https://www.profiroll.de,False,Profil- und Gewindewalzmaschinen,Ringwalzmaschinen,Verzahnungswalzmaschinen,,,,Gewindewalzen,Profilwalzen,Ringwalzen,Bad Düben,4001666.0,120-200
+BOMA Maschinenbau GmbH,https://boma.de,True,Metallbauten,Oberflächenbehandlungen,Zerspanungen,Bearbeitungszentren,CNC-Drehmaschinen,CNC-Fräsmaschinen,Lackieren,Montagen,Qualitätskontrollen,Borken,3385820.0,120-200
+MIWE Michael Wenz GmbH,https://www.miwe.de,False,Backöfen,Beschickungs- und Transportsysteme,Bäckereikältetechniken,,,,,,,Arnstein,1980265.0,80-120
+Klingelnberg GmbH,https://klingelnberg.com,False,Fasenradmaschinen,Präzisionsmesszentren,zylindrische Zahnradmaschinen,Fräsmaschinen,Messmaschinen,Schleifmaschinen,Fräsen,Messen,Schleifen,Hückeswagen,8469042.0,200-350
+HELD Technologie GmbH,https://www.held-tech.de,False,HELD Doppelbandpressen,Stahlbänder,Technologieparks,,,,,,,Trossingen,2409814.0,80-120
+Masa GmbH,http://www.masa-group.com/de/,False,Betonsteinfertigungsanlagen,Kalksandsteinfertigungsanlagen,Porenbetonfertigungsanlagen,Anlagensteuerungssysteme,Betonmischer,Betonsteinfertigungsmaschinen,Betonsteinfertigungen,Bordsteinfertigungen,Kalksandsteinfertigungen,Andernach,1289220.0,40-60
+Ulmer Werkzeugschleiftechnik GmbH & Co. KG,https://werkzeugschleifen.de,False,Endenbearbeitungsmaschinen,Rundschleifmaschinen,Werkzeugschleifmaschinen,,,,Endenbearbeitungen,Geometrie-/Werkzeugschleifen,Kontur-/Rundschleifen,Ulm,1460023.0,40-60
+Korsch Aktiengesellschaft,https://www.korsch.com/de/,False,Lösungen,Produktfinder,Tablettiermaschinen,,,,,,,Berlin,2032020.0,80-120
+Presstec Pressentechnologie GmbH,https://www.presstec.com,True,Pressenbauteile & -ersatzteile,Pressenmodernisierungen,Pressenreparaturen & -überholungen,,,,Elektrotechnische Anlagenentwicklungen,Mechanische Teilefertigungen,Montagen,Kehl,254464.0,No Match
+Schöpstal Maschinenbau GmbH,https://www.schoepstal-maschinenbau.de,True,Edelstahlbaugruppen & -anlagen,Hochwertige Fassaden,Maschinen & Anlagen,CNC-Fräsmaschinen,Laserschneidmaschinen,Schweißmaschinen,Mechanische Bearbeitungen,Schweißtechniken,Zuschnitte & Umformungen,Markersdorf,2889507.0,120-200
+Industrieofen- und Anlagenbau GmbH,https://www.industrieofen-und-anlagenbau.de,False,Ersatzteile für Wärmebehandlungsanlagen und Öfen,einzelne Industrieöfen,voll automatisierte Wärmebehandlungsanlagen,,,,,,,Bad Königshofen im Grabfeld,445684.0,10-15
+WAFIOS Umformtechnik GmbH,https://www.wafios-umformtechnik.de,False,Dienstleistungen,Maschinen,Werkzeuge,Gewindeschneidautomaten,Gewindewalzmaschinen,Kaltumformer,Gewindeschneidungen,Gewindewalzungen,Kaltumformungen,Wuppertal,65238.0,No Match
+Erwin Quarder Systemtechnik GmbH,https://www.quarder.de,False,Hochspannungsmechatroniken,Kunststoff-Hybridbauteile,Sensorintegrationen,,,,,,,Espelkamp,8524474.0,200-350
+J. Schmalz GmbH,https://www.schmalz.com/de/,False,Vakuum-Greifsysteme,Vakuum-Komponenten,Vakuum-Spanntechniken,,,,,,,Glatten,3126074.0,120-200
+Höchsmann GmbH,https://www.hoechsmann.com,False,Auktionen,Bewertungen,Gebrauchtmaschinen,,,,,,,Klipphausen,220571.0,No Match
+HDG - Verpackungsmaschinen GmbH,https://hdg-packaging.com,False,Beutel,Verpackungslösungen,Verpackungsmaschinen,,,,,,,Lindlar,301125.0,10-15
+Heiber und Schröder Maschinenbau GmbH,https://heiber-schroeder.com/de/,False,Fenstereinklebemaschinen,Kartonaufrichtemaschinen,Verpackungen,,,,,,,Erkrath,109992.0,No Match
+Salzhausener Maschinenbautechnik,https://www.salmatec.de/de/,False,Konditioneure,Pelletierpressen,Thermische Behandlungsanlagen,,,,,,,Gödenstorf,30241.0,No Match
+PRESTO GmbH & Co. KG,https://www.presto.eu/de/,False,Abfallentsorgungsanlagen,Entwässerungstechniken,Gebrauchtmaschinen,,,,,,,Bad Laer,364320.0,10-15
+Bock Maschinenbau GmbH,https://www.bock-gmbh.com,True,Schwerkonstruktionen,Spezialmaschinen,Stahlbauten,Abkantpressen und Scheren,Biegemaschinen,Drehzentren,Lackierungen,Maschinenbauten,Metallbearbeitungen,Lorch,2757703.0,120-200
+NIMAK GmbH,https://www.nimak.de/de/,True,Handschweißzangen,Roboterschweißzangen,Schweißmaschinen,Erodiermaschinen,Fräsmaschinen,Lötmaschinen,Automatisierungen,Klebstoffaufträge,Widerstandsschweißens,Wissen,1242862.0,40-60
+Vollenda-Werk GmbH,http://www.vollenda.de,False,Füllsysteme für Pulverlack für Big Bags und Kartons,Füllsysteme für Schüttgüter und Flüssigkeiten,kombinierte Abfüllsysteme und bewegliche Maschinen für Pulverlack,,,,,,,Geltendorf OT Kaltenberg,263112.0,No Match
+Venjakob Maschinenbau GmbH & Co.,https://www.venjakob.de,False,Abluftreinigungsanlagen,Beschichtungsanlagen,Lackieranlagen,Fördertechnik- und Handhabungsmaschinen,Spritzlackiermaschinen,Walzenauftragsmaschinen,Fördertechniken,Spritzlackierungen,Walzenaufträge,Rheda-Wiedenbrück,1885963.0,80-120
+LEMMER-FULLWOOD GmbH,https://www.lemmer-fullwood.info,False,Automatische Fütterungen,Melksysteme,Milchlagerungen,,,,,,,Lohmar,43441.0,No Match
+BBM Maschinenbau und Vertriebs GmbH,https://bbm-germany.de,False,Doppelstationsanlagen,Einstationsanlagen,Spritzstreckblasanlagen,,,,,,,Langenberg,1181379.0,21-40
+M+M Turbinen-Technik GmbH,https://www.turbinen-technik.de/de/,False,Dampfturbinen,Qualitäten & Nachhaltigkeiten,Services,,,,,,,Bad Salzuflen,396371.0,10-15
+Zahoransky AG,https://www.zahoransky.com/de/,False,Maschinen und Formen für die Produktion von Bürsten,Maschinen und Formen für die Produktion von Personal Care Produkten,Maschinen und Formen für die Produktion von medizinischen Produkten,,,,,,,Todtnau,1224123.0,40-60
+Eckel & Sohn Maschinenbau GmbH & Co. KG,https://www.eckel-sohn.de,False,Fördermaschinen,Inspektionssysteme,Montagemaschinen,,,,,,,Gau-Odernheim,342912.0,10-15
+UTH GmbH,https://uth-gmbh.com,False,roll-ex® Add-on Versionen,roll-ex® TRF Zahnradextruder mit Walzenfütterungen,roll-ex® Zahnradpumpen,,,,Feinstrainer,Hochdruckanwendungen,Präzise Extrusionen,Fulda,477013.0,10-15
+Bihl + Wiedemann GmbH,https://www.bihl-wiedemann.de,False,AS-Interface Master/Gateways,AS-Interface Module,Sicherheitskomponenten,,,,,,,Mannheim,384212.0,10-15
+ERMAFA Sondermaschinen- und Anlagenbau GmbH,https://ermafa.de,True,Automationslösungen,Maschinen für die Kunststoff- und Kautschukindustrie,Sondermaschinen,Fräsmaschinen,Kalander,Mischwalzen,Recyclings,Verarbeitungen von Kunststoffen und Kautschuken,Vulkanisationen,Chemnitz,3114301.0,120-200
+Stadler Anlagenbau GmbH,https://w-stadler.de,False,Komponenten,STADLERconnects,Sortieranlagen,,,,,,,Altshausen,75060.0,No Match
+OLKO-Maschinentechnik GmbH,https://www.ts-olko.com/de/,False,"Befahrungs-, Hilfsfahr- und Notfahranlagen","Bremssysteme, Aggregate und Hydraulik",Fördermaschinen,,,,,,,Olfen,254005.0,No Match
+Maschinenbau Kaltenbach GmbH,https://www.ka-ma.com,True,Freizeitparkanlagen,Silosteller,Wanderkräne,Montagemaschinen,Schweißmaschinen,Zerspanungsmaschinen,Montageprozesse,Schweißprozesse,Zerspanungsprozesse,Neuenburg am Rhein,414232.0,10-15
+Harmonic Drive AG,https://harmonicdrive.de/de/,False,Harmonic Drive® Getriebe,Harmonic Drive® Mechatroniken,Harmonic Planetengetriebe,,,,,,,Limburg a. d. Lahn,26045117.0,350-600
+Bellmer GmbH,https://www.bellmer.com,False,Dienstleistungen,Papiermaschinen,Trenntechnologien,Papiermaschinen,Pumpen und Dosiersysteme,Trennmaschinen,Beschichtungsprozesse,Papierherstellungen,Wasser- und Schlammbehandlungen,Niefern-Öschelbronn,357595.0,10-15
+Torgauer Maschinenbau GmbH,https://www.tmb-torgauermaschinenbau.de,True,Automatisierungslösungen für Flachgläser,Automatisierungslösungen für die PV-Solar-Industrien,Handling-Lösungen,Beschickungs- und Stapelanlagen,Flachglasbearbeitungsmaschinen,Förder- und Verkettungseinrichtungen,Automatisierungen,Handlings,,Torgau,100724.0,No Match
+Buckau-Wolf GmbH,https://www.buckau-wolf.com,False,Mischtechniken,Verdampfungskristallisatoren,Zentrifugen,,,,,,,Grevenbroich,424952.0,10-15
+Maschinenbau Böhmer GmbH,https://www.boehmer-maschinenbau.de,True,Automationen,Gießerei-Automationen,Sprühtechniken,Erodiermaschinen,Fräsmaschinen,Schweißmaschinen,Auswuchttechniken,Druckgussprozesse,Koordinatenmessungen,Steinebach/Sieg,69988.0,No Match
+Schwanog Siegfried Güntert GmbH,https://www.schwanog.com/de/,True,Profilwerkzeugsysteme,Wechselplatten,kundenspezifische Werkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen,Villingen-Schwenningen,1636717.0,60-80
+GUK-Falzmaschinen,http://www.guk-falzmaschinen.com,False,Drehtechniken,Falzmaschinen,,,,,,,,Wellendingen,1960868.0,80-120
+Ludwig Schwerdtel GmbH,https://schwerdtel.biz,False,Dosiergeräte,Materialzuführungen,Mehrkomponenten-Dosierungen,,,,,,,Karlsfeld,129292.0,No Match
+L.B. Bohle Maschinen und Verfahren,https://www.lbbohle.de,False,Granulationssysteme,Mahlmaschinen,Siebmaschinen,,,,Granulationen,Mahlungen und Siebungen,Wiegen und Dosieren,Ennigerloh,463333.0,10-15
+Gräbener Maschinentechnik GmbH & Co. KG,https://www.graebener.com/de/,True,Engineering-Dienstleistungen,Fertigungsanlagen,Produktionslabor-Dienstleistungen,Hydroforming-Maschinen,Richtmaschinen,Schneidemaschinen,Hydroformungen,Richtens,Schneidens,Netphen,519354.0,10-15
+Herrmann Ultraschalltechnik GmbH & Co. KG,https://www.herrmannultraschall.com/de/,False,Ultraschall-Schweißmaschinen,Ultraschall-Systeme,Ultraschallgeneratoren,,,,Ultraschalllaminieren,Ultraschallschweißen,Ultraschallsiegeln,Karlsbad,1801020.0,80-120
+KronTec Maschinenbau GmbH,https://www.krontec.de,True,Aluminiumprodukte,Edelstahlprodukte,Hochwertige Kunststoffprodukte,Drehmaschinen,Fräsmaschinen,,Drehungen,Fräsungen,,Obertraubling,935869.0,21-40
+M. Brück GmbH & Co. KG,https://www.brueck.net/de/,True,Perforierpressen,Spezialpressen,Streckmetallmaschinen,,,,Lohnfertigungen,Schweisstechniken,Services & Wartungen,Düren,832931.0,15-20
+Boart Longyear GmbH & Co. KG,https://www.boartlongyear.com,False,,,,,,,,,,Eiterfeld,1760477.0,60-80
+KNUTH WERKZEUGMASCHINEN GMBH,https://www.knuth.com,False,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,,,,,,,Wasbek,2509012.0,120-200
+WMV Apparatebau GmbH,https://www.wmv.com,False,Anlagen zur Oberflächenbehandlung,Beschichtungsanlagen,Zentrifugen,Beschichtungsmaschinen,Temperanlagen,Zentrifugen,Beschichtungen,Reinigungen,Tempern,Windeck,767061.0,15-20
+Ringfeder Power-Transmission GmbH,https://www.ringfeder.com,False,Dämpfungskomponenten,Kupplungen,Schacht-Naben-Verbindungen,,,,,,,Groß-Umstadt,1627262.0,60-80
+Burghardt + Schmidt GmbH,https://b-s-germany.de,False,Längsteilanlagen,Streck-Biege-Richtanlagen,Verpackungsanlagen,,,,,,,Remchingen,645134.0,10-15
+Hürner Luft- und Umwelttechnik GmbH,https://www.hlu.eu,False,Anlagenbauten,Kunststoffapparatebauten,Kunststoffventilatoren,,,,,,,Mücke,379771.0,10-15
+Schechtl Maschinenbau GmbH,https://schechtl.de,False,Profiliermaschinen,Schwenkbiegemaschinen,Tafelscheren,,,,,,,Edling,648898.0,10-15
+K.R. Pfiffner GmbH,https://www.pfiffner.com,True,Maschinen,Rundtaktmaschinen,Serviceleistungen,Drehmaschinen,Fräsmaschinen,Schleifmaschinen,Drehungen,Fräsungen,Schleifungen,Zimmern ob Rottweil,343394.0,10-15
+Otto Christ Aktiengesellschaft,https://www.christ-ag.com,False,Nutzfahrzeug-Waschanlagen,PKW-Waschanlagen,Waschanlagen-Chemien,,,,,,,Benningen,1603615.0,60-80
+WUMAG TEXROLL GmbH & Co. KG,https://www.wumag-texroll.com/de/,False,Sondermaschinen und Anlagenbau,Technische Walzen,Zylinder,,,,,,,Krefeld,149652.0,No Match
+Borries Markier-Systeme GmbH,https://borries.com/de/,False,Lasermarkierer,Markiersysteme,Prägewerkzeuge,,,,,,,Pliezhausen,105207.0,No Match
+HAAS Schleifmaschinen GmbH,http://www.haas-schleifmaschinen.de,True,Komponenten,Schleifmaschinen,Werkzeuge,Erodiermaschinen,Fräsmaschinen,Schleifmaschinen,Erodieren,Fräsen,Schleifen,Trossingen,1490373.0,40-60
+HELL Gravure Systems GmbH & Co. KG,https://www.hell-gravure-systems.com,False,Graviersysteme,Servicedienstleistungen,Softwarelösungen,Graviermaschinen,Lasersysteme,Softwaresysteme,Elektromechanische Gravuren,Lasergravuren,Softwarebasierte Kalibrierungen,Kiel,89253.0,No Match
+IP Gansow GmbH,https://www.ipcworldwide.com/de/,False,Dampferzeuger,Einscheibenmaschinen,Fensterreinigungsgeräte,,,,,,,Unna,9529883.0,200-350
+GoGaS Goch GmbH & Co. KG,https://www.gogas.com,False,Gebäudelösungen,Prozesstechnik,Wasserstoffe,,,,,,,Dortmund,74459.0,No Match
+Behringer GmbH,http://www.behringer.net,False,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Bandsägen,Kreissägen,Profilbearbeitungsmaschinen,Bandsägen,Kreissägen,Profilbearbeitungen,Kirchardt,3036402.0,120-200
+Mikron Germany GmbH,https://www.mikron.com,False,Automationslösungen,Bearbeitungssysteme,Schneidwerkzeuge,,,,,,,Rottweil,6589383.0,200-350
+Kampf Schneid- und Wickeltechnik,https://www.kampf.de/de/,False,Flexible Filme,Flexible Verpackungen,Technische Anwendungen,,,,,,,Wiehl,1534087.0,60-80
+BSB Metallverformung,https://www.bsb-bwb.de/de/,True,Druckluftbehälter,Schweißbaugruppen,Stanz- und Umformteile,Laserschweißmaschinen,Pulver- und Nasslack-Beschichtungsanlagen,Stanzmaschinen,Beschichtungen,Schweißens,Stanzen,Burgau,5610708.0,200-350
+Kallfass GmbH Maschinen plus Automation,https://www.kallfass-online.com,False,Automationslösungen,Sortierer,Sägen,Fräsmaschinen,Pressen,Sägen,Hobel,Sortierungen,Sägen,Wernigerode,467428.0,10-15
+Otto Künnecke GmbH,https://www.kuennecke.com,False,Automatisierungslösungen,Maschinenlösungen,Softwarelösungen,,,,,,,Holzminden,30194.0,No Match
+TÜNKERS Maschinenbau GmbH,https://www.tuenkers.de,False,Greifertechniken,Spanntechniken,Umformtechniken,,,,,,,Ratingen,5049197.0,200-350
+Bühler GmbH,http://www.buhlergroup.com,False,Lösungen für die Lebensmittel- und Futtermittelindustrie,Lösungen für die fortgeschrittenen Materialindustrie,Prozesstechnologien,,,,,,,Beilngries,5384448.0,200-350
+Bühler GmbH,http://www.buhlergroup.com,False,Lösungen für die Lebensmittel- und Futtermittelindustrie,Lösungen für die fortgeschrittenen Materialindustrie,Prozesstechnologien,,,,,,,Reichshof,5384448.0,200-350
+Bühler GmbH,http://www.buhlergroup.com,False,Lösungen für die Lebensmittel- und Futtermittelindustrie,Lösungen für die fortgeschrittenen Materialindustrie,Prozesstechnologien,,,,,,,Braunschweig,5384448.0,200-350
+PALLMANN Maschinenfabrik,https://www.pallmann.eu,False,Maschinen und Komplettsysteme für die Aufbereitung und Zerkleinerung von Materialien,Zerkleinerungstechnologie für das Recycling von Wertstoffen,Zerkleinerungstechnologie für die Holzindustrie,,,,Aufbereitungsprozesse,Zerkleinerungsprozesse,,Zweibrücken,961594.0,21-40
+PTR Strahltechnik GmbH,https://www.ptr-ebeam.com/de/,True,Elektronenstrahl-Generatoren,Elektronenstrahlmaschinen,Lohnfertigungsdienstleistungen,Elektronenstrahlmaschinen,Lohnfertigungsmaschinen,,Elektronenstrahlbohren,Elektronenstrahloberflächenbehandlungen,Elektronenstrahlschweißen,Langenselbold,6391519.0,200-350
+Rattunde AG,https://rattunde.one,False,Endenbearbeitungssysteme,Spanlostrennmaschinen,Sägebearbeitungszentren,,,,,,,Ludwigslust,1388461.0,40-60
+Bernhard Upmann,https://www.upmann.de,False,Gebrauchtmaschinen,Lösungen für die Agrarindustrie,Verpackungsmaschinen,Annahmemaschinen,Aufbereitungs- und Sortiermaschinen,Lagerungsmaschinen,Annahmen,Aufbereitungen & Sortierungen,Lager,Rheine,174862.0,No Match
+AUTOPSTENHOJ GmbH,https://www.autopstenhoj.com/de/,False,Hebebühnen,Prüftechniken,Speziallösungen,,,,,,,Rheine,79443.0,No Match
+Regal Rexnord,https://www.regalrexnord.com,False,Antriebe und Steuerungen,Gebläse und Luftfördersysteme,Lager,,,,,,,Haan,2098367.0,80-120
+WEISS GmbH,https://www.weiss-world.com,False,Drehindexiertische,Lineare Achsen,Roboter,,,,,,,Buchen (Odenwald),1328441.0,40-60
+NAGEL Maschinen- und Werkzeugfabrik GmbH,https://www.nagel.com,True,Honmaschinen,Honwerkzeuge,Superfinish-Maschinen,,,,,,,Nürtingen,5381759.0,200-350
+KALLFASS Verpackungsmaschinen GmbH,https://www.kallfass.de,False,Folienverpackungsmaschinen,Papierverpackungsmaschinen,Verpackungsmaschinen,,,,,,,Nürtingen,595906.0,10-15
+ATR Industrie-Elektronik GmbH,https://www.atrie.de,False,MSR-Elektronik,Schaltanlagen,Steuerungsanlagen,,,,,,,Krefeld,386158.0,10-15
+Carl Cloos Schweißtechnik GmbH,https://www.cloos.de,False,Automatisierte Schweiß- und Schneidsysteme,Hochwertige Schweißgeräte,Schweißprozesse,,,,Laserschweißverfahren,Metallschutzgasschweißverfahren,Wolframschutzgasschweißverfahren,Haiger,447761.0,10-15
+Keller Lufttechnik GmbH + Co. KG,https://www.keller-lufttechnik.de,False,Absaugarme,Absauglösungen,Absaugtische,,,,,,,Kirchheim unter Teck,668425.0,10-15
+Helmers Maschinenbau GmbH,https://helmers-move.de,False,Automatisierungstechnik,Lagertechniken & -systeme,Rohrbahnförder- & Zerlegetechniken,,,,,,,Osnabrück,30357.0,No Match
+POKOLM Frästechnik GmbH & Co. KG,https://www.pokolm.de,False,Aufnahmesysteme,Beratungen,Fräswerkzeuge,,,,,,,Harsewinkel,3167983.0,120-200
+KELLER HCW GmbH,https://www.keller.de,False,Automatisierungen,Maschinen und Anlagen,Thermische Prozesse,,,,,,,Ibbenbüren,695297.0,10-15
+Stiebel-Getriebebau GmbH & Co. KG,https://www.stiebel.de,False,Antriebseinheiten,Getriebemotoren,Pumpenantriebe,,,,,,,Waldbröl,1925826.0,80-120
+Bystronic Maschinenbau GmbH,https://www.bystronic.com/de/,False,Abkantpressen,Biegeautomationen,Laserschneidmaschinen,Abkantpressen,Laserschneidmaschinen,Rohrlaser,Biegeprozesse,Laserschneidens,Rohrschneidens,Gotha,4699205.0,120-200
+LECHLER GmbH,https://www.lechler.com,False,Düsen,Düsensysteme,Düsentechnologien,,,,,,,Metzingen,7194318.0,200-350
+GLAMA Maschinenbau GmbH,http://www.glama.de,False,Automatisierungslösungen,Manipulatoren,Roboter,,,,,,,Gladbeck,490331.0,10-15
+Anthon GmbH,https://www.anthon.de,False,Handlings / Peripherien,Industrielle Sägeanlagen,Verpackungslinien,,,,,,,Flensburg,609019.0,10-15
+Polyplan-GmbH,https://www.polyplangmbh.de,False,Automatisierte De-/Palettierlösungen,Automatisierungslösungen,Robotergeführte Polyurethan-Technologien,Dosieranlagen,Roboter,Schäumanlagen,Automatisierte Fertigungen,Polyurethan-Verarbeitungen,Robotergeführte Prozesse,Straßlach,111547.0,No Match
+Zirkon Druckmaschinen GmbH,https://www.zirkon-print.de,False,Druckmaschinen,Retrofit-Lösungen,Serviceleistungen,,,,,,,Leipzig,168622.0,No Match
+BBG GmbH & Co. KG,https://www.bbg-mbh.com,True,Formenträgersysteme,Pressen,Werkzeuge,Formenbaumaschinen,Pressen,Spritzgießmaschinen,Formenbauten,Pressen,Spritzgießverfahren,Mindelheim,2539923.0,120-200
+PRÄWEMA Antriebstechnik GmbH,http://www.praewema.de,False,Maschinen,Services,Werkzeuge,Fräsmaschinen,Honmaschinen,Schleifmaschinen,Drehungen,Honungen,Schleifungen,Eschwege,538122.0,10-15
+Robert Bürkle GmbH,https://www.burkle.tech,False,Anlagen für die Fußbodenindustrie,Anlagen für die Möbelindustrie,Anlagen für die Türenindustrie,Beschichtungsanlagen,Laminieranlagen,Pressen,Laminierungen,Oberflächenveredelungen,Pressungen,Freudenstadt,215860.0,No Match
+G. Kraft Maschinenbau GmbH,https://www.kraft-maschinenbau.de,True,Automatisierungslösungen,Maschinen,Sondermaschinen,Fräsmaschinen,Fördersysteme,Sägen,Automatisierungen,Montagen,Zerspanungen,Rietberg,299650.0,No Match
+Otto Bihler Maschinenfabrik GmbH & Co. KG,https://www.bihler.de/de/,True,Maschinen,Prozessmodule / Peripheriegeräte,Schweißtechnik,,,,Biegen,Schweißtechniken,Stanzen,Halblech,896584.0,15-20
+Maschinenfabrik Gustav Eirich,https://www.eirich.de/de/,False,Granuliertechnik & Pelletiertechnik,Mahltechnik,Mischtechnik,,,,,,,Hardheim,4427697.0,120-200
+VAF Gesellschaft für Verkettungsanlagen,https://www.vaf-sondermaschinen.de,True,Montageanlagen für Powertrains,Steuerungstechniken,Umbauten von Bestandsanlagen,,,,,,,Bopfingen,3829185.0,120-200
+KRONEN GmbH,https://www.kronen.eu,False,Maschinen,SMART Lösungen,Verarbeitungslinien,Entkeimungsmaschinen,Fördermaschinen,Mischmaschinen,Entkeimungen,Förderungen,Mischungen,Kehl,724913.0,15-20
+PROFILMETALL GmbH,https://www.profilmetall.de,True,3D-gebogene Profile,Beschichtete Profile,Rollgeformte Profile,Ausklingmaschinen,Automatisierungsmaschinen,Beschichtungsmaschinen,Ausklingen,Automatisieren,Beschichten,Hirrlingen,3538250.0,120-200
+ENGMATEC GmbH,https://www.engmatec.de,False,Engineerings,Montageanlagen,Prüftechniken,,,,,,,Radolfzell am Bodensee,429004.0,10-15
+Satisloh GmbH,https://www.satisloh.com,False,optische Beschichtungsmaschinen,optische Maschinen,optische Softwarelösungen,Beschichtungsmaschinen,Graviermaschinen,Poliermaschinen,Beschichtungen,Gravieren,Polierens,Wetzlar,1481737.0,40-60
+J. Engelsmann AG,https://www.engelsmann.de,False,Big Bag Handling Systeme,Industrielle Anlagen,Siebmaschinen,,,,,,,Ludwigshafen am Rhein,23396.0,No Match
+vhf camfacture AG,https://www.vhf.de,False,CAM-Software,CNC-Fräsmaschinen,Fräswerkzeuge,,,,,,,Ammerbuch,1448482.0,40-60
+Zimmer & Kreim GmbH & Co. KG,https://www.zk-system.com,False,Automatisierungslösungen,Senkerodiermaschinen,Softwarelösungen,,,,,,,Brensbach,499746.0,10-15
+Haitian International Germany GmbH,https://haitiangermany.com,False,Energieeffiziente servo-hydraulische und elektrische IMM,HT·XTEND intelligente Maschinenmerkmale,Spritzgießmaschinen,,,,Kunststoffverarbeitungen,,,Ebermannsdorf,563286.0,10-15
+Maschinenbau Karp GmbH,https://karp-maschinenfabrik.de,True,Dreh- und Frästeile,Große Maschinenbauteile,Komplett einbaufertige Werkzeuge,Drehmaschinen,Erodiermaschinen,Fräsmaschinen,Materialveredelungen,Oberflächenbehandlungen,Prozessoptimierungen,Niederkassel,1376994.0,40-60
+H. Leiter GmbH,https://leergutleiter.com,False,"Betrieb, Wartung und Reinigung von Inhouse-Sortieranlagen",Logistik- und Sortierlösungen im Leergut Segment,Sortierdienstleistungen einschließlich vorgelagerter Logistik,,,,,,,Werra-Suhl-Tal,7494162.0,200-350
