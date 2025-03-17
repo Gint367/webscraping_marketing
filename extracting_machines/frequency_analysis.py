@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
 import pandas as pd
 import re

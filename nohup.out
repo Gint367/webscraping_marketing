@@ -1,0 +1,42 @@
+/etc/timezone is deprecated on Debian, and no longer reliable. Ignoring.
+2025-03-14 17:23:35 [CONFIG] Using base_dir='bundesanzeiger_local_blechteile', max_retries=5, max_delay=300s, backoff_factor=2.0
+
+2025-03-14 17:23:36 [INFO] Processing: KWL Blechverarbeitungs GmbH (location: Neuwied)
+Traceback (most recent call last):
+  File "/home/novoai/Documents/scraper/extracting_machines/get_bundesanzeiger_html.py", line 722, in <module>
+    main(input_csv, base_dir, max_retries, max_delay_seconds, backoff_factor)
+  File "/home/novoai/Documents/scraper/extracting_machines/get_bundesanzeiger_html.py", line 668, in main
+    extracted = process_company(
+  File "/home/novoai/Documents/scraper/extracting_machines/get_bundesanzeiger_html.py", line 499, in process_company
+    data = get_reports_with_retry(
+  File "/home/novoai/Documents/scraper/extracting_machines/get_bundesanzeiger_html.py", line 306, in get_reports_with_retry
+    data = ba.get_reports(company)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/deutschland/bundesanzeiger/bundesanzeiger.py", line 227, in get_reports
+    return self.__generate_result(search_url, page_limit)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/deutschland/bundesanzeiger/bundesanzeiger.py", line 176, in __generate_result
+    result_for_page = self.__generate_result_for_page(content.text)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/deutschland/bundesanzeiger/bundesanzeiger.py", line 124, in __generate_result_for_page
+    if self.__is_captcha_needed(get_element_response.text):
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/deutschland/bundesanzeiger/bundesanzeiger.py", line 85, in __is_captcha_needed
+    soup = BeautifulSoup(entry_content, "html.parser")
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/__init__.py", line 473, in __init__
+    self._feed()
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/__init__.py", line 658, in _feed
+    self.builder.feed(self.markup)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/builder/_htmlparser.py", line 467, in feed
+    parser.feed(markup)
+  File "/usr/lib/python3.10/html/parser.py", line 110, in feed
+    self.goahead(0)
+  File "/usr/lib/python3.10/html/parser.py", line 172, in goahead
+    k = self.parse_endtag(i)
+  File "/usr/lib/python3.10/html/parser.py", line 420, in parse_endtag
+    self.handle_endtag(elem)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/builder/_htmlparser.py", line 220, in handle_endtag
+    self.soup.handle_endtag(name)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/__init__.py", line 1062, in handle_endtag
+    self.endData()
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/__init__.py", line 865, in endData
+    self.object_was_parsed(o)
+  File "/home/novoai/Documents/scraper/venv/lib/python3.10/site-packages/bs4/__init__.py", line 867, in object_was_parsed
+    def object_was_parsed(
+KeyboardInterrupt

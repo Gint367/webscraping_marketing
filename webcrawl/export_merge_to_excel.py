@@ -110,7 +110,7 @@ def merge_csv_to_excel(excel_path, csv_path, output_path=None):
     print(f"Saving enriched Excel to {output_path}...")
     excel_data.to_excel(output_path, index=False)
     
-    print(f"Matching summary:")
+    print("Matching summary:")
     print(f"  - Matches by URL: {matches_by_url}")
     print(f"  - Matches by company name: {matches_by_name}")
     print(f"  - Total matches: {matches_by_url + matches_by_name}")

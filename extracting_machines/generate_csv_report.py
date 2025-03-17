@@ -139,8 +139,8 @@ if __name__ == "__main__":
     filter_words = ["anschaffungs","ahk", "abschreibung", "buchwert"]
     generate_csv_report(
         input_directory, 
-        f"machine_report_n{N}_v3.csv", 
+        f"machine_report_n{N}.csv", 
         N,
         lambda data, n: extract_values(data, n, filter_words)
     )
-    print(f"CSV report generated: machine_report_n{N}_v3.csv")
+    print(f"CSV report generated: machine_report_n{N}.csv")

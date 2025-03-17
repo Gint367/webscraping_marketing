@@ -185,7 +185,7 @@ async def collect_internal_links(crawler, main_url, max_links=50):
     
     # Configure crawler for link collection
     crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.ENABLED,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -428,7 +428,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     
     # Create crawler configuration for main URL - complete crawl
     main_crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.ENABLED,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -439,7 +439,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     
     # Create crawler configuration for internal links - body only
     body_only_config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.ENABLED,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,

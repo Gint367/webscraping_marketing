@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from Levenshtein import distance
 from datetime import datetime
+import argparse
 
 def standardize_company_name(name):
     # Replace underscores with spaces
@@ -27,15 +28,18 @@ def categorize_machine_park_size(value: str) -> str:
         value (str): Numeric value as string
         
     Returns:
-        str: Maschinen Park Size category (e.g., '10-15') or 'No Match'
+        str: Maschinen Park Size category (e.g., '10-15') or '' for invalid/empty inputs
     """
-    if not value:
+    # Handle empty or None inputs
+    if value is None or value == '':
         return ''
         
     try:
         # Convert to float first, then to int to handle both integers and floats
         val = int(float(value))
+            
     except (ValueError, TypeError):
+        # Handle any conversion errors (invalid strings, etc.)
         return ''
     
     # Category ranges based on the provided rules
@@ -53,48 +57,67 @@ def categorize_machine_park_size(value: str) -> str:
     
     for lower, upper, category in categories:
         if lower <= val <= upper:
+            #print(f"Value: {val}, Category: {category}")
             return category
             
+    # For values above the highest category threshold
     return 'No Match'
 
 def process_machine_data(csv_file ="machine_report_maschinenbau_20250307.csv",top_n=2): 
     """
-    Process the machine data from the CSV file, standardize company names,
-    then only keep rows with machine values > 20000,
-    and extract top N machine values for each company.
+    Process the machine data from the CSV file for analysis and classification.
     
+    This function performs several operations:
+    1. Reads and standardizes company names in the CSV data
+    2. Restructures data to create a row per machine entry
+    3. Filters out low-value machines (≤20000)
+    4. Identifies the top N machines by value for each company
+    5. Calculates machine park size category based on top machine values
+    
+    Args:
+        csv_file (str): Path to the CSV file containing machine data
+        top_n (int): Number of top machines to extract per company
+        
+    Returns:
+        DataFrame: A dataframe containing company names, their top N machine values,
+                  and the calculated machine park size category
     """
-    # Read the CSV file
+    # Read the CSV file into a pandas DataFrame
     csv_df = pd.read_csv(csv_file)
     
-    # Standardize company names
+    # Standardize company names by replacing underscores with spaces
     csv_df['Company'] = csv_df['Company'].apply(standardize_company_name)
     
-    # Identify machine columns (Machine_1, Machine_2, Machine_3)
+    # Identify columns containing machine data (Machine_1, Machine_2, Machine_3, etc.)
     machine_cols = [col for col in csv_df.columns if 'Machine_' in col]
     
-    # Melt the dataframe to convert machine columns into rows
+    # Reshape the data from wide to long format using melt
+    # This converts multiple machine columns into rows where each row represents one machine
     melted_df = pd.melt(
         csv_df,
-        id_vars=['Company'],
-        value_vars=machine_cols,
-        var_name='Machine_Type',
-        value_name='Machine_Value'
+        id_vars=['Company'],  # Keep company as identifier
+        value_vars=machine_cols,  # Convert these columns to rows
+        var_name='Machine_Type',  # Name for the column holding original column names
+        value_name='Machine_Value'  # Name for the column holding values
     )
     
-    # Convert Machine_Value to numeric, handling any non-numeric values
+    # Convert Machine_Value to numeric data type
+    # 'coerce' parameter converts non-numeric values to NaN
     melted_df['Machine_Value'] = pd.to_numeric(melted_df['Machine_Value'], errors='coerce')
     
-    # Filter for machine values > 20000
+    # Filter to keep only significant machine values (>20000)
+    # This removes small equipment and potential data errors
     filtered_df = melted_df[melted_df['Machine_Value'] > 20000]
     
-    # Sort values by company and machine value
+    # Sort the data by company and machine value (descending)
+    # This prepares data for extracting top N machines per company
     sorted_df = filtered_df.sort_values(['Company', 'Machine_Value'], ascending=[True, False])
     
-    # Get top N machine values for each company
+    # For each company, get only the top N machine values
+    # Using groupby().head() keeps only the first N rows per company after sorting
     top_n_df = sorted_df.groupby('Company').head(top_n)
     
-    # Pivot the results to create columns for Top1 to TopN machines
+    # Create the result dataframe with unique company names
     result_df = pd.DataFrame({
         'Company': top_n_df['Company'].unique()
     })
@@ -103,12 +126,19 @@ def process_machine_data(csv_file ="machine_report_maschinenbau_20250307.csv",to
     for i in range(top_n):
         values = []
         for company in result_df['Company']:
+            # Get data rows for this specific company
             company_data = top_n_df[top_n_df['Company'] == company]
+            
+            # Extract the ith machine value if available, otherwise use NaN
+            # iloc[i] accesses the ith row for this company after sorting
             value = company_data.iloc[i]['Machine_Value'] if len(company_data) > i else np.nan
             values.append(value)
+            
+        # Add a new column with the extracted values for this rank (Top1, Top2, etc.)
         result_df[f'Top{i+1}_Machine'] = values
     
-    # Calculate Maschinen_Park_Size based on Top1_Machine values
+    # Calculate Maschinen_Park_Size category based on the value of the top machine
+    # This uses the categorize_machine_park_size function to map values to categories
     result_df['Maschinen_Park_Size'] = result_df['Top1_Machine'].astype(str).apply(categorize_machine_park_size)
     
     return result_df
@@ -209,96 +239,137 @@ def analyze_company_similarities(csv_companies, xlsx_companies):
     
     return stats
 
-def merge_with_xlsx(top_n=2):
+def load_data(csv_file_path, xlsx_file_path='input_excel.xlsx', sheet_name='Sheet1'):
+    """Load and normalize data from CSV and Excel files."""
     try:
-        csv_file_path = 'machine_report_werkzeughersteller_20250312.csv'
-        machine_data = process_machine_data(csv_file=csv_file_path,top_n=top_n)
-        xlsx_file_path = 'input_excel.xlsx'
-        sheet_name = 'Sheet1'  # Change this to the actual sheet name if needed
+        machine_data = process_machine_data(csv_file=csv_file_path)
         xlsx_df = pd.read_excel(xlsx_file_path, sheet_name=sheet_name)
 
         # Normalize company names
         xlsx_df['Firma1'] = xlsx_df['Firma1'].apply(normalize_company_name)
         machine_data['Company'] = machine_data['Company'].apply(normalize_company_name)
+        
+        return machine_data, xlsx_df
+    except Exception as e:
+        print(f"Error loading data: {str(e)}")
+        raise
 
-        # Analyze similarities before matching
+def create_company_mapping(machine_data, xlsx_df):
+    """Create mapping between CSV companies and Excel companies using fuzzy matching."""
+    company_mapping = {}
+    similarity_scores = []
+    xlsx_companies = xlsx_df['Firma1'].dropna().tolist()
+    
+    # Track matching statistics
+    total_companies = len(machine_data['Company'].unique())
+    matched_companies = 0
+    # Keep track of 5 lowest pairs using a list of tuples (similarity, csv_company, xlsx_company)
+    lowest_pairs = [(1.0, '', '')] * 5
+
+    for csv_company in machine_data['Company'].unique():
+        best_match, ratio = find_best_match(csv_company, xlsx_companies, 0.83)
+        if best_match:
+            company_mapping[csv_company] = best_match
+            similarity_scores.append(ratio)
+            matched_companies += 1
+            
+            # Update lowest pairs list
+            lowest_pairs.append((ratio, csv_company, best_match))
+            # Sort by similarity and keep only 5 lowest
+            lowest_pairs.sort(key=lambda x: x[0])
+            lowest_pairs = lowest_pairs[:5]
+
+    # Print matching statistics
+    if similarity_scores:
+        avg_similarity = sum(similarity_scores) / len(similarity_scores)
+        print("\nMatching Statistics:")
+        print(f"Total companies processed: {total_companies}")
+        print(f"Successfully matched: {matched_companies}")
+        print(f"Average similarity score: {avg_similarity:.2f}")
+        print("\n5 Lowest Similarity Pairs:")
+        for similarity, csv_company, xlsx_company in lowest_pairs:
+            print(f"Score: {similarity:.3f} | {csv_company} -> {xlsx_company}")
+
+    return company_mapping
+
+def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
+    """Merge Excel and CSV data using the company mapping."""
+    # Create a new column with mapped company names
+    machine_data['Mapped_Company'] = machine_data['Company'].map(company_mapping)
+
+    # Merge the dataframes using the mapped companies
+    merged_df = pd.merge(
+        xlsx_df,
+        machine_data,
+        left_on='Firma1',
+        right_on='Mapped_Company',
+        how='left'
+    )
+
+    # Only keep specific columns from excel (Firma1, URL, Ort) and CSV (machine values, Park Size)
+    machine_cols = [f'Top{i+1}_Machine' for i in range(top_n)]
+    columns_to_keep = ['Firma1', 'URL', 'Ort'] + machine_cols + ['Maschinen_Park_Size']
+    
+    # Filter columns
+    merged_df = merged_df[columns_to_keep]
+    
+    # Filter rows - only keep those with at least one machine value
+    has_machine_value = False
+    for col in machine_cols:
+        has_machine_value = has_machine_value | merged_df[col].notna()
+    
+    # Apply the filter
+    filtered_df = merged_df[has_machine_value]
+    
+    return filtered_df
+
+def save_merged_data(merged_df, xlsx_file_path='input_excel.xlsx'):
+    """Save the merged dataframe to a CSV file with date in filename."""
+    current_date = datetime.now().strftime('%Y%m%d')
+    output_file_path = f"merged_{xlsx_file_path.replace('.xlsx', '')}_{current_date}.csv"
+    merged_df.to_csv(output_file_path, index=False)
+    print(f"Merged data saved to {output_file_path}")
+    return output_file_path
+
+def main(csv_file_path, top_n=2):
+    """
+    Main function to merge machine data CSV with Excel file.
+    
+    Args:
+        csv_file_path (str): Path to the CSV file containing machine data
+        top_n (int): Number of top machines to include (default: 2)
+    """
+    try:
+        # Step 1: Load and prepare data
+        machine_data, xlsx_df = load_data(csv_file_path)
+        
+        # Step 2: Analyze similarities for debugging
         analyze_company_similarities(
             machine_data['Company'].unique(),
             xlsx_df['Firma1'].dropna().unique()
         )
         
-        # Create a mapping dictionary using fuzzy matching
-        company_mapping = {}
-        similarity_scores = []
-        xlsx_companies = xlsx_df['Firma1'].dropna().tolist()
+        # Step 3: Create mapping between company names
+        company_mapping = create_company_mapping(machine_data, xlsx_df)
         
-        # Track matching statistics
-        total_companies = len(machine_data['Company'].unique())
-        matched_companies = 0
-        # Keep track of 5 lowest pairs using a list of tuples (similarity, csv_company, xlsx_company)
-        lowest_pairs = [(1.0, '', '')] * 5
-
-        for csv_company in machine_data['Company'].unique():
-            best_match, ratio = find_best_match(csv_company, xlsx_companies, 0.83)
-            if best_match:
-                company_mapping[csv_company] = best_match
-                similarity_scores.append(ratio)
-                matched_companies += 1
-                
-                # Update lowest pairs list
-                lowest_pairs.append((ratio, csv_company, best_match))
-                # Sort by similarity and keep only 5 lowest
-                lowest_pairs.sort(key=lambda x: x[0])
-                lowest_pairs = lowest_pairs[:5]
-
-        # Print matching statistics
-        if similarity_scores:
-            avg_similarity = sum(similarity_scores) / len(similarity_scores)
-            print("\nMatching Statistics:")
-            print(f"Total companies processed: {total_companies}")
-            print(f"Successfully matched: {matched_companies}")
-            print(f"Average similarity score: {avg_similarity:.2f}")
-            print("\n5 Lowest Similarity Pairs:")
-            for similarity, csv_company, xlsx_company in lowest_pairs:
-                print(f"Score: {similarity:.3f} | {csv_company} -> {xlsx_company}")
-
-        # Create a new column with mapped company names
-        machine_data['Mapped_Company'] = machine_data['Company'].map(company_mapping)
-
-        # Merge the dataframes using the mapped companies
-        merged_df = pd.merge(
-            xlsx_df,
-            machine_data,
-            left_on='Firma1',
-            right_on='Mapped_Company',
-            how='left'
-        )
-
-        # Only keep specific columns from excel (Firma1, URL, Ort) and CSV (machine values, Park Size)
-        machine_cols = [f'Top{i+1}_Machine' for i in range(top_n)]
-        columns_to_keep = ['Firma1', 'URL', 'Ort'] + machine_cols + ['Maschinen_Park_Size']
+        # Step 4: Merge datasets using the mapping
+        merged_df = merge_datasets(xlsx_df, machine_data, company_mapping, top_n)
         
-        # Filter columns
-        merged_df = merged_df[columns_to_keep]
-        
-        # Filter rows - only keep those with at least one machine value
-        has_machine_value = False
-        for col in machine_cols:
-            has_machine_value = has_machine_value | merged_df[col].notna()
-        
-        # Apply the filter
-        filtered_df = merged_df[has_machine_value]
-        
-        # Save the filtered dataframe to a new CSV file
-        current_date = datetime.now().strftime('%Y%m%d')
-        output_file_path = xlsx_file_path.replace('.xlsx', f'_merged_{current_date}.csv')
-        filtered_df.to_csv(output_file_path, index=False)
-        print(f"Merged data saved to {output_file_path}")
-        print("Successfully merged and saved the data!")
+        # Step 5: Save the result
+        output_file = save_merged_data(merged_df)
+        print(f"Successfully merged and saved the data to {output_file}!")
         
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
-    # You can change this number to get different number of top machines
-    merge_with_xlsx(top_n=1)
+    # Set up command line argument parser
+    parser = argparse.ArgumentParser(description='Merge machine data CSV with Excel file.')
+    parser.add_argument('csv_file', type=str, help='Path to the CSV file containing machine data')
+    parser.add_argument('--top_n', type=int, default=1, help='Number of top machines to include (default: 1)')
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Call merge function with command line arguments
+    main(csv_file_path=args.csv_file, top_n=args.top_n)

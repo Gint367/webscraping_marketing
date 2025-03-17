@@ -2,7 +2,6 @@ import os
 import json
 import asyncio
 from datetime import datetime
-from typing import List
 from pydantic import BaseModel, Field
 import argparse
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
