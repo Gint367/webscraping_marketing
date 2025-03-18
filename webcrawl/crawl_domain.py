@@ -3,6 +3,7 @@ import asyncio
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import re
+from typing import List, Dict, Tuple, Set, Optional, Any, Union
 from crawl4ai import AsyncWebCrawler, BrowserConfig, CrawlResult, CrawlerMonitor, CrawlerRunConfig, CacheMode, DefaultMarkdownGenerator, MemoryAdaptiveDispatcher, PruningContentFilter
 import logging
 # Import the new function
@@ -14,11 +15,61 @@ import sys
 # Import argparse for command line arguments
 import argparse
 
+# Configuration constants
+# ----------------------
+
+# File and URL constants
+WEBPAGE_EXTENSIONS = ['html', 'htm', 'php', 'asp', 'aspx', 'jsp', '']
+LARGE_CONTENT_THRESHOLD = 100000  # 100KB threshold for disabling colorama
+
+# Language-related constants
+GERMAN_LANGUAGE_PATTERNS = ['/de/', '/de-de/', '/de_de/']
+NON_GERMAN_LANGUAGE_PATTERNS = [
+    '/en/', '/en-us/', '/en_us/', '/en-gb/', '/en_gb/', 
+    '/fr/', '/es/', '/it/', '/nl/', '/pl/', '/ru/', '/zh/', 
+    '/ja/', '/ko/', '/ar/', '/pt/', '/tr/', '/sv/'
+]
+
+# URL filtering constants
+NON_CONTENT_KEYWORDS = [
+    'login', 'signup', 'register', 'download', 'datenschutz', 
+    'kontakt', 'contact', 'privacy', 'agb', 'cart', 
+    'warenkorb', 'checkout', 'search', 'suche', 'sitemap',
+    'anmelden', 'registrieren', 'einkaufswagen', 'newsletter',
+    'terms', 'conditions', 'faq', 'hilfe', 'help', 'support',
+    'nutzungsbedingungen', 'cookie', 'imprint', 'impressum',
+    'disclaimer', 'rechtliches', 'legal', 'terms-of-service',
+]
+
+# Crawler configuration constants
+DEFAULT_PATH_DEPTH = 2
+DEFAULT_MAX_LINKS = 50
+DEFAULT_MEMORY_THRESHOLD = 70.0
+PRUNE_FILTER_THRESHOLD = 0.45
+PRUNE_FILTER_MIN_WORDS = 30
+CRAWL_WORD_COUNT_THRESHOLD = {
+    'main': 10,    # For main URL
+    'body': 20,    # For body-only content
+    'links': 5     # For link collection
+}
+EXCLUDED_TAGS = ['header', 'footer', 'nav', 'img']
+
+# Browser headers
+GERMAN_LANGUAGE_HEADERS = {"Accept-Language": "de-DE,de;q=0.9"}
+
+# System constants
+RECURSION_LIMIT = 10000  # Temporary recursion limit for large data processing
+
 # Add a function to disable colorama to prevent recursion errors
-def disable_colorama():
+def disable_colorama() -> None:
     """
     Disable colorama's text processing to prevent recursion errors with large outputs.
+    
     This is necessary when processing very large strings that can exceed Python's recursion limit.
+    Colorama can cause stack overflow when processing large texts due to its recursive pattern matching.
+    
+    Returns:
+        None
     """
     try:
         import colorama
@@ -29,12 +80,17 @@ def disable_colorama():
         pass
 
 # Add a function to parse command line arguments
-def parse_args():
+def parse_args() -> argparse.Namespace:
     """
     Parse command line arguments for the crawler.
     
+    Defines and processes the following arguments:
+    - excel/e: Path to Excel file containing URLs and company names (required)
+    - output/o: Output directory for aggregated content (required)
+    - max-links: Maximum number of internal links to crawl per domain (default: 60)
+    
     Returns:
-        argparse.Namespace: Parsed arguments
+        argparse.Namespace: Parsed command line arguments
     """
     parser = argparse.ArgumentParser(description="Crawl domains from an Excel file and save content to markdown files")
     
@@ -63,8 +119,17 @@ def parse_args():
     
     return parser.parse_args()
 
-def sanitize_filename(url):
-    """Convert URL to a valid filename by removing scheme and replacing invalid characters"""
+def sanitize_filename(url: str) -> str:
+    """
+    Convert URL to a valid filename by removing scheme and replacing invalid characters.
+    
+    Args:
+        url: The URL to convert to a filename
+        
+    Returns:
+        str: A sanitized string that can be safely used as a filename
+             (removes www. prefix and replaces invalid characters with underscores)
+    """
     parsed = urlparse(url)
     domain = parsed.netloc
     # Remove 'www.' prefix if it exists
@@ -73,17 +138,36 @@ def sanitize_filename(url):
     sanitized = re.sub(r'[\\/*?:"<>|]', '_', domain)
     return sanitized
 
-def ensure_output_directory(directory):
-    """Ensure the output directory exists"""
+def ensure_output_directory(directory: str) -> str:
+    """
+    Ensure the output directory exists, creating it if necessary.
+    
+    Args:
+        directory: Path to the directory that should exist
+        
+    Returns:
+        str: The validated directory path
+    """
     if not os.path.exists(directory):
         os.makedirs(directory)
     return directory
 
-def get_path_depth(url):
+def get_path_depth(url: str) -> int:
     """
-    Calculate the path depth of a URL.
-    For German sites, we include the 'de' language path in the depth calculation.
-    For example: https://www.schroedergroup.eu/de/produkte/maschinen/ has a depth of 3
+    Calculate the path depth of a URL by counting path segments.
+    
+    For German sites, includes the 'de' language path in the depth calculation.
+    
+    Examples:
+        - https://example.com/ -> 0
+        - https://example.com/about -> 1
+        - https://www.schroedergroup.eu/de/produkte/maschinen/ -> 3
+    
+    Args:
+        url: The URL to analyze
+        
+    Returns:
+        int: The depth of the URL path (number of segments)
     """
     parsed = urlparse(url)
     path = parsed.path.strip('/')  # Remove leading and trailing slashes
@@ -100,10 +184,23 @@ def get_path_depth(url):
     # Return the number of segments
     return len(segments)
 
-def filter_urls_by_depth_reverse(urls):
+def filter_urls_by_depth_reverse(urls: List[str]) -> List[str]:
     """
     Filter URLs to include only those with one level less than the maximum depth.
-    Also removes duplicates.
+    
+    This is useful for focusing on category pages rather than deep leaf pages.
+    
+    Algorithm:
+    1. Calculate the depth for each URL
+    2. Find the maximum depth across all URLs
+    3. Filter URLs to keep only those at (max_depth - 1)
+    4. Remove duplicates while preserving order
+    
+    Args:
+        urls: List of URLs to filter
+        
+    Returns:
+        List[str]: Filtered URLs with depth = max_depth - 1 (or max_depth if max_depth ≤ 1)
     """
     if not urls:
         return []
@@ -135,24 +232,25 @@ def filter_urls_by_depth_reverse(urls):
     print(f"Filtered from {len(urls)} to {len(unique_urls)} URLs based on depth")
     return unique_urls
 
-def filter_urls_by_depth(urls, target_depth=2):
+def filter_urls_by_depth(urls: List[str], target_depth: int = 2) -> List[str]:
     """
     Filter URLs to include only those with depths less than or equal to the specified depth.
-    Also removes duplicates.
-    # Example URLs with different depths
-    example_urls = [
-        "https://www.example.com",  # Depth 0
-        "https://www.example.com/about",  # Depth 1
-        "https://www.example.com/about/team",  # Depth 2
-        "https://www.example.com/about/team/members",  # Depth 3
-    ]
+    
+    Useful for focusing on higher-level pages with more general content rather than
+    deep, specific pages.
+    
+    Example for different depths:
+        - "https://www.example.com"              -> Depth 0
+        - "https://www.example.com/about"        -> Depth 1
+        - "https://www.example.com/about/team"   -> Depth 2
+        - "https://www.example.com/about/team/members" -> Depth 3
 
     Args:
         urls: List of URLs to filter
         target_depth: The maximum depth level to keep (default: 2)
     
     Returns:
-        List of filtered URLs with no duplicates
+        List[str]: Filtered unique URLs with depth ≤ target_depth
     """
     if not urls:
         return []
@@ -176,70 +274,97 @@ def filter_urls_by_depth(urls, target_depth=2):
     print(f"Filtered from {len(urls)} to {len(unique_urls)} URLs with depth <= {target_depth}")
     return unique_urls
 
-async def collect_internal_links(crawler, main_url, max_links=50):
+def is_non_content_url(url_path: str) -> bool:
     """
-    Collect all internal links from the main URL up to a specified maximum number of links.
-    Intelligently handles both German sites with /de/ language codes and those without.
+    Check if a URL path corresponds to a non-content page.
+    
+    Non-content pages are utility pages like login, contact, privacy policy, etc.
+    that don't contain substantive information about the business or its products.
+    
+    Args:
+        url_path: Path portion of the URL to check (without domain)
+        
+    Returns:
+        bool: True if it's a non-content URL that should be filtered out, False otherwise
     """
-    print(f"Collecting internal links from {main_url}...")
     
-    # Configure crawler for link collection
-    crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
-        only_text=True,
-        exclude_external_links=True,
-        exclude_social_media_links=True,
-        word_count_threshold=5  # We want all pages, even small ones
-    )
+    # Check if any non-content keyword is in the URL path
+    return any(keyword in url_path for keyword in NON_CONTENT_KEYWORDS)
+
+def is_file_url(url_path: str) -> bool:
+    """
+    Check if a URL path points to a file rather than a webpage.
     
-    # Crawl the main URL
-    result = await crawler.arun(main_url, config=crawl_config)
+    Identifies file URLs based on file extensions, filtering out non-HTML resources
+    like PDFs, images, documents, etc. 
     
-    if not result.success:
-        print(f"Failed to collect links from {main_url}: {result.error if hasattr(result, 'error') else 'Unknown error'}")
-        return []
+    Args:
+        url_path: Path portion of the URL to check (without domain)
+        
+    Returns:
+        bool: True if it's a file URL (not a webpage), False otherwise
+    """
+    # Skip if there's no path or no file extension
+    if not url_path or '.' not in url_path.split('/')[-1]:
+        return False
     
-    # Get internal links
-    internal_links = result.links.get('internal', [])
+    # Get the file extension
+    file_extension = url_path.split('.')[-1].lower()
     
-    # Limit number of links to avoid overwhelming the system
-    if len(internal_links) > max_links:
-        print(f"Found {len(internal_links)} internal links. Limiting to {max_links}.")
-        internal_links = internal_links[:max_links]
-    else:
-        print(f"Found {len(internal_links)} internal links.")
+    # Return False for common webpage extensions
+    return file_extension not in WEBPAGE_EXTENSIONS
+
+def should_filter_by_language(url: str, uses_language_codes: bool, is_base_domain: bool) -> bool:
+    """
+    Determine if a URL should be filtered based on language.
     
-    # Ensure all URLs are absolute
-    domain = urlparse(main_url).netloc
-    scheme = urlparse(main_url).scheme
-    base_url = f"{scheme}://{domain}"
+    For sites with multiple language versions, this function helps filter out
+    non-German content, focusing only on German pages. It handles:
+    1. URLs with explicit language codes (/en/, /fr/, etc.)
+    2. Sites that use the /de/ pattern for German content
     
-    # Check if this is a site that uses language codes in paths
-    uses_language_codes = any(pattern in main_url.lower() for pattern in ['/de/', '/de-de/', '/de_de/'])
-    print(f"Site appears to {'' if uses_language_codes else 'not '}use language codes in URLs")
+    Args:
+        url: The URL to check
+        uses_language_codes: Whether the site uses language codes in paths
+        is_base_domain: Whether this is the base domain URL
+        
+    Returns:
+        bool: True if URL should be filtered out (non-German), False if it should be kept
+    """
     
-    # Common non-content pages to filter out (German and English)
-    non_content_keywords = [
-        'login', 'signup', 'register', 'download', 'datenschutz', 
-        'kontakt', 'contact', 'privacy', 'agb', 'cart', 
-        'warenkorb', 'checkout', 'search', 'suche', 'sitemap',
-        'anmelden', 'registrieren', 'einkaufswagen', 'newsletter',
-        'terms', 'conditions', 'faq', 'hilfe', 'help', 'support',
-        'nutzungsbedingungen', 'cookie', 'imprint', 'impressum',
-        'disclaimer', 'rechtliches', 'legal', 'terms-of-service',
-    ]
+    # Always check for and filter out non-German language patterns
+    if any(pattern in url.lower() for pattern in NON_GERMAN_LANGUAGE_PATTERNS):
+        return True
     
-    # Non-German language codes to filter out
-    non_german_language_patterns = [
-        '/en/', '/en-us/', '/en_us/', '/en-gb/', '/en_gb/', 
-        '/fr/', '/es/', '/it/', '/nl/', '/pl/', '/ru/', '/zh/', 
-        '/ja/', '/ko/', '/ar/', '/pt/', '/tr/', '/sv/'
-    ]
+    # For sites with language codes, prefer German pages
+    if uses_language_codes and not is_base_domain:
+        has_german = any(pattern in url.lower() for pattern in GERMAN_LANGUAGE_PATTERNS)
+        if not has_german:
+            # Check if it's any language code pattern (like /xx/)
+            if re.search(r'/[a-z]{2}(-[a-z]{2})?/', url.lower()):
+                return True
+    
+    return False
+
+def normalize_and_filter_links(internal_links: List[Any], base_url: str, max_links: int) -> List[str]:
+    """
+    Normalize links to absolute URLs and perform initial filtering.
+    
+    Handles different types of link objects, converts to absolute URLs,
+    filters out anchor links, and limits the number of links to process.
+    
+    Args:
+        internal_links: List of internal links (may be strings or dicts with 'href'/'url' keys)
+        base_url: The base URL of the website (scheme + domain)
+        max_links: Maximum number of links to return
+    
+    Returns:
+        List[str]: Filtered and normalized absolute URLs
+    """
+    domain = urlparse(base_url).netloc
     
     absolute_links = []
-    filtered_count = 0
     anchor_filtered_count = 0
-    language_filtered_count = 0
     
     for link_obj in internal_links:
         # Handle the link dictionary structure with 'href' key
@@ -271,69 +396,96 @@ async def collect_internal_links(crawler, main_url, max_links=50):
             print(f"Skipping anchor link: {absolute_link}")
             anchor_filtered_count += 1
             continue
-            
-        # Skip URLs with file extensions, but be careful not to filter out domains
-        # Check the path part of the URL for file extensions, not the domain part
-        parsed_url = urlparse(absolute_link)
-        path = parsed_url.path.lower()  # Convert to lowercase for case-insensitive matching
         
-        # Skip files like PDFs, images, etc. but keep HTML and dynamic pages
-        if path and '.' in path.split('/')[-1]:
-            file_extension = path.split('.')[-1].lower()
-            
-            # Skip if it's a known file extension (not a webpage)
-            if file_extension not in ['html', 'htm', 'php', 'asp', 'aspx', 'jsp', '']:
-                print(f"Skipping link with file extension: {absolute_link}")
-                filtered_count += 1
-                continue
+        absolute_links.append(absolute_link)
+    
+    print(f"Filtered out {anchor_filtered_count} anchor links (URLs with '#')")
+    
+    # Limit number of links to avoid overwhelming the system
+    if len(absolute_links) > max_links:
+        print(f"Found {len(absolute_links)} internal links. Limiting to {max_links}.")
+        absolute_links = absolute_links[:max_links]
+    
+    return absolute_links
+
+def apply_content_filters(urls: List[str], base_url: str) -> Tuple[List[str], Dict[str, int]]:
+    """
+    Apply content-based filters to URLs to focus on relevant content pages.
+    
+    Applies multiple filtering criteria:
+    1. File type filtering (removes PDFs, images, etc.)
+    2. Non-content page filtering (removes login, contact, etc.)
+    3. Language filtering (focuses on German content)
+    
+    Args:
+        urls: List of URLs to filter
+        base_url: The base URL of the website
+    
+    Returns:
+        Tuple[List[str], Dict[str, int]]: (filtered_urls, filtered_counts) where
+        filtered_counts is a dict with keys 'content_filtered' and 'language_filtered'
+    """
+    filtered_urls = []
+    filtered_count = 0
+    language_filtered_count = 0
+    
+    # Check if this is a site that uses language codes in paths
+    uses_language_codes = any(pattern in base_url.lower() for pattern in GERMAN_LANGUAGE_PATTERNS)
+    print(f"Site appears to {'' if uses_language_codes else 'not '}use language codes in URLs")
+    
+    for url in urls:
+        parsed_url = urlparse(url)
+        path = parsed_url.path.lower()  # Convert to lowercase for case-insensitive matching
         
         # Is this the base domain?
         is_base_domain = path == "" or path == "/"
         
+        # Skip file URLs
+        if is_file_url(path):
+            print(f"Skipping link with file extension: {url}")
+            filtered_count += 1
+            continue
+        
         # Skip non-content pages
-        if not is_base_domain:  # Always keep the base domain
-            # Check if any non-content keyword is in the URL path
-            if any(keyword in path for keyword in non_content_keywords):
-                print(f"Skipping non-content page: {absolute_link}")
-                filtered_count += 1
-                continue
+        if not is_base_domain and is_non_content_url(path):
+            print(f"Skipping non-content page: {url}")
+            filtered_count += 1
+            continue
         
-        # Language filtering logic - more comprehensive check:
-        # 1. If a URL contains a non-German language code, skip it
-        # 2. If site uses language codes and URL doesn't have /de/, it might be another language
-        keep_url = True
-        
-        # Always check for and filter out non-German language patterns
-        if any(pattern in absolute_link.lower() for pattern in non_german_language_patterns):
-            print(f"Skipping non-German language URL: {absolute_link}")
+        # Apply language filtering
+        if should_filter_by_language(url, uses_language_codes, is_base_domain):
+            print(f"Skipping non-German language URL: {url}")
             language_filtered_count += 1
-            keep_url = False
-        elif uses_language_codes:
-            # For sites with language codes, prefer German pages
-            has_german = any(pattern in absolute_link.lower() for pattern in ['/de/', '/de-de/', '/de_de/']) or is_base_domain
-            if not has_german:
-                # Check if it's any language code pattern (like /xx/)
-                if re.search(r'/[a-z]{2}(-[a-z]{2})?/', absolute_link.lower()):
-                    print(f"Skipping possible non-German language URL: {absolute_link}")
-                    language_filtered_count += 1
-                    keep_url = False
+            continue
         
-        if keep_url:
-            absolute_links.append(absolute_link)
+        filtered_urls.append(url)
     
-    print(f"Filtered out {filtered_count} non-content pages")
-    print(f"Filtered out {anchor_filtered_count} anchor links (URLs with '#')")
-    print(f"Filtered out {language_filtered_count} non-German language URLs")
+    filter_counts = {
+        'content_filtered': filtered_count,
+        'language_filtered': language_filtered_count
+    }
     
-    # Filter URLs based on path depth - keep URLs at specified target depth
-    absolute_links = filter_urls_by_depth(absolute_links, target_depth=2)
+    return filtered_urls, filter_counts
+
+def remove_duplicate_urls(urls: List[str]) -> List[str]:
+    """
+    Remove duplicate URLs while considering URLs with different query parameters as the same.
     
-    # Remove duplicates while considering URLs with different query parameters as the same
-    #print("Removing duplicate URLs (ignoring query parameters)...")
+    Normalizes URLs by:
+    1. Removing query parameters
+    2. Removing trailing slashes
+    3. Comparing only scheme, domain, and path
+    
+    Args:
+        urls: List of URLs to deduplicate
+        
+    Returns:
+        List[str]: Deduplicated list of URLs preserving original order
+    """
     unique_links = []
     seen_normalized_urls = set()
     
-    for url in absolute_links:
+    for url in urls:
         # Normalize the URL by removing query parameters
         parsed = urlparse(url)
         normalized_url = f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
@@ -344,11 +496,74 @@ async def collect_internal_links(crawler, main_url, max_links=50):
             seen_normalized_urls.add(normalized_url)
             unique_links.append(url)
     
-    print(f"Reduced from {len(absolute_links)} to {len(unique_links)} URLs after removing duplicates (normalized by path)")
+    print(f"Reduced from {len(urls)} to {len(unique_links)} URLs after removing duplicates (normalized by path)")
     
     return unique_links
 
-def remove_links_from_markdown(markdown_text):
+async def collect_internal_links(crawler: AsyncWebCrawler, main_url: str, max_links: int = DEFAULT_MAX_LINKS) -> List[str]:
+    """
+    Collect and filter internal links from a website's main URL.
+    
+    Performs a series of operations:
+    1. Crawls the main URL to extract all internal links
+    2. Normalizes links to absolute URLs
+    3. Filters out non-content, file, and non-German pages
+    4. Filters by path depth to focus on important pages
+    5. Removes duplicates
+    
+    Args:
+        crawler: Initialized AsyncWebCrawler instance
+        main_url: Primary URL to crawl for internal links
+        max_links: Maximum number of internal links to return
+    
+    Returns:
+        List[str]: Filtered list of internal URLs to crawl
+    """
+    print(f"Collecting internal links from {main_url}...")
+    
+    # Configure crawler for link collection
+    crawl_config = CrawlerRunConfig(
+        cache_mode=CacheMode.ENABLED,
+        only_text=True,
+        exclude_external_links=True,
+        exclude_social_media_links=True,
+        word_count_threshold=CRAWL_WORD_COUNT_THRESHOLD['links']  # We want all pages, even small ones
+    )
+    
+    # Crawl the main URL
+    result = await crawler.arun(main_url, config=crawl_config)
+    
+    if not result.success:
+        print(f"Failed to collect links from {main_url}: {result.error if hasattr(result, 'error') else 'Unknown error'}")
+        return []
+    
+    # Get internal links
+    internal_links = result.links.get('internal', [])
+    
+    print(f"Found {len(internal_links)} internal links.")
+    
+    # Ensure all URLs are absolute and perform initial filtering
+    domain = urlparse(main_url).netloc
+    scheme = urlparse(main_url).scheme
+    base_url = f"{scheme}://{domain}"
+    
+    # Normalize and filter links
+    absolute_links = normalize_and_filter_links(internal_links, base_url, max_links)
+    
+    # Apply content and language filters
+    filtered_links, filter_counts = apply_content_filters(absolute_links, main_url)
+    print(f"Filtered out {filter_counts['content_filtered']} non-content pages")
+    print(f"Filtered out {filter_counts['language_filtered']} non-German language URLs")
+    
+    # Filter URLs based on path depth - keep URLs at specified target depth
+    filtered_links = filter_urls_by_depth(filtered_links, target_depth=DEFAULT_PATH_DEPTH)
+    
+    # Remove duplicates
+    unique_links = remove_duplicate_urls(filtered_links)
+    
+    return unique_links
+
+def remove_links_from_markdown(markdown_text: str) -> str:
     """
     Remove markdown links from text while preserving the link text.
     
@@ -361,10 +576,10 @@ def remove_links_from_markdown(markdown_text):
     - [](url)
     
     Args:
-        markdown_text (str): Markdown text containing links
+        markdown_text: Markdown text containing links
         
     Returns:
-        str: Markdown text with links removed but link text preserved
+        str: Cleaned markdown text with links removed but link text preserved
     """
     # Replace standard markdown links [text](url) and [text](url "title") with just text
     link_pattern = r'\[([^\]]*)\]\((?:https?://[^)]+)(?:\s+"[^"]*")?\)'
@@ -396,26 +611,35 @@ def remove_links_from_markdown(markdown_text):
     
     return text_without_links
 
-async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregated", max_links=50, company_name= None):
+async def crawl_domain(
+    main_url: str, 
+    output_dir_aggregated: str = "domain_content_aggregated", 
+    max_links: int = DEFAULT_MAX_LINKS, 
+    company_name: Optional[str] = None
+) -> Tuple[str, int]:
     """
     Crawl a main URL and all its internal links, then aggregate the content.
+    
     Uses a two-phase approach:
     1. First crawl the main URL completely
-    2. Then crawl the rest of the internal links (body content only)
+    2. Then crawl the internal links (body content only) up to max_links
+    
+    The crawled content is processed, cleaned, and aggregated into a single markdown file.
     
     Args:
-        main_url (str): URL to crawl
-        output_dir_aggregated (str): Directory to save aggregated content
-        max_links (int): Maximum internal links to crawl
-        company_name (str, optional): Company name associated with the URL
+        main_url: Primary URL to crawl
+        output_dir_aggregated: Directory to save aggregated markdown content
+        max_links: Maximum number of internal links to crawl (default: 50)
+        company_name: Optional company name associated with the URL
     
     Returns:
-        str: Path to the aggregated markdown file
-        int: Number of pages crawled
+        Tuple[str, int]: (output_file_path, pages_crawled)
+            - output_file_path: Path to the generated markdown file
+            - pages_crawled: Number of successfully crawled pages
     """
     prune_filter = PruningContentFilter(
-        threshold=0.45,
-        min_word_threshold=30,
+        threshold=PRUNE_FILTER_THRESHOLD,
+        min_word_threshold=PRUNE_FILTER_MIN_WORDS,
         threshold_type="fixed",
     )
     
@@ -433,7 +657,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         exclude_external_links=True,
         exclude_social_media_links=True,
         delay_before_return_html=1.0,
-        word_count_threshold=10,
+        word_count_threshold=CRAWL_WORD_COUNT_THRESHOLD['main'],
         #magic=True
     )
     
@@ -443,12 +667,12 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
-        word_count_threshold=20,
+        word_count_threshold=CRAWL_WORD_COUNT_THRESHOLD['body'],
         delay_before_return_html=1.0,
         #magic=True,
         #remove_forms=True,
         # Only extract the main content body
-        excluded_tags=['header', 'footer', 'nav', 'img'],
+        excluded_tags=EXCLUDED_TAGS,
         excluded_selector="img",
         markdown_generator= DefaultMarkdownGenerator(
             content_filter=prune_filter,
@@ -458,7 +682,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     try:
         from crawl4ai import DisplayMode # display mode can crash the program on background run
         dispatcher = MemoryAdaptiveDispatcher(
-            memory_threshold_percent=70.0,
+            memory_threshold_percent=DEFAULT_MEMORY_THRESHOLD,
             check_interval=2.0,
             max_session_permit=10,
         )
@@ -493,13 +717,11 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     # Temporarily increase recursion limit for large data processing
     original_limit = sys.getrecursionlimit()
     try:
-        sys.setrecursionlimit(10000)  # Increase the recursion limit
+        sys.setrecursionlimit(RECURSION_LIMIT)  # Increase the recursion limit
         
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
             # Set German language header
-            crawler.crawler_strategy.set_custom_headers(
-                {"Accept-Language": "de-DE,de;q=0.9"}
-            )
+            crawler.crawler_strategy.set_custom_headers(GERMAN_LANGUAGE_HEADERS)
             
             # Phase 1: Crawl the main URL
             print(f"\n=== Phase 1: Crawling main URL: {main_url} ===\n")
@@ -579,7 +801,7 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
                 print("No additional internal links found to crawl")
             
             # If the content gets very large, disable colorama to prevent recursion errors
-            if len(aggregate_content) > 100000:  # 100KB threshold
+            if len(aggregate_content) > LARGE_CONTENT_THRESHOLD:  # 100KB threshold
                 disable_colorama()
                 
     finally:
@@ -596,17 +818,22 @@ async def crawl_domain(main_url, output_dir_aggregated="domain_content_aggregate
     
     return output_markdown_file, total_crawled
 
-async def main():
+async def main() -> None:
     """
     Main function to initiate the web crawling process.
-    This function parses command line arguments, reads URLs and company names from an Excel file or uses hardcoded domains,
-    creates the output directory, and then crawls each domain to collect data.
-    Arguments:
-        None
+    
+    This function:
+    1. Parses command line arguments
+    2. Reads URLs and company names from an Excel file
+    3. Creates the output directory
+    4. Crawls each domain to collect and save content
+    5. Outputs a summary of results
+    
     Command Line Arguments:
-        --excel: Path to the Excel file containing URLs and company names.
-        --output: Directory where the output files will be saved.
-        --max_links: Maximum number of links to crawl per domain.
+        --excel (-e): Path to Excel file containing URLs and company names
+        --output (-o): Directory where the output files will be saved
+        --max-links: Maximum number of links to crawl per domain (default: 60)
+    
     Returns:
         None
     """
