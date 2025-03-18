@@ -48,7 +48,7 @@ python crawl_domain.py --excel <input_file> --output <output_dir>
 
 ### Step 2: Extract Keywords with LLM
 ```bash
-python extract_llm.py
+python extract_llm.py <input> --output <output_dir>
 ```
 - **Input:** Markdown files from Step 1
 - **Output:** Extracted keywords
@@ -64,7 +64,7 @@ python extract_llm.py
 
 - **Step 2.6:** Copy failed LLM files
     ```bash
-    python copy_failed_llm.py
+    python copy_failed_llm.py <csv_file> <source_folder> <destination_folder>
     ```
     - **Notes:** Copies failed markdown files for reprocessing with Step 2.
 
@@ -74,13 +74,13 @@ python pluralize_with_llm.py
 ```
 - **Input:** Extracted keywords
 - **Output:** Standardized keywords
-- **Notes:** Standardizes extracted keywords to plural forms. Uses different temperatures for retries to avoid wasting tokens.
+- **Notes:** Standardizes extracted keywords to plural forms. Uses different temperatures for retries to avoid wasting tokens. also translates to german.
 
 ### Step 4: Consolidate Data
 ```bash
-python consolidate.py
+python consolidate.py <input>
 ```
-- **Input:** Processed JSON files
+- **Input:** Processed JSON folders
 - **Output:** Consolidated JSON
 - **Notes:** Combines multiple JSON entries into a single entry per company. Deduplicates fields, chooses longest company name, and prioritizes words containing 'machine'.
 
@@ -99,7 +99,7 @@ python convert_to_csv.py
 ```bash
 python merge_technische_anlagen_with_keywords.py
 ```
-- **Input:** Final CSV and Excel with technical equipment data
+- **Input:** Final CSV and Excel with technical equipment data. EDIT IN FILES!
 - **Output:** Merged dataset
 - **Notes:** Merges the final CSV with Excel data containing "technische anlagen und maschinen". Attempts URL matching when company names don't match directly.
 

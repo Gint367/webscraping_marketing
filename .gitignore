@@ -20,6 +20,7 @@ domain_content*/
 llm_extracted_*/
 test_crawled*/
 archive/
+archive_*/
 pluralized*/
 
 *.log

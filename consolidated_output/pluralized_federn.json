@@ -1,0 +1,319 @@
+[
+    {
+        "company_name": "Federnfabrik Dietz GmbH",
+        "company_url": "https://www.dietz.eu",
+        "products": [
+            "Hybride Baugruppen",
+            "Präzisionsfedern",
+            "Stanz-Umformteile"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "CNC-gesteuerte Fertigungsmaschinen",
+            "Lasermaschinen"
+        ],
+        "process_type": [
+            "Biegeprozesse",
+            "Montagen",
+            "Qualitätskontrollen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Hans Ziller GmbH",
+        "company_url": "https://www.ziller-federn.de",
+        "products": [
+            "Druckfedern",
+            "Schenkelfedern",
+            "Zugfedern"
+        ],
+        "machines": [
+            "Durchlauföfen",
+            "Federwindeautomaten",
+            "Kammeröfen",
+            "Muldenbandanlagen",
+            "Schleifmaschinen"
+        ],
+        "process_type": [
+            "Kaltverformungen",
+            "Kugelstrahlen",
+            "Schleifen",
+            "Vorsetzen",
+            "Wärmebehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "thema Form- & Federntechnologie GmbH & Co. KG",
+        "company_url": "https://www.thema-federn.de/de/",
+        "products": [
+            "Druckfedern",
+            "Federzinken",
+            "Zugfedern"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Baumann GmbH",
+        "company_url": "https://www.baumann-springs.com",
+        "products": [
+            "Biegungen",
+            "Federn",
+            "Stanzteile"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Bischoff Federnwerk",
+        "company_url": "https://www.federnwerk-bischoff.de",
+        "products": [
+            "Bahnfedern",
+            "Blattfedern",
+            "Parabelfedern"
+        ],
+        "machines": [],
+        "process_type": [
+            "Montagen",
+            "Oberflächenbehandlungen",
+            "Schweißens"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Ernst W. Velleuer GmbH & Co. KG",
+        "company_url": "https://velleuer.de",
+        "products": [
+            "Drehfedern",
+            "Stanzbiegeteile",
+            "Stanzteile"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "Drahtformmaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Biegen",
+            "Drahtbiegen",
+            "Stanzen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "SOGEFI PC SUSPENSIONS Germany GmbH",
+        "company_url": "https://www.sogefigroup.com/de/",
+        "products": [
+            "Fahrwerkskomponenten",
+            "Kühlungen",
+            "Luftansaugungen"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Kurt Kauffmann Technische Federn GmbH",
+        "company_url": "https://www.kauffmann-federn.de/de/",
+        "products": [
+            "Druckfedern",
+            "Zugfedern",
+            "Zusammenbauten"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Schomäcker Federnwerk GmbH",
+        "company_url": "https://www.schomaecker.de",
+        "products": [
+            "Federn",
+            "Technische Federn",
+            "Zubehörartikel"
+        ],
+        "machines": [],
+        "process_type": [
+            "Kugelstrahlen",
+            "Warmumformungen",
+            "Wärmetbehandlungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "HAHN-Gasfedern GmbH",
+        "company_url": "https://www.hahn-gasfedern.de",
+        "products": [
+            "Dämpfer",
+            "Gasdruckfedern",
+            "Gaszugfedern"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "BREMA-WERK GmbH & Co. KG",
+        "company_url": "https://www.bremawerk.de",
+        "products": [
+            "Stanzbiegeteile",
+            "Stanzteile",
+            "Technische Federn"
+        ],
+        "machines": [
+            "Exzenterpressen",
+            "Stanzbiegeautomaten"
+        ],
+        "process_type": [
+            "Oberflächenbehandlungen",
+            "Schleifen",
+            "Wärmebehandlungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "WEFORMA Dämpfungstechnik GmbH",
+        "company_url": "https://www.weforma.com",
+        "products": [
+            "Industriestoßdämpfer",
+            "Luftfedern",
+            "Schwerlastdämpfer"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Pieron GmbH",
+        "company_url": "https://pieron.international",
+        "products": [
+            "Drahtbiegeteile",
+            "Drehfedern",
+            "Druckfedern"
+        ],
+        "machines": [
+            "Automaten",
+            "Bihler-Technologien",
+            "Windemaschinen"
+        ],
+        "process_type": [
+            "Biegeprozesse",
+            "Drahtbiegeprozesse",
+            "Stanzprozesse"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Federnwerke J.P. Grueber GmbH & Co. KG",
+        "company_url": "https://grueber.de",
+        "products": [
+            "Biegeteile",
+            "Druckfedern",
+            "Zugfedern"
+        ],
+        "machines": [
+            "CNC-Biegemaschinen",
+            "Kaltformmaschinen",
+            "Warmformmaschinen"
+        ],
+        "process_type": [
+            "Biegungen",
+            "Kaltformungen",
+            "Warmformungen"
+        ],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "Stumpp & Schüle GmbH",
+        "company_url": "https://www.stumpp-schuele.de",
+        "products": [
+            "Baugruppen",
+            "Federn",
+            "Stanzteile"
+        ],
+        "machines": [
+            "Mehrschieberbiegeautomaten",
+            "Stanzautomaten",
+            "Werkzeugbaumaschinen"
+        ],
+        "process_type": [
+            "Biegefertigungen",
+            "Prüftechnologien",
+            "Stanzfertigungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "CEFEG GmbH",
+        "company_url": "https://www.cefeg.de",
+        "products": [
+            "Baugruppen",
+            "Federn",
+            "Stanzbiegeteile"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "CNC-Maschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Biegen",
+            "CNC-Bearbeitungen",
+            "Stanzen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    },
+    {
+        "company_name": "Bansbach easylift GmbH",
+        "company_url": "https://www.bansbach.com",
+        "products": [
+            "Dämpfer",
+            "Elektro-Aktuatoren",
+            "Gasfedern"
+        ],
+        "machines": [],
+        "process_type": [],
+        "lohnfertigung": false,
+        "error": false
+    },
+    {
+        "company_name": "S & P Federnwerk GmbH & Co. KG",
+        "company_url": "https://www.lesjoforsab.com",
+        "products": [
+            "Federbeine",
+            "Gasfedern",
+            "Stanzteile"
+        ],
+        "machines": [
+            "Biegemaschinen",
+            "Schneidemaschinen",
+            "Stanzmaschinen"
+        ],
+        "process_type": [
+            "Biegungen",
+            "Schnitte",
+            "Stanzungen"
+        ],
+        "lohnfertigung": true,
+        "error": false
+    }
+]
