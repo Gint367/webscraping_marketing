@@ -13,7 +13,7 @@ def clean_trailing_symbols(text):
 
 def extract_base_domain(url):
     """Extract the base domain from a URL."""
-    if pd.isna(url):
+    if pd.isna(url) or url == "":
         return None
     try:
         # Handle URLs that might not start with http/https
@@ -31,16 +31,51 @@ def extract_base_domain(url):
         if domain.startswith('www.'):
             domain = domain[4:]
             
-        # Extract the main domain (e.g., 'zecha.de' from 'www.zecha.de/de/')
+        # Extract the main domain more intelligently
         parts = domain.split('.')
-        if len(parts) >= 2:
-            # Get the second-level domain (e.g., 'zecha.de')
+        if len(parts) >= 3 and parts[-1] in ['uk', 'au', 'jp'] and parts[-2] in ['co', 'com', 'org', 'net', 'gov', 'edu']:
+            # Handle cases like example.co.uk, example.com.au
+            main_domain = '.'.join(parts[-3:])
+            return main_domain.lower()
+        elif len(parts) >= 2:
+            # Handle normal cases like example.com
             main_domain = '.'.join(parts[-2:])
             return main_domain.lower()
-        return domain.lower()
+        return domain.lower() if domain else None
     except Exception as e:
         print(f"Error extracting domain from URL '{url}': {e}")
         return None
+
+def extract_and_log_domains(df, url_column_name, column_to_create='base_domain', sample_size=5, description=""):
+    """
+    Helper function to extract base domains from URLs and log sample results.
+    
+    Args:
+        df: DataFrame containing the URLs
+        url_column_name: Name of the column containing URLs
+        column_to_create: Name of the column to create with extracted domains
+        sample_size: Number of sample URLs to log
+        description: Description for the log output
+        
+    Returns:
+        The DataFrame with the new domain column added
+    """
+    if url_column_name in df.columns:
+        print(f"Extracting domains from '{url_column_name}' column {description}")
+        
+        # Print sample URLs
+        print(f"Example URLs {description}:")
+        sample_urls = df[url_column_name].dropna().head(sample_size).tolist()
+        for url in sample_urls:
+            print(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
+            
+        # Extract domains
+        df[column_to_create] = df[url_column_name].apply(extract_base_domain)
+        return df
+    else:
+        print(f"Warning: Column '{url_column_name}' not found in DataFrame {description}")
+        df[column_to_create] = None
+        return df
 
 def merge_csv_with_excel():
     # Define file paths
@@ -103,26 +138,15 @@ def merge_csv_with_excel():
             url_column = possible_column
             break
     
+    # Extract domains from both dataframes
     if url_column:
-        print(f"Using '{url_column}' column for URL matching")
-        # Print a few example URLs to verify the format
-        print("Example URLs from CSV:")
-        sample_urls = csv_data[url_column].dropna().head(5).tolist()
-        for url in sample_urls:
-            print(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
-        
-        csv_data['base_domain'] = csv_data[url_column].apply(extract_base_domain)
+        csv_data = extract_and_log_domains(csv_data, url_column, description="from CSV data")
     else:
         print("Warning: No URL column found in CSV data. Tried: Website, Company URL, Company Url, URL, website, url")
         csv_data['base_domain'] = None
     
-    # Print a few example URLs from base data
-    print("Example URLs from base data:")
-    sample_base_urls = filtered_data['URL'].dropna().head(5).tolist()
-    for url in sample_base_urls:
-        print(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
-    
-    filtered_data['base_domain'] = filtered_data['URL'].apply(extract_base_domain)
+    # Extract domains from filtered data
+    filtered_data = extract_and_log_domains(filtered_data, 'URL', description="from base data")
     
     # Print domain matching stats
     print("Domain stats:")
@@ -152,14 +176,10 @@ def merge_csv_with_excel():
     unmatched_idx = merged_data['technische Anlagen und Maschinen 2021/22'].isna()
     unmatched_data = merged_data[unmatched_idx]
     
-    """ print(f"unmatched columns: {unmatched_data.columns.tolist()}")
-    print(f"Unmatched data contains {len(unmatched_data)} rows")
-    """
-    
-    
     # Copy the filtered_data DataFrame to avoid modifying the original
     remaining_data = filtered_data.copy()
     url_matches = 0
+    duplicate_domain_count = 0
     
     # Create a copy of merged_data for updating
     merged_data_updated = merged_data.copy()
@@ -172,6 +192,14 @@ def merge_csv_with_excel():
             matches = remaining_data[remaining_data['base_domain'] == csv_domain]
             
             if not matches.empty:
+                # Check if multiple companies share the same domain
+                if len(matches) > 1:
+                    duplicate_domain_count += 1
+                    print(f"WARNING: Multiple matches found for domain '{csv_domain}':")
+                    for i, match_row in matches.iterrows():
+                        print(f"  - {match_row['Firma1']} (from {match_row['Ort']})")
+                    print(f"  Taking the first match: '{matches.iloc[0]['Firma1']}'")
+                
                 # Take the first match (we can enhance this later if needed)
                 match = matches.iloc[0]
                 
@@ -188,9 +216,8 @@ def merge_csv_with_excel():
                 url_matches += 1
     
     print(f"Additionally matched {url_matches} companies by URL")
-    
-    # Use the updated merged data
-    merged_data = merged_data_updated
+    if duplicate_domain_count > 0:
+        print(f"WARNING: Found {duplicate_domain_count} domains with multiple company matches")
     
     # Drop the temporary columns
     drop_cols = ['company_name_lower', 'firma1_lower', 'base_domain','Firma1','URL',"base_domain_x", "base_domain_y"]

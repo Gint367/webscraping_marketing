@@ -1,7 +1,7 @@
 import json
 import csv
-import sys
 import os
+import argparse
 
 def convert_json_to_csv(json_file_path, csv_file_path=None):
     """
@@ -12,6 +12,11 @@ def convert_json_to_csv(json_file_path, csv_file_path=None):
         json_file_path: Path to the input JSON file
         csv_file_path: Path to the output CSV file. If None, derived from JSON filename
     """
+    # Check if input file exists
+    if not os.path.isfile(json_file_path):
+        print(f"Error: Input file '{json_file_path}' does not exist")
+        return None
+    
     # If no CSV file path is provided, create one based on the JSON file name
     if csv_file_path is None:
         base_name = os.path.splitext(json_file_path)[0]
@@ -68,15 +73,24 @@ def convert_json_to_csv(json_file_path, csv_file_path=None):
         print(f"Conversion successful. CSV file created at: {csv_file_path}")
         return csv_file_path
         
+    except FileNotFoundError:
+        print(f"Error: The file '{json_file_path}' was not found")
+        return None
+    except json.JSONDecodeError:
+        print(f"Error: '{json_file_path}' is not a valid JSON file")
+        return None
     except Exception as e:
         print(f"Error during conversion: {str(e)}")
         return None
 
 if __name__ == "__main__":
-    # If script is called directly, get input file from command line arguments
-    if len(sys.argv) > 1:
-        input_file = sys.argv[1]
-        output_file = sys.argv[2] if len(sys.argv) > 2 else None
-        convert_json_to_csv(input_file, output_file)
-    else:
-        print("Usage: python convert_to_csv.py input.json [output.csv]")
+    parser = argparse.ArgumentParser(description='Convert JSON file to CSV format')
+    parser.add_argument('input_file', help='Path to the input JSON file')
+    parser.add_argument('-o', '--output', dest='output_file', 
+                        help='Path to the output CSV file (optional)')
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Convert JSON to CSV
+    convert_json_to_csv(args.input_file, args.output_file)

@@ -101,7 +101,7 @@ python convert_to_csv.py
 - **Notes:** Extracts specific fields from JSON records and outputs to CSV. Takes only first three items and uses BOM for better umlaut compatibility with Excel.
 
 ## Additional Steps
-**Folder Path:** `root/`
+**Folder Path:** `./`
 
 ### Merge Technical Equipment with Keywords
 ```bash

@@ -1,11 +1,10 @@
 import os
 import json
 import asyncio
-from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional
+from typing import List
 from urllib.parse import urlparse
-from crawl4ai import AsyncWebCrawler, CacheMode, CrawlerMonitor, DisplayMode, MemoryAdaptiveDispatcher, RateLimiter
+from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from crawl4ai.async_configs import LLMConfig

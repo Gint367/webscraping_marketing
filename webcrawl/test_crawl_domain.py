@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from urllib.parse import urlparse
 
 from webcrawl.crawl_domain import (
     sanitize_filename,
@@ -14,7 +13,6 @@ from webcrawl.crawl_domain import (
     normalize_and_filter_links,
     apply_content_filters,
     remove_duplicate_urls,
-    collect_internal_links,
     remove_links_from_markdown,
     crawl_domain
 )
