@@ -10,17 +10,33 @@ def load_json_data(file_path: str) -> List[Dict[str, Any]]:
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
+    except FileNotFoundError:
+        print(f"Error: File not found: {file_path}")
+        return []
+    except json.JSONDecodeError as e:
+        print(f"Error parsing JSON in {file_path}: {e}")
+        return []
     except Exception as e:
-        print(f"Error loading {file_path}: {e}")
+        print(f"Unexpected error loading {file_path}: {e}")
         return []
 
 
 def get_all_json_files(directory: str) -> List[str]:
-    """Get all JSON files in the directory."""
+    """
+    Get all JSON files in the directory.
+    """
     if not os.path.isdir(directory):
         return []
-    return [os.path.join(directory, f) for f in os.listdir(directory) 
-            if f.endswith('.json') and not f.startswith('combined_') and os.path.isfile(os.path.join(directory, f))]
+    
+    json_files = []
+    with os.scandir(directory) as entries:
+        for entry in entries:
+            if (entry.is_file() and 
+                entry.name.endswith('.json') and 
+                not entry.name.startswith('combined_')):
+                json_files.append(entry.path)
+    
+    return json_files
 
 
 def normalize_items(items: List[str]) -> List[str]:
@@ -34,17 +50,33 @@ def normalize_items(items: List[str]) -> List[str]:
 
 
 def sort_items(items: List[str]) -> List[str]:
-    """Sort items by number of duplicates and prioritize items containing 'machine'."""
-    # Normalize items
-    items = normalize_items(items)
+    """
+    Sort a list of items based on frequency, keyword presence, and alphabetical order.
+    The sorting is done in the following priority:
+    1. Number of duplicates (descending order)
+    2. Presence of the word 'machine' (items with 'machine' ranked higher)
+    3. Alphabetical order
+    Args:
+        items: A list of strings to be sorted
+    Returns:
+        A list of unique strings sorted according to the criteria above
+    Note:
+        Items are normalized before sorting using the normalize_items function
+    """
+    # Remove duplicates first (case-insensitive)
+    unique_items = []
+    lowercase_items = set()
     
-    # Count the occurrences of each item
-    item_counts = Counter(items)
+    for item in items:
+        if item.lower() not in lowercase_items:
+            unique_items.append(item)
+            lowercase_items.add(item.lower())
     
-    # Sort items first by count (descending), then by presence of 'machine' (descending), then alphabetically
-    sorted_items = sorted(item_counts.keys(), key=lambda x: (-item_counts[x], 'machine' in x.lower(), x))
+    # Sort with machine-related items first
+    machine_items = [item for item in unique_items if "machine" in item.lower()]
+    non_machine_items = [item for item in unique_items if "machine" not in item.lower()]
     
-    return sorted_items
+    return machine_items + non_machine_items
 
 
 def filter_items(items: List[str], exclude_substrings: List[str], exact_match: bool = False) -> List[str]:
@@ -172,41 +204,79 @@ def get_default_output_path(input_path: str) -> str:
         return os.path.join(output_dir, f"{dir_name}.json")
 
 
-def process_files(input_path: str, output_path: str, filter_file: str = None, exact_match: bool = False) -> None:
-    """Process input files and generate consolidated output."""
-    # Load exclude substrings if filter file is provided
-    exclude_substrings = load_filter_words(filter_file)
-    if exclude_substrings:
-        filter_mode = "exact word matches" if exact_match else "substring matches"
-        print(f"Loaded {len(exclude_substrings)} filter words/substrings (using {filter_mode})")
+def process_single_file(file_path: str, exclude_substrings: List[str], exact_match: bool) -> Union[Dict[str, Any], None]:
+    """Process a single JSON file and consolidate its entries."""
+    entries = load_json_data(file_path)
+    if entries:
+        return consolidate_entries(entries, exclude_substrings, exact_match)
+    return None
+
+
+def process_files(input_path, output_path):
+    """
+    Process all JSON files in the input path or a specific file,
+    consolidate the data, and save to the output file.
+    """
+    all_companies = {}  # Use a dictionary keyed by company_name for merging
     
-    consolidated_entries = []
-    
+    # Handle single file or directory
     if os.path.isfile(input_path):
-        # Single file - consolidate the entries within this file
-        entries = load_json_data(input_path)
-        if entries:
-            # All entries in this file are from the same company, so consolidate them
-            consolidated_entry = consolidate_entries(entries, exclude_substrings, exact_match)
-            if consolidated_entry:
-                consolidated_entries.append(consolidated_entry)
-                
+        files = [input_path]
     else:
-        # Directory - each file represents one company, but may have multiple entries
-        for file_path in get_all_json_files(input_path):
-            entries = load_json_data(file_path)
-            if entries:
-                # All entries in this file are from the same company, so consolidate them
-                consolidated_entry = consolidate_entries(entries, exclude_substrings, exact_match)
-                if consolidated_entry:
-                    consolidated_entries.append(consolidated_entry)
+        files = [os.path.join(input_path, f) for f in os.listdir(input_path)
+                if f.endswith('.json')]
     
-    # Write output
+    # Process each file
+    for file_path in files:
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                companies = json.load(f)
+                
+            for company in companies:
+                company_name = company.get('company_name')
+                
+                # If company already exists, merge the data
+                if company_name in all_companies:
+                    existing_company = all_companies[company_name]
+                    
+                    # Merge products
+                    if 'products' in company:
+                        existing_company.setdefault('products', []).extend(company.get('products', []))
+                        # Remove duplicates and sort
+                        existing_company['products'] = sort_items(existing_company['products'])
+                    
+                    # Merge machines
+                    if 'machines' in company:
+                        existing_company.setdefault('machines', []).extend(company.get('machines', []))
+                        # Remove duplicates and sort
+                        existing_company['machines'] = sort_items(existing_company['machines'])
+                    
+                    # Merge process_types
+                    if 'process_type' in company:
+                        existing_company.setdefault('process_type', []).extend(company.get('process_type', []))
+                        # Remove duplicates
+                        existing_company['process_type'] = list(set(existing_company['process_type']))
+                    
+                    # Set lohnfertigung to True if any instance is True
+                    if company.get('lohnfertigung', False):
+                        existing_company['lohnfertigung'] = True
+                        
+                else:
+                    # New company, add to dictionary
+                    all_companies[company_name] = company
+                    
+        except Exception as e:
+            print(f"Error processing file {file_path}: {e}")
+    
+    # Convert companies dictionary to list
+    result = list(all_companies.values())
+    
+    # Write consolidated data to output file
     with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(consolidated_entries, f, indent=4, ensure_ascii=False)
+        json.dump(result, f, indent=2, ensure_ascii=False)
     
-    print(f"Consolidated data into {len(consolidated_entries)} companies")
-    print(f"Output saved to {output_path}")
+    print(f"Processed {len(files)} files. Found {len(result)} unique companies.")
+    return result
 
 
 def main():
