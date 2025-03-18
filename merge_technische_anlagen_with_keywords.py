@@ -44,9 +44,9 @@ def extract_base_domain(url):
 
 def merge_csv_with_excel():
     # Define file paths
-    csv_path = 'consolidated_output/pluralized_data_maschinenbauer.csv'
-    base_data_path = 'merged_maschinenbauer_20250313.csv'  # Can be either .csv or .xlsx
-    output_path = 'final_export_maschinenbauer.csv'
+    csv_path = 'consolidated_output/pluralized_federn.csv'
+    base_data_path = 'merged_federn_20250317.csv'  # Can be either .csv or .xlsx
+    output_path = 'final_export_federn.csv'
     
     # Read CSV file
     print(f"Reading CSV file: {csv_path}")

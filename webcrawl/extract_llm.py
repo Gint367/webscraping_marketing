@@ -26,25 +26,25 @@ prompt = """
 ## Task
 Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifizierung von Fertigungsmaschinen, die von vielen Unternehmen eingesetzt werden. Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
 
-## Instruction
-Folgende Informationen sind erforderlich:
-- Namen des Unternehmens (in **"Company Name: "**, legale Bezeichnung, schön formatiert)  
-- URL des Unternehmens (in **"Main URL: "**)  
-- Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet (Schreiben in der Pluralform).  
+## Informationen, die gesammelt werden müssen
+- **company_name:** Namen des Unternehmens (in zeile **"Company Name: "**, legale Bezeichnung, schön formatiert)  
+- **company_url:** URL des Unternehmens (in zeile **"Main URL: "**)  
+- **products:** Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet (Schreiben in der Pluralform).  
 - Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.  
-- Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (keine Maschinen, die als eigene Produkte verkauft werden) (Schreiben in der Pluralform).  
+- **machines:** Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (Schreiben in der Pluralform). 
+- Erfassen Sie bei machines nur Geräte für die interne Produktion, keine zum Verkauf angebotenen Maschinen.
 - Gibt Maschinen nur als allgemeine Maschinenkategorie aus, ohne genaue Modell- oder Markennamen.  
   - Beispiel:  
     - "HIGH SPEED EAGLE V9" wird als **"Fräsmaschinen"** ausgegeben.  
     - "GANTRY EAGLE 1200" wird als **"Erodiermaschinen"** ausgegeben.  
-- Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt.  
+- **process_type:** Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt.  
   - **Keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können**, sondern nur die tatsächlich genutzten Verfahren.  
   - Nutzt eine **vordefinierte Liste typischer Produktionsprozesse** aus verschiedenen Branchen zur besseren Identifikation und Zuordnung.  
 - Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. **"Transport", "Logistik"**), werden nicht als relevante Keywords aufgenommen (Schreiben in der Pluralform).  
-- Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
+- **lohnfertigung:** Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
 - Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
 - schreibe nur 3 Einträge aus jeder Kategorie.
-- benutze niemals ',', '&', und 'und' für die Einträge.
+- Jeder Eintrag muss ein einzelnes Wort sein, keine Komposita mit Trennzeichen oder Konjunktionen.
 - Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
 - **Strikte Einhaltung der Datenwahrheit**: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.  
 
@@ -109,8 +109,8 @@ dispatcher = MemoryAdaptiveDispatcher(
             max_session_permit=5,
         )
 rate_limiter = RateLimiter(
-    base_delay=(30, 60),
-    max_delay=60,
+    base_delay=(5, 30),
+    max_delay=30,
     max_retries=3,
     rate_limit_codes=[429, 503]
 )

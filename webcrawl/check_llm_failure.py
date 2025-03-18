@@ -3,12 +3,13 @@ import json
 import argparse
 from collections import defaultdict
 import csv
+import re  # added import for regex
 
 
 def check_multi_word_entries(file_path):
     """
-    Check if a JSON file contains multi-word entries in products, machines, or process_type.
-    Returns a dict with results if multi-word entries found, None otherwise.
+    Check if a JSON file contains entries with conjunctions like 'and'/'und' in products, machines, or process_type.
+    Returns a dict with results if found, None otherwise.
     """
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -22,25 +23,27 @@ def check_multi_word_entries(file_path):
             'has_multi_word': False
         }
         
+        pattern = re.compile(r'\b(?:and|und)\b', re.IGNORECASE)
+        
         for item in data:
             # Check products
             if 'products' in item and isinstance(item['products'], list):
                 for product in item['products']:
-                    if isinstance(product, str) and len(product.split()) > 3:
+                    if isinstance(product, str) and pattern.search(product):
                         results['products'].append(product)
                         results['has_multi_word'] = True
             
             # Check machines
             if 'machines' in item and isinstance(item['machines'], list):
                 for machine in item['machines']:
-                    if isinstance(machine, str) and len(machine.split()) > 1:
+                    if isinstance(machine, str) and pattern.search(machine):
                         results['machines'].append(machine)
                         results['has_multi_word'] = True
             
             # Check process_type
             if 'process_type' in item and isinstance(item['process_type'], list):
                 for process in item['process_type']:
-                    if isinstance(process, str) and len(process.split()) > 1:
+                    if isinstance(process, str) and pattern.search(process):
                         results['process_type'].append(process)
                         results['has_multi_word'] = True
         
