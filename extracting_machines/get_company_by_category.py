@@ -59,6 +59,9 @@ def extract_companies_by_category(input_file, category, output_file=None):
         # Clean company names
         result_df['company name'] = result_df['company name'].apply(clean_company_name)
         
+        # Convert category to lowercase to ensure consistency
+        category = category.lower()
+
         # Determine output file name
         if output_file is None:
             output_file = f'company_{category}_BA.csv'

@@ -577,9 +577,21 @@ def process_company(
     return result_latest
 
 
+def get_category_from_filename(filename):
+    """Extracts category from input CSV filename after 'company_' prefix."""
+    base_filename = os.path.basename(filename)
+    if base_filename.startswith("company_"):
+        # Extract part after "company_" and before extension
+        category = os.path.splitext(base_filename[8:])[0]
+        # Remove any _BA suffix commonly used
+        if category.endswith("_BA"):
+            category = category[:-3]
+        return category
+    return "default"  # Default if pattern not matched
+
 def main(
     input_csv: str,
-    base_dir: str = "bundesanzeiger_local_data",
+    base_dir: str = None,  # Changed to None to use dynamic default
     max_retries: int = 5,
     max_delay_seconds: int = 300,
     backoff_factor: float = 2.0,
@@ -597,7 +609,13 @@ def main(
       - retries on fetch errors with exponential backoff,
       - configurable retry parameters.
       - configurable base directory for storing data
+      - auto-detects category from filename for directory structure
     """
+    # Set default base_dir based on input CSV filename if not provided
+    if base_dir is None:
+        category = get_category_from_filename(input_csv)
+        base_dir = f"bundesanzeiger_local_{category}"
+    
     if not os.path.exists(input_csv):
         print(f"{get_timestamp()} [ERROR] Input file '{input_csv}' not found.")
         sys.exit(1)
@@ -702,18 +720,23 @@ if __name__ == "__main__":
         print(
             f"{get_timestamp()} [ERROR] Usage: python get_bundesanzeiger_html.py <input_csv> [output_dir] [max_retries] [max_delay_seconds] [backoff_factor]"
         )
-        print(f"{get_timestamp()} [INFO]  Default base_dir: bundesanzeiger_local_data")
+        print(f"{get_timestamp()} [INFO]  Default base_dir: bundesanzeiger_local_<category>")
         sys.exit(1)
 
     input_csv = sys.argv[1]
 
-    # Parse optional base_dir and retry parameters
-    base_dir = sys.argv[2] if len(sys.argv) > 2 else "bundesanzeiger_local_data"
+    # Parse optional base_dir and retry parameters - keep base_dir as None for auto-detection
+    base_dir = sys.argv[2] if len(sys.argv) > 2 else None
     max_retries = int(sys.argv[3]) if len(sys.argv) > 3 else 5
     max_delay_seconds = (
         int(sys.argv[4]) if len(sys.argv) > 4 else 300
     )  # 5 minutes default
     backoff_factor = float(sys.argv[5]) if len(sys.argv) > 5 else 2.0
+
+    # Get the default base_dir based on CSV filename if not specified
+    if base_dir is None:
+        category = get_category_from_filename(input_csv)
+        base_dir = f"bundesanzeiger_local_{category}"
 
     print(
         f"{get_timestamp()} [CONFIG] Using base_dir='{base_dir}', max_retries={max_retries}, "
