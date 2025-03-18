@@ -135,6 +135,7 @@ def sanitize_filename(url: str) -> str:
     # Remove 'www.' prefix if it exists
     if domain.startswith('www.'):
         domain = domain[4:]
+    # Replace invalid filename characters with underscores
     sanitized = re.sub(r'[\\/*?:"<>|]', '_', domain)
     return sanitized
 

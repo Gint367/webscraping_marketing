@@ -1,6 +1,7 @@
 import os
 import json
 import argparse
+import logging
 from typing import List
 from litellm import completion
 
@@ -9,6 +10,19 @@ failed_files = []
 
 # Default temperature settings for retries
 DEFAULT_TEMPERATURES = [0.5, 0.1, 1.0]
+
+def setup_logging(log_level=logging.INFO):
+    """
+    Configure logging with proper formatting.
+    
+    Args:
+        log_level: The minimum logging level to display
+    """
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
 
 def pluralize_with_llm(words: List[str], file_path: str = None, field_name: str = None, 
                       temperatures: List[float] = None) -> List[str]:
@@ -64,19 +78,19 @@ def pluralize_with_llm(words: List[str], file_path: str = None, field_name: str 
             else:
                 # If lengths don't match, retry
                 retry_count += 1
-                print(f"Warning: LLM returned {len(pluralized_words)} words but expected {len(words)}. "
+                logging.warning(f"LLM returned {len(pluralized_words)} words but expected {len(words)}. "
                       f"Retry {retry_count}/{max_retries} with temperature {temperatures[min(retry_count, max_retries-1)]}.")
                 
                 # If we've reached max retries, return original words
                 if retry_count >= max_retries:
                     failure_info = f"Max retries reached for file: {file_path}, field: {field_name}"
-                    print(failure_info)
+                    logging.error(failure_info)
                     if file_path and file_path not in [f[0] for f in failed_files]:
                         failed_files.append((file_path, field_name))
                     return words
                 
         except Exception as e:
-            print(f"Error pluralizing words with LLM: {e}")
+            logging.error(f"Error pluralizing words with LLM: {e}")
             if file_path and file_path not in [f[0] for f in failed_files]:
                 failed_files.append((file_path, field_name))
             return words  # Return original words on error
@@ -114,10 +128,10 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
         with open(output_file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
             
-        print(f"Processed {input_file_path} -> {output_file_path}")
+        logging.info(f"Processed {input_file_path} -> {output_file_path}")
             
     except Exception as e:
-        print(f"Error processing file {input_file_path}: {e}")
+        logging.error(f"Error processing file {input_file_path}: {e}")
         if input_file_path not in [f[0] for f in failed_files]:
             failed_files.append((input_file_path, "file_processing_error"))
 
@@ -133,22 +147,34 @@ def process_directory(input_dir: str, output_dir: str, temperatures: List[float]
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
-    # Process each JSON file
-    for filename in os.listdir(input_dir):
-        if filename.endswith('.json'):
-            input_file_path = os.path.join(input_dir, filename)
-            output_file_path = os.path.join(output_dir, filename)
-            process_json_file(input_file_path, output_file_path, temperatures)
+    # Count total JSON files to process
+    json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
+    total_files = len(json_files)
     
-    # Print summary of failed files
+    if total_files == 0:
+        logging.warning(f"No JSON files found in {input_dir}")
+        return
+    
+    logging.info(f"Found {total_files} JSON files to process")
+    
+    # Process each JSON file with progress reporting
+    for i, filename in enumerate(json_files, 1):
+        input_file_path = os.path.join(input_dir, filename)
+        output_file_path = os.path.join(output_dir, filename)
+        
+        logging.info(f"Processing file {i}/{total_files}: {filename}")
+        process_json_file(input_file_path, output_file_path, temperatures)
+    
+    # Log summary of failed files
     if failed_files:
-        print("\n===== FAILURE SUMMARY =====")
-        print(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
-        print("Failed files and fields:")
+        logging.warning("\n===== FAILURE SUMMARY =====")
+        logging.warning(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
+        logging.warning(f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}")
+        logging.warning("Failed files and fields:")
         for file_path, field_name in failed_files:
-            print(f"  - {file_path}: {field_name}")
+            logging.warning(f"  - {file_path}: {field_name}")
     else:
-        print("\nAll files processed successfully with no pluralization failures.")
+        logging.info(f"\nAll {total_files} files processed successfully with no pluralization failures.")
 
 def main():
     """Main function to run the script."""
@@ -157,10 +183,18 @@ def main():
     parser.add_argument('--output', type=str, required=True, help='Output directory for processed JSON files')
     parser.add_argument('--temperatures', type=float, nargs='+', default=DEFAULT_TEMPERATURES, 
                         help='List of temperature values for each retry attempt (default: 0.5 0.7 1.0)')
+    parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                        default='INFO', help='Set the logging level')
     
     args = parser.parse_args()
     
+    # Setup logging with the specified level
+    log_level = getattr(logging, args.log_level)
+    setup_logging(log_level)
+    
+    logging.info(f"Starting pluralization with temperatures: {args.temperatures}")
     process_directory(args.input, args.output, args.temperatures)
+    logging.info("Pluralization process completed")
 
 if __name__ == "__main__":
     main()

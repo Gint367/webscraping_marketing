@@ -5,6 +5,14 @@
 
 ### Step 1: Extract HTML from Bundesanzeiger
 ```bash
+python get_company_by_category.py <input_excel.xlsx> 'Category'
+```
+- **Input:** excel file with companies, category that are going to be extracted
+- **Output:** company_<category>_BA.csv
+- **Notes:** this will get list of companies and its locations
+
+### Step 1: Extract HTML from Bundesanzeiger
+```bash
 python get_bundesanzeiger_html.py <input_csv> [output_dir]
 ```
 - **Input:** CSV with company name and location

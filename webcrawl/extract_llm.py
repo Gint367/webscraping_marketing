@@ -204,7 +204,6 @@ async def main():
         llm_config = LLMConfig(
             #provider="openai/gpt-4o-mini", 
             provider="bedrock/amazon.nova-pro-v1:0", 
-            #api_token=os.getenv("OPENAI_API_KEY")
         ),
         extraction_type="schema",
         schema=Company.model_json_schema(),
