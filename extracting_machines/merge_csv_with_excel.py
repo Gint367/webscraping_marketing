@@ -3,6 +3,8 @@ import numpy as np
 from Levenshtein import distance
 from datetime import datetime
 import argparse
+import os
+import re
 
 def standardize_company_name(name):
     # Replace underscores with spaces
@@ -323,12 +325,35 @@ def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
     
     return filtered_df
 
-def save_merged_data(merged_df, xlsx_file_path='input_excel.xlsx'):
+def save_merged_data(merged_df, csv_file_path='machine_report.csv'):
     """Save the merged dataframe to a CSV file with date in filename."""
     current_date = datetime.now().strftime('%Y%m%d')
-    output_file_path = f"merged_{xlsx_file_path.replace('.xlsx', '')}_{current_date}.csv"
+    
+    # Extract company name from the input CSV filename
+    base_filename = os.path.basename(csv_file_path)
+    #print(f"Processing file: {base_filename}")
+    company_name = ""
+    
+    # Extract company name from machine_report_COMPANY_DATETIME.csv pattern
+    if "machine_report_" in base_filename:
+        # Remove "machine_report_" prefix
+        name_without_prefix = base_filename.replace("machine_report_", "")
+        
+        # Extract just the company name part (between machine_report_ and first _)
+        parts = name_without_prefix.split('_')
+        if len(parts) > 0:
+            company_name = parts[0]
+            
+        #print(f"Extracted company name: {company_name}")
+    
+    if not company_name:
+        # Fallback to generic name if extraction failed
+        output_file_path = f"merged_data_{current_date}.csv"
+    else:
+        output_file_path = f"merged_{company_name}_{current_date}.csv"
+    
     merged_df.to_csv(output_file_path, index=False)
-    print(f"Merged data saved to {output_file_path}")
+    #print(f"Merged data saved to {output_file_path}")
     return output_file_path
 
 def main(csv_file_path, top_n=2):
@@ -356,7 +381,7 @@ def main(csv_file_path, top_n=2):
         merged_df = merge_datasets(xlsx_df, machine_data, company_mapping, top_n)
         
         # Step 5: Save the result
-        output_file = save_merged_data(merged_df)
+        output_file = save_merged_data(merged_df, csv_file_path)
         print(f"Successfully merged and saved the data to {output_file}!")
         
     except Exception as e:

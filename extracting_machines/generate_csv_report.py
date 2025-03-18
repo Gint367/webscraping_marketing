@@ -135,12 +135,22 @@ if __name__ == "__main__":
     input_directory = args.input_directory
     N = 3  # Parameter N - change this value as needed
     
-    # Generate report using extract_values_v3 with filter words
+    # Extract company name from input folder if it follows the pattern
+    base_folder = os.path.basename(os.path.normpath(input_directory))
+    output_filename = f"machine_report_n{N}.csv"
+    
+    # Check if folder follows bundesanzeiger_local_COMPANY_output pattern
+    if base_folder.startswith("bundesanzeiger_local_") and base_folder.endswith("_output"):
+        company_name = base_folder.replace("bundesanzeiger_local_", "").replace("_output", "")
+        if company_name:
+            output_filename = f"machine_report_{company_name}.csv"
+    
+    # Generate report using extract_values with filter words
     filter_words = ["anschaffungs","ahk", "abschreibung", "buchwert"]
     generate_csv_report(
         input_directory, 
-        f"machine_report_n{N}.csv", 
+        output_filename, 
         N,
         lambda data, n: extract_values(data, n, filter_words)
     )
-    print(f"CSV report generated: machine_report_n{N}.csv")
+    print(f"CSV report generated: {output_filename}")
