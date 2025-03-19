@@ -31,7 +31,7 @@ python clean_html.py <input_dir>
 ```bash
 python generate_csv_report.py <input_dir>
 ```
-- **Input:** JSON files from Step 2
+- **Input:** JSON files on cleaned folder from Step 2
 - **Output:** CSV report machine_report_<category>_<timestamp>.csv
 - **Notes:** Extracts relevant machine asset information.
 
@@ -78,7 +78,7 @@ python extract_llm.py <input> --output <output_dir>
 
 ### Step 3: Standardize Keywords
 ```bash
-python pluralize_with_llm.py
+python pluralize_with_llm.py --input <input_dir> --output <output_dir>
 ```
 - **Input:** Extracted keywords
 - **Output:** Standardized keywords
@@ -86,7 +86,7 @@ python pluralize_with_llm.py
 
 ### Step 4: Consolidate Data
 ```bash
-python consolidate.py <input>
+python consolidate.py <input_folder>
 ```
 - **Input:** Processed JSON folders
 - **Output:** Consolidated JSON
@@ -94,7 +94,7 @@ python consolidate.py <input>
 
 ### Step 5: Convert to CSV
 ```bash
-python convert_to_csv.py
+python convert_to_csv.py <input_json>
 ```
 - **Input:** Consolidated JSON
 - **Output:** Final CSV

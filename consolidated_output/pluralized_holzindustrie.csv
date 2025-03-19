@@ -1,0 +1,51 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3
+MeisterWerke Schulte GmbH,https://www.meisterwerke.com,False,Bodenbeläge,Wandpaneele,Fußleisten,,,,,,
+,,False,,,,,,,,,
+Ziegler Holzindustrie GmbH & Co. KG,https://www.ziegler.global,False,Holzschnittprodukte,Holzbauprodukte,Dekoartikel,Sägemaschinen,Hobelmaschinen,Verpackungsmaschinen,Sägen,Hobel,Verpackungen
+Leistenfabrik Arnold Deppe GmbH & Co. KG,https://deppe.de,False,Massiv-/Ummantelungsleisten,Leimholzplatten,Möbelfertigteile,CNC-Maschinen,Klebstoffauftragsmaschinen,Profiliermaschinen,Klebe,Profilierungen,Zuschnitte
+HWW GmbH & Co. Holzwerke KG,https://www.hww.cc,False,Schnitthölzer,Plattenwerkstoffe,Hobelwaren,,,,,,
+Hermann Keller GmbH,https://www.hermannkeller.de,False,Schnitthölzer,Resthölzer,Rundhölzer,,,,Trocknungen,Sägen,Hobel
+Deutsche Holzveredelung Schmeing,https://www.dehonit.de,False,Kunstharzpresshölzer,Tangentialringe,Technische Kunststoffe,Pressen,Schleifen,Montagen,Pressen,Schleifen,Montagen
+Karl Streit GmbH & Co. KG,https://www.saegewerk-streit.de,False,Rundholz,Schnittholz,Sägewerksnebenprodukte,Sägen,Hobel,Trockner,Zersägen,Hobeln,Trocknen
+Holzwerk Schilling GmbH & Co. KG,http://www.schilling-holz.de,False,Palettenzuschnitte,Schnitthölzer,Hobelwaren,Sägen,Hobelmaschinen,Palettenmaschinen,Zersägen,Hobeln,Verpacken
+Anreu GmbH,https://www.anreu-paletten.de,False,Paletten,Reparaturen,Sonderanfertigungen,,,,,,
+HBV Holz- und Baustoff-Vertrieb,https://www.hbv-wilhelmshaven.de,False,Hölzer,Baustoffe,Dienstleistungen,,,,,,
+elka-Holzwerke GmbH,https://www.elka-holzwerke.de,False,Schnittholz,Spanplatten,Naturholzplatten,Sägen,Hobel,Schleifer,Sägen,Hobeln,Schleifen
+HOLZ BALK GmbH & Co. KG,https://www.holz-balk.de,False,Fenster,Böden,Plattenwerkstoffe,,,,,,
+Bockelmann-Holz GmbH,https://www.bockelmann-holz.de,False,Hölzer,Energiewölzer,Holzschnitzel,,,,,,
+Holz Schiller GmbH,https://holz-schiller.de,False,Fensterkantel,Leimhölzer,Haustürrohlinge,Sägen,Leimpressen,Hobelmaschinen,Sägen,Leimen,Hobeln
+SWL-Tischlerplatten Betriebs-GmbH,https://www.s-w-l.com,False,Holzwerkstoffe,Leicht-Werkstoffe,Spezialprodukte,,,,Fertigungstechnologien,Handwerkliches Know-how,Laboreinrichtungen
+Pieper Holz GmbH,https://www.pieperholz.de/de/,True,Schnitthölzer,Gartenmöbel,Spielgeräte,Sägemaschinen,Hobelmaschinen,Imprägniermaschinen,Sägen,Hobeln,Imprägnieren
+Pfeifer Holz GmbH,https://www.pfeifergroup.com/de/,False,,,,,,,,,
+Josef Baust Holzbetrieb GmbH,https://www.baust-beckmann.de,False,Verpackungshölzer,Verbauhölzer,Schnitthölzer,Sägemaschinen,Hobelmaschinen,Pelletanlagen,Zersägen,Hobeln,Pelletproduktionen
+Sonae Arauco Beeskow GmbH,https://www.sonaearauco.com/de/,False,Spanplatten,MDFs,OSBs,,,,,,
+häussermann GmbH & Co. KG,https://haeussermann.de,False,Holzprofile,Holzoberflächen,Holzarten,Hobelmaschinen,Lackieranlagen,Sägewerke,Hobel,Lackierungen,Sägen
+Gebr. Eigelshoven GmbH & Co. KG,https://www.holz-eigelshoven.de/de/,False,Schnitthölzer,Handelswaren,Abbundzentren,,,,Sägen,Veredelungen,Abbindungen
+Palettenfabrik Bassum GmbH,https://bassum.com,False,Paletten,Europaletten,Sonderpaletten,Sondermaschinen,Produktionsmaschinen,Holzbearbeitungsmaschinen,Zerspanungen,Montierungen,Oberflächenbehandlungen
+Hansa-Holz Wilhelm Krüger GmbH,https://www.hansaholz.de,False,Holzwerkstoffe,Bodenbeläge,Bauelemente,Hobelmaschinen,Imprägnieranlagen,Abbundmaschinen,Hobel,Imprägnierungen,Abbundungen
+OPITZ HOLZBAU GmbH & Co. KG,https://opitz-holzbau.de,False,Holztafelbauelemente,Stahlleichtbau-Elemente,Nagelplattenkonstruktionen,Fräsmaschinen,Abbundmaschinen,Verbindungsmaschinen,Fräsen,Abbindungen,Verbindungstechniken
+GUTEX Holzfaserplattenwerk,https://gutex.de,False,Dämmstoffe,Werkzeuge,Zubehör,,,,Trocknungen,Pressen,Kleben
+HCR Holz Centrum Regensburg GmbH,https://www.hcr-holzcentrum.de,False,Schnitthölzer,Gartenhölzer,Verpackungshölzer,Sägen,Hobelmaschinen,Trocknungsanlagen,Sägen,Hobeln,Trocknen
+ABALON Hardwood Hessen GmbH,https://abalon-hardwood.com,False,,,,,,,,,
+MERKLE HOLZ-GmbH,https://www.merkleholz.de,False,Konstruktionsvollhölzer,Duo-/Trio-Balken,Brettschichthölzer,Hobelanlagen,Keilzinkanlagen,Abbundanlagen,Verleimungen,Hobelungen,Keilzinken
+MOCOPINUS GmbH & Co. KG,https://www.mocopinus.com/de/,False,Vollholzprofile,Holzfassaden,Terrassensysteme,,,,,,
+Dauerholz AG,http://www.dauerholz.de,False,,,,,,,,,
+Holzkontor Preussen GmbH,https://www.hk-preussen.de,False,Holzhackschnitzel,Entsorgungskonzepte,Logistikleistungen,,,,,,
+Holzwerke Weinzierl GmbH,https://www.holzwerke-weinzierl.de,False,Schnitthölzer,Pellets,Baustoffe Holz,Sägen,Pressen,Pelletspressen,Zersägen,Pressen,Pelletisieren
+Holzwerke van Roje GmbH & Co. KG,https://www.vanroje.de/de/,False,Schnitthölzer,Pellets,Brettsperrhölzer,Sägen,Hobeln,Trocknen,Trocknungen,Hobel,Sägen
+Theodor Herbert GmbH & Co. KG,https://www.herbert-motten.de,False,Holzpellets,Böden,Innentüren,,,,,,
+Holzwerke Pröbstl GmbH,https://www.proebstl-holz.de,False,Dreischichtplatten,Fünfschichtplatten,Leimholzplatten,Sägen,Schleifmaschinen,Profiliermaschinen,Sägen,Schleifen,Leimen
+Holzwerke Pfarrkirchen GmbH,https://hwpan.de,False,Konstruktionsvollhölzer,Flächigverleimte Produkte,Sonderprodukte,Sägen,Hobelmaschinen,Trocknungskammern,Zersägen,Hobeln,Trocknen
+Holz-Hauff GmbH,https://www.holz-hauff.de,False,Böden,Türen,Terrassendielen,,,,,,
+Adolf Münchinger,https://www.muenchinger-holz.de,False,Fensterkanteln,Massivhölzer,Pfosten-Riegel Konstruktionen,,,,Verleimungen,Sägen,Hobel
+Holz Ruser GmbH & Co KG,https://holzruser.de,False,Bauhölzer,Vorratshölzer,Konstruktionsvollhölzer,Sägen,Hobelmaschinen,Abbundanlagen,Sägen,Hobeln,Abbindungen
+HolzLand Becker GmbH,https://www.holzlandbecker.de,False,Bodenbeläge,Terrassenbeläge,Türen,Fräsmaschinen,Schleifmaschinen,Laserschneidmaschinen,Fräsen,Schleifen,Laserschneiden
+Hördener Holzwerk GmbH,https://hoerdener-holzwerk.de,False,Laminierter Holz,Massivholz,Fingerzinken-Bauholz,Fräsmaschinen,Leimpressen,Sägemaschinen,Fräsen,Verleimen,Sägen
+Holzindustrie Templin GmbH,https://hitemplin.com,False,Sägeprodukte,Forstdienstleistungen,Brennhölzer,Sägen,Trocknungsanlagen,Blockheizkraftwerke,Sägen,Trocknungen,Energieerzeugungen
+GELO Holzwerke GmbH,https://www.gelo.de,False,Bretter,Schalungen,Dielenböden,Sägewerke,Hobelmaschinen,Schneidemaschinen,sägen,planen,schneiden
+Westerwälder Holzpellets GmbH,https://www.ww-holzpellets.de,False,Holzpellets,Schnitthölzer,Hackschnitzel,Pelletpressen,Sägen,Hacker,Zersägen,Pressen,Hacken
+KRUG Holzsystembinder GmbH,https://krug-holzbau.de,True,Nagelplattenbinder,Brettschichtholzträger,Holztafelbau,Sägen,Fräsen,Bohren,Sägen,Fräsen,Bohren
+Bruno Reimann GmbH & Co. KG,https://www.holz-reimann.de,False,Holzpellets,Holzhackschnitzel,Kaminhölzer,,,,,,
+Ilim Nordic Timber GmbH & Co. KG,https://ilimtimber.com/de/,False,Nadelschnitthölzer,Holzbauprodukte,Leimbinder,Sägemaschinen,Hobelmaschinen,Leimpressen,Sägen,Hobel,Leime
+Josef Schmelter GmbH,https://www.schmelter.de,False,Balken,Brettschichthölzer,Holzpellets,Hobelmaschinen,Keilzinkmaschinen,Verleimmaschinen,Hobel,Keilzinken,Verleimungen
+Karl Ahmerkamp Vechta GmbH & Co. KG,https://www.holz-ahmerkamp.de,False,Holzwerkstoffe,Dämmstoffe,Türen,,,,,,

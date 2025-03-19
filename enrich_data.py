@@ -41,7 +41,7 @@ def main():
 
     # Read the CSV file
     try:
-        print(f"Reading data from {input_file}")
+        #print(f"Reading data from {input_file}")
         df = pd.read_csv(input_file, encoding="utf-8", skipinitialspace=True)
     except FileNotFoundError:
         print(f"Error: Input file '{input_file}' not found.")
@@ -58,7 +58,7 @@ def main():
         return
 
     # Create the Maschinen_Park_var column as integer
-    print("Creating Maschinen_Park_var column")
+    #print("Creating Maschinen_Park_var column")
     df["Maschinen_Park_var"] = df["Maschinen_Park_Size"].apply(extract_first_number)
 
     # Convert Maschinen_Park_var column to integer dtype (with NaN values preserved)
@@ -67,26 +67,23 @@ def main():
     ).astype("Int64")
 
     # Create the hours_of_saving column as integer, handling NaN values properly
-    print(f"Creating hours_of_saving column (Maschinen_Park_var × {HOURS_MULTIPLIER})")
+    #print(f"Creating hours_of_saving column (Maschinen_Park_var × {HOURS_MULTIPLIER})")
     # Use numpy to multiply, which handles Int64 NA values correctly
     df["hours_of_saving"] = df["Maschinen_Park_var"].mul(HOURS_MULTIPLIER)
 
     # Save the enriched data
     try:
-        print(f"Saving enriched data to {output_file}")
+        #print(f"Saving enriched data to {output_file}")
         df.to_csv(output_file, index=False, encoding="utf-8-sig")
-        print("Data enrichment completed successfully!")
+        print(f"Data enrichment {output_file} completed successfully!")
     except Exception as e:
         print(f"Error saving output file: {e}")
 
     # After saving, print a summary
     non_null_count = df["Maschinen_Park_var"].count()
     total_records = len(df)
-    print(f"Summary: Processed {total_records} records")
-    print(
-        f"         {non_null_count} records with valid Maschinen_Park_var values ({non_null_count / total_records:.1%})"
-    )
-
+    print(f" Processed {total_records} records")
+    
 
 if __name__ == "__main__":
     main()

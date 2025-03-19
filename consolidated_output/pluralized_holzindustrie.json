@@ -1,0 +1,879 @@
+[
+  {
+    "company_name": "MeisterWerke Schulte GmbH",
+    "company_url": "https://www.meisterwerke.com",
+    "products": [
+      "Bodenbeläge",
+      "Wandpaneele",
+      "Fußleisten"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "index": 0,
+    "error": true,
+    "tags": [
+      "error"
+    ],
+    "content": "'list' object has no attribute 'usage'"
+  },
+  {
+    "company_name": "Ziegler Holzindustrie GmbH & Co. KG",
+    "company_url": "https://www.ziegler.global",
+    "products": [
+      "Holzschnittprodukte",
+      "Holzbauprodukte",
+      "Dekoartikel"
+    ],
+    "machines": [
+      "Sägemaschinen",
+      "Hobelmaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobel",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Leistenfabrik Arnold Deppe GmbH & Co. KG",
+    "company_url": "https://deppe.de",
+    "products": [
+      "Massiv-/Ummantelungsleisten",
+      "Leimholzplatten",
+      "Möbelfertigteile"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Klebstoffauftragsmaschinen",
+      "Profiliermaschinen"
+    ],
+    "process_type": [
+      "Klebe",
+      "Profilierungen",
+      "Zuschnitte"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HWW GmbH & Co. Holzwerke KG",
+    "company_url": "https://www.hww.cc",
+    "products": [
+      "Schnitthölzer",
+      "Plattenwerkstoffe",
+      "Hobelwaren"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hermann Keller GmbH",
+    "company_url": "https://www.hermannkeller.de",
+    "products": [
+      "Schnitthölzer",
+      "Resthölzer",
+      "Rundhölzer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Trocknungen",
+      "Sägen",
+      "Hobel"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Deutsche Holzveredelung Schmeing",
+    "company_url": "https://www.dehonit.de",
+    "products": [
+      "Kunstharzpresshölzer",
+      "Tangentialringe",
+      "Technische Kunststoffe"
+    ],
+    "machines": [
+      "Pressen",
+      "Schleifen",
+      "Montagen"
+    ],
+    "process_type": [
+      "Pressen",
+      "Schleifen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Streit GmbH & Co. KG",
+    "company_url": "https://www.saegewerk-streit.de",
+    "products": [
+      "Rundholz",
+      "Schnittholz",
+      "Sägewerksnebenprodukte"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobel",
+      "Trockner"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Hobeln",
+      "Trocknen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzwerk Schilling GmbH & Co. KG",
+    "company_url": "http://www.schilling-holz.de",
+    "products": [
+      "Palettenzuschnitte",
+      "Schnitthölzer",
+      "Hobelwaren"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobelmaschinen",
+      "Palettenmaschinen"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Hobeln",
+      "Verpacken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Anreu GmbH",
+    "company_url": "https://www.anreu-paletten.de",
+    "products": [
+      "Paletten",
+      "Reparaturen",
+      "Sonderanfertigungen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HBV Holz- und Baustoff-Vertrieb",
+    "company_url": "https://www.hbv-wilhelmshaven.de",
+    "products": [
+      "Hölzer",
+      "Baustoffe",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "elka-Holzwerke GmbH",
+    "company_url": "https://www.elka-holzwerke.de",
+    "products": [
+      "Schnittholz",
+      "Spanplatten",
+      "Naturholzplatten"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobel",
+      "Schleifer"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobeln",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HOLZ BALK GmbH & Co. KG",
+    "company_url": "https://www.holz-balk.de",
+    "products": [
+      "Fenster",
+      "Böden",
+      "Plattenwerkstoffe"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bockelmann-Holz GmbH",
+    "company_url": "https://www.bockelmann-holz.de",
+    "products": [
+      "Hölzer",
+      "Energiewölzer",
+      "Holzschnitzel"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holz Schiller GmbH",
+    "company_url": "https://holz-schiller.de",
+    "products": [
+      "Fensterkantel",
+      "Leimhölzer",
+      "Haustürrohlinge"
+    ],
+    "machines": [
+      "Sägen",
+      "Leimpressen",
+      "Hobelmaschinen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Leimen",
+      "Hobeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SWL-Tischlerplatten Betriebs-GmbH",
+    "company_url": "https://www.s-w-l.com",
+    "products": [
+      "Holzwerkstoffe",
+      "Leicht-Werkstoffe",
+      "Spezialprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fertigungstechnologien",
+      "Handwerkliches Know-how",
+      "Laboreinrichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Pieper Holz GmbH",
+    "company_url": "https://www.pieperholz.de/de/",
+    "products": [
+      "Schnitthölzer",
+      "Gartenmöbel",
+      "Spielgeräte"
+    ],
+    "machines": [
+      "Sägemaschinen",
+      "Hobelmaschinen",
+      "Imprägniermaschinen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobeln",
+      "Imprägnieren"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Pfeifer Holz GmbH",
+    "company_url": "https://www.pfeifergroup.com/de/",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Baust Holzbetrieb GmbH",
+    "company_url": "https://www.baust-beckmann.de",
+    "products": [
+      "Verpackungshölzer",
+      "Verbauhölzer",
+      "Schnitthölzer"
+    ],
+    "machines": [
+      "Sägemaschinen",
+      "Hobelmaschinen",
+      "Pelletanlagen"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Hobeln",
+      "Pelletproduktionen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sonae Arauco Beeskow GmbH",
+    "company_url": "https://www.sonaearauco.com/de/",
+    "products": [
+      "Spanplatten",
+      "MDFs",
+      "OSBs"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "häussermann GmbH & Co. KG",
+    "company_url": "https://haeussermann.de",
+    "products": [
+      "Holzprofile",
+      "Holzoberflächen",
+      "Holzarten"
+    ],
+    "machines": [
+      "Hobelmaschinen",
+      "Lackieranlagen",
+      "Sägewerke"
+    ],
+    "process_type": [
+      "Hobel",
+      "Lackierungen",
+      "Sägen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gebr. Eigelshoven GmbH & Co. KG",
+    "company_url": "https://www.holz-eigelshoven.de/de/",
+    "products": [
+      "Schnitthölzer",
+      "Handelswaren",
+      "Abbundzentren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Veredelungen",
+      "Abbindungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Palettenfabrik Bassum GmbH",
+    "company_url": "https://bassum.com",
+    "products": [
+      "Paletten",
+      "Europaletten",
+      "Sonderpaletten"
+    ],
+    "machines": [
+      "Sondermaschinen",
+      "Produktionsmaschinen",
+      "Holzbearbeitungsmaschinen"
+    ],
+    "process_type": [
+      "Zerspanungen",
+      "Montierungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hansa-Holz Wilhelm Krüger GmbH",
+    "company_url": "https://www.hansaholz.de",
+    "products": [
+      "Holzwerkstoffe",
+      "Bodenbeläge",
+      "Bauelemente"
+    ],
+    "machines": [
+      "Hobelmaschinen",
+      "Imprägnieranlagen",
+      "Abbundmaschinen"
+    ],
+    "process_type": [
+      "Hobel",
+      "Imprägnierungen",
+      "Abbundungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "OPITZ HOLZBAU GmbH & Co. KG",
+    "company_url": "https://opitz-holzbau.de",
+    "products": [
+      "Holztafelbauelemente",
+      "Stahlleichtbau-Elemente",
+      "Nagelplattenkonstruktionen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Abbundmaschinen",
+      "Verbindungsmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Abbindungen",
+      "Verbindungstechniken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GUTEX Holzfaserplattenwerk",
+    "company_url": "https://gutex.de",
+    "products": [
+      "Dämmstoffe",
+      "Werkzeuge",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Trocknungen",
+      "Pressen",
+      "Kleben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HCR Holz Centrum Regensburg GmbH",
+    "company_url": "https://www.hcr-holzcentrum.de",
+    "products": [
+      "Schnitthölzer",
+      "Gartenhölzer",
+      "Verpackungshölzer"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobelmaschinen",
+      "Trocknungsanlagen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobeln",
+      "Trocknen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ABALON Hardwood Hessen GmbH",
+    "company_url": "https://abalon-hardwood.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MERKLE HOLZ-GmbH",
+    "company_url": "https://www.merkleholz.de",
+    "products": [
+      "Konstruktionsvollhölzer",
+      "Duo-/Trio-Balken",
+      "Brettschichthölzer"
+    ],
+    "machines": [
+      "Hobelanlagen",
+      "Keilzinkanlagen",
+      "Abbundanlagen"
+    ],
+    "process_type": [
+      "Verleimungen",
+      "Hobelungen",
+      "Keilzinken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MOCOPINUS GmbH & Co. KG",
+    "company_url": "https://www.mocopinus.com/de/",
+    "products": [
+      "Vollholzprofile",
+      "Holzfassaden",
+      "Terrassensysteme"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dauerholz AG",
+    "company_url": "http://www.dauerholz.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzkontor Preussen GmbH",
+    "company_url": "https://www.hk-preussen.de",
+    "products": [
+      "Holzhackschnitzel",
+      "Entsorgungskonzepte",
+      "Logistikleistungen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzwerke Weinzierl GmbH",
+    "company_url": "https://www.holzwerke-weinzierl.de",
+    "products": [
+      "Schnitthölzer",
+      "Pellets",
+      "Baustoffe Holz"
+    ],
+    "machines": [
+      "Sägen",
+      "Pressen",
+      "Pelletspressen"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Pressen",
+      "Pelletisieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzwerke van Roje GmbH & Co. KG",
+    "company_url": "https://www.vanroje.de/de/",
+    "products": [
+      "Schnitthölzer",
+      "Pellets",
+      "Brettsperrhölzer"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobeln",
+      "Trocknen"
+    ],
+    "process_type": [
+      "Trocknungen",
+      "Hobel",
+      "Sägen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Theodor Herbert GmbH & Co. KG",
+    "company_url": "https://www.herbert-motten.de",
+    "products": [
+      "Holzpellets",
+      "Böden",
+      "Innentüren"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzwerke Pröbstl GmbH",
+    "company_url": "https://www.proebstl-holz.de",
+    "products": [
+      "Dreischichtplatten",
+      "Fünfschichtplatten",
+      "Leimholzplatten"
+    ],
+    "machines": [
+      "Sägen",
+      "Schleifmaschinen",
+      "Profiliermaschinen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Schleifen",
+      "Leimen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzwerke Pfarrkirchen GmbH",
+    "company_url": "https://hwpan.de",
+    "products": [
+      "Konstruktionsvollhölzer",
+      "Flächigverleimte Produkte",
+      "Sonderprodukte"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobelmaschinen",
+      "Trocknungskammern"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Hobeln",
+      "Trocknen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holz-Hauff GmbH",
+    "company_url": "https://www.holz-hauff.de",
+    "products": [
+      "Böden",
+      "Türen",
+      "Terrassendielen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Adolf Münchinger",
+    "company_url": "https://www.muenchinger-holz.de",
+    "products": [
+      "Fensterkanteln",
+      "Massivhölzer",
+      "Pfosten-Riegel Konstruktionen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Verleimungen",
+      "Sägen",
+      "Hobel"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holz Ruser GmbH & Co KG",
+    "company_url": "https://holzruser.de",
+    "products": [
+      "Bauhölzer",
+      "Vorratshölzer",
+      "Konstruktionsvollhölzer"
+    ],
+    "machines": [
+      "Sägen",
+      "Hobelmaschinen",
+      "Abbundanlagen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobeln",
+      "Abbindungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HolzLand Becker GmbH",
+    "company_url": "https://www.holzlandbecker.de",
+    "products": [
+      "Bodenbeläge",
+      "Terrassenbeläge",
+      "Türen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hördener Holzwerk GmbH",
+    "company_url": "https://hoerdener-holzwerk.de",
+    "products": [
+      "Laminierter Holz",
+      "Massivholz",
+      "Fingerzinken-Bauholz"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Leimpressen",
+      "Sägemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Verleimen",
+      "Sägen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Holzindustrie Templin GmbH",
+    "company_url": "https://hitemplin.com",
+    "products": [
+      "Sägeprodukte",
+      "Forstdienstleistungen",
+      "Brennhölzer"
+    ],
+    "machines": [
+      "Sägen",
+      "Trocknungsanlagen",
+      "Blockheizkraftwerke"
+    ],
+    "process_type": [
+      "Sägen",
+      "Trocknungen",
+      "Energieerzeugungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GELO Holzwerke GmbH",
+    "company_url": "https://www.gelo.de",
+    "products": [
+      "Bretter",
+      "Schalungen",
+      "Dielenböden"
+    ],
+    "machines": [
+      "Sägewerke",
+      "Hobelmaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "sägen",
+      "planen",
+      "schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Westerwälder Holzpellets GmbH",
+    "company_url": "https://www.ww-holzpellets.de",
+    "products": [
+      "Holzpellets",
+      "Schnitthölzer",
+      "Hackschnitzel"
+    ],
+    "machines": [
+      "Pelletpressen",
+      "Sägen",
+      "Hacker"
+    ],
+    "process_type": [
+      "Zersägen",
+      "Pressen",
+      "Hacken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KRUG Holzsystembinder GmbH",
+    "company_url": "https://krug-holzbau.de",
+    "products": [
+      "Nagelplattenbinder",
+      "Brettschichtholzträger",
+      "Holztafelbau"
+    ],
+    "machines": [
+      "Sägen",
+      "Fräsen",
+      "Bohren"
+    ],
+    "process_type": [
+      "Sägen",
+      "Fräsen",
+      "Bohren"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Bruno Reimann GmbH & Co. KG",
+    "company_url": "https://www.holz-reimann.de",
+    "products": [
+      "Holzpellets",
+      "Holzhackschnitzel",
+      "Kaminhölzer"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ilim Nordic Timber GmbH & Co. KG",
+    "company_url": "https://ilimtimber.com/de/",
+    "products": [
+      "Nadelschnitthölzer",
+      "Holzbauprodukte",
+      "Leimbinder"
+    ],
+    "machines": [
+      "Sägemaschinen",
+      "Hobelmaschinen",
+      "Leimpressen"
+    ],
+    "process_type": [
+      "Sägen",
+      "Hobel",
+      "Leime"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Schmelter GmbH",
+    "company_url": "https://www.schmelter.de",
+    "products": [
+      "Balken",
+      "Brettschichthölzer",
+      "Holzpellets"
+    ],
+    "machines": [
+      "Hobelmaschinen",
+      "Keilzinkmaschinen",
+      "Verleimmaschinen"
+    ],
+    "process_type": [
+      "Hobel",
+      "Keilzinken",
+      "Verleimungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Ahmerkamp Vechta GmbH & Co. KG",
+    "company_url": "https://www.holz-ahmerkamp.de",
+    "products": [
+      "Holzwerkstoffe",
+      "Dämmstoffe",
+      "Türen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  }
+]

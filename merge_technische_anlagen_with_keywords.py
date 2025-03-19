@@ -79,9 +79,9 @@ def extract_and_log_domains(df, url_column_name, column_to_create='base_domain',
 
 def merge_csv_with_excel():
     # Define file paths
-    csv_path = 'consolidated_output/pluralized_federn.csv'
-    base_data_path = 'merged_federn_20250317.csv'  # Can be either .csv or .xlsx
-    output_path = 'final_export_federn.csv'
+    csv_path = 'consolidated_output/pluralized_holzindustrie.csv'
+    base_data_path = 'merged_holzindustrie_20250318.csv'  # Can be either .csv or .xlsx
+    output_path = 'final_export_holzindustrie.csv'
     
     # Read CSV file
     print(f"Reading CSV file: {csv_path}")

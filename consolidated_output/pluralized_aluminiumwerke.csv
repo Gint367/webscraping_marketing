@@ -1,0 +1,11 @@
+﻿Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3
+MWS Friedrichshafen GmbH,https://www.mws.eu,False,Sandgüsse,Kokillengüsse,Niederdruckgüsse,,,,Gießens,Mechanische Bearbeitungen,
+BAGR Berliner Aluminiumwerk GmbH,https://www.bagr.de,False,Aluminium-Gussblöcke,Walzbarren,Sekundäraluminium,Schmelzöfen,Gießöfen,Porössteine,Schmelzen,Gießen,Raffinieren
+FERTINGER TUBES GmbH,https://fertingertubes.de,False,Aluminiumrohre,Wärmetauscher,Kühlsysteme,Schweißmaschinen,Schneidmaschinen,Biegemaschinen,Schweißen,Schneiden,Biegen
+COIL GmbH,https://www.coil.be,False,Anodisierte,ALOXIDE,kontinuierliche Coil-Anodisierung,,,,Beschichtungen,Kontinuierliche Eloxierungen,Eloxierungen
+Richter Aluminium GmbH,https://www.richter-aluminium.com,False,Strangpressprofile,Aluminiumprofile,Oberflächenveredelungen,Strangpressen,Weiterverarbeitungsmaschinen,Oberflächenbehandlungsmaschinen,Strangpressen,Weiterverarbeitungen,Oberflächenbehandlungen
+Hydro Aluminium Gießerei Rackwitz GmbH,https://www.hydro.com/de/,False,Aluminiumprofile,Low-Carbon Aluminium,Recycled Aluminium,Extrusionsmaschinen,Fräsmaschinen,Oberflächenbehandlungsmaschinen,Extrudierungen,Fräsungen,Oberflächenbehandlungen
+Aluminium-Werke Wutöschingen AG & Co. KG,https://www.aww.de,False,Profile,Butzen,Verpackungen,Strangpressen,Oberflächenbehandlungsmaschinen,Mechanische Bearbeitungsmaschinen,Strangpressen,Oberflächenbehandlungen,Mechanische Bearbeitungen
+Rheinfelden Alloys GmbH & Co. KG,https://rheinfelden-alloys.eu,False,Legierungen,Castasile,Anticorodale,,,,,,
+HMT Höfer Metall Technik GmbH & Co. KG,https://www.hoefer-hmt.de,True,Aluminiumprofile,Aluminiumlegierungen,Komponenten,Strangpressen,CNC-Bearbeitungszentren,Biegemaschinen,Strangpressen,CNC-Bearbeitungen,Biegearbeiten
+BE-Aluschmiede GmbH,https://www.bons-evers.com/de/,False,Warmpressteile,Aluminiumteile,Messingteile,Pressen,Bearbeitungsmaschinen,Montagemaschinen,Pressen,Bearbeitungen,Montagen

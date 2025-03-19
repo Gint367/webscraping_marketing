@@ -118,11 +118,11 @@ def ensure_output_directory(directory="llm_extracted_data"):
 dispatcher = MemoryAdaptiveDispatcher(
             memory_threshold_percent=70.0,
             check_interval=2.0,
-            max_session_permit=5,
+            max_session_permit=3,
         )
 rate_limiter = RateLimiter(
-    base_delay=(5, 30),
-    max_delay=30,
+    base_delay=(30, 60),
+    max_delay=60,
     max_retries=3,
     rate_limit_codes=[429, 503]
 )
