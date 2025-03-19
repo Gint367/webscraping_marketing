@@ -347,6 +347,7 @@ def save_merged_data(merged_df, csv_file_path='machine_report.csv'):
         #print(f"Extracted company name: {company_name}")
     
     if not company_name:
+        print(f"Warning: Could not extract company name from filename '{base_filename}'.")
         # Fallback to generic name if extraction failed
         output_file_path = f"merged_data_{current_date}.csv"
     else:

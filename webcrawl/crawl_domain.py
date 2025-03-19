@@ -80,13 +80,44 @@ def disable_colorama() -> None:
         pass
 
 # Add a function to parse command line arguments
+def extract_name_from_input_file(input_file_path: str) -> str:
+    """
+    Extract a meaningful name from the input file path following the pattern:
+    merged_NAME_YYYYMMDD.* -> NAME
+    
+    Args:
+        input_file_path: Path to the input file
+        
+    Returns:
+        str: Extracted name or 'default' if pattern doesn't match
+    """
+    # Get just the filename without path
+    filename = os.path.basename(input_file_path)
+    
+    # Check if it follows the merged_NAME_DATE pattern
+    if filename.startswith('merged_'):
+        # Remove the 'merged_' prefix
+        name_with_date = filename[len('merged_'):]
+        
+        # Split by underscore to separate name and date
+        parts = name_with_date.split('_')
+        
+        if len(parts) >= 1:
+            # Extract just the name part (before any date)
+            # If there's a date suffix, it'll be in the last part
+            name = parts[0]
+            return name
+    
+    # If we didn't find a match or the format is different, return 'default'
+    return 'default'
+
 def parse_args() -> argparse.Namespace:
     """
     Parse command line arguments for the crawler.
     
     Defines and processes the following arguments:
     - excel/e: Path to Excel file containing URLs and company names (required)
-    - output/o: Output directory for aggregated content (required)
+    - output/o: Output directory for aggregated content (optional, defaults to name derived from input file)
     - max-links: Maximum number of internal links to crawl per domain (default: 60)
     
     Returns:
@@ -106,8 +137,8 @@ def parse_args() -> argparse.Namespace:
         "--output", 
         "-o", 
         type=str, 
-        required=True,
-        help="Output directory for aggregated content"
+        required=False,
+        help="Output directory for aggregated content (defaults to name derived from input file)"
     )
     
     parser.add_argument(
@@ -653,7 +684,7 @@ async def crawl_domain(
     
     # Create crawler configuration for main URL - complete crawl
     main_crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -664,7 +695,7 @@ async def crawl_domain(
     
     # Create crawler configuration for internal links - body only
     body_only_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -844,7 +875,16 @@ async def main() -> None:
     
     # Use arguments for Excel file and output directory
     excel_file = args.excel
-    output_dir = args.output
+    
+    # If output directory is not specified, create one based on the input filename
+    if args.output:
+        output_dir = args.output
+    else:
+        # Extract name from input file
+        extracted_name = extract_name_from_input_file(excel_file)
+        output_dir = f"domain_content_{extracted_name}"
+        print(f"No output directory specified. Using '{output_dir}' based on input filename.")
+    
     max_links = args.max_links
     
     # You can either use hardcoded domains or read from Excel
@@ -870,7 +910,8 @@ async def main() -> None:
         urls_and_companies = [(url, company) for sublist in domains for url, company in sublist]
     
     # Create output directory from arguments
-    output_dir = args.output
+    # This line can be removed since we've already set output_dir above
+    # output_dir = args.output
     
     # Crawl each domain
     results = []
