@@ -94,6 +94,19 @@ Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifiz
 - Leiterplattenfertigung  
 - Löten  
 - Spritzguss
+- Spinnen  
+- Weben  
+- Stricken  
+- Färben  
+- Bedrucken  
+- Beschichten  
+- Veredeln  
+- Schneiden  
+- Nähen  
+- Sticken  
+- Waschen  
+- Trocknen  
+- Bügeln
 """
 
 def ensure_output_directory(directory="llm_extracted_data"):
