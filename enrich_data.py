@@ -58,7 +58,6 @@ def main():
         return
 
     # Create the Maschinen_Park_var column as integer
-    #print("Creating Maschinen_Park_var column")
     df["Maschinen_Park_var"] = df["Maschinen_Park_Size"].apply(extract_first_number)
 
     # Convert Maschinen_Park_var column to integer dtype (with NaN values preserved)
@@ -67,13 +66,11 @@ def main():
     ).astype("Int64")
 
     # Create the hours_of_saving column as integer, handling NaN values properly
-    #print(f"Creating hours_of_saving column (Maschinen_Park_var × {HOURS_MULTIPLIER})")
     # Use numpy to multiply, which handles Int64 NA values correctly
     df["hours_of_saving"] = df["Maschinen_Park_var"].mul(HOURS_MULTIPLIER)
 
     # Save the enriched data
     try:
-        #print(f"Saving enriched data to {output_file}")
         df.to_csv(output_file, index=False, encoding="utf-8-sig")
         print(f"Data enrichment {output_file} completed successfully!")
     except Exception as e:

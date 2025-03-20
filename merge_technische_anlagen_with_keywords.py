@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+import argparse
+import re
 from urllib.parse import urlparse
 
 def clean_trailing_symbols(text):
@@ -77,19 +79,62 @@ def extract_and_log_domains(df, url_column_name, column_to_create='base_domain',
         df[column_to_create] = None
         return df
 
-def merge_csv_with_excel():
-    # Define file paths
-    csv_path = 'consolidated_output/pluralized_holzindustrie.csv'
-    base_data_path = 'merged_holzindustrie_20250318.csv'  # Can be either .csv or .xlsx
-    output_path = 'final_export_holzindustrie.csv'
+def extract_industry_from_filename(filename):
+    """
+    Extract industry name from a CSV filename.
+    Expected pattern: something_<industry>.csv or machine_report_<industry>_date.csv
+    
+    Args:
+        filename: The filename to extract industry from
+        
+    Returns:
+        The extracted industry name or None if no match found
+    """
+    # Try to match pattern like pluralized_<industry>.csv
+    match = re.search(r'pluralized_([a-zA-Z0-9-]+)\.csv', filename)
+    if match:
+        return match.group(1)
+    
+    # Try to extract any word between underscores before .csv
+    match = re.search(r'_([a-zA-Z0-9-]+)(?:_[^_]+)?\.csv$', filename)
+    if match:
+        return match.group(1)
+    
+    return None
+
+def generate_output_path(input_csv_path):
+    """
+    Generate output path based on input CSV filename, saving to the current working directory.
+    
+    Args:
+        input_csv_path: Path to the input CSV file
+        
+    Returns:
+        Generated output path as final_export_<industry>.csv in the current working directory
+    """
+    filename = os.path.basename(input_csv_path)
+    industry = extract_industry_from_filename(filename)
+    
+    if industry:
+        # Create output path in the current working directory
+        output_filename = f"final_export_{industry}.csv"
+        return output_filename
+    else:
+        # Fallback to a default name if we couldn't extract industry
+        return "final_export_merged.csv"
+
+def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
+    # Generate output path if not provided
+    if output_path is None:
+        output_path = generate_output_path(csv_path)
+        print(f"Output path not provided. Automatically generated: {output_path}")
     
     # Read CSV file
-    print(f"Reading CSV file: {csv_path}")
     csv_data = pd.read_csv(csv_path, encoding='utf-8')
     print(f"CSV data loaded with {len(csv_data)} rows")
     
     # Read base data file (Excel or CSV)
-    print(f"Reading base data file: {base_data_path}")
+    #print(f"Reading base data file: {base_data_path}")
     file_extension = os.path.splitext(base_data_path)[1].lower()
     
     if file_extension == '.xlsx' or file_extension == '.xls':
@@ -171,53 +216,71 @@ def merge_csv_with_excel():
     name_matched = merged_data['technische Anlagen und Maschinen 2021/22'].notna().sum()
     print(f"Matched {name_matched} companies by name")
     
-    # Second matching attempt: by URL for companies not matched by name
-    print("Second matching attempt: by URL for unmatched companies...")
+    # Check for unmatched companies after first pass
     unmatched_idx = merged_data['technische Anlagen und Maschinen 2021/22'].isna()
-    unmatched_data = merged_data[unmatched_idx]
+    unmatched_count = unmatched_idx.sum()
     
-    # Copy the filtered_data DataFrame to avoid modifying the original
-    remaining_data = filtered_data.copy()
-    url_matches = 0
-    duplicate_domain_count = 0
-    
-    # Create a copy of merged_data for updating
-    merged_data_updated = merged_data.copy()
-    
-    # For each unmatched row in the CSV data, try to find a match by URL
-    for idx, row in unmatched_data.iterrows():
-        csv_domain = row['base_domain_x'] # base_domain_x is from when pandas merges DataFrames with same column names.
-        if pd.notna(csv_domain) and csv_domain:
-            # Find matching rows in the base data by domain
-            matches = remaining_data[remaining_data['base_domain'] == csv_domain]
-            
-            if not matches.empty:
-                # Check if multiple companies share the same domain
-                if len(matches) > 1:
-                    duplicate_domain_count += 1
-                    print(f"WARNING: Multiple matches found for domain '{csv_domain}':")
-                    for i, match_row in matches.iterrows():
-                        print(f"  - {match_row['Firma1']} (from {match_row['Ort']})")
-                    print(f"  Taking the first match: '{matches.iloc[0]['Firma1']}'")
+    if unmatched_count > 0:
+        print(f"\nFound {unmatched_count} unmatched companies after name matching:")
+        unmatched_data = merged_data[unmatched_idx]
+        
+        # Print information about unmatched companies
+        for idx, row in unmatched_data.iterrows():
+            company_name = row['Company name'] if 'Company name' in row else 'N/A'
+            url = row[url_column] if url_column and url_column in row else 'N/A'
+            domain = row['base_domain_x'] if 'base_domain_x' in row else 'N/A'
+            print(f"  - Unmatched: Company: '{company_name}', URL: '{url}', Domain: '{domain}'")
+        
+        # Second matching attempt: by URL for companies not matched by name
+        print("\nSecond matching attempt: by URL for unmatched companies...")
+        
+        # Copy the filtered_data DataFrame to avoid modifying the original
+        remaining_data = filtered_data.copy()
+        url_matches = 0
+        duplicate_domain_count = 0
+        
+        # Create a copy of merged_data for updating
+        merged_data_updated = merged_data.copy()
+        
+        # For each unmatched row in the CSV data, try to find a match by URL
+        for idx, row in unmatched_data.iterrows():
+            csv_domain = row['base_domain_x'] # base_domain_x is from when pandas merges DataFrames with same column names.
+            if pd.notna(csv_domain) and csv_domain:
+                # Find matching rows in the base data by domain
+                matches = remaining_data[remaining_data['base_domain'] == csv_domain]
                 
-                # Take the first match (we can enhance this later if needed)
-                match = matches.iloc[0]
-                
-                # Print match details for debugging
-                print(f"URL match found: CSV domain '{csv_domain}' -> Base data company '{match['Firma1']}' (domain: {match['base_domain']})")
-                
-                # Update the merged data with the match
-                for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size']:
-                    if col in match:
-                        merged_data_updated.at[idx, col] = match[col]
-                
-                # Remove the used match from remaining_data to prevent duplicate matches
-                remaining_data = remaining_data[remaining_data.index != match.name]
-                url_matches += 1
-    
-    print(f"Additionally matched {url_matches} companies by URL")
-    if duplicate_domain_count > 0:
-        print(f"WARNING: Found {duplicate_domain_count} domains with multiple company matches")
+                if not matches.empty:
+                    # Check if multiple companies share the same domain
+                    if len(matches) > 1:
+                        duplicate_domain_count += 1
+                        print(f"WARNING: Multiple matches found for domain '{csv_domain}':")
+                        for i, match_row in matches.iterrows():
+                            print(f"  - {match_row['Firma1']} (from {match_row['Ort']})")
+                        print(f"  Taking the first match: '{matches.iloc[0]['Firma1']}'")
+                    
+                    # Take the first match (we can enhance this later if needed)
+                    match = matches.iloc[0]
+                    
+                    # Print match details for debugging
+                    print(f"URL match found: CSV domain '{csv_domain}' -> Base data company '{match['Firma1']}' (domain: {match['base_domain']})")
+                    
+                    # Update the merged data with the match
+                    for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size']:
+                        if col in match:
+                            merged_data_updated.at[idx, col] = match[col]
+                    
+                    # Remove the used match from remaining_data to prevent duplicate matches
+                    remaining_data = remaining_data[remaining_data.index != match.name]
+                    url_matches += 1
+        
+        # Update merged_data with url-matched data
+        merged_data = merged_data_updated
+        print(f"Additionally matched {url_matches} companies by URL")
+        if duplicate_domain_count > 0:
+            print(f"WARNING: Found {duplicate_domain_count} domains with multiple company matches")
+    else:
+        print("All companies were successfully matched by name. Skipping URL matching.")
+        url_matches = 0
     
     # Drop the temporary columns
     drop_cols = ['company_name_lower', 'firma1_lower', 'base_domain','Firma1','URL',"base_domain_x", "base_domain_y"]
@@ -228,8 +291,14 @@ def merge_csv_with_excel():
     
     # Save the merged data to a new CSV file with UTF-8-BOM encoding
     print(f"Saving merged data to: {output_path}")
-    merged_data.to_csv(output_path, encoding='utf-8-sig', index=False,  sep=',')
-    print(f"Successfully saved {len(merged_data)} rows to {output_path}")
+    # Check if output_path already has .csv extension
+    if not output_path.lower().endswith('.csv'):
+        output_file = f"{output_path}.csv"
+    else:
+        output_file = output_path
+        
+    merged_data.to_csv(output_file, encoding='utf-8-sig', index=False, sep=',')
+    print(f"Successfully saved {len(merged_data)} rows to {output_file}")
     
     # Print statistics
     total_matched_rows = merged_data['technische Anlagen und Maschinen 2021/22'].notna().sum()
@@ -243,4 +312,16 @@ def merge_csv_with_excel():
         print(unmatched_rows)
     
 if __name__ == "__main__":
-    merge_csv_with_excel()
+    # Set up command-line argument parsing
+    parser = argparse.ArgumentParser(description='Merge CSV with Excel/CSV data containing technical equipment information.')
+    
+    # Add mandatory arguments
+    parser.add_argument('--csv', required=True, help='Path to the CSV file with company data')
+    parser.add_argument('--base', required=True, help='Path to the base data file (CSV or Excel) with technical equipment information')
+    parser.add_argument('--output', required=False, help='Path where the merged output file will be saved. If not provided, a name will be generated based on the input CSV')
+    
+    # Parse arguments
+    args = parser.parse_args()
+    
+    # Call the merge function with the provided arguments
+    merge_csv_with_excel(args.csv, args.base, args.output)

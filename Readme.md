@@ -92,7 +92,15 @@ python consolidate.py <input_folder>
 - **Output:** Consolidated JSON
 - **Notes:** Combines multiple JSON entries into a single entry per company. Deduplicates fields, chooses longest company name, and prioritizes words containing 'machine'.
 
-### Step 5: Convert to CSV
+### Step 5: Populate process_type
+```bash
+python fill_process_type.py <input_file> --output-dir [output_directory]
+```
+- **Input:** JSON file with pluralized product data (e.g., pluralized_aluminiumwerke.json)
+- **Output:** JSON file with prefixed name (e.g., v2_pluralized_aluminiumwerke.json)
+- **Notes:** Uses a large language model (Amazon Nova Pro) to generate process_type values for companies based on their products and industry category. Fills empty process_type fields and fixes conjugation issues in existing entries. Process types are output in German plural form. Features exponential backoff for API rate limiting.
+
+### Step 6: Convert to CSV
 ```bash
 python convert_to_csv.py <input_json>
 ```
@@ -105,10 +113,13 @@ python convert_to_csv.py <input_json>
 
 ### Merge Technical Equipment with Keywords
 ```bash
-python merge_technische_anlagen_with_keywords.py
+python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_data_file> --output [final_export_X.csv]
 ```
-- **Input:** Final CSV and Excel with technical equipment data. EDIT IN FILES!
-- **Output:** Merged dataset
+- **Input:** 
+  - `--csv`: Path to the CSV file with company data
+  - `--base`: Path to the base data file (CSV or Excel) with technical equipment information
+  - `--output`: (Optional) Path where the merged output file will be saved
+- **Output:** Merged dataset as specified in the output path
 - **Notes:** Merges the final CSV with Excel data containing "technische anlagen und maschinen". Attempts URL matching when company names don't match directly.
 
 ### Enrich Data
@@ -118,3 +129,20 @@ python enrich_data.py
 - **Input:** Merged dataset
 - **Output:** Enhanced dataset
 - **Notes:** Adds new columns "Maschinen_Park_var" & "hours_of_saving" for email marketing purposes.
+
+### Monitor Pipeline Progress
+```bash
+python monitor_progress.py
+```
+- **Input:** None (automatically detects files in the current directory)
+- **Output:** Console report showing progress through various pipeline stages
+- **Notes:** Provides a comprehensive overview of the data processing pipeline status for each category. Shows counts and percentages for each step including:
+  - Cleaned companies
+  - Machine reports extraction
+  - Merged files
+  - Domain content extraction
+  - LLM processing (with error rates)
+  - Pluralized keyword files
+  - Consolidated output status
+  - Final export and data enrichment status
+- **Usage:** Run from the main directory containing all the pipeline output files to get a quick status overview

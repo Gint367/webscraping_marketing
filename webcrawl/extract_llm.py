@@ -14,7 +14,7 @@ class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
     company_url: str = Field(..., description="URL des Unternehmens.")
     products: List[str] = Field(..., description="Produkte, die das Unternehmen vertreibt.(in Pluralform)",
-                                min_items=1, max_items=3)
+                                min_items=1, max_items=5)
     machines: List[str] = Field(..., description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
                                 max_items=5)
     process_type: List[str] = Field(..., description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
@@ -28,7 +28,7 @@ Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifiz
 ## Informationen, die gesammelt werden müssen
 - **company_name:** Namen des Unternehmens (in zeile **"Company Name: "**, legale Bezeichnung, schön formatiert)  
 - **company_url:** URL des Unternehmens (in zeile **"Main URL: "**)  
-- **products:** Identifiziert die drei bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet (Schreiben in der Pluralform).  
+- **products:** Identifiziert die fünf bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet (Schreiben in der Pluralform).  
 - Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.  
 - **machines:** Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (Schreiben in der Pluralform). 
 - Erfassen Sie bei machines nur Geräte für die interne Produktion, keine zum Verkauf angebotenen Maschinen.
@@ -42,9 +42,9 @@ Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifiz
 - Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. **"Transport", "Logistik"**), werden nicht als relevante Keywords aufgenommen (Schreiben in der Pluralform).  
 - **lohnfertigung:** Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
 - Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
-- schreibe nur 3 Einträge aus jeder Kategorie.
+- schreibe nur max 5 Einträge aus jeder Kategorie.
 - Jeder Eintrag muss ein einzelnes Wort sein, keine Komposita mit Trennzeichen oder Konjunktionen.
-- Falls weniger als drei Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
+- Falls weniger als fünf Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
 - **Strikte Einhaltung der Datenwahrheit**: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.  
 
 ### **Typische Produktionsprozesse**  

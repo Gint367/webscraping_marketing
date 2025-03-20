@@ -184,7 +184,7 @@ def main():
     parser.add_argument('--temperatures', type=float, nargs='+', default=DEFAULT_TEMPERATURES, 
                         help='List of temperature values for each retry attempt (default: 0.5 0.7 1.0)')
     parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                        default='INFO', help='Set the logging level')
+                        default='WARNING', help='Set the logging level')
     
     args = parser.parse_args()
     

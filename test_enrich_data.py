@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, call
 import pandas as pd
 import io
 import os
@@ -38,25 +38,45 @@ class TestEnrichData(unittest.TestCase):
         mock_read_csv.return_value = df
         
         # Execute
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
-            main()
+        main()
         
         # Assert
-        self.assertTrue(mock_read_csv.called)
-        self.assertTrue(mock_to_csv.called)
+        # Verify the input file was read
+        mock_read_csv.assert_called_once_with('test.csv', encoding='utf-8', skipinitialspace=True)
         
-        # Check if correct file path was used for output
+        # Verify the output file path is correct
         output_path = os.path.join(os.path.dirname('test.csv'), 'enriched_test.csv')
-        mock_to_csv.assert_called_with(output_path, index=False, encoding='utf-8-sig')
         
-        # Check stdout for expected output messages
-        output = fake_out.getvalue()
-        self.assertIn("Reading data from test.csv", output)
-        self.assertIn("Creating Maschinen_Park_var column", output)
-        self.assertIn(f"Creating hours_of_saving column (Maschinen_Park_var × {HOURS_MULTIPLIER})", output)
-        self.assertIn("Data enrichment completed successfully", output)
-        self.assertIn("Processed 4 records", output)
-        self.assertIn("3 records with valid Maschinen_Park_var values (75.0%)", output)
+        # Verify to_csv was called with correct parameters
+        mock_to_csv.assert_called_once_with(output_path, index=False, encoding='utf-8-sig')
+        
+        # Verify the DataFrame has the expected columns
+        self.assertTrue('Maschinen_Park_var' in df.columns)
+        self.assertTrue('hours_of_saving' in df.columns)
+        
+        # Verify the expected data transformations were applied - use values for comparison
+        expected_values = [15, 30, None, 10]
+        actual_values = df['Maschinen_Park_var'].tolist()
+        for i, (expected, actual) in enumerate(zip(expected_values, actual_values)):
+            if expected is None:
+                # Check for pandas NA value (pd.NA or pd.isna)
+                self.assertTrue(pd.isna(actual), f"Value at index {i} should be NA/None but got {actual}")
+            else:
+                self.assertEqual(expected, actual, f"Mismatch at index {i}")
+        
+        # Verify hours_of_saving calculation - use values for comparison
+        for i in range(len(df)):
+            if not pd.isna(df['Maschinen_Park_var'].iloc[i]):
+                expected = df['Maschinen_Park_var'].iloc[i] * HOURS_MULTIPLIER
+                actual = df['hours_of_saving'].iloc[i]
+                self.assertEqual(expected, actual, f"Hours calc mismatch at index {i}")
+            else:
+                self.assertTrue(pd.isna(df['hours_of_saving'].iloc[i]), 
+                               f"Expected NA at index {i} but got {df['hours_of_saving'].iloc[i]}")
+        
+        # Verify the number of valid records
+        valid_records = df['Maschinen_Park_var'].count()
+        self.assertEqual(valid_records, 3)
     
     @patch('pandas.read_csv')
     @patch('argparse.ArgumentParser.parse_args')

@@ -148,6 +148,11 @@ class TestMergeCsvWithExcel(unittest.TestCase):
             'OtherCol': ['X', 'Y', 'Z', 'W']
         })
         
+        # Mock file paths
+        self.csv_path = 'consolidated_output/pluralized_federn.csv'
+        self.base_data_path = 'merged_federn_20250317.csv'
+        self.output_path = 'final_export_federn'
+        
         # Expected merged data for name matches
         self.expected_name_matches = pd.DataFrame({
             'Company name': ['Company A', 'Company B'],
@@ -171,14 +176,14 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         mock_read_excel.return_value = self.base_data
         mock_splitext.return_value = ('base_path', '.xlsx')
         
-        # Call the function
-        merge_csv_with_excel()
+        # Call the function with required parameters
+        merge_csv_with_excel(self.csv_path, self.base_data_path, self.output_path)
         
         # Verify the CSV was read
-        mock_read_csv.assert_called_once_with('consolidated_output/pluralized_federn.csv', encoding='utf-8')
+        mock_read_csv.assert_called_once_with(self.csv_path, encoding='utf-8')
         
         # Verify Excel was read
-        mock_read_excel.assert_called_once_with('merged_federn_20250317.csv', sheet_name=0)
+        mock_read_excel.assert_called_once_with(self.base_data_path, sheet_name=0)
         
         # Verify the output was written
         mock_to_csv.assert_called_once()
@@ -202,12 +207,12 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         mock_read_csv.side_effect = [self.csv_data, self.base_data]
         mock_splitext.return_value = ('base_path', '.csv')
         
-        # Call the function
-        merge_csv_with_excel()
+        # Call the function with required parameters
+        merge_csv_with_excel(self.csv_path, self.base_data_path, self.output_path)
         
         # Verify the CSVs were read
-        mock_read_csv.assert_any_call('consolidated_output/pluralized_federn.csv', encoding='utf-8')
-        mock_read_csv.assert_any_call('merged_federn_20250317.csv', encoding='utf-8')
+        mock_read_csv.assert_any_call(self.csv_path, encoding='utf-8')
+        mock_read_csv.assert_any_call(self.base_data_path, encoding='utf-8')
         
         # Verify Excel was NOT read
         mock_read_excel.assert_not_called()
@@ -225,7 +230,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         
         # The function should raise a ValueError for unsupported formats
         with self.assertRaises(ValueError) as context:
-            merge_csv_with_excel()
+            merge_csv_with_excel(self.csv_path, self.base_data_path, self.output_path)
         
         self.assertIn("Unsupported file format: .txt", str(context.exception))
 
@@ -272,8 +277,8 @@ class TestMergeCsvWithExcel(unittest.TestCase):
             mock_read_csv.side_effect = [real_csv_data, real_base_data]
             mock_splitext.return_value = ('base_path', '.csv')
             
-            # Call the function
-            merge_csv_with_excel()
+            # Call the function with required parameters
+            merge_csv_with_excel(self.csv_path, self.base_data_path, self.output_path)
             
             # Verify some kind of merge/combination operation was called
             self.assertTrue(merge_called, "No DataFrame combination operation (merge or concat) was detected")

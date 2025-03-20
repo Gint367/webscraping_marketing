@@ -3,6 +3,10 @@ import glob
 import pandas as pd
 import re
 import json
+from colorama import Fore, Style, init
+
+# Initialize colorama
+init()
 
 def get_csv_files():
     """Find all company_*.csv files excluding those with _output in name"""
@@ -135,6 +139,45 @@ def count_pluralized_files(category):
     
     return total_files
 
+def check_consolidated_output(category):
+    """Check if consolidated_output folder has JSON and CSV files for the category"""
+    if not os.path.exists('consolidated_output') or not os.path.isdir('consolidated_output'):
+        return False, False
+    
+    # Check for JSON files matching the category
+    json_files = glob.glob(f'consolidated_output/*{category}*.json')
+    has_json = len(json_files) > 0
+    
+    # Check for CSV files matching the category
+    csv_files = glob.glob(f'consolidated_output/*{category}*.csv')
+    has_csv = len(csv_files) > 0
+    
+    return has_json, has_csv
+
+def check_final_export(category):
+    """Check if final_export_<category>.csv file exists and count rows"""
+    export_files = glob.glob(f'final_export_{category}.csv')
+    if not export_files:
+        return 0, False
+    
+    try:
+        df = pd.read_csv(export_files[0])
+        return len(df), True
+    except Exception:
+        return 0, False
+
+def check_enriched_data(category):
+    """Check if enriched_final_export_<category>.csv file exists and count rows"""
+    enriched_files = glob.glob(f'enriched_final_export_{category}.csv')
+    if not enriched_files:
+        return 0, False
+    
+    try:
+        df = pd.read_csv(enriched_files[0])
+        return len(df), True
+    except Exception:
+        return 0, False
+
 def main():
     print("Monitoring Progress Report\n" + "-" * 50)
     
@@ -172,8 +215,17 @@ def main():
         # Count LLM extracted files and errors
         llm_file_count, llm_error_count = count_llm_files_and_errors(category)
         
-        # Count pluralized files
+        # Count pluralize_with_llm.py files
         pluralized_file_count = count_pluralized_files(category)
+        
+        # Check consolidate.py & convert_to_csv.py output files
+        has_json, has_csv = check_consolidated_output(category)
+        
+        # Check final export files
+        final_export_count, has_final_export = check_final_export(category)
+        
+        # Check enriched data files
+        enriched_count, has_enriched = check_enriched_data(category)
         
         # Calculate progress percentages
         progress_percent = (total_processed / company_count * 100) if company_count > 0 else 0
@@ -183,6 +235,8 @@ def main():
         llm_percent = (llm_file_count / domain_content_count * 100) if domain_content_count > 0 else 0
         llm_error_percent = (llm_error_count / llm_file_count * 100) if llm_file_count > 0 else 0
         pluralized_percent = (pluralized_file_count / llm_file_count * 100) if llm_file_count > 0 else 0
+        final_export_percent = (final_export_count / merged_file_count * 100) if merged_file_count > 0 and has_final_export else 0
+        enriched_percent = (enriched_count / final_export_count * 100) if final_export_count > 0 and has_enriched else 0
         
         # Store the results
         results.append({
@@ -202,7 +256,15 @@ def main():
             'llm_percent': llm_percent,
             'llm_error_percent': llm_error_percent,
             'pluralized_file_count': pluralized_file_count,
-            'pluralized_percent': pluralized_percent
+            'pluralized_percent': pluralized_percent,
+            'has_consolidated_json': has_json,
+            'has_consolidated_csv': has_csv,
+            'final_export_count': final_export_count,
+            'has_final_export': has_final_export,
+            'final_export_percent': final_export_percent,
+            'enriched_count': enriched_count,
+            'has_enriched': has_enriched,
+            'enriched_percent': enriched_percent
         })
     
     # Sort results by category alphabetically
@@ -232,17 +294,40 @@ def main():
         llm_info = ""
         pluralized_info = ""
         if result['domain_content_count'] > 0:
-            domain_content_info = f"  Domain Content: {result['domain_content_count']}/{result['merged_file_count']} ({result['domain_content_percent']:.2f}%)"
+            domain_content_info = f"  Crawled: {result['domain_content_count']}/{result['merged_file_count']} ({result['domain_content_percent']:.2f}%)"
             
             if result['llm_file_count'] > 0:
-                llm_info = f" | LLM: {result['llm_file_count']}/{result['domain_content_count']} ({result['llm_percent']:.2f}%) (error: {result['llm_error_count']} ({result['llm_error_percent']:.2f}%))"
+                llm_info = f" | LLM: {result['llm_file_count']}/{result['domain_content_count']} ({result['llm_percent']:.2f}%) (Err: {result['llm_error_count']} ({result['llm_error_percent']:.2f}%))"
                 
                 if result['pluralized_file_count'] > 0:
                     pluralized_info = f" | Pluralized: {result['pluralized_file_count']}/{result['llm_file_count']} ({result['pluralized_percent']:.2f}%)"
             
             print(f"{domain_content_info}{llm_info}{pluralized_info}")
         
-        print()
+        # Add consolidated output information with colored icons
+        checkmark_icon = f"{Fore.GREEN}✓{Style.RESET_ALL}"
+        x_icon = f"{Fore.RED}✗{Style.RESET_ALL}"
+        
+        json_status = checkmark_icon if result['has_consolidated_json'] else x_icon
+        csv_status = checkmark_icon if result['has_consolidated_csv'] else x_icon
+        
+        print(f"  Consolidated: {json_status}  | CSV: {csv_status}")
+        
+        # Add final export and enriched data information
+        final_export_status = "Final Export: "
+        if result['has_final_export']:
+            final_export_status += f"{checkmark_icon}"
+        else:
+            final_export_status += f"{x_icon} "
+        
+        enriched_status = "Enriched: "
+        if result['has_enriched']:
+            enriched_status += f"{checkmark_icon}"
+        else:
+            enriched_status += f"{x_icon}"
+        
+        print(f"  {final_export_status} | {enriched_status}")
+        print("-" * 50)
 
 if __name__ == "__main__":
     main()
