@@ -3,7 +3,7 @@
 ## Extracting Machine Assets from Financial Statements
 **Folder Path:** `extracting_machine/`
 
-### Step 1: Extract HTML from Bundesanzeiger
+### Step 0: Extract HTML from Bundesanzeiger
 ```bash
 python get_company_by_category.py <input_excel.xlsx> 'Category'
 ```
