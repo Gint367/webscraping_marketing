@@ -63,7 +63,7 @@ def generate_process_types(products: List[str], category: str, max_retries=3, ba
     
     # Create a prompt in German for better results
     prompt = f"""
-    Als Fertigungsexperte, gib mir die typischen Produktionsprozesse(mit maschinen) an, die zur Herstellung der folgenden Produkte in der Branche "{category}" verwendet werden.
+    Als Fertigungsexperte, gib mir die typischen Produktionsprozesse(mit maschinen) an, die zur Fertigung der folgenden Produkte in der Branche "{category}" verwendet werden.
     Die Produkte sind: {', '.join(products)}.
 
     Wichtig:
@@ -86,7 +86,6 @@ def generate_process_types(products: List[str], category: str, max_retries=3, ba
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
                 max_tokens=800,
-                num_retries=1,
             )
             
             # Extract the content and split by commas
@@ -240,7 +239,7 @@ def main():
     """
     Main function to process JSON files - either a single file or all matching files in a folder.
     """
-    parser = argparse.ArgumentParser(description='Fill empty process_type fields in JSON files using LLM.')
+    parser = argparse.ArgumentParser(description='Fill empty process_type fields in JSON files using LLM. will overwrite the file')
     parser.add_argument('--input-file', type=str, 
                         help='Path to a single input JSON file (e.g., pluralized_aluminiumwerke.json)')
     parser.add_argument('--folder', type=str,
