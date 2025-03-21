@@ -3,45 +3,66 @@
 ## Extracting Machine Assets from Financial Statements
 **Folder Path:** `extracting_machine/`
 
-### Step 0: Extract HTML from Bundesanzeiger
+### Step 0: Extract Companies by Category
 ```bash
 python get_company_by_category.py <input_excel.xlsx> 'Category'
 ```
-- **Input:** excel file with companies, category that are going to be extracted
-- **Output:** company_<category>_BA.csv
-- **Notes:** this will get list of companies and its locations
+- **Input:** 
+  - `<input_excel.xlsx>`: Excel file containing company information with columns for name, location, and category
+  - `'Category'`: Specific category name (in quotes) to filter companies by
+- **Output:** 
+  - `company_<category>_BA.csv`: CSV file with filtered companies matching the specified category
+- **Usage:** Used to create an initial dataset of companies within a specific industry category for further processing
+- **Example:** `python get_company_by_category.py companies_database.xlsx 'Maschinenbau'`
 
 ### Step 1: Extract HTML from Bundesanzeiger
 ```bash
 python get_bundesanzeiger_html.py <input_csv> [output_dir]
 ```
-- **Input:** CSV with company name and location
-- **Output:** Folder with sanitized company name
-- **Notes:** Extracts annual financial statement data from Bundesanzeiger. Uses company name and location to handle duplicate company names. Uses the first word of the location to ensure clean search queries. Metadata preserves original company name for later matching.
+- **Input:** 
+  - `<input_csv>`: CSV file containing columns for company name and location (output from Step 0)
+  - `[output_dir]`: Optional directory path where HTML files will be saved (defaults to a timestamped folder)
+- **Output:** 
+  - Folder structure with sanitized company names containing HTML files of annual financial statements
+  - Each company folder includes metadata preserving the original company name
+- **Usage:** Extracts financial statement data from the Bundesanzeiger portal using company name and location
+- **Example:** `python get_bundesanzeiger_html.py company_Maschinenbau_BA.csv bundesanzeiger_output`
 
 ### Step 2: Clean HTML Content
 ```bash
 python clean_html.py <input_dir>
 ```
-- **Input:** HTML files from Step 1
-- **Output:** JSON files
-- **Notes:** Extracts available tables from source, filters tables containing "technische anlagen" and outputs as JSON.
+- **Input:** 
+  - `<input_dir>`: Directory containing the HTML files extracted in Step 1
+- **Output:** 
+  - JSON files in a `cleaned_<input_dir>` subfolder with extracted table data
+  - Each JSON contains filtered tables that mention "technische anlagen"
+- **Usage:** Processes raw HTML to extract and filter relevant tables containing machine asset information
+- **Example:** `python clean_html.py bundesanzeiger_output`
 
 ### Step 3: Generate CSV Report
 ```bash
 python generate_csv_report.py <input_dir>
 ```
-- **Input:** JSON files on cleaned folder from Step 2
-- **Output:** CSV report machine_report_<category>_<timestamp>.csv
-- **Notes:** Extracts relevant machine asset information.
+- **Input:** 
+  - `<input_dir>`: Directory containing the cleaned JSON files from Step 2 (typically `cleaned_<input_dir>`)
+- **Output:** 
+  - `machine_report_<category>_<timestamp>.csv`: CSV report with structured machine asset information
+  - Contains columns for company name, asset values, depreciation, and other financial metrics
+- **Usage:** Transforms JSON table data into a structured CSV report for analysis
+- **Example:** `python generate_csv_report.py cleaned_bundesanzeiger_output`
 
 ### Step 4: Merge CSV with Excel Data
 ```bash
 python merge_csv_with_excel.py <input_file>
 ```
-- **Input:** CSV from Step 3 and Excel dataset
-- **Output:** Combined dataset merged_<category>_<timestamp>.csv
-- **Notes:** Joins the generated CSV from Step 3 with the larger Excel dataset.
+- **Input:** 
+  - `<input_file>`: The CSV report generated in Step 3
+  - (Implicitly uses an Excel dataset defined in the script)
+- **Output:** 
+  - `merged_<category>_<timestamp>.csv`: Combined dataset with machine asset data joined to the original Excel data
+- **Usage:** Enriches the extracted machine data with additional company information from the master dataset
+- **Example:** `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv`
 
 ## Crawling & Scraping Keywords
 **Folder Path:** `webcrawl/`
@@ -50,63 +71,111 @@ python merge_csv_with_excel.py <input_file>
 ```bash
 python crawl_domain.py --excel <input_file> --output <output_dir>
 ```
-- **Input:** Company URLs
-- **Output:** Markdown files of website content
-- **Notes:** Crawls company websites and saves content as markdown for LLM extraction. Use `urls_and_companies =  get_company_by_top1machine.py` if continuing from `merge_excel.py`, or `get_company_by_category.py` to get the list by 'Kategorie'.
+- **Input:** 
+  - `--excel <input_file>`: Excel or CSV file containing company information including URLs to crawl
+  - `--output <output_dir>`: Directory where crawled content will be saved
+- **Output:** 
+  - Markdown files in the specified output directory, one per company website
+  - Each file contains extracted text content from the company's website
+- **Usage:** Crawls company websites to extract content for further LLM-based analysis
+- **Example:** `python crawl_domain.py --excel merged_Maschinenbau_20250321.csv --output domain_content_maschinenbau`
+- **Notes:** You can use `urls_and_companies = get_company_by_top1machine.py` if continuing from `merge_excel.py`, or `get_company_by_category.py` to get the list by 'Kategorie'.
 
 ### Step 2: Extract Keywords with LLM
 ```bash
 python extract_llm.py <input> --output <output_dir>
 ```
-- **Input:** Markdown files from Step 1
-- **Output:** Extracted keywords
-- **Notes:** Extracts defined keywords (lohnfertigung, produkt, maschinen, prozess) from the markdown files.
+- **Input:** 
+  - `<input>`: Directory containing markdown files from the domain crawling step
+  - `--output <output_dir>`: Directory where extracted keyword data will be saved
+- **Output:** 
+  - JSON files with extracted keywords categorized by type (lohnfertigung, produkt, maschinen, prozess)
+  - One JSON file per company with structured keyword data
+- **Usage:** Uses a large language model to analyze website content and extract business-relevant keywords
+- **Example:** `python extract_llm.py domain_content_maschinenbau --output llm_extracted_maschinenbau`
 
 #### Optional Steps:
+
 - **Step 2.5:** Check LLM failures
     ```bash
-    python check_llm_failures.py
+    python check_llm_failures.py <folder_path>
     ```
-    - **Output:** llm_failures.csv
-    - **Notes:** Identifies values with more than one word per entry.
+    - **Input:** 
+      - `<folder_path>` : Directory containing the extracted llm markdown.
+    - **Output:** 
+      - `llm_failures.csv`: CSV file listing all LLM-processed files that have issues
+      - Contains columns for filename and specific error types (e.g., multi-word entries)
+    - **Usage:** Identifies problematic LLM outputs that need reprocessing
+    - **Example:** `python check_llm_failures.py llm_extracted_maschinenbau`
 
 - **Step 2.6:** Copy failed LLM files
     ```bash
     python copy_failed_llm.py <csv_file> <source_folder> <destination_folder>
     ```
-    - **Notes:** Copies failed markdown files for reprocessing with Step 2.
+    - **Input:** 
+      - `<csv_file>`: CSV file listing failed LLM extractions (from Step 2.5)
+      - `<source_folder>`: Original markdown folder containing the source files
+      - `<destination_folder>`: Target directory where failed files will be copied
+    - **Output:** 
+      - Copy of all failed markdown files in the destination folder
+    - **Usage:** Prepares failed files for reprocessing with the LLM
+    - **Example:** `python copy_failed_llm.py llm_failures.csv domain_content_maschinenbau failed_markdown`
 
 ### Step 3: Standardize Keywords
 ```bash
 python pluralize_with_llm.py --input <input_dir> --output <output_dir>
 ```
-- **Input:** Extracted keywords
-- **Output:** Standardized keywords
-- **Notes:** Standardizes extracted keywords to plural forms. Uses different temperatures for retries to avoid wasting tokens. also translates to german.
+- **Input:** 
+  - `--input <input_dir>`: Directory containing the JSON files with extracted keywords
+  - `--output <output_dir>`: Directory where standardized keywords will be saved
+- **Output:** 
+  - JSON files with standardized keywords in German plural forms
+  - Maintains the same structure as input files but with normalized values
+- **Usage:** Standardizes keyword formats and translates terms to German plural forms for consistency
+- **Example:** `python pluralize_with_llm.py --input llm_extracted_maschinenbau --output pluralized_maschinenbau`
 
 ### Step 4: Consolidate Data
 ```bash
 python consolidate.py <input_folder>
 ```
-- **Input:** Processed JSON folders
-- **Output:** Consolidated JSON
-- **Notes:** Combines multiple JSON entries into a single entry per company. Deduplicates fields, chooses longest company name, and prioritizes words containing 'machine'.
+- **Input:** 
+  - `<input_folder>`: Directory containing the pluralized JSON files from Step 3
+- **Output:** 
+  - `consolidated_<input_folder>.json`: Single JSON file with consolidated data for all companies
+  - Contains deduplicated and normalized entries optimized for further processing
+- **Usage:** Combines multiple JSON entries into a unified dataset, removing duplicates and standardizing formats
+- **Example:** `python consolidate.py pluralized_maschinenbau`
 
 ### Step 5: Populate process_type
 ```bash
-python fill_process_type.py <input_file> --output-dir [output_directory]
+python fill_process_type.py [--input-file <input_file>] [--folder <folder_path>] [--output-dir <output_directory>] [--log-level <level>]
 ```
-- **Input:** JSON file with pluralized product data (e.g., pluralized_aluminiumwerke.json)
-- **Output:** JSON file with prefixed name (e.g., v2_pluralized_aluminiumwerke.json)
-- **Notes:** Uses a large language model (Amazon Nova Pro) to generate process_type values for companies based on their products and industry category. Fills empty process_type fields and fixes conjugation issues in existing entries. Process types are output in German plural form. Features exponential backoff for API rate limiting.
+- **Input:** 
+  - One of the following must be provided:
+    - `--input-file <input_file>`: Path to a single JSON file (e.g., `consolidated_pluralized_maschinenbau.json`)
+    - `--folder <folder_path>`: Path to a folder containing multiple JSON files (will process all files starting with "pluralized_")
+  - `--output-dir <output_directory>`: Optional directory for output (defaults to same as input)
+  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
+- **Output:** 
+  - `v2_<input_filename>.json`: Enhanced JSON file with process_type values added or corrected
+  - Process types are standardized to German plural forms
+- **Usage:** Leverages a large language model (Amazon Nova Pro) to analyze company products and determine appropriate process types
+- **Examples:**
+  - Single file: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --output-dir enhanced_data`
+  - Multiple files: `python fill_process_type.py --folder pluralized_maschinenbau --output-dir enhanced_data`
+  - With log level: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --log-level DEBUG`
 
 ### Step 6: Convert to CSV
 ```bash
 python convert_to_csv.py <input_json>
 ```
-- **Input:** Consolidated JSON
-- **Output:** Final CSV
-- **Notes:** Extracts specific fields from JSON records and outputs to CSV. Takes only first three items and uses BOM for better umlaut compatibility with Excel.
+- **Input:** 
+  - `<input_json>`: Enhanced JSON file with process types from Step 5
+- **Output:** 
+  - CSV file with the same base name as the input JSON
+  - Contains selected fields from the JSON records with BOM encoding for Excel compatibility
+- **Usage:** Transforms the consolidated JSON data into a tabular CSV format for analysis and reporting
+- **Example:** `python convert_to_csv.py v2_consolidated_pluralized_maschinenbau.json`
 
 ## Additional Steps
 **Folder Path:** `./`
@@ -116,33 +185,71 @@ python convert_to_csv.py <input_json>
 python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_data_file> --output [final_export_X.csv]
 ```
 - **Input:** 
-  - `--csv`: Path to the CSV file with company data
-  - `--base`: Path to the base data file (CSV or Excel) with technical equipment information
-  - `--output`: (Optional) Path where the merged output file will be saved
-- **Output:** Merged dataset as specified in the output path
-- **Notes:** Merges the final CSV with Excel data containing "technische anlagen und maschinen". Attempts URL matching when company names don't match directly.
+  - `--csv <csv_file>`: CSV file with keyword data (output from convert_to_csv.py)
+  - `--base <base_data_file>`: CSV or Excel file containing technical equipment information
+  - `--output [final_export_X.csv]`: Optional output filename (defaults to final_export_<timestamp>.csv)
+- **Output:** 
+  - CSV file combining keyword data with technical equipment information
+  - Contains all columns from both inputs with matching records merged
+- **Usage:** Creates a comprehensive dataset linking technical equipment data with extracted keywords
+- **Example:** `python merge_technische_anlagen_with_keywords.py --csv v2_consolidated_maschinenbau.csv --base technical_equipment.xlsx --output final_export_maschinenbau.csv`
 
 ### Enrich Data
 ```bash
-python enrich_data.py
+python enrich_data.py --input <input_file> --output <output_file>
 ```
-- **Input:** Merged dataset
-- **Output:** Enhanced dataset
-- **Notes:** Adds new columns "Maschinen_Park_var" & "hours_of_saving" for email marketing purposes.
+- **Input:** 
+  - `--input <input_file>`: Merged dataset from the previous step (implicitly defined in script if not provided)
+  - `--output <output_file>`: Optional output filename (defaults to enriched_<input_filename>)
+- **Output:** 
+  - Enhanced CSV with additional derived columns:
+    - "Maschinen_Park_var": Calculated machine park value
+    - "hours_of_saving": Estimated time savings metric
+- **Usage:** Adds calculated metrics useful for email marketing and business analysis
+- **Example:** `python enrich_data.py --input final_export_maschinenbau.csv --output enriched_maschinenbau.csv`
+
+### Convert Excel to CSV
+```bash
+python convert_excel_to_csv.py <excel_file> [options]
+```
+- **Input:** 
+  - `<excel_file>`: Path to the Excel file (.xlsx or .xls)
+  - **Options:**
+    - `--list-sheets`: Lists all sheets in the Excel file
+    - `--sheet <sheet_name>`: Converts specified sheet to CSV
+    - `--all-sheets`: Converts all sheets to separate CSV files
+    - `--output-dir <directory>`: Specifies output directory for CSV files
+    - `--output <file>`: Specifies output file name (only for single sheet)
+    - `--interactive`: Interactive mode for selecting sheets
+- **Output:** 
+  - One or more CSV files depending on selected options
+  - Files are named based on sheet names or specified output names
+- **Usage:** Utility script for converting Excel data to CSV format for use in the pipeline
+- **Examples:**
+  ```bash
+  python convert_excel_to_csv.py data.xlsx --list-sheets
+  python convert_excel_to_csv.py data.xlsx --sheet Sheet1 --output output.csv
+  python convert_excel_to_csv.py data.xlsx --all-sheets --output-dir csv_output
+  python convert_excel_to_csv.py data.xlsx --interactive
+  ```
 
 ### Monitor Pipeline Progress
 ```bash
 python monitor_progress.py
 ```
-- **Input:** None (automatically detects files in the current directory)
-- **Output:** Console report showing progress through various pipeline stages
-- **Notes:** Provides a comprehensive overview of the data processing pipeline status for each category. Shows counts and percentages for each step including:
-  - Cleaned companies
-  - Machine reports extraction
-  - Merged files
-  - Domain content extraction
-  - LLM processing (with error rates)
-  - Pluralized keyword files
-  - Consolidated output status
-  - Final export and data enrichment status
-- **Usage:** Run from the main directory containing all the pipeline output files to get a quick status overview
+- **Input:** 
+  - None (automatically scans the current directory for pipeline files and folders)
+- **Output:** 
+  - Console report with detailed statistics on pipeline progress
+  - Includes counts and percentages for each processing stage by category
+- **Usage:** Provides a comprehensive overview of the current state of the data processing pipeline
+- **Example:** `python monitor_progress.py`
+- **Display Metrics:**
+  - Cleaned companies: Number of companies with cleaned HTML files
+  - Machine reports: Count of successfully generated machine reports
+  - Merged files: Count of successfully merged datasets
+  - Domain content: Number of successfully crawled company websites
+  - LLM processing: Success and error rates for keyword extraction
+  - Pluralized keywords: Count of standardized keyword files
+  - Consolidated output: Status of data consolidation
+  - Final export and enrichment: Status of final data products

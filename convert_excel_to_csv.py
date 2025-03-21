@@ -36,7 +36,7 @@ def convert_sheet(excel_file, sheet_name, output_file=None, output_dir=None):
             output_path = output_file
         
         # Convert to CSV
-        df.to_csv(output_path, index=False)
+        df.to_csv(output_path, index=False, encoding='utf-8-sig')
         print(f"Converted sheet '{sheet_name}' to {output_path}")
         return output_path
     
