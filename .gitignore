@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 *.pytest*
+.coverage
 
 # Ignore virtual environment directories
 venv/

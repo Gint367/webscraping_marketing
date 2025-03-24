@@ -1,5 +1,12 @@
 # Data Extraction and Processing Pipeline
 
+## Overview
+
+This project aim to help a personalized email marketing campaign by combining web scraping, financial data extraction, and LLM analysis to create enriched company profiles. It estimates the size of a company's machine park using the balance sheet item **"Technische Anlagen und Maschinen"**, and extracts machine-related keywords from the company’s website. These insights help tailor outreach messages to each prospect.
+
+## Prerequisites
+The pipeline requires Python 3.10+, access to the Bundesanzeiger portal, and API credentials for LLM(Amazon Bedrock & Chatgpt 4o-mini).
+
 ## Extracting Machine Assets from Financial Statements
 **Folder Path:** `extracting_machine/`
 
