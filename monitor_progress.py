@@ -3,6 +3,7 @@ import glob
 import pandas as pd
 import re
 import json
+import argparse
 from colorama import Fore, Style, init
 
 # Initialize colorama
@@ -96,6 +97,7 @@ def count_llm_files_and_errors(category):
     llm_folders = glob.glob(f'llm_extracted_{category}*')
     total_files = 0
     error_count = 0
+    error_files = []
     
     for folder in llm_folders:
         if os.path.exists(folder) and os.path.isdir(folder):
@@ -111,20 +113,26 @@ def count_llm_files_and_errors(category):
                 try:
                     with open(os.path.join(folder, json_file), 'r', encoding='utf-8') as f:
                         data = json.load(f)
+                        has_error = False
                         # Check if data is a list that contains objects with error field
                         if isinstance(data, list):
                             for item in data:
                                 if isinstance(item, dict) and item.get('error') is True:
-                                    error_count += 1
+                                    has_error = True
                                     break  # Count one error per file, even if multiple objects have errors
                         # Check if the data itself is an object with error field
                         elif isinstance(data, dict) and data.get('error') is True:
+                            has_error = True
+                        
+                        if has_error:
                             error_count += 1
+                            error_files.append(os.path.join(folder, json_file))
                 except Exception:
                     # Count failed JSON parsing as errors too
                     error_count += 1
+                    error_files.append(os.path.join(folder, json_file))
     
-    return total_files, error_count
+    return total_files, error_count, error_files
 
 def count_pluralized_files(category):
     """Count files in pluralized_<category> folders"""
@@ -179,6 +187,11 @@ def check_enriched_data(category):
         return 0, False
 
 def main():
+    # Add command line argument parsing
+    parser = argparse.ArgumentParser(description="Monitor progress of data processing pipeline")
+    parser.add_argument("--verbose", action="store_true", help="Display detailed LLM error information")
+    args = parser.parse_args()
+    
     print("Monitoring Progress Report\n" + "-" * 50)
     
     csv_files = get_csv_files()
@@ -213,7 +226,7 @@ def main():
         domain_content_count = count_domain_content_files(category)
         
         # Count LLM extracted files and errors
-        llm_file_count, llm_error_count = count_llm_files_and_errors(category)
+        llm_file_count, llm_error_count, llm_error_files = count_llm_files_and_errors(category)
         
         # Count pluralize_with_llm.py files
         pluralized_file_count = count_pluralized_files(category)
@@ -264,7 +277,8 @@ def main():
             'final_export_percent': final_export_percent,
             'enriched_count': enriched_count,
             'has_enriched': has_enriched,
-            'enriched_percent': enriched_percent
+            'enriched_percent': enriched_percent,
+            'llm_error_files': llm_error_files
         })
     
     # Sort results by category alphabetically
@@ -327,6 +341,16 @@ def main():
             enriched_status += f"{x_icon}"
         
         print(f"  {final_export_status} | {enriched_status}")
+        
+        # Display error filenames if verbose is enabled
+        if args.verbose and result['llm_error_count'] > 0:
+            print(f"\n  {Fore.RED}LLM Errors:{Style.RESET_ALL}")
+            # Process filenames to extract just the base filename for cleaner output
+            for error_file in result['llm_error_files']:
+                base_filename = os.path.basename(error_file)
+                print(f"    - {base_filename}")
+            print()  # Add extra line for better readability
+            
         print("-" * 50)
 
 if __name__ == "__main__":
