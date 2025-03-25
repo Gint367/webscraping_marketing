@@ -155,7 +155,7 @@ async def process_files(file_paths, llm_strategy, output_dir):
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
     )
 
@@ -209,6 +209,73 @@ async def process_files(file_paths, llm_strategy, output_dir):
 
         # Show usage stats
         llm_strategy.show_usage()
+
+
+async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy):
+    """
+    Check for files with errors in the output directory and reprocess them.
+    
+    Args:
+        output_dir (str): Directory containing the extracted JSON files
+        input_dir (str): Directory containing the original source files
+        ext (str): File extension of the original files (e.g., ".md")
+        llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
+    
+    Returns:
+        int: Number of files reprocessed
+    """
+    print(f"Checking for files with errors in {output_dir}...")
+    
+    # List to store files that need reprocessing
+    files_to_reprocess = []
+    
+    # Iterate through JSON files in the output directory
+    for json_file in os.listdir(output_dir):
+        if not json_file.endswith("_extracted.json"):
+            continue
+        
+        json_path = os.path.join(output_dir, json_file)
+        
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+                # Check if the file contains an error
+                has_error = False
+                if isinstance(data, list) and len(data) > 0:
+                    if isinstance(data[0], dict) and data[0].get('error') is True:
+                        has_error = True
+                elif isinstance(data, dict) and data.get('error') is True:
+                    has_error = True
+                
+                if has_error:
+                    # Extract the original filename from the JSON filename
+                    original_name = json_file.replace('_extracted.json', ext)
+                    
+                    # Look for the original file in the input directory and subdirectories
+                    original_files = []
+                    for root, _, files in os.walk(input_dir):
+                        for file in files:
+                            if file == original_name:
+                                original_files.append(os.path.join(root, file))
+                    
+                    if original_files:
+                        # Use the first matching file if multiple exist
+                        files_to_reprocess.append(original_files[0])
+                        print(f"Found error in {json_file}, will reprocess {original_files[0]}")
+                    else:
+                        print(f"Error in {json_file}, but couldn't find original file {original_name}")
+        except Exception as e:
+            print(f"Error reading {json_file}: {e}")
+    
+    # Reprocess the files with errors
+    if files_to_reprocess:
+        print(f"Reprocessing {len(files_to_reprocess)} files with errors...")
+        await process_files(files_to_reprocess, llm_strategy, output_dir)
+        return len(files_to_reprocess)
+    else:
+        print("No files with errors found")
+        return 0
 
 
 async def main():
@@ -285,6 +352,14 @@ async def main():
 
     # Process all files with a single function call
     await process_files(files_to_process, llm_strategy, output_dir)
+    
+    # Check for and reprocess files with errors
+    if os.path.isdir(args.input):
+        input_dir = args.input
+    else:
+        input_dir = os.path.dirname(args.input)
+        
+    await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
 
 
 if __name__ == "__main__":

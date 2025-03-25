@@ -98,8 +98,9 @@ python extract_llm.py <input> --output <output_dir>
 - **Output:** 
   - JSON files with extracted keywords categorized by type (lohnfertigung, produkt, maschinen, prozess)
   - One JSON file per company with structured keyword data
-- **Usage:** Uses a large language model to analyze website content and extract business-relevant keywords
+- **Usage:** Uses a large language model to analyze website content and extract business-relevant keywords.
 - **Example:** `python extract_llm.py domain_content_maschinenbau --output llm_extracted_maschinenbau`
+- **Notes:** it will recheck the output files for error and redo the steps.
 
 #### Optional Steps:
 
