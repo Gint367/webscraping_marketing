@@ -299,6 +299,11 @@ async def main():
         help="Limit number of files to process (default: all)",
         default=None,
     )
+    parser.add_argument(
+        "--only-recheck",
+        help="Only recheck files with errors in the output directory",
+        default=False,
+    )
 
     args = parser.parse_args()
 
@@ -350,16 +355,22 @@ async def main():
         print(f"Error: {args.input} is not a valid file or directory")
         return
 
-    # Process all files with a single function call
-    await process_files(files_to_process, llm_strategy, output_dir)
-    
     # Check for and reprocess files with errors
     if os.path.isdir(args.input):
         input_dir = args.input
     else:
         input_dir = os.path.dirname(args.input)
         
-    await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+    
+    # If --only-recheck is specified, skip the initial processing
+    if args.only_recheck:
+        print("Only rechecking files with errors, skipping initial processing.")
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+    else:
+        # Process all files and do error checking
+        await process_files(files_to_process, llm_strategy, output_dir)
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+        
 
 
 if __name__ == "__main__":

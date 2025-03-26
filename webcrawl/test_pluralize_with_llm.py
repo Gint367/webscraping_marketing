@@ -4,7 +4,152 @@ import os
 import logging
 import io
 import sys
-from webcrawl.pluralize_with_llm import process_directory, failed_files
+from webcrawl.pluralize_with_llm import process_directory, failed_files, clean_compound_words, compound_word_stats
+
+class TestCleanCompoundWords(unittest.TestCase):
+    
+    def setUp(self):
+        # Clear the compound_word_stats before each test
+        compound_word_stats["files_affected"] = set()
+        compound_word_stats["words_modified"] = []
+    
+    def test_clean_und_conjunction(self):
+        # Test words with "und" conjunctions
+        words = ["Hammer und Meißel", "Schrauben und Muttern", "Normal"]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        # Check the cleaned words
+        self.assertEqual(cleaned_words, ["Meißel", "Muttern", "Normal"])
+        
+        # Check the modified pairs
+        self.assertEqual(len(modified_pairs), 2)
+        self.assertEqual(modified_pairs[0][0], "Hammer und Meißel")
+        self.assertEqual(modified_pairs[0][1], "Meißel")
+        self.assertEqual(modified_pairs[1][0], "Schrauben und Muttern")
+        self.assertEqual(modified_pairs[1][1], "Muttern")
+    
+    def test_clean_hyphenated_conjunction(self):
+        # Test words with hyphenated forms and conjunctions
+        words = ["Saug- und Blasgeräte", "Bohr- und Fräswerkzeuge"]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        # Check the cleaned words
+        self.assertEqual(cleaned_words, ["Blasgeräte", "Fräswerkzeuge"])
+        
+        # Check the modified pairs
+        self.assertEqual(len(modified_pairs), 2)
+        self.assertEqual(modified_pairs[0][0], "Saug- und Blasgeräte")
+        self.assertEqual(modified_pairs[0][1], "Blasgeräte")
+    
+    def test_clean_comma_separated_values(self):
+        # Test words with comma separations
+        words = ["Pumpen, Ventile, Schläuche", "Filter, Regler", "SingleWord"]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        # Check the cleaned words
+        self.assertEqual(len(cleaned_words), 6)  # 5 split items + 1 single word
+        self.assertIn("Pumpen", cleaned_words)
+        self.assertIn("Ventile", cleaned_words)
+        self.assertIn("Schläuche", cleaned_words)
+        self.assertIn("Filter", cleaned_words)
+        self.assertIn("Regler", cleaned_words)
+        self.assertIn("SingleWord", cleaned_words)
+        
+        # Check the modified pairs
+        self.assertEqual(len(modified_pairs), 2)
+        self.assertEqual(modified_pairs[0][0], "Pumpen, Ventile, Schläuche")
+        self.assertTrue("Split into 3 entries" in modified_pairs[0][1])
+        self.assertEqual(modified_pairs[1][0], "Filter, Regler")
+        self.assertTrue("Split into 2 entries" in modified_pairs[1][1])
+    
+    def test_words_that_has_und_inside(self):
+        # Test phrases with "und" in different contexts
+        words = [
+            "Kundendienst und Wartung kryogener Medien", 
+            "Installation und Beratung technischer Systeme",
+            "Reinigung und Instandhaltung von Anlagen"
+        ]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        # These phrases should be processed to extract the part after "und"
+        self.assertEqual(len(cleaned_words), 3)
+        self.assertEqual(cleaned_words[0], "Wartung kryogener Medien")
+        self.assertEqual(cleaned_words[1], "Beratung technischer Systeme")
+        self.assertEqual(cleaned_words[2], "Instandhaltung von Anlagen")
+        
+        # Check that modifications were recorded
+        self.assertEqual(len(modified_pairs), 3)
+        self.assertEqual(modified_pairs[0][0], "Kundendienst und Wartung kryogener Medien")
+        self.assertEqual(modified_pairs[0][1], "Wartung kryogener Medien")
+        self.assertEqual(modified_pairs[1][0], "Installation und Beratung technischer Systeme")
+        self.assertEqual(modified_pairs[1][1], "Beratung technischer Systeme")
+        self.assertEqual(modified_pairs[2][0], "Reinigung und Instandhaltung von Anlagen")
+        self.assertEqual(modified_pairs[2][1], "Instandhaltung von Anlagen")
+    
+    def test_mixed_separators(self):
+        # Test words with mixed separators
+        words = ["Schrauben, Muttern und Bolzen", "Metall- und Kunststoffteile, Gummiteile"]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+    
+        # Check the resulting cleaned words
+        self.assertEqual(len(cleaned_words), 4)
+        self.assertIn("Schrauben", cleaned_words)
+        self.assertIn("Bolzen", cleaned_words)  # Not "Muttern und Bolzen" - function extracts the word after conjunction
+        self.assertIn("Kunststoffteile", cleaned_words)
+        self.assertIn("Gummiteile", cleaned_words)
+        
+        # Check the modified pairs - should include both comma splits and conjunction processing
+        self.assertTrue(len(modified_pairs) >= 3)  # At least 3 modifications
+        
+        # Verify comma splitting happened
+        has_comma_split = False
+        for orig, modified in modified_pairs:
+            if orig == "Schrauben, Muttern und Bolzen" and "Split into" in modified:
+                has_comma_split = True
+                break
+        self.assertTrue(has_comma_split, "Expected comma splitting of 'Schrauben, Muttern und Bolzen'")
+        
+        # Verify conjunction processing happened
+        has_und_processing = False
+        for orig, modified in modified_pairs:
+            if orig == "Muttern und Bolzen" and modified == "Bolzen":
+                has_und_processing = True
+                break
+        self.assertTrue(has_und_processing, "Expected processing of 'Muttern und Bolzen' to extract 'Bolzen'")
+    
+    def test_empty_input(self):
+        # Test with empty input
+        words = []
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        self.assertEqual(cleaned_words, [])
+        self.assertEqual(modified_pairs, [])
+    
+    def test_no_modifications_needed(self):
+        # Test with words that don't need modification
+        words = ["Schrauben", "Muttern", "Bolzen"]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        self.assertEqual(cleaned_words, words)
+        self.assertEqual(modified_pairs, [])
+        
+    def test_und_followed_by_hyphen(self):
+        # Test phrases with "und" followed by a hyphen - these should be kept as-is
+        words = [
+            "Leistungstransmissionstools und -händler", 
+            "Reinigungsmittel und -geräte",
+            "Herstellung und -verkauf von Metallprodukten"
+        ]
+        cleaned_words, modified_pairs = clean_compound_words(words)
+        
+        # These phrases should be kept as-is, not modified
+        self.assertEqual(len(cleaned_words), 3)
+        self.assertEqual(cleaned_words[0], "Leistungstransmissionstools und -händler")
+        self.assertEqual(cleaned_words[1], "Reinigungsmittel und -geräte")
+        self.assertEqual(cleaned_words[2], "Herstellung und -verkauf von Metallprodukten")
+        
+        # Check that no modifications were recorded
+        self.assertEqual(len(modified_pairs), 0)
 
 class TestProcessDirectory(unittest.TestCase):
     
@@ -12,6 +157,10 @@ class TestProcessDirectory(unittest.TestCase):
         # Clear the failed_files list before each test
         global failed_files
         failed_files.clear()
+        
+        # Clear the compound_word_stats before each test
+        compound_word_stats["files_affected"] = set()
+        compound_word_stats["words_modified"] = []
         
         # Set up logging to capture log messages
         self.log_output = io.StringIO()
