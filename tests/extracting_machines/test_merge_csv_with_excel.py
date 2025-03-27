@@ -4,7 +4,7 @@ import numpy as np
 import os
 import tempfile
 from unittest.mock import patch, MagicMock
-import merge_csv_with_excel as mcwe
+import extracting_machines.merge_csv_with_excel as mcwe
 
 
 class TestMergeCsvWithExcel(unittest.TestCase):
@@ -131,11 +131,11 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         match, score = mcwe.find_best_match('Completely Different', company_list, threshold=0.85)
         self.assertIsNone(match)
     
-    @patch('merge_csv_with_excel.load_data')
-    @patch('merge_csv_with_excel.analyze_company_similarities')
-    @patch('merge_csv_with_excel.create_company_mapping')
-    @patch('merge_csv_with_excel.merge_datasets')
-    @patch('merge_csv_with_excel.save_merged_data')
+    @patch('extracting_machines.merge_csv_with_excel.load_data')
+    @patch('extracting_machines.merge_csv_with_excel.analyze_company_similarities')
+    @patch('extracting_machines.merge_csv_with_excel.create_company_mapping')
+    @patch('extracting_machines.merge_csv_with_excel.merge_datasets')
+    @patch('extracting_machines.merge_csv_with_excel.save_merged_data')
     def test_main_function(self, mock_save, mock_merge, mock_mapping, mock_analyze, mock_load):
         """Test the main function with mocks"""
         # Setup mock returns
