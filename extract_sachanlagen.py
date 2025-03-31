@@ -146,7 +146,7 @@ async def process_files(file_paths, llm_strategy, output_dir):
                     name_without_ext = netloc
 
                 output_file = os.path.join(
-                    output_dir, f"{name_without_ext}_extracted.json"
+                    output_dir, f"{name_without_ext}.json"
                 )
 
                 # Save extracted content
