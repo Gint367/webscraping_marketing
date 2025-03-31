@@ -12,12 +12,13 @@ DEFAULT_COLUMN_PREFIX = "Column"
 MAX_TABLE_NAME_LENGTH = 100
 
 
-def clean_html(input_html, filter_word=None):
+def clean_html(input_html, filter_word=None, original_filename=None):
     """Extracts tables and their preceding headers/paragraphs from the input HTML.
 
     Args:
         input_html (str): The input HTML content
         filter_word (str, optional): Only include tables containing this word
+        original_filename (str, optional): Original filename to embed in HTML comment
     """
     soup = BeautifulSoup(input_html, "html.parser")
 
@@ -28,6 +29,13 @@ def clean_html(input_html, filter_word=None):
 
     # Create a new BeautifulSoup object for the cleaned HTML
     cleaned_soup = BeautifulSoup("", "html.parser")
+    
+    # Add the original filename as a hidden HTML comment if provided
+    if original_filename:
+        # Use a Comment object instead of new_string to prevent encoding
+        from bs4.element import Comment
+        filename_comment = Comment(f"original_filename: {original_filename}")
+        cleaned_soup.append(filename_comment)
 
     # Process each table
     for table in tables:
@@ -316,8 +324,8 @@ if __name__ == "__main__":
                 with open(html_file, "r", encoding="utf-8") as f:
                     html_content = f.read()
 
-                # Clean and filter the HTML content
-                cleaned_html = clean_html(html_content)
+                # Clean and filter the HTML content, passing the original company name
+                cleaned_html = clean_html(html_content, original_filename=company_name)
 
                 # Save the cleaned HTML to a different folder
                 cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")

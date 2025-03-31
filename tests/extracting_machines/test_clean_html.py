@@ -30,6 +30,54 @@ class TestCleanHTML(unittest.TestCase):
         result = clean_html(html)
         self.assertIsNone(result)
     
+    def test_with_original_filename(self):
+        """Test clean_html with original_filename parameter."""
+        html = """
+        <html>
+            <body>
+                <h2>Header</h2>
+                <table>
+                    <tr><td>Data</td></tr>
+                </table>
+            </body>
+        </html>
+        """
+        filename = "test company"
+        result = clean_html(html, original_filename=filename)
+        
+        # Check that the filename comment is included as a proper HTML comment
+        expected_comment = f"<!--original_filename: {filename}-->"
+        self.assertIn(expected_comment, result.replace(" ", ""))
+        
+        # Check that the table and other elements are still present
+        soup = BeautifulSoup(result, "html.parser")
+        tables = soup.find_all("table")
+        self.assertEqual(len(tables), 1)
+        headers = soup.find_all("h2")
+        self.assertEqual(len(headers), 1)
+    
+    def test_without_original_filename(self):
+        """Test clean_html without original_filename parameter."""
+        html = """
+        <html>
+            <body>
+                <h2>Header</h2>
+                <table>
+                    <tr><td>Data</td></tr>
+                </table>
+            </body>
+        </html>
+        """
+        result = clean_html(html)
+        
+        # Check that no filename comment is included
+        self.assertNotIn("<!-- original_filename:", result)
+        
+        # Check that the table and other elements are still present
+        soup = BeautifulSoup(result, "html.parser")
+        tables = soup.find_all("table")
+        self.assertEqual(len(tables), 1)
+    
     def test_with_tables_no_filter(self):
         """Test clean_html with HTML containing tables and no filter word."""
         html = """
