@@ -1,6 +1,7 @@
 import os
 import json
 import asyncio
+import logging
 from pydantic import BaseModel, Field, RootModel
 from typing import List
 from urllib.parse import urlparse
@@ -10,6 +11,26 @@ from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from crawl4ai.async_configs import LLMConfig
 import argparse
 
+# Setup logging
+logger = logging.getLogger(__name__)
+
+def configure_logging(log_level=logging.INFO):
+    """Configure logging with the specified verbosity level"""
+    log_format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    logging.basicConfig(
+        level=log_level,
+        format=log_format,
+        handlers=[
+            logging.StreamHandler()
+        ]
+    )
+    # Set log level for other libraries to reduce noise
+    logging.getLogger('urllib3').setLevel(logging.WARNING)
+    logging.getLogger('asyncio').setLevel(logging.WARNING)
+    
+    logger.debug("Logging configured with level: %s", 
+                 logging.getLevelName(log_level))
+
 
 class SachanlagenValues(BaseModel):
     """Model for Sachanlagen values from different years"""
@@ -17,7 +38,7 @@ class SachanlagenValues(BaseModel):
         description="Dictionary of Sachanlagen values, keys are in format 'Sachanlagen_[number]' and values are monetary amounts as strings"
     )
     table_name: str = Field(
-        description="Name or heading of the table containing the Sachanlagen values"
+        description="Name of the table containing the Sachanlagen values"
     )
 
 
@@ -110,7 +131,9 @@ async def process_files(file_paths, llm_strategy, output_dir):
     """
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
-
+    
+    logger.debug(f"Processing {len(file_paths)} files")
+    
     config = CrawlerRunConfig(
         cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
@@ -139,11 +162,13 @@ async def process_files(file_paths, llm_strategy, output_dir):
                     # For file URLs, extract the filename from the path
                     basename = os.path.basename(parsed_url.path)
                     name_without_ext = os.path.splitext(basename)[0]
+                    logger.debug(f"File URL: extracted name '{name_without_ext}' from path '{parsed_url.path}'")
                 else:
                     # For web URLs, remove 'www.' prefix if present
                     if netloc.startswith("www."):
                         netloc = netloc[4:]
                     name_without_ext = netloc
+                    logger.debug(f"Web URL: using netloc '{netloc}' as name")
 
                 output_file = os.path.join(
                     output_dir, f"{name_without_ext}.json"
@@ -158,14 +183,16 @@ async def process_files(file_paths, llm_strategy, output_dir):
                             result.extracted_content, f, indent=2, ensure_ascii=False
                         )
 
-                print(f"Extracted data saved to {output_file}")
+                logger.info(f"Extracted data saved to {output_file}")
                 extracted_data.append(result.extracted_content)
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                print(f"No content extracted from {file_path}: {error_msg}")
+                logger.warning(f"No content extracted from {file_path}: {error_msg}")
 
         # Show usage stats
-        llm_strategy.show_usage()
+        usage_stats = llm_strategy.show_usage()
+        logger.info(f"LLM usage stats: {usage_stats}")
+        return extracted_data
 
 
 async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy):
@@ -181,14 +208,14 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
     Returns:
         int: Number of files reprocessed
     """
-    print(f"Checking for files with errors in {output_dir}...")
+    logger.info(f"Checking for files with errors in {output_dir}...")
     
     # List to store files that need reprocessing
     files_to_reprocess = []
     
     # Iterate through JSON files in the output directory
     for json_file in os.listdir(output_dir):
-        if not json_file.endswith("_extracted.json"):
+        if not json_file.endswith(".json"):
             continue
         
         json_path = os.path.join(output_dir, json_file)
@@ -219,19 +246,19 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
                     if original_files:
                         # Use the first matching file if multiple exist
                         files_to_reprocess.append(original_files[0])
-                        print(f"Found error in {json_file}, will reprocess {original_files[0]}")
+                        logger.info(f"Found error in {json_file}, will reprocess {original_files[0]}")
                     else:
-                        print(f"Error in {json_file}, but couldn't find original file {original_name}")
+                        logger.warning(f"Error in {json_file}, but couldn't find original file {original_name}")
         except Exception as e:
-            print(f"Error reading {json_file}: {e}")
+            logger.error(f"Error reading {json_file}: {e}")
     
     # Reprocess the files with errors
     if files_to_reprocess:
-        print(f"Reprocessing {len(files_to_reprocess)} files with errors...")
+        logger.info(f"Reprocessing {len(files_to_reprocess)} files with errors...")
         await process_files(files_to_reprocess, llm_strategy, output_dir)
         return len(files_to_reprocess)
     else:
-        print("No files with errors found")
+        logger.info("No files with errors found")
         return 0
 
 
@@ -261,11 +288,19 @@ async def main():
         help="Only recheck files with errors in the output directory",
         default=False,
     )
+    parser.add_argument(
+        "--log-level",
+        help="Set the logging level (default: INFO)",
+        default="INFO",
+    )
 
     args = parser.parse_args()
 
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
+
+    # Configure logging
+    configure_logging(getattr(logging, args.log_level.upper(), logging.INFO))
 
     # Define LLM strategy once
     temperature = 0.7
@@ -300,16 +335,16 @@ async def main():
                     files_to_process.append(os.path.join(root, file))
 
         if not files_to_process:
-            print(f"No {args.ext} files found in {args.input}")
+            logger.warning(f"No {args.ext} files found in {args.input}")
             return
 
         # Apply limit if specified
         if args.limit is not None and args.limit > 0:
             files_to_process = files_to_process[: args.limit]
 
-        print(f"Processing {len(files_to_process)} files...")
+        logger.info(f"Processing {len(files_to_process)} files...")
     else:
-        print(f"Error: {args.input} is not a valid file or directory")
+        logger.error(f"Error: {args.input} is not a valid file or directory")
         return
 
     # Check for and reprocess files with errors
@@ -318,15 +353,15 @@ async def main():
     else:
         input_dir = os.path.dirname(args.input)
         
-    await process_files(files_to_process, llm_strategy, output_dir)
-    """    # If --only-recheck is specified, skip the initial processing
+    
+    # If --only-recheck is specified, skip the initial processing
     if args.only_recheck:
-        print("Only rechecking files with errors, skipping initial processing.")
+        logger.info("Only rechecking files with errors, skipping initial processing.")
         await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
     else:
         # Process all files and do error checking
         await process_files(files_to_process, llm_strategy, output_dir)
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy) """
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
         
 
 
