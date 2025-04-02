@@ -32,6 +32,8 @@ def setup_logging(log_level=logging.INFO):
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    logging.getLogger('LiteLLM').setLevel(logging.WARNING)
+    logging.getLogger('botocore').setLevel(logging.WARNING)
 
 def clean_compound_words(words: List[str]) -> Tuple[List[str], List[Tuple[str, str]]]:
     """

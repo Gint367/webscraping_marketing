@@ -23,6 +23,7 @@ test_crawled*/
 archive/
 archive_*/
 pluralized*/
+sachanlagen*/
 
 *.log
 
