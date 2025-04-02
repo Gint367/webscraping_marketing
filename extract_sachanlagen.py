@@ -48,6 +48,9 @@ class SachanlagenValues(BaseModel):
     table_name: str = Field(
         description="Name of the table containing the Sachanlagen values"
     )
+    is_Teuro: bool = Field(
+        description="does one or more column contain the Thousand Euro sign"
+    )
 
 
 class Sachanlagen(RootModel):
@@ -58,17 +61,51 @@ class Sachanlagen(RootModel):
     )
 
 prompt = """
-Extract the "Sachanlagen" items from tables found in financial statement HTML files and identify the table names or headings associated with them.
+Extract the "Sachanlagen" items from tables found in this German financial statement HTML files and identify the table names or headings associated with them.
 
 Review the HTML content to locate all tables and preceding headings that may denote the table name. For each identified table, extract "Sachanlagen" items and their corresponding values.
 
 # Steps
 
 1. **Parse the HTML**: Open and parse the HTML file to locate tables and headings.
-2. **Identify Table Names**: First look within the table header. if not found then look at the preceding heading.
-3. **Extract "Sachanlagen" Values**: For each table, extract items labeled "Sachanlagen" with their corresponding values. there should be at least 2 values from 2 different year
-4. **Organize Data**: Structure the extracted data into JSON format, listing the table names and corresponding "Sachanlagen" values.
-5. **Output Result**: Present the data as a JSON array with the specified structure.
+2. **Identify Table Names**: First look within the table header. if not found then look at the preceding heading.the table name from the table header could either be from 
+  "Aktiva",
+  "Passiva",
+  "Anlagevermögen",
+  "Umlaufvermögen",
+  "Rechnungsabgrenzungsposten",
+  "Aktive latente Steuern",
+  "Aktiver Unterschiedsbetrag aus der Vermögensverrechnung",
+  "Immaterielle Vermögensgegenstände",
+  "Sachanlagen",
+  "Finanzanlagen",
+  "Vorräte",
+  "Forderungen",
+  "Wertpapiere",
+  "Kassenbestand und Bankguthaben",
+  "Eigenkapital",
+  "Gezeichnetes Kapital",
+  "Kapitalrücklage",
+  "Gewinnrücklagen",
+  "Bilanzgewinn oder Bilanzverlust",
+  "Rückstellungen",
+  "Verbindlichkeiten",
+  "Passive Rechnungsabgrenzungsposten",
+  "Passive latente Steuern",
+  "Anschaffungs- oder Herstellungskosten",
+  "Zugänge",
+  "Abgänge",
+  "Umbuchungen",
+  "Abschreibungen",
+  "Außerplanmäßige Abschreibung",
+  "Buchwert",
+  "Nutzungsdauer",
+  "Geleistete Anzahlungen",
+  "Anlagen im Bau".
+3. **Identify the T€ mark (is_Teuro)**:  look at the table column header and check if one of the column header contains the T€ mark. If yes, then set the is_Teuro to True. Otherwise, set it to False.
+4. **Extract "Sachanlagen" Values**: For each table, extract items labeled "Sachanlagen" with their corresponding values. there should be at least 2 values from 2 different year
+5. **Organize Data**: Structure the extracted data into JSON format, listing the table names and corresponding "Sachanlagen" values.
+6. **Output Result**: Present the data as a JSON array with the specified structure.
 
 # Output Format
 
@@ -80,7 +117,8 @@ The output should be a JSON array with the following structure:
     "values": {
       "Sachanlagen_1": "Value1",
       "Sachanlagen_2": "Value2"
-    }
+    },
+    "is_Teuro": true/false
   },
   ...
 ]
@@ -100,6 +138,7 @@ HTML content includes two tables with headings, each containing "Sachanlagen" it
       "Sachanlagen_1": "100.100,50",
       "Sachanlagen_2": "200.200,00"
     }
+    "is_Teuro": true
   }
 ]
 ```
@@ -157,35 +196,38 @@ rate_limiter = RateLimiter(
 async def process_files(file_paths, llm_strategy, output_dir):
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
-    Args:
-        file_paths (list of str): List of file paths to be processed.
-        llm_strategy (LLMStrategy): The language model strategy to use for extraction.
-        output_dir (str): Directory where the extracted data and combined results will be saved.
-    Returns:
-        list: A list of extracted content from each file.
+    Uses streaming mode to process results as they become available.
     """
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
     
-    logger.debug(f"Processing {len(file_paths)} files")
+    logger.info(f"Processing {len(file_paths)} files using streaming mode")
     
     config = CrawlerRunConfig(
         cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
+        stream=True  # Enable streaming mode
     )
 
+    extracted_data = []
+    processed_count = 0
+
     async with AsyncWebCrawler() as crawler:
-        results = await crawler.arun_many(
+        # Use streaming mode to process files as they complete
+        async for result in await crawler.arun_many(
             urls=file_urls,
             config=config,
             dispatcher=dispatcher,
             rate_limiter=rate_limiter,
-        )
-
-        extracted_data = []
-        for idx, result in enumerate(results):
-            file_path = file_paths[idx]
+        ):
+            processed_count += 1
+            
+            # Process result as it comes in
             if result.success and result.extracted_content:
+                # Find the corresponding file path
+                file_idx = file_urls.index(result.url)
+                file_path = file_paths[file_idx]
+                
                 # Extract company name from HTML comment
                 company_name = extract_company_name(file_path)
                 
@@ -232,6 +274,8 @@ async def process_files(file_paths, llm_strategy, output_dir):
                     logger.debug(f"Added company name '{company_name}' to content")
                 except json.JSONDecodeError as e:
                     logger.warning(f"Could not parse extracted_content as JSON: {e}")
+                except KeyError as e:
+                    logger.warning(f"Missing expected key when adding company name: {e}")
                 except Exception as e:
                     logger.warning(f"Error adding company name to content: {e}")
                 
@@ -244,12 +288,16 @@ async def process_files(file_paths, llm_strategy, output_dir):
                             result.extracted_content, f, indent=2, ensure_ascii=False
                         )
 
-                logger.info(f"Extracted data saved to {output_file}")
+                logger.info(f"[{processed_count}/{len(file_paths)}] Extracted data for '{company_name}' saved to {output_file}")
                 extracted_data.append(result.extracted_content)
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                logger.warning(f"No content extracted from {file_path}: {error_msg}")
+                logger.warning(f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}")
 
+            # Periodically log progress
+            if processed_count % 5 == 0:
+                logger.info(f"Processed {processed_count}/{len(file_paths)} files")
+        
         # Show usage stats
         usage_stats = llm_strategy.show_usage()
         logger.info(f"LLM usage stats: {usage_stats}")
@@ -332,7 +380,7 @@ async def main():
         "--output",
         "-o",
         help="Output directory for extracted data",
-        default="llm_extracted_data",
+        default="sachanlagen_default",
     )
     parser.add_argument(
         "--ext", "-e", help="File extension to process (default: .md)", default=".html"
