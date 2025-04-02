@@ -27,7 +27,15 @@ def configure_logging(log_level=logging.INFO):
     # Set log level for other libraries to reduce noise
     logging.getLogger('urllib3').setLevel(logging.WARNING)
     logging.getLogger('asyncio').setLevel(logging.WARNING)
-    
+    # Set log level for HTTPx, which is used by AsyncWebCrawler
+    logging.getLogger('httpx').setLevel(logging.WARNING)
+    logging.getLogger('httpcore').setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
+    logging.getLogger('LiteLLM').setLevel(logging.WARNING)
+    logging.getLogger('botocore').setLevel(logging.WARNING)
+    # List all active loggers at configuration time
+    #active_loggers = [name for name in logging.root.manager.loggerDict]
+    #logger.info("Active loggers in the program: %s", active_loggers)
     logger.debug("Logging configured with level: %s", 
                  logging.getLevelName(log_level))
 
@@ -101,6 +109,33 @@ HTML content includes two tables with headings, each containing "Sachanlagen" it
 - make sure to not take the numbers from the sub item of the Sachanlagen like Technische Anlagen und Maschinen,Grundstücke, Andere Anlagen, etc.
 """
 
+def extract_company_name(file_path):
+    """
+    Extract company name from HTML comment at the beginning of the file.
+    The comment format should be: <!--original_filename: Company Name-->
+    
+    Args:
+        file_path (str): Path to the HTML file
+        
+    Returns:
+        str: Extracted company name or empty string if not found
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            # Read first few lines of the file to look for the comment
+            # Reading more than just first line in case there are other comments/tags before it
+            content = ''.join(f.readline() for _ in range(10))
+            
+        # Look for the comment pattern
+        import re
+        match = re.search(r'<!--\s*original_filename:\s*([^>]+?)\s*-->', content)
+        if match:
+            logger.debug(f"(extract_company_name) Extracted company name from {file_path}: {match.group(1).strip()}")
+            return match.group(1).strip()
+    except Exception as e:
+        logger.error(f"Error extracting company name from {file_path}: {e}")
+    
+    return ""
 
 def ensure_output_directory(directory="llm_extracted_data"):
     """Ensure the output directory for extracted data exists"""
@@ -151,6 +186,9 @@ async def process_files(file_paths, llm_strategy, output_dir):
         for idx, result in enumerate(results):
             file_path = file_paths[idx]
             if result.success and result.extracted_content:
+                # Extract company name from HTML comment
+                company_name = extract_company_name(file_path)
+                
                 # Extract source URL info for validation and naming
                 original_url = result.url
                 parsed_url = urlparse(original_url)
@@ -174,6 +212,29 @@ async def process_files(file_paths, llm_strategy, output_dir):
                     output_dir, f"{name_without_ext}.json"
                 )
 
+                # Add company_name to each entry in the extracted content
+                try:
+                    # Parse the extracted content if it's a string
+                    content_to_modify = result.extracted_content
+                    if isinstance(content_to_modify, str):
+                        content_to_modify = json.loads(content_to_modify)
+                    
+                    # Add company name to each entry
+                    if isinstance(content_to_modify, list):
+                        for entry in content_to_modify:
+                            if isinstance(entry, dict):
+                                entry["company_name"] = company_name
+                    elif isinstance(content_to_modify, dict):
+                        content_to_modify["company_name"] = company_name
+                    
+                    # Update the result.extracted_content with the modified content
+                    result.extracted_content = content_to_modify
+                    logger.debug(f"Added company name '{company_name}' to content")
+                except json.JSONDecodeError as e:
+                    logger.warning(f"Could not parse extracted_content as JSON: {e}")
+                except Exception as e:
+                    logger.warning(f"Error adding company name to content: {e}")
+                
                 # Save extracted content
                 with open(output_file, "w", encoding="utf-8") as f:
                     if isinstance(result.extracted_content, str):
@@ -363,7 +424,8 @@ async def main():
         await process_files(files_to_process, llm_strategy, output_dir)
         await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
         
-
-
 if __name__ == "__main__":
     asyncio.run(main())
+
+
+
