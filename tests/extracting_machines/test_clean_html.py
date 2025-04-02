@@ -47,7 +47,7 @@ class TestCleanHTML(unittest.TestCase):
         
         # Check that the filename comment is included as a proper HTML comment
         expected_comment = f"<!--original_filename: {filename}-->"
-        self.assertIn(expected_comment, result.replace(" ", ""))
+        self.assertIn(expected_comment, result)
         
         # Check that the table and other elements are still present
         soup = BeautifulSoup(result, "html.parser")
