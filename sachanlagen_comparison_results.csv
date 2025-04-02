@@ -1,0 +1,19 @@
+company_name,json_company,csv_start,csv_end,json_start,json_end,table_name,start_match_status,end_match_status
+BE-Aluschmiede GmbH,BE-Aluschmiede_GmbH,,8.177,,8.446,Aktiva,N/A,Mismatch
+BAGR Berliner Aluminiumwerk GmbH,BAGR_Berliner_Aluminiumwerk_GmbH,13316061.48,12694918.24,13316061.48,12694918.24,Aktiva,Match,Match
+Aluminiumwerk Unna Aktiengesellschaft,Aluminiumwerk_Unna_Aktiengesellschaft,32.753,31.062,32.753,31.062,Aktiva,Match,Match
+FERTINGER TUBES GmbH,FERTINGER_TUBES_GmbH,3362845.15,4156238.84,3362845.15,3306933.55,Aktiva,Match,Mismatch
+Alpha Metall GmbH,Alpha_Metall_GmbH,606322.45,743.5,743.5,606322.45,AKTIVA,Mismatch,Mismatch
+Aluminium Oxid Stade GmbH,Aluminium_Oxid_Stade_GmbH,86978383.16,89634071.56,86978383.16,89634071.56,Aktiva,Match,Match
+Hydro Aluminium Gießerei Rackwitz GmbH,Hydro_Aluminium_Giesserei_Rackwitz_GmbH,8819541.35,5153806.02,8.824,5.168,Vermögens- und Kapitalstruktur (T€),Mismatch,Mismatch
+HMT Höfer Metall Technik GmbH & Co. KG,HMT_Hoefer_Metall_Technik_GmbH_and_Co._KG,30174231.33,24567.1,15848.9,17014623.62,AKTIVA,Mismatch,Mismatch
+Hydro Extrusion Offenburg GmbH,Hydro_Extrusion_Offenburg_GmbH,,,44128167.16,41933984.16,Entwicklung des Anlagevermögens 2021,N/A,N/A
+AluTec GmbH,AluTec_GmbH,1479440.0,1620567.0,1479440.0,1620567.0,Aktiva,Match,Match
+MWS Friedrichshafen GmbH,MWS_Friedrichshafen_GmbH,11166783.52,13.912,11166783.52,13.912,AKTIVA,Match,Match
+Richter Aluminium GmbH,Richter_Aluminium_GmbH,36457410.61,26.447,18.394,16461750.02,AKTIVA,Mismatch,Mismatch
+Gerhardi AluTechnik GmbH,Gerhardi_AluTechnik_GmbH,537352.99,469795.49,469795.49,537352.99,Aktiva,Mismatch,Mismatch
+Rheinfelden Alloys GmbH & Co. KG,Rheinfelden_Alloys_GmbH_and_Co._KG,9626739.82,9472412.56,9626739.82,9472412.56,Aktiva,Match,Match
+Bikar-Aluminium GmbH,Bikar-Aluminium_GmbH,8.471,8.973,8.973,8.471,AKTIVA,Mismatch,Mismatch
+Aluminium-Werke Wutöschingen AG & Co. KG,Aluminium-Werke_Wutoeschingen_AG_and_Co._KG,26939974.85,26720258.75,26939974.85,26720258.75,Aktiva,Match,Match
+Weseralu GmbH & Co. KG,Weseralu_GmbH_and_Co._KG,17386358.89,12953170.22,17386358.89,12953170.22,AKTIVA,Match,Match
+COIL GmbH,COIL_GmbH,23023886.51,23.01,21.919,20360514.44,AKTIVA,Mismatch,Mismatch
