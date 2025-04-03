@@ -6,12 +6,31 @@ import json
 import argparse
 from colorama import Fore, Style, init
 
+# Define constants for repeated patterns
+FOLDER_PATTERNS = {
+    'bundesanzeiger': 'bundesanzeiger_local_{}*',
+    'output': 'bundesanzeiger_local_{}_output*',
+    'domain': 'domain_content_{}*',
+    'llm': 'llm_extracted_{}*',
+    'pluralized': 'pluralized_{}*'
+}
+
+FILE_PATTERNS = {
+    'company': 'company_{}.csv',
+    'machine_report': 'machine_report_{}*.csv',
+    'merged': 'merged_{}*.csv',
+    'final_export': 'final_export_{}.csv',
+    'enriched': 'enriched_final_export_{}.csv',
+    'consolidated_json': 'consolidated_output/*{}*.json',
+    'consolidated_csv': 'consolidated_output/*{}*.csv'
+}
+
 # Initialize colorama
 init()
 
 def get_csv_files():
     """Find all company_*.csv files excluding those with _output in name"""
-    csv_files = glob.glob('company_*.csv')
+    csv_files = glob.glob(FILE_PATTERNS['company'].format('*'))
     return [f for f in csv_files if '_output' not in f]
 
 def extract_category(filename):
@@ -28,7 +47,7 @@ def count_csv_rows(filepath):
 
 def find_matching_folders(category):
     """Find bundesanzeiger_local_ folders for a category"""
-    folders = glob.glob(f'bundesanzeiger_local_{category}*')
+    folders = glob.glob(FOLDER_PATTERNS['bundesanzeiger'].format(category))
     return [f for f in folders if '_output' not in f]
 
 def count_subfolders(folder_path):
@@ -42,7 +61,7 @@ def count_subfolders(folder_path):
 
 def get_machine_report_count(category):
     """Check if machine_report_<category> file exists and count rows"""
-    report_files = glob.glob(f'machine_report_{category}*.csv')
+    report_files = glob.glob(FILE_PATTERNS['machine_report'].format(category))
     if not report_files:
         return 0
     
@@ -55,7 +74,7 @@ def get_machine_report_count(category):
 
 def count_output_files(category):
     """Count files in bundesanzeiger_local_<category>_output folders"""
-    output_folders = glob.glob(f'bundesanzeiger_local_{category}*_output')
+    output_folders = glob.glob(FOLDER_PATTERNS['output'].format(category))
     total_files = 0
     
     for folder in output_folders:
@@ -68,7 +87,7 @@ def count_output_files(category):
 
 def get_merged_file_count(category):
     """Check if merged_<category> file exists and count rows"""
-    merged_files = glob.glob(f'merged_{category}*.csv')
+    merged_files = glob.glob(FILE_PATTERNS['merged'].format(category))
     if not merged_files:
         return 0
     
@@ -81,7 +100,7 @@ def get_merged_file_count(category):
 
 def count_domain_content_files(category):
     """Count files in domain_content_<category> folders"""
-    domain_folders = glob.glob(f'domain_content_{category}*')
+    domain_folders = glob.glob(FOLDER_PATTERNS['domain'].format(category))
     total_files = 0
     
     for folder in domain_folders:
@@ -94,7 +113,7 @@ def count_domain_content_files(category):
 
 def count_llm_files_and_errors(category):
     """Count files in llm_extracted_<category> folders and check for errors"""
-    llm_folders = glob.glob(f'llm_extracted_{category}*')
+    llm_folders = glob.glob(FOLDER_PATTERNS['llm'].format(category))
     total_files = 0
     error_count = 0
     error_files = []
@@ -136,7 +155,7 @@ def count_llm_files_and_errors(category):
 
 def count_pluralized_files(category):
     """Count files in pluralized_<category> folders"""
-    pluralized_folders = glob.glob(f'pluralized_{category}*')
+    pluralized_folders = glob.glob(FOLDER_PATTERNS['pluralized'].format(category))
     total_files = 0
     
     for folder in pluralized_folders:
@@ -153,18 +172,18 @@ def check_consolidated_output(category):
         return False, False
     
     # Check for JSON files matching the category
-    json_files = glob.glob(f'consolidated_output/*{category}*.json')
+    json_files = glob.glob(FILE_PATTERNS['consolidated_json'].format(category))
     has_json = len(json_files) > 0
     
     # Check for CSV files matching the category
-    csv_files = glob.glob(f'consolidated_output/*{category}*.csv')
+    csv_files = glob.glob(FILE_PATTERNS['consolidated_csv'].format(category))
     has_csv = len(csv_files) > 0
     
     return has_json, has_csv
 
 def check_final_export(category):
     """Check if final_export_<category>.csv file exists and count rows"""
-    export_files = glob.glob(f'final_export_{category}.csv')
+    export_files = glob.glob(FILE_PATTERNS['final_export'].format(category))
     if not export_files:
         return 0, False
     
@@ -176,7 +195,7 @@ def check_final_export(category):
 
 def check_enriched_data(category):
     """Check if enriched_final_export_<category>.csv file exists and count rows"""
-    enriched_files = glob.glob(f'enriched_final_export_{category}.csv')
+    enriched_files = glob.glob(FILE_PATTERNS['enriched'].format(category))
     if not enriched_files:
         return 0, False
     
