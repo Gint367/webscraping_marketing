@@ -4,9 +4,48 @@ import json
 import os
 import sys
 import asyncio
-from extract_sachanlagen import check_and_reprocess_error_files
+from extract_sachanlagen import check_and_reprocess_error_files, extract_category_from_input_path
 
 # Import the function to test - using absolute import
+
+class TestExtractCategoryFromInputPath(unittest.TestCase):
+    """Test cases for extract_category_from_input_path function"""
+    
+    def test_extract_category_from_directory(self):
+        """Test extracting category from a directory path"""
+        # Test standard pattern
+        self.assertEqual(
+            extract_category_from_input_path('/path/to/bundesanzeiger_local_maschinenbau'),
+            'maschinenbau'
+        )
+        
+        # Test with _output suffix
+        self.assertEqual(
+            extract_category_from_input_path('/path/to/bundesanzeiger_local_blechteile_output'),
+            'blechteile'
+        )
+        
+        # Test with non-matching directory
+        self.assertEqual(
+            extract_category_from_input_path('/path/to/normal_directory'),
+            ''
+        )
+    
+    def test_extract_category_from_file(self):
+        """Test extracting category from a file path with parent directory pattern"""
+        with patch('os.path.isfile', return_value=True):
+            with patch('os.path.dirname', return_value='/path/to/bundesanzeiger_local_autozulieferer_output'):
+                self.assertEqual(
+                    extract_category_from_input_path('/path/to/bundesanzeiger_local_autozulieferer_output/file.html'),
+                    'autozulieferer'
+                )
+            
+            # Test with non-matching directory
+            with patch('os.path.dirname', return_value='/path/to/normal_directory'):
+                self.assertEqual(
+                    extract_category_from_input_path('/path/to/normal_directory/file.html'),
+                    ''
+                )
 
 class TestCheckAndReprocessErrorFiles(unittest.TestCase):
     def setUp(self):
@@ -243,6 +282,43 @@ class TestCheckAndReprocessErrorFiles(unittest.TestCase):
         mock_process_files.assert_called_once()
         # Should choose the first file found
         self.assertEqual(mock_process_files.call_args[0][0][0], 'input_dir/file1.html')
+
+    @patch('extract_sachanlagen.os.listdir')
+    @patch('extract_sachanlagen.os.path.join')
+    @patch('extract_sachanlagen.open', new_callable=mock_open)
+    @patch('extract_sachanlagen.json.load')
+    @patch('extract_sachanlagen.os.walk')
+    @patch('extract_sachanlagen.process_files')
+    @patch('extract_sachanlagen.logger')
+    async def test_correct_file_extension_handling(self, mock_logger, mock_process_files, mock_walk, 
+                                                 mock_json_load, mock_open, mock_join, mock_listdir):
+        """Test that the function correctly handles file extensions when looking for original files"""
+        # Setup
+        mock_listdir.return_value = ['Unterschuetz_Sondermaschinenbau_GmbH_cleaned.json']
+        mock_join.side_effect = lambda *args: '/'.join(args)
+        mock_json_load.return_value = {"error": True, "message": "Failed to process"}
+        
+        # Mock finding original file
+        mock_walk.return_value = [
+            ('input_dir', [], ['Unterschuetz_Sondermaschinenbau_GmbH_cleaned.html']),
+        ]
+        
+        mock_process_files.return_value = []
+        
+        # Call function
+        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
+        
+        # Assertions
+        self.assertEqual(result, 1)  # Should process the file
+        mock_process_files.assert_called_once()
+        # Check the first argument to process_files, which should be the file list
+        self.assertEqual(mock_process_files.call_args[0][0][0], 
+                        'input_dir/Unterschuetz_Sondermaschinenbau_GmbH_cleaned.html')
+        
+        # Verify no warning was logged about not finding the original file
+        warning_calls = [call[0][0] for call in mock_logger.warning.call_args_list 
+                        if "couldn't find original file" in call[0][0]]
+        self.assertEqual(len(warning_calls), 0, "Warning about not finding original file was logged")
 
 # Helper function to run async tests
 def run_async_test(coro):

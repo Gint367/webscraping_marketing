@@ -10,6 +10,7 @@ from crawl4ai.async_configs import CrawlerRunConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from crawl4ai.async_configs import LLMConfig
 import argparse
+import re
 
 # Setup logging
 logger = logging.getLogger(__name__)
@@ -173,6 +174,32 @@ def extract_company_name(file_path):
             return match.group(1).strip()
     except Exception as e:
         logger.error(f"Error extracting company name from {file_path}: {e}")
+    
+    return "sachanlagen_default"
+
+def extract_category_from_input_path(input_path):
+    """
+    Extract category from input path if it contains 'bundesanzeiger_local_'
+    
+    Args:
+        input_path (str): Input directory or file path
+        
+    Returns:
+        str: Extracted category or empty string if pattern not found
+    """
+    # If the input is a file, use its directory
+    if os.path.isfile(input_path):
+        input_path = os.path.dirname(input_path)
+    
+    # Extract the basename of the directory
+    basename = os.path.basename(input_path)
+    
+    # Check if the name matches the pattern
+    match = re.match(r'bundesanzeiger_local_([^_]+)(?:_output)?$', basename)
+    if match:
+        category = match.group(1)
+        logger.info(f"Detected category from input path: {category}")
+        return category
     
     return ""
 
@@ -342,8 +369,9 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
                     has_error = True
                 
                 if has_error:
-                    # Extract the original filename from the JSON filename
-                    original_name = json_file.replace('_extracted.json', ext)
+                    # Extract the original filename from the JSON filename - properly remove the .json extension
+                    base_name = os.path.splitext(json_file)[0]  # Get filename without .json extension
+                    original_name = base_name + ext  # Add the correct extension
                     
                     # Look for the original file in the input directory and subdirectories
                     original_files = []
@@ -380,7 +408,7 @@ async def main():
         "--output",
         "-o",
         help="Output directory for extracted data",
-        default="sachanlagen_default",
+        default=None,
     )
     parser.add_argument(
         "--ext", "-e", help="File extension to process (default: .md)", default=".html"
@@ -405,8 +433,19 @@ async def main():
 
     args = parser.parse_args()
 
+    # Determine output directory
+    output_dir = args.output
+    if output_dir is None:
+        # If no output directory is specified, try to extract category from input path
+        category = extract_category_from_input_path(args.input)
+        if category:
+            output_dir = f"sachanlagen_{category}"
+        else:
+            output_dir = "sachanlagen_default"
+        logger.info(f"Output directory automatically set to: {output_dir}")
+
     # Ensure output directory exists
-    output_dir = ensure_output_directory(args.output)
+    output_dir = ensure_output_directory(output_dir)
 
     # Configure logging
     configure_logging(getattr(logging, args.log_level.upper(), logging.INFO))
