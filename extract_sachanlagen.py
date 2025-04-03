@@ -175,7 +175,7 @@ def extract_company_name(file_path):
     except Exception as e:
         logger.error(f"Error extracting company name from {file_path}: {e}")
     
-    return "sachanlagen_default"
+    return ""
 
 def extract_category_from_input_path(input_path):
     """
@@ -187,6 +187,9 @@ def extract_category_from_input_path(input_path):
     Returns:
         str: Extracted category or empty string if pattern not found
     """
+    # Remove any trailing slashes
+    input_path = input_path.rstrip('/')
+    
     # If the input is a file, use its directory
     if os.path.isfile(input_path):
         input_path = os.path.dirname(input_path)
