@@ -11,6 +11,8 @@ from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from crawl4ai.async_configs import LLMConfig
 import argparse
 import re
+import csv
+from decimal import Decimal
 
 # Setup logging
 logger = logging.getLogger(__name__)
@@ -402,6 +404,129 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
         return 0
 
 
+def process_sachanlagen_output(output_dir):
+    """
+    Process all extracted Sachanlagen JSON files in the output directory.
+    For each company, find the 'Aktiva' table and extract the largest Sachanlagen value.
+    Generate a CSV report with company names and their Sachanlagen values.
+    
+    Args:
+        output_dir (str): Directory containing the extracted JSON files
+        
+    Returns:
+        str: Path to the generated CSV file
+    """
+    logger.info(f"Processing extracted Sachanlagen data in {output_dir}...")
+    
+    # Prepare data structure for CSV
+    csv_data = []
+    total_files = 0
+    success_count = 0
+    
+    # German number format conversion utility function
+    def convert_german_number(num_str):
+        if not num_str:
+            return 0
+        try:
+            # Remove any currency symbols or spaces
+            cleaned = num_str.replace('€', '').replace(' ', '').strip()
+            # Replace German decimal comma with dot and remove thousand separators
+            decimal_str = cleaned.replace('.', '').replace(',', '.')
+            # Convert to Decimal for precision
+            return Decimal(decimal_str)
+        except Exception as e:
+            logger.warning(f"Failed to convert number '{num_str}': {e}")
+            return Decimal('0')
+    
+    # Process each JSON file in the output directory
+    for json_file in os.listdir(output_dir):
+        if not json_file.endswith('.json'):
+            continue
+            
+        total_files += 1
+        json_path = os.path.join(output_dir, json_file)
+        
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            # Get company name from data or filename
+            company_name = None
+            if isinstance(data, list) and len(data) > 0 and isinstance(data[0], dict):
+                company_name = data[0].get('company_name')
+            
+            if not company_name:
+                # Extract company name from filename by removing _cleaned suffix
+                company_name = os.path.splitext(json_file)[0]
+                if company_name.endswith('_cleaned'):
+                    company_name = company_name[:-8]  # Remove '_cleaned' suffix
+            
+            # Find Aktiva table
+            aktiva_tables = []
+            for item in data:
+                if isinstance(item, dict) and 'table_name' in item:
+                    if item['table_name'].lower() == 'aktiva':
+                        aktiva_tables.append(item)
+            
+            if not aktiva_tables:
+                logger.warning(f"No 'Aktiva' table found in {json_file}")
+                continue
+                
+            success_count += 1
+            
+            # Find largest Sachanlagen value across all years
+            largest_value = Decimal('0')
+            largest_table = None
+            
+            for table in aktiva_tables:
+                values = table.get('values', {})
+                is_teuro = table.get('is_Teuro', False)
+                
+                for key, value_str in values.items():
+                    if key.startswith('Sachanlagen'):
+                        value = convert_german_number(value_str)
+                        
+                        # Handle Teuro conversion if needed
+                        if is_teuro and value < 50000:
+                            original_value = value
+                            value *= 1000
+                            logger.info(f"Teuro conversion in {json_file}, table '{table['table_name']}': "
+                                        f"Original value {original_value} converted to {value}")
+                        
+                        if value > largest_value:
+                            largest_value = value
+                            largest_table = table
+            
+            # Add to CSV data - floor the Sachanlagen value to the nearest whole number
+            csv_data.append({
+                'company_name': company_name,
+                'sachanlagen': str(int(largest_value)),  # Convert to integer to floor the value
+                'table_name': largest_table['table_name'] if largest_table else 'N/A',
+                'is_teuro': str(largest_table.get('is_Teuro', False)) if largest_table else 'False'
+            })
+            
+        except Exception as e:
+            logger.error(f"Error processing {json_file}: {e}")
+    
+    # Generate CSV output filename based on output directory name
+    csv_filename = f"{os.path.basename(output_dir)}.csv"
+    csv_path = os.path.join(os.path.dirname(output_dir), csv_filename)
+    
+    # Write CSV file
+    with open(csv_path, 'w', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['company_name', 'sachanlagen', 'table_name', 'is_teuro']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        
+        writer.writeheader()
+        for row in csv_data:
+            writer.writerow(row)
+    
+    logger.info(f"CSV report generated: {csv_path}")
+    logger.info(f"Processing summary: {success_count} of {total_files} files had Aktiva tables")
+    
+    return csv_path
+
+
 async def main():
     parser = argparse.ArgumentParser(
         description="Extract data from markdown files using LLM"
@@ -429,12 +554,21 @@ async def main():
         default=False,
     )
     parser.add_argument(
+        "--only-process",
+        action="store_true",
+        help="Only process existing output directory to generate CSV summary (skip extraction)",
+        default=False,
+    )
+    parser.add_argument(
         "--log-level",
         help="Set the logging level (default: INFO)",
         default="INFO",
     )
 
     args = parser.parse_args()
+
+    # Configure logging
+    configure_logging(getattr(logging, args.log_level.upper(), logging.INFO))
 
     # Determine output directory
     output_dir = args.output
@@ -447,11 +581,25 @@ async def main():
             output_dir = "sachanlagen_default"
         logger.info(f"Output directory automatically set to: {output_dir}")
 
+    # Check if the input path exists
+    if not os.path.exists(args.input):
+        # If --only-process is set and the output directory exists, we'll proceed
+        # even if the input path doesn't exist
+        if args.only_process and os.path.exists(output_dir):
+            logger.info(f"Input path {args.input} not found, but proceeding with --only-process using {output_dir}")
+        else:
+            logger.error(f"Error: {args.input} does not exist")
+            return
+
     # Ensure output directory exists
     output_dir = ensure_output_directory(output_dir)
 
-    # Configure logging
-    configure_logging(getattr(logging, args.log_level.upper(), logging.INFO))
+    # If only processing is requested, just run the process_sachanlagen_output function and exit
+    if args.only_process:
+        logger.info(f"Only processing existing output in {output_dir}, skipping extraction phase")
+        csv_path = process_sachanlagen_output(output_dir)
+        logger.info(f"Sachanlagen data processing complete. CSV report available at: {csv_path}")
+        return
 
     # Define LLM strategy once
     temperature = 0.7
@@ -513,6 +661,10 @@ async def main():
         # Process all files and do error checking
         await process_files(files_to_process, llm_strategy, output_dir)
         await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+    
+    # Process the extracted data and generate CSV summary
+    csv_path = process_sachanlagen_output(output_dir)
+    logger.info(f"Sachanlagen data processing complete. CSV report available at: {csv_path}")
         
 if __name__ == "__main__":
     asyncio.run(main())
