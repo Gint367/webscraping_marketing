@@ -239,7 +239,7 @@ python convert_to_csv.py <input_json>
   - CSV file with the same base name as the input JSON
   - Contains selected fields from the JSON records with BOM encoding for Excel compatibility
 - **Usage:** Transforms the consolidated JSON data into a tabular CSV format for analysis and reporting
-- **Example:** `python convert_to_csv.py v2_consolidated_pluralized_maschinenbau.json`
+- **Example:** `python convert_to_csv.py consolidated_pluralized_maschinenbau.json`
 
 ## Additional Steps
 
@@ -248,18 +248,23 @@ python convert_to_csv.py <input_json>
 ### Merge Technical Equipment with Keywords
 
 ```bash
-python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_data_file> --output [final_export_X.csv]
+python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_data_file> [--output <output_file>] [--log-level <level>]
 ```
 
 - **Input:**
   - `--csv <csv_file>`: CSV file with keyword data (output from convert_to_csv.py)
   - `--base <base_data_file>`: CSV or Excel file containing technical equipment information
-  - `--output [final_export_X.csv]`: Optional output filename (defaults to final_export_<timestamp>.csv)
+  - `--output <output_file>`: Optional output filename (defaults to final_export_<industry>.csv)
+  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
 - **Output:**
   - CSV file combining keyword data with technical equipment information
   - Contains all columns from both inputs with matching records merged
 - **Usage:** Creates a comprehensive dataset linking technical equipment data with extracted keywords
-- **Example:** `python merge_technische_anlagen_with_keywords.py --csv v2_consolidated_maschinenbau.csv --base technical_equipment.xlsx --output final_export_maschinenbau.csv`
+- **Example:** `python merge_technische_anlagen_with_keywords.py --csv archive/consolidated_output/pluralized_maschinenbauer.csv --base merged_maschinenbauer_20250404.csv`
+- **Notes:**
+  - Implements fuzzy string matching with token_set_ratio at 90% threshold for more accurate company name matching
+  - Uses vectorized operations for URL matching to improve performance with large datasets
+  - Uses sets to efficiently track matched domains instead of modifying DataFrames
 
 ### Enrich Data
 

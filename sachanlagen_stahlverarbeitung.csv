@@ -22,6 +22,7 @@ Rolf_Koerner_GmbH,554273,Aktiva,False
 Emil_Keck_GmbH_and_Co._KG,56789,Aktiva,False
 Welser_Profile_Deutschland_GmbH,80465296,Aktiva,False
 Gebr._Grieshaber_GmbH,2118470,Aktiva,True
+GWG_Gasflaschenwerk_Gruenhain_GmbH,8651061,Anlagevermögen,False
 MICROMETAL_GmbH,0,N/A,False
 Saar-Metallwerke_GmbH,1728402,Aktiva,False
 Franken-Apparatebau_GmbH,1786814,Aktiva,False
@@ -32,11 +33,14 @@ Mack_Alu-Systeme_GmbH,2769677,Aktiva,False
 Lindemann_GmbH_and_Co._KG,2356925,Aktiva,False
 KrampeHarex_GmbH_and_Co._KG,18691734,Aktiva,True
 INMET_Stahl_GmbH_and_Co._KG,9078662,Aktiva,False
+THIELE_GmbH_+_Co._KG,17954551,Anlagevermögen,False
 Eisenwerk_Arnstadt_GmbH,2405220,Aktiva,True
 PHILIPP_GmbH,1349787,Aktiva,False
 Feinblech_Systeme_GmbH,569737,Aktiva,False
+Saarschmiede_GmbH_Freiformschmiede,116264,Entwicklung des Anlagevermögens,True
 Huesecken_Wire_GmbH,1381988,Aktiva,False
 ZGG_-_Zeitzer_Guss_GmbH,40684184,Aktiva,False
+TITAL_GmbH,36826727,Anlagevermögen,False
 Georg_Group_GmbH,918178,Aktiva,False
 Tittel_Drahtwaren_GmbH,358103,Aktiva,False
 Sprint_Metal_Edelstahlziehereien_GmbH,1968613,Aktiva,False
@@ -47,9 +51,11 @@ PPM-Aberle_GmbH_and_Co_KG,5093218,Aktiva,False
 Friedrich_Wolfarth_GmbH_and_Co._KG,645298,Aktiva,False
 VTN_Witten_GmbH,17211,Aktiva,False
 Chr._Hoever_and_Sohn_GmbH_and_Co._KG,6107210,Aktiva,True
+Dorstener_Drahtwerke,2218737,Anlagevermögen,False
 Geisselmann_GmbH,3364818,Aktiva,False
 Brueck_GmbH,52498693,Aktiva,False
 LSV_Lech-Stahl_Veredelung_GmbH,0,N/A,False
+Droelle_GmbH,4999502,Anlagevermögen,False
 LTI-Metalltechnik_GmbH,8475003,Aktiva,True
 SIGMA_Beteiligungs-_und,4501512,Aktiva,False
 FRIJNS_INDUSTRIAL_GROUP_GmbH,0,N/A,False
@@ -101,6 +107,7 @@ Boedenpresswerk_Daaden_GmbH,4123213,Aktiva,False
 DWK_Drahtwerk_Koeln_GmbH,10771000,Aktiva,True
 Rudi_Goebel_GmbH_and_Co._KG,6151868,Aktiva,False
 Edelstahlwerk_W._Ossenberg_and_Cie_GmbH,1427244,Aktiva,False
+H._Hesse,12706534,Anlagevermögen,False
 Hammerwerk_Erft,14347045,Aktiva,False
 Heinz_Gothe_GmbH_and_Co._KG,2375046,Aktiva,True
 HMS_Maass_GmbH_and_Co._KG,1124176,Aktiva,False
@@ -121,6 +128,7 @@ Filigran_Traegersysteme_GmbH_and_Co._KG,7536000,AKTIVA,True
 DGH_Heidenau_GmbH_and_Co._KG,15169128,Aktiva,False
 Sumitomo_Electric_Hartmetallfabrik_GmbH,17878454,Aktiva,False
 Josef_F._Filthaut_Bronzegiesserei_GmbH,275855,Aktiva,False
+TRIDELTA_Hartferrite_GmbH,1058767,Anlagevermögen,False
 AVIT-Hochdruck_Rohrtechnik_GmbH,2448264,Aktiva,False
 Herold_and_Co._GmbH,2336507,Aktiva,False
 PROGRESSIO_Feinblechtechnik_GmbH,424868,Aktiva,False
@@ -177,6 +185,7 @@ Ervin_Germany_GmbH,23765607,Aktiva,False
 FBS_Industry_GmbH_and_Co._KG,340283,Aktiva,False
 Drameco_GmbH,41505,Aktiva,False
 Drahtwerk_Elisental,0,N/A,False
+Julius_Schuele_Druckguss_GmbH,3070985,Anlagevermögen,False
 Flanschenwerk_Bebitz_GmbH,5422334,Aktiva,True
 Schueer_GmbH,1374867,Aktiva,False
 Eisenwerk_Wuerth_GmbH,2813000,Aktiva,True
@@ -190,16 +199,20 @@ Stahlwerk_Unna_GmbH_and_Co._KG,108330,Aktiva,False
 FRANK_Walz-_und_Schmiedetechnik_GmbH,10682982,Aktiva,False
 BOS_GmbH,6437653,Aktiva,False
 Husemann_and_Huecking_Profile_GmbH,4304872,Aktiva,False
+Metallwarenfabrik_Gemmingen_GmbH,22085000,Anlagevermögen,True
 Stahlkontor_GmbH_and_Co_KG,5393608,Aktiva,True
+ESW_Roehrenwerke_GmbH,0,N/A,False
 voestalpine_Wire_Germany_GmbH,9430277,Aktiva,False
 Ahlers_Edelstahltechnik_GmbH,40815,Aktiva,False
 Haller_Industriebau_GmbH,3772793,Aktiva,False
 EEW-Bergrohr_GmbH,6684550,Aktiva,False
 Adolf_Foehl_GmbH_+_Co._KG,5391781,Aktiva,True
 Wilhelm_Soennecken_GmbH,0,N/A,False
+Drahtwerk_St._Ingbert_GmbH,27766000,Anlagevermögen,True
 Betafence_GmbH,1098704,Aktiva,False
 Glave_Gruppe_GmbH,28232799,Aktiva,False
 Erich_Ulrich_GmbH_and_Co._KG,455504,Aktiva,False
 StrikoWestofen_GmbH,166027,Aktiva,False
 Mudersbach_GmbH_and_Co._KG,67494,Aktiva,False
 Lenz_Kaemper_GmbH_and_Co._KG,2983208,Aktiva,False
+Ernst_Moeschle_Behaelterbau_GmbH,396225,Anlagevermögen,True

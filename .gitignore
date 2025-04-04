@@ -28,3 +28,12 @@ sachanlagen*/
 *.log
 
 .gitignore
+
+# build files
+enriched*
+final*
+llm*
+machine*
+merged*
+output*
+sachanlagen*

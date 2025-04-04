@@ -18,6 +18,7 @@ Huning_Maschinenbau_GmbH,13952800,Aktiva,True
 Keller_Lufttechnik_GmbH_+_Co._KG,2886359,Aktiva,False
 Hans_Hundegger_AG,641543,Aktiva,False
 FGB:_Praezisionsmaschinenbau,1152884,Aktiva,False
+elexis_AG,71819,Anlagevermögen,True
 Ferromatik_Milacron_GmbH,155024,Aktiva,False
 STEINERT_GmbH,12114163,Aktiva,False
 HOLZER_GmbH,1002818,Aktiva,False
@@ -88,6 +89,7 @@ Bruells_Maschinen-_+_Geraetebau_GmbH,1896138,Aktiva,False
 Heinz_Bergmann,3766528,Aktiva,False
 Eberlein_Apparatebau_GmbH,382637,Aktiva,False
 BBM_Maschinenbau_und_Vertriebs_GmbH,4972500,Aktiva,False
+Kordel_Antriebstechnik_GmbH,4563800,Anlagevermögen,False
 LINAK_GmbH,1375038,Aktiva,False
 Haver_NIAGARA_GmbH,2944631,Aktiva,False
 HEINRICH_WAGNER_SINTO_Maschinenfabrik_GmbH,9967963,Aktiva,False
@@ -103,6 +105,7 @@ Uth_GmbH,790313,Aktiva,False
 Guenther_Maschinenbau_GmbH,677137,Aktiva,True
 Friedrich_Maschinen-_und_Werkzeugbau,707162,Aktiva,False
 Pharmaplan_GmbH,613285,Aktiva,False
+FRANKA_EMIKA_GmbH,684651,Anlagevermögen,False
 HOBEMA_Maschinenfabrik,50394,Aktiva,False
 Hiller_GmbH,3590827,Aktiva,False
 Albert_Koch,383607,Aktiva,False
@@ -130,10 +133,12 @@ Goessling_Verwaltungs_-_GmbH,0,N/A,False
 Schmid_GmbH_Maschinenbau,103935,Aktiva,False
 SBS_Buehnentechnik_GmbH,1750432,Aktiva,False
 Obermeyer_Maschinenbau_GmbH_and_Co._KG,1743688,Aktiva,False
+WUMAG_TEXROLL_GmbH_and_Co._KG,2126784,Anlagenspiegel zum 31.12.2017,False
 Sebald_Maschinenbau_GmbH,2486605,Aktiva,False
 Weyrauch_GmbH_and_Co._KG,544906,Aktiva,False
 TUeNKERS_Maschinenbau_GmbH,11110268,Aktiva,False
 Metzner_Maschinenbau_GmbH,120353,Aktiva,False
+Andreas_Hofer_Hochdrucktechnik_GmbH,1900243,Anlagevermögen,False
 Laempe_Moessner_Sinto_GmbH,5127159,Aktiva,False
 Trident_Maschinen_GmbH_and_Co._KG,532123,Aktiva,False
 VAMA_Maschinenbau_GmbH,198469,Aktiva,False
@@ -153,6 +158,7 @@ SMG_Sportplatzmaschinenbau_GmbH,3473986,Aktiva,True
 SKR_Antriebstechnik_GmbH,3481702,Aktiva,False
 M._KOLB_Steinbearbeitungsmaschinen_GmbH,8667,Aktiva,False
 Maschinenfabrik_Froemag_GmbH_and_Co._KG,455953,Aktiva,False
+Dango_and_Dienenthal_Maschinenbau_GmbH,88279,Anlagevermögen,False
 Lang_Technik_GmbH,17796254,Aktiva,False
 Holz-Her_GmbH,3255000,Aktiva,True
 Amandus_Kahl_GmbH_and_Co._KG,1888336,Aktiva,False
@@ -172,11 +178,13 @@ MBO_WITT_Maschinenbau_GmbH,615254,Aktiva,False
 MOMAC_Gesellschaft_fuer_Maschinenbau,1358736,Aktiva,False
 Actemium_conntronic_GmbH,3206176,Aktiva,False
 Hennecke_GmbH,29265679,Aktiva,False
+Albrecht_Baeumer,7216716,Anlagevermögen,False
 Hans_Mattis_GmbH,295094,Aktiva,False
 BEKUM_-_Maschinenfabriken,793614,AKTIVA,False
 Vollmer_Werke_Maschinenfabrik_GmbH,13077742,Aktiva,False
 Fooke_GmbH,11558849,Aktiva,False
 Beck_Packautomaten_GmbH_and_Co._KG,239927,Aktiva,False
+transfluid_Maschinenbau_GmbH,6671108,Anlagevermögen,False
 Werner_Lieb_GmbH_and_Co._KG,3468531,Aktiva,False
 METALL_+_PLASTIC_GmbH,9000,Aktiva,False
 Quadient_Germany_GmbH_and_Co._KG,406632,Aktiva,False
@@ -189,6 +197,7 @@ Felss_Group_GmbH,896012,Aktiva,False
 Eugen_Arnold_GmbH.,1894682,Aktiva,False
 Heinrich_Georg_GmbH_Maschinenfabrik,7387116,AKTIVA,False
 MBH_Maschinenbau_and_Blechtechnik_GmbH,2620293,Aktiva,False
+Bihl_+_Wiedemann_GmbH,3124144,Anlagevermögen,False
 TLT-Turbo_GmbH,5615964,Aktiva,False
 NAGEL_Maschinen-_und_Werkzeugfabrik_GmbH,8288483,Aktiva,False
 ROMAI_Robert_Maier_GmbH,1620016,Aktiva,False
@@ -206,6 +215,8 @@ schwartz_GmbH,3625498,Aktiva,False
 Binder_GmbH,428424,Aktiva,False
 SMB_Spezialmaschinenbau_GmbHand_Co._KG,257573,Aktiva,False
 Linck_Holzverarbeitungstechnik_GmbH,4751893,Aktiva,False
+Heidolph_Instruments_GmbH_and_Co._KG,421440,Anlagevermögen,False
+SMS_Maschinenbau_GmbH,3289423,Anlagevermögen,False
 PLANAX_GmbH,5000,Aktiva,True
 BIESSE_DEUTSCHLAND_GmbH,625886,Aktiva,False
 ZIPPE_Industrieanlagen_GmbH,174682,Aktiva,False
@@ -234,6 +245,7 @@ RESA_Systems_GmbH,256788,Aktiva,True
 Maschinenbau_Hellwig_GmbH,354644,Aktiva,False
 SVQ_GmbH,1929342,Aktiva,False
 Heckmann_Maschinenbau,1245628,Aktiva,False
+Manroland_Sheetfed_GmbH,8252991,Anlagevermögen,False
 VEIT_GmbH,13254000,Aktiva,True
 TM_Verwaltungs_GmbH,120144,Aktiva,False
 uniROTA_Maplan_Schwerin_GmbH,426593,Aktiva,False
@@ -353,6 +365,7 @@ Tueschen_and_Zimmermann_GmbH_and_Co._KG,264675,Aktiva,False
 KALLFASS_Verpackungsmaschinen_GmbH,4172548,Aktiva,False
 SFA_Mechanische_Fertigung,1211103,Aktiva,False
 Nordson_Engineering_GmbH,4239743,Aktiva,False
+RONO_Maschinenbau_GmbH,4129848,Anlagevermögen,False
 ISRA_VISION_GmbH,8461,Aktiva,False
 H_+_W_Werner_Hoehmann_GmbH,133061,Aktiva,False
 BAUSCH_Germany_GmbH,895000,Aktiva,True
@@ -368,6 +381,7 @@ Maschinenbau_Leicht_GmbH,12933606,Aktiva,False
 Heidelberg_Instruments_Mikrotechnik_GmbH,6000259,Aktiva,False
 LANG_GmbH_and_Co._KG,824380,Aktiva,False
 Kern_and_Sohn_GmbH,6103378,Aktiva,True
+VON_ARDENNE_Holding_SE_and_Co._KGaA,129966133,Anlagevermögen,False
 FORTUNA_Spezialmaschinen_GmbH,4997294,Aktiva,False
 Braeutigam_Bergbau-,298686,Aktiva,False
 Grenzebach_Maschinenbau_GmbH,0,N/A,False
@@ -421,7 +435,9 @@ Tietjen_Verfahrenstechnik_GmbH,1813593,Aktiva,False
 EDM_Technik_Maschinenbau_GmbH,75457,Aktiva,False
 Top-Werk_GmbH,5512543,Aktiva,False
 Isimat_GmbH_Siebdruckmaschinen,671568,Aktiva,False
+WIMA_Wilsdruffer,4446616,Anlagevermögen,False
 Luettmann_Werkzeugmaschinen,220228,Aktiva,False
+Truetzschler_Group_SE,0,N/A,False
 Oswald_Elektromotoren_GmbH,1274036,Aktiva,False
 Dorst_Technologies_GmbH_and_Co._KG,11722070,Aktiva,False
 Intego_GmbH,373768,Aktiva,False
@@ -551,6 +567,7 @@ ruhlamat_GmbH,3796580,Aktiva,False
 Maschinen-_und_Industriebau_Feld_GmbH,1271993,Aktiva,False
 Water_and_Wastewater_Technic_WWT_GmbH,2314523,Aktiva,False
 SUeMA_Maschinengesellschaft_GmbH,50367,Aktiva,False
+Erwin_Quarder_Systemtechnik_GmbH,10272331,Anlagevermögen,False
 Karl_Menzel_Maschinenfabrik_GmbH_and_Co.,269000,Aktiva,True
 Motan_GmbH,1255110,Aktiva,False
 RIPPERT_GmbH_and_Co._KG,7998530,Aktiva,False
@@ -564,6 +581,7 @@ WEISS_GmbH,3363067,Aktiva,False
 Muessel_Maschinenbau_GmbH,236606,Aktiva,False
 Emmendinger_Maschinenbau_GmbH,542441,Aktiva,False
 PreTec_GmbH_and_Co._KG,526442,Aktiva,False
+ETW_Energietechnik_GmbH,5745446,Anlagevermögen,False
 Piller_Entgrattechnik_GmbH,619250,Aktiva,False
 Werner_Rathmann_Maschinenbau_GmbH,1044051,Aktiva,False
 RAKO_Maschinenbau_GmbH_and_Co._KG,416137,Aktiva,False
@@ -578,6 +596,7 @@ Huber_Kunststoff_and_Technik_GmbH,2013617,Aktiva,False
 Maschinenfabrik_Stolpen_GmbH,955550,Aktiva,False
 OKA-Spezialmaschinenfabrik_GmbH_and_Co._KG,1319559,Aktiva,False
 IGENO_Fahrzeug-,665138,Aktiva,False
+Christian_Pfeiffer_Maschinenfabrik_GmbH,4062416,Anlagevermögen,False
 DMA_Maschinen-_und_Anlagenbau,32653,Aktiva,False
 Autotherm,209434,Aktiva,False
 Maschinenbau_Bardowick_GmbH,523094,Aktiva,False
@@ -766,6 +785,7 @@ Harmonic_Drive_AG,26045117,Aktiva,False
 ENGMATEC_GmbH,1302413,Aktiva,False
 motan_operations_gmbh,957138,Aktiva,False
 HASSIA-REDATRON_GmbH,255024,Aktiva,False
+ATS_Industrial_Automation_GmbH_and_Co._KG,3914530,Anlagevermögen,False
 BHS-Sonthofen_GmbH,18155875,Aktiva,False
 RAMME_Electric_Machines_GmbH,1093967,Aktiva,False
 Stadler_Anlagenbau_GmbH,296898,Aktiva,False
@@ -774,6 +794,7 @@ Otto_Kuennecke_GmbH,322390,Aktiva,False
 Walter_Blombach_GmbH,363202,Aktiva,False
 Maschinenbau_Karl_Ley_GmbH_and_Co._KG,698074,Aktiva,False
 Carl_Kurt_Walther_GmbH_and_Co._KG,637325,Aktiva,False
+PEKRUN_GETRIEBEBAU_GmbH,3802742,Anlagevermögen,True
 Horst_Rottler_Maschinenbau_GmbH,160522,Aktiva,False
 M+M_Turbinen-Technik_GmbH,3682881,Aktiva,True
 Langguth_GmbH,0,N/A,False
@@ -784,6 +805,7 @@ Ruchser_GmbH_Maschinen-_und_Geraetebau,385024,Aktiva,False
 RAPID_Maschinenbau_GmbH,69440,Aktiva,False
 Mayr_and_Wilhelm_GmbH_and_Co._KG,5535484,Aktiva,False
 PRAeWEMA_Antriebstechnik_GmbH,6316151,Aktiva,False
+SR-Schindler,0,N/A,False
 Matsuura_Machinery_GmbH,3332114,Aktiva,True
 Dornieden_Anlagentechnik_GmbH,382740,Aktiva,False
 Schneider_Werk_St._Wendel,2023123,Aktiva,False
@@ -797,6 +819,7 @@ Spatz_and_Heitmueller_GmbH_and_Co._KG,1377000,Aktiva,True
 Witt_and_Sohn_AG,2723369,Aktiva,False
 Boma_Maschinenbau_GmbH,9722838,Aktiva,False
 Heiber_und_Schroeder_Maschinenbau_GmbH,294610,Aktiva,False
+ebu_Umformtechnik_GmbH,2020698,Anlagevermögen,False
 PLUeMAT_Maschinenbau,23327,Aktiva,False
 STAMA_Stahl-_und_Maschinenbau,1797378,Aktiva,False
 WESPA_Metallsaegenfabrik,1988795,Aktiva,False
@@ -810,9 +833,12 @@ Ondal_Medical_Systems_GmbH,2136,Aktiva,False
 elumatec_AG,1891087,Aktiva,False
 SKS_Sondermaschinen-,192248,Aktiva,False
 Genauigkeits_Maschinenbau,27004,Aktiva,False
+Hans_Weber_Maschinenfabrik_GmbH,0,N/A,False
 RKT_Rodinger_Kunststoff-Technik_GmbH,5064700,Aktiva,False
 MASCHINPEX_Maschinenbau_GmbH,36255,Aktiva,False
 Epple_Maschinen_GmbH,30293,Aktiva,False
+Maschinenfabrik_Herkules_GmbH_and_Co._KG,41024,Anlagevermögen,False
+Hoshizaki_Deutschland_Zweigniederlassung,2342653,Anlagevermögen,False
 WEBER_Schraubautomaten_GmbH,35073087,Aktiva,False
 MMD_Werkzeugmaschinen-Vertrieb_GmbH,1453324,Aktiva,False
 KNUTH_WERKZEUGMASCHINEN_GMBH,1380225,Aktiva,False
@@ -849,6 +875,8 @@ Druckguss_Service_Deutschland_GmbH,2217136,Aktiva,False
 Starrag_Technology_GmbH,8471184,Aktiva,False
 K._Sandern_GmbH_Maschinenbau,797837,Aktiva,False
 ZIMM_Germany_GmbH,9572555,Aktiva,False
+G._Kraft_Maschinenbau_GmbH,3320259,Anlagevermögen,False
+Hermann_Bilz_GmbH_and_Co_KG,18044062,Anlagevermögen,False
 Strauss_Verpackungsmaschinen_GmbH,3296261,Aktiva,False
 Mueller_Apparatebau_GmbH,1022801,Aktiva,False
 Horstkemper_Maschinenbau_GmbH,2223718,Aktiva,False
@@ -880,6 +908,7 @@ SMF_Maschinenfabrik_GmbH,210783,Aktiva,False
 Hoeflinger_Umwelttechnik,190140,Aktiva,False
 BISONtec_GmbH,388010,Aktiva,False
 bedo_Verpackungstechnik_GmbH,245200,Aktiva,True
+Pedax_GmbH,1004508,Anlagevermögen,False
 Josef_Meissner_GmbH_and_Co._KG,5691184,Aktiva,False
 KOEPFER_Zahnrad-_und_Getriebetechnik,13378000,Aktiva,True
 Zahoransky_AG,11213000,Aktiva,True
