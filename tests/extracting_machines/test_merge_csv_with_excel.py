@@ -41,14 +41,24 @@ class TestMergeCsvWithExcel(unittest.TestCase):
             'Ort': ['Berlin', 'Munich', 'Hamburg']
         })
         
+        # Create sample Sachanlagen data for testing
+        self.sachanlagen_data = pd.DataFrame({
+            'company_name': ['Test Company', 'Another Company', 'Third GmbH & Co. KG'],
+            'sachanlagen': ['500000', '1000000', '1500000'],
+            'table_name': ['Aktiva', 'Aktiva', 'Aktiva'],
+            'is_teuro': ['False', 'False', 'False']
+        })
+        
         # Create temp files for testing
         self.temp_dir = tempfile.TemporaryDirectory()
         self.csv_path = os.path.join(self.temp_dir.name, 'test_machines.csv')
         self.xlsx_path = os.path.join(self.temp_dir.name, 'test_companies.xlsx')
+        self.sachanlagen_path = os.path.join(self.temp_dir.name, 'test_sachanlagen.csv')
         
         # Save test data to temp files
         self.csv_data.to_csv(self.csv_path, index=False)
         self.xlsx_data.to_excel(self.xlsx_path, index=False)
+        self.sachanlagen_data.to_csv(self.sachanlagen_path, index=False)
     
     def tearDown(self):
         """
@@ -189,8 +199,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         This test validates the fuzzy matching algorithm used to match company names
         between different data sources, ensuring it handles similarity thresholds correctly.
         """
-        company_list = ['Test Company', 'Another Company', 'Third GmbH & Co. KG', 'Jäkel GmbH & Co. KG'
-]
+        company_list = ['Test Company', 'Another Company', 'Third GmbH & Co. KG', 'Jäkel GmbH & Co. KG']
         
         # Test exact match
         match, score = mcwe.find_best_match('Test Company', company_list)
@@ -247,6 +256,167 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         mock_mapping.assert_called_once()
         mock_merge.assert_called_once_with(mock_xlsx_df, mock_machine_data, {'Test Company': 'Test Company'}, 2)
         mock_save.assert_called_once_with(mock_merged_df, self.csv_path)
+    
+    def test_load_sachanlagen_data(self):
+        """
+        Test the load_sachanlagen_data function for loading Sachanlagen data.
+        
+        Scenarios tested:
+        1. Valid Sachanlagen CSV loading
+        2. Correct company name normalization
+        3. Handling of missing required columns
+        4. Handling of file not found errors
+        
+        Validates that the function correctly loads Sachanlagen data from CSV files
+        and properly normalizes company names.
+        """
+        # Test valid file loading
+        result = mcwe.load_sachanlagen_data(self.sachanlagen_path)
+        self.assertIsInstance(result, pd.DataFrame)
+        self.assertEqual(len(result), 3)
+        self.assertIn('company_name', result.columns)
+        self.assertIn('sachanlagen', result.columns)
+        
+        # Test with file that doesn't exist
+        result = mcwe.load_sachanlagen_data('non_existent_file.csv')
+        self.assertTrue(result.empty)
+        
+        # Test with file missing required columns
+        invalid_csv_path = os.path.join(self.temp_dir.name, 'invalid_sachanlagen.csv')
+        pd.DataFrame({'wrong_column': ['data']}).to_csv(invalid_csv_path, index=False)
+        result = mcwe.load_sachanlagen_data(invalid_csv_path)
+        self.assertTrue(result.empty)
+    
+    def test_create_sachanlagen_mapping(self):
+        """
+        Test the create_sachanlagen_mapping function for mapping Sachanlagen companies to Excel companies.
+        
+        Scenarios tested:
+        1. Correct mapping creation for exact matches
+        2. Fuzzy matching for similar company names
+        3. No matching for completely different names
+        
+        Validates that the function correctly maps company names between Sachanlagen and Excel data
+        using fuzzy matching algorithm.
+        """
+        sachanlagen_df = mcwe.load_sachanlagen_data(self.sachanlagen_path)
+        
+        # Test with exact matches
+        mapping = mcwe.create_sachanlagen_mapping(sachanlagen_df, self.xlsx_data)
+        self.assertEqual(len(mapping), 3)
+        self.assertEqual(mapping.get('Test Company'), 'Test Company')
+        self.assertEqual(mapping.get('Another Company'), 'Another Company')
+        
+        # Test with modified company names (fuzzy matching)
+        modified_data = self.sachanlagen_data.copy()
+        modified_data['company_name'] = ['Test_Company', 'Another_Company_GmbH', 'Third_GmbH_and_Co_KG']
+        modified_path = os.path.join(self.temp_dir.name, 'modified_sachanlagen.csv')
+        modified_data.to_csv(modified_path, index=False)
+        
+        modified_df = mcwe.load_sachanlagen_data(modified_path)
+        mapping = mcwe.create_sachanlagen_mapping(modified_df, self.xlsx_data)
+        self.assertGreaterEqual(len(mapping), 2)  # At least 2 should match with fuzzy matching
+        
+        # Check specific matches with fuzzy matching tolerance
+        if 'Test_Company' in mapping:
+            self.assertEqual(mapping.get('Test_Company'), 'Test Company')
+        if 'Third_GmbH_and_Co_KG' in mapping:
+            self.assertEqual(mapping.get('Third_GmbH_and_Co_KG'), 'Third GmbH & Co. KG')
+    
+    def test_merge_with_sachanlagen(self):
+        """
+        Test the merge_with_sachanlagen function for adding Sachanlagen data to merged dataset.
+        
+        Scenarios tested:
+        1. Correct Sachanlagen values added to matching companies
+        2. No Sachanlagen values for non-matching companies
+        3. Original dataframe columns preserved
+        
+        Validates that the function correctly adds Sachanlagen values to the merged dataframe
+        based on company name mapping.
+        """
+        # Create test merged dataframe
+        merged_df = pd.DataFrame({
+            'Firma1': ['Test Company', 'Another Company', 'Third GmbH & Co. KG', 'No Match Company'],
+            'URL': ['http://test.com', 'http://another.com', 'http://third.com', 'http://nomatch.com'],
+            'Top1_Machine': [500000, 800000, 1200000, 300000]
+        })
+        
+        sachanlagen_df = mcwe.load_sachanlagen_data(self.sachanlagen_path)
+        mapping = {'Test Company': 'Test Company', 'Another Company': 'Another Company', 'Third GmbH & Co. KG': 'Third GmbH & Co. KG'}
+        
+        # Merge Sachanlagen data
+        result = mcwe.merge_with_sachanlagen(merged_df, sachanlagen_df, mapping)
+        
+        # Check if Sachanlagen column exists
+        self.assertIn('Sachanlagen', result.columns)
+        
+        # Check if Sachanlagen values are correctly mapped
+        for company in ['Test Company', 'Another Company', 'Third GmbH & Co. KG']:
+            sachanlagen_value = self.sachanlagen_data.loc[self.sachanlagen_data['company_name'] == company, 'sachanlagen'].values[0]
+            result_value = str(result.loc[result['Firma1'] == company, 'Sachanlagen'].values[0])
+            self.assertEqual(result_value, sachanlagen_value)
+        
+        # Check if non-matching company has NaN for Sachanlagen
+        self.assertTrue(pd.isna(result.loc[result['Firma1'] == 'No Match Company', 'Sachanlagen'].values[0]))
+    
+    @patch('extracting_machines.merge_csv_with_excel.load_data')
+    @patch('extracting_machines.merge_csv_with_excel.analyze_company_similarities')
+    @patch('extracting_machines.merge_csv_with_excel.create_company_mapping')
+    @patch('extracting_machines.merge_csv_with_excel.merge_datasets')
+    @patch('extracting_machines.merge_csv_with_excel.load_sachanlagen_data')
+    @patch('extracting_machines.merge_csv_with_excel.create_sachanlagen_mapping')
+    @patch('extracting_machines.merge_csv_with_excel.merge_with_sachanlagen')
+    @patch('extracting_machines.merge_csv_with_excel.save_merged_data')
+    def test_main_function_with_sachanlagen(self, mock_save, mock_merge_sachanlagen, mock_sachanlagen_mapping, 
+                                          mock_load_sachanlagen, mock_merge, mock_mapping, mock_analyze, mock_load):
+        """
+        Test the main orchestration function with Sachanlagen path and mocked dependencies.
+        
+        This test uses mocking to isolate the main function from its dependencies,
+        allowing verification that the function correctly handles Sachanlagen data by:
+        1. Loading Sachanlagen data when path is provided
+        2. Creating Sachanlagen mapping
+        3. Merging Sachanlagen data into the final output
+        4. Passing correct parameters between function calls
+        
+        The test verifies the integration between components with Sachanlagen data included.
+        """
+        # Setup mock returns
+        mock_machine_data = MagicMock()
+        mock_xlsx_df = MagicMock()
+        mock_load.return_value = (mock_machine_data, mock_xlsx_df)
+        
+        mock_mapping.return_value = {'Test Company': 'Test Company'}
+        mock_merged_df = MagicMock()
+        mock_merge.return_value = mock_merged_df
+        
+        mock_sachanlagen_df = MagicMock()
+        mock_load_sachanlagen.return_value = mock_sachanlagen_df
+        mock_sachanlagen_mapping.return_value = {'Test Company': 'Test Company'}
+        
+        mock_merged_with_sachanlagen_df = MagicMock()
+        mock_merge_sachanlagen.return_value = mock_merged_with_sachanlagen_df
+        
+        mock_save.return_value = 'output_file.csv'
+        
+        # Call the function with Sachanlagen path
+        with patch('os.path.exists', return_value=True):  # Mock os.path.exists to return True
+            mcwe.main(csv_file_path=self.csv_path, top_n=2, sachanlagen_path=self.sachanlagen_path)
+        
+        # Verify calls
+        mock_load.assert_called_once_with(self.csv_path)
+        mock_analyze.assert_called_once()
+        mock_mapping.assert_called_once()
+        mock_merge.assert_called_once_with(mock_xlsx_df, mock_machine_data, {'Test Company': 'Test Company'}, 2)
+        
+        # Verify Sachanlagen-related calls
+        mock_load_sachanlagen.assert_called_once_with(self.sachanlagen_path)
+        mock_sachanlagen_mapping.assert_called_once_with(mock_sachanlagen_df, mock_xlsx_df)
+        mock_merge_sachanlagen.assert_called_once_with(mock_merged_df, mock_sachanlagen_df, {'Test Company': 'Test Company'})
+        
+        # Verify final save with merged Sachanlagen data
+        mock_save.assert_called_once_with(mock_merged_with_sachanlagen_df, self.csv_path)
     
     def test_integration(self):
         """
@@ -317,6 +487,68 @@ class TestMergeCsvWithExcel(unittest.TestCase):
             if os.path.exists(expected_filename):
                 os.remove(expected_filename)
             self.fail(f"Integration test failed with exception: {str(e)}")
+    
+    def test_integration_with_sachanlagen(self):
+        """
+        End-to-end integration test for the CSV-Excel merging process with Sachanlagen data.
+        
+        This comprehensive test:
+        1. Executes the main function with test files including Sachanlagen data
+        2. Verifies the creation of the output file with expected naming pattern
+        3. Validates that the output CSV contains all required columns including Sachanlagen
+        4. Checks that Sachanlagen values are correctly merged for each company
+        5. Ensures proper cleanup of test artifacts
+        
+        This test validates the complete workflow with Sachanlagen data included.
+        """
+        try:
+            # Call the main function with Sachanlagen path
+            mcwe.main(csv_file_path=self.csv_path, top_n=2, sachanlagen_path=self.sachanlagen_path)
+            
+            # Get expected output filename based on current date
+            current_date = datetime.now().strftime('%Y%m%d')
+            expected_filename = f"merged_data_{current_date}.csv"
+            
+            # Verify output file was created
+            self.assertTrue(os.path.exists(expected_filename), 
+                           f"Output file {expected_filename} was not created")
+            
+            # Read the output file to validate its contents
+            output_df = pd.read_csv(expected_filename)
+            
+            # Verify Sachanlagen column exists
+            self.assertIn('Sachanlagen', output_df.columns, 
+                         "Sachanlagen column not found in output file")
+            
+            # Check if Sachanlagen values are correctly mapped
+            for company_name in self.sachanlagen_data['company_name']:
+                # Find this company in the output file
+                company_row = output_df[output_df['Firma1'] == company_name]
+                
+                if len(company_row) > 0:
+                    # Get the Sachanlagen value from our test data for this company
+                    sachanlagen_value = self.sachanlagen_data.loc[
+                        self.sachanlagen_data['company_name'] == company_name, 'sachanlagen'].values[0]
+                    
+                    # Get the actual value from the output file
+                    actual_value = str(company_row['Sachanlagen'].values[0])
+                    
+                    # Verify the value matches what we expect
+                    self.assertEqual(actual_value, sachanlagen_value,
+                                   f"Sachanlagen value mismatch for {company_name}: " 
+                                   f"expected {sachanlagen_value}, got {actual_value}")
+            
+            # Clean up the created file after testing
+            if os.path.exists(expected_filename):
+                os.remove(expected_filename)
+                
+        except Exception as e:
+            # Clean up any created file even if test fails
+            current_date = datetime.now().strftime('%Y%m%d')
+            expected_filename = f"merged_data_{current_date}.csv"
+            if os.path.exists(expected_filename):
+                os.remove(expected_filename)
+            self.fail(f"Integration test with Sachanlagen failed with exception: {str(e)}")
 
 
 if __name__ == '__main__':
