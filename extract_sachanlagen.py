@@ -189,7 +189,7 @@ def extract_category_from_input_path(input_path):
     """
     # Remove any trailing slashes
     input_path = input_path.rstrip('/')
-    
+
     # If the input is a file, use its directory
     if os.path.isfile(input_path):
         input_path = os.path.dirname(input_path)
@@ -216,10 +216,10 @@ def ensure_output_directory(directory="llm_extracted_data"):
 dispatcher = MemoryAdaptiveDispatcher(
     memory_threshold_percent=70.0,
     check_interval=1.0,
-    max_session_permit=3,
+    max_session_permit=5,
 )
 rate_limiter = RateLimiter(
-    base_delay=(30, 60), max_delay=60, max_retries=3, rate_limit_codes=[429, 503]
+    base_delay=(10, 60), max_delay=60, max_retries=3, rate_limit_codes=[429, 503]
 )
 
 
