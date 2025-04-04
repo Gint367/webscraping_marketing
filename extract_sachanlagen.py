@@ -422,20 +422,31 @@ def process_sachanlagen_output(output_dir):
     csv_data = []
     total_files = 0
     success_count = 0
+    aktiva_table_count = 0
+    fallback_single_table_count = 0
+    no_table_count = 0
     
     # German number format conversion utility function
-    def convert_german_number(num_str):
+    def convert_german_number(num_str, file_name=None):
         if not num_str:
             return 0
         try:
-            # Remove any currency symbols or spaces
-            cleaned = num_str.replace('€', '').replace(' ', '').strip()
+            # First, remove all characters except numbers, commas, periods, and minus sign
+            import re
+            cleaned = re.sub(r'[^\d.,\-]', '', num_str)
+            
+            # Handle parentheses that indicate negative numbers (e.g., "(18.394)")
+            if num_str.strip().startswith('(') and num_str.strip().endswith(')'):
+                cleaned = '-' + cleaned
+                
             # Replace German decimal comma with dot and remove thousand separators
             decimal_str = cleaned.replace('.', '').replace(',', '.')
+            
             # Convert to Decimal for precision
             return Decimal(decimal_str)
         except Exception as e:
-            logger.warning(f"Failed to convert number '{num_str}': {e}")
+            file_info = f" in file '{file_name}'" if file_name else ""
+            logger.warning(f"Failed to convert number '{num_str}'{file_info}: {[type(e)]}")
             return Decimal('0')
     
     # Process each JSON file in the output directory
@@ -469,8 +480,17 @@ def process_sachanlagen_output(output_dir):
                         aktiva_tables.append(item)
             
             if not aktiva_tables:
-                logger.warning(f"No 'Aktiva' table found in {json_file}")
-                continue
+                # Fallback: If no Aktiva table but exactly one table exists, use that one | this strategy has 70% accuracy
+                if isinstance(data, list) and len(data) == 1 and isinstance(data[0], dict) and 'table_name' in data[0]:
+                    aktiva_tables = data
+                    fallback_single_table_count += 1
+                    logger.info(f"No 'Aktiva' table found in {json_file}, but using the only table: '{data[0]['table_name']}'")
+                else:
+                    no_table_count += 1
+                    logger.warning(f"No 'Aktiva' table found in {json_file}")
+                    continue
+            else:
+                aktiva_table_count += 1
                 
             success_count += 1
             
@@ -484,7 +504,7 @@ def process_sachanlagen_output(output_dir):
                 
                 for key, value_str in values.items():
                     if key.startswith('Sachanlagen'):
-                        value = convert_german_number(value_str)
+                        value = convert_german_number(value_str, json_file)
                         
                         # Handle Teuro conversion if needed
                         if is_teuro and value < 50000:
@@ -522,7 +542,10 @@ def process_sachanlagen_output(output_dir):
             writer.writerow(row)
     
     logger.info(f"CSV report generated: {csv_path}")
-    logger.info(f"Processing summary: {success_count} of {total_files} files had Aktiva tables")
+    logger.info(f"Processing summary: {success_count} of {total_files} files had usable tables")
+    logger.info(f"  - {aktiva_table_count} files had 'Aktiva' tables")
+    logger.info(f"  - {fallback_single_table_count} files had no 'Aktiva' table but used a single available table")
+    logger.info(f"  - {no_table_count} files had no usable tables")
     
     return csv_path
 
