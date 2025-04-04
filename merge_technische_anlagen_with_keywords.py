@@ -2,7 +2,20 @@ import pandas as pd
 import os
 import argparse
 import re
+import logging
+import time
 from urllib.parse import urlparse
+from fuzzywuzzy import fuzz, process
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
+
+# Constants for column selection
+BASE_COLUMNS = ['Firma1', 'Ort', 'Top1_Machine', 'URL', 'Maschinen_Park_Size', 'Sachanlagen']
 
 def clean_trailing_symbols(text):
     """Clean trailing symbols like ',' or '.' from the end of a string."""
@@ -45,7 +58,7 @@ def extract_base_domain(url):
             return main_domain.lower()
         return domain.lower() if domain else None
     except Exception as e:
-        print(f"Error extracting domain from URL '{url}': {e}")
+        logging.error(f"Error extracting domain from URL '{url}': {e}")
         return None
 
 def extract_and_log_domains(df, url_column_name, column_to_create='base_domain', sample_size=5, description=""):
@@ -63,19 +76,19 @@ def extract_and_log_domains(df, url_column_name, column_to_create='base_domain',
         The DataFrame with the new domain column added
     """
     if url_column_name in df.columns:
-        print(f"Extracting domains from '{url_column_name}' column {description}")
+        logging.info(f"Extracting domains from '{url_column_name}' column {description}")
         
-        # Print sample URLs
-        print(f"Example URLs {description}:")
+        # Log sample URLs
+        logging.debug(f"Example URLs {description}:")
         sample_urls = df[url_column_name].dropna().head(sample_size).tolist()
         for url in sample_urls:
-            print(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
+            logging.debug(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
             
         # Extract domains
         df[column_to_create] = df[url_column_name].apply(extract_base_domain)
         return df
     else:
-        print(f"Warning: Column '{url_column_name}' not found in DataFrame {description}")
+        logging.warning(f"Column '{url_column_name}' not found in DataFrame {description}")
         df[column_to_create] = None
         return df
 
@@ -124,34 +137,36 @@ def generate_output_path(input_csv_path):
         return "final_export_merged.csv"
 
 def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
+    start_time = time.time()
+    
     # Generate output path if not provided
     if output_path is None:
         output_path = generate_output_path(csv_path)
-        print(f"Output path not provided. Automatically generated: {output_path}")
+        logging.info(f"Output path not provided. Automatically generated: {output_path}")
     
     # Read CSV file
     csv_data = pd.read_csv(csv_path, encoding='utf-8')
-    print(f"CSV data loaded with {len(csv_data)} rows")
+    logging.info(f"CSV data loaded with {len(csv_data)} rows")
     
     # Read base data file (Excel or CSV)
-    #print(f"Reading base data file: {base_data_path}")
     file_extension = os.path.splitext(base_data_path)[1].lower()
     
     if file_extension == '.xlsx' or file_extension == '.xls':
         base_data = pd.read_excel(base_data_path, sheet_name=0)
-        print(f"Excel data loaded with {len(base_data)} rows")
+        logging.info(f"Excel data loaded with {len(base_data)} rows")
     elif file_extension == '.csv':
         base_data = pd.read_csv(base_data_path, encoding='utf-8')
-        print(f"CSV base data loaded with {len(base_data)} rows")
+        logging.info(f"CSV base data loaded with {len(base_data)} rows")
     else:
+        logging.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
         raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
     
     # Filter base data to only include rows with values in 'Top1_Machine' column
     filtered_data = base_data[base_data['Top1_Machine'].notna()]
-    print(f"Filtered base data to {len(filtered_data)} rows with 'Top1_Machine' values")
+    logging.info(f"Filtered base data to {len(filtered_data)} rows with 'Top1_Machine' values")
     
     # Select necessary columns from base data
-    filtered_data = filtered_data[['Firma1', 'Ort', 'Top1_Machine', 'URL', 'Maschinen_Park_Size']] # ADD HERE IF THERES NEW COLUMNS
+    filtered_data = filtered_data[BASE_COLUMNS]
     
     # Rename the 'Top1_Machine' column to the specified name
     filtered_data = filtered_data.rename(columns={
@@ -162,19 +177,19 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     original_firma1 = filtered_data['Firma1'].copy()
     filtered_data['Firma1'] = filtered_data['Firma1'].apply(clean_trailing_symbols)
     
-    # Print summary of changes made
+    # Log summary of changes made
     changed_rows = filtered_data[original_firma1 != filtered_data['Firma1']]
     if not changed_rows.empty:
-        print(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
+        logging.info(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
         for idx, row in changed_rows.iterrows():
-            print(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'")
+            logging.debug(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'")
     
     # Convert relevant columns to lowercase for case-insensitive merge
     csv_data['company_name_lower'] = csv_data['Company name'].str.lower()
     filtered_data['firma1_lower'] = filtered_data['Firma1'].str.lower()
     
     # Extract base domains from URLs for matching
-    print("Extracting base domains from URLs...")
+    logging.info("Extracting base domains from URLs...")
     
     # Check which URL column exists in the CSV data
     url_column = None
@@ -187,110 +202,219 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     if url_column:
         csv_data = extract_and_log_domains(csv_data, url_column, description="from CSV data")
     else:
-        print("Warning: No URL column found in CSV data. Tried: Website, Company URL, Company Url, URL, website, url")
+        logging.warning("No URL column found in CSV data. Tried: Website, Company URL, Company Url, URL, website, url")
         csv_data['base_domain'] = None
     
     # Extract domains from filtered data
     filtered_data = extract_and_log_domains(filtered_data, 'URL', description="from base data")
     
-    # Print domain matching stats
-    print("Domain stats:")
+    # Log domain matching stats
+    logging.info("Domain stats:")
     csv_domains = csv_data['base_domain'].dropna().unique()
     base_domains = filtered_data['base_domain'].dropna().unique()
     common_domains = set(csv_domains).intersection(set(base_domains))
-    print(f"  - CSV unique domains: {len(csv_domains)}")
-    print(f"  - Base data unique domains: {len(base_domains)}")
-    print(f"  - Common domains: {len(common_domains)}")
+    logging.info(f"  - CSV unique domains: {len(csv_domains)}")
+    logging.info(f"  - Base data unique domains: {len(base_domains)}")
+    logging.info(f"  - Common domains: {len(common_domains)}")
+    
+    # Create result tracking variables
+    match_stats = {
+        'exact_name_matches': 0,
+        'fuzzy_name_matches': 0,
+        'exact_url_matches': 0,
+        'fuzzy_url_matches': 0,
+        'unmatched': 0,
+        'duplicate_domains': 0
+    }
     
     # First matching attempt: by company name
-    print("First matching attempt: by company name...")
-    merged_data = pd.merge(
-        csv_data,
-        filtered_data,
-        left_on='company_name_lower',
-        right_on='firma1_lower',
-        how='left'
-    )
+    logging.info("First matching attempt: by company name...")
     
-    # Count first-pass matches
-    name_matched = merged_data['technische Anlagen und Maschinen 2021/22'].notna().sum()
-    print(f"Matched {name_matched} companies by name")
+    FUZZY_AVAILABLE = True
+    if FUZZY_AVAILABLE:
+        logging.info("Using fuzzy matching with token_set_ratio (threshold: 0.90)")
+        
+        # Create a new DataFrame to store the merged results
+        merged_data = csv_data.copy()
+        
+        # Process matching company by company
+        for idx, row in csv_data.iterrows():
+            company_name = row['company_name_lower']
+            matched_data = None
+            
+            if pd.notna(company_name):
+                # Try exact matching first
+                exact_matches = filtered_data[filtered_data['firma1_lower'] == company_name]
+                
+                if not exact_matches.empty:
+                    # If exact match found, use it
+                    matched_data = exact_matches.iloc[0]
+                    match_stats['exact_name_matches'] += 1
+                    logging.debug(f"Exact name match found for '{row['Company name']}'")
+                else:
+                    # Try fuzzy matching
+                    matches = process.extractBests(
+                        company_name, 
+                        filtered_data['firma1_lower'].tolist(),
+                        scorer=fuzz.token_set_ratio,  # Using token_set_ratio as requested
+                        score_cutoff=90,  # 0.90 threshold converted to percentage
+                        limit=3
+                    )
+                    
+                    if matches:
+                        # Found fuzzy matches above threshold
+                        best_match = matches[0]
+                        # Handle either 2-tuple or 3-tuple format from extractBests
+                        if len(best_match) >= 2:
+                            match_text, match_score = best_match[0], best_match[1]
+                        
+                            # Get the full row data for the match
+                            match_idx = filtered_data[filtered_data['firma1_lower'] == match_text].index[0]
+                            matched_data = filtered_data.loc[match_idx]
+                            match_stats['fuzzy_name_matches'] += 1
+                            
+                            logging.debug(f"Fuzzy match found for '{row['Company name']}' → '{matched_data['Firma1']}' (score: {match_score}%)")
+                            
+                            # If there are multiple good matches, log them
+                            if len(matches) > 1:
+                                logging.debug(f"  Other potential matches for '{row['Company name']}':")
+                                for i, match_data in enumerate(matches[1:], 1):
+                                    # Safely handle different tuple lengths
+                                    match_text = match_data[0]
+                                    match_score = match_data[1] if len(match_data) > 1 else 'N/A'
+                                    logging.debug(f"    {i}. '{match_text}' (score: {match_score}%)")
+            
+            # If we found a match (exact or fuzzy), copy the data
+            if matched_data is not None:
+                for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size', 'Sachanlagen', 'Firma1', 'base_domain']:
+                    if col in matched_data:
+                        merged_data.at[idx, col] = matched_data[col]
+    
+    name_matched = match_stats['exact_name_matches'] + match_stats['fuzzy_name_matches']
+    logging.info(f"Matched {name_matched} companies by name (Exact: {match_stats['exact_name_matches']}, Fuzzy: {match_stats['fuzzy_name_matches']})")
     
     # Check for unmatched companies after first pass
     unmatched_idx = merged_data['technische Anlagen und Maschinen 2021/22'].isna()
     unmatched_count = unmatched_idx.sum()
     
     if unmatched_count > 0:
-        print(f"\nFound {unmatched_count} unmatched companies after name matching:")
+        logging.info(f"Found {unmatched_count} unmatched companies after name matching")
         unmatched_data = merged_data[unmatched_idx]
         
-        # Print information about unmatched companies
+        # Log information about unmatched companies
         for idx, row in unmatched_data.iterrows():
             company_name = row['Company name'] if 'Company name' in row else 'N/A'
             url = row[url_column] if url_column and url_column in row else 'N/A'
-            domain = row['base_domain_x'] if 'base_domain_x' in row else 'N/A'
-            print(f"  - Unmatched: Company: '{company_name}', URL: '{url}', Domain: '{domain}'")
+            domain = row['base_domain'] if 'base_domain' in row and pd.notna(row['base_domain']) else row.get('base_domain_x') if 'base_domain_x' in row else 'N/A'
+            logging.debug(f"  - Unmatched: Company: '{company_name}', URL: '{url}', Domain: '{domain}'")
         
         # Second matching attempt: by URL for companies not matched by name
-        print("\nSecond matching attempt: by URL for unmatched companies...")
+        logging.info("Second matching attempt: by URL for unmatched companies...")
         
-        # Copy the filtered_data DataFrame to avoid modifying the original
-        remaining_data = filtered_data.copy()
-        url_matches = 0
-        duplicate_domain_count = 0
+        # IMPROVEMENT 1: Vectorized URL matching approach
+        # IMPROVEMENT 2: Use sets to track used matches instead of modifying DataFrame
+        used_domains = set()  # Track domains we've already matched
+        matched_indices = []  # Track indices that got matched in this round
         
-        # Create a copy of merged_data for updating
-        merged_data_updated = merged_data.copy()
+        # Create a domain-to-company lookup dictionary for faster matching
+        domain_lookup = {}
+        for idx, row in filtered_data.iterrows():
+            domain = row['base_domain']
+            if pd.notna(domain) and domain:
+                if domain not in domain_lookup:
+                    domain_lookup[domain] = []
+                domain_lookup[domain].append(idx)
         
-        # For each unmatched row in the CSV data, try to find a match by URL
+        # Process unmatched companies in a vectorized way
         for idx, row in unmatched_data.iterrows():
-            csv_domain = row['base_domain_x'] # base_domain_x is from when pandas merges DataFrames with same column names.
-            if pd.notna(csv_domain) and csv_domain:
-                # Find matching rows in the base data by domain
-                matches = remaining_data[remaining_data['base_domain'] == csv_domain]
+            csv_domain = row.get('base_domain')
+            if pd.isna(csv_domain) and 'base_domain_x' in row:
+                csv_domain = row['base_domain_x']
+            
+            if pd.notna(csv_domain) and csv_domain and csv_domain not in used_domains:
+                # Try exact domain matching first
+                if csv_domain in domain_lookup:
+                    match_indices = domain_lookup[csv_domain]
+                    if len(match_indices) > 0:  # Found match(es)
+                        if len(match_indices) > 1:
+                            match_stats['duplicate_domains'] += 1
+                            company_names = [filtered_data.loc[i, 'Firma1'] for i in match_indices]
+                            logging.warning(f"Multiple matches found for domain '{csv_domain}':")
+                            for i, company in enumerate(company_names):
+                                logging.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
+                            logging.warning(f"  Taking the first match: '{company_names[0]}'")
+                        
+                        match_idx = match_indices[0]  # Take first match
+                        match = filtered_data.loc[match_idx]
+                        
+                        # Update merged data with match
+                        for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size', 'Sachanlagen']:
+                            if col in match:
+                                merged_data.at[idx, col] = match[col]
+                        
+                        used_domains.add(csv_domain)  # Mark domain as used
+                        matched_indices.append(idx)
+                        match_stats['exact_url_matches'] += 1
+                        continue
                 
-                if not matches.empty:
-                    # Check if multiple companies share the same domain
-                    if len(matches) > 1:
-                        duplicate_domain_count += 1
-                        print(f"WARNING: Multiple matches found for domain '{csv_domain}':")
-                        for i, match_row in matches.iterrows():
-                            print(f"  - {match_row['Firma1']} (from {match_row['Ort']})")
-                        print(f"  Taking the first match: '{matches.iloc[0]['Firma1']}'")
-                    
-                    # Take the first match (we can enhance this later if needed)
-                    match = matches.iloc[0]
-                    
-                    # Print match details for debugging
-                    print(f"URL match found: CSV domain '{csv_domain}' -> Base data company '{match['Firma1']}' (domain: {match['base_domain']})")
-                    
-                    # Update the merged data with the match
-                    for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size']:
-                        if col in match:
-                            merged_data_updated.at[idx, col] = match[col]
-                    
-                    # Remove the used match from remaining_data to prevent duplicate matches
-                    remaining_data = remaining_data[remaining_data.index != match.name]
-                    url_matches += 1
+                # If no exact match, try fuzzy matching
+                if FUZZY_AVAILABLE:
+                    # Only try to match with domains not already used
+                    available_domains = [d for d in domain_lookup.keys() if d not in used_domains]
+                    if available_domains:
+                        fuzzy_matches = process.extractBests(
+                            csv_domain,
+                            available_domains,
+                            scorer=fuzz.ratio,
+                            score_cutoff=90,
+                            limit=1
+                        )
+                        
+                        if fuzzy_matches:
+                            best_domain, score = fuzzy_matches[0][0], fuzzy_matches[0][1]
+                            match_indices = domain_lookup[best_domain]
+                            
+                            if len(match_indices) > 1:
+                                match_stats['duplicate_domains'] += 1
+                                company_names = [filtered_data.loc[i, 'Firma1'] for i in match_indices]
+                                logging.warning(f"Multiple matches for fuzzy domain '{best_domain}' (score: {score}%):")
+                                for i, company in enumerate(company_names):
+                                    logging.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
+                                logging.warning(f"  Taking the first match: '{company_names[0]}'")
+                            
+                            match_idx = match_indices[0]
+                            match = filtered_data.loc[match_idx]
+                            
+                            # Update merged data with match
+                            for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size', 'Sachanlagen']:
+                                if col in match:
+                                    merged_data.at[idx, col] = match[col]
+                            
+                            used_domains.add(best_domain)  # Mark domain as used
+                            matched_indices.append(idx)
+                            match_stats['fuzzy_url_matches'] += 1
         
-        # Update merged_data with url-matched data
-        merged_data = merged_data_updated
-        print(f"Additionally matched {url_matches} companies by URL")
-        if duplicate_domain_count > 0:
-            print(f"WARNING: Found {duplicate_domain_count} domains with multiple company matches")
+        url_matches = match_stats['exact_url_matches'] + match_stats['fuzzy_url_matches']
+        logging.info(f"Additionally matched {url_matches} companies by URL (Exact: {match_stats['exact_url_matches']}, Fuzzy: {match_stats['fuzzy_url_matches']})")
+        if match_stats['duplicate_domains'] > 0:
+            logging.warning(f"Found {match_stats['duplicate_domains']} domains with multiple company matches")
     else:
-        print("All companies were successfully matched by name. Skipping URL matching.")
+        logging.info("All companies were successfully matched by name. Skipping URL matching.")
         url_matches = 0
     
     # Drop the temporary columns
     drop_cols = ['company_name_lower', 'firma1_lower', 'base_domain','Firma1','URL',"base_domain_x", "base_domain_y"]
     merged_data = merged_data.drop([col for col in drop_cols if col in merged_data.columns], axis=1)
     
+    # Count truly unmatched rows
+    still_unmatched = merged_data[merged_data['technische Anlagen und Maschinen 2021/22'].isna()]
+    match_stats['unmatched'] = len(still_unmatched)
+    
     # Drop rows with missing values in 'technische Anlagen und Maschinen 2021/22' column
     merged_data = merged_data.dropna(subset=['technische Anlagen und Maschinen 2021/22'])
     
     # Save the merged data to a new CSV file with UTF-8-BOM encoding
-    print(f"Saving merged data to: {output_path}")
+    logging.info(f"Saving merged data to: {output_path}")
     # Check if output_path already has .csv extension
     if not output_path.lower().endswith('.csv'):
         output_file = f"{output_path}.csv"
@@ -298,30 +422,58 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         output_file = output_path
         
     merged_data.to_csv(output_file, encoding='utf-8-sig', index=False, sep=',')
-    print(f"Successfully saved {len(merged_data)} rows to {output_file}")
     
-    # Print statistics
-    total_matched_rows = merged_data['technische Anlagen und Maschinen 2021/22'].notna().sum()
-    print(f"Total matched: {total_matched_rows} companies (Name: {name_matched}, URL: {url_matches}) out of {len(csv_data)} from the CSV file")
+    # IMPROVEMENT 3: More detailed statistics
+    end_time = time.time()
+    elapsed_time = end_time - start_time
     
-    # Identify and save unmatched rows
-    unmatched_rows = merged_data[merged_data['technische Anlagen und Maschinen 2021/22'].isna()]
-    print(f"Found {len(unmatched_rows)} unmatched rows")
-    if not unmatched_rows.empty:
-        print("Unmatched rows:")
-        print(unmatched_rows)
+    total_csv_rows = len(csv_data)
+    total_matches = name_matched + url_matches
     
+    # Log detailed statistics
+    logging.info("\n" + "="*50)
+    logging.info("MATCHING STATISTICS SUMMARY")
+    logging.info("="*50)
+    logging.info(f"Total rows in CSV file: {total_csv_rows}")
+    logging.info(f"Total matches: {total_matches} ({total_matches/total_csv_rows*100:.1f}% of input)")
+    logging.info(f"  - Name matches: {name_matched} ({name_matched/total_csv_rows*100:.1f}%)")
+    logging.info(f"    - Exact name matches: {match_stats['exact_name_matches']} ({match_stats['exact_name_matches']/total_csv_rows*100:.1f}%)")
+    logging.info(f"    - Fuzzy name matches: {match_stats['fuzzy_name_matches']} ({match_stats['fuzzy_name_matches']/total_csv_rows*100:.1f}%)")
+    logging.info(f"  - URL matches: {url_matches} ({url_matches/total_csv_rows*100:.1f}%)")
+    logging.info(f"    - Exact URL matches: {match_stats['exact_url_matches']} ({match_stats['exact_url_matches']/total_csv_rows*100:.1f}%)")
+    logging.info(f"    - Fuzzy URL matches: {match_stats['fuzzy_url_matches']} ({match_stats['fuzzy_url_matches']/total_csv_rows*100:.1f}%)")
+    logging.info(f"Unmatched: {match_stats['unmatched']} ({match_stats['unmatched']/total_csv_rows*100:.1f}%)")
+    logging.info(f"Duplicate domains found: {match_stats['duplicate_domains']}")
+    logging.info(f"Output rows: {len(merged_data)}")
+    
+    # Performance statistics
+    logging.info(f"Processing time: {elapsed_time:.2f} seconds")
+    logging.info(f"Successfully saved {len(merged_data)} rows to {output_file}")
+    logging.info("="*50)
+    
+    # Log unmatched companies if any
+    if match_stats['unmatched'] > 0:
+        logging.info(f"Unmatched companies ({match_stats['unmatched']}):")
+        for idx, row in still_unmatched.iterrows():
+            company_name = row.get('Company name', 'N/A')
+            logging.info(f"  - {company_name}")
+
 if __name__ == "__main__":
     # Set up command-line argument parsing
     parser = argparse.ArgumentParser(description='Merge CSV with Excel/CSV data containing technical equipment information.')
     
     # Add mandatory arguments
-    parser.add_argument('--csv', required=True, help='Path to the CSV file with company data')
+    parser.add_argument('--csv', required=True, help='Path to the CSV file with company keywords data')
     parser.add_argument('--base', required=True, help='Path to the base data file (CSV or Excel) with technical equipment information')
     parser.add_argument('--output', required=False, help='Path where the merged output file will be saved. If not provided, a name will be generated based on the input CSV')
+    parser.add_argument('--log-level', choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], default='INFO',
+                       help='Set the logging level (default: INFO)')
     
     # Parse arguments
     args = parser.parse_args()
+    
+    # Set the logging level based on the command-line argument
+    logging.getLogger().setLevel(getattr(logging, args.log_level))
     
     # Call the merge function with the provided arguments
     merge_csv_with_excel(args.csv, args.base, args.output)
