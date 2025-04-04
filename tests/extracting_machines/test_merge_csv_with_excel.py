@@ -1,6 +1,5 @@
 import unittest
 import pandas as pd
-import numpy as np
 import os
 import tempfile
 from unittest.mock import patch, MagicMock
@@ -190,20 +189,24 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         This test validates the fuzzy matching algorithm used to match company names
         between different data sources, ensuring it handles similarity thresholds correctly.
         """
-        company_list = ['Test Company', 'Another Company', 'Third GmbH & Co. KG']
+        company_list = ['Test Company', 'Another Company', 'Third GmbH & Co. KG', 'Jäkel GmbH & Co. KG'
+]
         
         # Test exact match
         match, score = mcwe.find_best_match('Test Company', company_list)
+        print(f"Match exact: {match}, Score: {score}")
         self.assertEqual(match, 'Test Company')
         self.assertEqual(score, 1.0)
         
         # Test close match
-        match, score = mcwe.find_best_match('Test Cmpany', company_list)
-        self.assertEqual(match, 'Test Company')
+        match, score = mcwe.find_best_match('Jaekel_GmbH_and_Co._KG', company_list)
+        print(f"Match close: {match}, Score: {score}")
+        self.assertEqual(match, 'Jäkel GmbH & Co. KG')
         self.assertGreaterEqual(score, 0.85)
         
         # Test no good match
         match, score = mcwe.find_best_match('Completely Different', company_list, threshold=0.85)
+        print(f"Match wrong: {match}, Score: {score}")
         self.assertIsNone(match)
     
     @patch('extracting_machines.merge_csv_with_excel.load_data')
@@ -262,7 +265,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         """
         try:
             # Call the main function
-            output_file = mcwe.main(csv_file_path=self.csv_path, top_n=2)
+            mcwe.main(csv_file_path=self.csv_path, top_n=2)
             
             # Get expected output filename based on current date
             current_date = datetime.now().strftime('%Y%m%d')

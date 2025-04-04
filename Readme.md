@@ -55,6 +55,24 @@ python clean_html.py <input_dir>
 - **Usage:** Processes raw HTML to extract and filter relevant tables containing machine asset information
 - **Example:** `python clean_html.py bundesanzeiger_output`
 
+### Step 2b: Extract Sachanlagen Values with LLM
+
+```bash
+python extract_sachanlagen.py <input_dir> [--output <output_dir>] [--only-process]
+```
+
+- **Input:**
+  - `<input_dir>`: Directory containing HTML files from financial statements
+  - `--output <output_dir>`: Optional output directory (defaults to sachanlagen_<category>)
+  - `--only-process`: Optional flag to only process existing output files and generate CSV (skip extraction)
+- **Output:**
+  - JSON files containing extracted Sachanlagen values for each company
+  - CSV summary file with company name and largest Sachanlagen value
+- **Usage:** Extracts property, plant, and equipment values using LLM, handles Teuro conversion for values under 50,000
+- **Example:**
+  - Full extraction: `python extract_sachanlagen.py bundesanzeiger_local_maschinenbau_output`
+  - Process only: `python extract_sachanlagen.py bundesanzeiger_local_maschinenbau_output --only-process`
+
 ### Step 3: Generate CSV Report
 
 ```bash
@@ -201,7 +219,7 @@ python fill_process_type.py [--input-file <input_file>] [--folder <folder_path>]
   - `--output-dir <output_directory>`: Optional directory for output (defaults to same as input)
   - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
 - **Output:**
-  - `v2_<input_filename>.json`: Enhanced JSON file with process_type values added or corrected
+  - `<input_filename>.json`: Enhanced JSON file with process_type values added or corrected
   - Process types are standardized to German plural forms
 - **Usage:** Leverages a large language model (Amazon Nova Pro) to analyze company products and determine appropriate process types
 - **Examples:**
