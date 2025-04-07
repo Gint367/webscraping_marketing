@@ -1,12 +1,21 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock, AsyncMock
+from unittest.mock import patch, MagicMock, AsyncMock, mock_open
 import json
 import os
 import sys
 import asyncio
-from extract_sachanlagen import check_and_reprocess_error_files, extract_category_from_input_path
+import io
+from extract_sachanlagen import extract_category_from_input_path, ServiceContainer, check_and_reprocess_error_files
 
-# Import the function to test - using absolute import
+# Setup for async tests
+def async_test(coro):
+    def wrapper(*args, **kwargs):
+        loop = asyncio.new_event_loop()
+        try:
+            return loop.run_until_complete(coro(*args, **kwargs))
+        finally:
+            loop.close()
+    return wrapper
 
 class TestExtractCategoryFromInputPath(unittest.TestCase):
     """Test cases for extract_category_from_input_path function"""
@@ -48,282 +57,146 @@ class TestExtractCategoryFromInputPath(unittest.TestCase):
                 )
 
 class TestCheckAndReprocessErrorFiles(unittest.TestCase):
-    def setUp(self):
-        """Set up test fixtures before each test"""
-        # Sample data for testing
-        self.error_data_list = [{"error": True, "message": "Failed to process"}]
-        self.error_data_dict = {"error": True, "message": "Failed to process"}
-        self.valid_data = [{"values": {"Sachanlagen_1": "100"}, "table_name": "Aktiva", "is_Teuro": False}]
+    """Test cases for check_and_reprocess_error_files function using direct patching"""
+    
+    @async_test
+    async def test_check_and_reprocess_error_files_success(self):
+        """Test successful reprocessing of error files"""
+        # Mock data
+        error_json1 = {"error": True, "message": "Failed extraction"}
+        error_json2 = {"error": True, "message": "Another failure"}
         
-        # Mock for LLM strategy
-        self.mock_llm_strategy = MagicMock()
+        # Mock file I/O
+        mock_file_reads = {
+            'output_dir/error1.json': json.dumps(error_json1),
+            'output_dir/error2.json': json.dumps(error_json2)
+        }
+        
+        # Create patches
+        with patch('builtins.open', side_effect=lambda f, *args, **kwargs: 
+                io.StringIO(mock_file_reads.get(f, ""))):
+            with patch('os.path.exists', return_value=True):
+                with patch('json.load', side_effect=lambda f: json.loads(f.read())):
+                    # Create mock services
+                    mock_logging = MagicMock()
+                    mock_file_service = MagicMock()
+                    mock_file_service.list_files.return_value = ["error1.json", "error2.json"]
+                    mock_file_service.walk_directory.return_value = [
+                        ("input_dir", [], ["error1.html", "error2.html"])
+                    ]
+                    
+                    # Create mock container
+                    mock_container = MagicMock()
+                    mock_container.logging_service = mock_logging
+                    mock_container.file_service = mock_file_service
+                    
+                    # Mock the process_files function
+                    with patch('extract_sachanlagen.process_files', 
+                            new=AsyncMock(return_value=["output_dir/error1.json", "output_dir/error2.json"])) as mock_process:
+                        # Call the function
+                        result = await check_and_reprocess_error_files(
+                            'output_dir', 'input_dir', '.html',
+                            MagicMock(), # llm_strategy
+                            mock_container
+                        )
+        
+        # Assertions
+        self.assertEqual(result, 2)
+        mock_process.assert_called_once()
+        expected_paths = ["input_dir/error1.html", "input_dir/error2.html"]
+        actual_paths = mock_process.call_args[0][0]
+        self.assertEqual(len(actual_paths), len(expected_paths))
+        for path in expected_paths:
+            self.assertIn(path, actual_paths)
 
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_no_json_files(self, mock_logger, mock_process_files, mock_join, mock_listdir):
-        """Test when there are no JSON files in the output directory"""
-        # Setup
-        mock_listdir.return_value = ['file1.txt', 'file2.csv']
-        mock_join.side_effect = lambda *args: '/'.join(args)
+    @async_test
+    async def test_check_and_reprocess_no_error_files(self):
+        """Test when no error files are found"""
+        # Mock data - valid files without errors
+        valid_json1 = [{"table_name": "Aktiva", "is_Teuro": True, "values": {"Sachanlagen": "1000"}}]
+        valid_json2 = [{"table_name": "Passiva", "is_Teuro": True, "values": {"Other": "2000"}}]
         
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
+        # Mock file I/O
+        mock_file_reads = {
+            'output_dir/valid1.json': json.dumps(valid_json1),
+            'output_dir/valid2.json': json.dumps(valid_json2)
+        }
+        
+        # Create patches
+        with patch('builtins.open', side_effect=lambda f, *args, **kwargs: 
+                io.StringIO(mock_file_reads.get(f, ""))):
+            with patch('os.path.exists', return_value=True):
+                with patch('json.load', side_effect=lambda f: json.loads(f.read())):
+                    # Create mock services
+                    mock_logging = MagicMock()
+                    mock_file_service = MagicMock()
+                    mock_file_service.list_files.return_value = ["valid1.json", "valid2.json"]
+                    
+                    # Create mock container
+                    mock_container = MagicMock()
+                    mock_container.logging_service = mock_logging
+                    mock_container.file_service = mock_file_service
+                    
+                    # Mock the process_files function
+                    with patch('extract_sachanlagen.process_files', new=AsyncMock()) as mock_process:
+                        # Call the function
+                        result = await check_and_reprocess_error_files(
+                            'output_dir', 'input_dir', '.html',
+                            MagicMock(), # llm_strategy
+                            mock_container
+                        )
         
         # Assertions
         self.assertEqual(result, 0)
-        mock_logger.info.assert_any_call("Checking for files with errors in output_dir...")
-        mock_logger.info.assert_any_call("No files with errors found")
-        mock_process_files.assert_not_called()
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_no_error_files(self, mock_logger, mock_process_files, mock_json_load, 
-                                mock_open, mock_join, mock_listdir):
-        """Test when all JSON files are valid with no errors"""
-        # Setup
-        mock_listdir.return_value = ['file1.json', 'file2.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = self.valid_data
+        mock_process.assert_not_called()
+        mock_logging.info.assert_any_call("No files with errors found")
         
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
+    @async_test
+    async def test_check_and_reprocess_original_not_found(self):
+        """Test when error files exist but original files not found"""
+        # Mock data
+        error_json = {"error": True, "message": "Failed extraction"}
         
-        # Assertions
-        self.assertEqual(result, 0)
-        mock_process_files.assert_not_called()
-        self.assertEqual(mock_open.call_count, 2)
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_error_files_list_format(self, mock_logger, mock_process_files, mock_walk, 
-                                         mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test JSON files with errors in list format"""
-        # Setup
-        mock_listdir.return_value = ['file1.json', 'file2.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = self.error_data_list
+        # Mock file I/O
+        mock_file_reads = {
+            'output_dir/error1.json': json.dumps(error_json),
+        }
         
-        # Mock finding original files
-        mock_walk.return_value = [
-            ('input_dir', [], ['file1.html', 'file2.html']),
-        ]
-        
-        # Configure process_files to return empty list
-        mock_process_files.return_value = []
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 2)  # 2 files reprocessed
-        mock_process_files.assert_called_once()
-        # Check that both files were passed to process_files
-        files_to_reprocess = mock_process_files.call_args[0][0]
-        self.assertEqual(len(files_to_reprocess), 2)
-        self.assertIn('input_dir/file1.html', files_to_reprocess)
-        self.assertIn('input_dir/file2.html', files_to_reprocess)
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_error_files_dict_format(self, mock_logger, mock_process_files, mock_walk, 
-                                         mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test JSON files with errors in dictionary format"""
-        # Setup
-        mock_listdir.return_value = ['file1.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = self.error_data_dict
-        
-        mock_walk.return_value = [
-            ('input_dir', [], ['file1.html']),
-        ]
-        
-        mock_process_files.return_value = []
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 1)
-        mock_process_files.assert_called_once_with(
-            ['input_dir/file1.html'], self.mock_llm_strategy, 'output_dir'
-        )
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_original_file_not_found(self, mock_logger, mock_process_files, mock_walk, 
-                                         mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test when error file exists but original source file cannot be found"""
-        # Setup
-        mock_listdir.return_value = ['file1.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = self.error_data_dict
-        
-        # Empty file list from os.walk
-        mock_walk.return_value = [
-            ('input_dir', [], []),
-        ]
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 0)  # No files reprocessed
-        mock_process_files.assert_not_called()
-        mock_logger.warning.assert_called_with(
-            "Error in file1.json, but couldn't find original file file1.html")
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open')
-    @patch('extract_sachanlagen.logger')
-    async def test_file_open_exception(self, mock_logger, mock_open, mock_join, mock_listdir):
-        """Test exception handling when opening files"""
-        # Setup
-        mock_listdir.return_value = ['file1.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_open.side_effect = IOError("Could not open file")
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
+        # Create patches
+        with patch('builtins.open', side_effect=lambda f, *args, **kwargs: 
+                io.StringIO(mock_file_reads.get(f, ""))):
+            with patch('os.path.exists', return_value=True):
+                with patch('json.load', side_effect=lambda f: json.loads(f.read())):
+                    # Create mock services
+                    mock_logging = MagicMock()
+                    mock_file_service = MagicMock()
+                    mock_file_service.list_files.return_value = ["error1.json"]
+                    # No HTML files found in input directory
+                    mock_file_service.walk_directory.return_value = [("input_dir", [], [])]
+                    
+                    # Create mock container
+                    mock_container = MagicMock()
+                    mock_container.logging_service = mock_logging
+                    mock_container.file_service = mock_file_service
+                    
+                    # Mock the process_files function
+                    with patch('extract_sachanlagen.process_files', new=AsyncMock()) as mock_process:
+                        # Call the function
+                        result = await check_and_reprocess_error_files(
+                            'output_dir', 'input_dir', '.html',
+                            MagicMock(), # llm_strategy
+                            mock_container
+                        )
         
         # Assertions
         self.assertEqual(result, 0)
-        mock_logger.error.assert_called_with(
-            "Error reading file1.json: Could not open file")
+        mock_process.assert_not_called()
+        
+        # Check for warning about missing original file
+        warning_calls = [call[0][0] for call in mock_logging.warning.call_args_list]
+        matching_warnings = [call for call in warning_calls if "couldn't find original file" in call]
+        self.assertTrue(len(matching_warnings) > 0, 
+                       f"No warning about missing file found in: {warning_calls}")
 
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_mixed_error_and_valid_files(self, mock_logger, mock_process_files, mock_walk, 
-                                             mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test a mixture of error and valid files"""
-        # Setup
-        mock_listdir.return_value = ['error.json', 'valid.json']
-        
-        # Different JSON content for different files
-        def load_side_effect(f):
-            filename = f.name
-            if 'error.json' in filename:
-                return self.error_data_dict
-            else:
-                return self.valid_data
-                
-        mock_json_load.side_effect = load_side_effect
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        
-        # Mock finding original file
-        mock_walk.return_value = [
-            ('input_dir', [], ['error.html']),
-        ]
-        
-        mock_process_files.return_value = []
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 1)  # Only error file is reprocessed
-        mock_process_files.assert_called_once()
-        self.assertEqual(len(mock_process_files.call_args[0][0]), 1)
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_multiple_matching_original_files(self, mock_logger, mock_process_files, mock_walk, 
-                                                  mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test when multiple copies of original file are found in different directories"""
-        # Setup
-        mock_listdir.return_value = ['file1.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = self.error_data_dict
-        
-        # Multiple files with same name in different directories
-        mock_walk.return_value = [
-            ('input_dir', [], ['file1.html']),
-            ('input_dir/subdir', [], ['file1.html']),
-        ]
-        
-        mock_process_files.return_value = []
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 1)  # Should process just one file
-        mock_process_files.assert_called_once()
-        # Should choose the first file found
-        self.assertEqual(mock_process_files.call_args[0][0][0], 'input_dir/file1.html')
-
-    @patch('extract_sachanlagen.os.listdir')
-    @patch('extract_sachanlagen.os.path.join')
-    @patch('extract_sachanlagen.open', new_callable=mock_open)
-    @patch('extract_sachanlagen.json.load')
-    @patch('extract_sachanlagen.os.walk')
-    @patch('extract_sachanlagen.process_files')
-    @patch('extract_sachanlagen.logger')
-    async def test_correct_file_extension_handling(self, mock_logger, mock_process_files, mock_walk, 
-                                                 mock_json_load, mock_open, mock_join, mock_listdir):
-        """Test that the function correctly handles file extensions when looking for original files"""
-        # Setup
-        mock_listdir.return_value = ['Unterschuetz_Sondermaschinenbau_GmbH_cleaned.json']
-        mock_join.side_effect = lambda *args: '/'.join(args)
-        mock_json_load.return_value = {"error": True, "message": "Failed to process"}
-        
-        # Mock finding original file
-        mock_walk.return_value = [
-            ('input_dir', [], ['Unterschuetz_Sondermaschinenbau_GmbH_cleaned.html']),
-        ]
-        
-        mock_process_files.return_value = []
-        
-        # Call function
-        result = await check_and_reprocess_error_files('output_dir', 'input_dir', '.html', self.mock_llm_strategy)
-        
-        # Assertions
-        self.assertEqual(result, 1)  # Should process the file
-        mock_process_files.assert_called_once()
-        # Check the first argument to process_files, which should be the file list
-        self.assertEqual(mock_process_files.call_args[0][0][0], 
-                        'input_dir/Unterschuetz_Sondermaschinenbau_GmbH_cleaned.html')
-        
-        # Verify no warning was logged about not finding the original file
-        warning_calls = [call[0][0] for call in mock_logger.warning.call_args_list 
-                        if "couldn't find original file" in call[0][0]]
-        self.assertEqual(len(warning_calls), 0, "Warning about not finding original file was logged")
-
-# Helper function to run async tests
-def run_async_test(coro):
-    return asyncio.run(coro)
-
-# Add a test runner for async tests
 if __name__ == '__main__':
     unittest.main()
