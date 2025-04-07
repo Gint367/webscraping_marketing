@@ -74,7 +74,6 @@ Review the HTML content to locate all tables and preceding headings that may den
 2. **Identify Table Names**: First look within the table header. if not found then look at the preceding heading.the table name from the table header could either be from 
   "Aktiva",
   "Passiva",
-  "Anlagevermögen",
   "Umlaufvermögen",
   "Rechnungsabgrenzungsposten",
   "Aktive latente Steuern",
@@ -93,8 +92,6 @@ Review the HTML content to locate all tables and preceding headings that may den
   "Bilanzgewinn oder Bilanzverlust",
   "Rückstellungen",
   "Verbindlichkeiten",
-  "Passive Rechnungsabgrenzungsposten",
-  "Passive latente Steuern",
   "Anschaffungs- oder Herstellungskosten",
   "Zugänge",
   "Abgänge",
@@ -102,9 +99,6 @@ Review the HTML content to locate all tables and preceding headings that may den
   "Abschreibungen",
   "Außerplanmäßige Abschreibung",
   "Buchwert",
-  "Nutzungsdauer",
-  "Geleistete Anzahlungen",
-  "Anlagen im Bau".
 3. **Identify the T€ mark (is_Teuro)**:  look at the table column header and check if one of the column header contains the T€ mark. If yes, then set the is_Teuro to True. Otherwise, set it to False.
 4. **Extract "Sachanlagen" Values**: For each table, extract items labeled "Sachanlagen" with their corresponding values. there should be at least 2 values from 2 different year
 5. **Organize Data**: Structure the extracted data into JSON format, listing the table names and corresponding "Sachanlagen" values.
@@ -426,6 +420,11 @@ def process_sachanlagen_output(output_dir):
     fallback_single_table_count = 0
     no_table_count = 0
     
+    # Keep track of files and their table names for debugging
+    fallback_files = []
+    no_table_files = []
+    aktiva_files = []
+    
     # German number format conversion utility function
     def convert_german_number(num_str, file_name=None):
         if not num_str:
@@ -472,11 +471,21 @@ def process_sachanlagen_output(output_dir):
                 if company_name.endswith('_cleaned'):
                     company_name = company_name[:-8]  # Remove '_cleaned' suffix
             
+            # Get first 3 table names for debugging if available
+            table_names = []
+            if isinstance(data, list):
+                for item in data:
+                    if isinstance(item, dict) and 'table_name' in item:
+                        table_names.append(item['table_name'])
+                        if len(table_names) >= 3:
+                            break
+            
             # Find Aktiva table
             aktiva_tables = []
             for item in data:
                 if isinstance(item, dict) and 'table_name' in item:
-                    if item['table_name'].lower() == 'aktiva':
+                    # Check if table name contains any variation of "aktiv"
+                    if 'aktiv' in item['table_name'].lower():
                         aktiva_tables.append(item)
             
             if not aktiva_tables:
@@ -485,12 +494,15 @@ def process_sachanlagen_output(output_dir):
                     aktiva_tables = data
                     fallback_single_table_count += 1
                     logger.info(f"No 'Aktiva' table found in {json_file}, but using the only table: '{data[0]['table_name']}'")
+                    fallback_files.append((json_file, table_names))
                 else:
                     no_table_count += 1
                     logger.warning(f"No 'Aktiva' table found in {json_file}")
+                    no_table_files.append((json_file, table_names))
                     continue
             else:
                 aktiva_table_count += 1
+                aktiva_files.append((json_file, table_names))
                 
             success_count += 1
             
@@ -528,6 +540,9 @@ def process_sachanlagen_output(output_dir):
         except Exception as e:
             logger.error(f"Error processing {json_file}: {e}")
     
+    # Sort the CSV data by company_name in ascending order
+    csv_data.sort(key=lambda x: x['company_name'].lower())
+    
     # Generate CSV output filename based on output directory name
     csv_filename = f"{os.path.basename(output_dir)}.csv"
     csv_path = os.path.join(os.path.dirname(output_dir), csv_filename)
@@ -546,6 +561,15 @@ def process_sachanlagen_output(output_dir):
     logger.info(f"  - {aktiva_table_count} files had 'Aktiva' tables")
     logger.info(f"  - {fallback_single_table_count} files had no 'Aktiva' table but used a single available table")
     logger.info(f"  - {no_table_count} files had no usable tables")
+    
+    # Print detailed debug info if DEBUG log level is enabled
+    logger.debug("Files with no 'Aktiva' table but single table used:")
+    for file_info in fallback_files:
+        logger.debug(f"  - {file_info[0]}: Tables: {file_info[1] if file_info[1] else 'None'}")
+    
+    logger.debug("Files with no usable tables:")
+    for file_info in no_table_files:
+        logger.debug(f"  - {file_info[0]}: Tables: {file_info[1] if file_info[1] else 'None'}")
     
     return csv_path
 
@@ -640,7 +664,7 @@ async def main():
         input_format="html",
         apply_chunking=False,
         extra_args={"temperature": temperature, "max_tokens": max_tokens},
-        # verbose=True,
+        verbose=False,
     )
 
     # Prepare list of files to process
