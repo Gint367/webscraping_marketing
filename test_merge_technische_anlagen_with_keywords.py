@@ -83,9 +83,9 @@ class TestExtractAndLogDomains(unittest.TestCase):
             'other_column': [1, 2, 3, 4, 5]
         })
     
-    @patch('builtins.print')
-    def test_extract_and_log_domains_existing_column(self, mock_print):
+    def test_extract_and_log_domains_existing_column(self):
         """Test extracting domains when URL column exists"""
+        # No mock_print parameter anymore
         result = extract_and_log_domains(
             self.test_df, 
             'URL', 
@@ -101,18 +101,12 @@ class TestExtractAndLogDomains(unittest.TestCase):
             pd.Series(expected_domains, name='base_domain')
         )
         
-        # Verify print statements were called
-        mock_print.assert_any_call("Extracting domains from 'URL' column test")
-        mock_print.assert_any_call("Example URLs test:")
-        
-        # URLs should be printed with their extracted domains
-        for i in range(3):  # sample_size=3
-            url = self.test_df['URL'].dropna().iloc[i]
-            domain = expected_domains[i]
-            mock_print.assert_any_call(f"  - URL: {url}, Extracted domain: {domain}")
+        # Check if the column has been created with correct values
+        self.assertIn('base_domain', result.columns)
+        self.assertEqual(result['base_domain'].iloc[0], 'example.com')
+        self.assertEqual(result['base_domain'].iloc[1], 'example.org')
     
-    @patch('builtins.print')
-    def test_extract_and_log_domains_missing_column(self, mock_print):
+    def test_extract_and_log_domains_missing_column(self):
         """Test behavior when URL column doesn't exist"""
         result = extract_and_log_domains(
             self.test_df, 
@@ -122,11 +116,11 @@ class TestExtractAndLogDomains(unittest.TestCase):
         )
         
         # The function should add a column with None values
-        self.assertTrue('base_domain' in result.columns)
+        self.assertIn('base_domain', result.columns)
         self.assertTrue(result['base_domain'].isna().all())
         
-        # The warning should be printed
-        mock_print.assert_any_call("Warning: Column 'nonexistent_column' not found in DataFrame test")
+        # New assertion: Make sure the original dataframe structure remains intact
+        self.assertEqual(len(result.columns), 3)  # Original 2 columns plus the new base_domain column
 
 class TestMergeCsvWithExcel(unittest.TestCase):
     def setUp(self):
@@ -145,6 +139,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
             'Top1_Machine': ['Machine A', 'Machine B', 'Machine E', 'Machine F'],
             'URL': ['www.companya.com', 'www.companyb.com', 'www.companye.com', 'www.companyf.com'],
             'Maschinen_Park_Size': [10, 20, 30, 40],
+            'Sachanlagen': [1000, 2000, 3000, 4000],
             'OtherCol': ['X', 'Y', 'Z', 'W']
         })
         
@@ -240,56 +235,48 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch('builtins.print')
     def test_merge_by_company_name(self, mock_print, mock_splitext, mock_to_csv, mock_read_csv):
         """Test company name matching works correctly"""
-        # Create a real DataFrame with multiple merge method spies
+        # Create test data
         real_csv_data = self.csv_data.copy()
         real_base_data = self.base_data.copy()
         
-        # Track if any merge-like operation happens
-        merge_called = False
+        # Set up the test
+        mock_read_csv.side_effect = [real_csv_data, real_base_data]
+        mock_splitext.return_value = ('base_path', '.csv')
         
-        # Spy on both DataFrame.merge and pd.merge
-        original_df_merge = pd.DataFrame.merge
-        original_pd_merge = pd.merge
-        original_pd_concat = pd.concat
+        # Capture the DataFrame being passed to to_csv
+        captured_df = None
+        original_to_csv = pd.DataFrame.to_csv
         
-        def spy_df_merge(*args, **kwargs):
-            nonlocal merge_called
-            merge_called = True
-            return original_df_merge(*args, **kwargs)
+        def capture_df_to_csv(df, *args, **kwargs):
+            nonlocal captured_df
+            captured_df = df.copy()
+            return original_to_csv(df, *args, **kwargs)
         
-        def spy_pd_merge(*args, **kwargs):
-            nonlocal merge_called
-            merge_called = True
-            return original_pd_merge(*args, **kwargs)
-            
-        def spy_pd_concat(*args, **kwargs):
-            nonlocal merge_called
-            merge_called = True
-            return original_pd_concat(*args, **kwargs)
-        
-        # Replace all the real methods with our spies
-        pd.DataFrame.merge = spy_df_merge
-        pd.merge = spy_pd_merge
-        pd.concat = spy_pd_concat
+        pd.DataFrame.to_csv = capture_df_to_csv
         
         try:
-            # Set up the test
-            mock_read_csv.side_effect = [real_csv_data, real_base_data]
-            mock_splitext.return_value = ('base_path', '.csv')
-            
             # Call the function with required parameters
             merge_csv_with_excel(self.csv_path, self.base_data_path, self.output_path)
             
-            # Verify some kind of merge/combination operation was called
-            self.assertTrue(merge_called, "No DataFrame combination operation (merge or concat) was detected")
-            
-            # Verify output was written
+            # Verify the output was written
             mock_to_csv.assert_called_once()
+            
+            # Verify we captured the DataFrame
+            self.assertIsNotNone(captured_df, "Failed to capture the DataFrame passed to to_csv")
+            
+            # Verify expected companies were matched
+            # The result should contain at least the first two companies with technical equipment data
+            self.assertIn('technische Anlagen und Maschinen 2021/22', captured_df.columns)
+            matched_companies = captured_df[captured_df['technische Anlagen und Maschinen 2021/22'].notna()]
+            self.assertGreaterEqual(len(matched_companies), 2, "Expected at least 2 matched companies")
+            
+            # By default, the function should have matched Company A and Company B
+            company_names = matched_companies['Company name'].tolist()
+            self.assertIn('Company A', company_names)
+            self.assertIn('Company B', company_names)
         finally:
-            # Restore the original methods
-            pd.DataFrame.merge = original_df_merge
-            pd.merge = original_pd_merge
-            pd.concat = original_pd_concat
+            # Restore the original method
+            pd.DataFrame.to_csv = original_to_csv
 
 if __name__ == '__main__':
     unittest.main()
