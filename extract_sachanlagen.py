@@ -582,7 +582,7 @@ async def main():
     parser.add_argument(
         "--output",
         "-o",
-        help="Output directory for extracted data",
+        help="(Optional)Output directory for extracted data, if not specified, it will be created based on the input path",
         default=None,
     )
     parser.add_argument(
