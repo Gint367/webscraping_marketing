@@ -232,7 +232,8 @@ async def process_files(file_paths, llm_strategy, output_dir):
     config = CrawlerRunConfig(
         cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
-        stream=True  # Enable streaming mode
+        stream=True,  # Enable streaming mode
+        verbose=False
     )
 
     extracted_data = []
@@ -325,8 +326,7 @@ async def process_files(file_paths, llm_strategy, output_dir):
                 logger.info(f"Processed {processed_count}/{len(file_paths)} files")
         
         # Show usage stats
-        usage_stats = llm_strategy.show_usage()
-        logger.info(f"LLM usage stats: {usage_stats}")
+        llm_strategy.show_usage()
         return extracted_data
 
 
