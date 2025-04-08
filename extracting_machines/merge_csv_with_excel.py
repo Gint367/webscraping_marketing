@@ -363,15 +363,8 @@ def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
     # Filter columns
     merged_df = merged_df[columns_to_keep]
 
-    # Filter rows - only keep those with at least one machine value
-    has_machine_value = False
-    for col in machine_cols:
-        has_machine_value = has_machine_value | merged_df[col].notna()
-
-    # Apply the filter
-    filtered_df = merged_df[has_machine_value]
-
-    return filtered_df
+    # Note: We're not filtering rows here anymore
+    return merged_df
 
 
 def save_merged_data(merged_df, csv_file_path="machine_report.csv"):
@@ -468,14 +461,39 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, mapping):
     # Create a copy to avoid modifying the original
     result_df = merged_df.copy()
     result_df['Sachanlagen'] = None
+    
+    # Keep track of companies we've already processed
+    processed_companies = set()
 
     # For each company in the mapping, add its Sachanlagen value
     for sachanlagen_company, excel_company in mapping.items():
+        # Check if this Excel company is already in our result dataframe
         if excel_company in result_df['Firma1'].values:
             sachanlagen_value = sachanlagen_df.loc[sachanlagen_df['company_name'] == sachanlagen_company, 'sachanlagen']
             if not sachanlagen_value.empty:
                 # Convert to string to match the expected format in tests
                 result_df.loc[result_df['Firma1'] == excel_company, 'Sachanlagen'] = sachanlagen_value.values[0]
+                processed_companies.add(excel_company)
+        else:
+            # This company isn't in our result dataframe yet - need to add a new row
+            sachanlagen_value = sachanlagen_df.loc[sachanlagen_df['company_name'] == sachanlagen_company, 'sachanlagen']
+            if not sachanlagen_value.empty:
+                # Create a new row with this company's info
+                new_row = pd.DataFrame({
+                    'Firma1': [excel_company],
+                    'URL': [None],
+                    'Ort': [None],
+                    'Sachanlagen': [sachanlagen_value.values[0]]
+                })
+                
+                # Add empty values for other columns
+                for col in result_df.columns:
+                    if col not in new_row.columns:
+                        new_row[col] = None
+                        
+                # Add the new row to our result dataframe
+                result_df = pd.concat([result_df, new_row], ignore_index=True)
+                processed_companies.add(excel_company)
     
     return result_df
 
@@ -503,19 +521,30 @@ def main(csv_file_path, top_n=1, sachanlagen_path=None):
     # Step 2: Create a mapping from machine company names to Excel company names
     mapping = create_company_mapping(machine_data, xlsx_df)
     
-    # Step 3: Merge the datasets using the mapping
+    # Step 3: Merge the datasets using the mapping (without filtering)
     merged_df = merge_datasets(xlsx_df, machine_data, mapping, top_n)
     
     # Add Sachanlagen data if available
     if sachanlagen_path and os.path.exists(sachanlagen_path):
         sachanlagen_df = load_sachanlagen_data(sachanlagen_path)
-        # Create mapping for Sachanlagen companies - always do this even if dataframe is empty
+        # Create mapping for Sachanlagen companies
         sachanlagen_mapping = create_sachanlagen_mapping(sachanlagen_df, xlsx_df)
         # Merge with Sachanlagen data
         merged_df = merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping)
     
+    # Filter rows - keep those with at least one machine value OR a sachanlagen value
+    machine_cols = [f"Top{i + 1}_Machine" for i in range(top_n)]
+    has_machine_value = False
+    for col in machine_cols:
+        has_machine_value = has_machine_value | merged_df[col].notna()
+    
+    has_sachanlagen_value = merged_df['Sachanlagen'].notna() if 'Sachanlagen' in merged_df.columns else False
+    
+    # Apply the filter - keep rows with either machine values or sachanlagen values
+    filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
+    
     # Step 4: Save the merged data to a CSV file
-    output_file = save_merged_data(merged_df, csv_file_path)
+    output_file = save_merged_data(filtered_df, csv_file_path)
     
     print(f"Merged data saved to {output_file}")
     return output_file
