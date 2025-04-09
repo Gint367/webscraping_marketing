@@ -182,26 +182,38 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
 def find_best_match(company_name, company_list, threshold=0.85):
     """Find the best matching company name fuzzy matching algorithm."""
     if not isinstance(company_name, str):
-        return None
-
+        return None, 0
+    
+    # Standardize the input company name
+    std_company = standardize_for_comparison(company_name)
+    
+    # Early optimization: Pre-standardize all potential matches
+    std_potential_matches = {
+        company: standardize_for_comparison(company)
+        for company in company_list
+        if isinstance(company, str)
+    }
+    
+    # First check for exact matches (much faster than fuzzy matching)
+    for potential_match, std_potential in std_potential_matches.items():
+        if std_company == std_potential and std_company:  # Avoid matching empty strings
+            return potential_match, 1.0
+    
+    # If no exact match found, do fuzzy matching
     best_match = None
     best_ratio = 0
     
-    std_company = standardize_for_comparison(company_name)
-    
-    for potential_match in company_list:
-        if not isinstance(potential_match, str):
-            continue
-            
-        # Standardize the potential match too
-        std_potential = standardize_for_comparison(potential_match)
-        
+    for potential_match, std_potential in std_potential_matches.items():
         # Use token_set_ratio for better handling of company name variations
         ratio = fuzz.token_set_ratio(std_company, std_potential)
         
         if ratio > best_ratio:
             best_ratio = ratio
             best_match = potential_match
+            
+            # If we found a perfect match, no need to check other companies
+            if ratio == 100:  # fuzz returns 0-100 scale
+                break
     
     # Only return the match if it meets the threshold
     if best_ratio >= threshold * 100:  # Convert threshold to same scale as fuzz scores
@@ -218,44 +230,60 @@ def analyze_company_similarities(machine_data, xlsx_df):
     # Get only the company name columns
     csv_companies = machine_data["Company"].unique()
     xlsx_companies = xlsx_df["Firma1"].dropna().unique()
+    
+    # Pre-standardize all company names once to avoid repeated processing
+    std_csv_companies = {company: standardize_for_comparison(company) 
+                        for company in csv_companies if isinstance(company, str)}
+    std_xlsx_companies = {company: standardize_for_comparison(company) 
+                        for company in xlsx_companies if isinstance(company, str)}
 
     print("\nAnalyzing company name similarities...")
-    for csv_company in csv_companies:
+    for csv_company, std_company in std_csv_companies.items():
         best_match = None
         best_ratio = 0
-
-        for xlsx_company in xlsx_companies:
-            if not isinstance(csv_company, str) or not isinstance(xlsx_company, str):
-                continue
-
-            # Use the same standardization and matching algorithm as find_best_match
-            std_company = standardize_for_comparison(csv_company)
-            std_potential = standardize_for_comparison(xlsx_company)
-            
-            # Use token_set_ratio for better handling of company name variations
-            ratio = fuzz.token_set_ratio(std_company, std_potential) / 100  # Convert to 0-1 scale
-            
-            similarity_matrix.append(
-                {
+        
+        # First check for exact matches - much faster than fuzzy matching
+        exact_match_found = False
+        for xlsx_company, std_potential in std_xlsx_companies.items():
+            if std_company == std_potential and std_company:  # Avoid matching empty strings
+                best_match = xlsx_company
+                best_ratio = 1.0
+                exact_match_found = True
+                
+                similarity_matrix.append({
+                    "csv_company": csv_company,
+                    "xlsx_company": xlsx_company,
+                    "similarity": 1.0,
+                })
+                break
+                
+        # Only perform fuzzy matching if no exact match was found
+        if not exact_match_found:
+            for xlsx_company, std_potential in std_xlsx_companies.items():
+                # Use token_set_ratio for better handling of company name variations
+                ratio = fuzz.token_set_ratio(std_company, std_potential) / 100  # Convert to 0-1 scale
+                
+                similarity_matrix.append({
                     "csv_company": csv_company,
                     "xlsx_company": xlsx_company,
                     "similarity": ratio,
-                }
-            )
+                })
 
-            if ratio > best_ratio:
-                best_ratio = ratio
-                best_match = xlsx_company
+                if ratio > best_ratio:
+                    best_ratio = ratio
+                    best_match = xlsx_company
+                    
+                    # If we found a perfect match, no need to check other companies
+                    if ratio == 1.0:
+                        break
         
         Threshold = 0.85
         if best_ratio < Threshold:  # Threshold for problematic matches
-            problematic_matches.append(
-                {
-                    "csv_company": csv_company,
-                    "best_match": best_match,
-                    "similarity": best_ratio,
-                }
-            )
+            problematic_matches.append({
+                "csv_company": csv_company,
+                "best_match": best_match,
+                "similarity": best_ratio,
+            })
 
     # Convert to DataFrame for easier analysis
     df = pd.DataFrame(similarity_matrix)
