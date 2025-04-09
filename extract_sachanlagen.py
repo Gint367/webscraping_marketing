@@ -25,7 +25,8 @@ def configure_logging(log_level=logging.INFO):
         format=log_format,
         handlers=[
             logging.StreamHandler()
-        ]
+        ],
+        
     )
     # Set log level for other libraries to reduce noise
     logging.getLogger('urllib3').setLevel(logging.WARNING)
@@ -144,6 +145,81 @@ HTML content includes two tables with headings, each containing "Sachanlagen" it
 - The number of values under "values" can vary based on the number of "Sachanlagen" found in each table.
 - make sure to not take the numbers from the sub item of the Sachanlagen like Technische Anlagen und Maschinen,Grundstücke, Andere Anlagen, etc.
 """
+
+def convert_german_number(num_str, file_name=None):
+        if not num_str:
+            return Decimal('0')  # Return Decimal(0) for consistency
+        
+        # Define common non-numeric terms to handle specially
+        non_numeric_terms = ["n/a", "keine angabe", "-", "error", "nicht angegeben"]
+        
+        try:
+            # If the input is None or a common non-numeric term, return 0
+            if num_str is None or num_str.strip().lower() in non_numeric_terms:
+                if file_name:
+                    logger.warning(f"Failed to convert number '{num_str}' in file '{file_name}': Non-numeric term")
+                return Decimal('0')
+                
+            # Check if the string contains any digits at all
+            if num_str and not any(c.isdigit() for c in num_str):
+                if file_name:
+                    logger.warning(f"Failed to convert number '{num_str}' in file '{file_name}': No digits found")
+                return Decimal('0')
+            
+            # First, remove all characters except numbers, commas, periods, and minus sign
+            import re
+            cleaned = re.sub(r'[^\d.,\-]', '', num_str)
+            
+            # Handle parentheses that indicate negative numbers (e.g., "(18.394)")
+            if num_str.strip().startswith('(') and num_str.strip().endswith(')'):
+                cleaned = '-' + cleaned
+            
+            # Handle empty string after cleaning (might be just symbols)
+            if not cleaned:
+                return Decimal('0')
+                
+            # Count decimal separators to determine format
+            comma_count = cleaned.count(',')
+            period_count = cleaned.count('.')
+            
+            # US format with comma as thousands separator and period as decimal (e.g., "1,234,567.89")
+            if period_count == 1 and comma_count >= 1 and cleaned.rindex('.') > cleaned.rindex(','):
+                # This is US format with comma as thousands separator
+                decimal_str = cleaned.replace(',', '')  # Just remove commas
+                return Decimal(decimal_str)
+                
+            # Handle multiple comma decimal separators (e.g., "3.139,112,74")
+            if comma_count > 1:
+                # Take the last comma as decimal separator
+                last_comma_index = cleaned.rindex(',')
+                integer_part = cleaned[:last_comma_index].replace('.', '').replace(',', '')
+                decimal_part = cleaned[last_comma_index+1:]
+                decimal_str = integer_part + '.' + decimal_part
+                
+                # Log the conversion for debugging
+                if file_name:
+                    logger.warning(f"Multiple decimal separators found in '{num_str}' in file '{file_name}'. Converted to '{decimal_str}'")
+                return Decimal(decimal_str)
+            
+            # Standard German format (e.g., "1.234,56")
+            if comma_count == 1 and period_count >= 0:
+                decimal_str = cleaned.replace('.', '').replace(',', '.')
+                return Decimal(decimal_str)
+            
+            # Standard format with no decimal (e.g., "1.234")
+            if comma_count == 0 and period_count > 0:
+                # Assume numbers with only periods are for thousands separators
+                decimal_str = cleaned.replace('.', '')
+                return Decimal(decimal_str)
+            
+            # Simple number with no separators
+            return Decimal(cleaned)
+            
+        except Exception as e:
+            # Provide more detailed error message
+            file_info = f" in file '{file_name}'" if file_name else ""
+            logger.warning(f"Failed to convert number '{num_str}'{file_info}: {type(e).__name__}: {str(e)}")
+            return Decimal('0')
 
 def extract_company_name(file_path):
     """
@@ -425,29 +501,7 @@ def process_sachanlagen_output(output_dir):
     no_table_files = []
     aktiva_files = []
     
-    # German number format conversion utility function
-    def convert_german_number(num_str, file_name=None):
-        if not num_str:
-            return 0
-        try:
-            # First, remove all characters except numbers, commas, periods, and minus sign
-            import re
-            cleaned = re.sub(r'[^\d.,\-]', '', num_str)
-            
-            # Handle parentheses that indicate negative numbers (e.g., "(18.394)")
-            if num_str.strip().startswith('(') and num_str.strip().endswith(')'):
-                cleaned = '-' + cleaned
-                
-            # Replace German decimal comma with dot and remove thousand separators
-            decimal_str = cleaned.replace('.', '').replace(',', '.')
-            
-            # Convert to Decimal for precision
-            return Decimal(decimal_str)
-        except Exception as e:
-            file_info = f" in file '{file_name}'" if file_name else ""
-            logger.warning(f"Failed to convert number '{num_str}'{file_info}: {[type(e)]}")
-            return Decimal('0')
-    
+      
     # Process each JSON file in the output directory
     for json_file in os.listdir(output_dir):
         if not json_file.endswith('.json'):

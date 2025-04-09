@@ -320,6 +320,118 @@ class TestCheckAndReprocessErrorFiles(unittest.TestCase):
                         if "couldn't find original file" in call[0][0]]
         self.assertEqual(len(warning_calls), 0, "Warning about not finding original file was logged")
 
+class TestNumberFormatHandling(unittest.TestCase):
+    """Test cases for handling number formats extracted from LLM using convert_german_number"""
+    
+    def test_correct_german_number_formats(self):
+        """Test conversion of correctly formatted German numbers"""
+        from extract_sachanlagen import convert_german_number
+        from decimal import Decimal
+        
+        # Test cases with correct German number format
+        test_cases = [
+            ("3.139,74", Decimal("3139.74")),
+            ("1.234.567,89", Decimal("1234567.89")),
+            ("0,45", Decimal("0.45")),
+            ("42", Decimal("42")),
+            ("-123,45", Decimal("-123.45")),
+            ("1.234", Decimal("1234"))  # No decimal part
+        ]
+        
+        for input_str, expected in test_cases:
+            result = convert_german_number(input_str)
+            self.assertEqual(result, expected, f"Failed for {input_str}, got {result} expected {expected}")
+    
+    def test_incorrect_number_formats(self):
+        """Test conversion of incorrectly formatted numbers"""
+        from extract_sachanlagen import convert_german_number
+        from decimal import Decimal
+        
+        # Test cases with incorrect formats
+        test_cases = [
+            # Multiple decimal separators
+            ("3.139,112,74", Decimal("3139112.74")),  # Should take the last comma as decimal
+            ("1,23.4,56", Decimal("1234.56")),  # Malformed with multiple separators
+            
+            # Mixed format cases
+            ("1.234.56", Decimal("123456")),  # Using period as group separator
+            
+            # Numbers with extra characters that should be removed
+            ("€3.139,74", Decimal("3139.74")),
+            ("3.139,74€", Decimal("3139.74")),
+            ("3.139,74 €", Decimal("3139.74"))
+        ]
+        
+        for input_str, expected in test_cases:
+            result = convert_german_number(input_str)
+            self.assertEqual(result, expected, f"Failed for {input_str}, got {result} expected {expected}")
+            
+        # Test with warning logging for multiple separators
+        import logging
+        with self.assertLogs(level='WARNING') as logs:
+            result = convert_german_number("3.139,112,74", "test_file.json")
+            self.assertEqual(result, Decimal("3139112.74"))
+            self.assertTrue(any("Multiple decimal separators found" in log for log in logs.output))
+    
+    def test_edge_cases(self):
+        """Test edge cases for number format handling"""
+        from extract_sachanlagen import convert_german_number
+        from decimal import Decimal
+        
+        # Edge cases to test
+        test_cases = [
+            ("", Decimal("0")),           # Empty string
+            (None, Decimal("0")),         # None value
+            ("N/A", Decimal("0")),        # Not a number text
+            ("keine Angabe", Decimal("0")),  # German for "no information"
+            ("-", Decimal("0")),          # Just a dash
+            ("error", Decimal("0"))       # Generic error text
+        ]
+        
+        for input_str, expected in test_cases:
+            result = convert_german_number(input_str)
+            self.assertEqual(result, expected, f"Failed for '{input_str}', got {result} expected {expected}")
+        
+        # Test with exception logging
+        import logging
+        with self.assertLogs(level='WARNING') as logs:
+            result = convert_german_number("not_a_number", "test_file.json")
+            self.assertEqual(result, Decimal("0"))
+            self.assertTrue(any("Failed to convert number" in log for log in logs.output))
+    
+    def test_special_cases(self):
+        """Test special cases like parenthesized negative numbers"""
+        from extract_sachanlagen import convert_german_number
+        from decimal import Decimal
+        
+        # Special formatting cases
+        test_cases = [
+            ("(123,45)", Decimal("-123.45")),    # Negative in parentheses
+            ("(1.234,56)", Decimal("-1234.56")), # Negative with thousands separator
+            (" (42) ", Decimal("-42")),          # With spaces
+            ("- 123,45", Decimal("-123.45"))     # Negative with space
+        ]
+        
+        for input_str, expected in test_cases:
+            result = convert_german_number(input_str)
+            self.assertEqual(result, expected, f"Failed for {input_str}, got {result} expected {expected}")
+    
+    def test_very_large_numbers(self):
+        """Test handling of very large numbers"""
+        from extract_sachanlagen import convert_german_number
+        from decimal import Decimal
+        
+        # Large number test cases
+        test_cases = [
+            ("1.234.567.890,12", Decimal("1234567890.12")),
+            ("999.999.999.999,99", Decimal("999999999999.99")),
+            ("1.000.000.000", Decimal("1000000000"))
+        ]
+        
+        for input_str, expected in test_cases:
+            result = convert_german_number(input_str)
+            self.assertEqual(result, expected, f"Failed for {input_str}, got {result} expected {expected}")
+
 # Helper function to run async tests
 def run_async_test(coro):
     return asyncio.run(coro)
