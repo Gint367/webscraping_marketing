@@ -141,18 +141,50 @@ rate_limiter = RateLimiter(
 )
 
 
-async def process_files(file_paths, llm_strategy, output_dir):
+async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
+    
     Args:
         file_paths (list of str): List of file paths to be processed.
         llm_strategy (LLMStrategy): The language model strategy to use for extraction.
         output_dir (str): Directory where the extracted data and combined results will be saved.
+        overwrite (bool, optional): Whether to overwrite existing output files. Defaults to False.
+        
     Returns:
         list: A list of extracted content from each file.
     """
+    import logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+    
+    # Filter file paths based on existing output files if not overwriting
+    if not overwrite:
+        filtered_file_paths = []
+        for path in file_paths:
+            # Generate the expected output filename
+            basename = os.path.basename(path)
+            name_without_ext = os.path.splitext(basename)[0]
+            output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
+            
+            # Check if the output file already exists
+            if os.path.exists(output_file):
+                logger.info(f"Skipping {path} as output already exists at {output_file}")
+                continue
+                
+            filtered_file_paths.append(path)
+        
+        # If all files would be skipped, return empty list
+        if not filtered_file_paths:
+            logger.info("All files already have output files. Use --overwrite to reprocess.")
+            return []
+            
+        file_paths = filtered_file_paths
+    
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
+    
+    logger.info(f"Processing {len(file_paths)} files...")
 
     config = CrawlerRunConfig(
         cache_mode=CacheMode.BYPASS,
@@ -201,17 +233,19 @@ async def process_files(file_paths, llm_strategy, output_dir):
                             result.extracted_content, f, indent=2, ensure_ascii=False
                         )
 
-                print(f"Extracted data saved to {output_file}")
+                logger.info(f"Extracted data saved to {output_file}")
                 extracted_data.append(result.extracted_content)
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                print(f"No content extracted from {file_path}: {error_msg}")
+                logger.error(f"No content extracted from {file_path}: {error_msg}")
 
         # Show usage stats
         llm_strategy.show_usage()
+        
+        return extracted_data
 
 
-async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy):
+async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy, overwrite=False):
     """
     Check for files with errors in the output directory and reprocess them.
     
@@ -220,11 +254,16 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
         input_dir (str): Directory containing the original source files
         ext (str): File extension of the original files (e.g., ".md")
         llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
+        overwrite (bool, optional): Whether to overwrite existing output files. Defaults to False.
     
     Returns:
         int: Number of files reprocessed
     """
-    print(f"Checking for files with errors in {output_dir}...")
+    import logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
+    
+    logger.info(f"Checking for files with errors in {output_dir}...")
     
     # List to store files that need reprocessing
     files_to_reprocess = []
@@ -262,19 +301,20 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
                     if original_files:
                         # Use the first matching file if multiple exist
                         files_to_reprocess.append(original_files[0])
-                        print(f"Found error in {json_file}, will reprocess {original_files[0]}")
+                        logger.info(f"Found error in {json_file}, will reprocess {original_files[0]}")
                     else:
-                        print(f"Error in {json_file}, but couldn't find original file {original_name}")
+                        logger.warning(f"Error in {json_file}, but couldn't find original file {original_name}")
         except Exception as e:
-            print(f"Error reading {json_file}: {e}")
+            logger.error(f"Error reading {json_file}: {e}")
     
     # Reprocess the files with errors
     if files_to_reprocess:
-        print(f"Reprocessing {len(files_to_reprocess)} files with errors...")
-        await process_files(files_to_reprocess, llm_strategy, output_dir)
+        logger.info(f"Reprocessing {len(files_to_reprocess)} files with errors...")
+        # Always overwrite error files
+        await process_files(files_to_reprocess, llm_strategy, output_dir, overwrite=True)
         return len(files_to_reprocess)
     else:
-        print("No files with errors found")
+        logger.info("No files with errors found")
         return 0
 
 
@@ -301,11 +341,21 @@ async def main():
     )
     parser.add_argument(
         "--only-recheck",
+        action="store_true",
         help="Only recheck files with errors in the output directory",
-        default=False,
+    )
+    parser.add_argument(
+        "--overwrite",
+        "-w",
+        action="store_true",
+        help="Overwrite existing output files instead of skipping them",
     )
 
     args = parser.parse_args()
+    
+    import logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logger = logging.getLogger(__name__)
 
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
@@ -343,16 +393,16 @@ async def main():
                     files_to_process.append(os.path.join(root, file))
 
         if not files_to_process:
-            print(f"No {args.ext} files found in {args.input}")
+            logger.warning(f"No {args.ext} files found in {args.input}")
             return
 
         # Apply limit if specified
         if args.limit is not None and args.limit > 0:
             files_to_process = files_to_process[: args.limit]
 
-        print(f"Processing {len(files_to_process)} files...")
+        logger.info(f"Found {len(files_to_process)} files to potentially process...")
     else:
-        print(f"Error: {args.input} is not a valid file or directory")
+        logger.error(f"Error: {args.input} is not a valid file or directory")
         return
 
     # Check for and reprocess files with errors
@@ -364,12 +414,12 @@ async def main():
     
     # If --only-recheck is specified, skip the initial processing
     if args.only_recheck:
-        print("Only rechecking files with errors, skipping initial processing.")
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+        logger.info("Only rechecking files with errors, skipping initial processing.")
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy, args.overwrite)
     else:
         # Process all files and do error checking
-        await process_files(files_to_process, llm_strategy, output_dir)
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
+        await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy, args.overwrite)
         
 
 
