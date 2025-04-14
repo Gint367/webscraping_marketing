@@ -135,7 +135,10 @@ python extract_llm.py <input> --output <output_dir>
   - One JSON file per company with structured keyword data
 - **Usage:** Uses a large language model to analyze website content and extract business-relevant keywords.
 - **Example:** `python extract_llm.py domain_content_maschinenbau --output llm_extracted_maschinenbau`
-- **Notes:** it will recheck the output files for error and redo the steps.
+- **Notes:** 
+  - By default, the script skips files that already have output files to avoid redundant processing.
+  - Use the `--overwrite` or `-w` flag to force reprocessing of all files.
+  - It will automatically recheck the output files for errors and reprocess them if needed.
 
 #### Optional Steps
 
@@ -254,7 +257,7 @@ python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_d
 - **Input:**
   - `--csv <csv_file>`: CSV file with keyword data (output from convert_to_csv.py)
   - `--base <base_data_file>`: CSV or Excel file containing technical equipment information
-  - `--output <output_file>`: Optional output filename (defaults to final_export_<industry>.csv)
+  - `--output <output_file>`: Optional output filename (defaults to final_export_<category>.csv)
   - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
 - **Output:**
   - CSV file combining keyword data with technical equipment information
