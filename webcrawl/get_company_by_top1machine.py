@@ -65,17 +65,14 @@ def read_urls_and_companies_by_top1machine(input_file="input_excel.xlsx"):
         else:
             raise ValueError(f"Unsupported file extension: {file_extension}. Use .csv, .xlsx, or .xls")
         
-        # Filter rows where 'Top1_Machine' is not empty/null
-        filtered_df = df[df['Top1_Machine'].notna() & (df['Top1_Machine'] != '')]
+        # Filter rows where 'URL' is not empty/null
+        filtered_df = df[df['URL'].notna() & (df['URL'] != '')]
         #print(f"Filtered DataFrame shape: {filtered_df.shape}")
-        #print(f"Total rows after filtering for non-empty Top1_Machine: {len(filtered_df)}")
+        #print(f"Total rows after filtering for non-empty URL: {len(filtered_df)}")
         
         # Select only 'URL' and 'Firma1' columns
         result_df = filtered_df[['URL', 'Firma1']].copy()
         #print(f"Result DataFrame shape: {result_df.shape}")
-        
-        # Remove rows with empty URLs
-        result_df = result_df[result_df['URL'].notna()]
         
         # Clean URLs
         result_df['URL'] = result_df['URL'].apply(clean_url)
