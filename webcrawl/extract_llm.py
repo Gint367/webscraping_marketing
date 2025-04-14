@@ -1,8 +1,9 @@
 import os
 import json
 import asyncio
+import logging 
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Dict, Any, Optional # Added Any, Optional
 from urllib.parse import urlparse
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig
@@ -10,6 +11,14 @@ from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from crawl4ai.async_configs import LLMConfig
 import argparse
 
+# Configure logging
+def setup_logging():
+    """Sets up the basic logging configuration."""
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Setup logging at the module level
+setup_logging()
+logger = logging.getLogger(__name__)
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
@@ -124,7 +133,7 @@ Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifiz
 """
 
 
-def ensure_output_directory(directory="llm_extracted_data"):
+def ensure_output_directory(directory="llm_extracted_data") -> str:
     """Ensure the output directory for extracted data exists"""
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -141,50 +150,95 @@ rate_limiter = RateLimiter(
 )
 
 
-async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
+def _get_output_filename(file_path: str, output_dir: str) -> str:
+    """Generates the output JSON filename based on the input file path."""
+    basename = os.path.basename(file_path)
+    name_without_ext = os.path.splitext(basename)[0]
+    return os.path.join(output_dir, f"{name_without_ext}_extracted.json")
+
+
+def _filter_files_to_process(file_paths: List[str], output_dir: str, overwrite: bool) -> List[str]:
+    """Filters the list of file paths based on existing output files and overwrite flag."""
+    if overwrite:
+        return file_paths
+
+    filtered_file_paths = []
+    for path in file_paths:
+        output_file = _get_output_filename(path, output_dir)
+        if os.path.exists(output_file):
+            logger.info(f"Skipping {path} as output already exists at {output_file}")
+            continue
+        filtered_file_paths.append(path)
+
+    if not filtered_file_paths and file_paths: # Check if initial list was not empty
+        logger.info("All files already have output files. Use --overwrite to reprocess.")
+        
+    return filtered_file_paths
+
+
+def _save_result(result_content: Any, output_dir: str, source_url: str):
+    """Saves the extracted content to a JSON file."""
+    parsed_url = urlparse(source_url)
+    netloc = parsed_url.netloc
+
+    if not netloc and parsed_url.path: # Handle file URLs
+        basename = os.path.basename(parsed_url.path)
+        name_without_ext = os.path.splitext(basename)[0]
+    elif netloc: # Handle web URLs
+        if netloc.startswith("www."):
+            netloc = netloc[4:]
+        name_without_ext = netloc
+    else: # Fallback if URL parsing fails unexpectedly
+        logger.warning(f"Could not determine filename from URL: {source_url}. Using fallback.")
+        # Create a fallback name, e.g., based on hash or timestamp if needed
+        # For now, let's just use a generic name, but this might cause collisions
+        name_without_ext = f"unknown_source_{hash(source_url)}" 
+
+    output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
+
+    try:
+        with open(output_file, "w", encoding="utf-8") as f:
+            if isinstance(result_content, str):
+                # Attempt to parse string as JSON, otherwise write as string
+                try:
+                    parsed_json = json.loads(result_content)
+                    json.dump(parsed_json, f, indent=2, ensure_ascii=False)
+                except json.JSONDecodeError:
+                    f.write(result_content) # Write as plain string if not valid JSON
+            else:
+                # Assume it's already a dict/list suitable for JSON
+                json.dump(result_content, f, indent=2, ensure_ascii=False)
+        logger.info(f"Extracted data saved to {output_file}")
+    except IOError as e:
+        logger.error(f"Failed to write output file {output_file}: {e}")
+    except TypeError as e:
+         logger.error(f"Failed to serialize result to JSON for {output_file}: {e}")
+
+
+async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrategy, output_dir: str, overwrite: bool = False) -> List[Dict]:
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
     
     Args:
         file_paths (list of str): List of file paths to be processed.
-        llm_strategy (LLMStrategy): The language model strategy to use for extraction.
+        llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction.
         output_dir (str): Directory where the extracted data and combined results will be saved.
         overwrite (bool, optional): Whether to overwrite existing output files. Defaults to False.
         
     Returns:
-        list: A list of extracted content from each file.
+        List[Dict]: A list of extracted content (as dictionaries) from each file.
     """
-    import logging
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger(__name__)
     
-    # Filter file paths based on existing output files if not overwriting
-    if not overwrite:
-        filtered_file_paths = []
-        for path in file_paths:
-            # Generate the expected output filename
-            basename = os.path.basename(path)
-            name_without_ext = os.path.splitext(basename)[0]
-            output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
-            
-            # Check if the output file already exists
-            if os.path.exists(output_file):
-                logger.info(f"Skipping {path} as output already exists at {output_file}")
-                continue
-                
-            filtered_file_paths.append(path)
-        
-        # If all files would be skipped, return empty list
-        if not filtered_file_paths:
-            logger.info("All files already have output files. Use --overwrite to reprocess.")
-            return []
-            
-        file_paths = filtered_file_paths
+    # Filter files first
+    actual_files_to_process = _filter_files_to_process(file_paths, output_dir, overwrite)
     
+    if not actual_files_to_process:
+        return [] # Return early if no files need processing
+
     # Convert file paths to URLs with file:// protocol
-    file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
+    file_urls = [f"file://{os.path.abspath(path)}" for path in actual_files_to_process]
     
-    logger.info(f"Processing {len(file_paths)} files...")
+    logger.info(f"Processing {len(actual_files_to_process)} files...")
 
     config = CrawlerRunConfig(
         cache_mode=CacheMode.BYPASS,
@@ -200,44 +254,35 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
         )
 
         extracted_data = []
+        # Use actual_files_to_process for indexing results correctly
         for idx, result in enumerate(results):
-            file_path = file_paths[idx]
+            # Get the original file path corresponding to this result
+            original_file_path = actual_files_to_process[idx] 
             if result.success and result.extracted_content:
-                # Extract source URL info for validation and naming
-                original_url = result.url
-                parsed_url = urlparse(original_url)
-
-                # Always use the URL for naming, regardless of whether it's a file or web URL
-                netloc = parsed_url.netloc
-                # For file URLs, netloc will be empty, so handle that case
-                if not netloc and parsed_url.path:
-                    # For file URLs, extract the filename from the path
-                    basename = os.path.basename(parsed_url.path)
-                    name_without_ext = os.path.splitext(basename)[0]
+                _save_result(result.extracted_content, output_dir, result.url)
+                # Ensure extracted_data stores structured content if possible
+                if isinstance(result.extracted_content, str):
+                    try:
+                       extracted_data.append(json.loads(result.extracted_content))
+                    except json.JSONDecodeError:
+                       extracted_data.append({"raw_content": result.extracted_content}) # Store as dict if not JSON
                 else:
-                    # For web URLs, remove 'www.' prefix if present
-                    if netloc.startswith("www."):
-                        netloc = netloc[4:]
-                    name_without_ext = netloc
+                     extracted_data.append(result.extracted_content)
 
-                output_file = os.path.join(
-                    output_dir, f"{name_without_ext}_extracted.json"
-                )
-
-                # Save extracted content
-                with open(output_file, "w", encoding="utf-8") as f:
-                    if isinstance(result.extracted_content, str):
-                        f.write(result.extracted_content)
-                    else:
-                        json.dump(
-                            result.extracted_content, f, indent=2, ensure_ascii=False
-                        )
-
-                logger.info(f"Extracted data saved to {output_file}")
-                extracted_data.append(result.extracted_content)
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                logger.error(f"No content extracted from {file_path}: {error_msg}")
+                logger.error(f"No content extracted from {original_file_path}: {error_msg}")
+                # Optionally save error information to a file or return it
+                error_info = {"error": True, "source_file": original_file_path, "message": error_msg}
+                # Use the original file path to generate the error filename
+                error_output_file = _get_output_filename(original_file_path, output_dir)
+                try:
+                    with open(error_output_file, "w", encoding="utf-8") as f:
+                        json.dump(error_info, f, indent=2, ensure_ascii=False)
+                    logger.info(f"Error details saved to {error_output_file}")
+                except IOError as e:
+                    logger.error(f"Failed to write error file {error_output_file}: {e}")
+
 
         # Show usage stats
         llm_strategy.show_usage()
@@ -245,7 +290,71 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
         return extracted_data
 
 
-async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy, overwrite=False):
+def _find_original_file(error_json_file: str, input_dir: str, ext: str) -> Optional[str]:
+    """Finds the original source file corresponding to an error JSON file.
+
+    Args:
+        error_json_file (str): The path to the JSON file indicating an error.
+        input_dir (str): The directory containing the original source files.
+        ext (str): The file extension of the original files.
+
+    Returns:
+        Optional[str]: The path to the original file, or None if not found.
+    """
+    original_name = os.path.basename(error_json_file).replace('_extracted.json', ext)
+    for root, _, files in os.walk(input_dir):
+        for file in files:
+            if file == original_name:
+                return os.path.join(root, file)
+    logger.warning(f"Could not find original file {original_name} for error file {error_json_file}")
+    return None
+
+def _find_error_files(output_dir: str) -> List[str]:
+    """Scans the output directory for JSON files indicating processing errors.
+
+    Args:
+        output_dir (str): The directory containing the output JSON files.
+
+    Returns:
+        List[str]: A list of paths to JSON files that indicate errors.
+    """
+    error_files = []
+    if not os.path.isdir(output_dir):
+        logger.error(f"Output directory {output_dir} not found.")
+        return error_files
+        
+    for json_file in os.listdir(output_dir):
+        if not json_file.endswith("_extracted.json"):
+            continue
+        
+        json_path = os.path.join(output_dir, json_file)
+        if not os.path.isfile(json_path):
+            continue
+            
+        try:
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                
+            has_error = False
+            if isinstance(data, list) and len(data) > 0:
+                if isinstance(data[0], dict) and data[0].get('error') is True:
+                    has_error = True
+            elif isinstance(data, dict) and data.get('error') is True:
+                has_error = True
+                
+            if has_error:
+                error_files.append(json_path)
+        except json.JSONDecodeError:
+            logger.warning(f"Could not decode JSON from {json_path}. It might indicate an incomplete process or error.")
+            # Optionally treat decode errors as files needing reprocessing
+            # error_files.append(json_path)
+        except Exception as e:
+            logger.error(f"Error reading or processing {json_path}: {e}")
+            
+    return error_files
+
+
+async def check_and_reprocess_error_files(output_dir: str, input_dir: str, ext: str, llm_strategy: LLMExtractionStrategy) -> int:
     """
     Check for files with errors in the output directory and reprocess them.
     
@@ -254,59 +363,23 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
         input_dir (str): Directory containing the original source files
         ext (str): File extension of the original files (e.g., ".md")
         llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
-        overwrite (bool, optional): Whether to overwrite existing output files. Defaults to False.
     
     Returns:
         int: Number of files reprocessed
     """
-    import logging
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger(__name__)
     
     logger.info(f"Checking for files with errors in {output_dir}...")
     
-    # List to store files that need reprocessing
+    error_json_files = _find_error_files(output_dir)
+    
     files_to_reprocess = []
-    
-    # Iterate through JSON files in the output directory
-    for json_file in os.listdir(output_dir):
-        if not json_file.endswith("_extracted.json"):
-            continue
-        
-        json_path = os.path.join(output_dir, json_file)
-        
-        try:
-            with open(json_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                
-                # Check if the file contains an error
-                has_error = False
-                if isinstance(data, list) and len(data) > 0:
-                    if isinstance(data[0], dict) and data[0].get('error') is True:
-                        has_error = True
-                elif isinstance(data, dict) and data.get('error') is True:
-                    has_error = True
-                
-                if has_error:
-                    # Extract the original filename from the JSON filename
-                    original_name = json_file.replace('_extracted.json', ext)
-                    
-                    # Look for the original file in the input directory and subdirectories
-                    original_files = []
-                    for root, _, files in os.walk(input_dir):
-                        for file in files:
-                            if file == original_name:
-                                original_files.append(os.path.join(root, file))
-                    
-                    if original_files:
-                        # Use the first matching file if multiple exist
-                        files_to_reprocess.append(original_files[0])
-                        logger.info(f"Found error in {json_file}, will reprocess {original_files[0]}")
-                    else:
-                        logger.warning(f"Error in {json_file}, but couldn't find original file {original_name}")
-        except Exception as e:
-            logger.error(f"Error reading {json_file}: {e}")
-    
+    for error_file_path in error_json_files:
+        original_file = _find_original_file(error_file_path, input_dir, ext)
+        if original_file:
+            files_to_reprocess.append(original_file)
+            logger.info(f"Found error marker in {os.path.basename(error_file_path)}, will reprocess {original_file}")
+        # else: The warning is logged inside _find_original_file
+
     # Reprocess the files with errors
     if files_to_reprocess:
         logger.info(f"Reprocessing {len(files_to_reprocess)} files with errors...")
@@ -314,7 +387,7 @@ async def check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strate
         await process_files(files_to_reprocess, llm_strategy, output_dir, overwrite=True)
         return len(files_to_reprocess)
     else:
-        logger.info("No files with errors found")
+        logger.info("No files with errors found needing reprocessing.")
         return 0
 
 
@@ -352,10 +425,6 @@ async def main():
     )
 
     args = parser.parse_args()
-    
-    import logging
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-    logger = logging.getLogger(__name__)
 
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
@@ -415,12 +484,11 @@ async def main():
     # If --only-recheck is specified, skip the initial processing
     if args.only_recheck:
         logger.info("Only rechecking files with errors, skipping initial processing.")
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy, args.overwrite)
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy) 
     else:
         # Process all files and do error checking
         await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy, args.overwrite)
-        
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
 
 
 if __name__ == "__main__":
