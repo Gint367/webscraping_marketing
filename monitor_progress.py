@@ -8,8 +8,8 @@ from colorama import Fore, Style, init
 
 # Define constants for repeated patterns
 FOLDER_PATTERNS = {
-    'bundesanzeiger': 'bundesanzeiger_local_{}*',
-    'output': 'bundesanzeiger_local_{}_output*',
+    'bundesanzeiger': 'archive_bundesanzeiger_local/bundesanzeiger_local_{}*',
+    'output': 'archive_bundesanzeiger_local/bundesanzeiger_local_{}_output*',
     'domain': 'domain_content_{}*',
     'llm': 'llm_extracted_{}*',
     'pluralized': 'pluralized_{}*'
@@ -17,7 +17,8 @@ FOLDER_PATTERNS = {
 
 FILE_PATTERNS = {
     'company': 'company_{}.csv',
-    'machine_report': 'machine_report_{}*.csv',
+    'machine_report': 'archive/machine_report_{}*.csv',
+    'sachanlagen': 'sachanlagen_{}.csv',
     'merged': 'merged_{}*.csv',
     'final_export': 'final_export_{}.csv',
     'enriched': 'enriched_final_export_{}.csv',
@@ -205,6 +206,48 @@ def check_enriched_data(category):
     except Exception:
         return 0, False
 
+def get_sachanlagen_count(category):
+    """Check if sachanlagen_<category>.csv file exists and count rows
+    
+    Args:
+        category (str): The category name
+        
+    Returns:
+        int: Number of rows in the CSV file (0 if file doesn't exist)
+    """
+    sachanlagen_files = glob.glob(FILE_PATTERNS['sachanlagen'].format(category))
+    if not sachanlagen_files:
+        return 0
+    
+    # Use the first matching file if multiple exist
+    try:
+        df = pd.read_csv(sachanlagen_files[0])
+        return len(df)
+    except Exception:
+        return 0
+
+def count_cleaned_html_files(category):
+    """Count HTML files in cleaned_html folders inside bundesanzeiger_local_{category}_output
+    
+    Args:
+        category (str): The category name
+        
+    Returns:
+        int: Total count of cleaned HTML files
+    """
+    output_folders = glob.glob(FOLDER_PATTERNS['output'].format(category))
+    total_files = 0
+    
+    for folder in output_folders:
+        cleaned_html_path = os.path.join(folder, 'cleaned_html')
+        if os.path.exists(cleaned_html_path) and os.path.isdir(cleaned_html_path):
+            # Count only files in the cleaned_html folder, not in subfolders
+            total_files += len([name for name in os.listdir(cleaned_html_path) 
+                              if os.path.isfile(os.path.join(cleaned_html_path, name))
+                              and name.lower().endswith('.html')])
+    
+    return total_files
+
 def main():
     # Add command line argument parsing
     parser = argparse.ArgumentParser(description="Monitor progress of data processing pipeline")
@@ -238,6 +281,12 @@ def main():
         # Count output files
         output_files_count = count_output_files(category)
         
+        # Count cleaned HTML files
+        cleaned_html_count = count_cleaned_html_files(category)
+        
+        # Get sachanlagen count
+        sachanlagen_count = get_sachanlagen_count(category)
+        
         # Get merged file count
         merged_file_count = get_merged_file_count(category)
         
@@ -262,7 +311,8 @@ def main():
         # Calculate progress percentages
         progress_percent = (total_processed / company_count * 100) if company_count > 0 else 0
         machine_report_percent = (machine_report_count / output_files_count * 100) if output_files_count > 0 else 0
-        merged_percent = (merged_file_count / machine_report_count * 100) if machine_report_count > 0 else 0
+        sachanlagen_percent = (sachanlagen_count / cleaned_html_count * 100) if cleaned_html_count > 0 else 0
+        merged_percent = (merged_file_count / cleaned_html_count * 100) if cleaned_html_count > 0 else 0
         domain_content_percent = (domain_content_count / merged_file_count * 100) if merged_file_count > 0 else 0
         llm_percent = (llm_file_count / domain_content_count * 100) if domain_content_count > 0 else 0
         llm_error_percent = (llm_error_count / llm_file_count * 100) if llm_file_count > 0 else 0
@@ -279,6 +329,9 @@ def main():
             'machine_report_count': machine_report_count,
             'output_files_count': output_files_count,
             'machine_report_percent': machine_report_percent,
+            'cleaned_html_count': cleaned_html_count,
+            'sachanlagen_count': sachanlagen_count,
+            'sachanlagen_percent': sachanlagen_percent,
             'merged_file_count': merged_file_count,
             'merged_percent': merged_percent,
             'domain_content_count': domain_content_count,
@@ -315,12 +368,17 @@ def main():
         if result['machine_report_count'] > 0:
             machine_report_info = f" | Machine Reports: {result['machine_report_count']}/{result['output_files_count']} ({result['machine_report_percent']:.2f}%)"
         
+        # Format the sachanlagen information
+        sachanlagen_info = ""
+        if result['sachanlagen_count'] > 0:
+            sachanlagen_info = f" | Sachanlagen: {result['sachanlagen_count']}/{result['cleaned_html_count']} ({result['sachanlagen_percent']:.2f}%)"
+        
         # Format the merged file information
         merged_info = ""
         if result['merged_file_count'] > 0:
-            merged_info = f" | Merged: {result['merged_file_count']}/{result['machine_report_count']} ({result['merged_percent']:.2f}%)"
+            merged_info = f" | Merged: {result['merged_file_count']}/{result['cleaned_html_count']} ({result['merged_percent']:.2f}%)"
         
-        print(f"  {progress_info}{machine_report_info}{merged_info}")
+        print(f"  {progress_info}{machine_report_info}{sachanlagen_info}{merged_info}")
         
         # Format the domain content and LLM information on a new line
         domain_content_info = ""
