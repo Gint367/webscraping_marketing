@@ -1,5 +1,10 @@
 import unittest
+import sys
 from unittest.mock import patch, MagicMock
+
+sys.modules['excel_reader'] = MagicMock()
+sys.modules['get_company_by_category'] = MagicMock()
+sys.modules['get_company_by_top1machine'] = MagicMock()
 
 from webcrawl.crawl_domain import (
     sanitize_filename,
@@ -66,13 +71,178 @@ class TestCrawlDomain(unittest.TestCase):
     def test_is_file_url(self):
         url_path = "/path/to/file.pdf"
         self.assertTrue(is_file_url(url_path))
-
-    def test_should_filter_by_language(self):
+    
+    def test_should_filter_by_language_non_german(self):
+        # Test non-German language patterns
         url = "https://www.example.com/en/about"
-        self.assertTrue(should_filter_by_language(url, True, False))
+        uses_language_codes = True
+        is_base_domain = False
+        self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_other_lang_codes(self):
+        # Test non-German language code pattern
+        url = "https://www.example.com/fr/about"
+        uses_language_codes = True
+        is_base_domain = False
+        self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_generic_lang_code(self):
+        # Test generic language code pattern without explicit language marker
+        url = "https://www.example.com/es-mx/about"
+        uses_language_codes = True
+        is_base_domain = False
+        self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_german(self):
+        # Test German language pattern
+        url = "https://www.example.com/de/about"
+        uses_language_codes = True
+        is_base_domain = False
+        self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_no_lang_code(self):
+        # Test URL without language code
+        url = "https://www.example.com/about"
+        uses_language_codes = True
+        is_base_domain = False
+        self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_base_domain(self):
+        # Test base domain URL
+        url = "https://www.example.com/"
+        uses_language_codes = True
+        is_base_domain = True
+        self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
+    
+    def test_should_filter_by_language_site_without_lang_codes(self):
+        # Test site that doesn't use language codes
+        url = "https://www.example.com/products/software"
+        uses_language_codes = False
+        is_base_domain = False
+        self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
 
     def test_normalize_and_filter_links(self):
         internal_links = ["about", "contact", "#section"]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = ["https://www.example.com/about", "https://www.example.com/contact"]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_with_string_links(self):
+        """
+        Test normalize_and_filter_links properly handles string links.
+        """
+        internal_links = ["about", "contact", "#section", "https://external-domain.com"]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = ["https://www.example.com/about", "https://www.example.com/contact"]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_with_dict_links(self):
+        """
+        Test normalize_and_filter_links properly handles dictionary links with 'href' key.
+        """
+        internal_links = [
+            {"href": "about"}, 
+            {"href": "contact"}, 
+            {"href": "#section"},
+            {"href": "mailto:info@example.com"}
+        ]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = ["https://www.example.com/about", "https://www.example.com/contact"]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_with_url_key(self):
+        """
+        Test normalize_and_filter_links properly handles dictionary links with 'url' key.
+        """
+        internal_links = [
+            {"url": "about"}, 
+            {"url": "contact"}, 
+            {"url": "#products"}
+        ]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = ["https://www.example.com/about", "https://www.example.com/contact"]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_protocol_relative(self):
+        """
+        Test normalize_and_filter_links properly handles protocol-relative URLs.
+        """
+        internal_links = ["//example.com/about", "//example.com/contact"]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = []  # Different domain, should be filtered
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+        # Same domain test
+        internal_links = ["//www.example.com/about", "//www.example.com/contact"]
+        expected = ["https://www.example.com/about", "https://www.example.com/contact"]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_invalid_schemes(self):
+        """
+        Test normalize_and_filter_links properly filters links with invalid schemes.
+        """
+        internal_links = [
+            "mailto:info@example.com", 
+            "tel:123456789", 
+            "javascript:void(0)", 
+            "ftp://example.com/file.txt"
+        ]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = []
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_max_limit(self):
+        """
+        Test normalize_and_filter_links properly limits the number of links.
+        """
+        internal_links = ["page1", "page2", "page3", "page4", "page5"]
+        base_url = "https://www.example.com"
+        max_links = 3
+        result = normalize_and_filter_links(internal_links, base_url, max_links)
+        self.assertEqual(len(result), 3)
+        self.assertEqual(
+            result,
+            ["https://www.example.com/page1", "https://www.example.com/page2", "https://www.example.com/page3"]
+        )
+
+    def test_normalize_and_filter_links_mixed_inputs(self):
+        """
+        Test normalize_and_filter_links with mixed types of inputs.
+        """
+        internal_links = [
+            "about", 
+            {"href": "contact"}, 
+            {"url": "services"}, 
+            "#section", 
+            "mailto:info@example.com",
+            None,  # Invalid type
+            {"invalid": "key"}  # Missing href/url
+        ]
+        base_url = "https://www.example.com"
+        max_links = 10
+        expected = [
+            "https://www.example.com/about", 
+            "https://www.example.com/contact", 
+            "https://www.example.com/services"
+        ]
+        self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)
+
+    def test_normalize_and_filter_links_external_domains(self):
+        """
+        Test normalize_and_filter_links filters out external domains.
+        """
+        internal_links = [
+            "about",  # Internal
+            "https://www.example.com/contact",  # Internal (absolute but same domain)
+            "https://external-domain.com/page",  # External
+            "//external-domain.com/page"  # Protocol-relative external
+        ]
         base_url = "https://www.example.com"
         max_links = 10
         expected = ["https://www.example.com/about", "https://www.example.com/contact"]

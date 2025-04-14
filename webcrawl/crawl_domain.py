@@ -115,6 +115,32 @@ GERMAN_LANGUAGE_HEADERS = {"Accept-Language": "de-DE,de;q=0.9"}
 # System constants
 RECURSION_LIMIT = 10000  # Temporary recursion limit for large data processing
 
+# Setup logging
+logger = logging.getLogger(__name__)
+
+
+def configure_logging(log_level=logging.INFO):
+    """Configure logging with the specified verbosity level"""
+    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    logging.basicConfig(
+        level=log_level,
+        format=log_format,
+        handlers=[logging.StreamHandler()],
+    )
+    # Set log level for other libraries to reduce noise
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("asyncio").setLevel(logging.WARNING)
+    # Set log level for HTTPx, which is used by AsyncWebCrawler
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
+    logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
+    # List all active loggers at configuration time
+    # active_loggers = [name for name in logging.root.manager.loggerDict]
+    # logger.info("Active loggers in the program: %s", active_loggers)
+    logger.debug("Logging configured with level: %s", logging.getLevelName(log_level))
+
 
 # Add a function to disable colorama to prevent recursion errors
 def disable_colorama() -> None:
@@ -132,7 +158,7 @@ def disable_colorama() -> None:
 
         # Disable colorama's text processing
         colorama.deinit()
-        print("Colorama disabled to prevent recursion errors with large outputs.")
+        logger.info("Colorama disabled to prevent recursion errors with large outputs.")
     except ImportError:
         pass
 
@@ -178,6 +204,7 @@ def parse_args() -> argparse.Namespace:
     - excel/e: Path to Excel file containing URLs and company names (required)
     - output/o: Output directory for aggregated content (optional, defaults to name derived from input file)
     - max-links: Maximum number of internal links to crawl per domain (default: 60)
+    - overwrite: Whether to overwrite existing files (default: False)
 
     Returns:
         argparse.Namespace: Parsed command line arguments
@@ -207,6 +234,13 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=60,
         help="Maximum number of internal links to crawl per domain (default: 60)",
+    )
+    
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        default=False,
+        help="Overwrite existing files (default: False)",
     )
 
     return parser.parse_args()
@@ -311,7 +345,7 @@ def filter_urls_by_depth_reverse(urls: List[str]) -> List[str]:
     # If max_depth is 0 or 1, keep all URLs to avoid empty results
     target_depth = max_depth - 1 if max_depth > 1 else max_depth
 
-    print(f"Maximum URL depth: {max_depth}, filtering for depth: {target_depth}")
+    logger.info(f"Maximum URL depth: {max_depth}, filtering for depth: {target_depth}")
 
     # Filter URLs by target depth
     filtered_urls = [url for url, depth in url_depths if depth == target_depth]
@@ -326,7 +360,7 @@ def filter_urls_by_depth_reverse(urls: List[str]) -> List[str]:
             seen.add(normalized_url)
             unique_urls.append(url)
 
-    print(f"Filtered from {len(urls)} to {len(unique_urls)} URLs based on depth")
+    logger.info(f"Filtered from {len(urls)} to {len(unique_urls)} URLs based on depth")
     return unique_urls
 
 
@@ -369,8 +403,8 @@ def filter_urls_by_depth(urls: List[str], target_depth: int = 2) -> List[str]:
             seen.add(normalized_url)
             unique_urls.append(url)
 
-    print(
-        f"Filtered from {len(urls)} to {len(unique_urls)} URLs with depth <= {target_depth}"
+    logger.info(
+        "Filtered from %d to %d URLs with depth <= %d", len(urls), len(unique_urls), target_depth
     )
     return unique_urls
 
@@ -459,7 +493,7 @@ def normalize_and_filter_links(
     Normalize links to absolute URLs and perform initial filtering.
 
     Handles different types of link objects, converts to absolute URLs,
-    filters out anchor links, and limits the number of links to process.
+    filters out anchor links, non-HTTP(S) links, and limits the number of links.
 
     Args:
         internal_links: List of internal links (may be strings or dicts with 'href'/'url' keys)
@@ -470,9 +504,11 @@ def normalize_and_filter_links(
         List[str]: Filtered and normalized absolute URLs
     """
     domain = urlparse(base_url).netloc
+    scheme = urlparse(base_url).scheme  # Get the scheme of the base URL
 
     absolute_links = []
     anchor_filtered_count = 0
+    scheme_filtered_count = 0  # Counter for non-http(s) links
 
     for link_obj in internal_links:
         # Handle the link dictionary structure with 'href' key
@@ -482,36 +518,60 @@ def normalize_and_filter_links(
             elif "url" in link_obj:
                 link = link_obj["url"]
             else:
-                print(f"Skipping link object without href or url: {link_obj}")
+                logger.warning("Skipping link object without href or url: %s", link_obj)
                 continue
         elif isinstance(link_obj, str):
             link = link_obj
         else:
-            print(f"Skipping unexpected link format: {link_obj}")
+            logger.warning("Skipping unexpected link format: %s", link_obj)
             continue
 
+        # Check for non-HTTP schemes like mailto:, tel:, callto: etc.
+        if ":" in link and not link.startswith(("http://", "https://", "/")):
+            link_scheme = link.split(":", 1)[0].lower()
+            if link_scheme not in ["http", "https"]:
+                logger.info("Skipping non-web link: %s", link)
+                scheme_filtered_count += 1
+                continue
+
         # Make sure the URL is absolute
-        if not link.startswith(("http://", "https://")):
+        if not link.startswith(("http://", "https://", "//")):
             absolute_link = urljoin(base_url, link)
         else:
+            # Handle protocol-relative URLs (starting with //)
+            if link.startswith("//"):
+                absolute_link = f"{scheme}:{link}"
+            else:
+                absolute_link = link
+            
             # Only include links from the same domain
-            if urlparse(link).netloc != domain:
+            parsed_link = urlparse(absolute_link)
+            if parsed_link.netloc and parsed_link.netloc != domain:
                 continue
-            absolute_link = link
+
+        # Final check to ensure URL has valid scheme
+        parsed_absolute_link = urlparse(absolute_link)
+        if parsed_absolute_link.scheme not in ["http", "https"]:
+            logger.info("Skipping link with invalid scheme: %s", absolute_link)
+            scheme_filtered_count += 1
+            continue
 
         # Filter out URLs containing '#' as they're just anchor links to the same page
         if "#" in absolute_link:
-            print(f"Skipping anchor link: {absolute_link}")
+            logger.info("Skipping anchor link: %s", absolute_link)
             anchor_filtered_count += 1
             continue
 
         absolute_links.append(absolute_link)
 
-    print(f"Filtered out {anchor_filtered_count} anchor links (URLs with '#')")
+    logger.info("Filtered out %d anchor links (URLs with '#')", anchor_filtered_count)
+    logger.info(
+        "Filtered out %d non-HTTP(S) links (e.g., mailto:, tel:, callto:)", scheme_filtered_count
+    )
 
     # Limit number of links to avoid overwhelming the system
     if max_links is not None and len(absolute_links) > max_links:
-        print(f"Found {len(absolute_links)} internal links. Limiting to {max_links}.")
+        logger.info("Found %d internal links. Limiting to %d.", len(absolute_links), max_links)
         absolute_links = absolute_links[:max_links]
 
     return absolute_links
@@ -544,8 +604,8 @@ def apply_content_filters(
     uses_language_codes = any(
         pattern in base_url.lower() for pattern in GERMAN_LANGUAGE_PATTERNS
     )
-    print(
-        f"Site appears to {'' if uses_language_codes else 'not '}use language codes in URLs"
+    logger.info(
+        "Site appears to %suse language codes in URLs", "" if uses_language_codes else "not "
     )
 
     for url in urls:
@@ -559,19 +619,19 @@ def apply_content_filters(
 
         # Skip file URLs
         if is_file_url(path):
-            print(f"Skipping link with file extension: {url}")
+            logger.info("Skipping link with file extension: %s", url)
             filtered_count += 1
             continue
 
         # Skip non-content pages
         if not is_base_domain and is_non_content_url(path):
-            print(f"Skipping non-content page: {url}")
+            logger.info("Skipping non-content page: %s", url)
             filtered_count += 1
             continue
 
         # Apply language filtering
         if should_filter_by_language(url, uses_language_codes, is_base_domain):
-            print(f"Skipping non-German language URL: {url}")
+            logger.info("Skipping non-German language URL: %s", url)
             language_filtered_count += 1
             continue
 
@@ -614,8 +674,8 @@ def remove_duplicate_urls(urls: List[str]) -> List[str]:
             seen_normalized_urls.add(normalized_url)
             unique_links.append(url)
 
-    print(
-        f"Reduced from {len(urls)} to {len(unique_links)} URLs after removing duplicates (normalized by path)"
+    logger.info(
+        "Reduced from %d to %d URLs after removing duplicates (normalized by path)", len(urls), len(unique_links)
     )
 
     return unique_links
@@ -642,11 +702,11 @@ async def collect_internal_links(
     Returns:
         List[str]: Filtered list of internal URLs to crawl
     """
-    print(f"Collecting internal links from {main_url}...")
+    logger.info(f"Collecting internal links from {main_url}...")
 
     # Configure crawler for link collection
     crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.ENABLED,
+        cache_mode=CacheMode.WRITE_ONLY,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -659,7 +719,7 @@ async def collect_internal_links(
     result = await crawler.arun(main_url, config=crawl_config)
 
     if not result.success:
-        print(
+        logger.error(
             f"Failed to collect links from {main_url}: {result.error if hasattr(result, 'error') else 'Unknown error'}"
         )
         return []
@@ -667,7 +727,7 @@ async def collect_internal_links(
     # Get internal links
     internal_links = result.links.get("internal", [])
 
-    print(f"Found {len(internal_links)} internal links.")
+    logger.info(f"Found {len(internal_links)} internal links.")
 
     # Ensure all URLs are absolute and perform initial filtering
     domain = urlparse(main_url).netloc
@@ -679,8 +739,8 @@ async def collect_internal_links(
 
     # Apply content and language filters
     filtered_links, filter_counts = apply_content_filters(absolute_links, main_url)
-    print(f"Filtered out {filter_counts['content_filtered']} non-content pages")
-    print(f"Filtered out {filter_counts['language_filtered']} non-German language URLs")
+    logger.info("Filtered out %d non-content pages", filter_counts['content_filtered'])
+    logger.info("Filtered out %d non-German language URLs", filter_counts['language_filtered'])
 
     # Filter URLs based on path depth - keep URLs at specified target depth
     filtered_links = filter_urls_by_depth(
@@ -692,7 +752,7 @@ async def collect_internal_links(
 
     # Limit number of links to avoid overwhelming the system
     if len(unique_links) > max_links:
-        print(f"Found {len(unique_links)} internal links. Limiting to {max_links}.")
+        logger.info("Found %d internal links. Limiting to %d.", len(unique_links), max_links)
         unique_links = unique_links[:max_links]
 
     return unique_links
@@ -749,9 +809,10 @@ def remove_links_from_markdown(markdown_text: str) -> str:
 
 async def crawl_domain(
     main_url: str,
-    output_dir_aggregated: str = "domain_content_aggregated",
+    output_dir_aggregated: str = "domain_content_default",
     max_links: int = DEFAULT_MAX_LINKS,
     company_name: Optional[str] = None,
+    overwrite: bool = False,
 ) -> Tuple[str, int]:
     """
     Crawl a main URL and all its internal links, then aggregate the content.
@@ -767,10 +828,12 @@ async def crawl_domain(
         output_dir_aggregated: Directory to save aggregated markdown content
         max_links: Maximum number of internal links to crawl (default: 50)
         company_name: Optional company name associated with the URL
+        overwrite: Whether to overwrite existing files (default: False)
 
     Returns:
         Tuple[str, int]: (output_file_path, pages_crawled)
-            - output_file_path: Path to the generated markdown file
+            - note: this output is only used for reporting at the end of the run
+            - output_file_path: Path to the generated markdown file 
             - pages_crawled: Number of successfully crawled pages
     """
     prune_filter = PruningContentFilter(
@@ -788,7 +851,7 @@ async def crawl_domain(
 
     # Create crawler configuration for main URL - complete crawl
     main_crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.WRITE_ONLY,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -799,7 +862,7 @@ async def crawl_domain(
 
     # Create crawler configuration for internal links - body only
     body_only_config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.WRITE_ONLY,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -846,9 +909,14 @@ async def crawl_domain(
     domain_name = sanitize_filename(main_url)
 
     # Create output filenames in their respective directories
-    # output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}_{current_date}.md")
     output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}.md")
-
+    
+    # Check if the file already exists and skip if overwrite is False
+    if not overwrite and os.path.exists(output_markdown_file):
+        logger.info("Skipping %s - output file already exists at %s", main_url, output_markdown_file)
+        logger.info("Use --overwrite flag to overwrite existing files")
+        return output_markdown_file, 0
+        
     # Initialize aggregate content
     aggregate_content = f"# Aggregated Content for {domain_name}\n\n"
 
@@ -871,15 +939,15 @@ async def crawl_domain(
             crawler.crawler_strategy.set_custom_headers(GERMAN_LANGUAGE_HEADERS)
 
             # Phase 1: Crawl the main URL
-            print(f"\n=== Phase 1: Crawling main URL: {main_url} ===\n")
+            logger.info("\n=== Phase 1: Crawling main URL: %s ===\n", main_url)
             main_result: CrawlResult = await crawler.arun(
                 main_url, config=main_crawl_config
             )
 
             if not main_result.success:
-                print(f"Failed to crawl main URL: {main_url}")
-                print(
-                    f"Error: {main_result.error if hasattr(main_result, 'error') else 'Unknown error'}"
+                logger.error("Failed to crawl main URL: %s", main_url)
+                logger.error(
+                    "Error: %s", main_result.error if hasattr(main_result, 'error') else 'Unknown error'
                 )
                 return output_markdown_file, 0
 
@@ -894,7 +962,7 @@ async def crawl_domain(
             aggregate_content += main_result.markdown + "\n\n"
             aggregate_content += "-" * 80 + "\n\n"
 
-            print(f"Successfully crawled main URL: {main_url}")
+            logger.info("Successfully crawled main URL: %s", main_url)
 
             # Now collect internal links from the main result
             internal_links = await collect_internal_links(crawler, main_url, max_links)
@@ -904,8 +972,8 @@ async def crawl_domain(
 
             # Phase 2: Crawl the internal links (body content only)
             if internal_links:
-                print(
-                    f"\n=== Phase 2: Crawling {len(internal_links)} internal links (body only) ===\n"
+                logger.info(
+                    "\n=== Phase 2: Crawling %d internal links (body only) ===\n", len(internal_links)
                 )
                 # Now crawl all internal links at once using arun_many with body-only config
                 if dispatcher:
@@ -950,10 +1018,10 @@ async def crawl_domain(
                             )
                             aggregate_content += cleaned_content + "\n\n"
                         else:
-                            print(f"Unexpected markdown format for URL: {url}")
+                            logger.warning("Unexpected markdown format for URL: %s", url)
                             aggregate_content += "Content could not be processed.\n\n"
 
-                        print(f"Successfully crawled: {url}")
+                        logger.info("Successfully crawled: %s", url)
                     else:
                         # Report failure
                         error_msg = (
@@ -965,9 +1033,9 @@ async def crawl_domain(
                         aggregate_content += f"Failed to crawl: {error_msg}\n\n"
                         aggregate_content += "-" * 80 + "\n\n"
 
-                        print(f"Failed to crawl: {url}, Error: {error_msg}")
+                        logger.error("Failed to crawl: %s, Error: %s", url, error_msg)
             else:
-                print("No additional internal links found to crawl")
+                logger.info("No additional internal links found to crawl")
 
     finally:
         # Restore original recursion limit
@@ -976,7 +1044,7 @@ async def crawl_domain(
     # Write the aggregate content to file
     with open(output_markdown_file, "w", encoding="utf-8") as f:
         f.write(aggregate_content)
-    print(f"Aggregate content saved to {output_markdown_file}")
+    logger.info("Aggregate content saved to %s", output_markdown_file)
 
     # Count total pages crawled (main URL + internal links that were successfully crawled)
     total_crawled = (
@@ -1021,9 +1089,7 @@ async def main() -> None:
         # Extract name from input file
         extracted_name = extract_name_from_input_file(excel_file)
         output_dir = f"domain_content_{extracted_name}"
-        print(
-            f"No output directory specified. Using '{output_dir}' based on input filename."
-        )
+        logger.info("No output directory specified. Using '%s' based on input filename.", output_dir)
 
     max_links = args.max_links
 
@@ -1035,10 +1101,8 @@ async def main() -> None:
         urls_and_companies = read_urls_and_companies_by_top1machine(
             excel_file
         )  # For merged excel files from merge_excel.py
-        # print first 10 entries
-        # print(f"First 10 entries from Excel: {urls_and_companies[:20]}")
         if not urls_and_companies:
-            return print(
+            return logger.warning(
                 "No valid URLs found in Excel file. Using default domains instead."
             )
 
@@ -1060,10 +1124,14 @@ async def main() -> None:
 
     # Crawl each domain
     results = []
+    # Count the number of companies to crawl
+    num_companies = len(urls_and_companies)
+    logger.info("Total number of companies to crawl: %d", num_companies)
+
     for url, company_name in urls_and_companies:
         company_info = f" ({company_name})" if company_name else ""
-        print(
-            f"\n{'=' * 40}\nStarting crawl of domain: {url}{company_info}\n{'=' * 40}\n"
+        logger.info(
+            f"{'=' * 40}\nStarting crawl of domain: {url}{company_info}\n{'=' * 40}"
         )
 
         markdown_file, page_count = await crawl_domain(
@@ -1071,6 +1139,7 @@ async def main() -> None:
             output_dir_aggregated=output_dir,
             max_links=max_links,
             company_name=company_name,
+            overwrite=args.overwrite,
         )
         results.append(
             {
@@ -1082,16 +1151,16 @@ async def main() -> None:
         )
 
     # Summary of results
-    print("\n\n" + "=" * 40)
-    print("CRAWL SUMMARY")
-    print("=" * 40)
+    logger.info("\n\n" + "=" * 40)
+    logger.info("CRAWL SUMMARY")
+    logger.info("=" * 40)
     for result in results:
-        print(f"Domain: {result['domain']}")
+        logger.info("Domain: %s", result['domain'])
         if result["company_name"]:
-            print(f"Company: {result['company_name']}")
-        print(f"Pages crawled: {result['pages_crawled']}")
-        print(f"Markdown file: {os.path.basename(result['markdown_file'])}")
-        print("-" * 40)
+            logger.info("Company: %s", result['company_name'])
+        logger.info("Pages crawled: %d", result['pages_crawled'])
+        logger.info("Markdown file: %s", os.path.basename(result['markdown_file']))
+        logger.info("-" * 40)
 
 
 if __name__ == "__main__":
