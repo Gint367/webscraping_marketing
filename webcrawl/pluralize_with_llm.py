@@ -6,7 +6,6 @@ import re
 from typing import List, Tuple, Dict
 from litellm import completion
 
-os.environ["LITELLM_LOG"] = "WARNING"
 
 # Global tracking of failed files
 failed_files = []

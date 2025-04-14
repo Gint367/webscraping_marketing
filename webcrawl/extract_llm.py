@@ -15,6 +15,11 @@ import argparse
 def setup_logging():
     """Sets up the basic logging configuration."""
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
+    logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
 
 # Setup logging at the module level
 setup_logging()
@@ -166,13 +171,15 @@ def _filter_files_to_process(file_paths: List[str], output_dir: str, overwrite: 
     for path in file_paths:
         output_file = _get_output_filename(path, output_dir)
         if os.path.exists(output_file):
-            logger.info(f"Skipping {path} as output already exists at {output_file}")
+            logger.debug(f"Skipping {path} as output already exists at {output_file}")
             continue
         filtered_file_paths.append(path)
 
     if not filtered_file_paths and file_paths: # Check if initial list was not empty
         logger.info("All files already have output files. Use --overwrite to reprocess.")
-        
+    
+    skipped_count = len(file_paths) - len(filtered_file_paths)
+    logger.info(f"Skipped {skipped_count} files as output already exists. Use --overwrite to reprocess.")
     return filtered_file_paths
 
 
@@ -241,7 +248,7 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
     logger.info(f"Processing {len(actual_files_to_process)} files...")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.WRITE_ONLY,
         extraction_strategy=llm_strategy,
     )
 

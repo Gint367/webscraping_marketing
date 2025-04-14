@@ -171,7 +171,28 @@ python extract_llm.py <input> --output <output_dir>
   - **Usage:** Prepares failed files for reprocessing with the LLM
   - **Example:** `python copy_failed_llm.py llm_failures.csv domain_content_maschinenbau failed_markdown`
 
-### Step 3: Standardize Keywords
+### Step 3: Populate process_type
+
+```bash
+python fill_process_type.py [--input-file <input_file>] [--folder <folder_path>] [--output-dir <output_directory>] [--log-level <level>]
+```
+
+- **Input:**
+  - One of the following must be provided:
+    - `--input-file <input_file>`: Path to a single JSON file (e.g., `consolidated_pluralized_maschinenbau.json`)
+    - `--folder <folder_path>`: Path to a folder containing multiple JSON files (will process all files ending with .json)
+  - `--output-dir <output_directory>`: Optional directory for output (defaults to same as input)
+  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
+- **Output:**
+  - `<input_filename>.json`: Enhanced JSON file with process_type values added or corrected
+  - Process types are standardized to German plural forms
+- **Usage:** Leverages a large language model (Amazon Nova Pro) to analyze company products and determine appropriate process types
+- **Examples:**
+  - Single file: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --output-dir enhanced_data`
+  - Multiple files: `python fill_process_type.py --folder pluralized_maschinenbau --output-dir enhanced_data`
+  - With log level: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --log-level DEBUG`
+
+### Step 4: Standardize Keywords
 
 ```bash
 python pluralize_with_llm.py --input <input_dir> --output <output_dir> [--temperatures <temp_values>] [--log-level <level>]
@@ -181,7 +202,7 @@ python pluralize_with_llm.py --input <input_dir> --output <output_dir> [--temper
   - `--input <input_dir>`: Directory containing the JSON files with extracted keywords
   - `--output <output_dir>`: Directory where standardized keywords will be saved
   - `--temperatures <temp_values>`: Optional list of temperature values for LLM retries (default: 0.5 0.1 1.0)
-  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to WARNING)
+  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
 - **Output:**
   - JSON files with standardized keywords in German plural forms
   - Maintains the same structure as input files but with normalized values
@@ -195,7 +216,7 @@ python pluralize_with_llm.py --input <input_dir> --output <output_dir> [--temper
   
   For compound words, the script extracts the most relevant terms. For example, "Schrauben, Muttern und Bolzen" would be processed into individual terms: "Schrauben", "Bolzen", etc.
 
-### Step 4: Consolidate Data
+### Step 5: Consolidate Data
 
 ```bash
 python consolidate.py <input_folder>
@@ -208,27 +229,6 @@ python consolidate.py <input_folder>
   - Contains deduplicated and normalized entries optimized for further processing
 - **Usage:** Combines multiple JSON entries into a unified dataset, removing duplicates and standardizing formats
 - **Example:** `python consolidate.py pluralized_maschinenbau`
-
-### Step 5: Populate process_type
-
-```bash
-python fill_process_type.py [--input-file <input_file>] [--folder <folder_path>] [--output-dir <output_directory>] [--log-level <level>]
-```
-
-- **Input:**
-  - One of the following must be provided:
-    - `--input-file <input_file>`: Path to a single JSON file (e.g., `consolidated_pluralized_maschinenbau.json`)
-    - `--folder <folder_path>`: Path to a folder containing multiple JSON files (will process all files starting with "pluralized_")
-  - `--output-dir <output_directory>`: Optional directory for output (defaults to same as input)
-  - `--log-level <level>`: Optional logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL; defaults to INFO)
-- **Output:**
-  - `<input_filename>.json`: Enhanced JSON file with process_type values added or corrected
-  - Process types are standardized to German plural forms
-- **Usage:** Leverages a large language model (Amazon Nova Pro) to analyze company products and determine appropriate process types
-- **Examples:**
-  - Single file: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --output-dir enhanced_data`
-  - Multiple files: `python fill_process_type.py --folder pluralized_maschinenbau --output-dir enhanced_data`
-  - With log level: `python fill_process_type.py --input-file consolidated_pluralized_maschinenbau.json --log-level DEBUG`
 
 ### Step 6: Convert to CSV
 

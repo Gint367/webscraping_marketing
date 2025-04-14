@@ -213,7 +213,7 @@ def process_json_file(input_file: str, output_file: str) -> None:
 
 def find_pluralized_files(folder_path: str) -> List[str]:
     """
-    Find all JSON files with 'pluralized_' prefix in the given folder.
+    Find all JSON files in the given folder.
     
     Args:
         folder_path (str): Path to the folder to scan
@@ -228,7 +228,7 @@ def find_pluralized_files(folder_path: str) -> List[str]:
         return matching_files
     
     for filename in os.listdir(folder_path):
-        if filename.startswith('pluralized_') and filename.endswith('.json'):
+        if filename.endswith('.json'):
             full_path = os.path.join(folder_path, filename)
             if os.path.isfile(full_path):
                 matching_files.append(full_path)
@@ -243,7 +243,7 @@ def main():
     parser.add_argument('--input-file', type=str, 
                         help='Path to a single input JSON file (e.g., pluralized_aluminiumwerke.json)')
     parser.add_argument('--folder', type=str,
-                        help='Path to a folder containing JSON files to process (will process all files starting with "pluralized_")')
+                        help='Path to a folder containing JSON files to process (will process all JSON files)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Directory to save processed JSON files (defaults to same as input)')
     parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],

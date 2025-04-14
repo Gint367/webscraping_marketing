@@ -7,8 +7,6 @@ from io import StringIO
 import sys
 import shutil
 
-import pytest
-
 from webcrawl.extract_llm import (
     ensure_output_directory,
     process_files,
@@ -98,7 +96,6 @@ class TestExtractLLM(unittest.TestCase):
     @patch("webcrawl.extract_llm.AsyncWebCrawler")
     @patch("webcrawl.extract_llm.CrawlerRunConfig")
     @patch("os.path.abspath", return_value="/absolute/path/to/file.md")
-    @pytest.mark.asyncio
     async def test_process_files_with_failure(self, mock_abspath, mock_config, mock_crawler):
         # Setup mocks
         mock_crawler_instance = AsyncMock()

@@ -6,7 +6,7 @@ import shutil
 from unittest.mock import patch, MagicMock
 
 # Import functions to test
-from get_bundesanzeiger_html import (
+from extracting_machines.get_bundesanzeiger_html import (
     extract_financial_data_from_html,
     sanitize_filename,
     parse_date_str,
