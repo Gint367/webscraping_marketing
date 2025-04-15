@@ -3,6 +3,7 @@ import os
 import json
 import logging
 import argparse
+from platform import machine
 import re
 import time
 import random
@@ -22,12 +23,41 @@ def setup_logging(log_level=logging.INFO):
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    # Set log level for HTTPx, which is used by AsyncWebCrawler
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
+    logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
 
 # Global tracking for analytics
 processed_companies = 0
 empty_process_types_filled = 0
 conjugation_issues_fixed = 0
 conjugation_issues_fixed_companies = []
+
+# Folder patterns for category extraction
+FOLDER_PATTERNS = [
+    r"llm_extracted_([^/\\]+)",
+    r"pluralized_([^/\\]+)"
+]
+
+def extract_category_from_folder(folder_path: str) -> str:
+    """
+    Extract the category name from a folder path using known patterns.
+    Supports both llm_extracted_<category> and pluralized_<category>.
+
+    Args:
+        folder_path (str): The folder path
+    Returns:
+        str: The extracted category or None if not found
+    """
+    basename = os.path.basename(os.path.normpath(folder_path))
+    for pattern in FOLDER_PATTERNS:
+        match = re.match(pattern, basename)
+        if match:
+            return match.group(1)
+    return None
 
 def extract_category_from_filename(filename: str) -> str:
     """
@@ -44,7 +74,7 @@ def extract_category_from_filename(filename: str) -> str:
         return match.group(1)
     return None
 
-def generate_process_types(products: List[str], category: str, max_retries=3, base_delay=3) -> List[str]:
+def generate_process_types(products: List[str], machines: List[str], category: str, max_retries=3, base_delay=3) -> List[str]:
     """
     Use LLM to generate process_type values based on products and category,
     with exponential backoff for retries.
@@ -60,19 +90,23 @@ def generate_process_types(products: List[str], category: str, max_retries=3, ba
     """
     if not products:
         return []
-    
+    machines_line = f"Die Maschinen sind z.b: {', '.join(machines)}\n" if machines else ""
+
     # Create a prompt in German for better results
     prompt = f"""
-    Als Fertigungsexperte, gib mir die typischen Produktionsprozesse(mit maschinen) an, die zur Fertigung der folgenden Produkte in der Branche "{category}" verwendet werden.
+    Als Fertigungsexperte, gib mir die typischen Fertigungsprozesse(mit maschinen) an, die zur Fertigung der folgenden Produkte in der Branche "{category}" verwendet werden.
     Die Produkte sind: {', '.join(products)}.
+    {machines_line}
 
     Wichtig:
     1. Gib nur die Prozesse zurück, keine Erklärungen
     2. Maximal 5 Prozesse als kommagetrennte Liste
     3. Jeder Prozess sollte ein einzelnes Wort sein (keine Konjunktionen wie 'und')
     4. Jeder Prozess soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
-    4. Die Prozesse müssen auf Deutsch sein
-    5. Verwende die Pluralform für die Prozesse (z.B. 'Fräsungen' statt 'Fräsung')
+    5. Die Prozesse müssen auf Deutsch sein
+    6. Verwende die Pluralform für die Prozesse (z.B. 'Fräsungen' statt 'Fräsung')
+    7. Schließe nicht-fertigungsbezogene Wörter wie Transport, Logistik, Politik, Nachhaltigkeit usw. aus.
+    8. Wenn du keine Prozesse findest, gib 'NA' zurück.
 
     Deine Antwort:
     """
@@ -144,19 +178,34 @@ def check_for_conjugations(process_types: List[str], company_name: str) -> List[
     # Filter out any empty strings and return non-empty list
     return [p for p in cleaned_process_types if p.strip()]
 
-def process_json_file(input_file: str, output_file: str) -> None:
+# Constants for 'na' words
+NA_WORDS = ['na', 'n.a.', 'n/a', 'nicht verfügbar', 'keine', 'none']
+
+def remove_na_words(process_types: List[str]) -> List[str]:
+    """
+    Remove any process types that exactly match known 'na' words (case-insensitive).
+    Args:
+        process_types (List[str]): List of process types to check
+    Returns:
+        List[str]: List with 'na' words removed
+    """
+    return [p for p in process_types if p.strip().lower() not in NA_WORDS]
+
+def process_json_file(input_file: str, output_file: str, category: str = None) -> None:
     """
     Process a single JSON file to fill empty process_type fields.
     
     Args:
         input_file (str): Path to the input JSON file
         output_file (str): Path to save the processed JSON file
+        category (str, optional): Category to use for LLM prompt. If None, extract from filename.
     """
     global processed_companies, empty_process_types_filled
     
     try:
-        # Get category from filename
-        category = extract_category_from_filename(os.path.basename(input_file))
+        # Get category from argument or filename
+        if not category:
+            category = extract_category_from_filename(os.path.basename(input_file))
         if not category:
             logging.error(f"Could not extract category from filename: {input_file}")
             return
@@ -171,29 +220,29 @@ def process_json_file(input_file: str, output_file: str) -> None:
         for company in data:
             processed_companies += 1
             company_name = company.get('company_name', 'Unknown')
-            
             # Check if process_type is empty
             if not company.get('process_type'):
                 products = company.get('products', [])
+                machines = company.get('machines', [])
                 if products:
                     # Generate process types using LLM
-                    process_types = generate_process_types(products, category)
-                    
+                    process_types = generate_process_types(products, machines, category)
+                    # Remove 'na' words before further processing
+                    process_types = remove_na_words(process_types)
                     # Check for and fix conjugations
                     process_types = check_for_conjugations(process_types, company_name)
-                    
                     # Update the company data
                     company['process_type'] = process_types
                     empty_process_types_filled += 1
-                    
                     logging.info(f"  Updated process_type for company: {company.get('company_name', 'Unknown')}")
                     logging.info(f"  Products: {products}")
                     logging.info(f"  Generated process_type: {process_types}")
             else:
-                # Check existing process_type for conjugations
+                # Remove 'na' words from existing process_type
                 original_process_type = company['process_type']
-                cleaned_process_type = check_for_conjugations(original_process_type, company_name)
-                
+                cleaned_process_type = remove_na_words(original_process_type)
+                # Check existing process_type for conjugations
+                cleaned_process_type = check_for_conjugations(cleaned_process_type, company_name)
                 # Update only if changes were made
                 if cleaned_process_type != original_process_type:
                     company['process_type'] = cleaned_process_type
@@ -261,8 +310,8 @@ def main():
         parser.print_help()
         return
     
-    # Initialize a list to store files to process
     files_to_process = []
+    category = None
     
     # If a single file is specified
     if args.input_file:
@@ -275,6 +324,9 @@ def main():
             return
         
         files_to_process.append(args.input_file)
+        
+        # Try to extract category from filename
+        category = extract_category_from_filename(os.path.basename(args.input_file))
     
     # If a folder is specified
     if args.folder:
@@ -283,22 +335,19 @@ def main():
             logging.warning(f"No matching JSON files found in folder: {args.folder}")
         else:
             files_to_process.extend(folder_files)
+            # Extract category from folder name
+            category = extract_category_from_folder(args.folder)
     
-    # Check if we have any files to process
     if not files_to_process:
         logging.error("No files to process")
         return
     
-    # Log the number of files to process
     logging.info(f"Found {len(files_to_process)} files to process")
     
-    # Process each file
     for input_file in files_to_process:
-        # Get the base filename and create the output filename 
         filename = os.path.basename(input_file)
         output_filename = filename
         
-        # Determine the output directory
         if args.output_dir:
             output_dir = args.output_dir
         else:
@@ -306,10 +355,8 @@ def main():
         
         output_file = os.path.join(output_dir, output_filename)
         
-        # Process the JSON file
-        process_json_file(input_file, output_file)
+        process_json_file(input_file, output_file, category=category)
     
-    # Print summary statistics
     logging.info("===== PROCESSING SUMMARY =====")
     logging.info(f"Files processed: {len(files_to_process)}")
     logging.info(f"Companies processed: {processed_companies}")
