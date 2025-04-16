@@ -3,13 +3,13 @@ import os
 import json
 import logging
 import argparse
-from platform import machine
 import re
 import time
 import random
-from typing import List, Dict, Any
-from litellm import completion
-from pydantic import BaseModel, Field, ValidationError
+from typing import List
+from litellm import completion, JSONSchemaValidationError
+import litellm
+from pydantic import BaseModel, Field
 
 # Configure logging
 def setup_logging(log_level=logging.INFO):
@@ -120,7 +120,7 @@ def generate_process_types(products: List[str], machines: List[str], category: s
 
     Deine Antwort (nur JSON!):
     """
-
+    litellm.enable_json_schema_validation = True
     retries = 0
     while retries <= max_retries:
         try:
@@ -131,11 +131,17 @@ def generate_process_types(products: List[str], machines: List[str], category: s
                 max_tokens=800,
                 response_format=ProcessTypes,  # Use Pydantic model for schema
             )
-            # The response will be validated and parsed as ProcessTypesResponse
-            process_types = response.process_types
+            # Extract JSON string from response and parse it
+            content = response.choices[0].message.content
+            data = json.loads(content)
+            process_types = data.get("process_types", [])
+            logging.debug(f"LLM returned process_types: {process_types}")
             return [p.strip() for p in process_types if p.strip()]
-        except ValidationError as ve:
-            logging.error(f"Schema validation error: {ve}")
+        except json.JSONDecodeError as ve:
+            logging.error(f"JSON validation error: {ve}")
+            return []
+        except JSONSchemaValidationError as se:
+            logging.error(f"JSON schema validation failed: {se}")
             return []
         except Exception as e:
             retries += 1
