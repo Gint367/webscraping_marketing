@@ -161,12 +161,13 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         logging.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
         raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
     
-    # Filter base data to only include rows with values in 'Top1_Machine' column
-    filtered_data = base_data[base_data['Top1_Machine'].notna()]
-    logging.info(f"Filtered base data to {len(filtered_data)} rows with 'Top1_Machine' values")
+    # Convert Maschinen_Park_Size column to string type to prevent type incompatibility issues
+    if 'Maschinen_Park_Size' in base_data.columns:
+        base_data['Maschinen_Park_Size'] = base_data['Maschinen_Park_Size'].astype(str)
+        logging.debug("Converted Maschinen_Park_Size column in base data to string type")
     
-    # Select necessary columns from base data
-    filtered_data = filtered_data[BASE_COLUMNS]
+    # Select necessary columns from base data (do not filter by 'Top1_Machine')
+    filtered_data = base_data[BASE_COLUMNS]
     
     # Rename the 'Top1_Machine' column to the specified name
     filtered_data = filtered_data.rename(columns={
@@ -286,15 +287,35 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
             
             # If we found a match (exact or fuzzy), copy the data
             if matched_data is not None:
-                for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size', 'Sachanlagen', 'Firma1', 'base_domain']:
+                for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Sachanlagen', 'Firma1', 'base_domain']:
                     if col in matched_data:
                         merged_data.at[idx, col] = matched_data[col]
+                
+                # Handle Maschinen_Park_Size separately with proper type conversion
+                if 'Maschinen_Park_Size' in matched_data:
+                    if pd.isna(matched_data['Maschinen_Park_Size']):
+                        merged_data.at[idx, 'Maschinen_Park_Size'] = None
+                    else:
+                        merged_data.at[idx, 'Maschinen_Park_Size'] = str(matched_data['Maschinen_Park_Size'])
+                
+                # Log if both technische Anlagen und Maschinen and Sachanlagen are empty
+                tech_value = matched_data.get('technische Anlagen und Maschinen 2021/22', None)
+                sach_value = matched_data.get('Sachanlagen', None)
+                if (pd.isna(tech_value) or tech_value == '' or tech_value is None) and (pd.isna(sach_value) or sach_value == '' or sach_value is None):
+                    logging.warning(f"Both 'technische Anlagen und Maschinen 2021/22' and 'Sachanlagen' are empty for matched company: '{matched_data.get('Firma1', 'N/A')}'")
     
     name_matched = match_stats['exact_name_matches'] + match_stats['fuzzy_name_matches']
     logging.info(f"Matched {name_matched} companies by name (Exact: {match_stats['exact_name_matches']}, Fuzzy: {match_stats['fuzzy_name_matches']})")
     
-    # Check for unmatched companies after first pass
-    unmatched_idx = merged_data['technische Anlagen und Maschinen 2021/22'].isna()
+    # Add a tracking column for matches instead of using technical data presence
+    merged_data['is_matched'] = False
+    # Mark companies that were matched by name
+    for idx, row in csv_data.iterrows():
+        if not pd.isna(merged_data.at[idx, 'Firma1']):
+            merged_data.at[idx, 'is_matched'] = True
+    
+    # Check for unmatched companies after first pass using the tracking column
+    unmatched_idx = ~merged_data['is_matched']
     unmatched_count = unmatched_idx.sum()
     
     if unmatched_count > 0:
@@ -348,9 +369,16 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                         match = filtered_data.loc[match_idx]
                         
                         # Update merged data with match
-                        for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Maschinen_Park_Size', 'Sachanlagen']:
+                        for col in ['technische Anlagen und Maschinen 2021/22', 'Ort', 'URL', 'Sachanlagen']:
                             if col in match:
                                 merged_data.at[idx, col] = match[col]
+                        
+                        # Handle Maschinen_Park_Size separately with proper type conversion
+                        if 'Maschinen_Park_Size' in match:
+                            if pd.isna(match['Maschinen_Park_Size']):
+                                merged_data.at[idx, 'Maschinen_Park_Size'] = None
+                            else:
+                                merged_data.at[idx, 'Maschinen_Park_Size'] = str(match['Maschinen_Park_Size'])
                         
                         used_domains.add(csv_domain)  # Mark domain as used
                         matched_indices.append(idx)
@@ -402,17 +430,6 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         logging.info("All companies were successfully matched by name. Skipping URL matching.")
         url_matches = 0
     
-    # Drop the temporary columns
-    drop_cols = ['company_name_lower', 'firma1_lower', 'base_domain','Firma1','URL',"base_domain_x", "base_domain_y"]
-    merged_data = merged_data.drop([col for col in drop_cols if col in merged_data.columns], axis=1)
-    
-    # Count truly unmatched rows
-    still_unmatched = merged_data[merged_data['technische Anlagen und Maschinen 2021/22'].isna()]
-    match_stats['unmatched'] = len(still_unmatched)
-    
-    # Drop rows with missing values in 'technische Anlagen und Maschinen 2021/22' column
-    merged_data = merged_data.dropna(subset=['technische Anlagen und Maschinen 2021/22'])
-    
     # Save the merged data to a new CSV file with UTF-8-BOM encoding
     logging.info(f"Saving merged data to: {output_path}")
     # Check if output_path already has .csv extension
@@ -420,6 +437,38 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         output_file = f"{output_path}.csv"
     else:
         output_file = output_path
+    
+    # Add a column to properly track if a company was matched by name or URL
+    # A company is considered matched if it has a value in the Firma1 column or has values in technical data columns
+    merged_data['was_matched'] = (
+        ~merged_data['Firma1'].isna() | 
+        ~merged_data['technische Anlagen und Maschinen 2021/22'].isna() | 
+        ~merged_data['Sachanlagen'].isna() |
+        ~merged_data['Maschinen_Park_Size'].isna()
+    )
+    
+    # Count truly unmatched rows - those that didn't match by name or URL and have no technical data
+    match_stats['unmatched'] = (~merged_data['was_matched']).sum()
+    
+    # Save reference to unmatched companies for logging later
+    # We need to do this before dropping the tracking column
+    if match_stats['unmatched'] > 0:
+        still_unmatched = merged_data[~merged_data['was_matched']]
+        unmatched_companies = []
+        for idx, row in still_unmatched.iterrows():
+            company_name = row.get('Company name', 'N/A')
+            unmatched_companies.append(company_name)
+    else:
+        unmatched_companies = []
+    
+    # We keep all rows now, even if they don't have technical data values
+    # Remove the temporary tracking column before saving
+    merged_data = merged_data.drop('was_matched', axis=1)
+    
+    # Drop temporary columns
+    drop_cols = ['company_name_lower', 'firma1_lower', 'base_domain', 'Firma1', 'URL', 
+                "base_domain_x", "base_domain_y", 'is_matched']
+    merged_data = merged_data.drop([col for col in drop_cols if col in merged_data.columns], axis=1)
         
     merged_data.to_csv(output_file, encoding='utf-8-sig', index=False, sep=',')
     
@@ -428,14 +477,18 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     elapsed_time = end_time - start_time
     
     total_csv_rows = len(csv_data)
-    total_matches = name_matched + url_matches
+    # Calculate total matches correctly - matches are the total rows minus unmatched rows
+    # URL matches are already a subset of previously unmatched companies
+    total_matches = total_csv_rows - match_stats['unmatched']
+    # Calculate actual match percentage
+    match_percentage = (total_matches / total_csv_rows) * 100
     
     # Log detailed statistics
     logging.info("\n" + "="*50)
     logging.info("MATCHING STATISTICS SUMMARY")
     logging.info("="*50)
     logging.info(f"Total rows in CSV file: {total_csv_rows}")
-    logging.info(f"Total matches: {total_matches} ({total_matches/total_csv_rows*100:.1f}% of input)")
+    logging.info(f"Total matches: {total_matches} ({match_percentage:.1f}% of input)")
     logging.info(f"  - Name matches: {name_matched} ({name_matched/total_csv_rows*100:.1f}%)")
     logging.info(f"    - Exact name matches: {match_stats['exact_name_matches']} ({match_stats['exact_name_matches']/total_csv_rows*100:.1f}%)")
     logging.info(f"    - Fuzzy name matches: {match_stats['fuzzy_name_matches']} ({match_stats['fuzzy_name_matches']/total_csv_rows*100:.1f}%)")
