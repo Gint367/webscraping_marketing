@@ -262,7 +262,7 @@ async def process_files(file_paths, llm_strategy, output_dir):
     logger.info(f"Processing {len(file_paths)} files using streaming mode")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.WRITE_ONLY,
         extraction_strategy=llm_strategy,
         stream=True,  # Enable streaming mode
         verbose=False,
