@@ -2,9 +2,34 @@ import unittest
 from unittest.mock import patch, MagicMock
 import time
 import json
-from webcrawl.fill_process_type import generate_process_types
+from webcrawl.fill_process_type import generate_process_types, extract_category_from_folder, remove_na_words
 
 # Absolute import of the function to test
+class TestExtractCategoryFromFolder(unittest.TestCase):
+    def test_llm_extracted_pattern_valid_category_returns_category(self):
+        folder = "llm_extracted_maschinenbau"
+        result = extract_category_from_folder(folder)
+        self.assertEqual(result, "maschinenbau")
+
+    def test_pluralized_pattern_valid_category_returns_category(self):
+        folder = "pluralized_blechteile"
+        result = extract_category_from_folder(folder)
+        self.assertEqual(result, "blechteile")
+
+    def test_folder_with_trailing_slash_returns_category(self):
+        folder = "pluralized_werkzeughersteller/"
+        result = extract_category_from_folder(folder)
+        self.assertEqual(result, "werkzeughersteller")
+
+    def test_folder_with_no_match_returns_none(self):
+        folder = "random_folder_name"
+        result = extract_category_from_folder(folder)
+        self.assertIsNone(result)
+
+    def test_folder_with_nested_path_returns_category(self):
+        folder = "/some/path/llm_extracted_stahlverarbeitung"
+        result = extract_category_from_folder(folder)
+        self.assertEqual(result, "stahlverarbeitung")
 
 class TestGenerateProcessTypes(unittest.TestCase):
     def setUp(self):
@@ -175,6 +200,42 @@ class TestGenerateProcessTypes(unittest.TestCase):
             # The first retry should use base_delay * (2^(1-1)) + jitter
             # We can't check the exact value due to random jitter
             mock_sleep.assert_called_once()
+
+class TestRemoveNaWords(unittest.TestCase):
+    """Unit tests for remove_na_words function."""
+    from webcrawl.fill_process_type import remove_na_words
+    def test_remove_na_words_positive_removes_na(self):
+        process_types = ['Fräsungen', 'na', 'Bohrungen', 'N/A', 'Schweißarbeiten', 'n.a.', 'none']
+        result = remove_na_words(process_types)
+        self.assertEqual(result, ['Fräsungen', 'Bohrungen', 'Schweißarbeiten'])
+
+    def test_remove_na_words_negative_no_na(self):
+        process_types = ['Fräsungen', 'Bohrungen', 'Schweißarbeiten']
+        result = remove_na_words(process_types)
+        self.assertEqual(result, process_types)
+
+    def test_remove_na_words_empty_list(self):
+        process_types = []
+        result = remove_na_words(process_types)
+        self.assertEqual(result, [])
+
+    def test_remove_na_words_all_na(self):
+        process_types = ['na', 'n.a.', 'n/a', 'nicht verfügbar', 'keine', 'none']
+        result = remove_na_words(process_types)
+        self.assertEqual(result, [])
+
+    def test_remove_na_words_mixed_case_and_whitespace(self):
+        process_types = [' NA ', 'N.a.', '  n/A', 'Nicht verfügbar', 'keine ', 'NONE', 'Fräsungen']
+        result = remove_na_words(process_types)
+        self.assertEqual(result, ['Fräsungen'])
+
+    def test_remove_na_words_word_contains_na_should_not_remove(self):
+        """Test that words containing 'na' as a substring are not removed."""
+        process_types = ['Fräsungen', 'Manatur', 'Banana', 'Analytik', 'na', 'Montage']
+        
+        result = remove_na_words(process_types)
+        # Only the exact 'na' should be removed
+        self.assertEqual(result, ['Fräsungen', 'Manatur', 'Banana', 'Analytik', 'Montage'])
 
 if __name__ == '__main__':
     unittest.main()

@@ -9,6 +9,7 @@ import time
 import random
 from typing import List, Dict, Any
 from litellm import completion
+from pydantic import BaseModel, Field, ValidationError
 
 # Configure logging
 def setup_logging(log_level=logging.INFO):
@@ -74,17 +75,27 @@ def extract_category_from_filename(filename: str) -> str:
         return match.group(1)
     return None
 
-def generate_process_types(products: List[str], machines: List[str], category: str, max_retries=3, base_delay=3) -> List[str]:
+class ProcessTypes(BaseModel):
+    """
+    Pydantic model for LLM response containing process types.
+    """
+    process_types: List[str] = Field(
+        ...,
+        description="Liste typischer Fertigungsprozesse auf Deutsch (Plural, je ein Wort)"
+    )
+
+def generate_process_types(products: List[str], machines: List[str], category: str, max_retries: int = 3, base_delay: int = 3) -> List[str]:
     """
     Use LLM to generate process_type values based on products and category,
-    with exponential backoff for retries.
-    
+    with exponential backoff for retries. Uses JSON schema for structured output.
+
     Args:
         products (List[str]): List of products the company manufactures
+        machines (List[str]): List of machines used
         category (str): The industry category
         max_retries (int): Maximum number of retry attempts
         base_delay (int): Initial delay for exponential backoff (in seconds)
-        
+
     Returns:
         List[str]: Generated process types in German
     """
@@ -92,52 +103,45 @@ def generate_process_types(products: List[str], machines: List[str], category: s
         return []
     machines_line = f"Die Maschinen sind z.b: {', '.join(machines)}\n" if machines else ""
 
-    # Create a prompt in German for better results
     prompt = f"""
-    Als Fertigungsexperte, gib mir die typischen Fertigungsprozesse(mit maschinen) an, die zur Fertigung der folgenden Produkte in der Branche "{category}" verwendet werden.
+    Als Fertigungsexperte, gib mir die typischen Fertigungsprozesse (mit Maschinen) an, die zur Fertigung der folgenden Produkte in der Branche \"{category}\" verwendet werden.
     Die Produkte sind: {', '.join(products)}.
     {machines_line}
 
     Wichtig:
-    1. Gib nur die Prozesse zurück, keine Erklärungen
-    2. Maximal 5 Prozesse als kommagetrennte Liste
-    3. Jeder Prozess sollte ein einzelnes Wort sein (keine Konjunktionen wie 'und')
-    4. Jeder Prozess soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
-    5. Die Prozesse müssen auf Deutsch sein
-    6. Verwende die Pluralform für die Prozesse (z.B. 'Fräsungen' statt 'Fräsung')
+    1. Gib nur die Prozesse als JSON-Array unter dem Schlüssel 'process_types' zurück, keine Erklärungen.
+    2. Maximal 5 Prozesse als Liste von Strings.
+    3. Jeder Prozess sollte ein einzelnes Wort sein (keine Konjunktionen wie 'und').
+    4. Jeder Prozess soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zusammenfassen in 1 Wort).
+    5. Die Prozesse müssen auf Deutsch sein.
+    6. Verwende die Pluralform für die Prozesse (z.B. 'Fräsungen' statt 'Fräsung').
     7. Schließe nicht-fertigungsbezogene Wörter wie Transport, Logistik, Politik, Nachhaltigkeit usw. aus.
-    8. Wenn du keine Prozesse findest, gib 'NA' zurück.
+    8. Wenn du keine Prozesse findest, gib ['NA'] zurück.
 
-    Deine Antwort:
+    Deine Antwort (nur JSON!):
     """
-    
+
     retries = 0
     while retries <= max_retries:
         try:
-            # Call the LLM using LiteLLM
             response = completion(
                 model="bedrock/amazon.nova-pro-v1:0",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
                 max_tokens=800,
+                response_format=ProcessTypes,  # Use Pydantic model for schema
             )
-            
-            # Extract the content and split by commas
-            response_text = response.choices[0].message.content.strip()
-            process_types = [process.strip() for process in response_text.split(',')]
-            
-            # Filter out any empty items
-            process_types = [process for process in process_types if process]
-            
-            return process_types
-        
+            # The response will be validated and parsed as ProcessTypesResponse
+            process_types = response.process_types
+            return [p.strip() for p in process_types if p.strip()]
+        except ValidationError as ve:
+            logging.error(f"Schema validation error: {ve}")
+            return []
         except Exception as e:
             retries += 1
             if retries > max_retries:
                 logging.error(f"Failed after {max_retries} retries: {e}")
                 return []
-            
-            # Calculate backoff delay with jitter
             delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
             logging.warning(f"Rate limit or error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds. Error: {e}")
             time.sleep(delay)
