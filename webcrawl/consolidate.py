@@ -1,8 +1,17 @@
+from math import log
 import os
 import json
 import argparse
 from typing import Dict, List, Any, Union
 from collections import Counter
+import logging
+
+# Setup logging at the top of the file
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(message)s',
+    handlers=[logging.StreamHandler()]
+)
 
 
 def load_json_data(file_path: str) -> List[Dict[str, Any]]:
@@ -212,71 +221,106 @@ def process_single_file(file_path: str, exclude_substrings: List[str], exact_mat
     return None
 
 
+def select_primary_company_entry(entries: List[Dict[str, Any]]) -> Union[Dict[str, Any], None]:
+    """
+    Select the primary company entry from a list of entries.
+    Prefer the entry with 'gmbh' in the company_name (case-insensitive).
+    If not found, select the entry with the longest company_name.
+    """
+    if not entries:
+        return None
+    # Prefer entry with 'gmbh' in company_name
+    for entry in entries:
+        if 'company_name' in entry and 'gmbh' in entry['company_name'].lower():
+            return entry
+    # Otherwise, select the entry with the longest company_name
+    return max(entries, key=lambda e: len(e.get('company_name', '')))
+
+
 def process_files(input_path, output_path):
     """
     Process all JSON files in the input path or a specific file,
     consolidate the data, and save to the output file.
+    Each file should correspond to a single company, selected by rules.
+    Also keeps track of companies merged from multiple files.
+    Returns:
+        result: List of consolidated company entries
+        merged_companies: Dict[str, List[str]] mapping company name to file paths
     """
     all_companies = {}  # Use a dictionary keyed by company_name for merging
-    
+    all_raw_names = []  # Collect all raw company names for debugging
+    company_filepaths = {}  # Track company_name -> list of file paths
+
     # Handle single file or directory
     if os.path.isfile(input_path):
         files = [input_path]
     else:
         files = [os.path.join(input_path, f) for f in os.listdir(input_path)
                 if f.endswith('.json')]
-    
+
     # Process each file
     for file_path in files:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 companies = json.load(f)
-                
-            for company in companies:
-                company_name = company.get('company_name')
-                
-                # If company already exists, merge the data
-                if company_name in all_companies:
-                    existing_company = all_companies[company_name]
-                    
-                    # Merge products
-                    if 'products' in company:
-                        existing_company.setdefault('products', []).extend(company.get('products', []))
-                        # Remove duplicates and sort
-                        existing_company['products'] = sort_items(existing_company['products'])
-                    
-                    # Merge machines
-                    if 'machines' in company:
-                        existing_company.setdefault('machines', []).extend(company.get('machines', []))
-                        # Remove duplicates and sort
-                        existing_company['machines'] = sort_items(existing_company['machines'])
-                    
-                    # Merge process_types
-                    if 'process_type' in company:
-                        existing_company.setdefault('process_type', []).extend(company.get('process_type', []))
-                        # Remove duplicates
-                        existing_company['process_type'] = list(set(existing_company['process_type']))
-                    
-                    # Set lohnfertigung to True if any instance is True
-                    if company.get('lohnfertigung', False):
-                        existing_company['lohnfertigung'] = True
-                        
-                else:
-                    # New company, add to dictionary
-                    all_companies[company_name] = company
-                    
+
+            # Select the primary company entry for this file
+            primary_entry = select_primary_company_entry(companies)
+            if not primary_entry:
+                continue
+            company_name = primary_entry.get('company_name')
+            if company_name:
+                all_raw_names.append(company_name)
+                # Track file paths for each company
+                company_filepaths.setdefault(company_name, []).append(file_path)
+            if company_name in all_companies:
+                existing_company = all_companies[company_name]
+                logging.info(f"Merging company: {company_name} from file {file_path}")
+                # Merge products
+                if 'products' in primary_entry:
+                    existing_company.setdefault('products', []).extend(primary_entry.get('products', []))
+                    existing_company['products'] = sort_items(existing_company['products'])
+                # Merge machines
+                if 'machines' in primary_entry:
+                    existing_company.setdefault('machines', []).extend(primary_entry.get('machines', []))
+                    existing_company['machines'] = sort_items(existing_company['machines'])
+                # Merge process_types
+                if 'process_type' in primary_entry:
+                    existing_company.setdefault('process_type', []).extend(primary_entry.get('process_type', []))
+                    existing_company['process_type'] = list(set(existing_company['process_type']))
+                # Set lohnfertigung to True if any instance is True
+                if primary_entry.get('lohnfertigung', False):
+                    existing_company['lohnfertigung'] = True
+            else:
+                all_companies[company_name] = primary_entry
+                logging.debug(f"New company added: {company_name} from file {file_path}")
         except Exception as e:
-            print(f"Error processing file {file_path}: {e}")
-    
+            logging.error(f"Error processing file {file_path}: {e}")
+
     # Convert companies dictionary to list
     result = list(all_companies.values())
-    
+
     # Write consolidated data to output file
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
-    
-    print(f"Processed {len(files)} files. Found {len(result)} unique companies.")
-    return result
+
+    logging.info(f"Processed {len(files)} files. Found {len(result)} unique companies.")
+    return result, company_filepaths
+
+
+def print_merged_companies_summary(company_filepaths: dict) -> None:
+    """
+    Print a summary of companies that were merged from more than one file.
+    Args:
+        company_filepaths: Dict mapping company name to list of file paths
+    """
+    merged = {name: paths for name, paths in company_filepaths.items() if len(paths) > 1}
+    if not merged:
+        logging.info("No companies were merged from multiple files.")
+        return
+    print("Merged companies summary (companies with more than one file):")
+    for name, paths in merged.items():
+        print(f"Company: {name}\n  Files: {', '.join(paths)}")
 
 
 def main():
@@ -293,13 +337,21 @@ def main():
     parser = argparse.ArgumentParser(description='Consolidate company entries from JSON files')
     parser.add_argument('input', help='Input JSON file or directory containing JSON files')
     parser.add_argument('--output', '-o', help='Output JSON file path (optional)')
+    parser.add_argument('--log-level', default='INFO', help='Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)')
 
     args = parser.parse_args()
+
+    # Set logging level from argument
+    log_level = getattr(logging, args.log_level.upper(), logging.INFO)
+    logging.getLogger().setLevel(log_level)
     
     # Use default output path if not specified
     output_path = args.output if args.output else get_default_output_path(args.input)
+
+    logging.info(f"Output path: {output_path}")
     
-    process_files(args.input, output_path)
+    result, company_filepaths = process_files(args.input, output_path)
+    print_merged_companies_summary(company_filepaths)
 
 
 if __name__ == "__main__":
