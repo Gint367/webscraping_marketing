@@ -326,6 +326,8 @@ python monitor_progress.py
   - Includes counts and percentages for each processing stage by category
 - **Usage:** Provides a comprehensive overview of the current state of the data processing pipeline
 - **Example:** `python monitor_progress.py`
+- **Notes:**
+  - Sometimes the # of files in LLM extracted is more than whats inside the crawled pages. this is because some sites redirects to other website and causes the file to be created twice.
 - **Display Metrics:**
   - Cleaned companies: Number of companies with cleaned HTML files
   - Machine reports: Count of successfully generated machine reports

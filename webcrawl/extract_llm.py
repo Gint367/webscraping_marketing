@@ -12,18 +12,15 @@ from crawl4ai.async_configs import LLMConfig
 import argparse
 
 # Configure logging
-def setup_logging():
-    """Sets up the basic logging configuration."""
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+def setup_logging(log_level: str = "INFO"):
+    """Sets up the basic logging configuration with a configurable log level."""
+    numeric_level = getattr(logging, log_level.upper(), logging.INFO)
+    logging.basicConfig(level=numeric_level, format='%(asctime)s - %(levelname)s - %(message)s')
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
     # Set log level for LiteLLM and Botocore
     logging.getLogger("LiteLLM").setLevel(logging.WARNING)
     logging.getLogger("botocore").setLevel(logging.WARNING)
-
-# Setup logging at the module level
-setup_logging()
-logger = logging.getLogger(__name__)
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
@@ -49,93 +46,27 @@ class Company(BaseModel):
     )
 
 
-prompt = """
-## Task
-Sie sind ein hilfsbereiter Data Analyst mit jahrelangem Wissen bei der Identifizierung von Fertigungsmaschinen, die von vielen Unternehmen eingesetzt werden. Durchsucht angegebene Webseiten und alle Unterseiten nach relevanten Informationen.
+def load_prompt(file_path: str) -> str:
+    """
+    Load the prompt from a file.
 
-## Informationen, die gesammelt werden müssen
-- **company_name:** Namen des Unternehmens (in zeile **"Company Name: "**, legale Bezeichnung, schön formatiert)  
-- **company_url:** URL des Unternehmens (in zeile **"Main URL: "**)  
-- **products:** Identifiziert die fünf bedeutendsten Produkte oder Dienstleistungen, die das Unternehmen anbietet (Schreiben in der Pluralform).  
-- Berücksichtigt, ob ein Unternehmen eigene Produkte vertreibt, als Zulieferer tätig ist oder in der Lohnfertigung arbeitet.  
-- **machines:** Erkennt den Maschinenpark des Unternehmens, d. h. welche Maschinen für die Herstellung der eigenen Produkte genutzt werden (Schreiben in der Pluralform). 
-- Erfassen Sie bei machines nur Geräte für die interne Produktion, keine zum Verkauf angebotenen Maschinen.
-- Gibt Maschinen nur als allgemeine Maschinenkategorie aus, ohne genaue Modell- oder Markennamen.  
-  - Beispiel:  
-    - "HIGH SPEED EAGLE V9" wird als **"Fräsmaschinen"** ausgegeben.  
-    - "GANTRY EAGLE 1200" wird als **"Erodiermaschinen"** ausgegeben.  
-- **process_type:** Analysiert die Produktionsprozesse, die das Unternehmen für die eigene Fertigung nutzt.  
-  - **Keine Prozesse, die mit eigenen verkauften Maschinen durchgeführt werden können**, sondern nur die tatsächlich genutzten Verfahren.  
-  - Nutzt eine **vordefinierte Liste typischer Produktionsprozesse** aus verschiedenen Branchen zur besseren Identifikation und Zuordnung.  
-- Produktionsprozesse, die nicht mit der Verarbeitung oder Produktion von Materialien zu tun haben (z. B. **"Transport", "Logistik"**), werden nicht als relevante Keywords aufgenommen (Schreiben in der Pluralform).  
-- **lohnfertigung:** Bietet das Unternehmen **Lohnfertigung oder Auftragsfertigung** für externe Kunden an? 
-- Jeder Eintrag soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zussamenfassen in 1 wort).
-- schreibe nur max 5 Einträge aus jeder Kategorie.
-- Jeder Eintrag muss ein einzelnes Wort sein, keine Komposita mit Trennzeichen oder Konjunktionen.
-- Falls weniger als fünf Einträge in einer Kategorie gefunden werden, bleiben die entsprechenden Felder leer.  
-- **Strikte Einhaltung der Datenwahrheit**: Keine Halluzinationen oder Ergänzungen durch eigene Annahmen.  
+    Args:
+        file_path (str): The path to the prompt file.
 
-### **Typische Produktionsprozesse**  
-- Drehen  
-- Fräsen  
-- Bohren  
-- Schleifen  
-- Erodieren  
-- Laserschneiden  
-- Wasserstrahlschneiden  
-- Biegen
-- Abkanten  
-- Schweißen  
-- Gießen  
-- Oberflächenbehandlung  
-- Montagen
-- Zersägen  
-- Hobeln  
-- Profilieren  
-- Dübeln  
-- Verleimen
-- Laminieren  
-- Drechseln 
-- Polieren  
-- Lackieren
-- Beizen
-- Ölen  
-- Spritzgießen  
-- Extrudieren  
-- Tiefziehen  
-- Blasformen  
-- Pressen  
-- Schweißen  
-- Bedrucken
-- Kaschieren  
-- Mechanische Bearbeitung  
-- Mahlen  
-- Mischen
-- Kneten 
-- Pasteurisieren
-- Trocknen
-- Abfüllen
-- Verpacken  
-- Räuchern
-- Gären
-- Fermentieren  
-- Leiterplattenfertigung  
-- Löten  
-- Spritzguss
-- Spinnen  
-- Weben  
-- Stricken  
-- Färben  
-- Bedrucken  
-- Beschichten  
-- Veredeln  
-- Schneiden  
-- Nähen  
-- Sticken  
-- Waschen  
-- Trocknen  
-- Bügeln
-"""
+    Returns:
+        str: The prompt loaded from the file.
+    """
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        logging.error(f"Prompt file not found: {file_path}")
+        return ""
+    except IOError as e:
+        logging.error(f"Error reading prompt file {file_path}: {e}")
+        return ""
+
+prompt = load_prompt("prompts/extract_company_products.md")
 
 
 def ensure_output_directory(directory="llm_extracted_data") -> str:
@@ -179,6 +110,7 @@ def _filter_files_to_process(file_paths: List[str], output_dir: str, overwrite: 
         logger.info("All files already have output files. Use --overwrite to reprocess.")
     
     skipped_count = len(file_paths) - len(filtered_file_paths)
+    logger.debug(f"file path {len(file_paths)} | filtered {len(filtered_file_paths)}")
     logger.info(f"Skipped {skipped_count} files as output already exists. Use --overwrite to reprocess.")
     return filtered_file_paths
 
@@ -430,11 +362,25 @@ async def main():
         action="store_true",
         help="Overwrite existing output files instead of skipping them",
     )
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        help="Set the logging level (default: INFO)",
+    )
 
     args = parser.parse_args()
 
+    setup_logging(args.log_level)
+    global logger
+    logger = logging.getLogger(__name__)
+
+    if args.output == "llm_extracted_data":
+        logger.warning("Output directory is set to default 'llm_extracted_data'.")
+
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
+
 
     # Define LLM strategy once
     temperature = 0.7

@@ -5,7 +5,10 @@ import logging
 import re
 from typing import List, Tuple, Dict
 from litellm import completion
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv(override=True)
 
 # Global tracking of failed files
 failed_files = []
@@ -31,6 +34,10 @@ def setup_logging(log_level=logging.INFO):
         format='%(asctime)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    # Set log level for HTTPx, which is used by AsyncWebCrawler
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
     logging.getLogger('LiteLLM').setLevel(logging.WARNING)
     logging.getLogger('botocore').setLevel(logging.WARNING)
 
