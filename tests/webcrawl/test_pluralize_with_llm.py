@@ -674,6 +674,10 @@ class TestIntegrationWithSampleData(unittest.TestCase):
         # Remove the output file if it exists
         if os.path.exists(self.output_file_path):
             os.remove(self.output_file_path)
+        
+        # Also remove the input file that was created in setUp
+        if os.path.exists(self.sample_file_path):
+            os.remove(self.sample_file_path)
     
     @patch('webcrawl.pluralize_with_llm.pluralize_with_llm')
     def test_process_sample_file(self, mock_pluralize):
