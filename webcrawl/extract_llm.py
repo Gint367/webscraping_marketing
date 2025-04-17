@@ -28,18 +28,14 @@ class Company(BaseModel):
     products: List[str] = Field(
         ...,
         description="Produkte, die das Unternehmen vertreibt.(in Pluralform)",
-        min_items=1,
-        max_items=5,
     )
     machines: List[str] = Field(
         ...,
         description="(Optional)Maschinen, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
-        max_items=5,
     )
     process_type: List[str] = Field(
         ...,
         description="(Optional)Produktionsprozesse, die das Unternehmen in der eigenen Fertigung nutzt.(in Pluralform)",
-        max_items=5,
     )
     lohnfertigung: bool = Field(
         ..., description="Ob das Unternehmen Lohnfertigung anbietet"
@@ -194,7 +190,7 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
 
         extracted_data = []
         # Use actual_files_to_process for indexing results correctly
-        for idx, result in enumerate(results):
+        for idx, result in enumerate(results): # type: ignore
             # Get the original file path corresponding to this result
             original_file_path = actual_files_to_process[idx] 
             if result.success and result.extracted_content:
@@ -332,7 +328,7 @@ async def check_and_reprocess_error_files(output_dir: str, input_dir: str, ext: 
 
 async def main():
     parser = argparse.ArgumentParser(
-        description="Extract data from markdown files using LLM"
+        description="Extract data from markdown files (domain_content_*) using LLM"
     )
     parser.add_argument("input", help="Input file or directory path")
     parser.add_argument(

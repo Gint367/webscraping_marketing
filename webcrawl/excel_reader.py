@@ -111,7 +111,7 @@ def read_urls_from_excel(file_path, sheet_name="Sheet1", column_identifier_1="UR
                 cleaned_url = clean_url_to_base_domain(url)
                 urls_and_companies.append((cleaned_url, company_name))
             else:
-                logging.warning(f"Invalid URL at row {idx+2}: {url}")
+                logging.warning(f"Invalid URL at row {idx+2}: {url}") # type: ignore
         
         # Remove duplicates while preserving order
         unique_urls_and_companies = []

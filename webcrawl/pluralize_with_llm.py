@@ -7,7 +7,7 @@ import re
 from typing import Dict, List, Optional, Tuple, Union, Any
 
 from dotenv import load_dotenv
-from litellm import completion, JSONSchemaValidationError
+from litellm import completion
 from pydantic import BaseModel, Field
 
 # Load environment variables from .env file
@@ -117,7 +117,7 @@ def clean_compound_words_for_field(
                     
                 # Check for hyphenated conjunctions in each part
                 hyphen_match = hyphen_und_pattern.match(part)
-                if hyphen_match:
+                if hyphen_match is not None:
                     extracted = hyphen_match.group(2).strip()
                     cleaned_words.append(extracted)
                     modified_pairs.append((part, extracted))
@@ -125,7 +125,7 @@ def clean_compound_words_for_field(
                 
                 # Check for normal conjunctions in each part
                 und_match = und_pattern.match(part)
-                if und_match:
+                if und_match is not None:
                     extracted = und_match.group(2).strip()
                     cleaned_words.append(extracted)
                     modified_pairs.append((part, extracted))
@@ -137,23 +137,32 @@ def clean_compound_words_for_field(
         # Handle hyphenated conjunction patterns
         elif hyphen_und_pattern.match(word):
             match = hyphen_und_pattern.match(word)
-            extracted = match.group(2).strip()
-            cleaned_words.append(extracted)
-            modified_pairs.append((word, extracted))
+            if match is not None:
+                extracted = match.group(2).strip()
+                cleaned_words.append(extracted)
+                modified_pairs.append((word, extracted))
+            else:
+                cleaned_words.append(word)
             
         # Handle normal conjunction patterns (only for simple "X und Y" forms)
         elif und_pattern.match(word):
             match = und_pattern.match(word)
-            extracted = match.group(2).strip()
-            cleaned_words.append(extracted)
-            modified_pairs.append((word, extracted))
+            if match is not None:
+                extracted = match.group(2).strip()
+                cleaned_words.append(extracted)
+                modified_pairs.append((word, extracted))
+            else:
+                cleaned_words.append(word)
             
         # Handle general cases where "und" is between whitespaces
         elif general_und_pattern.match(word):
             match = general_und_pattern.match(word)
-            extracted = match.group(2).strip()
-            cleaned_words.append(extracted)
-            modified_pairs.append((word, extracted))
+            if match is not None:
+                extracted = match.group(2).strip()
+                cleaned_words.append(extracted)
+                modified_pairs.append((word, extracted))
+            else:
+                cleaned_words.append(word)
             
         # Fallback for any other case
         else:
@@ -289,8 +298,8 @@ def validate_pluralized_response(
 
 def pluralize_with_llm(
     fields_dict: Dict[str, List[str]], 
-    file_path: str = None, 
-    temperatures: List[float] = None
+    file_path: Optional[str] = None, 
+    temperatures: Optional[List[float]] = None
 ) -> Dict[str, List[str]]:
     """
     Use LLM to pluralize words with structured JSON output using PluralizedFields model.
@@ -341,7 +350,9 @@ def pluralize_with_llm(
             
             # Extract the content as JSON
             try:
-                content = response.choices[0].message.content
+                content = response.choices[0].message.content  # type: ignore
+                if content is None:
+                    raise ValueError("LLM response content is None")
                 output_fields = json.loads(content)
                 
                 # Validate response structure and word counts
@@ -439,7 +450,7 @@ def update_entry_with_pluralized_fields(
     return updated_entry
 
 
-def process_json_file(input_file_path: str, output_file_path: str, temperatures: List[float] = None) -> None:
+def process_json_file(input_file_path: str, output_file_path: str, temperatures: Optional[List[float]] = None) -> None:
     """
     Process a single JSON file, pluralizing specific fields.
     
@@ -482,7 +493,7 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
             failed_files.append((input_file_path, "file_processing_error"))
 
 
-def process_directory(input_dir: str, output_dir: str, temperatures: List[float] = None) -> None:
+def process_directory(input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None) -> None:
     """
     Process all JSON files in the input directory and save results to the output directory.
     
@@ -545,7 +556,7 @@ def process_directory(input_dir: str, output_dir: str, temperatures: List[float]
 def process_file_or_directory(
     input_path: str, 
     output_path: str, 
-    temperatures: List[float] = None
+    temperatures: Optional[List[float]] = None
 ) -> None:
     """
     Process a file or directory based on the input path.

@@ -3,12 +3,11 @@ import asyncio
 from datetime import datetime
 from urllib.parse import urlparse, urljoin
 import re
-from typing import List, Dict, Tuple, Set, Optional, Any, Union
+from typing import List, Dict, Tuple, Optional, Any
 from crawl4ai import (
     AsyncWebCrawler,
     BrowserConfig,
     CrawlResult,
-    CrawlerMonitor,
     CrawlerRunConfig,
     CacheMode,
     DefaultMarkdownGenerator,
@@ -19,8 +18,6 @@ from crawl4ai import (
 import logging
 
 # Import the new function
-from excel_reader import read_urls_from_excel
-from get_company_by_category import read_urls_and_companies
 from get_company_by_top1machine import read_urls_and_companies_by_top1machine
 
 # Import to handle colorama recursion issues
@@ -487,7 +484,7 @@ def should_filter_by_language(
 
 
 def normalize_and_filter_links(
-    internal_links: List[Any], base_url: str, max_links: int
+    internal_links: List[Any], base_url: str, max_links: Optional[int] = None
 ) -> List[str]:
     """
     Normalize links to absolute URLs and perform initial filtering.
@@ -718,14 +715,14 @@ async def collect_internal_links(
     # Crawl the main URL
     result = await crawler.arun(main_url, config=crawl_config)
 
-    if not result.success:
+    if not result.success: # type: ignore
         logger.error(
-            f"Failed to collect links from {main_url}: {result.error if hasattr(result, 'error') else 'Unknown error'}"
+            f"Failed to collect links from {main_url}: Unknown error"
         )
         return []
 
     # Get internal links
-    internal_links = result.links.get("internal", [])
+    internal_links = result.links.get("internal", []) # type: ignore
 
     logger.info(f"Found {len(internal_links)} internal links.")
 
@@ -936,30 +933,31 @@ async def crawl_domain(
 
         async with AsyncWebCrawler(config=browser_cfg) as crawler:
             # Set German language header
-            crawler.crawler_strategy.set_custom_headers(GERMAN_LANGUAGE_HEADERS)
+            crawler.crawler_strategy.set_custom_headers(GERMAN_LANGUAGE_HEADERS) # type: ignore
 
             # Phase 1: Crawl the main URL
             logger.info("\n=== Phase 1: Crawling main URL: %s ===\n", main_url)
-            main_result: CrawlResult = await crawler.arun(
+            main_result : CrawlResult = await crawler.arun(
                 main_url, config=main_crawl_config
-            )
+            ) # type: ignore
 
             if not main_result.success:
                 logger.error("Failed to crawl main URL: %s", main_url)
                 logger.error(
-                    "Error: %s", main_result.error if hasattr(main_result, 'error') else 'Unknown error'
+                    "Error: %s", main_result.error_message if hasattr(main_result, 'error') else 'Unknown error'
                 )
                 return output_markdown_file, 0
 
             # Process main URL result
             aggregate_content += f"## Main Page: {main_url}\n\n"
+            title = main_result.metadata.get('title', 'Untitled') if main_result.metadata else 'Untitled'
             aggregate_content += (
-                f"### Title: {main_result.metadata.get('title', 'Untitled')}\n\n"
+                f"### Title: {title}\n\n"
             )
 
             # Add the raw content
             aggregate_content += "### Content:\n\n"
-            aggregate_content += main_result.markdown + "\n\n"
+            aggregate_content += (main_result.markdown or "") + "\n\n"
             aggregate_content += "-" * 80 + "\n\n"
 
             logger.info("Successfully crawled main URL: %s", main_url)
@@ -991,7 +989,7 @@ async def crawl_domain(
                     )
 
                 # Process results
-                for i, result in enumerate(results):
+                for i, result in enumerate(results): # type: ignore
                     url = result.url if hasattr(result, "url") else internal_links[i]
 
                     if result.success:
@@ -1006,15 +1004,10 @@ async def crawl_domain(
                         # Remove links from the content for the internal pages
                         # Check if the result has a 'fit_markdown' attribute, else use 'markdown'
                         if hasattr(result, "markdown") and isinstance(
-                            result.markdown, (str, object)
+                            result.markdown, str
                         ):
-                            content_to_clean = (
-                                result.markdown.fit_markdown
-                                if hasattr(result.markdown, "fit_markdown")
-                                else result.markdown
-                            )
                             cleaned_content = remove_links_from_markdown(
-                                content_to_clean
+                                result.markdown
                             )
                             aggregate_content += cleaned_content + "\n\n"
                         else:
@@ -1048,7 +1041,7 @@ async def crawl_domain(
 
     # Count total pages crawled (main URL + internal links that were successfully crawled)
     total_crawled = (
-        1 + len([r for r in results if getattr(r, "success", False)])
+        1 + len([r for r in results if getattr(r, "success", False)]) # type: ignore
         if "results" in locals()
         else 1
     )

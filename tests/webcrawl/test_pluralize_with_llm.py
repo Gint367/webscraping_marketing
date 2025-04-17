@@ -7,17 +7,16 @@ using a language model, with special handling for compound words.
 """
 import unittest
 from unittest.mock import patch, MagicMock, call
+from unittest import mock
 import os
 import logging
 import io
-import sys
 import json
 from pathlib import Path
 
 from webcrawl.pluralize_with_llm import (
     process_directory, 
     process_json_file,
-    process_file_or_directory,
     clean_compound_words,
     pluralize_with_llm,
     extract_fields_from_entry,
@@ -464,9 +463,8 @@ class TestProcessJsonFile(unittest.TestCase):
         # Clear compound_word_stats
         compound_word_stats["files_affected"] = set()
         compound_word_stats["words_modified"] = []
-    
     @patch('webcrawl.pluralize_with_llm.pluralize_with_llm')
-    @patch('builtins.open', new_callable=unittest.mock.mock_open, 
+    @patch('builtins.open', new_callable=mock.mock_open, 
            read_data='[{"company_name": "Test", "products": ["Product1", "Product2"]}]')
     @patch('os.makedirs')
     def test_process_json_file_success(self, mock_makedirs, mock_open, mock_pluralize):
@@ -489,6 +487,7 @@ class TestProcessJsonFile(unittest.TestCase):
         args, kwargs = mock_pluralize.call_args
         self.assertEqual(args[0], {"products": ["Product1", "Product2"]})
         self.assertEqual(args[1], "input.json")
+        self.assertEqual(args[1], "input.json")
     
     @patch('builtins.open', side_effect=Exception("File error"))
     def test_process_json_file_file_error(self, mock_open):
@@ -499,8 +498,7 @@ class TestProcessJsonFile(unittest.TestCase):
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "input.json")
         self.assertEqual(failed_files[0][1], "file_processing_error")
-    
-    @patch('builtins.open', new_callable=unittest.mock.mock_open, 
+    @patch('builtins.open', new_callable=mock.mock_open, 
            read_data='{"not_an_array": true}')  # Not a JSON array
     def test_process_json_file_invalid_structure(self, mock_open):
         """Test handling of invalid JSON structure."""
@@ -509,6 +507,7 @@ class TestProcessJsonFile(unittest.TestCase):
         # Check that the file was recorded as failed
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "input.json")
+        self.assertEqual(failed_files[0][1], "invalid_json_structure")
         self.assertEqual(failed_files[0][1], "invalid_json_structure")
 
 

@@ -6,8 +6,9 @@ import argparse
 import re
 import time
 import random
-from typing import List
-from litellm import completion, JSONSchemaValidationError
+from typing import List, Optional
+from litellm import completion
+from litellm.exceptions import JSONSchemaValidationError
 import litellm
 from pydantic import BaseModel, Field
 
@@ -43,7 +44,7 @@ FOLDER_PATTERNS = [
     r"pluralized_([^/\\]+)"
 ]
 
-def extract_category_from_folder(folder_path: str) -> str:
+def extract_category_from_folder(folder_path: str) -> Optional[str]:
     """
     Extract the category name from a folder path using known patterns.
     Supports both llm_extracted_<category> and pluralized_<category>.
@@ -51,7 +52,7 @@ def extract_category_from_folder(folder_path: str) -> str:
     Args:
         folder_path (str): The folder path
     Returns:
-        str: The extracted category or None if not found
+        Optional[str]: The extracted category or None if not found
     """
     basename = os.path.basename(os.path.normpath(folder_path))
     for pattern in FOLDER_PATTERNS:
@@ -60,7 +61,7 @@ def extract_category_from_folder(folder_path: str) -> str:
             return match.group(1)
     return None
 
-def extract_category_from_filename(filename: str) -> str:
+def extract_category_from_filename(filename: str) -> Optional[str]:
     """
     Extract the category name from the filename.
     
@@ -68,7 +69,7 @@ def extract_category_from_filename(filename: str) -> str:
         filename (str): The filename (e.g., 'pluralized_aluminiumwerke.json')
         
     Returns:
-        str: The extracted category (e.g., 'aluminiumwerke')
+        Optional[str]: The extracted category (e.g., 'aluminiumwerke')
     """
     match = re.match(r'pluralized_([^\.]+)\.json', filename)
     if match:
@@ -114,7 +115,7 @@ def generate_process_types(products: List[str], machines: List[str], category: s
     3. Jeder Prozess sollte ein einzelnes Wort sein (keine Konjunktionen wie 'und').
     4. Jeder Prozess soll kurz und prägnant sein (für Keyword-Variablen im E-Mail-Marketing, zusammenfassen in 1 Wort).
     5. Die Prozesse müssen auf Deutsch sein.
-    6. Verwende die Pluralform für die Prozesse (z.B. 'Fräsungen' statt 'Fräsung').
+    6. Verwende die Pluralform für die Prozesse (z.b. 'Fräsungen' statt 'Fräsung').
     7. Schließe nicht-fertigungsbezogene Wörter wie Transport, Logistik, Politik, Nachhaltigkeit usw. aus.
     8. Wenn du keine Prozesse findest, gib ['NA'] zurück.
 
@@ -132,17 +133,32 @@ def generate_process_types(products: List[str], machines: List[str], category: s
                 response_format=ProcessTypes,  # Use Pydantic model for schema
             )
             # Extract JSON string from response and parse it
-            content = response.choices[0].message.content
+            content = response.choices[0].message.content # type: ignore
+            if content is None:
+                logging.error("LLM response content is None")
+                return []
             data = json.loads(content)
             process_types = data.get("process_types", [])
             logging.debug(f"LLM returned process_types: {process_types}")
             return [p.strip() for p in process_types if p.strip()]
         except json.JSONDecodeError as ve:
             logging.error(f"JSON validation error: {ve}")
-            return []
+            retries += 1
+            if retries > max_retries:
+                logging.error(f"Failed after {max_retries} retries: JSON decode error")
+                return []
+            delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
+            logging.warning(f"JSON decode error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds.")
+            time.sleep(delay)
         except JSONSchemaValidationError as se:
             logging.error(f"JSON schema validation failed: {se}")
-            return []
+            retries += 1
+            if retries > max_retries:
+                logging.error(f"Failed after {max_retries} retries: JSON schema validation")
+                return []
+            delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
+            logging.warning(f"JSON schema validation error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds.")
+            time.sleep(delay)
         except Exception as e:
             retries += 1
             if retries > max_retries:
@@ -151,6 +167,7 @@ def generate_process_types(products: List[str], machines: List[str], category: s
             delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
             logging.warning(f"Rate limit or error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds. Error: {e}")
             time.sleep(delay)
+    return []
 
 def check_for_conjugations(process_types: List[str], company_name: str) -> List[str]:
     """
@@ -201,14 +218,14 @@ def remove_na_words(process_types: List[str]) -> List[str]:
     """
     return [p for p in process_types if p.strip().lower() not in NA_WORDS]
 
-def process_json_file(input_file: str, output_file: str, category: str = None) -> None:
+def process_json_file(input_file: str, output_file: str, category: Optional[str] = None) -> None:
     """
     Process a single JSON file to fill empty process_type fields.
     
     Args:
         input_file (str): Path to the input JSON file
         output_file (str): Path to save the processed JSON file
-        category (str, optional): Category to use for LLM prompt. If None, extract from filename.
+        category (Optional[str]): Category to use for LLM prompt. If None, extract from filename.
     """
     global processed_companies, empty_process_types_filled
     

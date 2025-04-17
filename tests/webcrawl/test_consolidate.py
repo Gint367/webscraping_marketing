@@ -110,14 +110,15 @@ class TestProcessFiles(unittest.TestCase):
             # Find Test Company in output and verify its merged data
             test_company = next((c for c in output_data if c['company_name'] == "Test Company"), None)
             self.assertIsNotNone(test_company)
-            
-            # Check if products from both files are present
-            self.assertTrue(set(["Product A", "Machine Product B", "Product C", "Product D"]).issubset(
-                set(test_company["products"])))
-            
-            # Check if machines from both files are present
-            self.assertTrue(set(["Machine X", "Machine Y", "Machine Z"]).issubset(
-                set(test_company["machines"])))
-            
-            # Check if lohnfertigung was set to True (as it was True in one of the files)
-            self.assertTrue(test_company["lohnfertigung"])
+
+            if test_company is not None:
+                # Check if products from both files are present
+                self.assertTrue(set(["Product A", "Machine Product B", "Product C", "Product D"]).issubset(
+                    set(test_company["products"])))
+                
+                # Check if machines from both files are present
+                self.assertTrue(set(["Machine X", "Machine Y", "Machine Z"]).issubset(
+                    set(test_company["machines"])))
+                
+                # Check if lohnfertigung was set to True (as it was True in one of the files)
+                self.assertTrue(test_company["lohnfertigung"])
