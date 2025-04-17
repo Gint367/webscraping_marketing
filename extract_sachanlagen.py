@@ -355,13 +355,33 @@ async def process_files(file_paths, llm_strategy, output_dir):
                 extracted_data.append(result.extracted_content)
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                logger.warning(
-                    f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}"
-                )
-
-            # Periodically log progress
-            if processed_count % 5 == 0:
-                logger.info(f"Processed {processed_count}/{len(file_paths)} files")
+                file_path = file_paths[file_urls.index(result.url)] if result.url in file_urls else "Unknown file"
+                
+                # Handle empty file or parsing errors specifically
+                if "'NoneType' object has no attribute 'find_all'" in str(error_msg):
+                    logger.warning(
+                        f"[{processed_count}/{len(file_paths)}] File appears to be empty or cannot be parsed: {file_path}"
+                    )
+                    
+                    # Create an error JSON result so we know this file needs to be checked
+                    basename = os.path.basename(file_path)
+                    name_without_ext = os.path.splitext(basename)[0]
+                    output_file = os.path.join(output_dir, f"{name_without_ext}.json")
+                    
+                    error_content = [{
+                        "error": True,
+                        "error_message": "Empty file or parsing error: 'NoneType' object has no attribute 'find_all'",
+                        "company_name": extract_company_name(file_path)
+                    }]
+                    
+                    with open(output_file, "w", encoding="utf-8") as f:
+                        json.dump(error_content, f, indent=2, ensure_ascii=False)
+                    
+                    logger.info(f"Created error placeholder for {output_file}")
+                else:
+                    logger.warning(
+                        f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}"
+                    )
 
         # Show usage stats
         llm_strategy.show_usage()
@@ -643,6 +663,7 @@ async def main():
     )
     parser.add_argument(
         "--only-recheck",
+        action="store_true",
         help="Only recheck files with errors in the output directory",
         default=False,
     )

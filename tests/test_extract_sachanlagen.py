@@ -1,8 +1,5 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock, AsyncMock
-import json
-import os
-import sys
+from unittest.mock import patch, mock_open, MagicMock
 import asyncio
 from extract_sachanlagen import check_and_reprocess_error_files, extract_category_from_input_path
 
@@ -432,6 +429,110 @@ class TestNumberFormatHandling(unittest.TestCase):
             result = convert_german_number(input_str)
             self.assertEqual(result, expected, f"Failed for {input_str}, got {result} expected {expected}")
 
+class TestProcessFilesErrorHandling(unittest.TestCase):
+    """Test cases for error handling in process_files function"""
+    
+    def setUp(self):
+        """Set up test fixtures before each test"""
+        self.mock_llm_strategy = MagicMock()
+        self.output_dir = "/tmp/test_output"
+        
+    @patch('extract_sachanlagen.AsyncWebCrawler')
+    @patch('extract_sachanlagen.os.path.basename')
+    @patch('extract_sachanlagen.os.path.splitext')
+    @patch('extract_sachanlagen.extract_company_name')
+    @patch('extract_sachanlagen.os.path.join')
+    @patch('extract_sachanlagen.open', new_callable=mock_open)
+    @patch('extract_sachanlagen.json.dump')
+    @patch('extract_sachanlagen.logger')
+    async def test_nonetype_error_handling(self, mock_logger, mock_json_dump, mock_open, 
+                                        mock_path_join, mock_extract_company, mock_splitext, 
+                                        mock_basename, MockCrawler):
+        """Test handling of NoneType error in process_files"""
+        # Setup
+        file_paths = ["/path/to/test_file.html"]
+        file_urls = ["file:///path/to/test_file.html"]
+        
+        # Mock the company name extraction
+        mock_extract_company.return_value = "Test Company"
+        
+        # Mock path operations
+        mock_basename.return_value = "test_file.html"
+        mock_splitext.return_value = ["test_file", ".html"]
+        mock_path_join.return_value = "/tmp/test_output/test_file.json"
+        
+        # Create a mock result object with specific NoneType error
+        mock_result = MagicMock()
+        mock_result.success = False
+        mock_result.url = file_urls[0]
+        mock_result.error_message = "'NoneType' object has no attribute 'find_all'"
+        
+        # Mock the crawler's arun_many method to return our mock result
+        mock_crawler_instance = MockCrawler.return_value.__aenter__.return_value
+        mock_crawler_instance.arun_many.return_value.__aiter__.return_value = [mock_result]
+        
+        # Import process_files function
+        from extract_sachanlagen import process_files
+        
+        # Call the function
+        await process_files(file_paths, self.mock_llm_strategy, self.output_dir)
+        
+        # Assertions
+        mock_logger.warning.assert_any_call(
+            f"[1/{len(file_paths)}] File appears to be empty or cannot be parsed: {file_paths[0]}"
+        )
+        
+        # Verify that the error content was created correctly
+        expected_error_content = [{
+            "error": True,
+            "error_message": "Empty file or parsing error: 'NoneType' object has no attribute 'find_all'",
+            "company_name": "Test Company"
+        }]
+        
+        mock_json_dump.assert_called_once_with(
+            expected_error_content,
+            mock_open.return_value.__enter__.return_value,
+            indent=2,
+            ensure_ascii=False
+        )
+        
+        mock_logger.info.assert_any_call("Created error placeholder for /tmp/test_output/test_file.json")
+        
+    @patch('extract_sachanlagen.AsyncWebCrawler')
+    @patch('extract_sachanlagen.logger')
+    async def test_generic_error_handling(self, mock_logger, MockCrawler):
+        """Test handling of generic errors in process_files"""
+        # Setup
+        file_paths = ["/path/to/test_file.html"]
+        file_urls = ["file:///path/to/test_file.html"]
+        
+        # Create a mock result object with a generic error
+        mock_result = MagicMock()
+        mock_result.success = False
+        mock_result.url = file_urls[0]
+        mock_result.error_message = "Some generic error occurred"
+        
+        # Mock the crawler's arun_many method to return our mock result
+        mock_crawler_instance = MockCrawler.return_value.__aenter__.return_value
+        mock_crawler_instance.arun_many.return_value.__aiter__.return_value = [mock_result]
+        
+        # Import process_files function
+        from extract_sachanlagen import process_files
+        
+        # Call the function
+        await process_files(file_paths, self.mock_llm_strategy, self.output_dir)
+        
+        # Assertions - should log a warning but not create an error file
+        mock_logger.warning.assert_any_call(
+            f"[1/{len(file_paths)}] No content extracted: Some generic error occurred"
+        )
+        
+        # Verify that no info message about creating an error placeholder was logged
+        create_placeholder_calls = [call for call in mock_logger.info.call_args_list 
+                                 if "Created error placeholder" in call[0][0]]
+        self.assertEqual(len(create_placeholder_calls), 0)
+
+
 # Helper function to run async tests
 def run_async_test(coro):
     return asyncio.run(coro)
@@ -439,3 +540,4 @@ def run_async_test(coro):
 # Add a test runner for async tests
 if __name__ == '__main__':
     unittest.main()
+
