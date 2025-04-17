@@ -139,6 +139,7 @@ python extract_llm.py <input> --output <output_dir>
   - By default, the script skips files that already have output files to avoid redundant processing.
   - Use the `--overwrite` or `-w` flag to force reprocessing of all files.
   - It will automatically recheck the output files for errors and reprocess them if needed.
+  - specify the output folder, else it will be saved in llm_extracted_data.
 
 #### Optional Steps
 
