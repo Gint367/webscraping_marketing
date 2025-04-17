@@ -1,0 +1,4318 @@
+[
+  {
+    "company_name": "LERROS Moden GmbH",
+    "company_url": "http://www.lerros-fashion.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Pepe Jeans London GmbH",
+    "company_url": "https://www.pepejeans.com",
+    "products": [
+      "Kleidungen",
+      "Jeans",
+      "Schuhe",
+      "Taschen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HOL-TEX GmbH",
+    "company_url": "https://hol-tex.com",
+    "products": [
+      "Textilien",
+      "Drucke",
+      "Tarnmuster",
+      "Heimtextilien",
+      "Mode"
+    ],
+    "machines": [
+      "Druckmaschinen",
+      "Beschichtungsmaschinen",
+      "Verarbeitungsmaschinen"
+    ],
+    "process_type": [
+      "Drucken",
+      "Beschichtungen",
+      "Fertigungen",
+      "Entwicklungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Roeckl",
+    "company_url": "https://www.roeckl.com",
+    "products": [
+      "Handschuhe",
+      "Taschen",
+      "Tücher",
+      "Schals",
+      "Mützen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben",
+      "Beschichten",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sterntaler GmbH",
+    "company_url": "https://www.sterntaler.com",
+    "products": [
+      "Schlafsäcke",
+      "Mützen",
+      "Socken",
+      "Schuhe",
+      "Babykleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnittmusterungen",
+      "Färbungen",
+      "Stickarbeiten",
+      "Druckarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dacor Etiketten Dausend und Steuernagel",
+    "company_url": "http://dacor-etiketten.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LIROS GmbH",
+    "company_url": "https://www.liros.com",
+    "products": [
+      "Seilprodukte",
+      "Tauwerke",
+      "Flightsportleinen",
+      "Yachttauwerke",
+      "Naturfaserseile"
+    ],
+    "machines": [
+      "Flechtmaschinen",
+      "Beschichtungsmaschinen",
+      "Thermische Prozesse"
+    ],
+    "process_type": [
+      "Flechten",
+      "Beschichtungen",
+      "Thermische Behandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lässig GmbH",
+    "company_url": "https://www.laessig-fashion.de",
+    "products": [
+      "Wickeltaschen",
+      "Wickelrucksäcke",
+      "Kinderrucksäcke",
+      "Kindertaschen",
+      "Babydecken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnittmusterungen",
+      "Veredelungen",
+      "Qualitätskontrollen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "STFG Filamente GmbH",
+    "company_url": "http://www.stfg-rudolstadt.com",
+    "products": [
+      "Verbindungen",
+      "Glasfaserverstärkungen",
+      "Hitzestabilisierungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Extrusionen",
+      "Verstärkungen",
+      "Stabilisierungen",
+      "Beschichtungen",
+      "Formpressungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MAERZ Muenchen KG",
+    "company_url": "https://www.maerz.de",
+    "products": [
+      "Pullover",
+      "Strickjacken",
+      "Shirts",
+      "Blusen",
+      "Kleider"
+    ],
+    "machines": [
+      "Strickmaschinen"
+    ],
+    "process_type": [
+      "Stricken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ringella Bekleidungswerk GmbH",
+    "company_url": "https://www.ringella.com",
+    "products": [
+      "Nachthemden",
+      "Pyjamas",
+      "Bigshirts",
+      "Bademäntel",
+      "T-Shirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rofa Bekleidungswerk GmbH & Co KG",
+    "company_url": "https://www.rofa.de",
+    "products": [
+      "Arbeitsjacken",
+      "Arbeitshosen",
+      "Shirts"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Nähmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Nähen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hajo -Strick GmbH",
+    "company_url": "https://www.hajo-mode.com",
+    "products": [
+      "Pullover",
+      "Sweatshirts",
+      "Strickjacken",
+      "Westen",
+      "Polo-Shirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Beschichten",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ETV EING TEXTIL-VEREDLUNG GmbH & Co. KG",
+    "company_url": "https://etv-veredlung.de",
+    "products": [
+      "Automobile",
+      "Medikamente",
+      "Filtrationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Färbungen",
+      "Bedruckungen",
+      "Beschichtungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "WINDSOR",
+    "company_url": "https://windsor.de/de/",
+    "products": [
+      "Damanzüge",
+      "Hosen",
+      "Blazer",
+      "Röcke",
+      "Kleider"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schümer Textil GmbH",
+    "company_url": "https://schuemer.de",
+    "products": [
+      "Stoffe",
+      "Arbeitskleidung",
+      "Schutztextilien"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Veredelungsmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "JUMBO-Textil GmbH & Co. KG",
+    "company_url": "https://www.jumbo-textil.de",
+    "products": [
+      "Geflechte",
+      "Schmalgewebe",
+      "Netze",
+      "Gewirke",
+      "Textile Bauteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Strickereien",
+      "Wirkereien",
+      "Nähereien",
+      "Beschichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BaF Brothers and Friends GmbH",
+    "company_url": "http://bafwoman.com",
+    "products": [
+      "Kollektionen",
+      "Leistungen",
+      "Designs",
+      "Sourcings",
+      "Logistiken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Sticken",
+      "Waschen",
+      "Trocknen",
+      "Bügeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "G. Güldenpfennig GmbH",
+    "company_url": "https://gueldenpfennig.de",
+    "products": [
+      "Bekleidung",
+      "Sportbekleidung",
+      "Outdoor-Bekleidung",
+      "Dessous",
+      "Kinderbekleidung"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lana Grossa Mode mit Wolle",
+    "company_url": "https://www.lana-grossa.de",
+    "products": [
+      "Garne",
+      "Modelle",
+      "Magazine"
+    ],
+    "machines": [
+      "Spinnereien",
+      "Färbemaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Spinnen",
+      "Färbungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Verseidag-Indutex GmbH",
+    "company_url": "https://www.verseidag.de",
+    "products": [
+      "Textilien",
+      "Membranen",
+      "Beschichtungen"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Beschichtungsmaschinen",
+      "Laminierungsmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Beschichtungen",
+      "Laminierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "car i.t.a. GmbH & Co. KG",
+    "company_url": "https://www.car-ita.net/de/",
+    "products": [
+      "Textilien",
+      "Composites",
+      "Oberflächensubstrate"
+    ],
+    "machines": [],
+    "process_type": [
+      "Wirkungen",
+      "Schären",
+      "Kaschierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Willax GmbH Bekleidungswerk",
+    "company_url": "https://willax.com",
+    "products": [
+      "Berufsbekleidungen",
+      "Arbeitsschuhe",
+      "Sicherheitsschuhe"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Druckmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Drucken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Carl Stahl GmbH & Co. KG",
+    "company_url": "https://www.stahl-gurte.de",
+    "products": [
+      "Gurtbänder",
+      "Sicherheitsgurtsysteme",
+      "Abschleppgurte",
+      "Technische Gurte",
+      "Individualisierte Bänder"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Nähen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MUSTANG GmbH",
+    "company_url": "https://www.mustang-jeans.com",
+    "products": [
+      "Jeans",
+      "Oberteile",
+      "Unterteile",
+      "Schuhe",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hero Textil AG",
+    "company_url": "https://www.hero-textil.de",
+    "products": [
+      "Strickwaren",
+      "Gürtel",
+      "Einsätze",
+      "Ärmel",
+      "Komponenten"
+    ],
+    "machines": [
+      "Strickmaschinen",
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Veredelungsmaschinen",
+      "Schneidmaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Weben",
+      "Färben",
+      "Veredeln",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "OSPIG GmbH & Co. KG",
+    "company_url": "https://www.paddocks.de",
+    "products": [
+      "Jeans",
+      "Hosen",
+      "Hemden",
+      "Jacken",
+      "Taschen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Waschen",
+      "Trocknen",
+      "Bügeln",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Atelier Gardeur GmbH",
+    "company_url": "https://gardeur.com",
+    "products": [
+      "Hosen",
+      "Jeans",
+      "Gürtel",
+      "Röcke",
+      "Shorts"
+    ],
+    "machines": [
+      "Lasermaschinen",
+      "Ozonwaschmaschinen",
+      "E-Flow-Waschmaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Oberflächenbehandlungen",
+      "Waschen",
+      "Trocknen",
+      "Nähen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HAKRO GmbH",
+    "company_url": "https://www.hakro.com",
+    "products": [
+      "T-Shirts",
+      "Hosen",
+      "Poloshirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Drucke",
+      "Finishes"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fashion Box Deutschland GmbH",
+    "company_url": "https://www.replayjeans.com/de/",
+    "products": [
+      "Jeans",
+      "Bekleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Düfte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Färbungen",
+      "Bedruckungen",
+      "Beschichtungen",
+      "Veredelungen",
+      "Schnitte"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lacoste Germany GmbH",
+    "company_url": "http://www.lacoste.com/de/",
+    "products": [
+      "Kleidungen",
+      "Schuhe",
+      "Lederwaren",
+      "Accessoires",
+      "Düfte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Marc Aurel Textil-GmbH",
+    "company_url": "https://www.marc-aurel.com",
+    "products": [
+      "Damenhosen",
+      "Damenkleider",
+      "Damenblazer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stickerei Keinath GmbH",
+    "company_url": "https://stickerei-keinath.de",
+    "products": [
+      "Smart Textiles",
+      "Faserverbundwerkstoffe",
+      "Leder",
+      "Textilveredelungen",
+      "3D-Transfers"
+    ],
+    "machines": [
+      "Stickmaschinen",
+      "Nähmaschinen",
+      "Lasermaschinen",
+      "Druckmaschinen",
+      "Färbemaschinen"
+    ],
+    "process_type": [
+      "Sticken",
+      "Nähen",
+      "Laserschneiden",
+      "Drucken",
+      "Färben"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Verse GmbH",
+    "company_url": "http://verse.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Velcro GmbH",
+    "company_url": "https://www.velcro.de",
+    "products": [
+      "Verschlüsse",
+      "Klettverschlüsse",
+      "Verpackungslösungen",
+      "Befestigungselemente",
+      "Verschlusslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Textilfärbungen",
+      "Energiegewinnungen",
+      "Recyclings",
+      "Befestigungstechniken",
+      "Verschlussentwicklungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Müller Textil GmbH",
+    "company_url": "https://www.mullertextiles.com",
+    "products": [
+      "Abstandsgewirke",
+      "3D-Textilien",
+      "Kaschiermaterialien",
+      "Abstandshalter",
+      "Technische Textilien"
+    ],
+    "machines": [
+      "Raschelmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Beschichten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Country Line Trachtenmoden GmbH",
+    "company_url": "https://www.country-line.de",
+    "products": [
+      "Dirndl",
+      "Lederhosen",
+      "Blusen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähte",
+      "Schnitte",
+      "Farben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ermenegildo Zegna GmbH",
+    "company_url": "http://www.zegna.com",
+    "products": [
+      "Bekleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Luxusgeschenke",
+      "Maßgeschneiderte Anzüge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dr. Günther Kast GmbH & Co. Technische Gewebe - Spezial-Fasererzeugnisse KG",
+    "company_url": "https://www.kast.de",
+    "products": [
+      "Technische Textilien",
+      "Buchproduktionsmaterialien",
+      "Verstärkungs-papiere"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TVU Textilveredlungsunion GmbH",
+    "company_url": "https://www.tvu.de",
+    "products": [
+      "Garne",
+      "Bekleidungen",
+      "Arbeitskleidungen",
+      "Textilveredlungen",
+      "Textilhandels"
+    ],
+    "machines": [
+      "Färbemaschinen",
+      "Spulenmaschinen",
+      "Veredlungsmaschinen",
+      "Verpackungsmaschinen",
+      "Lagerungssysteme"
+    ],
+    "process_type": [
+      "Färbungen",
+      "Veredelungen",
+      "Spulen",
+      "Verpackungen",
+      "Lager"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Job-Kleidung GmbH",
+    "company_url": "https://job-kleidung.de",
+    "products": [
+      "Kopfbedeckungen",
+      "Jacken",
+      "Zunftjacketts",
+      "Zunftwesten",
+      "Sweatshirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hermann Lange GmbH & Co. KG",
+    "company_url": "https://hermannlange.de",
+    "products": [
+      "Kollektionen",
+      "Festliche Kleidungen",
+      "Anlassmoden",
+      "Outfits",
+      "Modeprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Spinnen",
+      "Weben",
+      "Stricken",
+      "Färben",
+      "Bedrucken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "F&P Stock Solution GmbH",
+    "company_url": "http://www.stock-solution.de",
+    "products": [
+      "Textilien",
+      "Schuhe",
+      "Modeaccessoires",
+      "Restposten",
+      "Überschusswaren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Schnitte",
+      "Näharbeiten",
+      "Färbereien",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LODEN-FREY Verkaufshaus GmbH & Co. KG",
+    "company_url": "https://www.lodenfrey.com",
+    "products": [
+      "Damenmoden",
+      "Herrenmoden",
+      "Kindermoden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitten",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Miltenberger Otto Aulbach GmbH",
+    "company_url": "https://www.daniel-hechter.de",
+    "products": [
+      "Jacken",
+      "Mäntel",
+      "Polos",
+      "T-Shirts",
+      "Strickwaren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SÜDLEDER GmbH & Co. KG",
+    "company_url": "https://www.suedleder.de",
+    "products": [
+      "Leder",
+      "Wetblues",
+      "Wetwhites",
+      "Crustleder",
+      "Premiumleder"
+    ],
+    "machines": [
+      "Gerbmaschinen",
+      "Färbemaschinen",
+      "Fettmaschinen",
+      "Steuerungssysteme",
+      "Überwachungssysteme"
+    ],
+    "process_type": [
+      "Gerbungen",
+      "Färbungen",
+      "Fetten",
+      "Steuerungen",
+      "Überwachungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Authentic Style Vertriebs GmbH & Co. KG",
+    "company_url": "https://authentic-style.de",
+    "products": [
+      "Kleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Kosmetika",
+      "Textilien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Designs",
+      "Produktionen",
+      "Qualitätssicherungen",
+      "Versand",
+      "Marketings"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "manomama GmbH",
+    "company_url": "https://www.manomama.de",
+    "products": [
+      "Bekleidungen",
+      "Taschen",
+      "Merchandisings",
+      "Standardtaschen",
+      "Verpackungen"
+    ],
+    "machines": [
+      "Nähmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Nähen",
+      "Bedrucken",
+      "Beschichten"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "A & R Textilproduktion GmbH",
+    "company_url": "https://www.ar-textil.de",
+    "products": [
+      "Technische Textilien",
+      "Textile Produkte",
+      "Maßgeschneiderte Lösungen"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schweißmaschinen",
+      "Thermoformmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schweißen",
+      "Thermoverformungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Distra Warenhandelsgesellschaft",
+    "company_url": "https://www.kupa-gruppe.de",
+    "products": [
+      "Oberbekleidungen",
+      "Damenbekleidungen",
+      "Herrenbekleidungen",
+      "Kinderbekleidungen",
+      "Strickwaren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Mavi Europe AG",
+    "company_url": "https://eu.mavi.com",
+    "products": [
+      "Jeans",
+      "Kleidungen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Dieckhoff GmbH & Co. KG",
+    "company_url": "http://dieckhoff-textil.de",
+    "products": [
+      "Textilien",
+      "Bekleidungen",
+      "Bettwäschen",
+      "Handtücher",
+      "Kleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Waschen",
+      "Trocknen",
+      "Bügeln",
+      "Bedrucken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IB Company KG",
+    "company_url": "https://www.peek-cloppenburg.de/de/",
+    "products": [
+      "Bekleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Geschenkkarten",
+      "Eigenmarken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnittmusterungen",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PETIT BATEAU Kinderbekleidung GmbH",
+    "company_url": "https://www.petit-bateau.de",
+    "products": [
+      "Bekleidungen",
+      "Unterwäschen",
+      "Nachtwäschen",
+      "Accessoires",
+      "Geschenkkarten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KLAUS MODELLE KM",
+    "company_url": "http://www.klausmodelle.de",
+    "products": [
+      "Bekleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "erima GmbH",
+    "company_url": "https://www.erima.de/de/",
+    "products": [
+      "Sportbekleidungen",
+      "Trikots",
+      "Trainingsanzüge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "C. Brühl GmbH & Co. KG",
+    "company_url": "https://c-bruehl.com",
+    "products": [
+      "Hosen",
+      "Denims",
+      "Baumwollen",
+      "Wollen",
+      "Cords"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Waschungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ernst Feiler GmbH",
+    "company_url": "https://www.feiler.de",
+    "products": [
+      "Badtextilien",
+      "Wohntextilien",
+      "Babyartikel",
+      "Taschen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webere",
+      "Färbere",
+      "Stickere",
+      "Nähere",
+      "Waschere"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Guess? Deutschland GmbH",
+    "company_url": "https://www.guess.eu/de/",
+    "products": [
+      "Kleidungen",
+      "Taschen",
+      "Schuhe",
+      "Accessoires",
+      "Uhren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Paul H. Kübler Bekleidungswerk",
+    "company_url": "https://www.kuebler.eu",
+    "products": [
+      "Arbeitshosen",
+      "Arbeitsjacken",
+      "Arbeitsschuhe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wölfel & Co GmbH & Co. KG",
+    "company_url": "https://www.woelfelco.de",
+    "products": [
+      "Gardinen",
+      "Dekostoffe",
+      "Akustikpaneele",
+      "Vertikaljalousien",
+      "Maßkonfektionen"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Laserzuschnitte",
+      "Versandmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Laserschneiden",
+      "Versände"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Strumpfwerke Lindner GmbH",
+    "company_url": "https://www.lindner-socks.com",
+    "products": [
+      "Mode-Socken",
+      "Sportsocken",
+      "medizinische Socken",
+      "Herrensocken",
+      "Strümpfe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Beschichten",
+      "Veredeln"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Eugen Klein GmbH",
+    "company_url": "http://www.eugenklein.com",
+    "products": [
+      "Gelenkwellen",
+      "Ersatzteile",
+      "Reparatur-Kits",
+      "Nadellagerbüchsen",
+      "Komponenten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Prüfungen",
+      "Qualitätskontrollen",
+      "Lebensdauerprüfungen",
+      "Fertigungsverfahren",
+      "Simulationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ralph Lauren Germany GmbH",
+    "company_url": "https://www.ralphlauren.de",
+    "products": [
+      "Bekleidungen",
+      "Accessoires",
+      "Schuhe",
+      "Home-Dekore",
+      "Geschenkkarten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fischerkleidung GmbH Kleiderfabrik",
+    "company_url": "https://www.fischerkleidung.info",
+    "products": [
+      "Moden",
+      "Herrenmoden",
+      "Damenmoden",
+      "Kinderkleidungen",
+      "Landhausmoden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hilco Textilgesellschaft mbH",
+    "company_url": "https://www.hilco-business.de",
+    "products": [
+      "Stoffe",
+      "Stoffkollektionen",
+      "Stoffdesigns",
+      "Textilzubehör",
+      "Kurzwaren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Bedrucken",
+      "Veredeln",
+      "Nähen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ONSKINERY GmbH & Co. KG",
+    "company_url": "https://about.onskinery.com",
+    "products": [
+      "Socken",
+      "Unterwäschen",
+      "Bekleidungen",
+      "Accessoires",
+      "Marken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stegmaier Textiltechnik GmbH & Co. KG",
+    "company_url": "https://www.stegmaier-zelte.de/en/",
+    "products": [
+      "Markisen",
+      "Grafiken",
+      "Konfiguratoren",
+      "Designs",
+      "Ersatzteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Drucke",
+      "Schnitte",
+      "Nähungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Alfred Seifert & Söhne GmbH",
+    "company_url": "https://www.stickerei-seifert.de",
+    "products": [
+      "Textilien",
+      "Stickereien",
+      "Corporate Fashions",
+      "Firmenkleidungen",
+      "Vereinskleidungen"
+    ],
+    "machines": [
+      "Stickmaschinen",
+      "Nähmaschinen",
+      "Textillaser"
+    ],
+    "process_type": [
+      "Sticken",
+      "Laserschneiden",
+      "Nähen",
+      "Veredeln",
+      "Bedrucken"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Landes Lederwarenfabrik GmbH",
+    "company_url": "http://www.landes.de",
+    "products": [
+      "Labels",
+      "Trims",
+      "Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Drucke",
+      "Applikationen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Willy Maisel GmbH",
+    "company_url": "https://www.world-of-textiles.com",
+    "products": [
+      "Textilien",
+      "Bekleidungen",
+      "Veredelungen"
+    ],
+    "machines": [
+      "Druckmaschinen",
+      "Stickmaschinen",
+      "Schablonenmaschinen"
+    ],
+    "process_type": [
+      "Bedruckungen",
+      "Stickereien",
+      "Siebdrucke"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Bültel Bekleidungswerke GmbH",
+    "company_url": "https://www.bueltel.com",
+    "products": [
+      "Kollektionen",
+      "Bekleidungen",
+      "Accessoires",
+      "Schuhe",
+      "Taschen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TexTeam Windel GmbH",
+    "company_url": "https://windel.de",
+    "products": [
+      "Textilveredelungen",
+      "Textilausrüstungen",
+      "Dienstleistungen",
+      "Qualitäten",
+      "Unternehmen"
+    ],
+    "machines": [
+      "Färbemaschinen",
+      "Appreturmaschinen",
+      "Kalendermaschinen",
+      "Bleichmaschinen",
+      "Trockner"
+    ],
+    "process_type": [
+      "Färbungen",
+      "Appretierungen",
+      "Kalender",
+      "Bleichungen",
+      "Trocknungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Spieth & Wensky GmbH",
+    "company_url": "https://www.spieth-wensky.de",
+    "products": [
+      "Trachtenmoden",
+      "Lederhandschuhe",
+      "Dirndl",
+      "Lederhosen",
+      "Trachtenaccessoires"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Stickmaschinen",
+      "Druckmaschinen",
+      "Beschichter"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Sticken",
+      "Bedrucken",
+      "Beschichten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Heinrich Obermeyer GmbH & Co. KG",
+    "company_url": "https://www.blueseven.com",
+    "products": [
+      "Kleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Spielzeuge",
+      "Dekorationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Textilveredelung Edgar Kunz",
+    "company_url": "https://edgarkunz.de",
+    "products": [
+      "Kaschierungen",
+      "Steppungen",
+      "Konfektionen"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Laser-Cutter",
+      "Stickmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Laserschneiden",
+      "Sticken"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "monari GmbH",
+    "company_url": "https://monari.de",
+    "products": [
+      "Kleidungen",
+      "Damenmoden",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rabe Moden GmbH",
+    "company_url": "https://rabefashion.com",
+    "products": [
+      "Damenbekleidungen",
+      "Jeans",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Porcher Industries Germany GmbH",
+    "company_url": "https://www.porcher-ind.com",
+    "products": [
+      "Textilien",
+      "Dekorationsstoffe",
+      "Sportstoffe",
+      "Verbundmaterialien",
+      "Technische Materialien"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Verbundproduktionsanlagen",
+      "Textilveredlungsmaschinen",
+      "Schneidemaschinen",
+      "Oberflächenbehandlungsmaschinen"
+    ],
+    "process_type": [
+      "Webereien",
+      "Verbundproduktionen",
+      "Textilfinishing",
+      "Schneidungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FD Fashion Design Herrenmode GmbH",
+    "company_url": "https://fd-fashiondesign.de",
+    "products": [
+      "Herrenmoden",
+      "Accessoires",
+      "Taschen",
+      "Leder-Accessoires",
+      "Kollektionsartikel"
+    ],
+    "machines": [],
+    "process_type": [
+      "Designs",
+      "Beschaffungen",
+      "Herstelllungen",
+      "Vertriebe",
+      "Marketings"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "helsaform GmbH",
+    "company_url": "https://www.helsa.com",
+    "products": [
+      "Schulterpolster",
+      "Einlagestoffe",
+      "Ärmelfische",
+      "Reversseiden",
+      "Sicherungsbänder"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Näharbeiten",
+      "Veredelungen",
+      "Verpackungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Klaus Herding GmbH",
+    "company_url": "https://herding-textiles.com",
+    "products": [
+      "Bettwäschen",
+      "Kissen",
+      "Decken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Näharbeiten",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HF Sicherheitskleidung Produktions-GmbH",
+    "company_url": "http://www.hf-sicherheitskleidung.de",
+    "products": [
+      "Feuerwehrbekleidungen",
+      "Forstbekleidungen",
+      "Industriebekleidungen",
+      "Bodenlegerbekleidungen",
+      "Warnschutzbekleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähte",
+      "Stickereien",
+      "Wäschen",
+      "Trocknungen",
+      "Bügeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GANT DACH GmbH",
+    "company_url": "https://www.gant.de",
+    "products": [
+      "Bekleidungen",
+      "Accessoires",
+      "Schuhe",
+      "Homekollektionen",
+      "Geschenkgutscheine"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TONI DRESS DAMENMODEN GMBH",
+    "company_url": "https://www.toni-fashion.de",
+    "products": [
+      "Hosen",
+      "Jeans",
+      "Oberteile",
+      "Inspirationen",
+      "Nachhaltigkeiten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Adolf Riedl GmbH & Co. KG",
+    "company_url": "https://www.bademoden.info/de/",
+    "products": [
+      "Bademoden",
+      "Beachwears",
+      "Kids-Moden",
+      "Cover-Ups",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AWK GmbH & Co. KG",
+    "company_url": "https://www.awk-online.de",
+    "products": [
+      "Arbeitskleidungen",
+      "Schutzkleidungen",
+      "Warnschutze",
+      "Arbeitsschuhe",
+      "Atemschutze"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Veredelungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Brand Bekleidungs GmbH",
+    "company_url": "https://www.kjbrand.de",
+    "products": [
+      "Kollektionen",
+      "Damenmoden",
+      "Hosen",
+      "Bekleidungen",
+      "Festliche Styles"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Meyer-Hosen-Aktiengesellschaft",
+    "company_url": "https://www.meyer-hosen.com",
+    "products": [
+      "Hosen",
+      "Gürtel",
+      "Chinos",
+      "Jeans",
+      "Hemden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MAPROM GmbH",
+    "company_url": "https://maprom.de",
+    "products": [
+      "Werbetextilien",
+      "Taschen",
+      "Bekleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sticken",
+      "Drucken",
+      "Bedrucken"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "MK Technology GmbH",
+    "company_url": "https://mktechnology.eu",
+    "products": [
+      "Körperschutzausstattungen",
+      "Armprotektoren",
+      "Beinprotektoren",
+      "Bekleidungen",
+      "Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Veredelungen",
+      "Verpackungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ESCADA Textilvertrieb GmbH",
+    "company_url": "https://www.escada.com",
+    "products": [
+      "Jacken",
+      "Blazer",
+      "Hosen",
+      "Röcke",
+      "Kleider"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ferd. Hauber GmbH",
+    "company_url": "https://haubergroup.de",
+    "products": [
+      "Kleidungen",
+      "Orthopädische Produkte",
+      "Modeaccessoires"
+    ],
+    "machines": [
+      "Strickmaschinen",
+      "Nähmaschinen",
+      "Färbemaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Nähen",
+      "Färben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "JOKER Jürgen Bernlöhr GmbH",
+    "company_url": "https://www.joker-jeans.de",
+    "products": [
+      "Herrenjeans",
+      "Hosen",
+      "Bekleidungen",
+      "Accessoires",
+      "Jeans"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Cutter",
+      "Färbemaschinen",
+      "Lasermaschinen",
+      "Wäschereimaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben",
+      "Laserschneiden",
+      "Waschen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TERRAX Außenhandels-GmbH",
+    "company_url": "https://www.htr-terrax.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kaiser Bekleidungs GmbH",
+    "company_url": "https://www.kaiser-fashion.de",
+    "products": [
+      "Hosen",
+      "Sakkos",
+      "Jacken",
+      "Mäntel",
+      "Anzüge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fuchs & Schmitt GmbH & Co. KG",
+    "company_url": "https://www.fuchsschmitt.de",
+    "products": [
+      "Jacken",
+      "Mäntel",
+      "Outdoor-Bekleidungen",
+      "Accessoires",
+      "Textilien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnittmusterungen",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SE - Blusen Stenau GmbH",
+    "company_url": "https://www.se-stenau.de",
+    "products": [
+      "Blusen",
+      "Oberteile",
+      "Modeartikel"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Falk & Ross Group Europe GmbH",
+    "company_url": "https://www.falk-ross.eu",
+    "products": [
+      "T-Shirts",
+      "Polos",
+      "Sweats"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Finishes"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Okaidi Germany GmbH",
+    "company_url": "https://www.okaidi.com/de/",
+    "products": [
+      "Kleider",
+      "Schuhe",
+      "Schneeanzüge",
+      "Kleider",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WEITBLICK GmbH & Co. KG",
+    "company_url": "https://www.weitblick.vision",
+    "products": [
+      "Arbeitsbekleidungen",
+      "Bekleidungen",
+      "Leistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "August Bickert GmbH & Co. KG",
+    "company_url": "https://www.aubi.net",
+    "products": [
+      "Hosen",
+      "Blusen",
+      "Gürtel",
+      "Jacken",
+      "Jeans"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Krüger-Dirndl GmbH",
+    "company_url": "https://www.krueger-dirndl.de/de/",
+    "products": [
+      "Dirndl",
+      "Lederhosen",
+      "Trachtenblusen",
+      "Trachtenjacken",
+      "Trachtenmoden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitten",
+      "Näharbeiten",
+      "Veredelungen",
+      "Qualitätskontrollen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sassa Mode GmbH",
+    "company_url": "https://www.sassamode.com",
+    "products": [
+      "BHs",
+      "Unterwäsche",
+      "Loungewear",
+      "Shapewear",
+      "Bademoden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "index": 0,
+    "error": true,
+    "tags": [
+      "error"
+    ],
+    "content": "litellm.BadRequestError: BedrockException - {\"message\":\"The model returned the following errors: Invalid Input: The input does not adhere to the expected standards. Please refer to the model user guide and adjust the input before trying again.\"}"
+  },
+  {
+    "company_name": "Bamberger Kaliko Textile Finishing GmbH",
+    "company_url": "http://www.bamberger-kaliko.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Brands Fashion GmbH",
+    "company_url": "https://www.brands-fashion.com/de/",
+    "products": [
+      "Arbeitskleidungen",
+      "Corporate Fashions",
+      "Merchandisings",
+      "Nachhaltige Merchandise",
+      "Private Labels"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Bedrucken",
+      "Sticken",
+      "Färben",
+      "Beschichten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FHB original GmbH & Co. KG",
+    "company_url": "https://www.fhb.de",
+    "products": [
+      "Arbeitsbekleidungen",
+      "Zunftbekleidungen",
+      "Stickdienstleistungen",
+      "Kleidungen nach Maß",
+      "Größentabellen"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Zuschnittmaschinen",
+      "Wäschemaschinen",
+      "Bügelmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Zuschneiden",
+      "Waschen",
+      "Bügeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "efix tricot GmbH",
+    "company_url": "https://efixelle.de",
+    "products": [
+      "Kleidungen",
+      "T-Shirts",
+      "Tops",
+      "Longsleeves",
+      "Kleider"
+    ],
+    "machines": [
+      "Strickmaschinen",
+      "Nähmaschinen",
+      "Schnittmaschinen",
+      "Druckmaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Nähen",
+      "Schneiden",
+      "Bedrucken",
+      "Verpacken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Grein GmbH",
+    "company_url": "https://lets-cut-it.com",
+    "products": [
+      "Stanzteile",
+      "Laserteile",
+      "Frästeile",
+      "Vermessungsdienstleistungen",
+      "Lohnnäharbeiten"
+    ],
+    "machines": [
+      "Stanzmaschinen",
+      "Lasermaschinen",
+      "Fräsmaschinen",
+      "Messsysteme",
+      "Nähmaschinen"
+    ],
+    "process_type": [
+      "Stanzen",
+      "Laserschneiden",
+      "Fräsen",
+      "Vermessungen",
+      "Näharbeiten"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Wilh. Wissner GmbH & Co. KG",
+    "company_url": "https://wissner.de",
+    "products": [
+      "Ringe",
+      "Schieber",
+      "Haken",
+      "Bikini-Clips",
+      "BH-Verschlüsse"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Spritzgüsse",
+      "Montagen",
+      "Verpackungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Heinecke & Klaproth GmbH & Co. KG",
+    "company_url": "https://m-e-n-s.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Krass & Wissing GmbH",
+    "company_url": "http://www.krasspluswissing.de",
+    "products": [
+      "Schnittbänder",
+      "Einfassbänder",
+      "Materialien",
+      "Farbkarten",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Schneiden",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HOWANA-STRUMPFFABRIK A. W. Mehner",
+    "company_url": "https://www.howana.de",
+    "products": [
+      "Strümpfe",
+      "Socken",
+      "Bio-Produkte",
+      "Naturfaserprodukte",
+      "Seidenprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Mastex GmbH",
+    "company_url": "https://www.returnstore.de",
+    "products": [
+      "Damenbekleidungen",
+      "Herrenbekleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Markenprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SAATI Deutschland GmbH",
+    "company_url": "https://www.saati.com/en/",
+    "products": [
+      "Textilien",
+      "Chemikalien",
+      "Ausrüstungen"
+    ],
+    "machines": [
+      "Bildschirme",
+      "Trockner",
+      "Beschichtungen"
+    ],
+    "process_type": [
+      "Bildschirme",
+      "Drucke",
+      "Filtrationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Technische Textilien",
+    "company_url": "https://www.ttl.de",
+    "products": [
+      "Filtermedien",
+      "Wäschereitextilien",
+      "Industrietextilien",
+      "Nadelfilze",
+      "Dichtfilze"
+    ],
+    "machines": [
+      "Nadelmaschinen",
+      "Filzmaschinen",
+      "Chemische Ausrüstungen",
+      "Thermische Ausrüstungen",
+      "Oberflächenbehandlungsmaschinen"
+    ],
+    "process_type": [
+      "Spinnen",
+      "Weben",
+      "Stricken",
+      "Färben",
+      "Bedrucken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Modeka International GmbH",
+    "company_url": "https://modeka.de",
+    "products": [
+      "Jacken",
+      "Hosen",
+      "Handschuhe",
+      "Helme",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "New G.O.L. GmbH",
+    "company_url": "https://www.new-gol.com",
+    "products": [
+      "Kollektionen",
+      "Jungen",
+      "Mädchen",
+      "Männer",
+      "Frauen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Oui Gruppe GmbH & Co. KG",
+    "company_url": "http://www.oui.com",
+    "products": [
+      "Kleider",
+      "Shirts",
+      "Pullover",
+      "Blusen",
+      "Röcke"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Finishes"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TWD Fibres GmbH",
+    "company_url": "http://www.twdfibres.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gebrüder Aurich GmbH",
+    "company_url": "https://www.aurich-textilien.de",
+    "products": [
+      "Textilien",
+      "Gewirke",
+      "Gewebe",
+      "Fahnenstoffe",
+      "Digitaldrucke"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Wirkmaschinen",
+      "Veredelungsmaschinen",
+      "Verpackungsmaschinen",
+      "Logistikmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Wirken",
+      "Veredelungen",
+      "Verpackungen",
+      "Logistiken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Friedrich Stark GmbH & Co. KG",
+    "company_url": "https://www.starkhosen.de",
+    "products": [
+      "Hosen",
+      "Jeans",
+      "Leggings"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Waschungen",
+      "Bügelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MBG Techbelt Innovation GmbH",
+    "company_url": "https://www.mbg-techbelt.de",
+    "products": [
+      "Gürtel",
+      "Riemen",
+      "Gurtbänder",
+      "Geschirre",
+      "Befestigungen"
+    ],
+    "machines": [
+      "Weben",
+      "Schneiden",
+      "Fertigstellen",
+      "Färben",
+      "Beschichten"
+    ],
+    "process_type": [
+      "Weben",
+      "Schneiden",
+      "Fertigstellen",
+      "Färben",
+      "Beschichten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Versace Deutschland GmbH",
+    "company_url": "https://www.versace.com/de/",
+    "products": [
+      "Kleidungen",
+      "Accessoires",
+      "Parfüms"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "da diese Produkte unterschiedliche Fertigungsprozesse außerhalb des Textilbereichs haben."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Woolrich Germany GmbH",
+    "company_url": "https://www.woolrich.eu/de/",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AS System GmbH",
+    "company_url": "https://www.assystem.de",
+    "products": [
+      "Textildrucke",
+      "Textilveredelungen",
+      "Berufsbekleidungen",
+      "Corporate Fashions",
+      "Promotionartikel"
+    ],
+    "machines": [
+      "Wärmepressen",
+      "Schneideplotter",
+      "Lasermaschinen",
+      "Stickmaschinen",
+      "Druckmaschinen"
+    ],
+    "process_type": [
+      "Drucke",
+      "Veredelungen",
+      "Stickereien",
+      "Lasern",
+      "Schnitte"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Hch. Kettelhack GmbH & Co. KG",
+    "company_url": "https://kettelhack.de",
+    "products": [
+      "Textilien",
+      "Arbeitskleidungen",
+      "Bettwäschen",
+      "Hoteltextilien",
+      "Krankenhaustextilien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Bedrucken",
+      "Beschichten",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PB Bade & Freizeitmode GmbH",
+    "company_url": "https://www.palm-beach-fashion.de",
+    "products": [
+      "Sandalen",
+      "Schuhe",
+      "Bademoden",
+      "Accessoires",
+      "Lifestyle-Produkte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Reichart Blusen GmbH",
+    "company_url": "https://www.reichart-blusen.de",
+    "products": [
+      "Blusen",
+      "T-Shirts",
+      "Kleider",
+      "Softkombis",
+      "Privat-Label-Kollektionen"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Stickmaschinen",
+      "Wäschemaschinen",
+      "Bügelmaschinen"
+    ],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Stiche",
+      "Wäschen",
+      "Bügel"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BOFA-Doublet GmbH",
+    "company_url": "https://www.bofa.de",
+    "products": [
+      "Fahnen",
+      "Banner",
+      "Zelte",
+      "Point-of-Sales-Systeme",
+      "Werbefahnen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Drucke",
+      "Applikationen",
+      "Beschichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Levi Strauss Germany GmbH",
+    "company_url": "https://www.levi.com",
+    "products": [
+      "Jeans",
+      "T-Shirts",
+      "Hoodies",
+      "Jacken",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false
+  },
+  {
+    "company_name": "Friedrich W. Schneider GmbH & Co. KG",
+    "company_url": "https://stetson-europe.com",
+    "products": [
+      "Hüte",
+      "Mützen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kenny S. GmbH",
+    "company_url": "http://www.kennys.de",
+    "products": [
+      "T-Shirts",
+      "Blusen",
+      "Pullover",
+      "Hosen",
+      "Sweatshirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bottega Veneta Germany GmbH",
+    "company_url": "http://www.bottegaveneta.com",
+    "products": [
+      "Taschen",
+      "Schuhe",
+      "Kleidungen",
+      "Portemonnaies",
+      "Schmuckstücke"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Stanzungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PVH Brands Germany GmbH",
+    "company_url": "https://www.pvh.com",
+    "products": [
+      "Kleidungen",
+      "Schuhe",
+      "Accessoires",
+      "Unterwäschen",
+      "Düfte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ZOLLNER Objekttextil GmbH",
+    "company_url": "https://www.zollner-hotelwaesche.de",
+    "products": [
+      "Hotelbettwäschen",
+      "Bettwaren",
+      "Frottierwaren",
+      "Tischwäschen",
+      "Berufskleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Färbereien",
+      "Schnitte",
+      "Nähereien",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Weise Fashion GmbH & Co. KG",
+    "company_url": "https://www.weise.eu",
+    "products": [
+      "Kollektionen",
+      "Accessoires",
+      "Outfits",
+      "Kindermoden",
+      "Styles"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Sticken",
+      "Waschen",
+      "Trocknen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "CHANGE Sportswear GmbH & Co. KG",
+    "company_url": "https://www.cambio.de",
+    "products": [
+      "Hosen",
+      "Jeans",
+      "Kollektionen",
+      "Kooperationen",
+      "Projekte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Zweigart & Sawitzki GmbH & Co. KG",
+    "company_url": "https://www.zweigart.de",
+    "products": [
+      "Handarbeitsstoffe",
+      "Dekostoffe",
+      "Technische Gewebe"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Jacquardmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Connect Trade GmbH",
+    "company_url": "http://www.connect-trade.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kindermann GmbH",
+    "company_url": "https://kindermann.cordx.de",
+    "products": [
+      "Kordeln",
+      "Berufsbekleidungsstoffe",
+      "Velvetons",
+      "Moleskins",
+      "Möbelstoffe"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Ausrüstungsmaschinen",
+      "Labormaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Ausrüstungen",
+      "Schneiden",
+      "Nähen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SETEX-Textil-GmbH",
+    "company_url": "https://www.setex.de/de/",
+    "products": [
+      "Garne",
+      "Gewebe",
+      "Textilprodukte"
+    ],
+    "machines": [
+      "Spinnmaschinen",
+      "Webmaschinen",
+      "Veredelungsmaschinen"
+    ],
+    "process_type": [
+      "Spinnen",
+      "Weben",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "pro4tex GmbH",
+    "company_url": "http://www.pro4tex.de",
+    "products": [
+      "Ausrüstungen",
+      "Färbetechniken",
+      "Textilveredelungen"
+    ],
+    "machines": [
+      "Breitwaschmaschinen",
+      "Spannrahmen",
+      "Schlauchkalander",
+      "Raumaschinen",
+      "Kompaktieranlagen"
+    ],
+    "process_type": [
+      "Breitwaschungen",
+      "Laugierungen",
+      "Thermofixierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ziegler Arbeitsschutz GmbH",
+    "company_url": "https://ziegler-metallgewebe.com",
+    "products": [
+      "Ringgewebe",
+      "Handschuhe",
+      "Schürzen",
+      "Boleros",
+      "Kettenhemden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schweißungen",
+      "Verformungen",
+      "Beschichtungen",
+      "Montagen",
+      "Verarbeitungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "L-SHOP-TEAM GmbH",
+    "company_url": "https://shop.l-shop-team.de",
+    "products": [
+      "Textilien",
+      "Arbeitskleidungen",
+      "Werbeartikel"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Drucke",
+      "Veredelungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rohleder GmbH",
+    "company_url": "https://www.rohleder.com",
+    "products": [
+      "Möbelstoffe",
+      "Heimtextilien",
+      "Kissen",
+      "Plaids",
+      "Meterwaren"
+    ],
+    "machines": [
+      "Webmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Färben",
+      "Bedrucken",
+      "Beschichten",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gerke AG",
+    "company_url": "https://gerke-mypants.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BURBERRY Deutschland GmbH",
+    "company_url": "https://de.burberry.com",
+    "products": [
+      "Damenbekleidungen",
+      "Herrenbekleidungen",
+      "Kinderbekleidungen",
+      "Taschen",
+      "Schuhe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Trachten- und Modehaus Grasegger",
+    "company_url": "https://grasegger.de",
+    "products": [
+      "Trachten",
+      "Moden",
+      "Stoffe",
+      "Wollen",
+      "Schmankerl"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Webmaschinen",
+      "Strickmaschinen",
+      "Färbemaschinen",
+      "Druckmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Weben",
+      "Stricken",
+      "Färben",
+      "Drucken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Forbo Siegling GmbH",
+    "company_url": "https://www.forbo.com",
+    "products": [
+      "Bodenbeläge",
+      "Förderbänder",
+      "Verarbeitungsbänder"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Beschichtungen",
+      "Kalanderungen",
+      "Vulkanisationen",
+      "Näharbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "D.H. Fashion GmbH",
+    "company_url": "http://www.dh-fashion.com",
+    "products": [
+      "Kollektionen",
+      "Damenbekleidungen",
+      "Herrenbekleidungen",
+      "Moden",
+      "Bekleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Finishes"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HIZA GmbH & Co. KG",
+    "company_url": "http://www.hiza24.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ALBERTO GmbH & Co. KG",
+    "company_url": "https://www.alberto-pants.com",
+    "products": [
+      "Jeans",
+      "Lässige",
+      "Elegante"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Flick Fashion Group",
+    "company_url": "https://www.flick-fashiongroup.de",
+    "products": [
+      "Bekleidungen",
+      "Textilien",
+      "Moden",
+      "Kleidungen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "strickchic GmbH",
+    "company_url": "http://www.strickchic.de",
+    "products": [
+      "Strickwaren",
+      "Troyer",
+      "Kollektionen",
+      "Unterwäsche",
+      "Textilien"
+    ],
+    "machines": [
+      "Strickmaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Programmieren",
+      "Konstruieren",
+      "Produzieren",
+      "Fertigen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Closed GmbH",
+    "company_url": "https://www.closed.com",
+    "products": [
+      "Jeans",
+      "Hosen",
+      "Shorts",
+      "Jacken",
+      "Mäntel"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Waschungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gustav Ernstmeier GmbH & Co. KG",
+    "company_url": "https://www.ernstmeier.de",
+    "products": [
+      "Schleifmittelträger",
+      "Faltenbalgmaterialien",
+      "Spezialitäten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Veredelungen",
+      "Beschichtungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BON Boretius Objekt Nähservice für Dekorationen GmbH",
+    "company_url": "http://www.boretius.com",
+    "products": [
+      "Dekorationen",
+      "Gardinen",
+      "Tagesdecken",
+      "Kissen",
+      "Bettskirtings"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidermaschinen",
+      "Bügelmaschinen",
+      "Zuschneidemaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Bügeln",
+      "Verpacken",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GREIFF-Mode GmbH & Co. KG",
+    "company_url": "https://greiff.de",
+    "products": [
+      "Berufsbekleidungen",
+      "Teamkleidungen",
+      "Nachhaltige Produkte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Topp Textil GmbH",
+    "company_url": "https://www.topp-textil.com/de/",
+    "products": [
+      "Bänder",
+      "Textilbeschichtungen",
+      "Technische Textilien",
+      "Medizinische Textilien",
+      "Bauteile"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Strickmaschinen",
+      "Beschichtungsmaschinen",
+      "Schneidemaschinen",
+      "Konfektionierungsmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Stricken",
+      "Beschichtungen",
+      "Schnitte",
+      "Nähte"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lady-Set Schüssler + Zachmann GmbH",
+    "company_url": "https://schuessler-zachmann.de",
+    "products": [
+      "Bekleidungen",
+      "Eigenmarken",
+      "Kollektionen",
+      "Hosen",
+      "Koordinaten"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Färbemaschinen",
+      "Bedruckmaschinen",
+      "Bügelmaschinen"
+    ],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Farben",
+      "Bedruckungen",
+      "Bügelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fahnen Kössinger GmbH",
+    "company_url": "https://www.fahnen-koessinger.de",
+    "products": [
+      "Vereinsfahnen",
+      "Standarten",
+      "Fahnenbänder",
+      "Kirchenbanner",
+      "Fahnenzubehör"
+    ],
+    "machines": [
+      "Stickmaschinen",
+      "Druckmaschinen",
+      "Grafikmaschinen",
+      "Nähmaschinen",
+      "Veredelungsmaschinen"
+    ],
+    "process_type": [
+      "Sticken",
+      "Drucken",
+      "Nähen",
+      "Veredeln",
+      "Restaurieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Godske Group GmbH",
+    "company_url": "https://www.godske.com",
+    "products": [
+      "Kleidungen",
+      "Moden",
+      "Marken",
+      "Accessoires",
+      "Textilien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneiden",
+      "Nähen",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SUSA-Vertriebs-GmbH + Co",
+    "company_url": "http://www.susa-dessous.eu",
+    "products": [
+      "BHs",
+      "Dessous",
+      "Bademoden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lederfabrik Josef Heinen GmbH & Co KG",
+    "company_url": "http://www.heinen-leather.de",
+    "products": [
+      "Leder",
+      "Oberleder",
+      "Spaltleder"
+    ],
+    "machines": [
+      "Gerbmaschinen",
+      "Färbefässer",
+      "Abwelkpressen"
+    ],
+    "process_type": [
+      "Gerbungen",
+      "Färbungen",
+      "Trocknungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Albrecht Bender GmbH u. Co",
+    "company_url": "https://www.a-bender.de",
+    "products": [
+      "Abzeichen",
+      "Uniform-Effekten",
+      "Dekorationen",
+      "Meterwaren",
+      "Maschinenstickereien"
+    ],
+    "machines": [
+      "Stickmaschinen",
+      "Webautomaten",
+      "Spinnereimaschinen",
+      "Klöppelmaschinen",
+      "Handstickereimaschinen"
+    ],
+    "process_type": [
+      "Sticken",
+      "Weben",
+      "Spinnen",
+      "Klöppeln",
+      "Handsticken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Miroglio Deutschland GmbH",
+    "company_url": "http://www.mirogliogroup.com",
+    "products": [
+      "Bekleidungen",
+      "Drucktechniken",
+      "Logistiken",
+      "Supply Chain Managements",
+      "Moden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Designs",
+      "Produktionen",
+      "Distributionen",
+      "Drucke",
+      "Logistiken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Tricia Jones GmbH",
+    "company_url": "https://www.a-n-a.com",
+    "products": [
+      "Kleider",
+      "Oberteile",
+      "Hosen",
+      "Röcke",
+      "Jacken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitten",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Olsen Germany GmbH",
+    "company_url": "https://www.olsenfashion.com",
+    "products": [
+      "Sammlungen",
+      "Magazine",
+      "Geschäfte",
+      "Wer-wir-sind",
+      "Finde-einen-Laden"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "VIA APPIA MODE GmbH",
+    "company_url": "https://www.via-appia-mode.de",
+    "products": [
+      "Shirts",
+      "Tops",
+      "Pullover",
+      "Strickjacken",
+      "Blusen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Strickereien",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wind GmbH",
+    "company_url": "https://wind-sportswear.de",
+    "products": [
+      "Damentaschen",
+      "Damen-T-Shirts",
+      "Herren-Pullover",
+      "Herren-Polos",
+      "Damen-Poloshirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "CASAMODA",
+    "company_url": "https://www.casamoda.com",
+    "products": [
+      "Hemden",
+      "Polos",
+      "T-Shirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Bügleien",
+      "Färbungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Mattes & Ammann GmbH & Co. KG",
+    "company_url": "https://www.mattesammann.de",
+    "products": [
+      "Maschenstoffe",
+      "Technische Textilien",
+      "Bekleidungstextilien"
+    ],
+    "machines": [
+      "Rundstrickmaschinen",
+      "Kettenwirkmaschinen",
+      "Labormaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Wirken",
+      "Labortests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Spekon",
+    "company_url": "https://www.spekon.de",
+    "products": [
+      "Fallschirmsysteme",
+      "Textilerzeugnisse",
+      "Faserverbundwerkstoffe",
+      "Transportsicherungssysteme",
+      "Veranstaltungsüberdachungen"
+    ],
+    "machines": [
+      "Konfektionierungsmaschinen",
+      "Pressmaschinen",
+      "Injektionsmaschinen",
+      "Vakuuminfusionsmaschinen"
+    ],
+    "process_type": [
+      "Konfektionierungen",
+      "Pressen",
+      "Injektionen",
+      "Vakuuminfusionen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bierbaum Proenen GmbH & Co. KG",
+    "company_url": "https://www.bp-online.com",
+    "products": [
+      "Arbeitshosen",
+      "Kochjacken",
+      "Kasacks",
+      "Kittel",
+      "Schutzkleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Bügeln",
+      "Qualitätskontrollen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Estella Ateliers",
+    "company_url": "https://www.estella.de",
+    "products": [
+      "Bettwäschen",
+      "Spannbetttücher",
+      "Bettwaren",
+      "Kissenbezüge",
+      "Badezimmertextilien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Färbereien",
+      "Schnitte",
+      "Näharbeiten",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stehmann Mode GmbH",
+    "company_url": "https://stehmann-store.de",
+    "products": [
+      "Hosen",
+      "Schlupfhosen",
+      "Jogpants",
+      "Cordhosen",
+      "Business-Hosen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitten",
+      "Näharbeiten",
+      "Färbungen",
+      "Waschungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RoFa-Moden Faller GmbH & Co.",
+    "company_url": "https://rofafashiongroup.de",
+    "products": [
+      "Blazer",
+      "Jacken",
+      "Outdoor-Wear"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden",
+      "Färben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "vombaur GmbH & Co. KG",
+    "company_url": "https://vombaur.de",
+    "products": [
+      "Filtrationstextilien",
+      "Komposittextilien",
+      "Industriedtextilien",
+      "nahtlose Lösungen",
+      "textilbasierte Komponenten"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Nadelstühle",
+      "Spezialwebstühle",
+      "Produktionsmaschinen",
+      "Umformmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Veredelungen",
+      "Spezialfertigungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "OSKA Textilvertriebs GmbH",
+    "company_url": "https://www.oska.com",
+    "products": [
+      "Kleider",
+      "Hosen",
+      "Blusen",
+      "Jacken",
+      "Accessoires"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Schneidemaschinen",
+      "Färbemaschinen",
+      "Druckmaschinen",
+      "Veredelungsmaschinen"
+    ],
+    "process_type": [
+      "Schneidene",
+      "Nähen",
+      "Färben",
+      "Bedrucken",
+      "Veredeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dingelstädter Strick GmbH",
+    "company_url": "https://www.districk.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Walter Stöhr Strickwarenfabrik GmbH",
+    "company_url": "https://www.wollmuetzen.de",
+    "products": [
+      "Mützen",
+      "Socken",
+      "Strickwaren",
+      "Schals",
+      "Accessoires"
+    ],
+    "machines": [
+      "Strickmaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Veredeln",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fritz Moll Textilwerke GmbH & Co. KG",
+    "company_url": "http://moll-textil.com",
+    "products": [
+      "Modebänder",
+      "Technikbänder",
+      "Spitzen",
+      "Textilbänder",
+      "Made in Germany Produkte"
+    ],
+    "machines": [
+      "Webmaschinen",
+      "Häkelmaschinen",
+      "Färbemaschinen",
+      "Veredelungsmaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Weben",
+      "Häkeln",
+      "Färben",
+      "Veredeln",
+      "Verpacken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Golléhaug GmbH",
+    "company_url": "https://gollehaug.de",
+    "products": [
+      "Blusen",
+      "Hosen",
+      "Jacken",
+      "Kleider",
+      "Pullover"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DIESEL DEUTSCHLAND GmbH",
+    "company_url": "https://de.diesel.com/de/",
+    "products": [
+      "Jeans",
+      "Kleidungen",
+      "Schuhe",
+      "Taschen",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sanetta",
+    "company_url": "https://www.sanetta.de",
+    "products": [
+      "Kinderkleidungen",
+      "Babykleidungen",
+      "Nachtwäschen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Drucke",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wellensteyn International GmbH & Co. KG",
+    "company_url": "https://www.wellensteyn.com",
+    "products": [
+      "Jacken",
+      "Westen",
+      "Blousons",
+      "Hoodies",
+      "Hemden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IQS Textilservice GmbH",
+    "company_url": "https://www.iqs-textil.de",
+    "products": [
+      "Textilaufbereitungen",
+      "Nähereien",
+      "Logistiken",
+      "Fulfillments",
+      "Nachhaltigkeiten"
+    ],
+    "machines": [
+      "Nähmaschinen",
+      "Faltmaschinen",
+      "Reinigungsmaschinen",
+      "Logistiksysteme",
+      "Kommissioniersysteme"
+    ],
+    "process_type": [
+      "Nähen",
+      "Färben",
+      "Bügeln",
+      "Reinigen",
+      "Logistiken"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "HILTL Hosen-Manufaktur GmbH",
+    "company_url": "https://www.hiltl.de",
+    "products": [
+      "Hosen",
+      "Gürtel",
+      "Verkäufe",
+      "Hiltl Welten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Waschungen",
+      "da diese Begriffe nicht eindeutig textile Produkte darstellen)"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Albani Group GmbH & Co. KG",
+    "company_url": "https://www.albani-group.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bergans Outdoor GmbH",
+    "company_url": "https://www.bergans.com",
+    "products": [
+      "Bekleidungen",
+      "Rucksäcke",
+      "Zelte",
+      "Schlafsäcke",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Veredelungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hatico Mode GmbH",
+    "company_url": "https://www.pureshirt.com",
+    "products": [
+      "Hemden",
+      "Blusen",
+      "Hosen",
+      "Polo-Shirts",
+      "T-Shirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Bügeln",
+      "Färbungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ROY ROBSON FASHION GmbH & Co. KG",
+    "company_url": "https://royrobson.com",
+    "products": [
+      "Anzüge",
+      "Hemden",
+      "Hosen",
+      "Schuhe",
+      "Accessoires"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "NEW SPORTS GmbH",
+    "company_url": "https://newsports.gmbh",
+    "products": [
+      "Segel",
+      "Drachen",
+      "Flügel",
+      "Foils",
+      "iSUPs"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Klebungen",
+      "Lackierungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Santex Moden GmbH",
+    "company_url": "https://www.santex.de",
+    "products": [
+      "Bekleidungen",
+      "Lizensierte Produkte",
+      "Trikots",
+      "Gewebe",
+      "Strickwaren"
+    ],
+    "machines": [
+      "Strickmaschinen",
+      "Webmaschinen",
+      "Färbemaschinen",
+      "Druckmaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "Stricken",
+      "Weben",
+      "Färben",
+      "Drucken",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ehrmann & Co",
+    "company_url": "https://www.naehereiehrmann.com",
+    "products": [
+      "Matratzen",
+      "Topper",
+      "Innenausstattungen",
+      "Polster",
+      "Teppiche"
+    ],
+    "machines": [],
+    "process_type": [
+      "Nähen",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SML (Central Europe) GmbH",
+    "company_url": "http://www.sml.com",
+    "products": [
+      "RFID-Tags",
+      "RFID-Labels",
+      "Software"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Drucke",
+      "Klebungen",
+      "Codierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HELRO GmbH",
+    "company_url": "https://www.helro.de",
+    "products": [
+      "Arbeitssicherheiten",
+      "Bekleidungen",
+      "Erste Hilfen",
+      "Handschuhe",
+      "Sicherheitsschuhe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähungen",
+      "Färbungen",
+      "Veredelungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Escape Clothing GmbH",
+    "company_url": "https://www.timezone.de",
+    "products": [
+      "Kleidungen",
+      "Accessoires",
+      "Jacken",
+      "Hemden",
+      "Tops"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnitte",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Angels GmbH",
+    "company_url": "https://www.angels-jeans.de",
+    "products": [
+      "Jeans",
+      "Hosen",
+      "Hemden",
+      "ÆNGELS",
+      "SALES"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Waschungen",
+      "Kontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Cinque Moda GmbH",
+    "company_url": "https://www.cinque.de",
+    "products": [
+      "Kleider",
+      "Hosen",
+      "Jacken",
+      "Mäntel",
+      "Shirts"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Nähte",
+      "Färbungen",
+      "Veredelungen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "R. u. M. Wegener GmbH & Co. KG",
+    "company_url": "https://www.wegener.org",
+    "products": [
+      "Trainings",
+      "Mentorships",
+      "Karrierechancen",
+      "inspirierende Geschichten",
+      "Blog-Updates"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DARPDECADE GmbH & Co. KG",
+    "company_url": "https://vinokilo.com",
+    "products": [
+      "Kleidungen",
+      "Accessoires",
+      "Vintages"
+    ],
+    "machines": [],
+    "process_type": [
+      "Näharbeiten",
+      "Schnittmusterungen",
+      "Färbungen",
+      "Drucke",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hegler Fashion GmbH & Co. KG",
+    "company_url": "https://www.hegler-fashion.de",
+    "products": [
+      "Hemden",
+      "Hosen",
+      "Pullover",
+      "Westen",
+      "Jacken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stricken",
+      "Färben",
+      "Bedrucken",
+      "Veredeln",
+      "Nähen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dastex Reinraumzubehör GmbH & Co. KG",
+    "company_url": "https://www.dastex.de",
+    "products": [
+      "Reinraumbekleidungen",
+      "Reinraumtücher",
+      "Reinraumhandschuhe",
+      "Desinfektionsmittel",
+      "Reinigungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Webereien",
+      "Schnitte",
+      "Näharbeiten",
+      "Verpackungen",
+      "Sterilisationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ernst Faber GmbH",
+    "company_url": "https://www.faber-fashion.de",
+    "products": [
+      "Pullover",
+      "Jacken",
+      "Strickjacken",
+      "Kleider",
+      "Hosen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitten",
+      "Nähungen",
+      "Färbungen",
+      "Strickereien",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sympatex Technologies GmbH",
+    "company_url": "https://www.sympatex.com",
+    "products": [
+      "Membranen",
+      "Laminat",
+      "Funktionstextilien",
+      "Outdoor-Bekleidungen",
+      "Schuhe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Laminierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stooker Brands GmbH",
+    "company_url": "https://www.stookerbrands.de/de/",
+    "products": [
+      "Jeans",
+      "Moden",
+      "Sportbekleidungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Näharbeiten",
+      "Färbungen",
+      "Waschungen",
+      "Veredelungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Esprit Europe GmbH",
+    "company_url": "https://www.esprit.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  }
+]

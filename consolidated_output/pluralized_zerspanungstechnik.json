@@ -1,0 +1,1150 @@
+[
+  {
+    "company_name": "Ossenbrüggen Feinwerktechnik",
+    "company_url": "https://www.ossenbrueggen-feinwerktechnik.de",
+    "products": [
+      "Bauteile",
+      "Baugruppen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Bohrungen",
+      "Montageprozesse"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Paul Bippus GmbH & Co. KG",
+    "company_url": "https://www.bippus.de",
+    "products": [
+      "Drehteile",
+      "Baugruppen",
+      "Montageprozesse"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Montagemaschinen",
+      "Laserschweißmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Montagen",
+      "Laserschweißungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Seeger Präzisionsdrehteile GmbH",
+    "company_url": "https://www.seeger-salem.de",
+    "products": [
+      "Bauteile",
+      "Elektromagnete",
+      "Magnetventile"
+    ],
+    "machines": [
+      "Drehautomaten",
+      "CNC-Bearbeitungszentren",
+      "Tauchanlagen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Reinigungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kreyenberg GmbH",
+    "company_url": "https://kreyenberg.eu",
+    "products": [
+      "Bauteile",
+      "Baugruppen",
+      "Medizintechniken"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Fräsmaschinen",
+      "Drehmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Blechbearbeitungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "IWN GmbH & Co. KG",
+    "company_url": "https://www.iwn.de",
+    "products": [
+      "Intelligente Systeme",
+      "Auftragsfertigungen",
+      "Automotives",
+      "Mobile Techniken",
+      "Stationäre Techniken"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Montageanlagen",
+      "Versandlogistiken"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Montierungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Windschiegl Maschinenbau GmbH",
+    "company_url": "https://www.windschiegl.de",
+    "products": [
+      "Zahnräder",
+      "Nockenwellen",
+      "Maschinenbaugruppen",
+      "Schweißbaugruppen",
+      "Motorsportteile"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Erodiermaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Erodierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Roland Erdrich GmbH",
+    "company_url": "http://www.erdrich.com/de/",
+    "products": [
+      "Drehteile",
+      "Frästeile",
+      "Baugruppen",
+      "Qualitäten",
+      "Weitere Fertigungskompetenzen"
+    ],
+    "machines": [
+      "CNC-Drehmaschinen",
+      "Bearbeitungszentren",
+      "Dreh-Fräszentren"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Montagen",
+      "Oberflächenbehandlungen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "PLASCHKA Maschinen und Vorrichtungsbau",
+    "company_url": "https://plaschka-maschinenbau.de",
+    "products": [
+      "Präzisionsdrehteile",
+      "Frästeile",
+      "Baugruppen",
+      "Wasserstoffversorgungssysteme",
+      "Komponenten für Luftfahrt",
+      "Medizintechnik",
+      "Filmgerätetechnik"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "CNC-Drehmaschinen",
+      "Schleifmaschinen",
+      "Oberflächenbehandlungsmaschinen",
+      "Baugruppenfertigungsmaschinen"
+    ],
+    "process_type": [
+      "CNC-Fräsen",
+      "CNC-Drehen",
+      "Schleifen",
+      "Oberflächenbehandlungen",
+      "Baugruppenfertigungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Dressler Metallverarbeitung GmbH",
+    "company_url": "https://www.dressler-cnc.de",
+    "products": [
+      "Bauteile",
+      "Komponenten",
+      "Zerspanungsteile"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Bearbeitungszentren",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "toolcraft AG",
+    "company_url": "https://www.toolcraft.de",
+    "products": [
+      "Fertigungslösungen",
+      "Automatisierungen",
+      "Additive Fertigungen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Erodiermaschinen"
+    ],
+    "process_type": [
+      "CNC-Fräsen",
+      "CNC-Drehen",
+      "Additive Fertigungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "H.P. Kaysser GmbH + Co. KG",
+    "company_url": "https://www.kaysser.de",
+    "products": [
+      "Baugruppen",
+      "Gehäuse",
+      "Komponenten"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "CNC-Fräsmaschinen",
+      "Portalfräsmaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Schweißen",
+      "Zerspanungstechniken"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Zwetsch Zerspanungstechnik GmbH",
+    "company_url": "http://www.zwetsch.de",
+    "products": [
+      "Drehteile",
+      "Langdrehteile",
+      "Zerspanungstechnologien",
+      "Montagelösungen",
+      "Stahlhandel"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Bohrmaschinen",
+      "Schleifmaschinen",
+      "Montageautomaten"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Bohrungen",
+      "Schleifungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "H. Niemeyer GmbH",
+    "company_url": "https://www.niemeyer-gmbh.de/de/",
+    "products": [
+      "Laserschneidanlagen",
+      "Kanttechniken",
+      "Metallverarbeitungen",
+      "Stanztechniken",
+      "Baugruppenfertigungen"
+    ],
+    "machines": [
+      "Laserschneidmaschinen",
+      "Kantpressen",
+      "Schweißroboter",
+      "Pressen",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Biegetechniken",
+      "Schweißverfahren",
+      "Stanzteile",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "PROTEC GMBH ZERSPANUNGSTECHNIK",
+    "company_url": "http://protec-zerspanung.de",
+    "products": [
+      "Drehteile",
+      "Frästeile",
+      "Schleifteile"
+    ],
+    "machines": [
+      "CNC-Drehmaschinen",
+      "CNC-Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "C.F.K. CNC-Fertigungstechnik",
+    "company_url": "https://www.cfk-online.de",
+    "products": [
+      "Drahterodierverfahren",
+      "Senkerodierverfahren",
+      "Bohrerodierverfahren",
+      "Additive Fertigungen",
+      "Graphitfräsen"
+    ],
+    "machines": [
+      "Erodiermaschinen",
+      "3D-Druckmaschinen",
+      "Fräsmaschinen",
+      "Bohrmaschinen",
+      "Laserschmelzmaschinen"
+    ],
+    "process_type": [
+      "Erodieren",
+      "Laserschneiden",
+      "Fräsen",
+      "Bohren",
+      "Additive Fertigungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "AMA Anlagen und Maschinenbau",
+    "company_url": "https://www.ama-zerspanungstechnik.de",
+    "products": [
+      "CNC-Bearbeitungen",
+      "Schweißkonstruktionen",
+      "Rohrleitungen"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "CNC-Bohrwerke",
+      "CNC-Bearbeitungszentren"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schweißen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Hase GmbH",
+    "company_url": "https://www.hase-gmbh.de",
+    "products": [
+      "Blechverarbeitungen",
+      "Zerspanungstechniken",
+      "Klimatechniken"
+    ],
+    "machines": [
+      "Laserschneidanlagen",
+      "CNC-Maschinen",
+      "Fräsmaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "CNC-Bearbeitungen",
+      "Fräsen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "MEYER Drehtechnik GmbH",
+    "company_url": "https://www.meyer-drehtechnik.de",
+    "products": [
+      "Präzisionsdrehteile",
+      "Antriebswellen",
+      "Regulatoren"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Kurze GmbH",
+    "company_url": "https://www.kurze-gmbh.de",
+    "products": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "CNC-Werkzeugmaschinen"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "CNC-Drehmaschinen",
+      "Koordinatenmessmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Messen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Zerspanungs- und Systemtechnik GmbH",
+    "company_url": "https://zso.de",
+    "products": [
+      "Bauteile",
+      "Baugruppen",
+      "Systemlösungen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Schleifen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Heppler GmbH",
+    "company_url": "https://heppler.de",
+    "products": [
+      "Baugruppen",
+      "Sensortechniken",
+      "Maschinenbauten",
+      "Hydrauliken",
+      "Pneumatiken"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Montagemaschinen",
+      "elektromechanische Maschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Montagen",
+      "elektromechanische Bearbeitungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Zerspanungstechnik Müller GmbH",
+    "company_url": "https://zt-m.de",
+    "products": [
+      "Präzisionsdrehteile",
+      "Frästeile",
+      "Baugruppen",
+      "Oberflächenbehandlungen",
+      "Wärmebehandlungen"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Drehmaschinen",
+      "Messmaschinen",
+      "Entgratmaschinen",
+      "Endveredelungsmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Messungen",
+      "Entgratung",
+      "Endveredelungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "CNC - Technik Mack GmbH & Co. KG",
+    "company_url": "https://www.cnc-mack.de",
+    "products": [
+      "Drehteile",
+      "Schweißkonstruktionen",
+      "Maschinen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Bohrmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Bohren"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Zaigler Maschinenbau GmbH",
+    "company_url": "https://www.zaigler-maschinenbau.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Aluspan Metallbearbeitung GmbH",
+    "company_url": "http://www.aluspan.de",
+    "products": [
+      "Gussnachbearbeitungen",
+      "Wärmebehandlungen",
+      "Dichtheitsprüfungen",
+      "CNC-Bearbeitungen",
+      "finale Endkontrollen"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Wärmebehandlungsanlagen",
+      "Prüfmaschinen",
+      "Schleifmaschinen",
+      "Endkontrollmaschinen"
+    ],
+    "process_type": [
+      "Gussnachbearbeitungen",
+      "Wärmebehandlungen",
+      "Dichtheitsprüfungen",
+      "CNC-Bearbeitungen",
+      "Endkontrollen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "CNC Speedform AG",
+    "company_url": "https://www.cnc-ag.de",
+    "products": [
+      "Prototypen",
+      "3D-Drucker",
+      "Spritzgüsse",
+      "Modelle",
+      "Werkzeuge"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Wasserstrahlschneidmaschinen",
+      "Laserschneidmaschinen",
+      "Spritzgießmaschinen",
+      "Laminiermaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Wasserstrahlschneiden",
+      "Laserschneiden",
+      "Spritzgießen",
+      "Laminieren"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Lindenmann",
+    "company_url": "https://www.lindenmann.de/de/",
+    "products": [
+      "CNC-Präzisionsteile",
+      "Gehäuse",
+      "Komponenten",
+      "Hydraulikpumpen",
+      "Getriebe"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Erodiermaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Schleifen",
+      "Erodieren",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "ASEDO Anlagenteile Steuerungsbau",
+    "company_url": "https://asedo-metallbearbeitung.de",
+    "products": [
+      "Maschinenteile",
+      "Schaltschranksysteme",
+      "Fertigungsanlagen",
+      "Elektromontagen",
+      "Konstruktionsteile"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Großmaschinen",
+      "Laseranlagen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Laserschneiden",
+      "Schweißen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "IFSYS Integrated Feeding Systems GmbH",
+    "company_url": "http://www.ifsys.eu",
+    "products": [
+      "Fütterungssysteme",
+      "Palettierungssysteme",
+      "Messtechnik"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WSE-CNC Technologie GmbH",
+    "company_url": "https://www.wse-cnc.com",
+    "products": [
+      "CNC-Frästeile",
+      "CNC-Drehteile",
+      "Montierte Baugruppen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Klumpp Präzisionswerk GmbH & Co. KG",
+    "company_url": "https://www.klumpp-gmbh.de/de/",
+    "products": [
+      "Drehteile",
+      "Baugruppen",
+      "Weiterverarbeitungen"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Schleifungen",
+      "Montierungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Schubert Fertigungstechnik GmbH",
+    "company_url": "http://www.schubert-fertigungstechnik.de",
+    "products": [
+      "Bauteile",
+      "Präzisionsbauteile",
+      "Kleinserien"
+    ],
+    "machines": [
+      "CNC-Schleifmaschinen",
+      "CNC-Drehmaschinen",
+      "CNC-Fräsmaschinen"
+    ],
+    "process_type": [
+      "Schleifen",
+      "Drehen",
+      "Fräsen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Robert Schröder GmbH & Co. KG",
+    "company_url": "https://www.robert-schroeder.de",
+    "products": [
+      "Zerspanungsteile",
+      "Kaltumformteile",
+      "Qualitätswerkzeuge"
+    ],
+    "machines": [
+      "Drehautomaten",
+      "CNC-Langdrehzentren",
+      "Doppeldruckpressen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Kaltumformungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Saint Jean Industries Stuttgart GmbH",
+    "company_url": "https://www.st-ji.com/de/",
+    "products": [
+      "Komponenten",
+      "Unterbaugruppen",
+      "Aluminiumteile",
+      "Gusseisenteile",
+      "Stahlteile"
+    ],
+    "machines": [
+      "Gießereimaschinen",
+      "Bearbeitungsmaschinen",
+      "Montagemaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Gießens",
+      "Bearbeitungen",
+      "Montagen",
+      "Fräsen",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Berlin Millhouse GmbH",
+    "company_url": "https://www.berlin-millhouse.de",
+    "products": [
+      "Bauteile",
+      "Hydraulikpumpen",
+      "Gehäuse"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Entgratungsanlagen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Entgraten"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Techtory Automation GmbH",
+    "company_url": "https://www.techtory.de",
+    "products": [
+      "Automatisierungssysteme",
+      "Prüftechniken",
+      "Vorrichtungsbauten",
+      "Dienstleistungen",
+      "Zerspanungstechniken"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Erodiermaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Erodierungen",
+      "Laserschneidungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Schmidt Automotive GmbH",
+    "company_url": "http://schmidt-cnc.de",
+    "products": [
+      "Personenkraftwagenprodukte",
+      "Nutzfahrzeugprodukte",
+      "Industriefahrzeugprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Bohrungen",
+      "Läppungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "CWG",
+    "company_url": "https://www.premium-precision.com",
+    "products": [
+      "Zerspanungsmechaniker",
+      "Fachkräfte für Metalltechnik",
+      "Industriekaufleute",
+      "Steuerschieber für Hydraulikventile",
+      "Steuerbuchsen mit gehonten Bohrungen"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Bohrmaschinen",
+      "Erodiermaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Bohrungen",
+      "Schleifungen",
+      "Erodierungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Avermann-Laser- und Kant-Zentrum GmbH",
+    "company_url": "https://www.avermann.eu",
+    "products": [
+      "Laserschneiden",
+      "Blechbearbeitungen",
+      "Edelstahlverarbeitungen"
+    ],
+    "machines": [
+      "Laserschneid-Automaten",
+      "Abkantpressen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Biegetechniken",
+      "Schleifen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Haberland Zerspanungstechnik GmbH",
+    "company_url": "https://www.hzt.eu",
+    "products": [
+      "Walzenkörper",
+      "Präzisionsdrehteile",
+      "CNC-Frästeile",
+      "Funktionsdrehteile",
+      "Formen"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Bearbeitungszentren",
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Oberflächenbehandlungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Rudolf Brokamp GmbH & Co. KG",
+    "company_url": "http://www.brokamp-tec.de",
+    "products": [
+      "Buchsen",
+      "Klemmen",
+      "Stifte",
+      "Kontaktteile",
+      "Stecker"
+    ],
+    "machines": [
+      "Rundtaktmaschinen",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Bohrungen",
+      "Schleifungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "GLA-WEL GmbH",
+    "company_url": "https://gla-wel.de",
+    "products": [
+      "Laserschneidteile",
+      "Metallbaugruppen",
+      "Metallerzeugnisse"
+    ],
+    "machines": [
+      "Laserschneidmaschinen",
+      "Abkantmaschinen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Abkanten",
+      "Schweißen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Tillmann GmbH",
+    "company_url": "https://tz-web.net",
+    "products": [
+      "Frästeile",
+      "Drehteile",
+      "Schleifteile",
+      "Baugruppen",
+      "Maschinen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Hobelmaschinen",
+      "Bohrmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsen",
+      "Schleifen",
+      "Hobel",
+      "Bohrungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Zentner Elektrik - Mechanik GmbH",
+    "company_url": "https://www.zentner.de",
+    "products": [
+      "Blechkomponenten",
+      "Automaten",
+      "Anlagen"
+    ],
+    "machines": [
+      "CNC-Blechbearbeitungsmaschinen",
+      "Laserschneidmaschinen",
+      "Biegemaschinen"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Biegen",
+      "Schweißen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Voigt Systemtechnik GmbH",
+    "company_url": "https://www.voigt-systemtechnik.de",
+    "products": [
+      "Baugruppen",
+      "Komponenten",
+      "Einzelteile"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Hommel GmbH",
+    "company_url": "https://www.hommel-gruppe.de",
+    "products": [
+      "CNC-Werkzeugmaschinen",
+      "Finanzdienstleistungen",
+      "CNC-Services"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Zyklendrehmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "CNC-Horizontal-Fräsungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Michael Bubolz GmbH",
+    "company_url": "http://michaelbubolz.de",
+    "products": [
+      "Instrumente",
+      "Implantate",
+      "Lösungen",
+      "Komponenten",
+      "Systeme"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Bearbeitungszentren",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Montagen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Auch Präzisionsdrehteile GmbH & Co. KG",
+    "company_url": "http://www.auch-gmbh.de",
+    "products": [
+      "Drehteile",
+      "Frästeile",
+      "Baugruppen"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Kratzer GmbH & Co. KG",
+    "company_url": "https://www.kratzer.de/de/",
+    "products": [
+      "Präzisionsbauteile",
+      "Hightech-Lösungen",
+      "Maschinen"
+    ],
+    "machines": [
+      "CNC-Drehmaschinen",
+      "Bearbeitungszentren",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "NSI Präzisionsdrehteile GmbH",
+    "company_url": "https://www.nsi-precision.de",
+    "products": [
+      "Präzisionsdrehteile",
+      "Automobilindustrien",
+      "weitere Branchen"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  }
+]

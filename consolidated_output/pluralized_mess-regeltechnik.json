@@ -1,0 +1,3956 @@
+[
+  {
+    "company_name": "Schlaeger M-Tech GmbH",
+    "company_url": "https://www.schlaeger.com",
+    "products": [
+      "Baugruppen",
+      "Spulen",
+      "Aktoren",
+      "Sensoren",
+      "Präzisionskunststoffteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Entwicklungen",
+      "Produktionen",
+      "Montagen",
+      "Logistiken",
+      "Recyclings"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WIKA Alexander Wiegand SE & Co. KG",
+    "company_url": "https://www.wika.com",
+    "products": [
+      "Druckmessgeräte",
+      "Digitale Druckmessgeräte",
+      "Drucksensoren",
+      "Prozessübertrager",
+      "Druckmessgeräte mit Ausgangssignal"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PTW-Freiburg Physikalisch-Technische",
+    "company_url": "https://www.ptwdosimetry.com/en/",
+    "products": [
+      "Detektoren",
+      "Detektorarrays",
+      "Wasserphantome",
+      "QA-Phantome",
+      "Elektrometer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Klebungen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LABOM Meß- und Regeltechnik",
+    "company_url": "https://www.labom.com/de/",
+    "products": [
+      "Druckmessgeräte",
+      "Temperaturmessgeräte",
+      "Füllstandmessgeräte",
+      "Differenzdruckmessgeräte",
+      "Schutzrohre"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Drehungen",
+      "Fräsungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KoCoS Messtechnik AG",
+    "company_url": "https://www.kocos.com",
+    "products": [
+      "Testsysteme",
+      "Messgeräte",
+      "Kalibrierinstrumente",
+      "Fehleraufzeichner",
+      "Netzqualitätsanalysatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Prüfungen",
+      "Kalibrierungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Narda Safety Test Solutions GmbH",
+    "company_url": "https://www.narda-sts.com/de/",
+    "products": [
+      "Messgeräte",
+      "Monitore",
+      "Empfänger",
+      "Peiler",
+      "Spektrumanalysatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Leiterplattenbestückungen",
+      "Gehäusefertigungen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GEFA Processtechnik GmbH",
+    "company_url": "https://www.gefa.com",
+    "products": [
+      "Armaturen",
+      "Filtrationslösungen",
+      "Berstscheiben",
+      "Hygienepumpen",
+      "Speziallösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Dichtungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "iNOEX GmbH",
+    "company_url": "https://www.inoex.de",
+    "products": [
+      "Messsysteme",
+      "Radartechnologien",
+      "Ultraschallsysteme",
+      "Terahertzsysteme",
+      "Röntgensysteme"
+    ],
+    "machines": [
+      "Extrusionsanlagen",
+      "Trichterwaagen",
+      "Messgeräte",
+      "Dosiersysteme",
+      "Kalibriergeräte"
+    ],
+    "process_type": [
+      "Extrudierungen",
+      "Messungen",
+      "Dosierungen",
+      "Kalibrierungen",
+      "Regelkreisläufe"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "STÜBBE GmbH & Co. KG",
+    "company_url": "https://www.stuebbe.com/de/",
+    "products": [
+      "Kreiselpumpen",
+      "Industriearmaturen",
+      "Regeltechniken",
+      "Ersatzteile",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LAUDA DR. R. WOBSER GMBH & CO. KG",
+    "company_url": "https://www.lauda.de",
+    "products": [
+      "Temperiergeräte",
+      "Thermostate",
+      "Umlaufkühler",
+      "Wasserbäder",
+      "Tiefkühlgeräte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißarbeiten",
+      "Montagearbeiten",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Konrad GmbH",
+    "company_url": "https://www.konrad-technologies.com/de/",
+    "products": [
+      "Tester",
+      "Testsystemkomponenten",
+      "Testsystemsoftware",
+      "ADAS/AD-Produkte",
+      "RF-Testmodule"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Programmierungen",
+      "Montagen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hottinger Brüel & Kjaer GmbH",
+    "company_url": "https://www.hbm.com/de/",
+    "products": [
+      "Dehnungsmessstreifen",
+      "Wägezellen",
+      "Drehmomentaufnehmer",
+      "Kraftaufnehmer",
+      "Messverstärker"
+    ],
+    "machines": [],
+    "process_type": [
+      "Prägungen",
+      "Klebungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "F.H. Papenmeier GmbH & Co. KG",
+    "company_url": "https://www.papenmeier.de/de/",
+    "products": [
+      "Kontrollsysteme",
+      "Elektronische Hilfsmittel",
+      "Elektronikgeräte",
+      "Leiterkarten",
+      "Analysen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Erodiermaschinen",
+      "Laserschneidmaschinen",
+      "Wasserstrahlschneidmaschinen",
+      "Biegemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Erodieren",
+      "Laserschneiden",
+      "Wasserstrahlschneiden",
+      "Biegen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "topometric Engineering GmbH",
+    "company_url": "https://topometric.de",
+    "products": [
+      "Messtechniken",
+      "Automationsanlagen",
+      "Vorrichtungen",
+      "Python-Programmierungen",
+      "Kiosk-Programmierungen"
+    ],
+    "machines": [
+      "Messsysteme",
+      "Roboter",
+      "Automatisierungsanlagen"
+    ],
+    "process_type": [
+      "Messtechniken",
+      "Automatisierungen",
+      "Programmierungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "TE Connectivity Sensors Germany GmbH",
+    "company_url": "http://www.te.com",
+    "products": [
+      "Verbinder",
+      "Sensoren",
+      "Kabelbaugruppen",
+      "Antennen",
+      "Schrumpfschläuche"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Spritzgießungen",
+      "Lötungen",
+      "Wicklungen",
+      "Kabelkonfektionierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Störk-Tronic Störk GmbH & Co. KG",
+    "company_url": "https://www.stoerk-tronic.com",
+    "products": [
+      "Temperaturregler",
+      "Regelungssysteme",
+      "Messsysteme",
+      "maßgeschneiderte Lösungen",
+      "Standardprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Platinenbestückungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "StandexMeder Electronics GmbH",
+    "company_url": "https://standexelectronics.com",
+    "products": [
+      "Flüssigkeitssensoren",
+      "Schwimmer",
+      "planare Magnetiken",
+      "Leistungsmagnetiken",
+      "Relais"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Erodiermaschinen",
+      "Stanzmaschinen",
+      "Druckgießverfahren",
+      "Spritzgießverfahren"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Erodieren",
+      "Stanzen",
+      "Druckgießen",
+      "Spritzgießen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "J. Klebs & Hartmann GmbH & Co KG",
+    "company_url": "https://www.klebs-hartmann.de",
+    "products": [
+      "Elektrotechniken",
+      "Antriebstechniken",
+      "Energiemanagements",
+      "Prozessautomationen",
+      "Services"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Platinenbestückungen",
+      "Softwareintegrationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Mitutoyo Deutschland GmbH",
+    "company_url": "https://mitutoyo.de",
+    "products": [
+      "Handmessmittel",
+      "Koordinatenmessgeräte",
+      "Bildverarbeitungsmessgeräte",
+      "Optische Messgeräte",
+      "Oberflächenmessgeräte"
+    ],
+    "machines": [
+      "Koordinatenmessmaschinen",
+      "Bildverarbeitungsmessmaschinen",
+      "Optische Messmaschinen",
+      "Oberflächenmessmaschinen",
+      "Härteprüfmaschinen"
+    ],
+    "process_type": [
+      "Messen",
+      "Prüfen",
+      "Qualitätskontrollen",
+      "Kalibrierungen",
+      "Reparaturen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Electrovac Hacht und Huber",
+    "company_url": "https://www.electrovac.com",
+    "products": [
+      "Glas-Metall-Durchführungen",
+      "Getriebesteuerungen",
+      "Zündergehäuse",
+      "Batteriedeckel",
+      "Hybridgehäuse"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Stanzmaschinen",
+      "Pressen",
+      "Verbindungsmaschinen",
+      "Prüfeinrichtungen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Stanzen",
+      "Pressen",
+      "Verbindungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Engelmann Sensor GmbH",
+    "company_url": "https://www.engelmann.de",
+    "products": [
+      "Funksysteme",
+      "Heizkostenverteiler",
+      "Kältezähler",
+      "Rauchwarnmelder",
+      "Software"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Prüfungen",
+      "Programmierungen",
+      "Verkabelungen",
+      "Gehäusefertigungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ASCO Numatics GmbH",
+    "company_url": "https://www.emerson.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Nass Magnet GmbH",
+    "company_url": "https://www.nassmagnet.com",
+    "products": [
+      "Maßgeschneiderte Lösungen",
+      "Modulare Magnetventile",
+      "Magnetventilkomponenten",
+      "Steckverbinder",
+      "Explosionsschutz"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Drehungen",
+      "Fräsungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GHM Messtechnik GmbH",
+    "company_url": "https://www.ghm-group.de",
+    "products": [
+      "Sensoren",
+      "Handmessgeräte",
+      "Überwachungssysteme",
+      "Datenlogger",
+      "Umweltmesstechnik"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Gehäusefertigungen",
+      "Leiterplattenbestückungen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "STEINEL Vertrieb GmbH",
+    "company_url": "https://www.steinel.de/de/",
+    "products": [
+      "Sensoren",
+      "Smarte Raum-Sensoren",
+      "Lichter",
+      "Vernetzte Beleuchtung",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Verpackungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RECKMANN GMBH",
+    "company_url": "https://www.reckmann.de",
+    "products": [
+      "Thermoelemente",
+      "Mantelthermoelemente",
+      "Widerstandsthermometer",
+      "HV-Thermoelemente",
+      "Edelmetalle"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Isolierungen",
+      "Kalibrierungen",
+      "Verdrahtungen",
+      "Beschichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Deutsch Prüf- und Meßgerätebau",
+    "company_url": "https://www.karldeutsch.de",
+    "products": [
+      "Ultraschallprüfgeräte",
+      "Ultraschallprüfanlagen",
+      "Phased-Array-Geräte",
+      "Wanddickenmessgeräte",
+      "Schichtdickenmessgeräte"
+    ],
+    "machines": [
+      "Prüfanlagen",
+      "Prüfgeräte",
+      "Prüfköpfe",
+      "Elektroniken",
+      "Softwares"
+    ],
+    "process_type": [
+      "Ultraschallprüfungen",
+      "Magnetpulverprüfungen",
+      "Eindringprüfungen",
+      "Wanddickenmessungen",
+      "Schichtdickenmessungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rössel-Messtechnik GmbH",
+    "company_url": "https://www.roessel-messtechnik.de",
+    "products": [
+      "Thermoelemente",
+      "Widerstandsthermometer",
+      "Messumformer",
+      "Kabel",
+      "Stecker"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Isolationen",
+      "Kabelfertigungen",
+      "Konfektionierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Carl Zeiss Optotechnik GmbH",
+    "company_url": "https://www.zeiss.de",
+    "products": [
+      "Optiken",
+      "Systeme",
+      "Software",
+      "Komponenten",
+      "Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Schleifungen",
+      "Programmierungen",
+      "Integrationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AMEPA Angewandte Meßtechnik",
+    "company_url": "https://amepa.de",
+    "products": [
+      "ESDs",
+      "TSDs",
+      "SRMs",
+      "WMSs",
+      "OFMs"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Miltenyi Imaging GmbH",
+    "company_url": "https://www.miltenyibiotec.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lorenz Messtechnik GmbH",
+    "company_url": "https://www.lorenz-messtechnik.de",
+    "products": [
+      "Drehmomentsensoren",
+      "Kraftaufnehmer",
+      "Wägetechniken",
+      "Prüfstände",
+      "Software"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LEWA GmbH",
+    "company_url": "https://www.lewa.com/en/",
+    "products": [
+      "Pumpen",
+      "Systeme",
+      "Dosierpumpenlösungen",
+      "LEWA Prozesspumpen",
+      "Kreiselpumpen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Montagearbeiten",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Deublin GmbH",
+    "company_url": "https://www.deublin.eu",
+    "products": [
+      "Drehdurchführungen",
+      "Siphonsysteme",
+      "Drehgelenke",
+      "Schleifringe",
+      "Mehrpassage-Drehdurchführungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Langer GmbH & Co. KG",
+    "company_url": "https://www.langer-group.de",
+    "products": [
+      "Kunststoffspritzgussteile",
+      "Werkzeuge",
+      "Modelle",
+      "Prüfmittel",
+      "Klebevorrichtungen"
+    ],
+    "machines": [
+      "Spritzgießmaschinen",
+      "Werkzeugmaschinen",
+      "Messmaschinen",
+      "Lasermaschinen",
+      "CNC-Maschinen"
+    ],
+    "process_type": [
+      "Spritzgießens",
+      "Werkzeugbauten",
+      "Modellbauten",
+      "Prüfmittelfertigungen",
+      "Kleben"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "M&C TechGroup Germany GmbH",
+    "company_url": "https://www.mc-techgroup.com",
+    "products": [
+      "Gasprobenahmen",
+      "Gasaufbereitungen",
+      "Gastransporte",
+      "Gasanalysen",
+      "Prozesskontrollen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ST SPORTSERVICE GmbH",
+    "company_url": "https://www.swisstiming.com",
+    "products": [
+      "Zeitmessungen",
+      "Punktestände",
+      "Ergebnisdienste",
+      "Veranstaltungsmanagementsysteme",
+      "Kommentatorensysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Bestückungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AVL DiTEST GmbH",
+    "company_url": "https://www.avlditest.com/de/",
+    "products": [
+      "Abgasmesssysteme",
+      "Klimaservicegeräte",
+      "Messtechnikeinheiten",
+      "Diagnosesysteme",
+      "Hochvoltmessgeräte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bruker Nano GmbH",
+    "company_url": "https://www.bruker.com/de/",
+    "products": [
+      "Analytische Instrumente",
+      "Diagnostische Lösungen",
+      "Forschungslösungen",
+      "Bildgebungslösungen",
+      "Mikroskopielösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Prägungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Landis+Gyr GmbH",
+    "company_url": "https://www.landisgyr.com",
+    "products": [
+      "Kommunikationsgeräte",
+      "Dynamische Lastmanagementsysteme",
+      "Stromzähler",
+      "Kühlzähler",
+      "Wasserprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ARMANO Messtechnik GmbH",
+    "company_url": "https://www.manometer-thermometer.de",
+    "products": [
+      "Druckmessgeräte",
+      "Temperaturmessgeräte",
+      "Schutzrohre",
+      "Kalibriertechniken",
+      "Sonderanfertigungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Kalibrierungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Krüss GmbH",
+    "company_url": "https://www.kruss-scientific.com",
+    "products": [
+      "Tropfenformanalysatoren",
+      "Krafttensiometer",
+      "mobile Oberflächenanalysatoren",
+      "3D-Kontaktwinkelanalysatoren",
+      "dynamische Schaumanalysatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Z-Laser Optoelektronik GmbH",
+    "company_url": "https://z-laser.com",
+    "products": [
+      "Positionierungslaser",
+      "Maschinenvisionslaser",
+      "Laserprojektoren",
+      "OEM-Lasersysteme",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Laserungen",
+      "Montagearbeiten",
+      "Elektroniklötungen",
+      "Gehäusefertigungen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Zwick Armaturen GmbH",
+    "company_url": "https://zwick-gmbh.de",
+    "products": [
+      "Absperrklappen",
+      "Rückschlagklappen",
+      "Double Blocks and Bleeds",
+      "Regelklappen",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Bohrungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MRS Electronic GmbH & Co. KG",
+    "company_url": "https://www.mrs-electronic.com",
+    "products": [
+      "Steuerungen",
+      "Gateways",
+      "Relais",
+      "HMI-Systeme",
+      "Software-Tools"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Programmierungen",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gossen Metrawatt GmbH",
+    "company_url": "http://gossenmetrawatt.com",
+    "products": [
+      "Testtechnologien",
+      "Prüftechnologien",
+      "Medizintechnologien",
+      "Regelungen",
+      "Zubehörteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Fräsungen",
+      "Montagen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dr. Födisch Umweltmesstechnik AG",
+    "company_url": "https://www.foedisch.de",
+    "products": [
+      "Staubmesstechniken",
+      "Gasanalytiken",
+      "Emissionsmessungen",
+      "Volumenstrommessungen",
+      "Messsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Montagearbeiten",
+      "Kalibrierarbeiten",
+      "Prüfarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Scienta Omicron GmbH",
+    "company_url": "https://scientaomicron.com/en/",
+    "products": [
+      "Elektronenspektroskopiesysteme",
+      "Elektronanalysatoren",
+      "UV-Quellen",
+      "Elektronenquellen",
+      "Probenmanipulatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Schweißungen",
+      "Beschichtungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gebr. Tuxhorn GmbH & Co KG",
+    "company_url": "https://www.tuxhorn.de",
+    "products": [
+      "Armaturen",
+      "Pumpengruppen",
+      "Frischwasserstationen",
+      "Systemspeicher",
+      "Versorgungsarmaturen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fluke Process Instruments GmbH",
+    "company_url": "https://www.flukeprocessinstruments.com",
+    "products": [
+      "Bildgebungslösungen",
+      "Pyrometer",
+      "Thermoprofilierungslösungen",
+      "Unterstützung",
+      "Wissenszentren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagearbeiten",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "iba AG",
+    "company_url": "https://www.iba-ag.com",
+    "products": [
+      "Messsysteme",
+      "Software",
+      "Hardware",
+      "Schulungen",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Programmierungen",
+      "Tests",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SEMPELL GmbH",
+    "company_url": "https://sempell.com/de/",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LAMTEC Meß- und Regeltechnik",
+    "company_url": "https://www.lamtec.de",
+    "products": [
+      "Sensoren",
+      "Systeme",
+      "Feuerungsmanagements",
+      "Flammenüberwachungen",
+      "Zündsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusemontagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GÖTTFERT Werkstoff-Prüfmaschinen GmbH",
+    "company_url": "https://www.goettfert.de",
+    "products": [
+      "Schmelzindex-Prüfgeräte",
+      "Kapillarrheometer",
+      "Elastomer-Prüfgeräte",
+      "Laborextruder",
+      "Online-Rheometer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ARCA Regler GmbH",
+    "company_url": "https://www.arca-valve.com",
+    "products": [
+      "Regelventile",
+      "Stellantriebe",
+      "Stellungsregler",
+      "Instrumentierungen",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BERTHOLD TECHNOLOGIES GmbH & Co. KG",
+    "company_url": "https://www.berthold.com",
+    "products": [
+      "Messlösungen",
+      "Bioanalytische Lösungen",
+      "Strahlungsschutzlösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Anton Paar ProveTec GmbH",
+    "company_url": "https://www.anton-paar.com",
+    "products": [
+      "Dichtemesser",
+      "Rheometer",
+      "Mikrowellenaufschlusssysteme",
+      "Viskometer",
+      "Prozesssensoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagearbeiten",
+      "Dichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AMETEK CTS Europe GmbH",
+    "company_url": "https://www.ametek-cts.com",
+    "products": [
+      "Generatoren",
+      "Simulatoren",
+      "Verstärker",
+      "Sonden",
+      "Testsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Platinenbestückungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Richter Chemie-Technik GmbH",
+    "company_url": "https://www.richter-ct.com/de/",
+    "products": [
+      "Pumpen",
+      "Armaturen",
+      "Ventile",
+      "Kugelhähne",
+      "Rückschlagarmaturen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Schleifungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wenglor sensoric",
+    "company_url": "https://www.wenglor.com",
+    "products": [
+      "Photoelektronische Sensoren",
+      "Ultraschallsensoren",
+      "Induktive Sensoren",
+      "Flüssigkeitssensoren",
+      "Sicherheitstechnik"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "H. Heinz Meßwiderstände GmbH",
+    "company_url": "https://heinz-messwiderstaende.de",
+    "products": [
+      "Temperatursensoren",
+      "Temperaturfühler",
+      "Thermoelemente",
+      "Widerstandsthermometer",
+      "Messwiderstände"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "CNC-Drehmaschinen",
+      "Lötmaschinen",
+      "Spritzgussmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "CNC-Fräsen",
+      "CNC-Drehen",
+      "Löten",
+      "Spritzgießen",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Wöhler Technik GmbH",
+    "company_url": "https://www.woehler.de",
+    "products": [
+      "Messgeräte",
+      "Inspektionsgeräte",
+      "Reinigungsgeräte",
+      "Ausrüstungen",
+      "Zubehörteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Trimble Germany GmbH",
+    "company_url": "https://www.trimble.com",
+    "products": [
+      "Suiten",
+      "BIM",
+      "Baukonstruktionsfeldsysteme",
+      "Abmessungen",
+      "Fertigungsplanung & -management"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "VETEC Ventiltechnik GmbH",
+    "company_url": "http://www.vetec.de",
+    "products": [
+      "Drehkegelventile",
+      "Schwenkantriebe",
+      "Anbaugeräte",
+      "Hochdruck-Eckventile",
+      "Applikationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MRU - Messgeräte für Rauchgase und Umweltschutz GmbH",
+    "company_url": "https://www.mru.eu",
+    "products": [
+      "Abgasmessgeräte",
+      "Biogas-Analysatoren",
+      "Stationäre Industrie-Analysatoren",
+      "Feinstaub-Messtechnik",
+      "Mobile Industrie-Analysatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "W. Bälz & Sohn GmbH & Co.",
+    "company_url": "https://www.baelz.de",
+    "products": [
+      "Regelventile",
+      "Strahlpumpen",
+      "Wärmeübertrager",
+      "Antriebe",
+      "Regler"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Primion Technology GmbH",
+    "company_url": "https://www.primion.de/de/",
+    "products": [
+      "Zugangssteuerungen",
+      "Arbeitskräfteverwaltungen",
+      "Integrierte Sicherheitslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Verkabelungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "YXLON International GmbH",
+    "company_url": "https://www.yxlon.de/de/",
+    "products": [
+      "Röntgensysteme",
+      "CT-Systeme",
+      "Inspektionssysteme",
+      "Softwarelösungen",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionen",
+      "Gehäusefertigungen",
+      "Softwareentwicklungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "CTS GmbH",
+    "company_url": "https://www.cts-umweltsimulation.de",
+    "products": [
+      "Temperaturprüfkabinen",
+      "Vibrationsprüfkabinen",
+      "Schockprüfkabinen",
+      "Klimaprüfkabinen",
+      "Emissionsprüfkammern"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagearbeiten",
+      "Elektroniklötungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Seba Hydrometrie GmbH & Co. KG",
+    "company_url": "https://www.seba-hydrometrie.com",
+    "products": [
+      "Messgeräte",
+      "Software",
+      "Dienstleistungen",
+      "Produktbroschüren",
+      "MobileSysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Kalibrierungen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dittel Messtechnik GmbH",
+    "company_url": "https://www.dittel.com",
+    "products": [
+      "Ausgleichssysteme",
+      "Akustische Emissionssysteme",
+      "Multisysteme",
+      "Radios"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Telemeter Electronic GmbH",
+    "company_url": "https://telemeter.info",
+    "products": [
+      "Lüfter",
+      "Temperatursensoren",
+      "Heizelemente",
+      "PTFE-Kabel",
+      "Oszilloskope"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Wicklungen",
+      "Extrusionen",
+      "Lötungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Güntert Präzisionstechnik GmbH",
+    "company_url": "https://guentert.de",
+    "products": [
+      "Präzisionsdrehteile",
+      "geschliffene Präzisionsteile",
+      "Komponenten für alternative Mobilität",
+      "Teile für die Einspritztechnik",
+      "Bauteile für die Automobilindustrie"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Härteöfen",
+      "Messmaschinen",
+      "Fertigungsanlagen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Schleifen",
+      "Härten",
+      "Messungen",
+      "Fertigungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "PN Detector GmbH",
+    "company_url": "https://pndetector.de",
+    "products": [
+      "SDD-Module",
+      "SDD-Systeme",
+      "BSE-Detektoren",
+      "STEM-Detektoren",
+      "XRF-Spektrometersysteme"
+    ],
+    "machines": [
+      "Halbleiterfertigungsgeräte",
+      "Reinraumgeräte",
+      "Verpackungsmaschinen",
+      "Systemintegrationswerkzeuge",
+      "Qualitätsprüfgeräte"
+    ],
+    "process_type": [
+      "Halbleiterfertigungen",
+      "Verpackungen",
+      "Systemintegrationen",
+      "Qualitätssicherungen",
+      "Elektronikfertigungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SensoPart Industriesensorik GmbH",
+    "company_url": "https://www.sensopart.com/de/",
+    "products": [
+      "Vision-Sensoren",
+      "Optische Sensoren",
+      "Ultraschallsensoren",
+      "Induktive Sensoren",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Gehäusefertigungen",
+      "Verkabelungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Control Mechatronics GmbH",
+    "company_url": "https://www.ctmt.de",
+    "products": [
+      "Projektmanagements",
+      "CAE-Elektrokonstruktionen",
+      "Schaltschrankbauten",
+      "NSHVs",
+      "Montagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Konstruktionen",
+      "Simulationen",
+      "Blechbearbeitungen",
+      "Verdrahtungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "comemso GmbH",
+    "company_url": "https://comemso.com",
+    "products": [
+      "Testsysteme",
+      "Simulatoren",
+      "Analysatoren",
+      "Tester",
+      "Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Bestückungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ingun Prüfmittelbau GmbH",
+    "company_url": "https://ingun.com",
+    "products": [
+      "Prüfadapter-Kits",
+      "Kontaktstifte",
+      "Ausbauzubehör",
+      "Interconnect Components",
+      "Prüflösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Fräsungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BARTEC BENKE GmbH",
+    "company_url": "https://bartec.com/de/",
+    "products": [
+      "Lösungen",
+      "Produktfinder",
+      "Mobiles Arbeiten",
+      "Drahtlose Konnektivitäten",
+      "Smarte Fabriken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Thermokon-Sensortechnik GmbH",
+    "company_url": "https://www.thermokon.de",
+    "products": [
+      "Sensoren",
+      "Sensorsysteme",
+      "Raumbediengeräte",
+      "Thermostate",
+      "Sensoriklösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Klebungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SPECTRO Analytical Instruments GmbH",
+    "company_url": "https://www.spectro.de",
+    "products": [
+      "ICP-Spektrometer",
+      "RFA-Spektrometer",
+      "RFA-Handspektrometer",
+      "Mobile Metallanalysatoren",
+      "Stationäre Metallanalysatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagearbeiten",
+      "Elektronikfertigungen",
+      "Gehäusefertigungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Entegris GmbH",
+    "company_url": "https://www.entegris.com",
+    "products": [
+      "Chemikalien",
+      "Filter",
+      "Fluidmanagementsysteme",
+      "Spezialmaterialien",
+      "Substrathandhabungslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Beschichtungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DESIGNA Verkehrsleittechnik GmbH",
+    "company_url": "https://designa.com",
+    "products": [
+      "Parkmanagementsysteme",
+      "ticketlose Parklösungen",
+      "Schrankenanlagen",
+      "Kennzeichenerkennungssysteme",
+      "E-Ladestationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Elektronikfertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TIRA GmbH",
+    "company_url": "https://www.tira-gmbh.de",
+    "products": [
+      "Schwingprüfanlagen",
+      "Materialprüfmaschinen",
+      "Auswuchtmaschinen",
+      "Prüftechniken",
+      "Komponenten"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Schleifungen",
+      "Blechbearbeitungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DIATEST Hermann Költgen GmbH",
+    "company_url": "https://www.diatest.com",
+    "products": [
+      "Messlösungen",
+      "Automatisierte Messlösungen",
+      "Kalibrierräume",
+      "Zubehör",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fluke Deutschland GmbH",
+    "company_url": "https://www.fluke.com",
+    "products": [
+      "Testinstrumente",
+      "Kalibrierungsgeräte",
+      "Software",
+      "Netzwerklösungen",
+      "Elektronikdesigns"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Programmierungen",
+      "Montagearbeiten",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hans Sasserath GmbH & Co. KG",
+    "company_url": "https://www.syr.de/de/",
+    "products": [
+      "Trinkwassermanagemente",
+      "Wassertechniken",
+      "Filtertechniken",
+      "Druckregulierungen",
+      "Sicherungsarmaturen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Yokogawa Deutschland GmbH",
+    "company_url": "https://www.yokogawa.com/de/",
+    "products": [
+      "Lösungen",
+      "Services",
+      "Workshops",
+      "Ausgewählte Themen",
+      "Branchenblogs"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Spirax Sarco GmbH Regelapparate",
+    "company_url": "https://www.spiraxsarco.com",
+    "products": [
+      "Kesselhäuser",
+      "Saubere Dampflösungen",
+      "Druckluftprodukte",
+      "Kondensatpumpen",
+      "Steuerungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Schweißarbeiten",
+      "Montagearbeiten",
+      "Elektronikfertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FLEXIM",
+    "company_url": "https://www.flexim.com",
+    "products": [
+      "Aktuatoren",
+      "Steuerungen",
+      "Instrumente",
+      "Software",
+      "Ventile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "InnoSenT GmbH",
+    "company_url": "https://www.innosent.de",
+    "products": [
+      "Radarsensoren",
+      "Radarsysteme",
+      "Fahrerassistenzsysteme",
+      "Sicherheitslösungen",
+      "Auftragsfertigungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "SED Flow Control GmbH",
+    "company_url": "https://sed.samsongroup.com",
+    "products": [
+      "Ventile",
+      "Armaturen",
+      "Anbaugeräte",
+      "Lösungen",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Drehungen",
+      "Fräsungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Orben Wasseraufbereitung GmbH & Co. KG",
+    "company_url": "https://orben-wasseraufbereitung.de",
+    "products": [
+      "Ionenaustauscher-Patronen",
+      "Leitfähigkeitsmessgeräte",
+      "Kompaktsysteme",
+      "Mobile Wasseraufbereitungs-Systeme",
+      "Aktivkohlen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Extrusionen",
+      "Spritzgießungen",
+      "Montagearbeiten",
+      "Kalibrierungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "adaptronic Prüftechnik GmbH",
+    "company_url": "https://adaptronic.de",
+    "products": [
+      "Verdrahtungstester",
+      "Adaptionen",
+      "Prüftischsysteme",
+      "Software-Lösungen",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Montagen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ernst Heitland GmbH & Co. KG",
+    "company_url": "https://www.heitland-gmbh.de",
+    "products": [
+      "Wasserzähler",
+      "Gaszähler",
+      "Wärmezähler",
+      "Kommunikationsmodule",
+      "Regler"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dr. E. Horn GmbH & Co. KG",
+    "company_url": "https://dr-horn.org/de/",
+    "products": [
+      "Sensoren",
+      "Systeme",
+      "Anzeigen",
+      "Messgeräte",
+      "Überwachungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Metallux AG",
+    "company_url": "https://www.metallux.de",
+    "products": [
+      "Sensoren",
+      "Widerstände",
+      "Joysticks",
+      "Druckmesszellen",
+      "Drucktransmitter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Spritzgießungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TR-ELECTRONIC GmbH",
+    "company_url": "https://www.tr-electronic.de",
+    "products": [
+      "Drehgeber",
+      "Lineargeber",
+      "Antriebe",
+      "Komponenten",
+      "Industrie-PCs"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Lötungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "S + S Regeltechnik GmbH",
+    "company_url": "https://spluss.de",
+    "products": [
+      "Sensoren",
+      "Raumbediengeräte",
+      "Modbus-Sensoren",
+      "EtherCAT P-Sensoren",
+      "Strömungswächter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Gehäusefertigungen",
+      "Kabelkonfektionierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IL Metronic Sensortechnik GmbH",
+    "company_url": "https://www.il-metronic.com",
+    "products": [
+      "Sensoren",
+      "Sensormodule",
+      "Elektronische Geräte",
+      "Glasdurchführungen",
+      "UV-Komponenten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Oberflächenbehandlungen",
+      "Lötungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Feig Electronic GmbH",
+    "company_url": "https://www.feig.de",
+    "products": [
+      "Schrankensteuerungen",
+      "Induktionsschleifendetektoren",
+      "Barcode-Systeme",
+      "Bezahlterminals",
+      "Sensoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Stanzungen",
+      "Montagearbeiten",
+      "Klebearbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KBW Blickle Hydraulik GmbH",
+    "company_url": "https://www.kbw-blickle.de",
+    "products": [
+      "Hydraulikprüfstände",
+      "Hydraulikversorgungsanlagen",
+      "Automatisierungstechniken",
+      "Kühlschmierstoff-Versorgungsanlagen",
+      "Services"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Montagearbeiten",
+      "Prüfungen",
+      "Reparaturen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EXPERT-TÜNKERS GmbH",
+    "company_url": "https://www.expert-tuenkers.de",
+    "products": [
+      "Drehtische",
+      "Trommelantriebe",
+      "Transporttechniken",
+      "Sonderantriebe",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "ATLAS Material Testing Technology GmbH",
+    "company_url": "https://www.atlas-mts.de",
+    "products": [
+      "Bewitterungsprüfgeräte",
+      "Korrosionsprüfgeräte",
+      "Prüfdienstleistungen",
+      "Kundenspezifische Solarsimulationen",
+      "Technische Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Theben AG",
+    "company_url": "https://www.theben.de",
+    "products": [
+      "Zeitschaltuhren",
+      "Bewegungsmelder",
+      "Präsenzmelder",
+      "KNX-Aktoren",
+      "DALI-Komponenten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Fräsungen",
+      "Klebungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ETO SENSORIC GmbH",
+    "company_url": "https://www.etogruppe.com",
+    "products": [
+      "Antriebskomponenten",
+      "Sensoren",
+      "Elektroniken",
+      "Software",
+      "Aktuatoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Fräsungen",
+      "Klebungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Airtec Pneumatic GmbH",
+    "company_url": "https://www.airtec.de",
+    "products": [
+      "Ventile",
+      "Zylinder",
+      "Regler",
+      "Einheiten",
+      "Zubehörteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Drehungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "CAPTRON Electronic GmbH",
+    "company_url": "https://www.captron.de",
+    "products": [
+      "Sensortaster",
+      "Füllstandssensoren",
+      "Optische Sensoren",
+      "Zweihandsteuerungen",
+      "LED Signalisierungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Montagen",
+      "Spritzgießungen",
+      "Siebdrucke"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Xylem Analytics Germany",
+    "company_url": "https://www.wtw.com/de/",
+    "products": [
+      "UV/Vis-Spektralphotometer",
+      "pH-Messgeräte",
+      "Leitfähigkeits-Messgeräte",
+      "Trübungsmessgeräte",
+      "Prozess-Messtechnik",
+      "Messtechnik für Gewässer-Monitoring/Wasserqualität & Abflüsse"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bieler + Lang GmbH",
+    "company_url": "https://bieler-lang.de",
+    "products": [
+      "Warnsysteme",
+      "brennbare Gase",
+      "toxische Gase",
+      "Sauerstoffe",
+      "Kältemittel",
+      "Parkplätze"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BIT Analytical Instruments GmbH",
+    "company_url": "https://www.bit-group.com",
+    "products": [
+      "Analytische IVD-Geräte",
+      "Medizinprodukte",
+      "Lebenswissenschaftsgeräte",
+      "Hämatologiesysteme",
+      "OEM-Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "RMG Messtechnik GmbH",
+    "company_url": "https://www.rmg.com",
+    "products": [
+      "Gaszähler",
+      "Gasanalysegeräte",
+      "Mengenumwerter",
+      "Registriergeräte",
+      "Kommunikationsgeräte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kobold Messring GmbH",
+    "company_url": "https://www.kobold.com",
+    "products": [
+      "Durchflussmesser",
+      "Druckmessgeräte",
+      "Pegelanzeigen",
+      "Temperatursensoren",
+      "Leitfähigkeitssensoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HELIOS-PREISSER GmbH",
+    "company_url": "https://www.helios-preisser.com",
+    "products": [
+      "Messschieber",
+      "Messuhren",
+      "Messschrauben",
+      "Anreißgeräte",
+      "Winkel",
+      "Winkelmesser",
+      "Gradmesser"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Knick Elektronische Messgeräte GmbH & Co. KG",
+    "company_url": "https://www.knick-international.com/de/",
+    "products": [
+      "Hochspannungstrennverstärker",
+      "Messumformer",
+      "Signalvervielfacher",
+      "Anzeiger",
+      "Bahn-Messumformer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Leiterplattenbestückungen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TOPTICA Photonics AG",
+    "company_url": "https://www.toptica.com",
+    "products": [
+      "Lasersysteme",
+      "Diodenlaser",
+      "Faserlaser",
+      "Terahertzsysteme",
+      "Frequenzkämme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Prägungen",
+      "Lötungen",
+      "Justierungen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Instrument Systems GmbH",
+    "company_url": "https://www.instrumentsystems.com/de/",
+    "products": [
+      "Spektrometer",
+      "Photometer",
+      "Farbmesskameras",
+      "Ulbricht-Kugeln",
+      "Goniophotometer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wipotec GmbH",
+    "company_url": "https://www.wipotec.com",
+    "products": [
+      "Wägebrücken",
+      "Industrietabellen",
+      "Sichtsysteme",
+      "Aggregationssysteme",
+      "Metalldetektionssysteme"
+    ],
+    "machines": [
+      "Waagen",
+      "Kontrollwaagen",
+      "Röntgeninspektionsmaschinen",
+      "Metalldetektoren",
+      "Etikettiermaschinen"
+    ],
+    "process_type": [
+      "Wiegungen",
+      "Inspektionen",
+      "Markierungen",
+      "Etikettierungen",
+      "Aggregationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kistler Remscheid GmbH",
+    "company_url": "https://www.kistler.com",
+    "products": [
+      "Sensoren",
+      "Zubehör",
+      "Signalaufbereitung",
+      "Datenerfassungen",
+      "Software"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen",
+      "Entwicklungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ACTIA IME GmbH",
+    "company_url": "https://www.ime-actia.de",
+    "products": [
+      "Elektroniksysteme",
+      "Diagnoselösungen",
+      "Fahrzeugelektroniken",
+      "E-Bike-Komponenten",
+      "Konnektivitätsplattformen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Temposonics GmbH & Co. KG",
+    "company_url": "https://www.temposonics.com/de/",
+    "products": [
+      "Industriesensoren",
+      "Mobilhydrauliksensoren",
+      "Light Industrial-Sensoren",
+      "Füllstandssensoren",
+      "Positionssensoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "tado GmbH",
+    "company_url": "https://www.tado.com",
+    "products": [
+      "Thermostate",
+      "Thermostate",
+      "Thermostate",
+      "Optimierer",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sikora AG",
+    "company_url": "https://sikora.net",
+    "products": [
+      "Messsysteme",
+      "Inspektionssysteme",
+      "Analysesysteme",
+      "Sortiersysteme",
+      "Ersatzteile"
+    ],
+    "machines": [
+      "Lasersysteme",
+      "Röntgensysteme",
+      "Millimeterwellensysteme",
+      "Thermosysteme",
+      "CCD-Systeme"
+    ],
+    "process_type": [
+      "Extrudierungen",
+      "Messungen",
+      "Inspektionen",
+      "Sortierungen",
+      "Analysen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Balcke-Dürr GmbH",
+    "company_url": "https://balcke-duerr.com",
+    "products": [
+      "Wärmetauscher",
+      "Reaktoren",
+      "Kühltürme",
+      "Engineering",
+      "Innovationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schweißarbeiten",
+      "Fräsungen",
+      "Dreharbeiten",
+      "Montagearbeiten",
+      "Prüfarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "W. v. d. Heyde GmbH",
+    "company_url": "https://www.vdh-germany.de/de/",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Beck Sensortechnik GmbH",
+    "company_url": "https://www.beck-sensors.com",
+    "products": [
+      "Druckmonitore",
+      "Drucksensoren",
+      "Differenzdruckschalter",
+      "Drucktransmitter",
+      "Vakuumschalter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MBS AG & Co. KG",
+    "company_url": "https://mbs-ag.com",
+    "products": [
+      "Niederspannungswandler",
+      "Messumformer",
+      "Stromwandler",
+      "Spannungswandler",
+      "Komponenten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Elektronikfertigungen",
+      "Prüfprozesse",
+      "Logistiken",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Werth Messtechnik GmbH",
+    "company_url": "https://www.werth.de/de/",
+    "products": [
+      "Koordinatenmessgeräte",
+      "Sensoren",
+      "Messsoftwares",
+      "Zubehör",
+      "Dienstleistungen"
+    ],
+    "machines": [
+      "Koordinatenmessgeräte",
+      "Computertomografie-Geräte",
+      "Multisensor-Geräte",
+      "Sensoren",
+      "Messsoftware"
+    ],
+    "process_type": [
+      "Messen",
+      "Kalibrieren",
+      "Warten",
+      "Reparaturen",
+      "Schulungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IDENTA Ausweissysteme GmbH",
+    "company_url": "https://identa.com",
+    "products": [
+      "Karten",
+      "RFID Schlüsselanhänger",
+      "RFID Armbänder",
+      "RFID Labels",
+      "Ausweiszubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Drucke",
+      "Klebungen",
+      "Schweißungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AIP GmbH & Co. KG",
+    "company_url": "https://www.aip-automotive.de/de/",
+    "products": [
+      "Testsysteme",
+      "Prüfstände",
+      "Automatisierungen",
+      "Abgasmesstechnik",
+      "Batterietechniken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Verkabelungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Küfner GmbH & Co. KG",
+    "company_url": "https://www.kuefner.com",
+    "products": [
+      "Filter",
+      "Siebe",
+      "Webeblätter",
+      "Küfner Cares",
+      "Wasserfilter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Lackierungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fertigungsgerätebau A. Steinbach GmbH & Co. KG",
+    "company_url": "https://www.fgb.de",
+    "products": [
+      "Sondermaschinen",
+      "Prüfstände",
+      "Direktantriebe",
+      "Wirbelstrom-Prüfsysteme",
+      "Montagetechniken"
+    ],
+    "machines": [
+      "Drehmaschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Erodiermaschinen",
+      "Lehrbohrmaschinen"
+    ],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schleifungen",
+      "Erodierungen",
+      "Lehren"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Precitec GmbH & Co. KG",
+    "company_url": "https://www.precitec.com/de/",
+    "products": [
+      "3D-Messtechniken",
+      "Laserschneidlösungen",
+      "Laserschweißlösungen",
+      "optische Sensoren",
+      "Prozessüberwachungssysteme"
+    ],
+    "machines": [
+      "Laserschneidmaschinen",
+      "Laserschweißmaschinen",
+      "3D-Messmaschinen",
+      "Sensoren",
+      "Überwachungssysteme"
+    ],
+    "process_type": [
+      "Laserschneiden",
+      "Laserschweißen",
+      "3D-Messungen",
+      "Sensoriken",
+      "Überwachungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ecolab Engineering GmbH",
+    "company_url": "https://www.ecolab-engineering.de/de/",
+    "products": [
+      "Auftragssysteme",
+      "Dosiersysteme",
+      "Messsysteme",
+      "Regelsysteme",
+      "Bandschmiersysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TechnipFMC plc",
+    "company_url": "https://www.technipfmc.com",
+    "products": [
+      "Unterwassersysteme",
+      "Oberflächentechnologien",
+      "Neue Energielösungen",
+      "Flottenservices",
+      "Innovationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagearbeiten",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "robatherm GmbH & Co. KG",
+    "company_url": "https://www.robatherm.com",
+    "products": [
+      "Luftbehandlungskästen",
+      "TrueIndividuen",
+      "Hygienelösungen",
+      "Energieeffiziente Lösungen",
+      "Wärmerückgewinnungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Günther GmbH Temperaturmesstechnik",
+    "company_url": "https://www.guenther.eu/de/",
+    "products": [
+      "Thermoelemente",
+      "Widerstandsthermometer",
+      "spezielle Temperaturfühler",
+      "Thermoleitungen",
+      "Einzelteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Sensorbeschichtungen",
+      "Gehäusemontagen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "STABILA Messgeräte Gustav Ullrich GmbH",
+    "company_url": "https://www.stabila.com/de/",
+    "products": [
+      "Wasserwaagen",
+      "Laser",
+      "Bandmaße",
+      "Elektronische Messwerkzeuge",
+      "Maßstäbe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Spritzgüsse",
+      "Fräsungen",
+      "Lötungen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "indurad GmbH",
+    "company_url": "https://indurad.com",
+    "products": [
+      "Sensoren",
+      "Lösungen",
+      "Radarsysteme",
+      "RTLS-Systeme",
+      "Softwarelösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rechner Industrie-Elektronik GmbH",
+    "company_url": "https://www.rechner-sensors.com",
+    "products": [
+      "Kapazitive Sensoren",
+      "Kapazitive Sensoren mit extrem weitem Schaltabstand",
+      "Kapazitive Füllstandssysteme",
+      "Magnetoresistive Sensoren",
+      "Induktive Näherungsschalter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Power Plus Communications AG",
+    "company_url": "https://www.ppc-ag.de",
+    "products": [
+      "Smart Meter Gateways",
+      "CLS Systeme",
+      "Breitband-Powerline",
+      "Wireless",
+      "Netzwerkmanagementsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Prüfungen",
+      "Gehäusefertigungen",
+      "Kabelkonfektionierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Discovergy GmbH",
+    "company_url": "https://discovergy.com",
+    "products": [
+      "Stromzähler",
+      "Messsysteme",
+      "Smart Meter",
+      "Mieterstromlösungen",
+      "Energiemanagementlösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MHA ZENTGRAF GmbH & Co. KG",
+    "company_url": "https://www.mha-zentgraf.com/de/",
+    "products": [
+      "Kugelhähne",
+      "Stromventile",
+      "Drosselventile",
+      "Rückschlagventile",
+      "Sicherheitsblöcke"
+    ],
+    "machines": [],
+    "process_type": [
+      "Drehungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Prüfungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EMH metering GmbH & Co. KG",
+    "company_url": "https://www.emh-metering.de",
+    "products": [
+      "e-Mobility-Zähler",
+      "Smart Meter Gateways",
+      "Haushaltszähler",
+      "Smart Meter",
+      "Spezialzähler"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Fräsungen",
+      "Klebungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TCS TürControlSysteme AG",
+    "company_url": "https://www.tcsag.de",
+    "products": [
+      "Türsprechanlagen",
+      "Videosprechanlagen",
+      "Zutrittskontrollsysteme",
+      "Kommunikationssysteme",
+      "Gegensprechanlagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Verdrahtungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "NIVUS GmbH",
+    "company_url": "http://www.nivus.de",
+    "products": [
+      "Durchflussmesssysteme",
+      "Füllstandsmesssysteme",
+      "Wasserqualitätsmesssysteme",
+      "IoT-Lösungen",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Programmierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FAFNIR GmbH",
+    "company_url": "https://www.fafnir.com/de/",
+    "products": [
+      "Sensoren",
+      "Systeme",
+      "Überwachung",
+      "Messungen",
+      "Füllstände"
+    ],
+    "machines": [],
+    "process_type": [
+      "Spritzgüsse",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Keysight Technologies Deutschland GmbH",
+    "company_url": "https://jobs.keysight.com",
+    "products": [
+      "Elektronische Entwurfswerkzeuge",
+      "Testlösungen",
+      "Messinstrumente",
+      "Software-Entwurfswerkzeuge",
+      "Elektronische Überwachungswerkzeuge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Programmierungen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "VMT GmbH",
+    "company_url": "https://vmt-ims.com",
+    "products": [
+      "Messsysteme",
+      "Softwarelösungen",
+      "Beratungen",
+      "Schulungen",
+      "Supports"
+    ],
+    "machines": [
+      "Lasertracker",
+      "Scanner",
+      "Photogrammetriegeräte"
+    ],
+    "process_type": [
+      "Messtechniken",
+      "Automatisierungen",
+      "Integrationen",
+      "Montagen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Blum-Novotest GmbH",
+    "company_url": "https://www.blum-novotest.com",
+    "products": [
+      "Messkomponenten",
+      "Messmaschinen",
+      "Prüftechniken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Drehungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Adolf Thies GmbH & Co. KG",
+    "company_url": "https://www.thiesclima.com",
+    "products": [
+      "Wetterstationen",
+      "Feuchtemessverfahren",
+      "Niederschlagsmessverfahren",
+      "Windmessverfahren",
+      "Temperaturmessverfahren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KBR Kompensationsanlagenbau GmbH",
+    "company_url": "https://www.kbr.de/de/",
+    "products": [
+      "Energiemessgeräte",
+      "Signalerfassungen und -verarbeitungen",
+      "Stromwandler",
+      "Netzanalysatoren",
+      "Passive Netzfilter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RENK Group AG",
+    "company_url": "https://www.renk.com",
+    "products": [
+      "Getriebe",
+      "Transmissonen",
+      "Kraftpakete",
+      "Hybridantriebssysteme",
+      "Federungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RHEINTACHO Messtechnik GmbH",
+    "company_url": "http://www.rheintacho.de",
+    "products": [
+      "Drehzahlsensoren",
+      "Stroboskope",
+      "Handtachometer",
+      "Drehzahlwächter",
+      "LED-Anzeiger"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ZERA GmbH",
+    "company_url": "https://www.zera.de",
+    "products": [
+      "Meter Prüfungen",
+      "Testsysteme E-Mobilität",
+      "Schaltanlagenprüfungen",
+      "Dienstleistungen",
+      "Kalibrierungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagearbeiten",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Plasticard-ZFT GmbH & Co. KG",
+    "company_url": "https://www.plasticard.de",
+    "products": [
+      "Plastikkarten",
+      "Chipkarten",
+      "RFID-Karten",
+      "SIM-Karten",
+      "Kartenzubehör"
+    ],
+    "machines": [
+      "Drucker",
+      "Laminatoren",
+      "Lasermaschinen",
+      "Thermodrucker",
+      "Sondermaschinen"
+    ],
+    "process_type": [
+      "Drucken",
+      "Laminieren",
+      "Laserschneiden",
+      "Thermotransferdrucke",
+      "Personalisierungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "MARTIN LOHSE GmbH",
+    "company_url": "https://www.lohse-gmbh.de",
+    "products": [
+      "Armaturen",
+      "Absperrschieber",
+      "Regulierschieber",
+      "Reject-Schieber",
+      "Schleusen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Drehmaschinen",
+      "Schleifmaschinen",
+      "Lötmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Drehen",
+      "Schleifen",
+      "Löten",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "ARGO-HYTOS GMBH",
+    "company_url": "https://www.argo-hytos.com/de/",
+    "products": [
+      "Ventile",
+      "Filtertechniken",
+      "Hydraulikaggregate",
+      "Steuerblöcke",
+      "Messtechniken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sipos Aktorik GmbH",
+    "company_url": "http://www.sipos.de",
+    "products": [
+      "Aktuatoren",
+      "Software",
+      "Produktdokumente",
+      "Feldbussysteme",
+      "Broschüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Fräsungen",
+      "Bohrungen",
+      "Klebungen\n\nNA\n\nNA\n\nLötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Bestückungen",
+      "Verdrahtungen\n\nNA"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "iris-GmbH infrared & intelligent sensors",
+    "company_url": "https://www.iris-sensing.com",
+    "products": [
+      "Sensoren",
+      "Passagierzählanlagen",
+      "Videosicherheitsanlagen",
+      "Referenzen",
+      "Unterstützungsdienste"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FMB Feinwerk- und Meßtechnik GmbH",
+    "company_url": "https://www.fmb-berlin.de",
+    "products": [
+      "Vakuumsysteme",
+      "Front-Ends",
+      "Beamlines",
+      "Dienstleistungen",
+      "Montagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Vakuumtechniken",
+      "Beamlinetechniken",
+      "Montagen",
+      "Qualitätssicherungen",
+      "Inbetriebnahmen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KETEK GmbH",
+    "company_url": "https://www.ketek.net",
+    "products": [
+      "SDD-Module",
+      "SDD-Systeme",
+      "OEM-Lösungen",
+      "Zubehör",
+      "Downloads"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Kalibrierungen",
+      "Gehäusefertigungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bühler Alzenau GmbH",
+    "company_url": "https://www.buhlergroup.com",
+    "products": [
+      "Alternative Proteine",
+      "Tierfutter",
+      "Aquafutter",
+      "Asiatische Nudeln",
+      "Backwaren"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EPHY-MESS Gesellschaft für Elektro-Physikalische Messgeräte mbH",
+    "company_url": "https://www.ephy-mess.de",
+    "products": [
+      "Nutenwiderstandsthermometer",
+      "Einschraubthermometer",
+      "Kabelfühler",
+      "Thermistoren",
+      "Bimetallschalter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IMS Messsysteme GmbH",
+    "company_url": "https://www.ims-gmbh.de",
+    "products": [
+      "Messsysteme",
+      "Software",
+      "Dienstleistungen",
+      "Ausbildungsprogramme",
+      "Beratungsservices"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Programmierungen",
+      "Tests",
+      "Kalibrierungen",
+      "Dokumentationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lenord Bauer & Co. GmbH",
+    "company_url": "https://www.lenord.de",
+    "products": [
+      "Sensoren",
+      "MiniCODERs",
+      "VarioCODERs",
+      "CombiCODERs",
+      "Drehgeber"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Fräsungen",
+      "Montagen",
+      "Prüfungen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "OTT Hydromet GmbH",
+    "company_url": "https://www.ott.com",
+    "products": [
+      "Sensoren",
+      "Messsysteme",
+      "Softwarelösungen",
+      "Datenlogger",
+      "Kommunikationslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hydrotechnik GmbH",
+    "company_url": "https://www.hydrotechnik.com/de/",
+    "products": [
+      "MINIMESS®-Geräte",
+      "HySense® Sensoren",
+      "Messgeräte",
+      "Software",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Renishaw GmbH",
+    "company_url": "https://www.renishaw.de/de/",
+    "products": [
+      "Messsysteme",
+      "Kalibriersysteme",
+      "Prüfgeräte",
+      "Software",
+      "additive Fertigungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Programmierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SPECS Surface Nano Analysis GmbH",
+    "company_url": "https://www.specs-group.com",
+    "products": [
+      "Systeme",
+      "Komponenten",
+      "Software",
+      "Ersatzteile",
+      "Marken"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Programmierungen",
+      "Montagen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Energie Mess- und Servicedienste GmbH",
+    "company_url": "https://www.enermess.de",
+    "products": [
+      "Zählerservices",
+      "Marktraumumstellungen",
+      "Rohrnetzüberprüfungen",
+      "Prüfstellen",
+      "Wohnungswirtschaften"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Kalibrierungen",
+      "Prüfungen",
+      "Softwareentwicklungen",
+      "Dokumentationen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ERWEKA GmbH",
+    "company_url": "https://www.erweka.com",
+    "products": [
+      "Lösungsprüfer",
+      "Physikalischeprüfer",
+      "F&E-Ausrüstungen",
+      "Tablettenpressen",
+      "Multifunktionsgeräte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Jaudt Dosiertechnik Maschinenfabrik GmbH",
+    "company_url": "http://www.jaudt.de",
+    "products": [
+      "Zellenradschleusen",
+      "Schieber",
+      "Drehklappen",
+      "Doppelpendelklappen",
+      "Siloblaster"
+    ],
+    "machines": [
+      "Schweißereien",
+      "Bohrwerke",
+      "Drehereien",
+      "Fräseien",
+      "Lackierereien"
+    ],
+    "process_type": [
+      "Schweißen",
+      "Bohren",
+      "Drehen",
+      "Fräsen",
+      "Lackieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "deister electronic GmbH",
+    "company_url": "https://www.deister.com/de/",
+    "products": [
+      "Schlüsselschränke",
+      "Fachanlagen",
+      "Depot-Systeme",
+      "Carpool-Systeme",
+      "Waffenschränke"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagearbeiten",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "NUMERIK JENA GmbH",
+    "company_url": "https://www.numerikjena.de",
+    "products": [
+      "Messtaster",
+      "Längenmessgeräte",
+      "Winkelmessgeräte",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schleifungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MARCO Systemanalyse und Entwicklung GmbH",
+    "company_url": "https://www.marco.de",
+    "products": [
+      "Dosiersysteme",
+      "Mikrodosierventile",
+      "Piezoventile",
+      "Materialaufbereitungssysteme",
+      "Portalroboter"
+    ],
+    "machines": [
+      "Dosieranlagen",
+      "Ventile",
+      "Roboter",
+      "Mischsysteme",
+      "Entgasungssysteme"
+    ],
+    "process_type": [
+      "Dosierungen",
+      "Mischungen",
+      "Entgasungen",
+      "Automatisierungen",
+      "Präzisionsfertigungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "InfraTec GmbH",
+    "company_url": "https://www.infratec.de",
+    "products": [
+      "Wärmebildkameras",
+      "Systemlösungen",
+      "Software",
+      "pyroelektrische Detektoren",
+      "IR-Filter"
+    ],
+    "machines": [
+      "PVD-Anlagen",
+      "Klebstoffauftragsanlagen",
+      "Chip-Bonding-Anlagen",
+      "Drahtbonding-Anlagen",
+      "Reinraum-Fertigungsanlagen"
+    ],
+    "process_type": [
+      "PVDs",
+      "Bondings",
+      "Reinraumfertigungen",
+      "Sprühschichten",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hegewald & Peschke",
+    "company_url": "https://www.hegewald-peschke.de",
+    "products": [
+      "Universalprüfmaschinen",
+      "Härteprüfgeräte",
+      "Möbelprüftechniken",
+      "Sonderprüfanlagen",
+      "Automatisierte Prüfsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen",
+      "Kalibrierungen",
+      "Tests"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "ASM Automation Sensorik Messtechnik GmbH",
+    "company_url": "https://www.asm-sensor.com/de/",
+    "products": [
+      "Wegsensoren",
+      "Winkelsensoren",
+      "Neigungssensoren",
+      "Messgeräte",
+      "Temperaturen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Lötungen",
+      "Kalibrierungen",
+      "Montagen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Minebea Intec GmbH",
+    "company_url": "https://www.minebea-intec.com/de/",
+    "products": [
+      "Wägezellen",
+      "Wägeelektroniken",
+      "Industriewaagen",
+      "Inspektionslösungen",
+      "Software"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Softwareentwicklungen",
+      "Tests."
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RITZ Instrument Transformers GmbH",
+    "company_url": "https://ritz-international.com",
+    "products": [
+      "transformatoren",
+      "sammelbusse",
+      "gießharzteile",
+      "elektronischeinstrumententransformatoren",
+      "sensoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Gießereien",
+      "Montagearbeiten",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "AVL Analytical Technologies GmbH",
+    "company_url": "https://www.avl.com/en/",
+    "products": [
+      "Mobilitätssysteme",
+      "Motoren",
+      "Antriebe",
+      "Fahrzeuge",
+      "Brennstoffzellen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Montagen",
+      "Lackierungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DSA Daten- und Systemtechnik GmbH",
+    "company_url": "https://www.dsa.de/de/",
+    "products": [
+      "Diagnose-Interfaces",
+      "Testsysteme",
+      "Connectivity-Gateways",
+      "Batterie-Tester",
+      "Lifecycle-Management-Server"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Bestückungen",
+      "Kabelkonfektionierungen",
+      "Gehäusefertigungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gesellschaft für Sonder-EDV-Anlagen mbH",
+    "company_url": "https://www.gfs-hofheim.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ifm syntron gmbh Automatisierung",
+    "company_url": "https://www.ifm.com/de/",
+    "products": [
+      "Sensoren",
+      "Kommunikationssysteme",
+      "Steuerungssysteme",
+      "IIoT-Plattformen",
+      "Softwarelösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lötungen",
+      "Montagen",
+      "Programmierungen",
+      "Tests",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Inficon GmbH",
+    "company_url": "https://www.inficon.com",
+    "products": [
+      "Gasanalysen",
+      "Leckdetektoren",
+      "Schutzbeschichtungen",
+      "Evakuierungssysteme",
+      "RF-Sensing-Technologien"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Beschichtungen",
+      "Montagearbeiten",
+      "Kalibrierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  }
+]

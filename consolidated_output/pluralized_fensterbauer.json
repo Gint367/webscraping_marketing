@@ -1,0 +1,4404 @@
+[
+  {
+    "company_name": "HILGO Kunststoff-Elementebau GmbH",
+    "company_url": "http://hilgo.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Insektenschutze",
+      "Zubehör",
+      "Referenzen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rollladen- und Fensterbau Johann Philippi GmbH",
+    "company_url": "https://fensterbau-philippi.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Sonnenschutze",
+      "Tore"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Laserschneidmaschinen",
+      "Schleifmaschinen",
+      "Schweißverfahren",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "CNC-Fräsen",
+      "Laserschneiden",
+      "Schleifen",
+      "Schweißen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TÜRENMANN Stuttgart GmbH & Co. KG",
+    "company_url": "https://www.tueren-mann.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Gläser",
+      "Sonnenschutz",
+      "Reparaturen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Zöllner Fensterbau GmbH",
+    "company_url": "https://www.zoellner-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten",
+      "Hebe-Schiebe-Türen",
+      "Glasfassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BECK GmbH Fenstertechnik",
+    "company_url": "https://www.bewa-plast.de",
+    "products": [
+      "Fenster",
+      "Schiebetüren",
+      "Haustüren",
+      "Rollläden",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Werner Preis GmbH",
+    "company_url": "https://www.preis-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Haustüren",
+      "Textilscreens"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schreinerei & Metallbau Wagner GmbH",
+    "company_url": "https://www.fensterbau-wagner.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Hebeschiebetüren"
+    ],
+    "machines": [
+      "CNC-gesteuerte Maschinen",
+      "Kunststoffschweißanlagen",
+      "Doppelgehrungssägen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Schweißungen",
+      "Sägen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TS-Aluminium-Profilsysteme GmbH & Co. KG",
+    "company_url": "https://www.ts-alu.de",
+    "products": [
+      "Wintergärten",
+      "Sommergärten",
+      "Terrassenüberdachungen",
+      "Lamellendächer",
+      "Sichtschutze"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SELO Fensterbau GmbH",
+    "company_url": "http://www.selo-premiumfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Hebe-Schiebesysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Aldra Fenster und Türen GmbH",
+    "company_url": "https://www.aldra.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Türenplanungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Schweißarbeiten",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PHI Technik für Fenster und Türen GmbH",
+    "company_url": "https://www.phi-info.com",
+    "products": [
+      "Schweißeckverbinder",
+      "Stahlrohrarmierungen",
+      "Laserschneidanlagen",
+      "Verglasungszubehör für Kunststoffe",
+      "Verglasungszubehör für Aluminium"
+    ],
+    "machines": [
+      "Laserschneidanlagen"
+    ],
+    "process_type": [
+      "Laserschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Carl Hilzinger-Thum GmbH & Co. KG",
+    "company_url": "https://www.hilzinger-thum.de",
+    "products": [
+      "Werkzeugbürsten",
+      "Gummiwalzen",
+      "Technische Bürsten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Klebungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Röwert Fenster & Tür GmbH",
+    "company_url": "https://www.roewert.de",
+    "products": [
+      "Holzfenster",
+      "Türen",
+      "Denkmalschutzfenster",
+      "Referenzen",
+      "Zertifikate"
+    ],
+    "machines": [],
+    "process_type": [
+      "Hobelungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Schleifungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gaulhofer Deutschland GmbH & Co. KG",
+    "company_url": "https://gaulhofer.com",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Rollläden",
+      "Raffstores"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rolf Fensterbau GmbH",
+    "company_url": "https://www.rolf-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Rollläden",
+      "Zubehör"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Schweißmaschinen",
+      "Fräsmaschinen",
+      "Montagemaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Schweißens",
+      "Fräsens",
+      "Montagen",
+      "Verpackungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schreinerei Engelbert Wolf GmbH",
+    "company_url": "https://www.wolf-fenster.de",
+    "products": [
+      "Holzfenster",
+      "Holz-Alu-Fenster",
+      "Kunststofffenster",
+      "Innentüren",
+      "Haustüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Lackieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fensterbau Schneider GmbH",
+    "company_url": "https://www.schneiderfensterbau.de",
+    "products": [
+      "Fenster",
+      "Holzfenster",
+      "Holz-Aluminium-Fenster",
+      "Türen",
+      "Holzhaustüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Lackiermaschinen",
+      "Beizenmaschinen",
+      "Ölmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Lackieren",
+      "Beizen",
+      "Ölen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GW GERMAN WINDOWS Südlohn GmbH",
+    "company_url": "https://germanwindows.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster- & Türenbau Grünbeck GmbH",
+    "company_url": "https://www.gruenbeck-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassentüren",
+      "Zubehör",
+      "Kataloge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Helmut Rohde GmbH",
+    "company_url": "https://www.rohde.eu",
+    "products": [
+      "Brennöfen",
+      "Maschinen",
+      "Serienprodukte",
+      "Anlagen",
+      "kundenspezifische Anlagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Wärmebehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Heep Fenster GmbH",
+    "company_url": "https://www.heep-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Zubehör",
+      "Markisen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Bohrungen",
+      "Schleifungen",
+      "Erodierungen",
+      "Laserschneidungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Otto Blecher GmbH",
+    "company_url": "https://www.blecher-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Niveau-Fenster Westerburg GmbH",
+    "company_url": "https://www.niveau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Glasfassaden",
+      "Denkmalpflegen",
+      "Passivhaus-Elemente"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Laserschneidmaschinen",
+      "Wasserstrahlschneidmaschinen",
+      "CNC-Drehmaschinen",
+      "Oberflächenbehandlungsmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Laserschneiden",
+      "Wasserstrahlschneiden",
+      "Drehen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Zimmermann Fenster + Türen GmbH",
+    "company_url": "https://www.zimmermann-fenster.de",
+    "products": [
+      "Kunststofffenster",
+      "Haustüren",
+      "Rollläden"
+    ],
+    "machines": [
+      "Extrusionsmaschinen",
+      "Spritzgießmaschinen",
+      "CNC-Bearbeitungsmaschinen"
+    ],
+    "process_type": [
+      "Extrusionen",
+      "Spritzgießverfahren",
+      "CNC-Bearbeitungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wikka Fenster + Türen Systeme GmbH",
+    "company_url": "https://wikka.de",
+    "products": [
+      "Fenstersysteme",
+      "Türsysteme",
+      "Garagentore"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LANG GmbH & Co. KG",
+    "company_url": "https://www.lang.de",
+    "products": [
+      "CNC-Fräsmaschinen",
+      "Graviermaschinen",
+      "Digitalisiersysteme",
+      "Positionssteuerungen",
+      "CAD/CAM-Software"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Graviermaschinen",
+      "Digitalisiersysteme",
+      "Positionssteuerungen",
+      "CAD/CAM-Software"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Gravuren",
+      "Digitalisierungen",
+      "Steuerungen",
+      "Software"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Reitz GmbH",
+    "company_url": "https://reitz.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten",
+      "Innenausbauten",
+      "Möbel"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MOBA Fenster + Türen GmbH",
+    "company_url": "https://moba-fenster.de",
+    "products": [
+      "Kunststofffenster",
+      "Aluminiumfenster",
+      "Holzfenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "dtH Tiemann GmbH Fenster-Systeme",
+    "company_url": "https://www.dth-tiemann.de",
+    "products": [
+      "Fenster",
+      "Terrassentüren",
+      "Haustüren",
+      "Rollläden",
+      "Raffstores"
+    ],
+    "machines": [],
+    "process_type": [
+      "Extrusionen",
+      "Bohrungen",
+      "Fräsungen",
+      "Montagen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Konold Härtsfelder Holzindustrie GmbH",
+    "company_url": "https://konold.com",
+    "products": [
+      "Türen",
+      "Furniere",
+      "Oberflächen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Lackiermaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Tepasse Fenster GmbH",
+    "company_url": "https://www.tepasse-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Blenden",
+      "Dämmungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stader Glas GmbH & Co.",
+    "company_url": "https://www.staderglas.com",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Isoliergläser"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rüter GmbH",
+    "company_url": "https://www.ruetergmbh.de",
+    "products": [
+      "Fenster",
+      "Hebeschiebetüren",
+      "Haustüren",
+      "Brandschutzelemente",
+      "Fassaden"
+    ],
+    "machines": [
+      "Sägen",
+      "Fräsen",
+      "Bearbeitungen"
+    ],
+    "process_type": [
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gerdes Kunststoff-Technik GmbH",
+    "company_url": "https://www.gerdes-technik.de/de/",
+    "products": [
+      "Weiße Waren",
+      "Sanitäranlagen",
+      "Klimas",
+      "Batterien",
+      "Powertools"
+    ],
+    "machines": [
+      "Spritzgussmaschinen"
+    ],
+    "process_type": [
+      "Spritzgießens"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "STEMA GmbH Fenstersysteme",
+    "company_url": "https://www.stema-rehau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Fassaden",
+      "Schiebeelemente",
+      "Lüftungsfenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "IDEAL Fensterbau Weinstock GmbH",
+    "company_url": "https://www.ideal-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BEKRU Werke",
+    "company_url": "https://www.bekru-werke.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Spezialsysteme",
+      "Rollläden",
+      "Pflegen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagearbeiten",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "heroal - Johann Henkenjohann GmbH",
+    "company_url": "https://www.heroal.de/de/",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Sonnenschutze",
+      "Rolltore"
+    ],
+    "machines": [],
+    "process_type": [
+      "Profilierungen",
+      "Abkantungen",
+      "Schweißungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "De-Ka Kunststoffenster GmbH",
+    "company_url": "https://www.deka-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Jäger GmbH",
+    "company_url": "https://www.jaeger-mengen.de",
+    "products": [
+      "Fertigungsschritte",
+      "Metallbearbeitungen",
+      "Oberflächenbehandlungen",
+      "Maschinen",
+      "Referenzen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Oberflächenbehandlungen",
+      "Fertigungen",
+      "Bearbeitungsverfahren",
+      "Montagen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Vieler International GmbH + Co. KG",
+    "company_url": "https://www.vieler.net",
+    "products": [
+      "Vitrinenbeschläge",
+      "Ladeneinrichtungssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Diedrich Schröder GmbH",
+    "company_url": "https://www.schroeder-hesel.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Ziegler Fensterbau GmbH",
+    "company_url": "https://www.fensterbauziegler.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Wintergärten",
+      "Terrassenüberdachungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Huber & Sohn GmbH & Co. KG",
+    "company_url": "https://www.huber-sohn.de",
+    "products": [
+      "Fenster",
+      "Holzhäuser",
+      "Holzbauteile",
+      "Schalungen",
+      "Holzverpackungen"
+    ],
+    "machines": [
+      "CNC-gesteuerte Fertigungsanlagen",
+      "Roboter-Lackierstraßen",
+      "Hobelanlagen",
+      "Trockenkammern",
+      "3D-Planungssysteme"
+    ],
+    "process_type": [
+      "Montagen",
+      "Verleimungen",
+      "Lackierungen",
+      "Beizen",
+      "Ölen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MF Fassadentechnik GmbH",
+    "company_url": "https://www.mf-fassadentechnik.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Schiebetüren",
+      "Glasfassaden",
+      "Sicherheitssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EXTE GmbH",
+    "company_url": "https://www.exte.de",
+    "products": [
+      "Rollladenkastensysteme",
+      "Fensterzubehöre",
+      "Verkleidungslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagearbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "DIETEL Bauelemente GmbH",
+    "company_url": "https://www.dietel.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Treppen"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Fräsmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Fräsen",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MAHRENHOLZ Fenster Holding GmbH",
+    "company_url": "http://www.mahrenholz.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Raffstores",
+      "Smart-Home-Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wilhelm Peine GmbH",
+    "company_url": "https://www.peine-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Sonnenschutz",
+      "Innenausbauten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FTF Fenster Türen Freund GmbH",
+    "company_url": "http://www.ftfreund.de",
+    "products": [
+      "Kunststofffenster",
+      "Aluminiumfenster",
+      "Holz/Alufenster",
+      "Schiebetüren",
+      "Haustüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SÜHAC GmbH Industrievertretungen",
+    "company_url": "https://www.suehac.de",
+    "products": [
+      "Türen",
+      "CPLs",
+      "Weisslacke",
+      "Furniere",
+      "Beschläge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Lackierungen",
+      "Klebungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hydro Building Systems Germany GmbH",
+    "company_url": "https://www.hydro.com",
+    "products": [
+      "Aluminiums",
+      "Energien",
+      "Nachhaltigkeiten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Pulverbeschichtungen",
+      "Dichtungseinlagen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FeBa Fensterbau GmbH",
+    "company_url": "https://www.feba.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Kunststofffenster",
+      "Alufenster",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster Rachinger GmbH",
+    "company_url": "https://www.rachinger.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rolladen-Systeme",
+      "Außenjalousien",
+      "Fensterläden"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Hobelmaschinen",
+      "Lackiermaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Hobeln",
+      "Lackierarbeiten",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HAMA Alu + Holzbauwerk GmbH",
+    "company_url": "https://www.hama-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrmaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Trefz GmbH",
+    "company_url": "https://trefz-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Fassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FRESAND GmbH",
+    "company_url": "https://fresand.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassendächer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Tritscheler GmbH",
+    "company_url": "https://tritscheler.de",
+    "products": [
+      "Rollläden",
+      "Fenster",
+      "Haustüren",
+      "Insektenschutz",
+      "Tore"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schnitte",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Portawin Kriege GmbH",
+    "company_url": "https://portawin.de",
+    "products": [
+      "Holzfenster",
+      "Kunststofffenster",
+      "Holz-Aluminiumfenster"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Neuffer Fenster + Türen GmbH",
+    "company_url": "https://www.neuffer.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Terrassentüren",
+      "Balkontüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Eilenburger Fenstertechnik GmbH & Co. KG",
+    "company_url": "https://www.eilenburger-fenster.de",
+    "products": [
+      "Kunststoffsysteme",
+      "Aluminiumsysteme",
+      "Hafencity-Fenster",
+      "Kastenfenster",
+      "Montagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Schweißungen",
+      "Fräsungen",
+      "Bohrungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HEFESTA Fensterbau Heil GmbH",
+    "company_url": "https://www.hefesta.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Beschattungssysteme",
+      "Kunststoffprofile"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrungen",
+      "Schleifungen",
+      "Erodierungen",
+      "Laserschneidungen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Erodieren",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TH. ZINK GmbH Fenster und Türen",
+    "company_url": "https://www.zink-fenster.de",
+    "products": [
+      "Kunststofffenster",
+      "Haustüren",
+      "Hebeschiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "hapa AG",
+    "company_url": "https://hapa.de",
+    "products": [
+      "Kunststofffenster",
+      "Kunststoff-Haustüren",
+      "Kunststoff-Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Extrusionen",
+      "Montagen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "GRADO - Fenster & Türen GmbH",
+    "company_url": "https://www.grado-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Zubehör",
+      "Haustüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wigger Fenster + Fassaden GmbH",
+    "company_url": "https://www.wigger.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Fassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "wipfler fenster+fassaden gmbh",
+    "company_url": "https://www.wipfler-fenster.de",
+    "products": [
+      "Fenster",
+      "Fassaden",
+      "Haustüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Hobelmaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Hobel",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FTB - Fenster - Türen",
+    "company_url": "http://www.ftb-bretschneider.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Kunststofffenster",
+      "Holzfenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HOFFMANN Maschinen- und Apparatebau GmbH",
+    "company_url": "https://www.hoffmann-filter.de",
+    "products": [
+      "Filteranlagen",
+      "Kühler",
+      "Filtersysteme",
+      "Kältetechniken",
+      "Sonderlösungen"
+    ],
+    "machines": [
+      "Schleifmaschinen",
+      "Filteranlagen",
+      "Kühler",
+      "Steuerungen",
+      "Bandfilteranlagen"
+    ],
+    "process_type": [
+      "Fertigungen",
+      "Konstruktionen",
+      "Inbetriebnahmen",
+      "Wartungen",
+      "Reparaturen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Lemuth GmbH",
+    "company_url": "http://www.lemuth.com",
+    "products": [
+      "Anlagen",
+      "Maschinen",
+      "Automaten"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "CNC-Fräsmaschinen",
+      "Zuschnittmaschinen"
+    ],
+    "process_type": [
+      "CNC-Fräsen",
+      "Montagen",
+      "Elektroprojektierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Köster & Co. GmbH",
+    "company_url": "https://koeco.net",
+    "products": [
+      "Schweißmaschinen",
+      "Schweißbolzen",
+      "Schweißpistolen",
+      "Bemessungssoftwares",
+      "Schweißmaschinen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schweißprozesse"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fensterbau Otto GmbH",
+    "company_url": "https://www.fensterbau-otto.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Aufsatzelemente"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Klebungen",
+      "Schweißungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "H. O. Schlüter GmbH",
+    "company_url": "https://www.ho-schlueter.com",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassadenelemente"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Laserschneidmaschinen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Fertigungen",
+      "Montagen",
+      "Wartungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Feldhaus Fenster + Fassaden",
+    "company_url": "https://feldhaus.de",
+    "products": [
+      "Fassaden",
+      "Fenster",
+      "Türen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Blechbearbeitungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Cziotec",
+    "company_url": "https://cziotec.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Schweißmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Metallbearbeitungen",
+      "Oberflächenbehandlungen",
+      "Montagen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Fensterbau Gnan GmbH",
+    "company_url": "https://www.gnan.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Beschattungen",
+      "Markisen",
+      "Pergolen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Deceuninck Germany GmbH",
+    "company_url": "https://www.deceuninck.de/de/",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassensysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schapler Fenster und Sonnenschutz GmbH",
+    "company_url": "http://www.schapler.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Sonnenschutze",
+      "Insektenschutze"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Montag GmbH",
+    "company_url": "https://fenster-montag.de",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Bruckbauer GmbH & Co. KG",
+    "company_url": "https://bruckbauer.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Beschläge",
+      "Insektenschutz"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WINDOR Fensterwerk GmbH",
+    "company_url": "https://www.windor-fensterwerk.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Sonnenschütze"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Erodiermaschinen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Erodieren",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "SÖBA Fenster und Türen GmbH",
+    "company_url": "https://www.soeba.info",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Kunststoff-Haustüren",
+      "Aluminium-Haustüren",
+      "Sonnenschutz/Beschattungen"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Roboter",
+      "Profilbearbeitungsmaschinen"
+    ],
+    "process_type": [
+      "Planungen",
+      "Montagen",
+      "Qualitätskontrollen",
+      "Logistiken",
+      "Forschungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Erich Schillinger GmbH",
+    "company_url": "https://www.schillinger-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden",
+      "Wintergärten",
+      "Rollläden"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Lackanlagen",
+      "Klebeautomaten",
+      "Schneidmaschinen",
+      "Montageanlagen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Verleimen",
+      "Lackieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hans Walter & Sohn GmbH",
+    "company_url": "https://www.walter-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Sonnenschutz",
+      "Einbruchsicherungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Blaurock GmbH",
+    "company_url": "https://www.blaurock.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Beschattungssysteme",
+      "Überdachungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wirth Exklusiv Fenstertechnik GmbH",
+    "company_url": "https://wirth-exklusiv.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Insektenschutz",
+      "Sicherheitssysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Richert-Gruppe GmbH",
+    "company_url": "https://www.richert-gruppe.com",
+    "products": [
+      "Fenster",
+      "Rollläden",
+      "Fensterbänke",
+      "Zubehör",
+      "Richert Titan IP"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schneidmaschinen",
+      "Stanzmaschinen",
+      "Schweißmaschinen",
+      "Klebmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schneiden",
+      "Stanzen",
+      "Schweißen",
+      "Kleben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WERU GmbH",
+    "company_url": "https://www.weru.com/de/",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassentüren",
+      "Sichtschutze",
+      "Ausstattungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HFBB Holzfensterbau Bernau GmbH",
+    "company_url": "https://kreidezeitfenster.de",
+    "products": [
+      "Fenster",
+      "Fenstertüren",
+      "Terrassentüren",
+      "Hauseingangstüren",
+      "Sicherheitsfenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Lacke",
+      "Öle"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "UNILUX GmbH",
+    "company_url": "https://www.unilux.de/de/",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Glas-Fassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Klebungen",
+      "Dichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bojer Fenster GmbH & Co. KG",
+    "company_url": "https://www.bojer-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Hebeschiebetüren",
+      "Referenzen",
+      "Services"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "RITTER Fenster & Türen GmbH",
+    "company_url": "https://www.ritter-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Tischlerei Tinus GmbH",
+    "company_url": "https://tischlerei-tinus.de",
+    "products": [
+      "Holzfenster",
+      "Holztüren",
+      "Hebe-Schiebe-Elemente",
+      "Haustüren",
+      "Fensterzubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Montagen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Reckendrees Bauelemente GmbH",
+    "company_url": "https://www.reckendrees-bauelemente.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Kunststoff-Fenster",
+      "Aluminium-Fenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Meißner Fenstertechnik GmbH",
+    "company_url": "https://www.meissnerfenstertechnik.de",
+    "products": [
+      "Fenstersysteme",
+      "Hebeschiebetüren",
+      "Türsysteme"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schneidmaschinen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schneiden",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "J. Lantz Fenster und Türen GmbH",
+    "company_url": "https://lantz.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Lackierhallen",
+      "Imprägnierungsanlagen",
+      "Schleifmaschinen",
+      "Montageanlagen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Lackierungen",
+      "Imprägnierungen",
+      "Schleifungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster- und Fassadenbau Rommel GmbH",
+    "company_url": "https://www.rommel-fenster.de",
+    "products": [
+      "Holzfenster",
+      "Holz-Aluminium-Fenster",
+      "Aluminiumfenster",
+      "Fassadensysteme",
+      "Pfosten-Riegel-Konstruktionen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Klebungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Terhalle Holzbau GmbH",
+    "company_url": "https://www.terhalle.de",
+    "products": [
+      "Holzbauprojekte",
+      "Fenster",
+      "Innenausbauarbeiten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Verleimungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Radeburger Fensterbau GmbH",
+    "company_url": "https://www.rf-fassaden.de",
+    "products": [
+      "Fassaden",
+      "Fenster",
+      "Türen",
+      "Sonderkonstruktionen",
+      "Stahlkonstruktionen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrmaschinen",
+      "Schweißmaschinen",
+      "Laserschneidmaschinen",
+      "Wasserstrahlschneidmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schweißen",
+      "Laserschneiden",
+      "Wasserstrahlschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "rekord-fenster+türen GmbH & Co. KG",
+    "company_url": "https://rekord.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Kunststoff Fenster",
+      "Holz Fenster",
+      "Holz Haustüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Klebungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Lingel Fensterbau GmbH & Co. KG",
+    "company_url": "https://www.lingel-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrungen",
+      "Schneidungen"
+    ],
+    "process_type": [
+      "Montagen",
+      "Oberflächenbehandlungen",
+      "Lackierarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gutbrod Fenster und Türen",
+    "company_url": "https://www.gutbrod-fenster.de",
+    "products": [
+      "Holz-Fenster",
+      "Holz-Aluminium-Fenster",
+      "Kunststoff-Fenster",
+      "Haustüren",
+      "Ausstattungen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Lackieranlagen",
+      "Prüfmaschinen",
+      "Verpackungsmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Lackieren",
+      "Prüfen",
+      "Verpacken"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "al bohn Fenster-Systeme GmbH",
+    "company_url": "https://www.albohn.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Vordächer"
+    ],
+    "machines": [
+      "Fertigungsanlagen",
+      "Produktionsmaschinen",
+      "Bearbeitungszentren"
+    ],
+    "process_type": [
+      "Produktionen",
+      "Montagen",
+      "Qualitätssicherungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Federle Holzbearbeitung GmbH",
+    "company_url": "https://www.federle-holzbearbeitung.de",
+    "products": [
+      "Fenster",
+      "Fassaden",
+      "Fensterläden",
+      "Innentüren",
+      "Haustüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schleifmaschinen",
+      "Lackiermaschinen",
+      "Sägen",
+      "Hobelmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schleifen",
+      "Lackierarbeiten",
+      "Sägen",
+      "Hobeln"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kochs GmbH",
+    "company_url": "https://www.kochs.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Schiebetüren"
+    ],
+    "machines": [
+      "Extrusionsmaschinen",
+      "Schweißmaschinen",
+      "Laserschneidmaschinen"
+    ],
+    "process_type": [
+      "Extrusionen",
+      "Schweißungen",
+      "Laserschneidungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "meralux G. Kistner GmbH",
+    "company_url": "https://meralux.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Raffstores",
+      "Schiebeläden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "vitaDOOR GmbH & Co. KG",
+    "company_url": "https://www.vitadoor.de",
+    "products": [
+      "Türen",
+      "Zargen",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen",
+      "Schleifarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Krines GmbH",
+    "company_url": "https://www.krines-online.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Roto Frank AG",
+    "company_url": "https://www.roto-professional-service.de/de/",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Dachfenster",
+      "Sicherheitslösungen",
+      "Service-Leistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Dichtungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Klauke Aluminium",
+    "company_url": "https://www.klauke-aluminium.de",
+    "products": [
+      "Haustüren",
+      "Fenster",
+      "Sicherheitstüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Schweißarbeiten",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "neuform-Türenwerk Hans Glock",
+    "company_url": "https://www.neuform-tuer.com",
+    "products": [
+      "Türsysteme",
+      "Türelemente",
+      "Festverglasungen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "CNC-Fräsmaschinen",
+      "Kantenanleimmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Montagen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Pollmann & Renken GmbH",
+    "company_url": "https://www.pollmann-renken.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Seufert-Niklaus GmbH",
+    "company_url": "https://www.seufert-niklaus.de",
+    "products": [
+      "Fassaden",
+      "Fenster",
+      "Türen"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "CAD-Konstruktionstechniken",
+      "CAM-gesteuerte Fertigungsanlagen"
+    ],
+    "process_type": [
+      "Montagen",
+      "Lackierarbeiten",
+      "Konstruktionsarbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kupil Fenster & Türen GmbH",
+    "company_url": "https://www.kupil.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden",
+      "Kunststofffenster",
+      "Aluminiumfenster"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Erodiermaschinen",
+      "Laserschneidmaschinen",
+      "Wasserstrahlschneidmaschinen",
+      "Biegemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Erodieren",
+      "Laserschneiden",
+      "Wasserstrahlschneiden",
+      "Biegen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "FENSTERHAUS Ansbach GmbH",
+    "company_url": "https://www.fensterhaus.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Garagentore",
+      "Innentüren",
+      "Vordächer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Siems fenster + türen GmbH",
+    "company_url": "https://www.siems-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Hebeschiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bayerwald - Fenster Haustüren GmbH",
+    "company_url": "https://www.bayerwald-fenster-tueren.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Rollläden",
+      "Raffstores"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fensterbau Kuhnert GmbH",
+    "company_url": "https://fensterbau-kuhnert.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Markisen",
+      "Wintergärten",
+      "Rollläden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PERFECTA",
+    "company_url": "https://www.perfecta.de/de/",
+    "products": [
+      "Beladungen",
+      "Schüttelungen",
+      "Pressungen",
+      "Schneidungen",
+      "Robotik"
+    ],
+    "machines": [
+      "Schnellschneider",
+      "Schüttelautomaten",
+      "Schüttelanlagen",
+      "Roboter",
+      "Schneidesysteme"
+    ],
+    "process_type": [
+      "Schnitte",
+      "Automatisierungen",
+      "Vernetzungen",
+      "Produktionsabläufe",
+      "Postpressen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "traba GmbH & Co. KG",
+    "company_url": "https://www.traba.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Klose Innenausbau GmbH",
+    "company_url": "https://www.klose-fenster-berlin.de",
+    "products": [
+      "Kunststoff-Fenster",
+      "Aluminium-Fenster",
+      "Holz-Fenster",
+      "Haustüren",
+      "Rollläden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Schweißungen",
+      "Bohrungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HAUTAU GmbH",
+    "company_url": "https://www.hautau.de",
+    "products": [
+      "Fensterbeschläge",
+      "Fensterautomation",
+      "Dienstleistungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Putz Fenster & Haustüren Design GmbH",
+    "company_url": "https://fenster-putz.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Insektenschutze",
+      "Haustüren",
+      "Balkontüren"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Schweissmaschinen",
+      "Lackieranlagen",
+      "Verglasungsmaschinen",
+      "Schneidemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schweißen",
+      "Lackieren",
+      "Verglasen",
+      "Schneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Finstral GmbH",
+    "company_url": "https://www.finstral.com/de/",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Glaswände"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HÖHBAUER GmbH",
+    "company_url": "https://www.hoehbauer.com",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten",
+      "Sonnenschutz",
+      "Lüftungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Karl Müller GmbH & Co. KG",
+    "company_url": "https://www.mueller-mitteltal.de",
+    "products": [
+      "Kipper",
+      "Tieflader",
+      "Tiefladeanhänger",
+      "Entsorgungsfahrzeuge",
+      "Sonderfahrzeuge"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KOWA Holzbearbeitung GmbH",
+    "company_url": "https://www.kowa.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Bodentiefe Elemente",
+      "Wunschtüren",
+      "FENNEN Designtüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Theo Bechtold GmbH & Co KG",
+    "company_url": "https://www.bechtoldfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Schweißmaschinen",
+      "Lackiermaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schweißen",
+      "Lackieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Jechnerer GmbH",
+    "company_url": "https://www.jechnerer.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten",
+      "Überdachungen",
+      "Brandschutzlösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TRYBA Bernsdorfer GmbH",
+    "company_url": "https://www.tryba.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Pergolen",
+      "Veranden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Herzog GmbH",
+    "company_url": "https://herzog-online.com",
+    "products": [
+      "Flechtmaschinen",
+      "Wickelmaschinen",
+      "Abrollgestelle",
+      "Aufwickelgeräte",
+      "Ersatzteile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Heinz Arnhold GmbH",
+    "company_url": "https://www.arnhold-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Rollläden",
+      "Insektenschutz"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Laserschneidemaschinen",
+      "Wasserstrahlschneidemaschinen",
+      "Biegen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Laserschneiden",
+      "Wasserstrahlschneiden",
+      "Biegen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Sievers und Söhne GmbH",
+    "company_url": "https://www.sievers-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten",
+      "Terrassendächer",
+      "Glas-Faltwände"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Acteon Group",
+    "company_url": "https://acteon.com",
+    "products": [
+      "Systeme",
+      "Ingenieuren",
+      "Geo-Dienstleistungen",
+      "Marinefundamente",
+      "Anker"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dobler Metallbau GmbH",
+    "company_url": "https://www.dobler-metallbau.com",
+    "products": [
+      "Fassaden",
+      "Fenster",
+      "Beschlagsysteme",
+      "Profilsysteme",
+      "Glaselemente"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Laserschneidmaschinen",
+      "Wasserstrahlschneidmaschinen",
+      "Biegenmaschinen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Laserschneiden",
+      "Wasserstrahlschneiden",
+      "Biegen",
+      "Schweißen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Süd-Fensterwerk GmbH & Co.",
+    "company_url": "https://www.kneer-suedfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonderelemente"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Eppler Fenster GmbH & Co. KG",
+    "company_url": "https://www.epplerfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten",
+      "Glasfassaden",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster + Rollladen Bauer GmbH",
+    "company_url": "http://www.bauer-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Rollläden",
+      "Überdachungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenstertechnik brand GmbH",
+    "company_url": "http://www.fenstertechnik-brand.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren"
+    ],
+    "machines": [
+      "Extrusionsmaschinen",
+      "Fräsmaschinen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Extrusionen",
+      "Fräsen",
+      "Schweißen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "H. Krause GmbH & Co. KG",
+    "company_url": "http://www.krausefenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Speziallösungen",
+      "Fassaden",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Schweißungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Herrmann Fenster-Türen-Bodenbeläge GmbH",
+    "company_url": "https://herrmann-baiersdorf.de",
+    "products": [
+      "Haustüren",
+      "Fenster",
+      "Innentüren",
+      "Bodenbeläge",
+      "Beschattungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Eibel GmbH",
+    "company_url": "https://www.eibel-gmbh.com",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Raffstoren",
+      "Schiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EGE GmbH",
+    "company_url": "https://www.ege.de/de/",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Alfons Zitzelsberger GmbH",
+    "company_url": "https://www.zitzelsberger-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Sonnenschutz",
+      "Rollläden",
+      "Raffstores"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Oberflächenbehandlungsmaschinen",
+      "Lackieranlagen",
+      "Roboter",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Oberflächenbehandlungen",
+      "Lackierungen",
+      "Montagen",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Iso-Fensterbau GmbH",
+    "company_url": "https://www.isofensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Haustürfüllungen",
+      "Kataloge",
+      "Konfiguratoren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Baumeister GmbH",
+    "company_url": "http://www.baumeister-borken.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Weiß & Sohn",
+    "company_url": "https://www.fensterbau-weiss.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Rollläden",
+      "Galerien",
+      "Sonnenschutzlösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "JTJ Sonneborn Industrie GmbH",
+    "company_url": "https://www.velux.de",
+    "products": [
+      "Dachfenster",
+      "Rollläden",
+      "Zubehör"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagearbeiten",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "BE BAUELEMENTE GMBH",
+    "company_url": "https://be-fenster-tueren.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebeanlagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gugelfuss GmbH",
+    "company_url": "https://www.gugelfuss.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster-Paul GmbH",
+    "company_url": "https://www.fenster-paul.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Sonnenschutzsysteme",
+      "Rollläden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Verleimungen",
+      "Lackierungen",
+      "Beizen",
+      "Ölen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Meeth - Fensterfabrik GmbH + Co.KG",
+    "company_url": "https://www.meeth.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Nebeneingangstüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schindler Fenster + Fassaden GmbH",
+    "company_url": "https://www.schindler-roding.de",
+    "products": [
+      "Fassadenlösungen",
+      "Holzfassaden",
+      "Metallfassaden"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Beschichtungsanlagen",
+      "Beschlagsmontagen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Beschichtungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Döpfner Betriebs GmbH & Co. KG",
+    "company_url": "https://www.doepfner.de",
+    "products": [
+      "Fenstersysteme",
+      "Haustüren",
+      "Schiebe-Elemente"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Koch Fensterbau GmbH",
+    "company_url": "https://www.koch-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Beschattungen",
+      "Holzfenster",
+      "Holz-Aluminium-Fenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MEBAN WST GmbH",
+    "company_url": "https://www.meban.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Sonnenschutzsysteme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "EGE-Elektronik Spezial-Sensoren GmbH",
+    "company_url": "https://ege-elektronik.com/de/",
+    "products": [
+      "Strömungssensoren",
+      "Durchflusssensoren",
+      "Füllstandsensoren",
+      "Induktive Näherungsschalter",
+      "Kapazitive Näherungsschalter"
+    ],
+    "machines": [],
+    "process_type": [
+      "Bohrungen",
+      "Fräsungen",
+      "Lötungen",
+      "Montagen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hans Timm Fensterbau GmbH & Co. KG",
+    "company_url": "https://www.timm-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden"
+    ],
+    "machines": [
+      "CNC-Maschinen",
+      "Lackierungsanlagen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Lackieren",
+      "Montieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "OLIVA GmbH Fenster und Türen",
+    "company_url": "https://www.oliva-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden",
+      "Rollläden",
+      "Allgemeinen"
+    ],
+    "machines": [
+      "CNC-gesteuerten Maschinen"
+    ],
+    "process_type": [
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "R & P Lünner Fensterbau GmbH",
+    "company_url": "https://www.luenner-fensterbau.de",
+    "products": [
+      "Türen",
+      "Fenster",
+      "Sonnenschütze"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Evers Bauelemente Rothenburg/OL GmbH",
+    "company_url": "https://www.evers-bauelemente.de",
+    "products": [
+      "Kunststofffenster",
+      "Holzfenster",
+      "Kunststoff-Aluminium-Fenster",
+      "Haustüren",
+      "Nebeneingangstüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Klebungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Moser GmbH",
+    "company_url": "https://www.moser.gmbh",
+    "products": [
+      "Fenster",
+      "Innenausbauten",
+      "Mineralwerkstoffe"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fertigungen",
+      "Montagen",
+      "Planungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kunststoff Brandenburg GmbH & Co. KG",
+    "company_url": "https://www.kunststoff-brandenburg.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Rollläden",
+      "Markisen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Löffel Fenster + Fassaden GmbH & Co KG",
+    "company_url": "https://www.loeffelfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Glasfassaden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Frenkert Fenster GmbH & Co. KG",
+    "company_url": "https://www.frenkert-fenster.de",
+    "products": [
+      "Kunststofffenster",
+      "Holzfenster",
+      "Türen",
+      "Nebenprodukte",
+      "Referenzobjekte"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Schweißgeräte",
+      "Lackieranlagen",
+      "Montagemaschinen",
+      "Qualitätsprüfmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Schweißen",
+      "Lackieren",
+      "Montieren",
+      "Qualitätsprüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Frerichs Glas GmbH",
+    "company_url": "https://www.frerichs-glas.de",
+    "products": [
+      "Isoliergläser",
+      "Flachgläser",
+      "Kunststoffe"
+    ],
+    "machines": [
+      "CNC-Fräsen",
+      "Abkanten",
+      "UV-Verklebungen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Abkanten",
+      "Verkleben"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Hipp Fensterbau GmbH & Co. KG",
+    "company_url": "http://www.hipp-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden",
+      "Wintergärten",
+      "Sonderanfertigungen"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Sägen",
+      "Bohrmaschinen",
+      "Schleifmaschinen",
+      "Lackieranlagen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Lackierarbeiten",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Kolkhorst Fenstertechnik GmbH & Co. KG",
+    "company_url": "https://www.hk-fenstertechnik.de",
+    "products": [
+      "PVC-Elemente",
+      "ALU-Elemente",
+      "Brandschutz",
+      "Zubehör",
+      "Fenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Klaus Pfeil GmbH & Co. KG",
+    "company_url": "https://www.pfeil-fensterbau.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Fenstersysteme",
+      "Haustürsysteme",
+      "Lüftungslösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Gayko Fenster-Türenwerk GmbH",
+    "company_url": "https://gayko.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Wohnkomfort",
+      "Innovationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Burckhardt Metall Glas GmbH",
+    "company_url": "https://www.burckhardts.de",
+    "products": [
+      "Schiebefenster",
+      "Glasfassaden",
+      "Fiberglas-Profile",
+      "Isoliergläser",
+      "Aluminium-Profile"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Klebungen",
+      "Schleifungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Dr. Hahn GmbH & Co. KG",
+    "company_url": "https://www.dr-hahn.eu",
+    "products": [
+      "Bänder für Kunststofftüren",
+      "Bänder für Metalltüren",
+      "Bänder für Materialkombinationen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Biegungen",
+      "Schweißungen",
+      "Oberflächenbehandlungen",
+      "Montagevorgänge"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HELIMA GmbH",
+    "company_url": "http://www.helima.de/de/",
+    "products": [
+      "Abstandhalter",
+      "Sprossen",
+      "AluTecs",
+      "NiroTecs",
+      "DesignTecs"
+    ],
+    "machines": [],
+    "process_type": [
+      "Coil-Beschichtungen",
+      "Rollformanlagen",
+      "Bandbeschichtungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Uniplast GmbH Bauteile",
+    "company_url": "https://www.up-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Bauelemente"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schneidungen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TEBA Fenster & Türen GmbH",
+    "company_url": "https://www.teba-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schmidt Fenster GmbH",
+    "company_url": "https://www.schmidt-visbek.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Holzfenster",
+      "Kunststofffenster",
+      "Aluminiumfenster"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Fräsmaschinen",
+      "Bohrungen",
+      "Schleifungen",
+      "Laserschneidungen"
+    ],
+    "process_type": [
+      "CNC-Bearbeitungen",
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Laserschneiden"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schaumann GmbH",
+    "company_url": "https://www.schaumann-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Fassaden",
+      "Brandschutz",
+      "Großprojekte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Nordemann GmbH",
+    "company_url": "https://nordemann-gmbh.de",
+    "products": [
+      "Raumtrennwände",
+      "Objekttüren",
+      "Treppen",
+      "Objektausstattungen",
+      "Zulieferprodukte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schleifen",
+      "Oberflächenbehandlungen",
+      "Montagen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Elementebau Höfler GmbH",
+    "company_url": "https://www.hoefler-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Hebeschiebetüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Dichtungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Eibner & Regnath Fenster Türen GmbH",
+    "company_url": "https://www.eibner-regnath.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Beschattungen",
+      "Zubehör",
+      "Services"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Rolladen Braun GmbH & Co. KG",
+    "company_url": "https://braun-online.com",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Markisen",
+      "Raffstores"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Genius GmbH",
+    "company_url": "http://www.genius-germany.de",
+    "products": [
+      "Küchenhelfer",
+      "Haushaltsprodukte",
+      "Lifestyle-Produkte",
+      "Kochgeschirre",
+      "Schlafausstattungen"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fenster Ruoff GmbH & Co. KG",
+    "company_url": "https://www.ruoff.de",
+    "products": [
+      "Kunststoff-Fenster",
+      "Holz-Fenster",
+      "Holz-Alu-Fenster",
+      "Aluminium-Fenster",
+      "Haustüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrungen",
+      "Schleifungen",
+      "Laserschneidungen",
+      "Schweißungen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Laserschneiden",
+      "Schweißen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "LÖWE Fenster Löffler GmbH",
+    "company_url": "https://www.loewe-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden",
+      "Insektenschutz",
+      "Garagentore"
+    ],
+    "machines": [
+      "CNC-Fräsmaschinen",
+      "Klebstoffauftragsmaschinen",
+      "Schweißmaschinen",
+      "Lackieranlagen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Kleben",
+      "Schweißen",
+      "Lackieren",
+      "Montieren"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Merschmann Fenster GmbH & Co. KG",
+    "company_url": "https://www.merschmann-fenster.de/de/",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Bohrungen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ASSMANN GmbH",
+    "company_url": "https://www.assmann-sonderfahrzeuge.de",
+    "products": [
+      "Saugfahrzeuge",
+      "Saugfahrzeuge",
+      "Saugfahrzeuge zur Straßenablauf-Reinigung",
+      "Kanalreinigungsfahrzeuge",
+      "Saug-Druck-Tankfahrzeuge"
+    ],
+    "machines": [],
+    "process_type": [
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen",
+      "Tests"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "KB Fenster GmbH",
+    "company_url": "https://www.kb-fenster.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Hebe-Schiebetüren",
+      "Kunststoff-Fenstersysteme",
+      "Profilsysteme"
+    ],
+    "machines": [
+      "Extruder",
+      "CNC-Maschinen",
+      "Schweißgeräte",
+      "Lackieranlagen",
+      "Montagemaschinen"
+    ],
+    "process_type": [
+      "Extrudierungen",
+      "CNC-Bearbeitungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "L.B. Profile GmbH",
+    "company_url": "https://www.lb-profile.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Zubehör",
+      "Kunststoff-Systeme",
+      "Alu-Systeme"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagearbeiten",
+      "Qualitätskontrollen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Strobel Fensterbau GmbH",
+    "company_url": "https://www.strobel-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Rollläden"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Holzfenster-Fertigungsstraßen",
+      "Rollladensysteme"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Verleimungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "TMP Fenster + Türen GmbH",
+    "company_url": "https://www.tmp-online.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Fensterfabrik W. Niederhofer GmbH",
+    "company_url": "https://www.niederhofer-fenster.de",
+    "products": [
+      "Türsysteme",
+      "Haustüren",
+      "Hebe-Schiebetüren",
+      "Pfosten-Riegelkonstruktionen",
+      "Insektenschutz"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Schweißarbeiten",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "HELMUT MEETH GmbH & Co. KG",
+    "company_url": "https://helmut-meeth.com",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Schiebeanlagen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "PaX AG",
+    "company_url": "https://www.pax.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassentüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Heuer & Co Hausausbau GmbH",
+    "company_url": "https://www.heuer-co.de",
+    "products": [
+      "Rollläden",
+      "Türen",
+      "Markisen",
+      "Fenster",
+      "Terrassendächer"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Jura-Kunststoffenster GmbH",
+    "company_url": "https://www.jurafenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Schiebetüren",
+      "Fassaden",
+      "Brandschutzelemente"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "MB Fenster und Türen GmbH",
+    "company_url": "https://www.mb-fensterfabriken.com",
+    "products": [
+      "Fenster",
+      "Balkontüren",
+      "Haustüren",
+      "Schiebeelemente",
+      "Aluminium-Produkte"
+    ],
+    "machines": [],
+    "process_type": [
+      "Stanzungen",
+      "Biegungen",
+      "Schweißungen",
+      "Lackierungen",
+      "Montagearbeiten"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Oskar Sachs",
+    "company_url": "https://sachs-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Stöckel GmbH",
+    "company_url": "https://www.stoeckel-fenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassentüren",
+      "Glasfassaden",
+      "Zubehör"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Erodiermaschinen",
+      "Schneidmaschinen",
+      "Montagemaschinen",
+      "Lackiermaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Schleifen",
+      "Montagen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "JUCHHEIM-BÖRNER GmbH",
+    "company_url": "http://www.juchheim.de",
+    "products": [
+      "Kunststofffenster",
+      "Haustüren",
+      "Glasdächer",
+      "Rollläden",
+      "Smart-Home-Lösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Extrusionen",
+      "Montagen",
+      "Schneidungen",
+      "Schweißungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Josef Hölscher GmbH & Co. KG",
+    "company_url": "http://www.hoelscher-jhl.de",
+    "products": [
+      "Kabel",
+      "Drahtseile",
+      "Schiffszubehöre",
+      "Bootszubehöre",
+      "Aufzugseile"
+    ],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Solarlux GmbH",
+    "company_url": "https://solarlux.com",
+    "products": [
+      "Wintergärten",
+      "Faltbare Türen",
+      "Fassadenlösungen"
+    ],
+    "machines": [],
+    "process_type": [
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen",
+      "Montagen",
+      "Prüfungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Menck Fenster GmbH",
+    "company_url": "https://www.menck-fenster.de",
+    "products": [
+      "Fenster",
+      "Holzfenster",
+      "Holz-Alufenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Fräsungen",
+      "Bohrungen",
+      "Lackierungen",
+      "Montagen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Söffge Bauelemente GmbH",
+    "company_url": "https://www.soeffge.net/cs/",
+    "products": [
+      "Haustüren",
+      "Kunststofffenster",
+      "Holzfenster",
+      "Kunststoff-Aluminium-Fenster",
+      "Holz-Aluminium-Fenster"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Schneidungen",
+      "Bohrungen",
+      "Schleifungen",
+      "Oberflächenbehandlungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Bröcking Fenster GmbH & Co. KG",
+    "company_url": "https://www.broeckingfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Fassaden",
+      "KYOTO Klimaschutzfenster",
+      "Holz-Aluminium Fenster"
+    ],
+    "machines": [
+      "CNC-Bearbeitungszentren",
+      "Profilautomaten",
+      "CNC-Fräsen",
+      "Dübelmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Bohren",
+      "Montagen",
+      "Oberflächenbehandlungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "WERTBAU GmbH",
+    "company_url": "https://www.wertbau.de/de/",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Haustüren"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Sägen",
+      "Schleifmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Sägen",
+      "Schleifen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Haidl Fenster & Türen GmbH",
+    "company_url": "https://www.haidl.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Holzbauten"
+    ],
+    "machines": [],
+    "process_type": [
+      "Montagen",
+      "Verleimungen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "ROTT Industrie GmbH & Co. KG",
+    "company_url": "http://www.rott-industrie.com",
+    "products": [],
+    "machines": [],
+    "process_type": [],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Reich Fenstervisionen GmbH & Co. KG",
+    "company_url": "https://www.meinreichfenster.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Terrassentüren",
+      "Hebe-Schiebetüren",
+      "Rollläden"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißen",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Wies Elementec GmbH",
+    "company_url": "https://www.wies.de",
+    "products": [
+      "Fenster",
+      "Fassaden",
+      "Haustüren",
+      "Schiebeelemente",
+      "Funktionstüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schweißarbeiten",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  },
+  {
+    "company_name": "Schock Fensterwerk GmbH",
+    "company_url": "https://www.schock-fensterwerk.de",
+    "products": [
+      "Fenster",
+      "Haustüren",
+      "Wintergärten"
+    ],
+    "machines": [
+      "Fräsmaschinen",
+      "Laserschneidmaschinen",
+      "Schweißmaschinen"
+    ],
+    "process_type": [
+      "Fräsen",
+      "Laserschneiden",
+      "Schweißen"
+    ],
+    "lohnfertigung": true,
+    "error": false
+  },
+  {
+    "company_name": "Integral Fenster-Türen-Rolladen GmbH",
+    "company_url": "https://www.integral-apolda.de",
+    "products": [
+      "Fenster",
+      "Türen",
+      "Beschattungssysteme",
+      "Rollläden",
+      "Aluminium-Haustüren"
+    ],
+    "machines": [],
+    "process_type": [
+      "Sägen",
+      "Bohrungen",
+      "Fräsungen",
+      "Schleifarbeiten",
+      "Lackierungen"
+    ],
+    "lohnfertigung": false,
+    "error": false
+  }
+]
