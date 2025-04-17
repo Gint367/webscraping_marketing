@@ -251,11 +251,42 @@ rate_limiter = RateLimiter(
 )
 
 
-async def process_files(file_paths, llm_strategy, output_dir):
+async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
     Uses streaming mode to process results as they become available.
+    
+    Args:
+        file_paths (list): List of file paths to process
+        llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
+        output_dir (str): Directory where output files will be saved
+        overwrite (bool): Whether to overwrite existing output files (default: False)
     """
+    # Filter out files that already have output files if overwrite is False
+    if not overwrite:
+        files_to_skip = []
+        files_to_process = []
+        skipped_count = 0
+        
+        for file_path in file_paths:
+            basename = os.path.basename(file_path)
+            name_without_ext = os.path.splitext(basename)[0]
+            output_file = os.path.join(output_dir, f"{name_without_ext}.json")
+            
+            if os.path.exists(output_file):
+                files_to_skip.append(file_path)
+                skipped_count += 1
+            else:
+                files_to_process.append(file_path)
+        
+        if skipped_count > 0:
+            logger.info(f"Skipping {skipped_count} files that already have output files")
+            file_paths = files_to_process
+        
+        if not file_paths:
+            logger.info("No files to process after skipping existing outputs")
+            return []
+            
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
 
@@ -678,6 +709,12 @@ async def main():
         help="Set the logging level (default: INFO)",
         default="INFO",
     )
+    parser.add_argument(
+        "--overwrite",
+        action="store_true",
+        help="Overwrite existing output files instead of skipping them",
+        default=False,
+    )
 
     args = parser.parse_args()
 
@@ -780,7 +817,7 @@ async def main():
         )
     else:
         # Process all files and do error checking
-        await process_files(files_to_process, llm_strategy, output_dir)
+        await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)
         await check_and_reprocess_error_files(
             output_dir, input_dir, args.ext, llm_strategy
         )
