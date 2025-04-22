@@ -8,7 +8,7 @@ This project aim to help a personalized email marketing campaign by combining we
 
 The pipeline requires Python 3.10+, access to the Bundesanzeiger portal, and API credentials for LLM(Amazon Bedrock & Chatgpt 4o-mini).
 
-## Extracting Machine Assets from Financial Statements
+## Phase 1: Extracting Machine Assets from Financial Statements
 
 **Folder Path:** `extracting_machine/`
 
@@ -101,7 +101,7 @@ python merge_csv_with_excel.py <input_file>
 - **Usage:** Enriches the extracted machine data with additional company information from the master dataset
 - **Example:** `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv`
 
-## Crawling & Scraping Keywords
+## Phase 2: Crawling & Scraping Keywords
 
 **Folder Path:** `webcrawl/`
 
@@ -245,11 +245,11 @@ python convert_to_csv.py <input_json>
 - **Usage:** Transforms the consolidated JSON data into a tabular CSV format for analysis and reporting
 - **Example:** `python convert_to_csv.py consolidated_pluralized_maschinenbau.json`
 
-## Additional Steps
+## Phase 3: Finishing Steps
 
 **Folder Path:** `./`
 
-### Merge Technical Equipment with Keywords
+### Merge technische Anlagen & Sachanlagen with scraped keywords
 
 ```bash
 python merge_technische_anlagen_with_keywords.py --csv <csv_file> --base <base_data_file> [--output <output_file>] [--log-level <level>]
@@ -285,6 +285,8 @@ python enrich_data.py --input <input_file> --output <output_file>
     - "hours_of_saving": Estimated time savings metric
 - **Usage:** Adds calculated metrics useful for email marketing and business analysis
 - **Example:** `python enrich_data.py --input final_export_maschinenbau.csv --output enriched_maschinenbau.csv`
+
+## Extra
 
 ### Convert Excel to CSV
 

@@ -9,7 +9,7 @@ The current pipeline consists of multiple independent scripts that need to be ru
 1. **Extracting Machine Assets from Financial Statements**
    - Extract companies by category
    - Extract HTML from Bundesanzeiger
-   - Clean HTML content
+   - Clean and extract technische anlagen from HTML content
    - Extract Sachanlagen values with LLM
    - Generate CSV report
    - Merge CSV with Excel data
@@ -17,14 +17,14 @@ The current pipeline consists of multiple independent scripts that need to be ru
 2. **Crawling & Scraping Keywords**
    - Crawl domains
    - Extract keywords with LLM
+   - Populate process_type
    - Standardize keywords (pluralize)
    - Consolidate data
-   - Populate process_type
    - Convert to CSV
 
 3. **Final Data Integration**
-   - Merge technical equipment with keywords
-   - Enrich data
+   - Merge technische anlagen & sachanlagen with scraped keywords
+   - Enrich data with email variables
 
 ## Required Changes
 
@@ -38,6 +38,27 @@ Each script in the pipeline needs to be modified to:
 
 ### 1. Script Modifications
 
+#### Creating initial test cases for the pipeline automation
+
+Before implementing the plan, create a test suite based on expected input/output pairs. Follow test-driven development (TDD) workflows. Avoid creating mock implementations. the test should cover just the following implementation task.
+
+- [ ] Create a test directory structure specifically for this feature under 'tests/automation'.
+- [ ] For each script to be modified:
+   - [ ] Create a new test file (e.g., `test_automation_get_company_by_category.py`).
+   - [ ] Define test cases covering various scenarios:
+      - [ ] Valid input data
+      - [ ] Invalid input data (e.g., missing columns, incorrect data types)
+      - [ ] Edge cases (e.g., empty CSV, CSV with only headers)
+      - [ ] Error conditions (e.g., file not found, permission errors)
+   - [ ] Write test functions for each scenario, asserting expected outputs and side effects.
+   - [ ] Use small sample data files for testing.
+   - [ ] Focus on testing the core logic and parameter handling of each script.
+- [ ] Implement input/output validation checks within the test functions.
+- [ ] Ensure tests can be run individually and as a suite.
+- [ ] Document the test cases and their purpose.
+- [ ] Run the tests and verify that they fail (as the scripts are not yet modified).
+
+
 #### Extracting Machine Assets
 - [ ] Modify `get_company_by_category.py` to accept parameters and return output path
 - [ ] Modify `get_bundesanzeiger_html.py` to accept parameters and return output directory
@@ -49,8 +70,6 @@ Each script in the pipeline needs to be modified to:
 #### Crawling & Scraping Keywords
 - [ ] Modify `crawl_domain.py` to accept parameters and return output directory
 - [ ] Modify `extract_llm.py` to handle failures internally and return output directory
-- [ ] Modify `check_llm_failures.py` (optional) to accept parameters and return failure list
-- [ ] Modify `copy_failed_llm.py` (optional) to accept parameters and work with the master script
 - [ ] Modify `pluralize_with_llm.py` to accept parameters and return output directory
 - [ ] Modify `consolidate.py` to accept parameters and return output file path
 - [ ] Modify `fill_process_type.py` to accept parameters and return output file path
@@ -73,19 +92,11 @@ Each script in the pipeline needs to be modified to:
 ### 3. Configuration Management
 
 - [ ] Create a `config.py` or `config.json` file to store:
-  - [ ] API keys for LLMs (Amazon Bedrock, ChatGPT)
   - [ ] Default paths and directories
   - [ ] Processing parameters (e.g., matching thresholds, LLM temperatures)
   - [ ] Retry configurations
 
-### 4. Testing and Validation
-
-- [ ] Create test cases with small sample data
-- [ ] Implement validation checks between pipeline steps
-- [ ] Add unit tests for critical functions
-- [ ] Create an end-to-end test case
-
-### 5. Documentation
+### 4. Documentation
 
 - [ ] Update README.md with master script usage instructions
 - [ ] Document configuration options and requirements
@@ -183,7 +194,7 @@ The master script should:
 2. Validate the input CSV has required columns:
    - Company name
    - Location
-   - URL (if web crawling is needed)
+   - URL
 
 3. Set up logging with appropriate level based on verbose flag
 
@@ -212,10 +223,12 @@ The master script should implement these error handling strategies:
 ## Notes for Implementation
 
 - When modifying scripts, maintain backward compatibility when possible so they can still be run individually
-- Consider using a config file to store API keys and other sensitive information
+- keep using .env file to store sensitive information like API keys
 - Add progress bars or status indicators for long-running processes
 - Consider implementing multiprocessing for steps that can be parallelized
 - Ensure proper cleanup of temporary files
 - Validate outputs at each step to catch issues early
+- refer to the documentation on using crawl4ai in crawl4ai_doc.md
+- do not change the existing implementation unless necessary, notify user before making potentially breaking changes.
 
 This development plan provides a structured approach to implementing the automated pipeline. By following these tasks sequentially, we can create a robust master script that handles the entire data extraction and processing workflow with minimal manual intervention.
