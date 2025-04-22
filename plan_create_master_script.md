@@ -42,40 +42,43 @@ Each script in the pipeline needs to be modified to:
 
 Before implementing the plan, create a test suite based on expected input/output pairs. Follow test-driven development (TDD) workflows. Avoid creating mock implementations. the test should cover just the following implementation task.
 
-- [ ] Create a test directory structure specifically for this feature under 'tests/automation'.
-- [ ] For each script to be modified:
-   - [ ] Create a new test file (e.g., `test_automation_get_company_by_category.py`).
-   - [ ] Define test cases covering various scenarios:
-      - [ ] Valid input data
-      - [ ] Invalid input data (e.g., missing columns, incorrect data types)
-      - [ ] Edge cases (e.g., empty CSV, CSV with only headers)
-      - [ ] Error conditions (e.g., file not found, permission errors)
-   - [ ] Write test functions for each scenario, asserting expected outputs and side effects.
-   - [ ] Use small sample data files for testing.
-   - [ ] Focus on testing the core logic and parameter handling of each script.
-- [ ] Implement input/output validation checks within the test functions.
-- [ ] Ensure tests can be run individually and as a suite.
-- [ ] Document the test cases and their purpose.
-- [ ] Run the tests and verify that they fail (as the scripts are not yet modified).
-
+- [x] Create a test directory structure specifically for this feature under 'tests/automation'.
+- [x] For each script to be modified:
+   - [x] Create a new test file (e.g., `test_automation_get_company_by_category.py`).
+   - [x] Define test cases covering various scenarios:
+      - [x] Valid input data
+      - [x] Invalid input data (e.g., missing columns, incorrect data types)
+      - [x] Edge cases (e.g., empty CSV, CSV with only headers)
+      - [x] Error conditions (e.g., file not found, permission errors)
+   - [x] Write test functions for each scenario, asserting expected outputs and side effects.
+   - [x] Use small sample data files for testing.
+   - [x] Focus on testing the core logic and parameter handling of each script.
+- [x] Implement input/output validation checks within the test functions.
+- [x] Ensure tests can be run individually and as a suite.
+- [x] Document the test cases and their purpose.
+- [x] Run the tests and verify that they fail (as the scripts are not yet modified).
 
 #### Extracting Machine Assets
-- [ ] Modify `get_company_by_category.py` to accept parameters and return output path
-- [ ] Modify `get_bundesanzeiger_html.py` to accept parameters and return output directory
-- [ ] Modify `clean_html.py` to accept parameters and return output directory
-- [ ] Modify `extract_sachanlagen.py` to accept parameters and return output directory/file
-- [ ] Modify `generate_csv_report.py` to accept parameters and return output file path
-- [ ] Modify `merge_csv_with_excel.py` to accept parameters for Excel file and return output path
+the test files are found in tests/automation/extracting_machine/
+- [x] Modify `extracting_machines/get_company_by_category.py` to accept parameters and return output path
+- [ ] Modify `extracting_machines/get_bundesanzeiger_html.py` to accept parameters and return output directory
+- [ ] Modify `extracting_machines/clean_html.py` to accept parameters and return output directory
+- [ ] Modify `extracting_machines/extract_sachanlagen.py` to accept parameters and return output directory/file
+- [ ] Modify `extracting_machines/generate_csv_report.py` to accept parameters and return output file path
+- [ ] Modify `extracting_machines/merge_csv_with_excel.py` to accept parameters for Excel file and return output path
+- Note: Some scripts (e.g., merge_csv_with_excel.py, generate_csv_report.py, clean_html.py, extract_sachanlagen.py) require refactoring to expose a main function with the correct signature for test and pipeline compatibility. This is required for the tests to pass and for integration.
 
 #### Crawling & Scraping Keywords
-- [ ] Modify `crawl_domain.py` to accept parameters and return output directory
-- [ ] Modify `extract_llm.py` to handle failures internally and return output directory
-- [ ] Modify `pluralize_with_llm.py` to accept parameters and return output directory
-- [ ] Modify `consolidate.py` to accept parameters and return output file path
-- [ ] Modify `fill_process_type.py` to accept parameters and return output file path
-- [ ] Modify `convert_to_csv.py` to accept parameters and return output file path
+the test files are found in tests/automation/webcrawl/
+- [ ] Modify `webcrawl/crawl_domain.py` to accept parameters and return output directory
+- [ ] Modify `webcrawl/extract_llm.py` to handle failures internally and return output directory
+- [ ] Modify `webcrawl/pluralize_with_llm.py` to accept parameters and return output directory
+- [ ] Modify `webcrawl/consolidate.py` to accept parameters and return output file path
+- [ ] Modify `webcrawl/fill_process_type.py` to accept parameters and return output file path
+- [ ] Modify `webcrawl/convert_to_csv.py` to accept parameters and return output file path
 
 #### Final Data Integration
+the test files are found in tests/automation/integration/
 - [ ] Modify `merge_technische_anlagen_with_keywords.py` to accept parameters and return output file
 - [ ] Modify `enrich_data.py` to accept parameters and return output file path
 
