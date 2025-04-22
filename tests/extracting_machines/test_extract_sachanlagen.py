@@ -2,7 +2,8 @@ import os
 import unittest
 from unittest.mock import call, patch, mock_open, MagicMock
 import asyncio
-from extract_sachanlagen import check_and_reprocess_error_files, extract_category_from_input_path, process_files
+from extracting_machines.extract_sachanlagen import check_and_reprocess_error_files, extract_category_from_input_path, process_files, convert_german_number
+from decimal import Decimal
 
 # Import the function to test - using absolute import
 
@@ -323,8 +324,7 @@ class TestNumberFormatHandling(unittest.TestCase):
     
     def test_correct_german_number_formats(self):
         """Test conversion of correctly formatted German numbers"""
-        from extract_sachanlagen import convert_german_number
-        from decimal import Decimal
+        
         
         # Test cases with correct German number format
         test_cases = [
@@ -342,8 +342,6 @@ class TestNumberFormatHandling(unittest.TestCase):
     
     def test_incorrect_number_formats(self):
         """Test conversion of incorrectly formatted numbers"""
-        from extract_sachanlagen import convert_german_number
-        from decimal import Decimal
         
         # Test cases with incorrect formats
         test_cases = [
@@ -373,8 +371,6 @@ class TestNumberFormatHandling(unittest.TestCase):
     
     def test_edge_cases(self):
         """Test edge cases for number format handling"""
-        from extract_sachanlagen import convert_german_number
-        from decimal import Decimal
         
         # Edge cases to test
         test_cases = [
@@ -399,8 +395,6 @@ class TestNumberFormatHandling(unittest.TestCase):
     
     def test_special_cases(self):
         """Test special cases like parenthesized negative numbers"""
-        from extract_sachanlagen import convert_german_number
-        from decimal import Decimal
         
         # Special formatting cases
         test_cases = [
@@ -416,8 +410,6 @@ class TestNumberFormatHandling(unittest.TestCase):
     
     def test_very_large_numbers(self):
         """Test handling of very large numbers"""
-        from extract_sachanlagen import convert_german_number
-        from decimal import Decimal
         
         # Large number test cases
         test_cases = [
@@ -472,9 +464,6 @@ class TestProcessFilesErrorHandling(unittest.TestCase):
         mock_crawler_instance = MockCrawler.return_value.__aenter__.return_value
         mock_crawler_instance.arun_many.return_value.__aiter__.return_value = [mock_result]
         
-        # Import process_files function
-        from extract_sachanlagen import process_files
-        
         # Call the function
         await process_files(file_paths, self.mock_llm_strategy, self.output_dir)
         
@@ -516,10 +505,7 @@ class TestProcessFilesErrorHandling(unittest.TestCase):
         # Mock the crawler's arun_many method to return our mock result
         mock_crawler_instance = MockCrawler.return_value.__aenter__.return_value
         mock_crawler_instance.arun_many.return_value.__aiter__.return_value = [mock_result]
-        
-        # Import process_files function
-        from extract_sachanlagen import process_files
-        
+         
         # Call the function
         await process_files(file_paths, self.mock_llm_strategy, self.output_dir)
         
@@ -700,7 +686,7 @@ class TestProcessFilesSkipping(unittest.TestCase):
                                                                  mock_exists):
         """Test that the main function passes the overwrite parameter correctly to process_files"""
         # Import here to avoid circular imports
-        from extract_sachanlagen import main
+        from extracting_machines.extract_sachanlagen import main
         
         # Setup mocks
         mock_exists.return_value = True
