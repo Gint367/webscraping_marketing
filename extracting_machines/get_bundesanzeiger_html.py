@@ -1,3 +1,5 @@
+import argparse
+import logging
 import os
 import re
 import json
@@ -9,30 +11,35 @@ from bs4 import BeautifulSoup
 from deutschland.bundesanzeiger import Bundesanzeiger
 import sys
 import random
+from typing import Optional
+import csv
 
 
-def read_csv_with_encoding(input_csv):
+def setup_logging(verbose: bool = False) -> None:
+    """
+    Configures the logging module for the script.
+    """
+    level = logging.DEBUG if verbose else logging.INFO
+    logging.basicConfig(
+        level=level,
+        format='%(asctime)s [%(levelname)s] %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+
+
+def read_csv_with_encoding(input_csv: str) -> pd.DataFrame:
     try:
-        # Try reading with UTF-8 encoding
         df_input = pd.read_csv(input_csv, encoding="utf-8")
     except UnicodeDecodeError:
-        print(
-            f"{get_timestamp()} [WARN] UTF-8 decoding failed. Trying with ISO-8859-1 encoding..."
-        )
+        logging.warning("UTF-8 decoding failed. Trying with ISO-8859-1 encoding...")
         try:
-            # Try reading with ISO-8859-1 encoding
             df_input = pd.read_csv(input_csv, encoding="ISO-8859-1")
         except UnicodeDecodeError:
-            print(
-                f"{get_timestamp()} [ERROR] ISO-8859-1 decoding failed. Trying with Windows-1252 encoding..."
-            )
+            logging.error("ISO-8859-1 decoding failed. Trying with Windows-1252 encoding...")
             try:
-                # Try reading with Windows-1252 encoding
                 df_input = pd.read_csv(input_csv, encoding="Windows-1252")
             except UnicodeDecodeError as e:
-                print(
-                    f"{get_timestamp()} [ERROR] Failed to read CSV file with multiple encodings: {e}"
-                )
+                logging.error(f"Failed to read CSV file with multiple encodings: {e}")
                 sys.exit(1)
     return df_input
 
@@ -248,8 +255,7 @@ def store_files_locally(
     metadata_file = os.path.join(folder_path, f"{safe_report}_metadata.json")
     metadata = {
         "name": report_name,
-        "date": date_str.isoformat()
-        if hasattr(date_str, "isoformat") else str(date_str),
+        "date": date_str if isinstance(date_str, str) else str(date_str),
         "company_name": company,
     }
     with open(metadata_file, "w", encoding="utf-8") as f:
@@ -296,8 +302,8 @@ def get_reports_with_retry(
             jitter = random.uniform(0.85, 1.15)
             actual_delay = delay * jitter
 
-            print(
-                f"{get_timestamp()} [RETRY] Attempt {attempt}/{max_retries} for {company}. "
+            logging.info(
+                f"Attempt {attempt}/{max_retries} for {company}. "
                 f"Waiting {actual_delay:.2f} seconds..."
             )
             time.sleep(actual_delay)
@@ -305,14 +311,14 @@ def get_reports_with_retry(
         try:
             data = ba.get_reports(company)
             if not data:
-                print(f"{get_timestamp()} [WARN] No or empty data for {company}")
+                logging.warning(f"No or empty data for {company}")
                 if attempt >= max_retries:
-                    print(
-                        f"{get_timestamp()} [ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up."
+                    logging.error(
+                        f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                     )
                     return {}
-                print(
-                    f"{get_timestamp()} [INFO] Will retry ({attempt}/{max_retries})..."
+                logging.info(
+                    f"Will retry ({attempt}/{max_retries})..."
                 )
                 continue
 
@@ -321,33 +327,33 @@ def get_reports_with_retry(
         except AttributeError as e:
             # Specific case for 'NoneType' errors (move to next company)
             if "'NoneType' object has no attribute" in str(e):
-                print(
-                    f"{get_timestamp()} [ERROR] '{company}' returned NoneType. Skipping to next company."
+                logging.error(
+                    f"'{company}' returned NoneType. Skipping to next company."
                 )
                 return {}  # Return an empty dict to indicate failure but move on
 
             # Otherwise, retry if we haven't exceeded max_retries
-            print(
-                f"{get_timestamp()} [ERROR] AttributeError while fetching data for {company}: {e}"
+            logging.error(
+                f"AttributeError while fetching data for {company}: {e}"
             )
             if attempt >= max_retries:
-                print(
-                    f"{get_timestamp()} [ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up."
+                logging.error(
+                    f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                 )
                 return {}
-            print(f"{get_timestamp()} [INFO] Will retry ({attempt}/{max_retries})...")
+            logging.info(f"Will retry ({attempt}/{max_retries})...")
 
         except Exception as e:
             # Handle any other exceptions
-            print(
-                f"{get_timestamp()} [ERROR] Exception while fetching data for {company}: {e}"
+            logging.error(
+                f"Exception while fetching data for {company}: {e}"
             )
             if attempt >= max_retries:
-                print(
-                    f"{get_timestamp()} [ERROR] Maximum retries ({max_retries}) reached for {company}. Giving up."
+                logging.error(
+                    f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                 )
                 return {}
-            print(f"{get_timestamp()} [INFO] Will retry ({attempt}/{max_retries})...")
+            logging.info(f"Will retry ({attempt}/{max_retries})...")
 
 
 def company_folder_exists(base_dir: str, company: str) -> bool:
@@ -413,7 +419,7 @@ def find_latest_jahresabschluss_locally(base_dir: str, company: str) -> tuple:
             html_content = f.read()
         return html_content, latest_folder
     except Exception as e:
-        print(f"{get_timestamp()} [ERROR] Failed to read HTML file {html_file}: {e}")
+        logging.error(f"Failed to read HTML file {html_file}: {e}")
         return None, None
 
 
@@ -423,7 +429,7 @@ def process_company(
     max_retries: int = 5,
     max_delay_seconds: int = 300,
     backoff_factor: float = 2.0,
-    location: str = None,
+    location: Optional[str] = None,
 ) -> dict:
     """
     Fetches ALL reports for a given company (retrying if needed),
@@ -457,13 +463,13 @@ def process_company(
     search_term = company
     if location and location.strip():
         search_term = (
-            f"{company} {location.strip().split()[0]}"  # Use first word of location
+            f"{company} {location.strip().split()[0]}"
         )
 
     # Check if company folder already exists and is not empty
     if company_folder_exists(base_dir, company):
-        print(
-            f"{get_timestamp()} [INFO] {company} folder exists - using local data for extraction."
+        logging.info(
+            f"{company} folder exists - using local data for extraction."
         )
         result_latest["Note"] = "Folder exists | Used local data | "
 
@@ -472,8 +478,8 @@ def process_company(
             base_dir, company
         )
         if html_content:
-            print(
-                f"{get_timestamp()} [INFO] Found local HTML for {company}, extracting data..."
+            logging.info(
+                f"Found local HTML for {company}, extracting data..."
             )
             parsed = extract_financial_data_from_html(html_content, debug=False)
             result_latest["Technische Anlagen Start"] = parsed[
@@ -488,8 +494,8 @@ def process_company(
                 result_latest["Note"] + folder_path
             )  # local folder path
         else:
-            print(
-                f"{get_timestamp()} [WARN] No suitable HTML found locally for {company}"
+            logging.warning(
+                f"No suitable HTML found locally for {company}"
             )
             result_latest["Note"] = "Local data exists but no suitable HTML found"
 
@@ -511,9 +517,7 @@ def process_company(
     # Convert everything to a list
     all_reports = [r for r in data.values() if isinstance(r, dict)]
     if not all_reports:
-        print(
-            f"{get_timestamp()} [INFO] No valid (dict) reports to store for {company}."
-        )
+        logging.info(f"No valid (dict) reports to store for {company}.")
         return result_latest
 
     # 3) Sort by actual datetime instead of the raw string
@@ -530,12 +534,12 @@ def process_company(
     ]
 
     if jahresabschluss_reports:
-        print(
-            f"{get_timestamp()} [INFO] Found the following reports for {company}: {len(jahresabschluss_reports)}"
+        logging.info(
+            f"Found the following reports for {company}: {len(jahresabschluss_reports)}"
         )
     else:
-        print(
-            f"{get_timestamp()} [INFO] No dictionary reports found for {company} (data might be incomplete)."
+        logging.info(
+            f"No dictionary reports found for {company} (data might be incomplete)."
         )
 
     latest_report = jahresabschluss_reports[0] if jahresabschluss_reports else None
@@ -589,42 +593,38 @@ def get_category_from_filename(filename):
         return category
     return "default"  # Default if pattern not matched
 
+
 def main(
     input_csv: str,
-    base_dir: str = None,  # Changed to None to use dynamic default
+    base_dir: Optional[str] = None,
     max_retries: int = 5,
     max_delay_seconds: int = 300,
     backoff_factor: float = 2.0,
-):
+    verbose: bool = False,
+) -> str:
     """
-    Reads companies from 'companies.csv', processes each, and writes extracted
-    data to 'companies_output.csv'.
-    CSV: "company name" (mandatory) & "location" (optional)
-    This version:
-      - reads both company name and location (if available)
-      - skips companies that already have a folder with content,
-      - sorts by datetime,
-      - prints all report names,
-      - extracts from HTML rather than .txt,
-      - retries on fetch errors with exponential backoff,
-      - configurable retry parameters.
-      - configurable base directory for storing data
-      - auto-detects category from filename for directory structure
+    Main entry point for extracting Bundesanzeiger HTML reports.
+    Args:
+        input_csv: Path to the input CSV file.
+        base_dir: Output directory for storing results. If None, auto-generated from category.
+        max_retries: Maximum number of retries for fetching reports.
+        max_delay_seconds: Maximum delay between retries.
+        backoff_factor: Exponential backoff factor.
+        verbose: Enable verbose logging.
+    Returns:
+        The output directory path used for storing results.
     """
+    setup_logging(verbose)
     # Set default base_dir based on input CSV filename if not provided
     if base_dir is None:
         category = get_category_from_filename(input_csv)
         base_dir = f"bundesanzeiger_local_{category}"
-    
     if not os.path.exists(input_csv):
-        print(f"{get_timestamp()} [ERROR] Input file '{input_csv}' not found.")
-        sys.exit(1)
-
+        logging.error(f"Input file '{input_csv}' not found.")
+        raise FileNotFoundError(f"Input file '{input_csv}' not found.")
     input_name = os.path.splitext(os.path.basename(input_csv))[0]
     output_csv = f"{input_name}_output.csv"
     os.makedirs(base_dir, exist_ok=True)
-
-    # Columns we want in the output
     output_columns = [
         "company name",
         "location",
@@ -636,38 +636,29 @@ def main(
         "End Date",
         "Note",
     ]
-
-    # 1) If 'companies_output.csv' does NOT exist, create it with just a header row
     if not os.path.exists(output_csv):
         empty_df = pd.DataFrame(columns=output_columns)
         empty_df.to_csv(output_csv, index=False)
-
-    # 2) Read the input CSV with company names, with more robust parsing options
     try:
         df_input = read_csv_with_encoding(input_csv)
     except pd.errors.ParserError as e:
-        print(f"{get_timestamp()} [WARN] Error parsing CSV with default settings: {e}")
-        print(f"{get_timestamp()} [INFO] Trying with different parsing settings...")
+        logging.warning(f"Error parsing CSV with default settings: {e}")
+        logging.info("Trying with different parsing settings...")
         try:
-            # Try reading with quoting and different engine
             df_input = pd.read_csv(
                 input_csv,
-                quoting=pd.io.common.csv.QUOTE_NONE,
+                quoting=csv.QUOTE_NONE,
                 engine="python",
-                error_bad_lines=False,
-                warn_bad_lines=True,
+                on_bad_lines='skip',
             )
-        except Exception:
-            # If that fails, try reading with a single column
-            print(f"{get_timestamp()} [INFO] Trying with single column reading...")
-            df_input = pd.read_csv(input_csv, header=0, names=["company name"])
+        except Exception as e2:
+            logging.error(f"Failed to read input CSV: {e2}")
+            sys.exit(1)
 
     # Make sure we have the expected column
-    if "company name" not in df_input.columns:
-        print(
-            f"{get_timestamp()} [ERROR] Could not find 'company name' column in the input file"
-        )
-        sys.exit(1)
+    if 'company name' not in df_input.columns:
+        logging.error("Could not find 'company name' column in the input file")
+        raise ValueError("Could not find 'company name' column in the input file")
 
     # 3) For each company, process and append a single row to the output file
     for _, row in df_input.iterrows():
@@ -680,7 +671,7 @@ def main(
         )
 
         location_info = f" (location: {location})" if location else ""
-        print(f"\n{get_timestamp()} [INFO] Processing: {company_name}{location_info}")
+        logging.info(f"Processing: {company_name}{location_info}")
 
         # Call your existing function to get extracted data with retry parameters
         extracted = process_company(
@@ -711,35 +702,27 @@ def main(
         # 4) Append to the output CSV in 'append' mode, no header, no index
         new_df.to_csv(output_csv, mode="a", header=False, index=False)
 
-    print(f"{get_timestamp()} [DONE] Results written to: {output_csv}")
-    print(f"{get_timestamp()} [INFO] Folders created under: {base_dir}")
+    logging.info(f"Results written to: {output_csv}")
+    logging.info(f"Folders created under: {base_dir}")
+    # At the end, return the output directory path
+    return os.path.abspath(base_dir)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print(
-            f"{get_timestamp()} [ERROR] Usage: python get_bundesanzeiger_html.py <input_csv> [output_dir] [max_retries] [max_delay_seconds] [backoff_factor]"
-        )
-        print(f"{get_timestamp()} [INFO]  Default base_dir: bundesanzeiger_local_<category>")
-        sys.exit(1)
-
-    input_csv = sys.argv[1]
-
-    # Parse optional base_dir and retry parameters - keep base_dir as None for auto-detection
-    base_dir = sys.argv[2] if len(sys.argv) > 2 else None
-    max_retries = int(sys.argv[3]) if len(sys.argv) > 3 else 5
-    max_delay_seconds = (
-        int(sys.argv[4]) if len(sys.argv) > 4 else 300
-    )  # 5 minutes default
-    backoff_factor = float(sys.argv[5]) if len(sys.argv) > 5 else 2.0
-
-    # Get the default base_dir based on CSV filename if not specified
-    if base_dir is None:
-        category = get_category_from_filename(input_csv)
-        base_dir = f"bundesanzeiger_local_{category}"
-
-    print(
-        f"{get_timestamp()} [CONFIG] Using base_dir='{base_dir}', max_retries={max_retries}, "
-        + f"max_delay={max_delay_seconds}s, backoff_factor={backoff_factor}"
+    parser = argparse.ArgumentParser(description="Extract Bundesanzeiger HTML reports for companies.")
+    parser.add_argument("--input_csv", required=True, help="Path to the input CSV file.")
+    parser.add_argument("--base_dir", default=None, help="Output directory for storing results.")
+    parser.add_argument("--max_retries", type=int, default=5, help="Maximum number of retries for fetching reports.")
+    parser.add_argument("--max_delay_seconds", type=int, default=300, help="Maximum delay between retries.")
+    parser.add_argument("--backoff_factor", type=float, default=2.0, help="Exponential backoff factor.")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging.")
+    args = parser.parse_args()
+    output_dir = main(
+        input_csv=args.input_csv,
+        base_dir=args.base_dir,
+        max_retries=args.max_retries,
+        max_delay_seconds=args.max_delay_seconds,
+        backoff_factor=args.backoff_factor,
+        verbose=args.verbose,
     )
-    main(input_csv, base_dir, max_retries, max_delay_seconds, backoff_factor)
+    logging.info(f"Output directory: {output_dir}")
