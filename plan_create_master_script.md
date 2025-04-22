@@ -59,9 +59,9 @@ Before implementing the plan, create a test suite based on expected input/output
 - [x] Run the tests and verify that they fail (as the scripts are not yet modified).
 
 #### Extracting Machine Assets
-the test files are found in tests/automation/extracting_machine/
+the test files are found in tests/automation/extracting_machine/ and are named starting with test_automation_
 - [x] Modify `extracting_machines/get_company_by_category.py` to accept parameters and return output path
-- [ ] Modify `extracting_machines/get_bundesanzeiger_html.py` to accept parameters and return output directory
+- [x] Modify `extracting_machines/get_bundesanzeiger_html.py` to accept parameters and return output directory
 - [ ] Modify `extracting_machines/clean_html.py` to accept parameters and return output directory
 - [ ] Modify `extracting_machines/extract_sachanlagen.py` to accept parameters and return output directory/file
 - [ ] Modify `extracting_machines/generate_csv_report.py` to accept parameters and return output file path
