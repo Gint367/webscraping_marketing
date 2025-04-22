@@ -309,7 +309,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
             config=config,
             dispatcher=dispatcher,
             rate_limiter=rate_limiter,
-        ):
+        ): # type: ignore
             processed_count += 1
 
             # Process result as it comes in
