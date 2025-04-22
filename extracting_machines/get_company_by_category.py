@@ -2,15 +2,16 @@
 import pandas as pd
 import argparse
 import re
+import logging
+import os
+from typing import Optional
 
 
-def clean_company_name(name):
+def clean_company_name(name: str) -> str:
     """
     Clean company names by fixing quotation marks issues.
-    
     Args:
         name (str): Company name that might contain quotation marks
-    
     Returns:
         str: Cleaned company name
     """
@@ -29,61 +30,77 @@ def clean_company_name(name):
     return name
 
 
-def extract_companies_by_category(input_file, category, output_file=None):
+def extract_companies_by_category(input_file: str, category: str, output_file: Optional[str] = None) -> str:
     """
     Extract companies from an Excel file based on a specific category.
-    
     Args:
         input_file (str): Path to the Excel file
         category (str): Category to filter by
         output_file (str, optional): Name of the output CSV file. If not provided, 
                                     defaults to 'company_{category}_BA.csv'
-    
+    Returns:
+        str: Path to the output file
+    Raises:
+        FileNotFoundError: If the input file does not exist
+        ValueError: If required columns are missing
+    """
+    logger = logging.getLogger(__name__)
+    try:
+        if not os.path.exists(input_file):
+            logger.error(f"Input file not found: {input_file}")
+            raise FileNotFoundError(f"Input file not found: {input_file}")
+        df = pd.read_excel(input_file, sheet_name=0)
+        required_columns = ['name', 'location', 'category']
+        if not all(col in df.columns for col in required_columns):
+            # If the file already contains only the required columns, skip filtering
+            if set(['name', 'location']).issubset(df.columns) and 'category' not in df.columns:
+                logger.info("Input file already contains required columns. Skipping category filtering.")
+                result_df = df[['name', 'location']].copy()
+            else:
+                logger.error(f"Missing required columns. Found columns: {df.columns.tolist()}")
+                raise ValueError(f"Input file must contain columns: {required_columns}")
+        else:
+            filtered_df = df[df['category'] == category]
+            result_df = filtered_df[['name', 'location']].copy()
+            result_df['name'] = result_df['name'].apply(clean_company_name)
+        if output_file is None:
+            base_dir = os.path.dirname(os.path.abspath(input_file))
+            output_file = os.path.join(base_dir, f'company_{category}_BA.csv')
+        else:
+            output_file = os.path.abspath(output_file)
+        result_df.to_csv(output_file, index=False)
+        logger.info(f"Extracted {len(result_df)} companies in category '{category}'")
+        logger.info(f"Results saved to {output_file}")
+        return output_file
+    except Exception as e:
+        logger.error(f"Error extracting companies: {str(e)}")
+        raise
+
+
+def main(input_file: str, category: str, output_file: Optional[str] = None) -> str:
+    """
+    Main entry point for extracting companies by category.
+    Args:
+        input_file (str): Path to the input Excel file
+        category (str): Category to filter by
+        output_file (str, optional): Output CSV file name
     Returns:
         str: Path to the output file
     """
-    try:
-        # Read the first sheet of the Excel file
-        df = pd.read_excel(input_file, sheet_name=0)
-        
-        # Filter rows where 'Kategorie' matches the specified category
-        filtered_df = df[df['Kategorie'] == category]
-        
-        # Select only 'Firma1' and 'Ort' columns
-        result_df = filtered_df[['Firma1', 'Ort']].copy()
-        
-        # Rename columns to 'company name' and 'location'
-        result_df.columns = ['company name', 'location']
-        
-        # Clean company names
-        result_df['company name'] = result_df['company name'].apply(clean_company_name)
-        
-        # Convert category to lowercase to ensure consistency
-        category = category.lower()
-
-        # Determine output file name
-        if output_file is None:
-            output_file = f'company_{category}_BA.csv'
-        
-        # Save to CSV
-        result_df.to_csv(output_file, index=False)
-        
-        print(f"Extracted {len(result_df)} companies in category '{category}'")
-        print(f"Results saved to {output_file}")
-        
-        return output_file
-        
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return None
+    return extract_companies_by_category(input_file, category, output_file)
 
 
 if __name__ == "__main__":
+    import sys
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
     parser = argparse.ArgumentParser(description='Extract companies by category from Excel file')
     parser.add_argument('input_file', help='Path to the input Excel file')
     parser.add_argument('category', help='Category to filter by')
     parser.add_argument('--output', '-o', help='Output CSV file name (default: company_<category>_BA.csv)')
-    
     args = parser.parse_args()
-    
-    extract_companies_by_category(args.input_file, args.category, args.output)
+    try:
+        output_path = main(args.input_file, args.category, args.output)
+        logging.info(f"Output file created at: {output_path}")
+    except Exception as e:
+        logging.error(str(e))
+        sys.exit(1)
