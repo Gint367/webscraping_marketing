@@ -62,25 +62,27 @@ Before implementing the plan, create a test suite based on expected input/output
 the test files are found in tests/automation/extracting_machine/ and are named starting with test_automation_
 - [x] Modify `extracting_machines/get_company_by_category.py` to accept parameters and return output path
 - [x] Modify `extracting_machines/get_bundesanzeiger_html.py` to accept parameters and return output directory
-- [ ] Modify `extracting_machines/clean_html.py` to accept parameters and return output directory
-- [ ] Modify `extracting_machines/extract_sachanlagen.py` to accept parameters and return output directory/file
-- [ ] Modify `extracting_machines/generate_csv_report.py` to accept parameters and return output file path
-- [ ] Modify `extracting_machines/merge_csv_with_excel.py` to accept parameters for Excel file and return output path
-- Note: Some scripts (e.g., merge_csv_with_excel.py, generate_csv_report.py, clean_html.py, extract_sachanlagen.py) require refactoring to expose a main function with the correct signature for test and pipeline compatibility. This is required for the tests to pass and for integration.
+- [x] Modify `extracting_machines/clean_html.py` to accept parameters and return output directory
+- [x] Modify `extracting_machines/extract_sachanlagen.py` to accept parameters and return output directory/file
+- [x] Modify `extracting_machines/generate_csv_report.py` to accept parameters and return output file path
+- [x] Modify `extracting_machines/merge_csv_with_excel.py` to accept parameters for Excel file and return output path
+- Note: Some scripts (e.g., merge_csv_with_excel.py, generate_csv_report.py, clean_html.py, extract_sachanlagen.py) require refactoring to expose a main function with the correct signature for test and pipeline compatibility. When creating new function, remember to add unit test for that
 
 #### Crawling & Scraping Keywords
-the test files are found in tests/automation/webcrawl/
-- [ ] Modify `webcrawl/crawl_domain.py` to accept parameters and return output directory
-- [ ] Modify `webcrawl/extract_llm.py` to handle failures internally and return output directory
-- [ ] Modify `webcrawl/pluralize_with_llm.py` to accept parameters and return output directory
-- [ ] Modify `webcrawl/consolidate.py` to accept parameters and return output file path
-- [ ] Modify `webcrawl/fill_process_type.py` to accept parameters and return output file path
-- [ ] Modify `webcrawl/convert_to_csv.py` to accept parameters and return output file path
+the test files are found in tests/automation/webcrawl/ and are named starting with test_automation_
+- [x] Modify `webcrawl/crawl_domain.py` to accept parameters and return output directory
+- [x] Modify `webcrawl/extract_llm.py` to handle failures internally and return output directory
+- [x] Modify `webcrawl/pluralize_with_llm.py` to accept parameters and return output directory
+- [x] Modify `webcrawl/consolidate.py` to accept parameters and return output file path
+- [x] Modify `webcrawl/fill_process_type.py` to accept parameters and return output file path
+- [x] Modify `webcrawl/convert_to_csv.py` to accept parameters and return output file path
+- Note: When creating new function, remember to add unit test for that
 
 #### Final Data Integration
-the test files are found in tests/automation/integration/
+the test files are found in tests/automation/integration/ and are named starting with test_automation_
 - [ ] Modify `merge_technische_anlagen_with_keywords.py` to accept parameters and return output file
 - [ ] Modify `enrich_data.py` to accept parameters and return output file path
+- Note: When creating new function, remember to add unit test for that
 
 ### 2. Master Script Development
 
