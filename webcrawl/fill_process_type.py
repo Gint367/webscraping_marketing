@@ -141,15 +141,6 @@ def generate_process_types(products: List[str], machines: List[str], category: s
             process_types = data.get("process_types", [])
             logging.debug(f"LLM returned process_types: {process_types}")
             return [p.strip() for p in process_types if p.strip()]
-        except json.JSONDecodeError as ve:
-            logging.error(f"JSON validation error: {ve}")
-            retries += 1
-            if retries > max_retries:
-                logging.error(f"Failed after {max_retries} retries: JSON decode error")
-                return []
-            delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
-            logging.warning(f"JSON decode error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds.")
-            time.sleep(delay)
         except JSONSchemaValidationError as se:
             logging.error(f"JSON schema validation failed: {se}")
             retries += 1
@@ -221,71 +212,76 @@ def remove_na_words(process_types: List[str]) -> List[str]:
 def process_json_file(input_file: str, output_file: str, category: Optional[str] = None) -> None:
     """
     Process a single JSON file to fill empty process_type fields.
-    
     Args:
         input_file (str): Path to the input JSON file
         output_file (str): Path to save the processed JSON file
         category (Optional[str]): Category to use for LLM prompt. If None, extract from filename.
+    Raises:
+        ValueError: If the input JSON is not a list of companies.
+        json.JSONDecodeError: If the input file is not valid JSON.
     """
     global processed_companies, empty_process_types_filled
-    
+
+    # Get category from argument or filename
+    if not category:
+        category = extract_category_from_filename(os.path.basename(input_file))
+    if not category:
+        logging.warning(f"Could not extract category from filename: {input_file}, using default category 'test'")
+        category = "test"
+
+    logging.info(f"Processing file: {input_file} (Category: {category})")
+
+    # Load the JSON file
     try:
-        # Get category from argument or filename
-        if not category:
-            category = extract_category_from_filename(os.path.basename(input_file))
-        if not category:
-            logging.error(f"Could not extract category from filename: {input_file}")
-            return
-        
-        logging.info(f"Processing file: {input_file} (Category: {category})")
-        
-        # Load the JSON file
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
-        # Process each company in the data
-        for company in data:
-            processed_companies += 1
-            company_name = company.get('company_name', 'Unknown')
-            # Check if process_type is empty
-            if not company.get('process_type'):
-                products = company.get('products', [])
-                machines = company.get('machines', [])
-                if products:
-                    # Generate process types using LLM
-                    process_types = generate_process_types(products, machines, category)
-                    # Remove 'na' words before further processing
-                    process_types = remove_na_words(process_types)
-                    # Check for and fix conjugations
-                    process_types = check_for_conjugations(process_types, company_name)
-                    # Update the company data
-                    company['process_type'] = process_types
-                    empty_process_types_filled += 1
-                    logging.info(f"  Updated process_type for company: {company.get('company_name', 'Unknown')}")
-                    logging.info(f"  Products: {products}")
-                    logging.info(f"  Generated process_type: {process_types}")
-            else:
-                # Remove 'na' words from existing process_type
-                original_process_type = company['process_type']
-                cleaned_process_type = remove_na_words(original_process_type)
-                # Check existing process_type for conjugations
-                cleaned_process_type = check_for_conjugations(cleaned_process_type, company_name)
-                # Update only if changes were made
-                if cleaned_process_type != original_process_type:
-                    company['process_type'] = cleaned_process_type
-                    logging.info(f"  Fixed conjugations in process_type for company: {company.get('company_name', 'Unknown')}")
-                    logging.info(f"  Original: {original_process_type}")
-                    logging.info(f"  Fixed: {cleaned_process_type}")
-        
-        # Save the updated data
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        
-        logging.info(f"Saved processed data to: {output_file}")
-    
-    except Exception as e:
-        logging.error(f"Error processing file {input_file}: {e}")
+    except json.JSONDecodeError as e:
+        logging.error(f"Malformed JSON in file: {input_file}")
+        raise
+
+    if not isinstance(data, list):
+        raise ValueError(f"Input JSON must be a list of companies, got {type(data).__name__}")
+
+    # Process each company in the data
+    for company in data:
+        processed_companies += 1
+        company_name = company.get('company_name', 'Unknown')
+        # Check if process_type is empty
+        if not company.get('process_type'):
+            products = company.get('products', [])
+            machines = company.get('machines', [])
+            if products:
+                # Generate process types using LLM
+                process_types = generate_process_types(products, machines, category)
+                # Remove 'na' words before further processing
+                process_types = remove_na_words(process_types)
+                # Check for and fix conjugations
+                process_types = check_for_conjugations(process_types, company_name)
+                # Update the company data
+                company['process_type'] = process_types
+                empty_process_types_filled += 1
+                logging.info(f"  Updated process_type for company: {company.get('company_name', 'Unknown')}")
+                logging.info(f"  Products: {products}")
+                logging.info(f"  Generated process_type: {process_types}")
+        else:
+            # Remove 'na' words from existing process_type
+            original_process_type = company['process_type']
+            cleaned_process_type = remove_na_words(original_process_type)
+            # Check existing process_type for conjugations
+            cleaned_process_type = check_for_conjugations(cleaned_process_type, company_name)
+            # Update only if changes were made
+            if cleaned_process_type != original_process_type:
+                company['process_type'] = cleaned_process_type
+                logging.info(f"  Fixed conjugations in process_type for company: {company.get('company_name', 'Unknown')}")
+                logging.info(f"  Original: {original_process_type}")
+                logging.info(f"  Fixed: {cleaned_process_type}")
+
+    # Save the updated data
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    logging.info(f"Saved processed data to: {output_file}")
 
 def find_pluralized_files(folder_path: str) -> List[str]:
     """
@@ -311,9 +307,85 @@ def find_pluralized_files(folder_path: str) -> List[str]:
     
     return matching_files
 
-def main():
+def run_fill_process_type(
+    input_file: Optional[str] = None,
+    folder: Optional[str] = None,
+    output_dir: Optional[str] = None,
+    log_level: str = "INFO"
+) -> List[str]:
+    """
+    Programmatic entry point for filling process_type fields in JSON files.
+    Args:
+        input_file (Optional[str]): Path to a single input JSON file.
+        folder (Optional[str]): Path to a folder containing JSON files to process.
+        output_dir (Optional[str]): Directory to save processed JSON files.
+        log_level (str): Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+    Returns:
+        List[str]: List of output file paths created/updated.
+    Raises:
+        FileNotFoundError: If input file/folder does not exist.
+        ValueError: If input file is not a JSON file.
+    """
+    log_level_value = getattr(logging, log_level.upper(), logging.INFO)
+    setup_logging(log_level_value)
+
+    if not input_file and not folder:
+        logging.error("Either input_file or folder must be specified")
+        raise ValueError("Either input_file or folder must be specified")
+
+    files_to_process: List[str] = []
+    category: Optional[str] = None
+
+    if input_file:
+        if not os.path.isfile(input_file):
+            logging.error(f"Input file not found: {input_file}")
+            raise FileNotFoundError(f"Input file not found: {input_file}")
+        if not input_file.endswith('.json'):
+            logging.error(f"Input file must be a JSON file: {input_file}")
+            raise ValueError(f"Input file must be a JSON file: {input_file}")
+        files_to_process.append(input_file)
+        category = extract_category_from_filename(os.path.basename(input_file))
+
+    if folder:
+        folder_files = find_pluralized_files(folder)
+        if not folder_files:
+            logging.warning(f"No matching JSON files found in folder: {folder}")
+        else:
+            files_to_process.extend(folder_files)
+            category = extract_category_from_folder(folder)
+
+    if not files_to_process:
+        logging.error("No files to process")
+        return []
+
+    output_paths: List[str] = []
+    for input_path in files_to_process:
+        filename = os.path.basename(input_path)
+        output_filename = filename
+        if output_dir:
+            out_dir = output_dir
+        else:
+            out_dir = os.path.dirname(input_path)
+        output_file = os.path.join(out_dir, output_filename)
+        try:
+            process_json_file(input_path, output_file, category=category)
+            output_paths.append(output_file)
+        except json.JSONDecodeError:
+            logging.error(f"Malformed JSON in file: {input_path}")
+            raise
+        except ValueError:
+            logging.error(f"Empty input file: {input_path}")
+            raise
+        except Exception as e:
+            logging.error(f"Error processing file {input_path}: {e}")
+            raise
+    return output_paths
+
+def main() -> Optional[List[str]]:
     """
     Main function to process JSON files - either a single file or all matching files in a folder.
+    Returns:
+        Optional[List[str]]: List of output file paths created/updated, or None if error.
     """
     parser = argparse.ArgumentParser(description='Fill empty process_type fields in JSON files using LLM. will overwrite the file')
     parser.add_argument('--input-file', type=str, 
@@ -324,71 +396,19 @@ def main():
                         help='Directory to save processed JSON files (defaults to same as input)')
     parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         default='INFO', help='Set the logging level')
-    
     args = parser.parse_args()
-    
-    # Setup logging with the specified level
-    log_level = getattr(logging, args.log_level)
-    setup_logging(log_level)
-    
-    # Check if at least one input option is provided
-    if not args.input_file and not args.folder:
-        logging.error("Either --input-file or --folder must be specified")
-        parser.print_help()
-        return
-    
-    files_to_process = []
-    category = None
-    
-    # If a single file is specified
-    if args.input_file:
-        if not os.path.isfile(args.input_file):
-            logging.error(f"Input file not found: {args.input_file}")
-            return
-        
-        if not args.input_file.endswith('.json'):
-            logging.error(f"Input file must be a JSON file: {args.input_file}")
-            return
-        
-        files_to_process.append(args.input_file)
-        
-        # Try to extract category from filename
-        category = extract_category_from_filename(os.path.basename(args.input_file))
-    
-    # If a folder is specified
-    if args.folder:
-        folder_files = find_pluralized_files(args.folder)
-        if not folder_files:
-            logging.warning(f"No matching JSON files found in folder: {args.folder}")
-        else:
-            files_to_process.extend(folder_files)
-            # Extract category from folder name
-            category = extract_category_from_folder(args.folder)
-    
-    if not files_to_process:
-        logging.error("No files to process")
-        return
-    
-    logging.info(f"Found {len(files_to_process)} files to process")
-    
-    for input_file in files_to_process:
-        filename = os.path.basename(input_file)
-        output_filename = filename
-        
-        if args.output_dir:
-            output_dir = args.output_dir
-        else:
-            output_dir = os.path.dirname(input_file)
-        
-        output_file = os.path.join(output_dir, output_filename)
-        
-        process_json_file(input_file, output_file, category=category)
-    
-    logging.info("===== PROCESSING SUMMARY =====")
-    logging.info(f"Files processed: {len(files_to_process)}")
-    logging.info(f"Companies processed: {processed_companies}")
-    logging.info(f"Empty process_type fields filled: {empty_process_types_filled}")
-    logging.info(f"Conjugation issues fixed: {conjugation_issues_fixed} (across {len(conjugation_issues_fixed_companies)} companies)")
+
+    output_paths = run_fill_process_type(
+        input_file=args.input_file,
+        folder=args.folder,
+        output_dir=args.output_dir,
+        log_level=args.log_level
+    )
+    if output_paths:
+        print("\n".join(output_paths))
+    else:
+        print("No output files created.")
+    return output_paths
 
 if __name__ == "__main__":
     main()

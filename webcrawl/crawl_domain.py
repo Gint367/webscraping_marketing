@@ -18,7 +18,7 @@ from crawl4ai import (
 import logging
 
 # Import the new function
-from get_company_by_top1machine import read_urls_and_companies_by_top1machine
+from webcrawl.get_company_by_top1machine import read_urls_and_companies_by_top1machine
 
 # Import to handle colorama recursion issues
 import sys
@@ -1049,13 +1049,13 @@ async def crawl_domain(
     return output_markdown_file, total_crawled
 
 
-async def main() -> None:
+async def main() -> Optional[str]:
     """
     Main function to initiate the web crawling process.
 
     This function:
     1. Parses command line arguments
-    2. Reads URLs and company names from an Excel file
+    2. Reads URLs and company names from an Excel or CSV file
     3. Creates the output directory
     4. Crawls each domain to collect and save content
     5. Outputs a summary of results
@@ -1066,58 +1066,59 @@ async def main() -> None:
         --max-links: Maximum number of links to crawl per domain (default: 60)
 
     Returns:
-        None
+        Optional[str]: Output directory path if successful, None otherwise
+    Raises:
+        FileNotFoundError: If the input file does not exist
+        ValueError: If the input file is missing required columns or is empty
     """
-
-    # Parse command line arguments
     args = parse_args()
-
-    # Use arguments for Excel file and output directory
     excel_file = args.excel
 
-    # If output directory is not specified, create one based on the input filename
+    # Validate input file existence
+    if not os.path.exists(excel_file):
+        logger.error(f"Input file '{excel_file}' not found.")
+        raise FileNotFoundError(f"Input file '{excel_file}' not found.")
+
+    # Determine output directory
     if args.output:
         output_dir = args.output
     else:
-        # Extract name from input file
         extracted_name = extract_name_from_input_file(excel_file)
         output_dir = f"domain_content_{extracted_name}"
         logger.info("No output directory specified. Using '%s' based on input filename.", output_dir)
-
     max_links = args.max_links
 
-    # You can either use hardcoded domains or read from Excel
-    use_excel = True  # Set to True to use Excel file
+    # Read companies and URLs using robust function
+    try:
+        urls_and_companies = read_urls_and_companies_by_top1machine(excel_file)
+    except Exception as e:
+        logger.error(f"Error reading input file: {e}")
+        raise ValueError(f"Failed to read input file: {e}")
 
-    if use_excel:
-        # Use the Excel file path from arguments
-        urls_and_companies = read_urls_and_companies_by_top1machine(
-            excel_file
-        )  # For merged excel files from merge_excel.py
-        if not urls_and_companies:
-            return logger.warning(
-                "No valid URLs found in Excel file. Using default domains instead."
-            )
+    # Validate input content
+    if not urls_and_companies:
+        # Check if the file is empty or just missing required columns
+        import pandas as pd
+        file_extension = os.path.splitext(excel_file)[1].lower()
+        try:
+            if file_extension == '.csv':
+                df = pd.read_csv(excel_file)
+            elif file_extension in ['.xlsx', '.xls']:
+                df = pd.read_excel(excel_file, sheet_name=0)
+            else:
+                raise ValueError(f"Unsupported file extension: {file_extension}. Use .csv, .xlsx, or .xls")
+        except Exception as e:
+            logger.error(f"Error reading input file for validation: {e}")
+            raise ValueError(f"Failed to read input file: {e}")
+        if df.empty:
+            logger.error("No valid URLs found in input file. No crawling will be performed.")
+            return None
+        else:
+            logger.error("Input file must contain columns for URL and company name.")
+            raise ValueError("Input file must contain columns for URL and company name.")
 
-    else:
-        # List of domains to crawl (hardcoded)
-        domains = [
-            [
-                ("https://www.ab-berghaus.de", "ab-Apparatebau Berghaus GmbH"),
-            ]
-        ]
-        # Convert to the same format as Excel reader output for consistent handling
-        urls_and_companies = [
-            (url, company) for sublist in domains for url, company in sublist
-        ]
-
-    # Create output directory from arguments
-    # This line can be removed since we've already set output_dir above
-    # output_dir = args.output
-
-    # Crawl each domain
+    ensure_output_directory(output_dir)
     results = []
-    # Count the number of companies to crawl
     num_companies = len(urls_and_companies)
     logger.info("Total number of companies to crawl: %d", num_companies)
 
@@ -1126,7 +1127,6 @@ async def main() -> None:
         logger.info(
             f"{'=' * 40}\nStarting crawl of domain: {url}{company_info}\n{'=' * 40}"
         )
-
         markdown_file, page_count = await crawl_domain(
             url,
             output_dir_aggregated=output_dir,
@@ -1154,6 +1154,8 @@ async def main() -> None:
         logger.info("Pages crawled: %d", result['pages_crawled'])
         logger.info("Markdown file: %s", os.path.basename(result['markdown_file']))
         logger.info("-" * 40)
+
+    return output_dir
 
 
 if __name__ == "__main__":

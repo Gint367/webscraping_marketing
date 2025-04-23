@@ -150,6 +150,26 @@ def _save_result(result_content: Any, output_dir: str, source_url: str):
          logger.error(f"Failed to serialize result to JSON for {output_file}: {e}")
 
 
+def _is_relevant_extraction(content: Any) -> bool:
+    """
+    Returns True if at least one of 'products', 'machines', or 'process_type' is a non-empty list.
+    """
+    if isinstance(content, str):
+        try:
+            content = json.loads(content)
+        except Exception:
+            return False
+    if isinstance(content, list) and content:
+        for entry in content:
+            if isinstance(entry, dict):
+                for field in ["products", "machines", "process_type"]:
+                    field_value = entry.get(field)
+                    if isinstance(field_value, list) and field_value:
+                        return True
+        return False
+    return False
+
+
 async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrategy, output_dir: str, overwrite: bool = False) -> List[Dict]:
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
@@ -166,13 +186,13 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
     
     # Filter files first
     actual_files_to_process = _filter_files_to_process(file_paths, output_dir, overwrite)
-    
+
     if not actual_files_to_process:
         return [] # Return early if no files need processing
 
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in actual_files_to_process]
-    
+
     logger.info(f"Processing {len(actual_files_to_process)} files...")
 
     config = CrawlerRunConfig(
@@ -191,37 +211,26 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
         extracted_data = []
         # Use actual_files_to_process for indexing results correctly
         for idx, result in enumerate(results): # type: ignore
-            # Get the original file path corresponding to this result
-            original_file_path = actual_files_to_process[idx] 
+            original_file_path = actual_files_to_process[idx]
             if result.success and result.extracted_content:
-                _save_result(result.extracted_content, output_dir, result.url)
-                # Ensure extracted_data stores structured content if possible
-                if isinstance(result.extracted_content, str):
-                    try:
-                       extracted_data.append(json.loads(result.extracted_content))
-                    except json.JSONDecodeError:
-                       extracted_data.append({"raw_content": result.extracted_content}) # Store as dict if not JSON
+                logger.debug(f"Extracted content for {original_file_path}: {result.extracted_content}")
+                is_relevant = _is_relevant_extraction(result.extracted_content)
+                if is_relevant:
+                    _save_result(result.extracted_content, output_dir, result.url)
+                    if isinstance(result.extracted_content, str):
+                        try:
+                            extracted_data.append(json.loads(result.extracted_content))
+                        except json.JSONDecodeError:
+                            extracted_data.append({"raw_content": result.extracted_content})
+                    else:
+                        extracted_data.append(result.extracted_content)
                 else:
-                     extracted_data.append(result.extracted_content)
-
+                    logger.info(f"Skipping output for {original_file_path} as extracted content is empty or irrelevant.")
             else:
-                error_msg = getattr(result, "error_message", "Unknown error")
-                logger.error(f"No content extracted from {original_file_path}: {error_msg}")
-                # Optionally save error information to a file or return it
-                error_info = {"error": True, "source_file": original_file_path, "message": error_msg}
-                # Use the original file path to generate the error filename
-                error_output_file = _get_output_filename(original_file_path, output_dir)
-                try:
-                    with open(error_output_file, "w", encoding="utf-8") as f:
-                        json.dump(error_info, f, indent=2, ensure_ascii=False)
-                    logger.info(f"Error details saved to {error_output_file}")
-                except IOError as e:
-                    logger.error(f"Failed to write error file {error_output_file}: {e}")
-
+                logger.info(f"Skipping error output for {original_file_path} as input is irrelevant or empty.")
 
         # Show usage stats
         llm_strategy.show_usage()
-        
         return extracted_data
 
 
@@ -326,6 +335,96 @@ async def check_and_reprocess_error_files(output_dir: str, input_dir: str, ext: 
         return 0
 
 
+def run_extract_llm(
+    input_path: str,
+    output_dir: str = "llm_extracted_data",
+    ext: str = ".md",
+    limit: Optional[int] = None,
+    only_recheck: bool = False,
+    overwrite: bool = False,
+    log_level: str = "INFO",
+    llm_strategy: Optional[LLMExtractionStrategy] = None,
+) -> str:
+    """
+    Run the LLM extraction process programmatically.
+
+    Args:
+        input_path (str): Input file or directory path.
+        output_dir (str): Output directory for extracted data.
+        ext (str): File extension to process (default: .md).
+        limit (Optional[int]): Limit number of files to process (default: all).
+        only_recheck (bool): Only recheck files with errors in the output directory.
+        overwrite (bool): Overwrite existing output files instead of skipping them.
+        log_level (str): Set the logging level (default: INFO).
+        llm_strategy (Optional[LLMExtractionStrategy]): Custom LLM extraction strategy to use. If None, a default is created.
+
+    Returns:
+        str: The output directory path where results are stored.
+    """
+    setup_logging(log_level)
+    global logger
+    logger = logging.getLogger(__name__)
+
+    if output_dir == "llm_extracted_data":
+        logger.warning("Output directory is set to default 'llm_extracted_data'.")
+
+    output_dir = ensure_output_directory(output_dir)
+
+    if llm_strategy is None:
+        temperature = 0.7
+        max_tokens = 1000
+        llm_strategy = LLMExtractionStrategy(
+            llm_config=LLMConfig(
+                provider="bedrock/amazon.nova-pro-v1:0",
+            ),
+            extraction_type="schema",
+            schema=Company.model_json_schema(),
+            instruction=prompt,
+            chunk_token_threshold=4096,
+            overlap_rate=0.1,
+            input_format="markdown",
+            apply_chunking=False,
+            extra_args={"temperature": temperature, "max_tokens": max_tokens},
+        )
+
+    files_to_process = []
+    if os.path.isfile(input_path):
+        files_to_process = [input_path]
+    elif os.path.isdir(input_path):
+        for root, _, files in os.walk(input_path):
+            for file in files:
+                if file.endswith(ext):
+                    files_to_process.append(os.path.join(root, file))
+    else:
+        logger.error(f"Error: {input_path} is not a valid file or directory")
+        raise FileNotFoundError(f"Input path '{input_path}' does not exist or is not a valid file/directory.")
+
+    if not files_to_process:
+        logger.warning(f"No {ext} files found in {input_path}")
+        return output_dir
+
+    if limit is not None and limit > 0:
+        files_to_process = files_to_process[:limit]
+
+    logger.info(f"Found {len(files_to_process)} files to potentially process...")
+
+    if os.path.isdir(input_path):
+        input_dir = input_path
+    else:
+        input_dir = os.path.dirname(input_path)
+
+    async def _run():
+        if only_recheck:
+            logger.info("Only rechecking files with errors, skipping initial processing.")
+            await check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy)
+        else:
+            await process_files(files_to_process, llm_strategy, output_dir, overwrite)
+            await check_and_reprocess_error_files(output_dir, input_dir, ext, llm_strategy)
+
+    asyncio.run(_run())
+    return output_dir
+
+
 async def main():
     parser = argparse.ArgumentParser(
         description="Extract data from markdown files (domain_content_*) using LLM"
@@ -412,6 +511,7 @@ async def main():
 
         if not files_to_process:
             logger.warning(f"No {args.ext} files found in {args.input}")
+            # Do not create any output files if no relevant input
             return
 
         # Apply limit if specified
@@ -421,7 +521,7 @@ async def main():
         logger.info(f"Found {len(files_to_process)} files to potentially process...")
     else:
         logger.error(f"Error: {args.input} is not a valid file or directory")
-        return
+        raise FileNotFoundError(f"Input path '{args.input}' does not exist or is not a valid file/directory.")
 
     # Check for and reprocess files with errors
     if os.path.isdir(args.input):
@@ -439,6 +539,16 @@ async def main():
         await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)
         await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
 
+    # Print the output directory path for downstream use
+    print(output_dir)
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "--run-extract-llm":
+        # For direct function call testing
+        # Example: python extract_llm.py --run-extract-llm input_dir output_dir
+        _, _, input_path, output_dir = sys.argv
+        print(run_extract_llm(input_path, output_dir))
+    else:
+        asyncio.run(main())

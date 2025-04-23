@@ -19,7 +19,31 @@ class TestConvertToCsv(unittest.TestCase):
         self.output_file = 'tests/automation/webcrawl/output/converted_output.csv'
         # Create sample valid JSON file
         with open(self.valid_input_file, 'w') as f:
-            f.write('{"keywords": ["Maschinen"], "process_type": "Produktion"}')
+            f.write("""
+                [
+                    {
+                        "company_name": "Alpha Metall GmbH",
+                        "company_url": "https://www.alphametall.com",
+                        "products": [
+                            "Standardprofile",
+                            "Aluminium-Stangen",
+                            "Aluminium-Rohre"
+                        ],
+                        "machines": [
+                            "Extrusionsmaschinen",
+                            "Bearbeitungsmaschinen",
+                            "Veredelungsmaschinen"
+                        ],
+                        "process_type": [
+                            "Extrusionen",
+                            "Bearbeitungen",
+                            "Veredelungen"
+                        ],
+                        "lohnfertigung": true,
+                        "error": false
+                    }
+                ]
+                """)
         # Create sample invalid JSON file (malformed)
         with open(self.invalid_input_file, 'w') as f:
             f.write('not a json')
@@ -72,8 +96,11 @@ class TestConvertToCsv(unittest.TestCase):
         with patch.object(sys, 'argv', test_args):
             convert_to_csv.main()
         self.assertTrue(os.path.exists(self.output_file), "Output file should be created for empty input file")
-        with open(self.output_file, 'r', encoding='utf-8') as f:
+        with open(self.output_file, 'r', encoding='utf-8-sig') as f:
             data = f.read().strip()
+            # Remove BOM if present and check for header
+            if data.startswith('\ufeff'):
+                data = data.lstrip('\ufeff')
             self.assertTrue(data == '' or data.startswith('Company name'), "Output file should be empty or contain only headers for empty input file")
 
     def test_main_missingInputFile_raisesFileNotFoundError(self):

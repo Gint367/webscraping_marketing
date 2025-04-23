@@ -20,13 +20,13 @@ def load_json_data(file_path: str) -> List[Dict[str, Any]]:
         with open(file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Error: File not found: {file_path}")
+        logging.error(f"Error: File not found: {file_path}")
         return []
     except json.JSONDecodeError as e:
-        print(f"Error parsing JSON in {file_path}: {e}")
+        logging.error(f"Error parsing JSON in {file_path}: {e}")
         return []
     except Exception as e:
-        print(f"Unexpected error loading {file_path}: {e}")
+        logging.error(f"Unexpected error loading {file_path}: {e}")
         return []
 
 
@@ -136,16 +136,15 @@ def load_filter_words(filter_file: str) -> List[str]:
     """Load list of words/substrings to filter out from a file."""
     if not filter_file or not os.path.exists(filter_file):
         return []
-    
     try:
         with open(filter_file, 'r', encoding='utf-8') as f:
             return [line.strip() for line in f if line.strip() and not line.startswith('#')]
     except Exception as e:
-        print(f"Error loading filter words from {filter_file}: {e}")
+        logging.error(f"Error loading filter words from {filter_file}: {e}")
         return []
 
 
-def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[str] = None, exact_match: bool = False) -> Union[Dict[str, Any], None]:
+def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[str] = [], exact_match: bool = False) -> Union[Dict[str, Any], None]:
     """Consolidate multiple entries into a single entry."""
     if not entries:
         return None
@@ -294,8 +293,12 @@ def process_files(input_path, output_path):
             else:
                 all_companies[company_name] = primary_entry
                 logging.debug(f"New company added: {company_name} from file {file_path}")
+        except json.JSONDecodeError as e:
+            logging.error(f"Malformed JSON in file {file_path}: {e}")
+            raise
         except Exception as e:
             logging.error(f"Error processing file {file_path}: {e}")
+            # For other errors, continue processing other files
 
     # Convert companies dictionary to list
     result = list(all_companies.values())
@@ -323,16 +326,37 @@ def print_merged_companies_summary(company_filepaths: dict) -> None:
         print(f"Company: {name}\n  Files: {', '.join(paths)}")
 
 
+def consolidate_main(input_path: str, output_path: str = "", log_level: str = "INFO") -> str:
+    """
+    Main entry point for consolidating company entries from JSON files.
+    Args:
+        input_path: Path to input JSON file or directory containing JSON files.
+        output_path: Path to output JSON file. If empty, a default path is generated.
+        log_level: Logging level as a string (e.g., 'DEBUG', 'INFO').
+    Returns:
+        The path to the consolidated output JSON file.
+    Raises:
+        Exception: If a fatal error occurs during processing.
+    """
+    log_level_value = getattr(logging, log_level.upper(), logging.INFO)
+    logging.getLogger().setLevel(log_level_value)
+
+    if not output_path:
+        output_path = get_default_output_path(input_path)
+    logging.info(f"Output path: {output_path}")
+
+    try:
+        result, company_filepaths = process_files(input_path, output_path)
+        print_merged_companies_summary(company_filepaths)
+        return output_path
+    except Exception as e:
+        logging.error(f"Fatal error during consolidation: {e}")
+        raise
+
+
 def main():
     """
-    Load all JSON data from the specified input
-    Group entries by company name (case-insensitive)
-    For each group, create a consolidated entry
-    Choose the longest company name
-    Combine and deduplicate products, machines, and process types
-    Sort products and machines to put any containing "machine" at the top
-    Set lohnfertigung to true if any entry has it as true
-    Write the consolidated results to the specified output file
+    Command-line interface for consolidating company entries from JSON files.
     """
     parser = argparse.ArgumentParser(description='Consolidate company entries from JSON files')
     parser.add_argument('input', help='Input JSON file or directory containing JSON files')
@@ -341,17 +365,11 @@ def main():
 
     args = parser.parse_args()
 
-    # Set logging level from argument
-    log_level = getattr(logging, args.log_level.upper(), logging.INFO)
-    logging.getLogger().setLevel(log_level)
-    
-    # Use default output path if not specified
-    output_path = args.output if args.output else get_default_output_path(args.input)
-
-    logging.info(f"Output path: {output_path}")
-    
-    result, company_filepaths = process_files(args.input, output_path)
-    print_merged_companies_summary(company_filepaths)
+    try:
+        consolidate_main(args.input, args.output, args.log_level)
+    except Exception as e:
+        logging.error(f"Consolidation failed: {e}")
+        exit(1)
 
 
 if __name__ == "__main__":

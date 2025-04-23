@@ -20,15 +20,15 @@ class TestCrawlDomain(unittest.TestCase):
         self.missing_file = 'tests/automation/webcrawl/data/missing_file.csv'
         self.output_dir = 'tests/automation/webcrawl/output/domain_content_output'
         os.makedirs(self.output_dir, exist_ok=True)
-        # Create sample valid input
+        # Create sample valid input with correct columns
         with open(self.valid_input, 'w') as f:
-            f.write('name,url\nFirma A,https://example.com\nFirma B,https://example.org\n')
-        # Create sample invalid input (missing columns)
+            f.write('URL,Firma1\nhttps://example.com,Firma A\nhttps://example.org,Firma B\n')
+        # Create sample invalid input (missing required columns)
         with open(self.invalid_input, 'w') as f:
             f.write('company,website\nX,https://invalid.com\n')
-        # Create empty input
+        # Create empty input with correct columns
         with open(self.empty_input, 'w') as f:
-            f.write('name,url\n')
+            f.write('URL,Firma1\n')
 
     def tearDown(self) -> None:
         for f in [self.valid_input, self.invalid_input, self.empty_input]:

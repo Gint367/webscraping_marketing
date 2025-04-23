@@ -132,11 +132,43 @@ def convert_json_to_csv(json_file_path: str, csv_file_path: Optional[str] = None
         logger.error(f"Error during conversion: {str(e)}")
         return None
 
-if __name__ == "__main__":
+def main() -> None:
+    """
+    Main entry point for command-line execution. Parses arguments and runs conversion.
+    Raises exceptions for error conditions to support testability.
+    """
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(description='Convert JSON file to CSV format')
     parser.add_argument('input_file', help='Path to the input JSON file')
     parser.add_argument('-o', '--output', dest='output_file', help='Path to the output CSV file (optional)')
     parser.add_argument('-c', '--config', dest='omit_config', default='webcrawl/omit_keywords.txt', help='Path to omit keywords config file (optional)')
     args = parser.parse_args()
-    convert_json_to_csv(args.input_file, args.output_file, args.omit_config)
+
+    result = convert_json_to_csv(args.input_file, args.output_file, args.omit_config)
+    if result is None:
+        # Determine the error type for more precise exception raising
+        if not os.path.isfile(args.input_file):
+            raise FileNotFoundError(f"Input file '{args.input_file}' does not exist")
+        try:
+            with open(args.input_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+                if content.strip() == '':
+                    # Treat empty file as empty list, write only headers
+                    headers = [
+                        'Company name', 'Company Url', 'Lohnfertigung(True/False)',
+                        'Produkte_1', 'Produkte_2', 'Produkte_3',
+                        'Maschinen_1', 'Maschinen_2', 'Maschinen_3',
+                        'Prozess_1', 'Prozess_2', 'Prozess_3'
+                    ]
+                    with open(args.output_file, 'w', newline='', encoding='utf-8-sig') as csv_file:
+                        import csv
+                        writer = csv.writer(csv_file)
+                        writer.writerow(headers)
+                    return
+                json.loads(content)
+        except json.JSONDecodeError:
+            raise json.JSONDecodeError(f"'{args.input_file}' is not a valid JSON file", args.input_file, 0)
+        raise Exception("Unknown error during conversion")
+
+if __name__ == "__main__":
+    main()

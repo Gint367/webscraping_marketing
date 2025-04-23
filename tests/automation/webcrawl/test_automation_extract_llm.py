@@ -23,8 +23,11 @@ class TestExtractLlm(unittest.TestCase):
         os.makedirs(self.empty_input_dir, exist_ok=True)
         os.makedirs(self.output_dir, exist_ok=True)
         # Create sample valid markdown file
+        valid_markdown_file = 'tests/automation/webcrawl/valid_markdown_all_filled.md'
+        with open(valid_markdown_file, 'r') as f:
+            valid_content = f.read()
         with open(os.path.join(self.valid_input_dir, 'firma_a.md'), 'w') as f:
-            f.write('# Firma A\nMaschinen, Produktion')
+            f.write(valid_content)
         # Create sample invalid markdown file (irrelevant content)
         with open(os.path.join(self.invalid_input_dir, 'firma_b.md'), 'w') as f:
             f.write('# Firma B\nNo relevant keywords')
@@ -97,6 +100,55 @@ class TestExtractLlm(unittest.TestCase):
         with patch.object(sys, 'argv', test_args):
             with self.assertRaises(FileNotFoundError):
                 asyncio.run(extract_llm.main())
+
+    def test_run_extract_llm_validInput_createsJsonFiles(self):
+        """
+        run_extract_llm_validInput_createsJsonFiles_expectedJsonCreated: Should create JSON files for each company in valid input when called directly
+        """
+        import webcrawl.extract_llm as extract_llm
+        # Use default strategy
+        output_dir = extract_llm.run_extract_llm(
+            input_path=self.valid_input_dir,
+            output_dir=self.output_dir,
+            ext=".md",
+            only_recheck=False,
+            overwrite=True,
+            log_level="INFO",
+            llm_strategy=None
+        )
+        output_files = os.listdir(output_dir)
+        self.assertTrue(any(f.endswith('.json') for f in output_files), "No JSON output created for valid input using run_extract_llm")
+
+    def test_run_extract_llm_customStrategy_validInput(self):
+        """
+        run_extract_llm_customStrategy_validInput_expectedJsonCreated: Should allow passing a custom LLMExtractionStrategy and create output
+        """
+        import webcrawl.extract_llm as extract_llm
+        from crawl4ai.async_configs import LLMConfig
+        from crawl4ai.extraction_strategy import LLMExtractionStrategy
+        # Create a custom strategy (same as default, but explicit)
+        custom_strategy = LLMExtractionStrategy(
+            llm_config=LLMConfig(provider="bedrock/amazon.nova-pro-v1:0"),
+            extraction_type="schema",
+            schema=extract_llm.Company.model_json_schema(),
+            instruction=extract_llm.prompt,
+            chunk_token_threshold=4096,
+            overlap_rate=0.1,
+            input_format="markdown",
+            apply_chunking=False,
+            extra_args={"temperature": 0.7, "max_tokens": 1000},
+        )
+        output_dir = extract_llm.run_extract_llm(
+            input_path=self.valid_input_dir,
+            output_dir=self.output_dir,
+            ext=".md",
+            only_recheck=False,
+            overwrite=True,
+            log_level="INFO",
+            llm_strategy=custom_strategy
+        )
+        output_files = os.listdir(output_dir)
+        self.assertTrue(any(f.endswith('.json') for f in output_files), "No JSON output created for valid input with custom strategy")
 
 if __name__ == '__main__':
     unittest.main()

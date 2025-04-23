@@ -341,7 +341,7 @@ def pluralize_with_llm(
             
             # Call the LLM using LiteLLM with JSON response format
             response = completion(
-                model="gpt-4o-mini",
+                model="bedrock/amazon.nova-pro-v1:0",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=current_temp,
                 max_tokens=1000,
@@ -453,83 +453,82 @@ def update_entry_with_pluralized_fields(
 def process_json_file(input_file_path: str, output_file_path: str, temperatures: Optional[List[float]] = None) -> None:
     """
     Process a single JSON file, pluralizing specific fields.
-    
     Args:
         input_file_path (str): Path to the input JSON file.
         output_file_path (str): Path to save the processed JSON file.
         temperatures (List[float], optional): List of temperature values for each retry.
+    Raises:
+        ValueError: If the JSON is malformed or has invalid structure.
     """
     try:
         with open(input_file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
-        
-        if not isinstance(data, list):
-            logging.error(f"Expected JSON array in {input_file_path}, but got {type(data)}")
-            failed_files.append((input_file_path, "invalid_json_structure"))
-            return
-            
-        # Process each entry in the JSON file
-        for i, entry in enumerate(data):
-            # Extract fields to be pluralized
-            fields_dict = extract_fields_from_entry(entry)
-            
-            if fields_dict:
-                # Pluralize all fields at once
-                pluralized_fields = pluralize_with_llm(fields_dict, input_file_path, temperatures)
-                
-                # Update the entry with pluralized fields
-                data[i] = update_entry_with_pluralized_fields(entry, pluralized_fields)
-        
-        # Save the processed data
-        os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-        with open(output_file_path, 'w', encoding='utf-8') as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-            
-        logging.info(f"Processed {input_file_path} -> {output_file_path}")
-            
     except Exception as e:
         logging.error(f"Error processing file {input_file_path}: {e}")
         if input_file_path not in [f[0] for f in failed_files]:
             failed_files.append((input_file_path, "file_processing_error"))
+        raise ValueError(f"Malformed JSON in file: {input_file_path}") from e
+    if not isinstance(data, list):
+        logging.error(f"Expected JSON array in {input_file_path}, but got {type(data)}")
+        failed_files.append((input_file_path, "invalid_json_structure"))
+        raise ValueError(f"Invalid JSON structure in file: {input_file_path}")
+    
+    # Process each entry in the JSON file
+    for i, entry in enumerate(data):
+        # Extract fields to be pluralized
+        fields_dict = extract_fields_from_entry(entry)
+        
+        if fields_dict:
+            # Pluralize all fields at once
+            pluralized_fields = pluralize_with_llm(fields_dict, input_file_path, temperatures)
+            
+            # Update the entry with pluralized fields
+            data[i] = update_entry_with_pluralized_fields(entry, pluralized_fields)
+    
+    # Save the processed data
+    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+    with open(output_file_path, 'w', encoding='utf-8') as file:
+        json.dump(data, file, ensure_ascii=False, indent=4)
+        
+    logging.info(f"Processed {input_file_path} -> {output_file_path}")
 
 
-def process_directory(input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None) -> None:
+def process_directory(input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None) -> str:
     """
     Process all JSON files in the input directory and save results to the output directory.
-    
+
     Args:
         input_dir (str): Directory containing JSON files to process.
         output_dir (str): Directory to save processed JSON files.
         temperatures (List[float], optional): List of temperature values for each retry.
+    Returns:
+        str: The output directory path.
+    Raises:
+        FileNotFoundError: If the input directory does not exist.
     """
+    if not os.path.isdir(input_dir):
+        logging.error(f"Input directory does not exist: {input_dir}")
+        raise FileNotFoundError(f"Input directory does not exist: {input_dir}")
     try:
-        # Create output directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
     except Exception as e:
         logging.error(f"Error creating directory: {e}")
-        return  # Don't re-raise, just return after logging the error
-        
+        raise
     try:
-        # Count total JSON files to process
         json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
         total_files = len(json_files)
-        
         if total_files == 0:
             logging.warning(f"No JSON files found in {input_dir}")
-            return
-        
+            return output_dir
         logging.info(f"Found {total_files} JSON files to process")
-        
-        # Process each JSON file with progress reporting
         for i, filename in enumerate(json_files, 1):
             input_file_path = os.path.join(input_dir, filename)
             output_file_path = os.path.join(output_dir, filename)
-            
             logging.info(f"Processing file {i}/{total_files}: {filename}")
             process_json_file(input_file_path, output_file_path, temperatures)
     except Exception as e:
         logging.error(f"Error accessing input directory: {e}")
-        return
+        raise
     
     # Report on compound word cleaning
     if compound_word_stats["files_affected"]:
@@ -551,41 +550,49 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
             logging.info(f"  - {file_path}: {field_name}")
     else:
         logging.info(f"\nAll {total_files} files processed successfully with no pluralization failures.")
+    
+    return output_dir
 
 
 def process_file_or_directory(
     input_path: str, 
     output_path: str, 
     temperatures: Optional[List[float]] = None
-) -> None:
+) -> str:
     """
     Process a file or directory based on the input path.
-    
     Args:
         input_path (str): Path to an input file or directory
         output_path (str): Path to an output file or directory
         temperatures (List[float], optional): List of temperature values for each retry
+    Returns:
+        str: The output file or directory path
+    Raises:
+        FileNotFoundError: If the input path does not exist.
     """
     if os.path.isfile(input_path):
-        # Process a single file
         if not input_path.endswith('.json'):
             logging.error(f"Input file must be a JSON file: {input_path}")
-            return
-            
+            raise ValueError(f"Input file must be a JSON file: {input_path}")
         logging.info(f"Processing single file: {input_path}")
         process_json_file(input_path, output_path, temperatures)
-        
+        return output_path
     elif os.path.isdir(input_path):
-        # Process all files in a directory
         logging.info(f"Processing directory: {input_path}")
-        process_directory(input_path, output_path, temperatures)
-        
+        return process_directory(input_path, output_path, temperatures)
     else:
         logging.error(f"Input path does not exist: {input_path}")
+        raise FileNotFoundError(f"Input path does not exist: {input_path}")
 
 
-def main() -> None:
-    """Main function to run the script."""
+def main() -> str:
+    """
+    Main function to run the script.
+    Returns:
+        str: The output file or directory path
+    Raises:
+        FileNotFoundError: If the input path does not exist.
+    """
     parser = argparse.ArgumentParser(description='Pluralize words in JSON files using LLM.')
     parser.add_argument('--input', type=str, required=True, 
                         help='Input file or directory path (if directory, all JSON files will be processed)')
@@ -595,29 +602,27 @@ def main() -> None:
                         help='List of temperature values for each retry attempt (default: 0.5 0.1 1.0)')
     parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         default='INFO', help='Set the logging level')
-    
     args = parser.parse_args()
-    
-    # Setup logging with the specified level
     log_level = getattr(logging, args.log_level)
     setup_logging(log_level)
-    
     logging.info(f"Starting pluralization with temperatures: {args.temperatures}")
-    
-    # Validate input/output path types match
     if os.path.isfile(args.input) and os.path.isdir(args.output):
         logging.error("When input is a file, output must be a file path")
-        return
-        
+        raise ValueError("When input is a file, output must be a file path")
     if os.path.isdir(args.input) and os.path.isfile(args.output):
         logging.error("When input is a directory, output must be a directory path")
-        return
-    
-    # Process file or directory
-    process_file_or_directory(args.input, args.output, args.temperatures)
-    
+        raise ValueError("When input is a directory, output must be a directory path")
+    output_path = process_file_or_directory(args.input, args.output, args.temperatures)
     logging.info("Pluralization process completed")
+    return output_path
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except FileNotFoundError as e:
+        logging.error(str(e))
+        exit(1)
+    except Exception as e:
+        logging.error(str(e))
+        exit(2)
