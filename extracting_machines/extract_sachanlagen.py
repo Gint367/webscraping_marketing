@@ -3,7 +3,7 @@ import json
 import asyncio
 import logging
 from pydantic import BaseModel, Field, RootModel
-from typing import List
+from typing import List, Optional
 from urllib.parse import urlparse
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig
@@ -13,6 +13,7 @@ import argparse
 import re
 import csv
 from decimal import Decimal
+import sys
 
 # Setup logging
 logger = logging.getLogger(__name__)
@@ -371,19 +372,42 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 except Exception as e:
                     logger.warning(f"Error adding company name to content: {e}")
 
-                # Save extracted content
-                with open(output_file, "w", encoding="utf-8") as f:
-                    if isinstance(result.extracted_content, str):
-                        f.write(result.extracted_content)
-                    else:
-                        json.dump(
-                            result.extracted_content, f, indent=2, ensure_ascii=False
-                        )
+                # Only save output if content is non-empty and relevant
+                should_write = False
+                content = result.extracted_content
+                if isinstance(content, str):
+                    try:
+                        content = json.loads(content)
+                    except Exception:
+                        content = None
+                if isinstance(content, list) and len(content) > 0:
+                    # Check if at least one entry has Sachanlagen values or table_name
+                    if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
+                        should_write = True
+                elif isinstance(content, dict) and (content.get("values") or content.get("table_name")):
+                    should_write = True
 
-                logger.info(
-                    f"[{processed_count}/{len(file_paths)}] Extracted data for '{company_name}' saved to {output_file}"
-                )
-                extracted_data.append(result.extracted_content)
+                if should_write:
+                    with open(output_file, "w", encoding="utf-8") as f:
+                        if isinstance(result.extracted_content, str):
+                            f.write(result.extracted_content)
+                        else:
+                            json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
+                    logger.info(
+                        f"[{processed_count}/{len(file_paths)}] Extracted data for '{company_name}' saved to {output_file}"
+                    )
+                    extracted_data.append(result.extracted_content)
+                else:
+                    # Ensure no output file is created for irrelevant or empty data
+                    if os.path.exists(output_file):
+                        try:
+                            os.remove(output_file)
+                            logger.debug(f"Removed irrelevant output file: {output_file}")
+                        except Exception as e:
+                            logger.warning(f"Failed to remove irrelevant output file {output_file}: {e}")
+                    logger.info(
+                        f"[{processed_count}/{len(file_paths)}] No relevant Sachanlagen data extracted for '{company_name}', skipping output file."
+                    )
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
                 file_path = file_paths[file_urls.index(result.url)] if result.url in file_urls else "Unknown file"
@@ -393,26 +417,11 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     logger.warning(
                         f"[{processed_count}/{len(file_paths)}] File appears to be empty or cannot be parsed: {file_path}"
                     )
-                    
-                    # Create an error JSON result so we know this file needs to be checked
-                    basename = os.path.basename(file_path)
-                    name_without_ext = os.path.splitext(basename)[0]
-                    output_file = os.path.join(output_dir, f"{name_without_ext}.json")
-                    
-                    error_content = [{
-                        "error": True,
-                        "error_message": "Empty file or parsing error: 'NoneType' object has no attribute 'find_all'",
-                        "company_name": extract_company_name(file_path)
-                    }]
-                    
-                    with open(output_file, "w", encoding="utf-8") as f:
-                        json.dump(error_content, f, indent=2, ensure_ascii=False)
-                    
-                    logger.info(f"Created error placeholder for {output_file}")
                 else:
                     logger.warning(
                         f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}"
                     )
+                    # Do NOT create a .json file for irrelevant input or generic errors
 
         # Show usage stats
         llm_strategy.show_usage()
@@ -632,9 +641,14 @@ def process_sachanlagen_output(output_dir):
     # Sort the CSV data by company_name in ascending order
     csv_data.sort(key=lambda x: x["company_name"].lower())
 
+    # Do not write CSV if there is no relevant data
+    if not csv_data:
+        logger.info("No relevant Sachanlagen data found, skipping CSV output.")
+        return None
+
     # Generate CSV output filename based on output directory name
     csv_filename = f"{os.path.basename(output_dir)}.csv"
-    csv_path = os.path.join(os.path.dirname(output_dir), csv_filename)
+    csv_path = os.path.join(output_dir, csv_filename)
 
     # Write CSV file
     with open(csv_path, "w", newline="", encoding="utf-8") as csvfile:
@@ -671,13 +685,109 @@ def process_sachanlagen_output(output_dir):
     return csv_path
 
 
-async def main():
+def run_extraction(
+    input_path: str,
+    output_dir: Optional[str] = None,
+    ext: str = ".html",
+    limit: Optional[int] = None,
+    overwrite: bool = False,
+    log_level: str = "INFO",
+    only_recheck: bool = False,
+    only_process: bool = False,
+) -> Optional[str]:
+    """
+    Run the Sachanlagen extraction pipeline programmatically.
+
+    Args:
+        input_path (str): Input file or directory path
+        output_dir (str, optional): Output directory for extracted data. If None, it will be created based on input path.
+        ext (str, optional): File extension to process (default: .html)
+        limit (int, optional): Limit number of files to process (default: all)
+        overwrite (bool, optional): Overwrite existing output files (default: False)
+        log_level (str, optional): Logging level (default: 'INFO')
+        only_recheck (bool, optional): Only recheck files with errors in the output directory
+        only_process (bool, optional): Only process existing output directory to generate CSV summary (skip extraction)
+
+    Returns:
+        str: Path to the output directory or generated CSV file
+    """
+    configure_logging(getattr(logging, log_level.upper(), logging.INFO))
+
+    # Check if input path exists
+    if not os.path.exists(input_path):
+        logger.error(f"Input path does not exist: {input_path}")
+        raise FileNotFoundError(f"Input path does not exist: {input_path}")
+
+    # Determine output directory
+    if output_dir is None:
+        category = extract_category_from_input_path(input_path)
+        if category:
+            output_dir = f"llm_extracted_data_{category}"
+        else:
+            output_dir = "llm_extracted_data"
+    ensure_output_directory(output_dir)
+
+    if only_process:
+        csv_path = process_sachanlagen_output(output_dir)
+        logger.info(f"CSV summary generated at: {csv_path}")
+        return csv_path
+
+    # Gather input files
+    if os.path.isdir(input_path):
+        file_paths = [
+            os.path.join(root, file)
+            for root, _, files in os.walk(input_path)
+            for file in files
+            if file.endswith(ext)
+        ]
+        if limit:
+            file_paths = file_paths[:limit]
+    elif os.path.isfile(input_path) and input_path.endswith(ext):
+        file_paths = [input_path]
+    else:
+        logger.error(f"No valid input files found at {input_path}")
+        return None
+
+    # Define LLM strategy once
+    temperature = 0.7
+    max_tokens = 1000
+    llm_strategy = LLMExtractionStrategy(
+        llm_config=LLMConfig(
+            # provider="openai/gpt-4o-mini",
+            provider="bedrock/amazon.nova-pro-v1:0",
+        ),
+        extraction_type="schema",
+        schema=Sachanlagen.model_json_schema(),
+        instruction=prompt,
+        chunk_token_threshold=4096,
+        overlap_rate=0.1,
+        input_format="html",
+        apply_chunking=False,
+        extra_args={"temperature": temperature, "max_tokens": max_tokens},
+        verbose=False,
+    )
+
+    async def _run():
+        if only_recheck:
+            await check_and_reprocess_error_files(output_dir, input_path, ext, llm_strategy)
+        else:
+            await process_files(file_paths, llm_strategy, output_dir, overwrite=overwrite)
+        csv_path = process_sachanlagen_output(output_dir)
+        logger.info(f"CSV summary generated at: {csv_path}")
+        return csv_path
+
+    # Run the async pipeline
+    csv_path = asyncio.run(_run())
+    return csv_path
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Extract data from markdown files using LLM"
     )
     parser.add_argument("input", help="Input file or directory path")
     parser.add_argument(
-        "--output",
+        "--output_dir",
         "-o",
         help="(Optional)Output directory for extracted data, if not specified, it will be created based on the input path",
         default=None,
@@ -718,116 +828,22 @@ async def main():
 
     args = parser.parse_args()
 
-    # Configure logging
-    configure_logging(getattr(logging, args.log_level.upper(), logging.INFO))
-
-    # Determine output directory
-    output_dir = args.output
-    if output_dir is None:
-        # If no output directory is specified, try to extract category from input path
-        category = extract_category_from_input_path(args.input)
-        if category:
-            output_dir = f"sachanlagen_{category}"
+    try:
+        result = run_extraction(
+            input_path=args.input,
+            output_dir=args.output_dir,
+            ext=args.ext,
+            limit=args.limit,
+            overwrite=args.overwrite,
+            log_level=args.log_level,
+            only_recheck=args.only_recheck,
+            only_process=args.only_process,
+        )
+        if result:
+            print(f"Output generated at: {result}")
         else:
-            output_dir = "sachanlagen_default"
-        logger.info(f"Output directory automatically set to: {output_dir}")
-
-    # Check if the input path exists
-    if not os.path.exists(args.input):
-        # If --only-process is set and the output directory exists, we'll proceed
-        # even if the input path doesn't exist
-        if args.only_process and os.path.exists(output_dir):
-            logger.info(
-                f"Input path {args.input} not found, but proceeding with --only-process using {output_dir}"
-            )
-        else:
-            logger.error(f"Error: {args.input} does not exist")
-            return
-
-    # Ensure output directory exists
-    output_dir = ensure_output_directory(output_dir)
-
-    # If only processing is requested, just run the process_sachanlagen_output function and exit
-    if args.only_process:
-        logger.info(
-            f"Only processing existing output in {output_dir}, skipping extraction phase"
-        )
-        csv_path = process_sachanlagen_output(output_dir)
-        logger.info(
-            f"Sachanlagen data processing complete. CSV report available at: {csv_path}"
-        )
-        return
-
-    # Define LLM strategy once
-    temperature = 0.7
-    max_tokens = 1000
-    llm_strategy = LLMExtractionStrategy(
-        llm_config=LLMConfig(
-            # provider="openai/gpt-4o-mini",
-            provider="bedrock/amazon.nova-pro-v1:0",
-        ),
-        extraction_type="schema",
-        schema=Sachanlagen.model_json_schema(),
-        instruction=prompt,
-        chunk_token_threshold=4096,
-        overlap_rate=0.1,
-        input_format="html",
-        apply_chunking=False,
-        extra_args={"temperature": temperature, "max_tokens": max_tokens},
-        verbose=False,
-    )
-
-    # Prepare list of files to process
-    files_to_process = []
-
-    # Check if input is a file or directory
-    if os.path.isfile(args.input):
-        files_to_process = [args.input]
-    elif os.path.isdir(args.input):
-        # Get all files with the specified extension in the directory
-        for root, _, files in os.walk(args.input):
-            for file in files:
-                if file.endswith(args.ext):
-                    files_to_process.append(os.path.join(root, file))
-
-        if not files_to_process:
-            logger.warning(f"No {args.ext} files found in {args.input}")
-            return
-
-        # Apply limit if specified
-        if args.limit is not None and args.limit > 0:
-            files_to_process = files_to_process[: args.limit]
-
-        logger.info(f"Processing {len(files_to_process)} files...")
-    else:
-        logger.error(f"Error: {args.input} is not a valid file or directory")
-        return
-
-    # Check for and reprocess files with errors
-    if os.path.isdir(args.input):
-        input_dir = args.input
-    else:
-        input_dir = os.path.dirname(args.input)
-
-    # If --only-recheck is specified, skip the initial processing
-    if args.only_recheck:
-        logger.info("Only rechecking files with errors, skipping initial processing.")
-        await check_and_reprocess_error_files(
-            output_dir, input_dir, args.ext, llm_strategy
-        )
-    else:
-        # Process all files and do error checking
-        await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)
-        await check_and_reprocess_error_files(
-            output_dir, input_dir, args.ext, llm_strategy
-        )
-
-    # Process the extracted data and generate CSV summary
-    csv_path = process_sachanlagen_output(output_dir)
-    logger.info(
-        f"Sachanlagen data processing complete. CSV report available at: {csv_path}"
-    )
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
+            print("No output generated.")
+            # Do not exit with error code if no output is generated, only for real errors
+    except FileNotFoundError as e:
+        print(str(e))
+        sys.exit(1)

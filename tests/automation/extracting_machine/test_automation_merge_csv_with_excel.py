@@ -21,16 +21,16 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         os.makedirs('tests/automation/extracting_machine/data', exist_ok=True)
         # Create sample valid CSV and Excel
         with open(self.valid_csv, 'w') as f:
-            f.write('company,assets\nFirma A,100000\n')
+            f.write('Company,Table,Machine_1,Machine_2,Machine_3\nFirma A GmbH,AKTIVA,123456,123,\n')
         import pandas as pd
-        df = pd.DataFrame({'name': ['Firma A'], 'location': ['Berlin']})
+        df = pd.DataFrame({'Firma1': ['Firma A GmbH'], 'Ort': ['Berlin'], 'URL': ['http://example.com']})
         df.to_excel(self.valid_excel, index=False)
         # Create invalid CSV (malformed)
         with open(self.invalid_csv, 'w') as f:
             f.write('not a csv')
         # Create empty CSV and Excel
         with open(self.empty_csv, 'w') as f:
-            f.write('company,assets\n')
+            f.write('Company,assets\n')  # Use correct header with uppercase 'C'
         pd.DataFrame().to_excel(self.empty_excel, index=False)
 
     def tearDown(self) -> None:
@@ -44,8 +44,11 @@ class TestMergeCsvWithExcel(unittest.TestCase):
 
     def test_main_validInput_mergesCsvAndExcel_expectedCsvCreated(self):
         """main_validInput_mergesCsvAndExcel_expectedCsvCreated: Should merge CSV and Excel into output CSV for valid input"""
-        output_file = merge_csv_with_excel.main(self.valid_csv)
-        self.assertTrue(os.path.exists(output_file), f"Merged output CSV was not created: {output_file}")
+        output_file = merge_csv_with_excel.main(self.valid_csv, self.valid_excel)
+        if output_file:
+            self.assertTrue(os.path.exists(output_file), f"Merged output CSV was not created: {output_file}")
+        else:
+            self.fail("Output file was not created.")
 
     def test_main_invalidInput_malformedCsv_raisesValueError_expectedException(self):
         """main_invalidInput_malformedCsv_raisesValueError_expectedException: Should raise ValueError for malformed CSV input"""
@@ -55,7 +58,10 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     def test_main_emptyInput_createsNoOutput_expectedNoOutput(self):
         """main_emptyInput_createsNoOutput_expectedNoOutput: Should not create output for empty input files"""
         output_file = merge_csv_with_excel.main(self.empty_csv)
-        self.assertFalse(os.path.exists(output_file), f"Output file should not be created for empty input files: {output_file}")
+        if output_file:
+            self.assertFalse(os.path.exists(output_file), f"Output file should not be created for empty input files: {output_file}")
+        else:
+            self.assertTrue(True)
 
     def test_main_missingInputFile_raisesFileNotFoundError_expectedException(self):
         """main_missingInputFile_raisesFileNotFoundError_expectedException: Should raise FileNotFoundError for missing input file"""

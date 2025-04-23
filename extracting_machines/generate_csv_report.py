@@ -1,9 +1,10 @@
 import json
 import csv
 import os
-from typing import List, Dict
+from typing import List, Dict, Callable
 import argparse
 from datetime import datetime
+import logging
 
 def extract_company_name(data: List[Dict]) -> str:
     """
@@ -84,73 +85,89 @@ def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -
     
     return [''] * max_values, '', ''
 
-def generate_csv_report(input_dir: str, 
-                       output_file: str, 
-                       n: int, 
-                       extract_func: callable):
+def generate_csv_report(
+    input_dir: str,
+    output_file: str,
+    n: int,
+    extract_func: Callable[[list, int], tuple[list[str], str, str]]
+) -> str:
     """
     Generates a CSV report by processing JSON files and extracting numeric values.
     Only includes companies that have at least one valid numeric value.
-    
+
     Args:
         input_dir (str): Directory containing the filtered JSON files
         output_file (str): Path where the CSV report will be saved
         n (int): Maximum number of machine values to extract per company
         extract_func (callable): Function to use for extracting values from tables
+
+    Returns:
+        str: The path to the generated CSV file
     """
-    # Add timestamp to output filename
+    logger = logging.getLogger(__name__)
     timestamp = datetime.now().strftime("%Y%m%d")
     output_file_with_timestamp = output_file.replace('.csv', f'_{timestamp}.csv')
-    
-    # Prepare CSV headers - removed Maschinen Park Size from headers
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
-    
-    with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(headers)
-        
-        # Process each JSON file
+    valid_rows = []
+    try:
         for filename in os.listdir(input_dir):
             if filename.endswith('_filtered.json'):
                 file_path = os.path.join(input_dir, filename)
-                with open(file_path, 'r', encoding='utf-8') as jsonfile:
-                    data = json.load(jsonfile)
-                    
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as jsonfile:
+                        data = json.load(jsonfile)
+                except (json.JSONDecodeError, OSError) as e:
+                    logger.error(f"Failed to parse {file_path}: {e}")
+                    raise  # Raise immediately on malformed JSON as per test expectation
                 company_name = extract_company_name(data)
                 values, table_name, _ = extract_func(data, n)
-                
-                # Only write to CSV if at least one value is not empty
                 if any(values):
-                    writer.writerow([company_name, table_name.replace('\n', ' ')] + values)
+                    valid_rows.append([company_name, table_name.replace('\n', ' ')] + values)
+        if valid_rows:
+            with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(headers)
+                writer.writerows(valid_rows)
+            logger.info(f"CSV report generated: {output_file_with_timestamp}")
+            return output_file_with_timestamp
+        else:
+            logger.info("No valid data found. No CSV report generated.")
+            raise FileNotFoundError("No valid data found. No CSV report generated.")
+    except Exception as e:
+        logger.error(f"Failed to generate CSV report: {e}")
+        raise
 
-if __name__ == "__main__":
-    # Create argument parser
+def main() -> None:
+    """
+    Main entry point for CLI usage. Parses arguments and runs the report generation.
+    """
+    import sys
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
     parser = argparse.ArgumentParser(description="Generate CSV report from JSON files.")
-    # Add input directory argument
     parser.add_argument("input_directory", type=str, help="Path to the directory containing JSON files.")
-    # Parse arguments
+    parser.add_argument("--output", type=str, default=None, help="Path to save the CSV report.")
+    parser.add_argument("--n", type=int, default=3, help="Maximum number of machine values to extract per company.")
     args = parser.parse_args()
-    
-    # Get input directory from arguments
     input_directory = args.input_directory
-    N = 3  # Parameter N - change this value as needed
-    
-    # Extract company name from input folder if it follows the pattern
+    N = args.n
     base_folder = os.path.basename(os.path.normpath(input_directory))
-    output_filename = f"machine_report_n{N}.csv"
-    
-    # Check if folder follows bundesanzeiger_local_COMPANY_output pattern
+    output_filename = args.output or f"machine_report_n{N}.csv"
     if base_folder.startswith("bundesanzeiger_local_") and base_folder.endswith("_output"):
         company_name = base_folder.replace("bundesanzeiger_local_", "").replace("_output", "")
         if company_name:
-            output_filename = f"machine_report_{company_name}.csv"
-    
-    # Generate report using extract_values with filter words
+            output_filename = args.output or f"machine_report_{company_name}.csv"
     filter_words = ["anschaffungs","ahk", "abschreibung", "buchwert"]
-    generate_csv_report(
-        input_directory, 
-        output_filename, 
-        N,
-        lambda data, n: extract_values(data, n, filter_words)
-    )
-    print(f"CSV report generated: {output_filename}")
+    try:
+        output_path = generate_csv_report(
+            input_directory,
+            output_filename,
+            N,
+            lambda data, n: extract_values(data, n, filter_words)
+        )
+        logging.info(f"CSV report generated: {output_path}")
+    except Exception as e:
+        logging.error(f"Error: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()

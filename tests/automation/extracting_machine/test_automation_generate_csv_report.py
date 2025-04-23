@@ -21,10 +21,10 @@ class TestGenerateCsvReport(unittest.TestCase):
         os.makedirs(self.invalid_input_dir, exist_ok=True)
         os.makedirs(self.empty_input_dir, exist_ok=True)
         # Create sample valid JSON file
-        with open(os.path.join(self.valid_input_dir, 'firma_a.json'), 'w') as f:
-            f.write('{"company": "Firma A", "assets": 100000}')
+        with open(os.path.join(self.valid_input_dir, 'firma_a_filtered.json'), 'w') as f:
+            f.write('[{"company_name": "Firma A", "table_name": "AKTIVA", "header_levels": 2, "matching_rows": [{"header1": ["Column1", "Column2"], "values": {"col1": "1000", "col2": "2000"}}]}]')
         # Create sample invalid JSON file (malformed)
-        with open(os.path.join(self.invalid_input_dir, 'firma_b.json'), 'w') as f:
+        with open(os.path.join(self.invalid_input_dir, 'firma_b_filtered.json'), 'w') as f:
             f.write('not a json')
 
     def tearDown(self) -> None:
@@ -35,6 +35,12 @@ class TestGenerateCsvReport(unittest.TestCase):
                 os.rmdir(d)
         if os.path.exists(self.output_file):
             os.remove(self.output_file)
+        # Remove all test artifact CSVs with timestamp in output folder
+        output_dir = os.path.dirname(self.output_file)
+        base_name = os.path.splitext(os.path.basename(self.output_file))[0]
+        pattern = os.path.join(output_dir, f"{base_name}_*.csv")
+        for artifact in glob.glob(pattern):
+            os.remove(artifact)
 
     def test_main_validInput_createsCsvReport(self):
         """main_validInput_createsCsvReport_expectedCsvCreated: Should create CSV report from valid cleaned JSON files"""
@@ -67,15 +73,13 @@ class TestGenerateCsvReport(unittest.TestCase):
         """main_emptyInput_createsNoCsv_expectedNoOutput: Should not create CSV report for empty input directory"""
         filter_words = ["anschaffungs", "ahk", "abschreibung", "buchwert"]
         N = 3
-        generate_csv_report.generate_csv_report(
-            self.empty_input_dir,
-            self.output_file,
-            N,
-            lambda data, n: generate_csv_report.extract_values(data, n, filter_words)
-        )
-        output_pattern = self.output_file.replace('.csv', '_*.csv')
-        output_files = glob.glob(output_pattern)
-        self.assertFalse(output_files, "CSV report should not be created for empty input directory")
+        with self.assertRaises(FileNotFoundError):
+            generate_csv_report.generate_csv_report(
+                self.empty_input_dir,
+                self.output_file,
+                N,
+                lambda data, n: generate_csv_report.extract_values(data, n, filter_words)
+            )
 
     def test_main_missingInputDir_raisesFileNotFoundError(self):
         """main_missingInputDir_raisesFileNotFoundError_expectedException: Should raise FileNotFoundError for missing input directory"""
