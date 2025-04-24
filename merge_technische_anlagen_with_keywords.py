@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import re
+import sys
 import time
 from urllib.parse import urlparse
 
@@ -144,7 +145,31 @@ def generate_output_path(input_csv_path):
 
 
 def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
+    """
+    Merge CSV file with keywords data with a base data file containing technical equipment information.
+    
+    Args:
+        csv_path: Path to the CSV file with keywords data
+        base_data_path: Path to the base data file (CSV or Excel) with technical equipment info
+        output_path: Path where the merged output file will be saved (optional)
+        
+    Returns:
+        Path to the generated output file
+        
+    Raises:
+        FileNotFoundError: If input file(s) do not exist
+        ValueError: If file format is unsupported or CSV is malformed
+    """
     start_time = time.time()
+
+    # Check if input files exist
+    if not os.path.exists(csv_path):
+        logging.error(f"CSV file not found: {csv_path}")
+        raise FileNotFoundError(f"CSV file not found: {csv_path}")
+        
+    if not os.path.exists(base_data_path):
+        logging.error(f"Base data file not found: {base_data_path}")
+        raise FileNotFoundError(f"Base data file not found: {base_data_path}")
 
     # Generate output path if not provided
     if output_path is None:
@@ -152,21 +177,29 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         logging.info(f"Output path not provided. Automatically generated: {output_path}")
 
     # Read CSV file
-    csv_data = pd.read_csv(csv_path, encoding='utf-8')
-    logging.info(f"CSV data loaded with {len(csv_data)} rows")
+    try:
+        csv_data = pd.read_csv(csv_path, encoding='utf-8')
+        logging.info(f"CSV data loaded with {len(csv_data)} rows")
+    except Exception as e:
+        logging.error(f"Error reading CSV file: {e}")
+        raise ValueError(f"Error reading CSV file: {e}")
 
     # Read base data file (Excel or CSV)
     file_extension = os.path.splitext(base_data_path)[1].lower()
 
-    if file_extension == '.xlsx' or file_extension == '.xls':
-        base_data = pd.read_excel(base_data_path, sheet_name=0)
-        logging.info(f"Excel data loaded with {len(base_data)} rows")
-    elif file_extension == '.csv':
-        base_data = pd.read_csv(base_data_path, encoding='utf-8')
-        logging.info(f"CSV base data loaded with {len(base_data)} rows")
-    else:
-        logging.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
-        raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
+    try:
+        if file_extension == '.xlsx' or file_extension == '.xls':
+            base_data = pd.read_excel(base_data_path, sheet_name=0)
+            logging.info(f"Excel data loaded with {len(base_data)} rows")
+        elif file_extension == '.csv':
+            base_data = pd.read_csv(base_data_path, encoding='utf-8')
+            logging.info(f"CSV base data loaded with {len(base_data)} rows")
+        else:
+            logging.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
+            raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
+    except Exception as e:
+        logging.error(f"Error reading base data file: {e}")
+        raise ValueError(f"Error reading base data file: {e}")
 
     # Convert Maschinen_Park_Size column to string type to prevent type incompatibility issues
     if 'Maschinen_Park_Size' in base_data.columns:
@@ -445,6 +478,12 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     else:
         output_file = output_path
 
+    # Create output directory if it doesn't exist
+    output_dir = os.path.dirname(output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir, exist_ok=True)
+        logging.info(f"Created output directory: {output_dir}")
+
     # Add a column to properly track if a company was matched by name or URL
     # A company is considered matched if it has a value in the Firma1 column or has values in technical data columns
     merged_data['was_matched'] = (
@@ -518,8 +557,21 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         for idx, row in still_unmatched.iterrows():
             company_name = row.get('Company name', 'N/A')
             logging.info(f"  - {company_name}")
+    
+    # Return the output file path for use in pipelines
+    return output_file
 
-if __name__ == "__main__":
+def main():
+    """
+    Main function to handle command-line arguments and execute the merging process.
+    
+    Returns:
+        str: Path to the generated output file
+    
+    Raises:
+        FileNotFoundError: If input file(s) do not exist
+        ValueError: If file format is unsupported or CSV is malformed
+    """
     # Set up command-line argument parsing
     parser = argparse.ArgumentParser(description='Merge CSV with Excel/CSV data containing technical equipment information.')
 
@@ -537,4 +589,24 @@ if __name__ == "__main__":
     logging.getLogger().setLevel(getattr(logging, args.log_level))
 
     # Call the merge function with the provided arguments
-    merge_csv_with_excel(args.csv, args.base, args.output)
+    output_path = merge_csv_with_excel(args.csv, args.base, args.output)
+    
+    # Log the output path
+    logging.info(f"Merging process completed. Output file: {output_path}")
+    
+    # Return the output path for use in pipelines
+    return output_path
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except FileNotFoundError as e:
+        logging.error(f"File not found error: {e}")
+        sys.exit(1)
+    except ValueError as e:
+        logging.error(f"Value error: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logging.error(f"Unexpected error: {e}")
+        sys.exit(1)

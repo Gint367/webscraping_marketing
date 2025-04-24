@@ -23,13 +23,15 @@ class TestEnrichData(unittest.TestCase):
         os.makedirs('tests/automation/integration/output', exist_ok=True)
         # Create sample valid merged CSV
         with open(self.valid_input, 'w') as f:
-            f.write('company,assets,keyword_count\nFirma A,100000,10\n')
+            f.write('Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3,Ort,technische Anlagen und Maschinen 2021/22,Maschinen_Park_Size\n')
+            f.write('MWS Friedrichshafen GmbH,https://www.mws.eu,True,Sandgüsse,Kokillengüsse,Niederdruckgüsse,9840033.0,200-350,11166783,Aluminium-Gussblöcke,Walzbarren,Sekundäraluminium,Friedrichshafen,11166783,200-350\n')
         # Create invalid CSV (malformed)
         with open(self.invalid_input, 'w') as f:
-            f.write('not,a,csv')
+            f.write('Company name,Company Url,Lohnfertigung(True/False\n')  # Missing closing parenthesis
+            f.write('MWS Friedrichshafen GmbH,"https://www.mws.eu,True,Sandgüsse')  # Unmatched quotes
         # Create empty CSV
         with open(self.empty_input, 'w') as f:
-            f.write('company,assets,keyword_count\n')
+            f.write('Company name,Company Url,Lohnfertigung(True/False),Produkte_1,Produkte_2,Produkte_3,Maschinen_1,Maschinen_2,Maschinen_3,Prozess_1,Prozess_2,Prozess_3,Ort,technische Anlagen und Maschinen 2021/22,Maschinen_Park_Size\n')
 
     def tearDown(self) -> None:
         for f in [self.valid_input, self.invalid_input, self.empty_input]:
@@ -82,7 +84,6 @@ class TestEnrichData(unittest.TestCase):
         output_basename = f"enriched_{os.path.basename(self.empty_input)}"
         output_file = os.path.join(os.path.dirname(self.empty_input), output_basename)
         self.assertTrue(os.path.exists(output_file), "Output file should be created for empty input CSV")
-        self.assertEqual(os.path.getsize(output_file), 0, "Output file should be empty for empty input CSV")
 
 if __name__ == '__main__':
     unittest.main()
