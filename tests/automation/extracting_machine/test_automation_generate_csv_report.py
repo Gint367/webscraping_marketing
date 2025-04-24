@@ -2,11 +2,12 @@
 Unit tests for generate_csv_report.py automation pipeline integration.
 Covers: valid input, invalid input, edge cases, and error conditions.
 """
-import unittest
-from typing import Any
-import extracting_machines.generate_csv_report as generate_csv_report
-import os
 import glob
+import os
+import unittest
+
+import extracting_machines.generate_csv_report as generate_csv_report
+
 
 class TestGenerateCsvReport(unittest.TestCase):
     """Tests for generate_csv_report.py automation pipeline integration."""

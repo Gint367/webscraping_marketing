@@ -5,7 +5,7 @@ __pycache__/
 .coverage
 
 # Ignore virtual environment directories
-venv/
+*venv/
 .env/
 .env
 
@@ -41,3 +41,7 @@ machine*
 merged*
 output*
 sachanlagen*
+
+makefile
+*.toml
+uv.lock

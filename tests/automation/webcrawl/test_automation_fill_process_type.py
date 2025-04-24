@@ -2,12 +2,12 @@
 Unit tests for fill_process_type.py automation pipeline integration.
 Covers: valid input, invalid input, edge cases, and error conditions.
 """
+import json
 import os
 import sys
 import unittest
 from unittest.mock import patch
-from typing import Any
-import json
+
 
 class TestFillProcessType(unittest.TestCase):
     """Tests for fill_process_type.py automation pipeline integration."""

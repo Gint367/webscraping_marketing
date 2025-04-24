@@ -1,26 +1,26 @@
-import unittest
 import sys
-from unittest.mock import patch, MagicMock
+import unittest
+from unittest.mock import MagicMock, patch
+
+from webcrawl.crawl_domain import (
+    apply_content_filters,
+    crawl_domain,
+    ensure_output_directory,
+    filter_urls_by_depth,
+    filter_urls_by_depth_reverse,
+    get_path_depth,
+    is_file_url,
+    is_non_content_url,
+    normalize_and_filter_links,
+    remove_duplicate_urls,
+    remove_links_from_markdown,
+    sanitize_filename,
+    should_filter_by_language,
+)
 
 sys.modules['excel_reader'] = MagicMock()
 sys.modules['get_company_by_category'] = MagicMock()
 sys.modules['get_company_by_top1machine'] = MagicMock()
-
-from webcrawl.crawl_domain import (
-    sanitize_filename,
-    ensure_output_directory,
-    get_path_depth,
-    filter_urls_by_depth_reverse,
-    filter_urls_by_depth,
-    is_non_content_url,
-    is_file_url,
-    should_filter_by_language,
-    normalize_and_filter_links,
-    apply_content_filters,
-    remove_duplicate_urls,
-    remove_links_from_markdown,
-    crawl_domain
-)
 
 class TestCrawlDomain(unittest.TestCase):
 
@@ -71,49 +71,49 @@ class TestCrawlDomain(unittest.TestCase):
     def test_is_file_url(self):
         url_path = "/path/to/file.pdf"
         self.assertTrue(is_file_url(url_path))
-    
+
     def test_should_filter_by_language_non_german(self):
         # Test non-German language patterns
         url = "https://www.example.com/en/about"
         uses_language_codes = True
         is_base_domain = False
         self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_other_lang_codes(self):
         # Test non-German language code pattern
         url = "https://www.example.com/fr/about"
         uses_language_codes = True
         is_base_domain = False
         self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_generic_lang_code(self):
         # Test generic language code pattern without explicit language marker
         url = "https://www.example.com/es-mx/about"
         uses_language_codes = True
         is_base_domain = False
         self.assertTrue(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_german(self):
         # Test German language pattern
         url = "https://www.example.com/de/about"
         uses_language_codes = True
         is_base_domain = False
         self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_no_lang_code(self):
         # Test URL without language code
         url = "https://www.example.com/about"
         uses_language_codes = True
         is_base_domain = False
         self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_base_domain(self):
         # Test base domain URL
         url = "https://www.example.com/"
         uses_language_codes = True
         is_base_domain = True
         self.assertFalse(should_filter_by_language(url, uses_language_codes, is_base_domain))
-    
+
     def test_should_filter_by_language_site_without_lang_codes(self):
         # Test site that doesn't use language codes
         url = "https://www.example.com/products/software"
@@ -143,8 +143,8 @@ class TestCrawlDomain(unittest.TestCase):
         Test normalize_and_filter_links properly handles dictionary links with 'href' key.
         """
         internal_links = [
-            {"href": "about"}, 
-            {"href": "contact"}, 
+            {"href": "about"},
+            {"href": "contact"},
             {"href": "#section"},
             {"href": "mailto:info@example.com"}
         ]
@@ -158,8 +158,8 @@ class TestCrawlDomain(unittest.TestCase):
         Test normalize_and_filter_links properly handles dictionary links with 'url' key.
         """
         internal_links = [
-            {"url": "about"}, 
-            {"url": "contact"}, 
+            {"url": "about"},
+            {"url": "contact"},
             {"url": "#products"}
         ]
         base_url = "https://www.example.com"
@@ -187,9 +187,9 @@ class TestCrawlDomain(unittest.TestCase):
         Test normalize_and_filter_links properly filters links with invalid schemes.
         """
         internal_links = [
-            "mailto:info@example.com", 
-            "tel:123456789", 
-            "javascript:void(0)", 
+            "mailto:info@example.com",
+            "tel:123456789",
+            "javascript:void(0)",
             "ftp://example.com/file.txt"
         ]
         base_url = "https://www.example.com"
@@ -216,10 +216,10 @@ class TestCrawlDomain(unittest.TestCase):
         Test normalize_and_filter_links with mixed types of inputs.
         """
         internal_links = [
-            "about", 
-            {"href": "contact"}, 
-            {"url": "services"}, 
-            "#section", 
+            "about",
+            {"href": "contact"},
+            {"url": "services"},
+            "#section",
             "mailto:info@example.com",
             None,  # Invalid type
             {"invalid": "key"}  # Missing href/url
@@ -227,8 +227,8 @@ class TestCrawlDomain(unittest.TestCase):
         base_url = "https://www.example.com"
         max_links = 10
         expected = [
-            "https://www.example.com/about", 
-            "https://www.example.com/contact", 
+            "https://www.example.com/about",
+            "https://www.example.com/contact",
             "https://www.example.com/services"
         ]
         self.assertEqual(normalize_and_filter_links(internal_links, base_url, max_links), expected)

@@ -1,19 +1,19 @@
-import os
-import json
+import argparse
 import asyncio
+import csv
+import json
 import logging
-from pydantic import BaseModel, Field, RootModel
+import os
+import re
+import sys
+from decimal import Decimal
 from typing import List, Optional
 from urllib.parse import urlparse
+
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
-from crawl4ai.async_configs import CrawlerRunConfig
+from crawl4ai.async_configs import CrawlerRunConfig, LLMConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
-from crawl4ai.async_configs import LLMConfig
-import argparse
-import re
-import csv
-from decimal import Decimal
-import sys
+from pydantic import BaseModel, Field, RootModel
 
 # Setup logging
 logger = logging.getLogger(__name__)
@@ -256,7 +256,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
     Uses streaming mode to process results as they become available.
-    
+
     Args:
         file_paths (list): List of file paths to process
         llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
@@ -268,26 +268,26 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
         files_to_skip = []
         files_to_process = []
         skipped_count = 0
-        
+
         for file_path in file_paths:
             basename = os.path.basename(file_path)
             name_without_ext = os.path.splitext(basename)[0]
             output_file = os.path.join(output_dir, f"{name_without_ext}.json")
-            
+
             if os.path.exists(output_file):
                 files_to_skip.append(file_path)
                 skipped_count += 1
             else:
                 files_to_process.append(file_path)
-        
+
         if skipped_count > 0:
             logger.info(f"Skipping {skipped_count} files that already have output files")
             file_paths = files_to_process
-        
+
         if not file_paths:
             logger.info("No files to process after skipping existing outputs")
             return []
-            
+
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
 
@@ -411,7 +411,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
                 file_path = file_paths[file_urls.index(result.url)] if result.url in file_urls else "Unknown file"
-                
+
                 # Handle empty file or parsing errors specifically
                 if "'NoneType' object has no attribute 'find_all'" in str(error_msg):
                     logger.warning(

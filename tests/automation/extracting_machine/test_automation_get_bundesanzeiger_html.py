@@ -5,8 +5,9 @@ Covers: valid input, invalid input, edge cases, and error conditions.
 import os
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 import extracting_machines.get_bundesanzeiger_html as get_bundesanzeiger_html
+
 
 class TestGetBundesanzeigerHtml(unittest.TestCase):
     """Tests for get_bundesanzeiger_html.py automation pipeline integration."""

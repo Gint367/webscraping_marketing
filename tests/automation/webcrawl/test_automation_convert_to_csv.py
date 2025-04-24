@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 
 class TestConvertToCsv(unittest.TestCase):
     """Tests for convert_to_csv.py automation pipeline integration."""

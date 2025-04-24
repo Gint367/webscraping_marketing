@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
-import os
+import argparse
 import json
 import logging
-import argparse
+import os
+import random
 import re
 import time
-import random
 from typing import List, Optional
+
+import litellm
 from litellm import completion
 from litellm.exceptions import JSONSchemaValidationError
-import litellm
 from pydantic import BaseModel, Field
+
 
 # Configure logging
 def setup_logging(log_level=logging.INFO):
     """
     Configure logging with proper formatting.
-    
+
     Args:
         log_level: The minimum logging level to display
     """
@@ -44,6 +46,7 @@ FOLDER_PATTERNS = [
     r"pluralized_([^/\\]+)"
 ]
 
+
 def extract_category_from_folder(folder_path: str) -> Optional[str]:
     """
     Extract the category name from a folder path using known patterns.
@@ -61,13 +64,14 @@ def extract_category_from_folder(folder_path: str) -> Optional[str]:
             return match.group(1)
     return None
 
+
 def extract_category_from_filename(filename: str) -> Optional[str]:
     """
     Extract the category name from the filename.
-    
+
     Args:
         filename (str): The filename (e.g., 'pluralized_aluminiumwerke.json')
-        
+
     Returns:
         Optional[str]: The extracted category (e.g., 'aluminiumwerke')
     """
@@ -75,6 +79,7 @@ def extract_category_from_filename(filename: str) -> Optional[str]:
     if match:
         return match.group(1)
     return None
+
 
 class ProcessTypes(BaseModel):
     """
@@ -84,6 +89,7 @@ class ProcessTypes(BaseModel):
         ...,
         description="Liste typischer Fertigungsprozesse auf Deutsch (Plural, je ein Wort)"
     )
+
 
 def generate_process_types(products: List[str], machines: List[str], category: str, max_retries: int = 3, base_delay: int = 3) -> List[str]:
     """
@@ -160,26 +166,27 @@ def generate_process_types(products: List[str], machines: List[str], category: s
             time.sleep(delay)
     return []
 
+
 def check_for_conjugations(process_types: List[str], company_name: str) -> List[str]:
     """
     Check for and remove conjugations like 'und' from process types.
-    
+
     Args:
         process_types (List[str]): List of process types to check
         company_name (str): Name of the company being processed
-        
+
     Returns:
         List[str]: Cleaned process types without conjugations
     """
     global conjugation_issues_fixed
     global conjugation_issues_fixed_companies
-    
+
     cleaned_process_types = []
     conjugation_words = ['und', 'oder', 'sowie', 'als auch', '&']
-    
+
     for process in process_types:
         has_conjugation = False
-        
+
         # Check if any conjugation word appears in the process
         for conj in conjugation_words:
             if conj in process.lower():
@@ -188,16 +195,17 @@ def check_for_conjugations(process_types: List[str], company_name: str) -> List[
                 if company_name not in conjugation_issues_fixed_companies:
                     conjugation_issues_fixed_companies.append(company_name)
                 break
-        
+
         # Only add processes without conjugations
         if not has_conjugation and process.strip():
             cleaned_process_types.append(process)
-    
+
     # Filter out any empty strings and return non-empty list
     return [p for p in cleaned_process_types if p.strip()]
 
 # Constants for 'na' words
 NA_WORDS = ['na', 'n.a.', 'n/a', 'nicht verfügbar', 'keine', 'none']
+
 
 def remove_na_words(process_types: List[str]) -> List[str]:
     """
@@ -208,6 +216,7 @@ def remove_na_words(process_types: List[str]) -> List[str]:
         List[str]: List with 'na' words removed
     """
     return [p for p in process_types if p.strip().lower() not in NA_WORDS]
+
 
 def process_json_file(input_file: str, output_file: str, category: Optional[str] = None) -> None:
     """
@@ -235,7 +244,7 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-    except json.JSONDecodeError as e:
+    except json.JSONDecodeError:
         logging.error(f"Malformed JSON in file: {input_file}")
         raise
 
@@ -283,29 +292,31 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
 
     logging.info(f"Saved processed data to: {output_file}")
 
+
 def find_pluralized_files(folder_path: str) -> List[str]:
     """
     Find all JSON files in the given folder.
-    
+
     Args:
         folder_path (str): Path to the folder to scan
-        
+
     Returns:
         List[str]: List of full paths to matching JSON files
     """
     matching_files = []
-    
+
     if not os.path.isdir(folder_path):
         logging.error(f"Folder not found: {folder_path}")
         return matching_files
-    
+
     for filename in os.listdir(folder_path):
         if filename.endswith('.json'):
             full_path = os.path.join(folder_path, filename)
             if os.path.isfile(full_path):
                 matching_files.append(full_path)
-    
+
     return matching_files
+
 
 def run_fill_process_type(
     input_file: Optional[str] = None,
@@ -381,6 +392,7 @@ def run_fill_process_type(
             raise
     return output_paths
 
+
 def main() -> Optional[List[str]]:
     """
     Main function to process JSON files - either a single file or all matching files in a folder.
@@ -388,7 +400,7 @@ def main() -> Optional[List[str]]:
         Optional[List[str]]: List of output file paths created/updated, or None if error.
     """
     parser = argparse.ArgumentParser(description='Fill empty process_type fields in JSON files using LLM. will overwrite the file')
-    parser.add_argument('--input-file', type=str, 
+    parser.add_argument('--input-file', type=str,
                         help='Path to a single input JSON file (e.g., pluralized_aluminiumwerke.json)')
     parser.add_argument('--folder', type=str,
                         help='Path to a folder containing JSON files to process (will process all JSON files)')

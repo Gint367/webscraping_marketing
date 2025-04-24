@@ -1,15 +1,13 @@
 import unittest
-from unittest.mock import patch, MagicMock, mock_open
-import numpy as np
+from unittest.mock import patch
+
 import pandas as pd
-import os
-import io
 
 # Absolute import of functions to test
 from merge_technische_anlagen_with_keywords import (
     clean_trailing_symbols,
-    extract_base_domain,
     extract_and_log_domains,
+    extract_base_domain,
     merge_csv_with_excel,
 )
 

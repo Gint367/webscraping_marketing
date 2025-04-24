@@ -7,6 +7,7 @@ import subprocess
 import sys
 import unittest
 
+
 class TestCleanHtml(unittest.TestCase):
     """Tests for clean_html.py automation pipeline integration."""
 

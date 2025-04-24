@@ -1,10 +1,8 @@
-from math import log
-import os
-import json
 import argparse
-from typing import Dict, List, Any, Union
-from collections import Counter
+import json
 import logging
+import os
+from typing import Any, Dict, List, Union
 
 # Setup logging at the top of the file
 logging.basicConfig(
@@ -36,15 +34,15 @@ def get_all_json_files(directory: str) -> List[str]:
     """
     if not os.path.isdir(directory):
         return []
-    
+
     json_files = []
     with os.scandir(directory) as entries:
         for entry in entries:
-            if (entry.is_file() and 
-                entry.name.endswith('.json') and 
-                not entry.name.startswith('combined_')):
+            if (entry.is_file() and
+                entry.name.endswith('.json') and
+                    not entry.name.startswith('combined_')):
                 json_files.append(entry.path)
-    
+
     return json_files
 
 
@@ -75,43 +73,43 @@ def sort_items(items: List[str]) -> List[str]:
     # Remove duplicates first (case-insensitive)
     unique_items = []
     lowercase_items = set()
-    
+
     for item in items:
         if item.lower() not in lowercase_items:
             unique_items.append(item)
             lowercase_items.add(item.lower())
-    
+
     # Sort with machine-related items first
     machine_items = [item for item in unique_items if "machine" in item.lower()]
     non_machine_items = [item for item in unique_items if "machine" not in item.lower()]
-    
+
     return machine_items + non_machine_items
 
 
 def filter_items(items: List[str], exclude_substrings: List[str], exact_match: bool = False) -> List[str]:
     """
     Filter out items containing any of the specified substrings or exact words.
-    
+
     Args:
         items: List of strings to filter
         exclude_substrings: List of substrings to filter out
         exact_match: If True, will only filter items that match exactly (word boundary)
                     If False, will filter if the item contains the substring anywhere
-    
+
     Returns:
         List of filtered items
     """
     if not exclude_substrings:
         return items
-    
+
     # Convert exclude substrings to lowercase for case-insensitive comparison
     exclude_substrings_lower = [substr.lower() for substr in exclude_substrings]
-    
+
     filtered_items = []
     for item in items:
         should_include = True
         item_lower = item.lower()
-        
+
         for substr_lower in exclude_substrings_lower:
             if exact_match:
                 # Split the item into words and check for exact matches
@@ -125,10 +123,10 @@ def filter_items(items: List[str], exclude_substrings: List[str], exact_match: b
                 if substr_lower in item_lower:
                     should_include = False
                     break
-        
+
         if should_include:
             filtered_items.append(item)
-    
+
     return filtered_items
 
 
@@ -148,41 +146,41 @@ def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[
     """Consolidate multiple entries into a single entry."""
     if not entries:
         return None
-    
+
     # Choose the longest company name
     company_name = max([e.get('company_name', '') for e in entries], key=len)
-    
+
     # Skip entries with empty company names
     if not company_name.strip():
         return None
-    
+
     # Get the first non-empty company URL
     company_url = next((e.get('company_url', '') for e in entries if e.get('company_url')), '')
-    
+
     # Combine and deduplicate products and machines
     products = []
     machines = []
     process_types = []
     lohnfertigung = False
-    
+
     for entry in entries:
         products.extend(entry.get('products', []))
         machines.extend(entry.get('machines', []))
         process_types.extend(entry.get('process_type', []))
         if entry.get('lohnfertigung', False):
             lohnfertigung = True
-    
+
     # Filter out items containing excluded substrings
     if exclude_substrings:
         products = filter_items(products, exclude_substrings, exact_match)
         machines = filter_items(machines, exclude_substrings, exact_match)
         process_types = filter_items(process_types, exclude_substrings, exact_match)
-    
+
     # Sort items by number of duplicates and prioritize items containing 'machine'
     unique_products = sort_items(products)
     unique_machines = sort_items(machines)
     unique_process_types = sort_items(process_types)
-    
+
     return {
         'company_name': company_name,
         'company_url': company_url,
@@ -198,10 +196,10 @@ def get_default_output_path(input_path: str) -> str:
     """Generate default output path in the current working directory."""
     # Use current working directory for output
     output_dir = os.path.join(os.getcwd(), "consolidated_output")
-    
+
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
-    
+
     if os.path.isfile(input_path):
         # Use input filename for the output
         base_name = os.path.basename(input_path)
@@ -255,7 +253,7 @@ def process_files(input_path, output_path):
         files = [input_path]
     else:
         files = [os.path.join(input_path, f) for f in os.listdir(input_path)
-                if f.endswith('.json')]
+                 if f.endswith('.json')]
 
     # Process each file
     for file_path in files:

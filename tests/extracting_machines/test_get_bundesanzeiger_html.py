@@ -1,29 +1,28 @@
-import unittest
-import os
-import tempfile
 import datetime
+import os
 import shutil
-from unittest.mock import patch, MagicMock
+import tempfile
+import unittest
 
 # Import functions to test
 from extracting_machines.get_bundesanzeiger_html import (
-    extract_financial_data_from_html,
-    sanitize_filename,
-    parse_date_str,
     company_folder_exists,
+    extract_financial_data_from_html,
     find_latest_jahresabschluss_locally,
-    store_files_locally
+    parse_date_str,
+    sanitize_filename,
+    store_files_locally,
 )
 
 
 class TestBundesanzeigerFunctions(unittest.TestCase):
     """Test case class for testing functions in get_bundesanzeiger_html.py"""
-    
+
     def setUp(self):
         """Set up test environment before each test"""
         # Create a temporary directory for testing
         self.temp_dir = tempfile.mkdtemp()
-    
+
     def tearDown(self):
         """Clean up after each test"""
         # Remove the temporary directory
@@ -42,7 +41,7 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
         # Test with valid date string
         expected_date = datetime.datetime(2023, 3, 30, 0, 0, 0)
         self.assertEqual(parse_date_str("2023-03-30 00:00:00"), expected_date)
-        
+
         # Test with invalid date string - should return default date
         default_date = datetime.datetime(1970, 1, 1, 0, 0, 0)
         self.assertEqual(parse_date_str("invalid-date"), default_date)
@@ -54,14 +53,14 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
         safe_company = sanitize_filename(company)
         company_path = os.path.join(self.temp_dir, safe_company)
         os.makedirs(company_path, exist_ok=True)
-        
+
         # Empty folder should return False
         self.assertFalse(company_folder_exists(self.temp_dir, company))
-        
+
         # Create a subfolder to simulate a report folder
         report_path = os.path.join(company_path, "Jahresabschluss_2022")
         os.makedirs(report_path, exist_ok=True)
-        
+
         # Now it should return True
         self.assertTrue(company_folder_exists(self.temp_dir, company))
 
@@ -132,7 +131,7 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
                     Die Sachanlagen betragen zum Stichtag 300.000 400.000 Euro.
                 </p>
                 <p>
-                    Die Technische Anlagen wurden mit 
+                    Die Technische Anlagen wurden mit
                     150.000 180.000 bewertet.
                 </p>
             </body>
@@ -149,7 +148,7 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
         company = "Test Company"
         safe_company = sanitize_filename(company)
         company_path = os.path.join(self.temp_dir, safe_company)
-        
+
         # Create multiple report folders
         report1_path = os.path.join(company_path, "Jahresabschluss_2021")
         report2_path = os.path.join(company_path, "Jahresabschluss_2022")
@@ -157,14 +156,14 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
         os.makedirs(report1_path, exist_ok=True)
         os.makedirs(report2_path, exist_ok=True)
         os.makedirs(report3_path, exist_ok=True)
-        
+
         # Create HTML files
         html_content = "<html><body>Test Report</body></html>"
         with open(os.path.join(report1_path, "Jahresabschluss_2021_raw_report.html"), "w") as f:
             f.write(html_content)
         with open(os.path.join(report2_path, "Jahresabschluss_2022_raw_report.html"), "w") as f:
             f.write(html_content)
-        
+
         # Test finding the latest report
         content, path = find_latest_jahresabschluss_locally(self.temp_dir, company)
         self.assertEqual(content, html_content)
@@ -177,14 +176,14 @@ class TestBundesanzeigerFunctions(unittest.TestCase):
         html_content = "<html><body>Test Report</body></html>"
         txt_content = "Test Report Text"
         date_str = "2022-12-31"
-        
+
         folder_path = store_files_locally(
             self.temp_dir, company, report_name, html_content, txt_content, date_str
         )
-        
+
         # Check that folder was created
         self.assertTrue(os.path.exists(folder_path))
-        
+
         # Check that files were created
         self.assertTrue(os.path.exists(os.path.join(
             folder_path, "Jahresabschluss_2022_raw_report.html")))

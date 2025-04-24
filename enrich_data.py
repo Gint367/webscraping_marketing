@@ -1,8 +1,9 @@
-import pandas as pd
-import re
-import os
 import argparse
+import os
 import os.path
+import re
+
+import pandas as pd
 
 # Define the constant for hours calculation
 HOURS_MULTIPLIER = 375
@@ -77,10 +78,10 @@ def main():
         print(f"Error saving output file: {e}")
 
     # After saving, print a summary
-    non_null_count = df["Maschinen_Park_var"].count()
+    df["Maschinen_Park_var"].count()
     total_records = len(df)
     print(f" Processed {total_records} records")
-    
+
 
 if __name__ == "__main__":
     main()

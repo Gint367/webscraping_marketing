@@ -1,29 +1,31 @@
-import json
-import csv
-import os
-from typing import List, Dict, Callable
 import argparse
-from datetime import datetime
+import csv
+import json
 import logging
+import os
+from datetime import datetime
+from typing import Callable, Dict, List
+
 
 def extract_company_name(data: List[Dict]) -> str:
     """
     Extracts company name directly from the JSON data.
     Cleans any trailing commas from the company name.
-    
+
     Args:
         data (List[Dict]): JSON data containing tables with company_name field
-    
+
     Returns:
         str: Properly formatted company name
     """
     if not data or len(data) == 0:
         return "Unknown Company"
-    
+
     # Get company name from the first table
     company_name = data[0].get('company_name', 'Unknown Company')
-    
+
     return company_name
+
 
 def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -> tuple[List[str], str, str]:
     """
@@ -35,7 +37,7 @@ def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -
     """
     for table in data:
         table_name = table.get('table_name', '')[:100]
-        
+
         # Check all header levels in the first row
         if table.get('matching_rows'):
             first_row = table['matching_rows'][0]
@@ -43,15 +45,15 @@ def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -
             for i in range(1, table.get('header_levels', 0) + 1):
                 headers = first_row.get(f'header{i}', [])
                 all_headers.extend([str(h).lower() for h in headers])
-            
-            if any(filter_word.lower() in header 
-                   for header in all_headers 
+
+            if any(filter_word.lower() in header
+                   for header in all_headers
                    for filter_word in filter_words):
                 continue
-            
+
             for row in table.get('matching_rows', []):
                 row_values = row.get('values', {})
-                
+
                 # Filter and clean numeric values
                 numeric_values = {}
                 for key, value in row_values.items():
@@ -59,31 +61,32 @@ def extract_values(data: List[Dict], max_values: int, filter_words: List[str]) -
                         # Skip values that start with 0
                         if value.strip().startswith('0'):
                             continue
-                            
+
                         # Clean the number:
                         # 1. Take everything before the comma (if exists)
                         # 2. Remove dots (thousand separators)
                         # 3. Strip whitespace
                         clean_value = value.split(',')[0].replace('.', '').strip()
-                        
+
                         if clean_value.isdigit():
                             numeric_values[key] = clean_value
-                
+
                 if len(numeric_values) <= max_values:
                     numbers = list(numeric_values.values())
                     while len(numbers) < max_values:
                         numbers.append('')
-                    
+
                     # Get the maximum value for categorization
                     max_value = ''
                     if numbers:
                         valid_numbers = [n for n in numbers if n]
                         if valid_numbers:
                             max_value = max(valid_numbers)
-                    
+
                     return numbers[:max_values], table_name, max_value
-    
+
     return [''] * max_values, '', ''
+
 
 def generate_csv_report(
     input_dir: str,
@@ -136,6 +139,7 @@ def generate_csv_report(
     except Exception as e:
         logger.error(f"Failed to generate CSV report: {e}")
         raise
+
 
 def main() -> None:
     """

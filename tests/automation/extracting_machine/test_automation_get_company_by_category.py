@@ -4,8 +4,13 @@ Covers: valid input, invalid input, edge cases, and error conditions.
 """
 import os
 import unittest
+
 import pandas as pd
-from extracting_machines.get_company_by_category import main as get_company_by_category_main
+
+from extracting_machines.get_company_by_category import (
+    main as get_company_by_category_main,
+)
+
 
 class TestGetCompanyByCategory(unittest.TestCase):
     """Tests for get_company_by_category.py automation pipeline integration."""

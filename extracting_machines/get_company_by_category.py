@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-import pandas as pd
 import argparse
-import re
 import logging
 import os
+import re
 from typing import Optional
+
+import pandas as pd
 
 
 def clean_company_name(name: str) -> str:
@@ -19,14 +20,14 @@ def clean_company_name(name: str) -> str:
         # Fix pattern like: """PERO"" - Aktiengesellschaft P. Erbel"
         # Convert to: "PERO" - Aktiengesellschaft P. Erbel
         name = re.sub(r'^"{3}([^"]+)"" - (.+)"$', r'"\1" - \2', name)
-        
+
         # Handle other potential quotation mark issues
         name = re.sub(r'"{2,}', '"', name)  # Replace multiple quotes with single quote
-        
+
         # Remove enclosing quotes if present
         if name.startswith('"') and name.endswith('"'):
             name = name[1:-1]
-    
+
     return name
 
 
@@ -36,7 +37,7 @@ def extract_companies_by_category(input_file: str, category: str, output_file: O
     Args:
         input_file (str): Path to the Excel file
         category (str): Category to filter by
-        output_file (str, optional): Name of the output CSV file. If not provided, 
+        output_file (str, optional): Name of the output CSV file. If not provided,
                                     defaults to 'company_{category}_BA.csv'
     Returns:
         str: Path to the output file

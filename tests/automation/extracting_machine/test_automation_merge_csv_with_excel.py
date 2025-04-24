@@ -4,8 +4,9 @@ Covers: valid input, invalid input, edge cases, and error conditions.
 """
 import os
 import unittest
-from typing import Any
+
 import extracting_machines.merge_csv_with_excel as merge_csv_with_excel
+
 
 class TestMergeCsvWithExcel(unittest.TestCase):
     """Tests for merge_csv_with_excel.py automation pipeline integration."""

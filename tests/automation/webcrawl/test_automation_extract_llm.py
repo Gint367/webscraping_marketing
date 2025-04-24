@@ -2,12 +2,12 @@
 Unit tests for extract_llm.py automation pipeline integration.
 Covers: valid input, invalid input, edge cases, and error conditions.
 """
+import asyncio
 import os
 import sys
-import asyncio
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 
 class TestExtractLlm(unittest.TestCase):
     """Tests for extract_llm.py automation pipeline integration."""
@@ -106,6 +106,7 @@ class TestExtractLlm(unittest.TestCase):
         run_extract_llm_validInput_createsJsonFiles_expectedJsonCreated: Should create JSON files for each company in valid input when called directly
         """
         import webcrawl.extract_llm as extract_llm
+
         # Use default strategy
         output_dir = extract_llm.run_extract_llm(
             input_path=self.valid_input_dir,
@@ -123,9 +124,11 @@ class TestExtractLlm(unittest.TestCase):
         """
         run_extract_llm_customStrategy_validInput_expectedJsonCreated: Should allow passing a custom LLMExtractionStrategy and create output
         """
-        import webcrawl.extract_llm as extract_llm
         from crawl4ai.async_configs import LLMConfig
         from crawl4ai.extraction_strategy import LLMExtractionStrategy
+
+        import webcrawl.extract_llm as extract_llm
+
         # Create a custom strategy (same as default, but explicit)
         custom_strategy = LLMExtractionStrategy(
             llm_config=LLMConfig(provider="bedrock/amazon.nova-pro-v1:0"),

@@ -5,10 +5,8 @@ Covers: valid input, invalid input, edge cases, and error conditions.
 
 import os
 import sys
-import asyncio
 import unittest
 from unittest.mock import patch
-from typing import Any
 
 
 class TestPluralizeWithLlm(unittest.TestCase):

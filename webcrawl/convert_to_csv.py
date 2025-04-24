@@ -1,10 +1,11 @@
-import json
-import csv
-import os
 import argparse
+import csv
+import json
 import logging
+import os
 import re
 from typing import List, Optional, Set
+
 
 def load_omit_keywords(config_path: Optional[str]) -> Set[str]:
     """
@@ -26,6 +27,7 @@ def load_omit_keywords(config_path: Optional[str]) -> Set[str]:
             if line.strip() and not line.strip().startswith('#')
         )
 
+
 def clean_text(text: str) -> str:
     """
     Clean a string by removing unnecessary symbols (e.g., '\n', '\t') and normalizing spaces.
@@ -42,6 +44,7 @@ def clean_text(text: str) -> str:
     # Remove leading/trailing spaces
     return cleaned.strip()
 
+
 def clean_items(items: List[str]) -> List[str]:
     """
     Clean a list of strings by removing unnecessary symbols and normalizing spaces.
@@ -52,6 +55,7 @@ def clean_items(items: List[str]) -> List[str]:
         List of cleaned strings.
     """
     return [clean_text(item) for item in items if item and clean_text(item)]
+
 
 def filter_items(items: List[str], omit_keywords: Set[str]) -> List[str]:
     """
@@ -68,6 +72,7 @@ def filter_items(items: List[str], omit_keywords: Set[str]) -> List[str]:
         Filtered list of items.
     """
     return [item for item in items if not any(keyword in item.lower() for keyword in omit_keywords)]
+
 
 def convert_json_to_csv(json_file_path: str, csv_file_path: Optional[str] = None, omit_config_path: Optional[str] = None) -> Optional[str]:
     """
@@ -131,6 +136,7 @@ def convert_json_to_csv(json_file_path: str, csv_file_path: Optional[str] = None
     except Exception as e:
         logger.error(f"Error during conversion: {str(e)}")
         return None
+
 
 def main() -> None:
     """

@@ -1,18 +1,19 @@
 import argparse
+import csv
+import datetime
+import json
 import logging
 import os
+import random
 import re
-import json
+import sys
 import time
 import unicodedata
-import datetime
+from typing import Optional
+
 import pandas as pd
 from bs4 import BeautifulSoup
 from deutschland.bundesanzeiger import Bundesanzeiger
-import sys
-import random
-from typing import Optional
-import csv
 
 
 def setup_logging(verbose: bool = False) -> None:

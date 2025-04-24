@@ -6,8 +6,9 @@ import os
 import sys
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 import merge_technische_anlagen_with_keywords  # Assuming this is the module to be tested
+
 
 class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):
     """Tests for merge_technische_anlagen_with_keywords.py automation pipeline integration."""

@@ -1,7 +1,9 @@
-import pandas as pd
-import sys
 import os
+import sys
 from pathlib import Path
+
+import pandas as pd
+
 
 def list_sheets(excel_file):
     """List all sheets in an Excel file"""
@@ -15,17 +17,18 @@ def list_sheets(excel_file):
         print(f"Error reading sheets: {str(e)}")
         sys.exit(1)
 
+
 def convert_sheet(excel_file, sheet_name, output_file=None, output_dir=None):
     """Convert a single sheet to CSV"""
     try:
         # Read the Excel file with specified sheet
         df = pd.read_excel(excel_file, sheet_name=sheet_name)
-        
+
         # Determine output file name
         if output_file is None:
             base_name = Path(excel_file).stem
             output_name = f"{base_name}_{sheet_name}.csv"
-            
+
             if output_dir:
                 # Create output directory if it doesn't exist
                 os.makedirs(output_dir, exist_ok=True)
@@ -34,46 +37,48 @@ def convert_sheet(excel_file, sheet_name, output_file=None, output_dir=None):
                 output_path = output_name
         else:
             output_path = output_file
-        
+
         # Convert to CSV
         df.to_csv(output_path, index=False, encoding='utf-8-sig')
         print(f"Converted sheet '{sheet_name}' to {output_path}")
         return output_path
-    
+
     except Exception as e:
         print(f"Error converting sheet '{sheet_name}': {str(e)}")
         return None
+
 
 def convert_all_sheets(excel_file, output_dir=None):
     """Convert all sheets in an Excel file to separate CSV files"""
     try:
         xl = pd.ExcelFile(excel_file)
         converted_files = []
-        
+
         for sheet in xl.sheet_names:
             output_file = convert_sheet(excel_file, sheet, output_dir=output_dir)
             if output_file:
                 converted_files.append(output_file)
-        
+
         print(f"Converted {len(converted_files)} sheets from {excel_file}")
         return converted_files
-    
+
     except Exception as e:
         print(f"Error converting all sheets: {str(e)}")
         sys.exit(1)
 
+
 def interactive_mode(excel_file, output_dir=None):
     """Interactive mode for selecting sheets to convert"""
     sheets = list_sheets(excel_file)
-    
+
     print("\nOptions:")
     print("a. Convert all sheets")
     print("q. Quit")
     print("Or enter a sheet number to convert a single sheet")
-    
+
     while True:
         choice = input("\nYour choice: ").strip().lower()
-        
+
         if choice == 'q':
             return
         elif choice == 'a':
@@ -107,21 +112,21 @@ if __name__ == "__main__":
         print("  python convert_excel_to_csv.py data.xlsx --all-sheets --output-dir csv_output")
         print("  python convert_excel_to_csv.py data.xlsx --interactive")
         sys.exit(0)
-    
+
     excel_file = sys.argv[1]
-    
+
     # Check if file exists
     if not os.path.isfile(excel_file):
         print(f"Error: File {excel_file} not found")
         sys.exit(1)
-    
+
     # Parse command line arguments
     output_file = None
     output_dir = None
     sheet_name = None
     convert_all = False
     interactive = False
-    
+
     i = 2
     while i < len(sys.argv):
         if sys.argv[i] == "--list-sheets":
@@ -145,7 +150,7 @@ if __name__ == "__main__":
         else:
             print(f"Unknown option: {sys.argv[i]}")
             sys.exit(1)
-    
+
     # Execute the appropriate conversion based on arguments
     if interactive:
         interactive_mode(excel_file, output_dir)

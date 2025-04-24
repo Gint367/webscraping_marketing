@@ -1,11 +1,12 @@
-import pandas as pd
-import numpy as np
-from datetime import datetime
 import argparse
-import os
-from fuzzywuzzy import fuzz
 import logging
+import os
+from datetime import datetime
 from typing import Optional
+
+import numpy as np
+import pandas as pd
+from fuzzywuzzy import fuzz
 
 
 def standardize_company_name(name):
@@ -25,25 +26,24 @@ def normalize_company_name(name):
     name = name.replace("GmbH & Co.KG", "GmbH & Co. KG")
     return name
 
+
 def standardize_for_comparison(name):
     """Standardize company name for better comparison."""
     if not isinstance(name, str):
         return ""
-        
+
     # Convert to lowercase
     name = name.lower()
-    
+
     # Standardize & and and
     name = name.replace('&', 'and')
-    
 
-        
     # Replace underscores with spaces
     name = name.replace('_', ' ')
-    
+
     # Remove extra whitespace
     name = ' '.join(name.split())
-    
+
     return name
 
 
@@ -190,43 +190,43 @@ def find_best_match(company_name, company_list, threshold=0.85):
     """Find the best matching company name fuzzy matching algorithm."""
     if not isinstance(company_name, str):
         return None, 0
-    
+
     # Standardize the input company name
     std_company = standardize_for_comparison(company_name)
-    
+
     # Early optimization: Pre-standardize all potential matches
     std_potential_matches = {
         company: standardize_for_comparison(company)
         for company in company_list
         if isinstance(company, str)
     }
-    
+
     # First check for exact matches (much faster than fuzzy matching)
     for potential_match, std_potential in std_potential_matches.items():
         if std_company == std_potential and std_company:  # Avoid matching empty strings
             return potential_match, 1.0
-    
+
     # If no exact match found, do fuzzy matching
     best_match = None
     best_ratio = 0
-    
+
     for potential_match, std_potential in std_potential_matches.items():
         # Use token_set_ratio for better handling of company name variations
         ratio = fuzz.token_set_ratio(std_company, std_potential)
-        
+
         if ratio > best_ratio:
             best_ratio = ratio
             best_match = potential_match
-            
+
             # If we found a perfect match, no need to check other companies
             if ratio == 100:  # fuzz returns 0-100 scale
                 break
-    
+
     # Only return the match if it meets the threshold
     if best_ratio >= threshold * 100:  # Convert threshold to same scale as fuzz scores
-        return best_match, best_ratio/100
+        return best_match, best_ratio / 100
     else:
-        return None, best_ratio/100
+        return None, best_ratio / 100
 
 
 def analyze_company_similarities(machine_data, xlsx_df):
@@ -237,19 +237,19 @@ def analyze_company_similarities(machine_data, xlsx_df):
     # Get only the company name columns
     csv_companies = machine_data["Company"].unique()
     xlsx_companies = xlsx_df["Firma1"].dropna().unique()
-    
+
     # Pre-standardize all company names once to avoid repeated processing
-    std_csv_companies = {company: standardize_for_comparison(company) 
-                        for company in csv_companies if isinstance(company, str)}
-    std_xlsx_companies = {company: standardize_for_comparison(company) 
-                        for company in xlsx_companies if isinstance(company, str)}
+    std_csv_companies = {company: standardize_for_comparison(company)
+                         for company in csv_companies if isinstance(company, str)}
+    std_xlsx_companies = {company: standardize_for_comparison(company)
+                          for company in xlsx_companies if isinstance(company, str)}
 
     logging.info("Analyzing company name similarities...")
     MatchingThreshold = 0.85
     for csv_company, std_company in std_csv_companies.items():
         best_match = None
         best_ratio = 0
-        
+
         # First check for exact matches - much faster than fuzzy matching
         exact_match_found = False
         for xlsx_company, std_potential in std_xlsx_companies.items():
@@ -257,20 +257,20 @@ def analyze_company_similarities(machine_data, xlsx_df):
                 best_match = xlsx_company
                 best_ratio = 1.0
                 exact_match_found = True
-                
+
                 similarity_matrix.append({
                     "csv_company": csv_company,
                     "xlsx_company": xlsx_company,
                     "similarity": 1.0,
                 })
                 break
-                
+
         # Only perform fuzzy matching if no exact match was found
         if not exact_match_found:
             for xlsx_company, std_potential in std_xlsx_companies.items():
                 # Use token_set_ratio for better handling of company name variations
                 ratio = fuzz.token_set_ratio(std_company, std_potential) / 100  # Convert to 0-1 scale
-                
+
                 similarity_matrix.append({
                     "csv_company": csv_company,
                     "xlsx_company": xlsx_company,
@@ -280,12 +280,11 @@ def analyze_company_similarities(machine_data, xlsx_df):
                 if ratio > best_ratio:
                     best_ratio = ratio
                     best_match = xlsx_company
-                    
+
                     # If we found a perfect match, no need to check other companies
                     if ratio == 1.0:
                         break
-        
-        
+
         if best_ratio < MatchingThreshold:  # Threshold for problematic matches
             problematic_matches.append({
                 "csv_company": csv_company,
@@ -429,7 +428,7 @@ def load_sachanlagen_data(sachanlagen_path):
         if 'company_name' not in sachanlagen_df.columns or 'sachanlagen' not in sachanlagen_df.columns:
             logging.warning(f"Required columns not found in {sachanlagen_path}")
             return pd.DataFrame()
-        
+
         # Normalize company names
         sachanlagen_df["company_name"] = sachanlagen_df["company_name"].apply(normalize_company_name)
         return sachanlagen_df
@@ -442,22 +441,22 @@ def create_sachanlagen_mapping(sachanlagen_df, xlsx_df):
     """Create mapping between Sachanlagen companies and Excel companies using fuzzy matching."""
     sachanlagen_mapping = {}
     xlsx_companies = xlsx_df["Firma1"].dropna().tolist()
-    
+
     # Track matching statistics
     total_companies = len(sachanlagen_df["company_name"].unique())
     matched_companies = 0
-    
+
     for sachanlagen_company in sachanlagen_df["company_name"].unique():
         best_match, ratio = find_best_match(sachanlagen_company, xlsx_companies, 0.85)
         if best_match:
             sachanlagen_mapping[sachanlagen_company] = best_match
             matched_companies += 1
-    
+
     # Log matching statistics
-    logging.info(f"\nMatching Statistics for Sachanlagen anlagen with Excel:")
+    logging.info("\nMatching Statistics for Sachanlagen anlagen with Excel:")
     logging.info(f"Total Sachanlagen companies: {total_companies}")
     logging.info(f"Successfully matched: {matched_companies}")
-    
+
     return sachanlagen_mapping
 
 
@@ -480,7 +479,7 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, mapping):
     # Create a copy to avoid modifying the original
     result_df = merged_df.copy()
     result_df['Sachanlagen'] = None
-    
+
     # Keep track of companies we've already processed
     processed_companies = set()
 
@@ -504,16 +503,16 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, mapping):
                     'Ort': [None],
                     'Sachanlagen': [sachanlagen_value.values[0]]
                 })
-                
+
                 # Add empty values for other columns
                 for col in result_df.columns:
                     if col not in new_row.columns:
                         new_row[col] = None
-                        
+
                 # Add the new row to our result dataframe
                 result_df = pd.concat([result_df, new_row], ignore_index=True)
                 processed_companies.add(excel_company)
-    
+
     return result_df
 
 
@@ -549,7 +548,7 @@ def main(
         # If either input is empty, do not create output
         if machine_data.empty or xlsx_df.empty:
             logging.error("Input CSV or Excel is empty. No output will be created.")
-            return None  
+            return None
         similarities = analyze_company_similarities(machine_data, xlsx_df)
         good_matches = len(machine_data["Company"].unique()) - len(similarities["problematic_matches"])
         logging.info(f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies")
@@ -568,7 +567,7 @@ def main(
         # If output is empty, do not create file
         if filtered_df.empty:
             logging.error("Merged output is empty. No output will be created.")
-            return None  
+            return None
         if output_file_path is not None:
             output_file = save_merged_data(filtered_df, csv_file_path, output_file_path)
         else:

@@ -7,6 +7,7 @@ import subprocess
 import sys
 import unittest
 
+
 class TestExtractSachanlagen(unittest.TestCase):
     """Tests for extract_sachanlagen.py automation pipeline integration."""
 
@@ -26,7 +27,7 @@ class TestExtractSachanlagen(unittest.TestCase):
             valid_html_content = infile.read()
         with open(os.path.join(self.valid_input_dir, 'firma_a.html'), 'w') as outfile:
             outfile.write(valid_html_content)
-            
+
         # Create sample invalid HTML file (irrelevant content)
         with open(os.path.join(self.invalid_input_dir, 'firma_b.html'), 'w') as f:
             f.write('<html><body>irrelevant content</body></html>')

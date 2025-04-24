@@ -1,12 +1,7 @@
 import unittest
-from unittest.mock import patch, mock_open, MagicMock
-import json
-import os
-import csv
-from io import StringIO
+from unittest.mock import MagicMock, mock_open, patch
 
 # filepath: /home/novoai/Documents/scraper/extracting_machines/test_generate_csv_report.py
-
 # Import the functions to test using absolute import
 from extracting_machines.generate_csv_report import (
     extract_company_name,
@@ -16,17 +11,17 @@ from extracting_machines.generate_csv_report import (
 
 
 class TestExtractCompanyName(unittest.TestCase):
-    
+
     def test_empty_data(self):
         """Test extracting company name from empty data."""
         self.assertEqual(extract_company_name([]), "Unknown Company")
         self.assertEqual(extract_company_name(None), "Unknown Company")
-    
+
     def test_valid_company_name(self):
         """Test extracting company name from valid data."""
         data = [{"company_name": "Test Company GmbH"}]
         self.assertEqual(extract_company_name(data), "Test Company GmbH")
-    
+
     def test_missing_company_name(self):
         """Test extracting company name when field is missing."""
         data = [{"some_field": "Some value"}]
@@ -34,17 +29,17 @@ class TestExtractCompanyName(unittest.TestCase):
 
 
 class TestExtractValues(unittest.TestCase):
-    
+
     def test_empty_data(self):
         """Test extracting values from empty data."""
         max_values = 3
         filter_words = ["ahk", "abschreibung"]
         values, table_name, max_val = extract_values([], max_values, filter_words)
-        
+
         self.assertEqual(values, [''] * max_values)
         self.assertEqual(table_name, '')
         self.assertEqual(max_val, '')
-    
+
     def test_valid_numeric_data(self):
         """Test extracting valid numeric values."""
         data = [{
@@ -57,15 +52,15 @@ class TestExtractValues(unittest.TestCase):
                 }
             ]
         }]
-        
+
         max_values = 2
         filter_words = ["ahk", "abschreibung"]
         values, table_name, max_val = extract_values(data, max_values, filter_words)
-        
+
         self.assertEqual(values, ["1000", "2000"])
         self.assertEqual(table_name, "Machine Table")
         self.assertEqual(max_val, "2000")
-    
+
     def test_filtered_headers(self):
         """Test that tables with filtered words in headers are skipped."""
         data = [{
@@ -78,15 +73,15 @@ class TestExtractValues(unittest.TestCase):
                 }
             ]
         }]
-        
+
         max_values = 2
         filter_words = ["ahk", "abschreibung"]
         values, table_name, max_val = extract_values(data, max_values, filter_words)
-        
+
         self.assertEqual(values, ['', ''])
         self.assertEqual(table_name, '')
         self.assertEqual(max_val, '')
-    
+
     def test_number_cleaning(self):
         """Test number cleaning functionality."""
         data = [{
@@ -103,14 +98,14 @@ class TestExtractValues(unittest.TestCase):
                 }
             ]
         }]
-        
+
         max_values = 3
         filter_words = ["ahk"]
         values, table_name, max_val = extract_values(data, max_values, filter_words)
-        
+
         self.assertEqual(values, ["1000", "2", "3000"])
         self.assertEqual(max_val, "3000")
-    
+
     def test_values_exceeding_max(self):
         """Test when number of values exceeds max_values."""
         data = [{
@@ -123,14 +118,14 @@ class TestExtractValues(unittest.TestCase):
                 }
             ]
         }]
-        
+
         max_values = 2
         filter_words = ["ahk"]
         values, table_name, max_val = extract_values(data, max_values, filter_words)
-        
+
         # Values should be truncated to max_values
         self.assertEqual(len(values), max_values)
-    
+
     def test_skip_non_numeric_values(self):
         """Test that non-numeric values are skipped."""
         data = [{
@@ -143,17 +138,17 @@ class TestExtractValues(unittest.TestCase):
                 }
             ]
         }]
-        
+
         max_values = 3
         filter_words = ["ahk"]
         values, table_name, max_val = extract_values(data, max_values, filter_words)
-        
+
         self.assertEqual(values, ["1000", "3000", ""])
         self.assertEqual(max_val, "3000")
 
 
 class TestGenerateCSVReport(unittest.TestCase):
-    
+
     @patch('os.listdir')
     @patch('builtins.open', new_callable=mock_open)
     @patch('json.load')
@@ -163,23 +158,23 @@ class TestGenerateCSVReport(unittest.TestCase):
         """Test the CSV report generation function."""
         # Setup mocks
         mock_listdir.return_value = ['file1_filtered.json', 'file2_filtered.json', 'hello_world.json']
-        
+
         # Mock JSON data
         mock_json_data = [
             {"company_name": "Company A"}
         ]
         mock_json_load.return_value = mock_json_data
-        
+
         # Mock CSV writer
         mock_writer = MagicMock()
         mock_csv_writer.return_value = mock_writer
-        
+
         # Create a custom extract function for testing
         def test_extract_func(data, n):
             if data[0].get('company_name') == "Company A":
                 return ["100", "200"], "Table A", "200"
             return [""], "", ""
-        
+
         # Call the function
         generate_csv_report(
             input_dir="test_dir",
@@ -187,14 +182,14 @@ class TestGenerateCSVReport(unittest.TestCase):
             n=2,
             extract_func=test_extract_func
         )
-        
+
         # Verify the function calls
         self.assertEqual(mock_listdir.call_count, 1)
         self.assertEqual(mock_json_load.call_count, 2)  # Two filtered files
-        
+
         # Verify CSV headers
         mock_writer.writerow.assert_any_call(['Company', 'Table', 'Machine_1', 'Machine_2'])
-        
+
         # Verify data rows were written
         mock_writer.writerow.assert_any_call(["Company A", "Table A", "100", "200"])
 

@@ -6,7 +6,7 @@ import os
 import sys
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 
 class TestConsolidate(unittest.TestCase):
     """Tests for consolidate.py automation pipeline integration."""

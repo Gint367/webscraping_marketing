@@ -1,30 +1,30 @@
-import os
+# Import argparse for command line arguments
+import argparse
 import asyncio
-from datetime import datetime
-from urllib.parse import urlparse, urljoin
+import logging
+import os
 import re
-from typing import List, Dict, Tuple, Optional, Any
+
+# Import to handle colorama recursion issues
+import sys
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urljoin, urlparse
+
 from crawl4ai import (
     AsyncWebCrawler,
     BrowserConfig,
-    CrawlResult,
-    CrawlerRunConfig,
     CacheMode,
+    CrawlerRunConfig,
+    CrawlResult,
     DefaultMarkdownGenerator,
     LXMLWebScrapingStrategy,
     MemoryAdaptiveDispatcher,
     PruningContentFilter,
 )
-import logging
 
 # Import the new function
 from webcrawl.get_company_by_top1machine import read_urls_and_companies_by_top1machine
-
-# Import to handle colorama recursion issues
-import sys
-
-# Import argparse for command line arguments
-import argparse
 
 # Configuration constants
 # ----------------------
@@ -232,7 +232,7 @@ def parse_args() -> argparse.Namespace:
         default=60,
         help="Maximum number of internal links to crawl per domain (default: 60)",
     )
-    
+
     parser.add_argument(
         "--overwrite",
         action="store_true",
@@ -540,7 +540,7 @@ def normalize_and_filter_links(
                 absolute_link = f"{scheme}:{link}"
             else:
                 absolute_link = link
-            
+
             # Only include links from the same domain
             parsed_link = urlparse(absolute_link)
             if parsed_link.netloc and parsed_link.netloc != domain:
@@ -830,7 +830,7 @@ async def crawl_domain(
     Returns:
         Tuple[str, int]: (output_file_path, pages_crawled)
             - note: this output is only used for reporting at the end of the run
-            - output_file_path: Path to the generated markdown file 
+            - output_file_path: Path to the generated markdown file
             - pages_crawled: Number of successfully crawled pages
     """
     prune_filter = PruningContentFilter(
@@ -881,23 +881,11 @@ async def crawl_domain(
         ),
     )
 
-    try:
-        from crawl4ai import (
-            DisplayMode,
-        )  # display mode can crash the program on background run
-
-        dispatcher = MemoryAdaptiveDispatcher(
-            memory_threshold_percent=DEFAULT_MEMORY_THRESHOLD,
-            check_interval=2.0,
-            max_session_permit=30,
-        )
-        """
-            monitor=CrawlerMonitor(
-                display_mode=DisplayMode.DETAILED
-            )
-        """
-    except ImportError:
-        dispatcher = None
+    dispatcher = MemoryAdaptiveDispatcher(
+        memory_threshold_percent=DEFAULT_MEMORY_THRESHOLD,
+        check_interval=2.0,
+        max_session_permit=30,
+    )
 
     # Ensure both output directories exist
     ensure_output_directory(output_dir_aggregated)
@@ -907,13 +895,13 @@ async def crawl_domain(
 
     # Create output filenames in their respective directories
     output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}.md")
-    
+
     # Check if the file already exists and skip if overwrite is False
     if not overwrite and os.path.exists(output_markdown_file):
         logger.info("Skipping %s - output file already exists at %s", main_url, output_markdown_file)
         logger.info("Use --overwrite flag to overwrite existing files")
         return output_markdown_file, 0
-        
+
     # Initialize aggregate content
     aggregate_content = f"# Aggregated Content for {domain_name}\n\n"
 

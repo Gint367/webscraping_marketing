@@ -1,10 +1,16 @@
-import unittest
-from unittest.mock import patch, MagicMock
-import time
 import json
-from webcrawl.fill_process_type import generate_process_types, extract_category_from_folder, remove_na_words
+import unittest
+from unittest.mock import MagicMock, patch
+
+from webcrawl.fill_process_type import (
+    extract_category_from_folder,
+    generate_process_types,
+    remove_na_words,
+)
 
 # Absolute import of the function to test
+
+
 class TestExtractCategoryFromFolder(unittest.TestCase):
     def test_llm_extracted_pattern_valid_category_returns_category(self):
         folder = "llm_extracted_maschinenbau"
@@ -31,18 +37,19 @@ class TestExtractCategoryFromFolder(unittest.TestCase):
         result = extract_category_from_folder(folder)
         self.assertEqual(result, "stahlverarbeitung")
 
+
 class TestGenerateProcessTypes(unittest.TestCase):
     def setUp(self):
         # Sample data for tests
         self.sample_products = ["Produkt A", "Produkt B", "Produkt C"]
         self.sample_machines = ["Maschine A", "Maschine B"]
         self.sample_category = "maschinenbau"
-        
+
         # Expected process types
         self.expected_process_types = [
             "Fräsungen", "Bohrungen", "Schweißarbeiten", "Drehprozesse", "Montagearbeiten"
         ]
-        
+
         # Mock response using proper JSON format
         self.mock_successful_response = MagicMock()
         self.mock_successful_response.choices = [
@@ -146,7 +153,7 @@ class TestGenerateProcessTypes(unittest.TestCase):
             )
         ]
         mock_completion.return_value = invalid_response
-        
+
         # Call function with minimal retries and delay
         result = generate_process_types(
             self.sample_products,
@@ -155,11 +162,11 @@ class TestGenerateProcessTypes(unittest.TestCase):
             max_retries=0,  # No retries
             base_delay=0  # Minimal delay if retry happens
         )
-        
+
         self.assertEqual(result, [])
         # Verify completion was called exactly once
         mock_completion.assert_called_once()
-        
+
     @patch('webcrawl.fill_process_type.completion')
     @patch('webcrawl.fill_process_type.time.sleep')  # Mock sleep to prevent actual waiting
     def test_json_validation_error_with_retries(self, mock_sleep, mock_completion):
@@ -174,7 +181,7 @@ class TestGenerateProcessTypes(unittest.TestCase):
         ]
         # Set up multiple failed attempts
         mock_completion.side_effect = [invalid_response] * 3
-        
+
         result = generate_process_types(
             self.sample_products,
             self.sample_machines,
@@ -182,14 +189,16 @@ class TestGenerateProcessTypes(unittest.TestCase):
             max_retries=2,
             base_delay=1  # This won't cause actual delay due to mocked sleep
         )
-        
+
         self.assertEqual(result, [])
         self.assertEqual(mock_completion.call_count, 3)  # Initial + 2 retries
         self.assertEqual(mock_sleep.call_count, 2)  # Should be called twice for 2 retries
 
+
 class TestRemoveNaWords(unittest.TestCase):
     """Unit tests for remove_na_words function."""
     from webcrawl.fill_process_type import remove_na_words
+
     def test_remove_na_words_positive_removes_na(self):
         process_types = ['Fräsungen', 'na', 'Bohrungen', 'N/A', 'Schweißarbeiten', 'n.a.', 'none']
         result = remove_na_words(process_types)
@@ -218,7 +227,7 @@ class TestRemoveNaWords(unittest.TestCase):
     def test_remove_na_words_word_contains_na_should_not_remove(self):
         """Test that words containing 'na' as a substring are not removed."""
         process_types = ['Fräsungen', 'Manatur', 'Banana', 'Analytik', 'na', 'Montage']
-        
+
         result = remove_na_words(process_types)
         # Only the exact 'na' should be removed
         self.assertEqual(result, ['Fräsungen', 'Manatur', 'Banana', 'Analytik', 'Montage'])

@@ -2,13 +2,14 @@
 Unit tests for crawl_domain.py automation pipeline integration.
 Covers: valid input, invalid input, edge cases, and error conditions.
 """
-import os
-import unittest
-from typing import Any
-import webcrawl.crawl_domain as crawl_domain
-import sys
 import asyncio
+import os
+import sys
+import unittest
 from unittest.mock import patch
+
+import webcrawl.crawl_domain as crawl_domain
+
 
 class TestCrawlDomain(unittest.TestCase):
     """Tests for crawl_domain.py automation pipeline integration."""

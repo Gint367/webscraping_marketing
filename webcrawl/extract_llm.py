@@ -1,15 +1,16 @@
-import os
-import json
-import asyncio
-import logging 
-from pydantic import BaseModel, Field
-from typing import List, Dict, Any, Optional # Added Any, Optional
-from urllib.parse import urlparse
-from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
-from crawl4ai.async_configs import CrawlerRunConfig
-from crawl4ai.extraction_strategy import LLMExtractionStrategy
-from crawl4ai.async_configs import LLMConfig
 import argparse
+import asyncio
+import json
+import logging
+import os
+from typing import Any, Dict, List, Optional  # Added Any, Optional
+from urllib.parse import urlparse
+
+from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
+from crawl4ai.async_configs import CrawlerRunConfig, LLMConfig
+from crawl4ai.extraction_strategy import LLMExtractionStrategy
+from pydantic import BaseModel, Field
+
 
 # Configure logging
 def setup_logging(log_level: str = "INFO"):
@@ -21,6 +22,7 @@ def setup_logging(log_level: str = "INFO"):
     # Set log level for LiteLLM and Botocore
     logging.getLogger("LiteLLM").setLevel(logging.WARNING)
     logging.getLogger("botocore").setLevel(logging.WARNING)
+
 
 class Company(BaseModel):
     company_name: str = Field(..., description="Name des Unternehmens.")
@@ -104,7 +106,7 @@ def _filter_files_to_process(file_paths: List[str], output_dir: str, overwrite: 
 
     if not filtered_file_paths and file_paths: # Check if initial list was not empty
         logger.info("All files already have output files. Use --overwrite to reprocess.")
-    
+
     skipped_count = len(file_paths) - len(filtered_file_paths)
     logger.debug(f"file path {len(file_paths)} | filtered {len(filtered_file_paths)}")
     logger.info(f"Skipped {skipped_count} files as output already exists. Use --overwrite to reprocess.")
@@ -127,7 +129,7 @@ def _save_result(result_content: Any, output_dir: str, source_url: str):
         logger.warning(f"Could not determine filename from URL: {source_url}. Using fallback.")
         # Create a fallback name, e.g., based on hash or timestamp if needed
         # For now, let's just use a generic name, but this might cause collisions
-        name_without_ext = f"unknown_source_{hash(source_url)}" 
+        name_without_ext = f"unknown_source_{hash(source_url)}"
 
     output_file = os.path.join(output_dir, f"{name_without_ext}_extracted.json")
 
@@ -173,17 +175,17 @@ def _is_relevant_extraction(content: Any) -> bool:
 async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrategy, output_dir: str, overwrite: bool = False) -> List[Dict]:
     """
     Process one or more files using a specified LLM extraction strategy and save the results.
-    
+
     Args:
         file_paths (list of str): List of file paths to be processed.
         llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction.
         output_dir (str): Directory where the extracted data and combined results will be saved.
         overwrite (bool, optional): Whether to overwrite existing output files. Defaults to False.
-        
+
     Returns:
         List[Dict]: A list of extracted content (as dictionaries) from each file.
     """
-    
+
     # Filter files first
     actual_files_to_process = _filter_files_to_process(file_paths, output_dir, overwrite)
 
@@ -253,6 +255,7 @@ def _find_original_file(error_json_file: str, input_dir: str, ext: str) -> Optio
     logger.warning(f"Could not find original file {original_name} for error file {error_json_file}")
     return None
 
+
 def _find_error_files(output_dir: str) -> List[str]:
     """Scans the output directory for JSON files indicating processing errors.
 
@@ -266,26 +269,26 @@ def _find_error_files(output_dir: str) -> List[str]:
     if not os.path.isdir(output_dir):
         logger.error(f"Output directory {output_dir} not found.")
         return error_files
-        
+
     for json_file in os.listdir(output_dir):
         if not json_file.endswith("_extracted.json"):
             continue
-        
+
         json_path = os.path.join(output_dir, json_file)
         if not os.path.isfile(json_path):
             continue
-            
+
         try:
             with open(json_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
-                
+
             has_error = False
             if isinstance(data, list) and len(data) > 0:
                 if isinstance(data[0], dict) and data[0].get('error') is True:
                     has_error = True
             elif isinstance(data, dict) and data.get('error') is True:
                 has_error = True
-                
+
             if has_error:
                 error_files.append(json_path)
         except json.JSONDecodeError:
@@ -294,28 +297,28 @@ def _find_error_files(output_dir: str) -> List[str]:
             # error_files.append(json_path)
         except Exception as e:
             logger.error(f"Error reading or processing {json_path}: {e}")
-            
+
     return error_files
 
 
 async def check_and_reprocess_error_files(output_dir: str, input_dir: str, ext: str, llm_strategy: LLMExtractionStrategy) -> int:
     """
     Check for files with errors in the output directory and reprocess them.
-    
+
     Args:
         output_dir (str): Directory containing the extracted JSON files
         input_dir (str): Directory containing the original source files
         ext (str): File extension of the original files (e.g., ".md")
         llm_strategy (LLMExtractionStrategy): The language model strategy to use for extraction
-    
+
     Returns:
         int: Number of files reprocessed
     """
-    
+
     logger.info(f"Checking for files with errors in {output_dir}...")
-    
+
     error_json_files = _find_error_files(output_dir)
-    
+
     files_to_reprocess = []
     for error_file_path in error_json_files:
         original_file = _find_original_file(error_file_path, input_dir, ext)
@@ -476,7 +479,6 @@ async def main():
     # Ensure output directory exists
     output_dir = ensure_output_directory(args.output)
 
-
     # Define LLM strategy once
     temperature = 0.7
     max_tokens = 1000
@@ -528,12 +530,11 @@ async def main():
         input_dir = args.input
     else:
         input_dir = os.path.dirname(args.input)
-        
-    
+
     # If --only-recheck is specified, skip the initial processing
     if args.only_recheck:
         logger.info("Only rechecking files with errors, skipping initial processing.")
-        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy) 
+        await check_and_reprocess_error_files(output_dir, input_dir, args.ext, llm_strategy)
     else:
         # Process all files and do error checking
         await process_files(files_to_process, llm_strategy, output_dir, args.overwrite)

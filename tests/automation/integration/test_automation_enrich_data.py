@@ -6,8 +6,9 @@ import os
 import sys
 import unittest
 from unittest.mock import patch
-from typing import Any
+
 import enrich_data as enrich_data
+
 
 class TestEnrichData(unittest.TestCase):
     """Tests for enrich_data.py automation pipeline integration."""

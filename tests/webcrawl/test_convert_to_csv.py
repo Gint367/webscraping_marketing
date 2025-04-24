@@ -1,10 +1,12 @@
-import unittest
 import json
-from unittest.mock import patch, mock_open, MagicMock
+import unittest
+from unittest.mock import MagicMock, mock_open, patch
+
 from webcrawl.convert_to_csv import convert_json_to_csv
 
+
 class TestConvertToCSV(unittest.TestCase):
-    
+
     def setUp(self):
         # Sample valid JSON data for testing
         self.valid_json_data = [
@@ -25,7 +27,7 @@ class TestConvertToCSV(unittest.TestCase):
                 "process_type": ["Process4"]
             }
         ]
-        
+
         # Expected CSV headers
         self.expected_headers = [
             'Company name', 'Company Url', 'Lohnfertigung(True/False)',
@@ -41,10 +43,10 @@ class TestConvertToCSV(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_json_load.return_value = self.valid_json_data
-        
+
         # Call function
         result = convert_json_to_csv('input.json')
-        
+
         # Assertions
         self.assertEqual(result, 'input.csv')
         mock_isfile.assert_called_once_with('input.json')
@@ -58,10 +60,10 @@ class TestConvertToCSV(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_json_load.return_value = self.valid_json_data
-        
+
         # Call function
         result = convert_json_to_csv('input.json', 'custom_output.csv')
-        
+
         # Assertions
         self.assertEqual(result, 'custom_output.csv')
         mock_isfile.assert_called_once_with('input.json')
@@ -72,10 +74,10 @@ class TestConvertToCSV(unittest.TestCase):
     def test_input_file_not_exists(self, mock_isfile):
         # Setup mock
         mock_isfile.return_value = False
-        
+
         # Call function
         result = convert_json_to_csv('nonexistent.json')
-        
+
         # Assertions
         self.assertIsNone(result)
         mock_isfile.assert_called_once_with('nonexistent.json')
@@ -87,10 +89,10 @@ class TestConvertToCSV(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_json_load.side_effect = json.JSONDecodeError('Invalid JSON', '', 0)
-        
+
         # Call function
         result = convert_json_to_csv('invalid.json')
-        
+
         # Assertions
         self.assertIsNone(result)
         mock_isfile.assert_called_once_with('invalid.json')
@@ -102,10 +104,10 @@ class TestConvertToCSV(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_json_load.return_value = []
-        
+
         # Call function
         result = convert_json_to_csv('empty.json')
-        
+
         # Assertions
         self.assertEqual(result, 'empty.csv')
         mock_isfile.assert_called_once_with('empty.json')
@@ -116,10 +118,10 @@ class TestConvertToCSV(unittest.TestCase):
         # Setup mocks
         mock_isfile.return_value = True
         mock_open.side_effect = FileNotFoundError()
-        
+
         # Call function
         result = convert_json_to_csv('error.json')
-        
+
         # Assertions
         self.assertIsNone(result)
         mock_isfile.assert_called_once_with('error.json')
@@ -132,10 +134,10 @@ class TestConvertToCSV(unittest.TestCase):
         mock_isfile.return_value = True
         # JSON with missing fields
         mock_json_load.return_value = [{"company_name": "Minimal Company"}]
-        
+
         # Call function
         result = convert_json_to_csv('minimal.json')
-        
+
         # Assertions
         self.assertEqual(result, 'minimal.csv')
         mock_isfile.assert_called_once_with('minimal.json')
@@ -150,15 +152,15 @@ class TestConvertToCSV(unittest.TestCase):
         mock_json_load.return_value = self.valid_json_data
         writer = MagicMock()
         mock_csv_writer.return_value = writer
-        
+
         # Call function
         result = convert_json_to_csv('test.json', 'test.csv')
-        
+
         # Assertions
         self.assertEqual(result, 'test.csv')
         # Verify headers were written
         writer.writerow.assert_any_call(self.expected_headers)
-        
+
         # Verify first row data
         expected_row1 = [
             'Test Company 1', 'https://example1.com', 'True',
@@ -167,7 +169,7 @@ class TestConvertToCSV(unittest.TestCase):
             'Process1', 'Process2', 'Process3'
         ]
         writer.writerow.assert_any_call(expected_row1)
-        
+
         # Verify second row data
         expected_row2 = [
             'Test Company 2', 'https://example2.com', 'False',

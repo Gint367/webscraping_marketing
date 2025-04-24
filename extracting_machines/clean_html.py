@@ -4,9 +4,9 @@ import logging
 import os
 from datetime import datetime
 from pathlib import Path
-from bs4 import BeautifulSoup
-import sys
 from typing import Optional
+
+from bs4 import BeautifulSoup
 
 # Constants
 MAX_PRECEDING_ELEMENTS = 3
@@ -56,7 +56,7 @@ def clean_html(input_html, filter_word=None, original_filename=None):
     # Process each table
     for table in tables:
         # Skip tables with id='begin_pub' and apply filter_word if specified
-        if table.get("id") != "begin_pub" and (
+        if table.get("id") != "begin_pub" and ( # type: ignore
             not filter_word or filter_word.lower() in table.text.lower()
         ):
             # Find preceding headers and paragraphs
@@ -70,11 +70,11 @@ def clean_html(input_html, filter_word=None, original_filename=None):
                 )  # Use find_previous instead of find_previous_sibling
                 if not current:
                     break
-                if current.name == "table":  # Stop if we encounter another table
+                if current.name == "table":  # type: ignore # Stop if we encounter another table
                     break
-                if current.name == "h3":  # Stop if we encounter a section heading (h3)
+                if current.name == "h3":  # type: ignore # Stop if we encounter a section heading (h3)
                     break
-                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:
+                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
                     if (
                         current not in preceding_elements
                     ):  # Avoid duplicates if somehow found again
@@ -115,21 +115,21 @@ def filter_word_rows(input_html, search_word):
             current = current.find_previous_sibling()
             if not current:
                 break
-            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:
+            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
                 table_name = current.text.strip()
                 break
 
         # Get all header rows, focusing on thead first
         header_rows = []
-        thead = table.find("thead")
+        thead = table.find("thead") # type: ignore
 
         if thead:
             # If the table has a proper thead element, extract headers from it
-            for row in thead.find_all("tr"):
+            for row in thead.find_all("tr"): # type: ignore
                 header_cells = []
-                for cell in row.find_all(["th", "td"]):
+                for cell in row.find_all(["th", "td"]): # type: ignore
                     text = cell.text.strip()
-                    colspan = int(cell.get("colspan", 1))
+                    colspan = int(cell.get("colspan", 1)) # type: ignore
                     # Handle colspan by duplicating the header text across multiple columns
                     # This ensures alignment with data cells that will appear below this header
                     header_cells.extend([text] * colspan)
@@ -137,19 +137,19 @@ def filter_word_rows(input_html, search_word):
         else:
             # For tables without thead, try to identify headers from the top rows
             found_data = False
-            for row in table.find_all("tr"):
-                if row.find_all("th"):
+            for row in table.find_all("tr"): # type: ignore
+                if row.find_all("th"): # type: ignore
                     # If row contains th elements, treat it as a header row
                     header_cells = []
-                    for cell in row.find_all(["th", "td"]):
+                    for cell in row.find_all(["th", "td"]): # type: ignore
                         text = cell.text.strip()
-                        colspan = int(cell.get("colspan", 1))
+                        colspan = int(cell.get("colspan", 1)) # type: ignore
                         header_cells.extend([text] * colspan)
                     header_rows.append(header_cells)
                 elif not found_data:
                     # If we haven't found data yet and there's no header,
                     # use the first row with content as header
-                    cells = [td.text.strip() for td in row.find_all("td")]
+                    cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
                     if any(cells):  # Check if row has any non-empty cells
                         if (
                             not header_rows
@@ -180,13 +180,13 @@ def filter_word_rows(input_html, search_word):
         matching_rows = []
         # Get data rows either from tbody or by skipping header rows
         data_rows = (
-            table.find("tbody").find_all("tr")
-            if table.find("tbody")
-            else table.find_all("tr")[len(header_rows) :]
+            table.find("tbody").find_all("tr") # type: ignore
+            if table.find("tbody") # type: ignore
+            else table.find_all("tr")[len(header_rows) :] # type: ignore
         )
 
         for row in data_rows:
-            cells = [td.text.strip() for td in row.find_all("td")]
+            cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
             row_text = " ".join(cells)
 
             # Find the position of search word in the text
@@ -341,14 +341,14 @@ def main(
                 with open(html_file, "r", encoding="utf-8") as f:
                     html_content = f.read()
                 cleaned_html = clean_html(html_content, original_filename=company_name)
-                cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")
-                os.makedirs(cleaned_html_output_dir, exist_ok=True)
-                cleaned_html_file = os.path.join(
-                    cleaned_html_output_dir, f"{company_folder}_cleaned.html"
-                )
-                with open(cleaned_html_file, "w", encoding="utf-8") as f:
-                    f.write(cleaned_html)
                 if cleaned_html:
+                    cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")
+                    os.makedirs(cleaned_html_output_dir, exist_ok=True)
+                    cleaned_html_file = os.path.join(
+                        cleaned_html_output_dir, f"{company_folder}_cleaned.html"
+                    )
+                    with open(cleaned_html_file, "w", encoding="utf-8") as f:
+                        f.write(cleaned_html)
                     filtered_data = filter_word_rows(cleaned_html, search_word)
                     for table in filtered_data:
                         table["company_name"] = company_name
