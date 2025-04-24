@@ -80,19 +80,109 @@ the test files are found in tests/automation/webcrawl/ and are named starting wi
 
 #### Final Data Integration
 the test files are found in tests/automation/integration/ and are named starting with test_automation_
-- [ ] Modify `merge_technische_anlagen_with_keywords.py` to accept parameters and return output file
-- [ ] Modify `enrich_data.py` to accept parameters and return output file path
+- [x] Modify `merge_technische_anlagen_with_keywords.py` to accept parameters and return output file
+- [x] Modify `enrich_data.py` to accept parameters and return output file path
 - Note: When creating new function, remember to add unit test for that
 
 ### 2. Master Script Development
 
 - [ ] Create `master_pipeline.py` with the following components:
   - [ ] Command-line argument parsing for input CSV and category
-  - [ ] Configuration management for API keys, paths, and settings
+  - [ ] Configuration management for paths, and settings
   - [ ] Sequential execution of all pipeline steps
   - [ ] Comprehensive error handling and logging
   - [ ] Progress tracking and reporting
   - [ ] Output file path generation
+
+#### Detailed Master Script Development Tasks
+
+**Subtask 1: Initialize `master_pipeline.py` with Logging and Argument Parsing**
+* **Title:** Setup Basic Script Structure, Logging, and Command-Line Arguments
+* **Implementation Steps:**
+  1. Create the file `master_pipeline.py`.
+  2. Import necessary modules: `argparse`, `logging`, `sys`, `pathlib`.
+  3. Set up basic logging configuration to log to console. The level should be configurable.
+  4. Implement an argument parser using `argparse`:
+     * Add required arguments: `--input-csv` (type `pathlib.Path`), `--output-dir` (type `pathlib.Path`).
+     * Add optional arguments: `--category` (str), `--config-file` (type `pathlib.Path`), `--verbose` (action='store_true').
+  5. Create a `main` function that parses arguments.
+  6. Configure the logging level based on the `--verbose` flag.
+  7. Log the parsed arguments at the `DEBUG` level.
+  8. Add initial validation: check if `input_csv` exists and is a file, and if `output_dir` exists (or create it).
+  9. Add a standard `if __name__ == "__main__":` block to call `main()`.
+* **Dependencies:** None
+* **Testing Approach:**
+  * Create `tests/automation/test_master_pipeline.py`.
+  * Write unit tests for argument parsing with various scenarios.
+  * Test logging level configuration based on `--verbose`.
+  * Test input validation functionality.
+
+**Subtask 2: Implement Configuration Management**
+* **Title:** Load and Merge Configuration Settings
+* **Implementation Steps:**
+  1. Create a sample `config.json` with default paths and settings.
+  2. Create a function `load_config(config_path: pathlib.Path) -> dict` to read and parse the configuration file.
+  3. In the `main` function, determine the config file path and load the configuration.
+  4. Create a function to merge settings from command-line arguments and config file.
+  5. Log the final configuration at the `DEBUG` level.
+* **Dependencies:** Subtask 1
+* **Testing Approach:**
+  * Test configuration loading with valid and invalid files.
+  * Test merging of command-line arguments with config file settings.
+  * Verify precedence rules (CLI args override config file).
+
+**Subtask 3: Implement Sequential Execution of Pipeline Steps**
+* **Title:** Orchestrate Pipeline Script Execution
+* **Implementation Steps:**
+  1. Import the main functions from all pipeline component scripts.
+  2. Define a function `run_pipeline(config: dict)` that contains the core logic.
+  3. Inside `run_pipeline`, define the sequence of steps to execute.
+  4. For each step, prepare input/output paths, log start/completion, and call the appropriate function.
+  5. Call `run_pipeline` from the `main` function after configuration is loaded.
+* **Dependencies:** Subtask 1, Subtask 2, All modified pipeline scripts
+* **Testing Approach:**
+  * Use mock objects to test proper sequence of function calls.
+  * Verify correct path generation and argument passing between steps.
+  * Consider end-to-end tests with sample data if feasible.
+
+**Subtask 4: Add Comprehensive Error Handling**
+* **Title:** Implement Error Handling and Retry Logic
+* **Implementation Steps:**
+  1. Wrap each component script call in a `try...except` block.
+  2. Catch specific exceptions and log appropriate error messages.
+  3. Implement a failure strategy (exit or continue) based on error severity.
+  4. (Optional) Implement retry logic for steps involving network calls or APIs.
+* **Dependencies:** Subtask 3
+* **Testing Approach:**
+  * Test error handling by simulating failures in component scripts.
+  * Verify proper logging of errors and appropriate pipeline behavior.
+  * Test retry logic if implemented.
+
+**Subtask 5: Implement Progress Tracking and Reporting**
+* **Title:** Add Progress Indicators and Summary Reporting
+* **Implementation Steps:**
+  1. Integrate progress bar support (e.g., using `tqdm`) if appropriate.
+  2. Enhance logging with clear phase start/end messages.
+  3. Implement a summary report to track success/failure of each step.
+  4. (Optional) Add basic checkpointing for debugging and recovery.
+* **Dependencies:** Subtask 3, Subtask 4
+* **Testing Approach:**
+  * Capture and analyze log output for expected progress messages.
+  * Test summary report generation in success and failure scenarios.
+  * Test checkpoint file creation if implemented.
+
+**Subtask 6: Finalize Output Path Generation and Cleanup**
+* **Title:** Generate Final Output Path and Handle Cleanup
+* **Implementation Steps:**
+  1. Define a robust method for generating the final output filename.
+  2. Ensure the final pipeline step uses the target output path.
+  3. Log the absolute path to the final generated file upon success.
+  4. (Optional) Add cleanup functionality for intermediate files.
+* **Dependencies:** Subtask 3, Subtask 5
+* **Testing Approach:**
+  * Test output path generation for correctness.
+  * Verify final file path is properly reported.
+  * Test cleanup functionality if implemented.
 
 ### 3. Configuration Management
 
