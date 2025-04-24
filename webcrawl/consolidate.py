@@ -355,6 +355,9 @@ def consolidate_main(input_path: str, output_path: str = "", log_level: str = "I
 def main():
     """
     Command-line interface for consolidating company entries from JSON files.
+    
+    Raises:
+        Exception: Propagates any exceptions from consolidate_main for proper error handling.
     """
     parser = argparse.ArgumentParser(description='Consolidate company entries from JSON files')
     parser.add_argument('input', help='Input JSON file or directory containing JSON files')
@@ -367,7 +370,9 @@ def main():
         consolidate_main(args.input, args.output, args.log_level)
     except Exception as e:
         logging.error(f"Consolidation failed: {e}")
-        exit(1)
+        # Re-raise the exception instead of calling exit(1)
+        # This allows tests to properly catch and verify error conditions
+        raise
 
 
 if __name__ == "__main__":

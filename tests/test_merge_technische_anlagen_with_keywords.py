@@ -196,11 +196,13 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_xlsx_input(
-        self, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
     ):
         """Test merge_csv_with_excel with Excel input"""
         # Configure mocks
+        mock_exists.return_value = True  # Make os.path.exists() return True
         mock_read_csv.return_value = self.csv_data
         mock_read_excel.return_value = self.base_data
         mock_splitext.return_value = ("base_path", ".xlsx")
@@ -229,10 +231,13 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_csv_input(
-        self, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
     ):
         """Test merge_csv_with_excel with CSV input"""
+        # Configure exists mock
+        mock_exists.return_value = True  # Make os.path.exists() return True
         # First call returns CSV data, second call returns base data
         mock_read_csv.side_effect = [self.csv_data, self.base_data]
         mock_splitext.return_value = ("base_path", ".csv")
@@ -253,10 +258,12 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.read_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_unsupported_format(
-        self, mock_print, mock_splitext, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_read_csv
     ):
         """Test merge_csv_with_excel with unsupported file format"""
+        mock_exists.return_value = True  # Make os.path.exists() return True
         mock_read_csv.return_value = self.csv_data
         mock_splitext.return_value = ("base_path", ".txt")
 
@@ -270,10 +277,14 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
     @patch("logging.info")
+    @patch("os.path.exists")
     def test_correct_match_tracking_with_missing_values(
-        self, mock_log_info, mock_splitext, mock_to_csv, mock_read_csv
+        self, mock_exists, mock_log_info, mock_splitext, mock_to_csv, mock_read_csv
     ):
         """Test that companies are correctly tracked as matched even with missing technical data"""
+        # Mock os.path.exists to return True
+        mock_exists.return_value = True
+        
         # Create test data where all companies should match by name
         csv_data = pd.DataFrame(
             {

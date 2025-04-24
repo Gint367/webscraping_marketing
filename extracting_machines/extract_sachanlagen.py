@@ -315,6 +315,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
 
             # Process result as it comes in
             if result.success and result.extracted_content:
+
                 # Find the corresponding file path
                 file_idx = file_urls.index(result.url)
                 file_path = file_paths[file_idx]
@@ -352,6 +353,17 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     if isinstance(content_to_modify, str):
                         content_to_modify = json.loads(content_to_modify)
 
+                    # Check for error in extracted content and raise exception if found
+                    if (
+                        isinstance(content_to_modify, list)
+                        and any(isinstance(entry, dict) and entry.get("error") is True for entry in content_to_modify)
+                    ):
+                        error_entry = next(entry for entry in content_to_modify if entry.get("error") is True)
+                        raise RuntimeError(f"Extraction error for '{company_name}': {error_entry.get('content', 'Unknown error')}")
+
+                    if isinstance(content_to_modify, dict) and content_to_modify.get("error") is True:
+                        raise RuntimeError(f"Extraction error for '{company_name}': {content_to_modify.get('content', 'Unknown error')}")
+
                     # Add company name to each entry
                     if isinstance(content_to_modify, list):
                         for entry in content_to_modify:
@@ -375,12 +387,15 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 # Only save output if content is non-empty and relevant
                 should_write = False
                 content = result.extracted_content
+                logger.debug(f"Content type: {type(content)}")
+                logger.debug(f"extracted content type: {type(result.extracted_content)}")
                 if isinstance(content, str):
                     try:
                         content = json.loads(content)
                     except Exception:
                         content = None
                 if isinstance(content, list) and len(content) > 0:
+                    logger.info(f"Content: {content}")
                     # Check if at least one entry has Sachanlagen values or table_name
                     if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
                         should_write = True
@@ -753,7 +768,6 @@ def run_extraction(
     max_tokens = 1000
     llm_strategy = LLMExtractionStrategy(
         llm_config=LLMConfig(
-            # provider="openai/gpt-4o-mini",
             provider="bedrock/amazon.nova-pro-v1:0",
         ),
         extraction_type="schema",

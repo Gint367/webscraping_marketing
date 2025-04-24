@@ -28,10 +28,12 @@ class TestEnrichData(unittest.TestCase):
     @patch('pandas.read_csv')
     @patch('pandas.DataFrame.to_csv')
     @patch('argparse.ArgumentParser.parse_args')
-    def test_main_happy_path(self, mock_args, mock_to_csv, mock_read_csv):
+    @patch('os.path.exists')
+    def test_main_happy_path(self, mock_exists, mock_args, mock_to_csv, mock_read_csv):
         """Test main function with valid inputs"""
         # Setup
-        mock_args.return_value = Mock(input_file='test.csv')
+        mock_args.return_value = Mock(input_file='test.csv', log_level='INFO')
+        mock_exists.return_value = True
 
         # Create a mock DataFrame
         data = {
@@ -83,47 +85,47 @@ class TestEnrichData(unittest.TestCase):
 
     @patch('pandas.read_csv')
     @patch('argparse.ArgumentParser.parse_args')
-    def test_main_file_not_found(self, mock_args, mock_read_csv):
+    @patch('os.path.exists')
+    def test_main_file_not_found(self, mock_exists, mock_args, mock_read_csv):
         """Test main function when file is not found"""
         # Setup
-        mock_args.return_value = Mock(input_file='nonexistent.csv')
-        mock_read_csv.side_effect = FileNotFoundError
-
-        # Execute
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+        mock_args.return_value = Mock(input_file='nonexistent.csv', log_level='INFO')
+        mock_exists.return_value = False  # Simulate file not found
+        
+        # Execute and expect a FileNotFoundError
+        with self.assertRaises(FileNotFoundError):
             main()
-
-        # Assert
-        output = fake_out.getvalue()
-        self.assertIn("Error: Input file 'nonexistent.csv' not found", output)
 
     @patch('pandas.read_csv')
     @patch('argparse.ArgumentParser.parse_args')
-    def test_main_missing_required_columns(self, mock_args, mock_read_csv):
+    @patch('os.path.exists')
+    def test_main_missing_required_columns(self, mock_exists, mock_args, mock_read_csv):
         """Test main function when required columns are missing"""
         # Setup
-        mock_args.return_value = Mock(input_file='test.csv')
+        mock_args.return_value = Mock(input_file='test.csv', log_level='INFO')
+        mock_exists.return_value = True
 
         # Create a mock DataFrame without the required column
         data = {'Some_Other_Column': ['value1', 'value2']}
         df = pd.DataFrame(data)
         mock_read_csv.return_value = df
 
-        # Execute
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+        # Execute and expect a ValueError
+        with self.assertRaises(ValueError) as context:
             main()
-
-        # Assert
-        output = fake_out.getvalue()
-        self.assertIn("Error: Missing required columns: Maschinen_Park_Size", output)
+            
+        # Assert the error message contains the expected text
+        self.assertIn("Missing required columns: Maschinen_Park_Size", str(context.exception))
 
     @patch('pandas.read_csv')
     @patch('pandas.DataFrame.to_csv')
     @patch('argparse.ArgumentParser.parse_args')
-    def test_main_error_saving_file(self, mock_args, mock_to_csv, mock_read_csv):
+    @patch('os.path.exists')
+    def test_main_error_saving_file(self, mock_exists, mock_args, mock_to_csv, mock_read_csv):
         """Test main function when there's an error saving the output file"""
         # Setup
-        mock_args.return_value = Mock(input_file='test.csv')
+        mock_args.return_value = Mock(input_file='test.csv', log_level='INFO')
+        mock_exists.return_value = True
 
         # Create a mock DataFrame
         data = {'Maschinen_Park_Size': ['15-20', '30']}
@@ -133,13 +135,12 @@ class TestEnrichData(unittest.TestCase):
         # Mock to_csv to raise an exception
         mock_to_csv.side_effect = Exception("Permission denied")
 
-        # Execute
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+        # Execute and expect a ValueError
+        with self.assertRaises(ValueError) as context:
             main()
-
-        # Assert
-        output = fake_out.getvalue()
-        self.assertIn("Error saving output file: Permission denied", output)
+            
+        # Assert the error message contains the expected text
+        self.assertIn("Error saving output file: Permission denied", str(context.exception))
 
 if __name__ == '__main__':
     unittest.main()

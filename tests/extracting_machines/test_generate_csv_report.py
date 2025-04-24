@@ -15,7 +15,7 @@ class TestExtractCompanyName(unittest.TestCase):
     def test_empty_data(self):
         """Test extracting company name from empty data."""
         self.assertEqual(extract_company_name([]), "Unknown Company")
-        self.assertEqual(extract_company_name(None), "Unknown Company")
+        self.assertEqual(extract_company_name(None), "Unknown Company") # type: ignore
 
     def test_valid_company_name(self):
         """Test extracting company name from valid data."""
@@ -159,11 +159,10 @@ class TestGenerateCSVReport(unittest.TestCase):
         # Setup mocks
         mock_listdir.return_value = ['file1_filtered.json', 'file2_filtered.json', 'hello_world.json']
 
-        # Mock JSON data
-        mock_json_data = [
-            {"company_name": "Company A"}
-        ]
-        mock_json_load.return_value = mock_json_data
+        # Mock JSON data - use side_effect to control return values for different calls
+        file1_data = [{"company_name": "Company A"}]
+        file2_data = [{"company_name": "Company B"}]  # This data should not produce a valid row
+        mock_json_load.side_effect = [file1_data, file2_data]
 
         # Mock CSV writer
         mock_writer = MagicMock()
@@ -173,7 +172,8 @@ class TestGenerateCSVReport(unittest.TestCase):
         def test_extract_func(data, n):
             if data[0].get('company_name') == "Company A":
                 return ["100", "200"], "Table A", "200"
-            return [""], "", ""
+            # For Company B, return values that won't qualify as valid (empty values)
+            return ["", ""], "", ""
 
         # Call the function
         generate_csv_report(
@@ -190,8 +190,11 @@ class TestGenerateCSVReport(unittest.TestCase):
         # Verify CSV headers
         mock_writer.writerow.assert_any_call(['Company', 'Table', 'Machine_1', 'Machine_2'])
 
-        # Verify data rows were written
-        mock_writer.writerow.assert_any_call(["Company A", "Table A", "100", "200"])
+        # Verify data rows were written - using writerows which is how the implementation works
+        # Get the actual rows passed to writerows
+        called_args = mock_writer.writerows.call_args[0][0]
+        self.assertEqual(len(called_args), 1, "Expected only one row to be written")
+        self.assertEqual(called_args[0], ["Company A", "Table A", "100", "200"])
 
 
 if __name__ == '__main__':
