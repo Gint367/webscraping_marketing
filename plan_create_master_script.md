@@ -87,9 +87,9 @@ the test files are found in tests/automation/integration/ and are named starting
 ### 2. Master Script Development
 
 - [ ] Create `master_pipeline.py` with the following components:
-  - [ ] Command-line argument parsing for input CSV and category
-  - [ ] Configuration management for paths, and settings
-  - [ ] Sequential execution of all pipeline steps
+  - [x] Command-line argument parsing for input CSV and category
+  - [x] Configuration management for paths, and settings
+  - [x] Sequential execution of all pipeline steps
   - [ ] Comprehensive error handling and logging
   - [ ] Progress tracking and reporting
   - [ ] Output file path generation

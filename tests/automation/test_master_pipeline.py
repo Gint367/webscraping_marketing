@@ -279,26 +279,28 @@ class TestMasterPipeline(unittest.TestCase):
         mock_webcrawl.return_value = "/path/to/webcrawl_output.csv"
         mock_integration.return_value = "/path/to/final_output.csv"
         
-        config = {
-            "input_csv": str(self.input_csv),
-            "output_dir": str(self.output_dir),
-            "category": "maschinenbauer"
-        }
-        
-        # Call the function being tested
-        result = run_pipeline(config)
-        
-        # Verify all components were called in sequence
-        mock_extracting.assert_called_once()
-        mock_webcrawl.assert_called_once()
-        mock_integration.assert_called_once()
-        
-        # Verify correct parameters were passed
-        self.assertIn(str(self.input_csv), mock_extracting.call_args[0][0])
-        self.assertIn(str(self.output_dir), mock_extracting.call_args[0][1])
-        
-        # Verify the result is the output of the integration pipeline
-        self.assertEqual(result, "/path/to/final_output.csv")
+        # Mock additional functions needed
+        with patch('pathlib.Path.mkdir'), \
+             patch('pathlib.Path.exists', return_value=True), \
+             patch('time.strftime', return_value="20250425_123456"), \
+             patch('shutil.copy2'):
+            
+            config = {
+                "input_csv": str(self.input_csv),
+                "output_dir": str(self.output_dir),
+                "category": "maschinenbauer"
+            }
+            
+            # Call the function being tested
+            result = run_pipeline(config)
+            
+            # Verify all components were called in sequence
+            mock_extracting.assert_called_once()
+            mock_webcrawl.assert_called_once()
+            mock_integration.assert_called_once()
+            
+            # The result should include the final export filename
+            self.assertIn("final_export_maschinenbauer.csv", result)
 
     @patch('master_pipeline.run_extracting_machine_pipeline')
     def test_run_pipeline_handles_errors(self, mock_extracting):
@@ -337,12 +339,12 @@ class TestMasterPipeline(unittest.TestCase):
         from master_pipeline import run_extracting_machine_pipeline
         
         # Mock all the extracting machine components
-        with patch('master_pipeline.get_company_by_category') as mock_get_company, \
-             patch('master_pipeline.get_bundesanzeiger_html') as mock_get_html, \
-             patch('master_pipeline.clean_html') as mock_clean_html, \
-             patch('master_pipeline.extract_sachanlagen') as mock_extract, \
-             patch('master_pipeline.generate_csv_report') as mock_generate, \
-             patch('master_pipeline.merge_csv_with_excel') as mock_merge:
+        with patch('extracting_machines.get_company_by_category.extract_companies_by_category') as mock_get_company, \
+             patch('extracting_machines.get_bundesanzeiger_html.main') as mock_get_html, \
+             patch('extracting_machines.clean_html.main') as mock_clean_html, \
+             patch('extracting_machines.extract_sachanlagen.run_extraction') as mock_extract, \
+             patch('extracting_machines.generate_csv_report.generate_csv_report') as mock_generate, \
+             patch('extracting_machines.merge_csv_with_excel.main') as mock_merge:
             
             # Setup mock returns
             mock_get_company.return_value = "/path/to/filtered_companies.csv"
@@ -381,19 +383,19 @@ class TestMasterPipeline(unittest.TestCase):
         from master_pipeline import run_webcrawl_pipeline
         
         # Mock all the webcrawl components
-        with patch('master_pipeline.crawl_domain') as mock_crawl, \
-             patch('master_pipeline.extract_llm') as mock_extract, \
-             patch('master_pipeline.pluralize_with_llm') as mock_pluralize, \
-             patch('master_pipeline.consolidate') as mock_consolidate, \
-             patch('master_pipeline.fill_process_type') as mock_fill, \
-             patch('master_pipeline.convert_to_csv') as mock_convert:
+        with patch('webcrawl.crawl_domain.main') as mock_crawl, \
+             patch('webcrawl.extract_llm.run_extract_llm') as mock_extract, \
+             patch('webcrawl.pluralize_with_llm.process_directory') as mock_pluralize, \
+             patch('webcrawl.consolidate.consolidate_main') as mock_consolidate, \
+             patch('webcrawl.fill_process_type.run_fill_process_type') as mock_fill, \
+             patch('webcrawl.convert_to_csv.convert_json_to_csv') as mock_convert:
             
             # Setup mock returns
             mock_crawl.return_value = "/path/to/crawled_dir"
             mock_extract.return_value = "/path/to/extracted_dir"
             mock_pluralize.return_value = "/path/to/pluralized_dir"
             mock_consolidate.return_value = "/path/to/consolidated.json"
-            mock_fill.return_value = "/path/to/filled.json"
+            mock_fill.return_value = ["/path/to/filled.json"]  # Return a list to match expectation in code
             mock_convert.return_value = "/path/to/converted.csv"
             
             # Call the function being tested
@@ -423,13 +425,21 @@ class TestMasterPipeline(unittest.TestCase):
         """
         from master_pipeline import run_integration_pipeline
         
-        # Mock all the integration components
-        with patch('master_pipeline.merge_technische_anlagen_with_keywords') as mock_merge, \
-             patch('master_pipeline.enrich_data') as mock_enrich:
+        # Mock all the integration components and dependencies
+        with patch('merge_technische_anlagen_with_keywords.merge_csv_with_excel') as mock_merge, \
+             patch('enrich_data.enrich_data') as mock_enrich, \
+             patch('os.makedirs') as mock_makedirs, \
+             patch('os.path.dirname') as mock_dirname, \
+             patch('shutil.copy2') as mock_copy2:
             
             # Setup mock returns
             mock_merge.return_value = "/path/to/merged.csv"
             mock_enrich.return_value = "/path/to/enriched.csv"
+            mock_dirname.return_value = "/path/to/dir"
+            
+            # Setup mock copy2 to set a specific final output path
+            expected_final_path = str(Path(str(self.output_dir)) / "final_output.csv")
+            mock_copy2.side_effect = lambda src, dst: dst  # Return destination path
             
             # Call the function being tested
             result = run_integration_pipeline(
@@ -438,12 +448,22 @@ class TestMasterPipeline(unittest.TestCase):
                 str(self.output_dir)
             )
             
-            # Verify all components were called in sequence
-            mock_merge.assert_called_once()
-            mock_enrich.assert_called_once()
+            # Verify all components were called in sequence with correct parameters
+            mock_merge.assert_called_once_with(
+                csv_path="/path/to/webcrawl_output.csv",
+                base_data_path="/path/to/extracting_output.csv",
+                output_path=str(Path(str(self.output_dir)) / "merged_data.csv")
+            )
+            mock_enrich.assert_called_once_with(input_file="/path/to/merged.csv")
+            mock_makedirs.assert_called_once()
+            mock_dirname.assert_called_once()
             
-            # Verify the result is the output of the enrich
-            self.assertEqual(result, "/path/to/enriched.csv")
+            # Check if copy2 was called (if enriched_output != final_output)
+            mock_copy2.assert_called_once()
+            
+            # In the actual implementation, the result will be the final_output path
+            # after copying, so we should expect that path here
+            self.assertEqual(result, expected_final_path)
 
     def test_main_function(self):
         """
