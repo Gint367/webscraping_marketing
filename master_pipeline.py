@@ -15,13 +15,17 @@ The pipeline includes:
 """
 
 import argparse
+import asyncio  # Moved import to top
+import csv  # Add csv import for validation
 import json
 import logging
 import os
 import shutil
 import time
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional  # Add more typing imports
+
+from tqdm import tqdm  # Add tqdm import
 
 # Import functions from extracting_machines components
 # Import functions from integration components
@@ -29,6 +33,7 @@ from typing import Any, Dict, Optional
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
 
 def parse_arguments() -> argparse.Namespace:
     """
@@ -40,13 +45,13 @@ def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Master pipeline for data extraction and processing"
     )
-    
+
     # Required arguments
     parser.add_argument(
         "--input-csv",
         type=Path,
         required=True,
-        help="Path to input CSV file with company data"
+        help="Path to input file (CSV or Excel). CSV files must contain 'company name', 'location', and 'url' columns."
     )
     parser.add_argument(
         "--output-dir",
@@ -54,7 +59,7 @@ def parse_arguments() -> argparse.Namespace:
         required=True,
         help="Directory for output files"
     )
-    
+
     # Optional arguments
     parser.add_argument(
         "--category",
@@ -71,30 +76,79 @@ def parse_arguments() -> argparse.Namespace:
         action="store_true",
         help="Enable verbose logging"
     )
-    
+
     return parser.parse_args()
+
 
 def validate_inputs(input_csv: Path, output_dir: Path) -> None:
     """
     Validate input parameters and create output directories if they don't exist.
     
     Args:
-        input_csv: Path to input CSV file
+        input_csv: Path to input CSV or Excel file
         output_dir: Path to output directory
     
     Raises:
-        FileNotFoundError: If input CSV file does not exist
+        FileNotFoundError: If input file does not exist
+        ValueError: If input file doesn't have a supported extension (.csv or .xlsx/.xls)
     """
-    # Check if input CSV exists
+    # Check if input file exists
     if not input_csv.exists():
-        raise FileNotFoundError(f"Input CSV file not found: {input_csv}")
-    
+        raise FileNotFoundError(f"Input file not found: {input_csv}")
+
+    # Check if file extension is supported
+    if input_csv.suffix.lower() not in ['.csv', '.xlsx', '.xls']:
+        raise ValueError(f"Unsupported file format: {input_csv.suffix}. Use CSV or Excel files only.")
+
     # Create output directory if it doesn't exist
     if not output_dir.exists():
         logger.info(f"Creating output directory: {output_dir}")
         output_dir.mkdir(parents=True, exist_ok=True)
     elif not output_dir.is_dir():
         raise NotADirectoryError(f"Output path exists but is not a directory: {output_dir}")
+
+
+def validate_csv_columns(csv_path: str, required_columns: List[str]) -> bool:
+    """
+    Validate that a CSV file contains all required columns.
+    
+    Args:
+        csv_path: Path to the CSV file (string or Path object)
+        required_columns: List of column names that must be present
+    
+    Returns:
+        bool: True if all required columns are present, False otherwise
+        
+    Raises:
+        FileNotFoundError: If CSV file does not exist
+        csv.Error: If CSV file is invalid
+    """
+    try:
+        # Convert Path objects to string if needed
+        if not isinstance(csv_path, str):
+            csv_path = str(csv_path)
+
+        with open(csv_path, 'r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.reader(csvfile)
+            header = next(reader)  # Get the header row
+
+            # Check if all required columns are present (case insensitive)
+            header_lower = [col.lower() for col in header]
+            missing_columns = [col for col in required_columns
+                               if col.lower() not in header_lower]
+
+            if missing_columns:
+                logger.warning(f"CSV file is missing required columns: {', '.join(missing_columns)}")
+                return False
+
+            return True
+    except FileNotFoundError:
+        logger.error(f"CSV file not found: {csv_path}")
+        raise
+    except csv.Error as e:
+        logger.error(f"Error reading CSV file {csv_path}: {str(e)}")
+        raise
+
 
 def load_config(config_path: Path) -> Dict[str, Any]:
     """
@@ -112,9 +166,10 @@ def load_config(config_path: Path) -> Dict[str, Any]:
     """
     if not config_path.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
-    
+
     with open(config_path, 'r') as f:
         return json.load(f)
+
 
 def merge_config_with_args(config: Dict[str, Any], args: argparse.Namespace) -> Dict[str, Any]:
     """
@@ -129,22 +184,23 @@ def merge_config_with_args(config: Dict[str, Any], args: argparse.Namespace) -> 
         Dict: Merged configuration
     """
     merged_config = config.copy()
-    
+
     # Map args to config
     if args.output_dir:
         merged_config["output_dir"] = str(args.output_dir)
-    
+
     if args.category:
         merged_config["category"] = args.category
-    
+
     if args.input_csv:
         merged_config["input_csv"] = str(args.input_csv)
-    
+
     # Set log level based on verbose flag
     if args.verbose:
         merged_config["log_level"] = "DEBUG"
-    
+
     return merged_config
+
 
 def setup_logging(log_level: str, log_file: Optional[Path] = None) -> logging.Logger:
     """
@@ -161,49 +217,66 @@ def setup_logging(log_level: str, log_file: Optional[Path] = None) -> logging.Lo
     numeric_level = getattr(logging, log_level.upper(), None)
     if not isinstance(numeric_level, int):
         raise ValueError(f"Invalid log level: {log_level}")
-    
+
     # Configure logging
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     handlers = []
-    
+
     # Add console handler
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter(log_format))
     handlers.append(console_handler)
-    
+
     # Add file handler if log_file is provided
     if log_file:
         file_handler = logging.FileHandler(str(log_file))
         file_handler.setFormatter(logging.Formatter(log_format))
         handlers.append(file_handler)
-    
+
     # Configure root logger
     logging.basicConfig(
         level=numeric_level,
         format=log_format,
         handlers=handlers
     )
-    
+
     # Get and configure the module logger
     logger = logging.getLogger(__name__)
     logger.setLevel(numeric_level)
-    
+
     return logger
+
 
 def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: Optional[str] = None) -> str:
     """
     Run the extracting machine assets pipeline component.
     
+    This pipeline executes several steps:
+    1. Filter companies by category (skipped for CSV input files)
+    2. Extract HTML from Bundesanzeiger
+    3. Clean HTML content
+    4. Extract Sachanlagen data
+    5. Generate CSV report
+    6. Merge CSV with Excel data
+    
+    For CSV input files, the filtering step is skipped but the file must contain
+    the required columns: "company name", "location", and "url".
+    For Excel input files, the complete filtering process is applied.
+    
     Args:
-        input_csv: Path to input CSV file
+        input_csv: Path to input CSV or Excel file
         output_dir: Path to output directory
         category: Optional category to filter companies
     
     Returns:
         str: Path to the output file from this pipeline component
+        
+    Raises:
+        ValueError: If the input CSV file is missing required columns
+        FileNotFoundError: If input file doesn't exist
     """
     logger.info("Starting Extracting Machine Assets phase")
-    
+
     # Create necessary output directories
     output_path = Path(output_dir)
     filtered_dir = output_path / "filtered_companies"
@@ -213,25 +286,47 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     report_dir = output_path / "reports"
     for directory in [filtered_dir, bundesanzeiger_dir, cleaned_html_dir, sachanlagen_dir, report_dir]:
         directory.mkdir(parents=True, exist_ok=True)
-    
+
+    # Determine if the input is a CSV or Excel file
+    input_file_path = Path(input_csv)
+    is_csv_input = input_file_path.suffix.lower() == '.csv'
+
     # Step 1: Filter companies by category if needed
     from_category = f" (filtered by category: {category})" if category else ""
     logger.info(f"Step 1: Processing companies from {input_csv}{from_category}")
     filtered_csv = str(filtered_dir / f"filtered_companies_{category or 'all'}.csv")
-    try:
-        from extracting_machines.get_company_by_category import (
-            extract_companies_by_category,
-        )
-        filtered_csv = extract_companies_by_category(
-            input_file=input_csv,
-            output_file=filtered_csv,
-            category=category if category is not None else ""
-        )
-        logger.info(f"Companies filtered successfully: {filtered_csv}")
-    except Exception as e:
-        logger.error(f"Error filtering companies: {str(e)}")
-        raise
-    
+
+    if is_csv_input:
+        # Skip step 1 for CSV input, but verify required columns are present
+        logger.info("Input is a CSV file. Skipping company filtering step.")
+        # Define required columns based on what the pipeline needs
+        required_columns = ["company name", "location", "url"]
+        try:
+            if validate_csv_columns(input_csv, required_columns):
+                logger.info(f"CSV validation successful. Required columns present: {', '.join(required_columns)}")
+                filtered_csv = input_csv  # Use the input CSV directly
+            else:
+                logger.error("CSV missing required columns. Cannot proceed with pipeline.")
+                raise ValueError(f"Input CSV must contain these columns: {', '.join(required_columns)}")
+        except Exception as e:
+            logger.error(f"Error validating CSV columns: {str(e)}")
+            raise
+    else:
+        # Process Excel file through the filtering step
+        try:
+            from extracting_machines.get_company_by_category import (
+                extract_companies_by_category,
+            )
+            filtered_csv = extract_companies_by_category(
+                input_file=input_csv,
+                output_file=filtered_csv,
+                category=category if category is not None else ""
+            )
+            logger.info(f"Companies filtered successfully: {filtered_csv}")
+        except Exception as e:
+            logger.error(f"Error filtering companies: {str(e)}")
+            raise
+
     # Step 2: Get HTML from Bundesanzeiger
     logger.info("Step 2: Extracting HTML from Bundesanzeiger")
     try:
@@ -246,7 +341,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error extracting Bundesanzeiger HTML: {str(e)}")
         raise
-    
+
     # Step 3: Clean HTML
     logger.info("Step 3: Cleaning HTML content")
     try:
@@ -261,7 +356,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error cleaning HTML: {str(e)}")
         raise
-    
+
     # Step 4: Extract Sachanlagen
     logger.info("Step 4: Extracting Sachanlagen data")
     try:
@@ -277,7 +372,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error extracting Sachanlagen: {str(e)}")
         raise
-    
+
     # Step 5: Generate CSV report
     logger.info("Step 5: Generating CSV report")
     try:
@@ -290,8 +385,9 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         if sachanlagen_output is None:
             logger.error("Sachanlagen output is None, cannot generate CSV report.")
             raise ValueError("Sachanlagen output is None, cannot generate CSV report.")
+
         csv_report = generate_csv_report(
-            input_dir=sachanlagen_output,
+            input_dir=cleaned_html_output,
             output_file=csv_report,
             n=3,
             extract_func=lambda data, n: extract_values(data, n, filter_words)
@@ -300,7 +396,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error generating CSV report: {str(e)}")
         raise
-    
+
     # Step 6: Merge CSV with Excel
     logger.info("Step 6: Merging CSV with Excel data")
     final_output = str(output_path / f"extracting_machine_output_{category or 'all'}.csv")
@@ -310,22 +406,24 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         )
         final_output = merge_csv_with_excel(
             csv_file_path=csv_report,
-            xlsx_file_path=input_csv,
+            original_company_file_path=input_csv,
             output_file_path=final_output,
-            top_n=3
+            sachanlagen_path=sachanlagen_output,
+            top_n=1
         )
-        logger.info(f"CSV merged with Excel successfully: {final_output}")
+        logger.info(f"CSV merged with Original Base successfully: {final_output}")
     except Exception as e:
-        logger.error(f"Error merging CSV with Excel: {str(e)}")
+        logger.error(f"Error merging CSV with Base: {str(e)}")
         raise
-    
+
     logger.info("Extracting Machine Assets phase completed successfully")
     if final_output is None:
         logger.error("Final output from Extracting Machine Assets pipeline is None.")
         raise ValueError("Final output from Extracting Machine Assets pipeline is None.")
     return final_output
 
-def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
+
+def run_webcrawl_pipeline(extracting_output: str, output_dir: str) -> str:
     """
     Run the web crawling and keyword extraction pipeline component.
     The pipeline now follows this sequence:
@@ -333,36 +431,35 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     - Crawl domain
     - Extract keywords with LLM
     - Fill process type
-    - Consolidate data
     - Pluralize keywords with LLM
+    - Consolidate data
     - Convert to CSV
     
     Args:
-        input_csv: Path to input CSV file
+        extracting_output: Path to the filtered/processed CSV file from extracting machine pipeline
         output_dir: Path to output directory
     
     Returns:
         str: Path to the output file from this pipeline component
     """
     logger.info("Starting Crawling & Scraping Keywords phase")
-    
+
     # Create necessary output directories
     output_path = Path(output_dir)
     crawl_dir = output_path / "domain_content"
     extract_dir = output_path / "extracted_keywords"
     pluralize_dir = output_path / "pluralized_keywords"
-    for directory in [crawl_dir, extract_dir, pluralize_dir]:
+    process_type_dir = output_path / "process_type_filled"
+    for directory in [crawl_dir, extract_dir, pluralize_dir, process_type_dir]:
         directory.mkdir(parents=True, exist_ok=True)
-    
+
     # Step 1: Crawl domain
     logger.info("Step 1: Crawling company domains")
     try:
-        import asyncio
-
         from webcrawl.crawl_domain import main as crawl_domain_mains
         crawl_output = asyncio.run(
             crawl_domain_mains(
-                input_csv_path=input_csv,
+                input_csv_path=extracting_output,
                 output_dir=str(crawl_dir)
             )
         )
@@ -372,7 +469,7 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     except Exception as e:
         logger.error(f"Error crawling domains: {str(e)}")
         raise
-    
+
     # Step 2: Extract keywords with LLM
     logger.info("Step 2: Extracting keywords with LLM")
     try:
@@ -390,14 +487,14 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     except Exception as e:
         logger.error(f"Error extracting keywords: {str(e)}")
         raise
-    
-    # Step 3: Fill process type
+
+    # Step 3: Fill process type (output to process_type_filled folder)
     logger.info("Step 3: Filling process types")
     try:
         from webcrawl.fill_process_type import run_fill_process_type
         process_type_outputs = run_fill_process_type(
-            input_file=extract_output,
-            output_dir=str(output_path),
+            folder=extract_output,
+            output_dir=str(process_type_dir),
             log_level="INFO"
         )
         if not process_type_outputs or not isinstance(process_type_outputs, list):
@@ -408,14 +505,37 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     except Exception as e:
         logger.error(f"Error filling process types: {str(e)}")
         raise
-    
-    # Step 4: Consolidate data
-    logger.info("Step 4: Consolidating data")
+
+    # Step 4: Pluralize keywords with LLM
+    logger.info("Step 4: Pluralizing keywords")
+    try:
+        from webcrawl.pluralize_with_llm import (
+            process_file_or_directory as pluralize_with_llm,
+        )
+
+        # Determine output path type
+        if os.path.isfile(process_type_output):
+            pluralize_output_path = os.path.join(str(pluralize_dir), os.path.basename(process_type_output))
+        else:
+            pluralize_output_path = str(pluralize_dir)
+        pluralize_output = pluralize_with_llm(
+            input_path=str(process_type_dir),  # Use the whole folder for pluralization
+            output_path=pluralize_output_path
+        )
+        if not pluralize_output:
+            raise ValueError("pluralize_with_llm returned None or empty output.")
+        logger.info(f"Keywords pluralized successfully: {pluralize_output}")
+    except Exception as e:
+        logger.error(f"Error pluralizing keywords: {str(e)}")
+        raise
+
+    # Step 5: Consolidate data
+    logger.info("Step 5: Consolidating data")
     consolidated_path = str(output_path / "consolidated_data.json")
     try:
         from webcrawl.consolidate import consolidate_main
         consolidated_output = consolidate_main(
-            input_path=process_type_output,
+            input_path=pluralize_output,
             output_path=consolidated_path,
             log_level="INFO"
         )
@@ -425,29 +545,14 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     except Exception as e:
         logger.error(f"Error consolidating data: {str(e)}")
         raise
-    
-    # Step 5: Pluralize keywords with LLM
-    logger.info("Step 5: Pluralizing keywords")
-    try:
-        from webcrawl.pluralize_with_llm import process_directory as pluralize_with_llm
-        pluralize_output = pluralize_with_llm(
-            input_dir=consolidated_output,
-            output_dir=str(pluralize_dir)
-        )
-        if not pluralize_output:
-            raise ValueError("pluralize_with_llm returned None or empty output.")
-        logger.info(f"Keywords pluralized successfully: {pluralize_output}")
-    except Exception as e:
-        logger.error(f"Error pluralizing keywords: {str(e)}")
-        raise
-    
+
     # Step 6: Convert to CSV
     logger.info("Step 6: Converting to CSV")
     csv_output = str(output_path / "webcrawl_output.csv")
     try:
         from webcrawl.convert_to_csv import convert_json_to_csv
         final_output = convert_json_to_csv(
-            json_file_path=pluralize_output,
+            json_file_path=consolidated_output,
             csv_file_path=csv_output,
             omit_config_path=None
         )
@@ -457,9 +562,10 @@ def run_webcrawl_pipeline(input_csv: str, output_dir: str) -> str:
     except Exception as e:
         logger.error(f"Error converting to CSV: {str(e)}")
         raise
-    
+
     logger.info("Crawling & Scraping Keywords phase completed successfully")
     return final_output
+
 
 def run_integration_pipeline(extracting_output: str, webcrawl_output: str, output_dir: str) -> str:
     """
@@ -474,18 +580,18 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
         str: Path to the final output file
     """
     logger.info("Starting Final Data Integration phase")
-    
+
     # Create necessary output directories
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
-    
+
     # Step 1: Merge technische anlagen with keywords
     logger.info("Step 1: Merging technische anlagen with keywords")
     merged_path = str(output_path / "merged_data.csv")
     try:
         # Import locally to handle potential import errors
         from merge_technische_anlagen_with_keywords import merge_csv_with_excel
-        
+
         merged_output = merge_csv_with_excel(
             csv_path=webcrawl_output,
             base_data_path=extracting_output,
@@ -495,34 +601,63 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     except Exception as e:
         logger.error(f"Error merging data: {str(e)}")
         raise
-    
+
     # Step 2: Enrich data
     logger.info("Step 2: Enriching data with additional information")
     final_output = str(output_path / "final_output.csv")
     try:
         # Import locally to handle potential import errors
         from enrich_data import enrich_data
-        
+
         # Create output directory if it doesn't exist
         final_output_dir = os.path.dirname(final_output)
         if final_output_dir:
             os.makedirs(final_output_dir, exist_ok=True)
-            
+
         # Call enrich_data with the correct parameter usage
         enriched_output = enrich_data(input_file=merged_output)
-        
+
         # Move the enriched file to the desired output location if needed
         if enriched_output != final_output:
             shutil.copy2(enriched_output, final_output)
             enriched_output = final_output
-            
+
         logger.info(f"Data enriched successfully: {enriched_output}")
     except Exception as e:
         logger.error(f"Error enriching data: {str(e)}")
         raise
-    
+
     logger.info("Final Data Integration phase completed successfully")
     return enriched_output
+
+
+def cleanup_intermediate_outputs(run_output_dir: Path, keep_final: bool = True) -> None:
+    """
+    Remove intermediate output directories for pipeline phases, keeping only the final output file and log.
+    Args:
+        run_output_dir: The root directory for this pipeline run (timestamped)
+        keep_final: If True, keep the final output file and pipeline.log in the parent output_dir
+    """
+    logger = logging.getLogger(__name__)
+    if not run_output_dir.exists() or not run_output_dir.is_dir():
+        logger.warning(f"Cleanup: Run output directory does not exist: {run_output_dir}")
+        return
+    # Remove all subdirectories (phases)
+    for item in run_output_dir.iterdir():
+        if item.is_dir():
+            try:
+                shutil.rmtree(item)
+                logger.info(f"Cleaned up intermediate directory: {item}")
+            except Exception as e:
+                logger.warning(f"Failed to remove {item}: {e}")
+    # Optionally remove the run_output_dir itself if empty
+    try:
+        if not any(run_output_dir.iterdir()):
+            run_output_dir.rmdir()
+            logger.info(f"Removed empty run directory: {run_output_dir}")
+    except Exception as e:
+        logger.warning(f"Failed to remove run directory {run_output_dir}: {e}")
+
 
 def run_pipeline(config: Dict[str, Any]) -> str:
     """
@@ -534,95 +669,136 @@ def run_pipeline(config: Dict[str, Any]) -> str:
     Returns:
         str: Path to the final output file
     """
+    pipeline_start_time = time.time()
+    logger.info("=" * 50)
+    logger.info("Pipeline Execution Started")
+    logger.info("=" * 50)
+
+    phase_status = {}
+    final_output = ""  # Initialize final_output
+    pipeline_phases = []  # Initialize pipeline_phases
+
     try:
         # Extract required configuration parameters
         input_csv = config.get("input_csv", "")
         output_dir = config.get("output_dir", "")
         category = config.get("category")
-        
+
         # Validate required parameters are present
         if not input_csv or not output_dir:
             raise ValueError("Missing required configuration: input_csv or output_dir")
-        
+
         # Create timestamp for this run
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         run_output_dir = Path(output_dir) / f"pipeline_run_{timestamp}"
-        
+
         # Create output directories for each phase
         extracting_output_dir = run_output_dir / "extracting_machine"
         webcrawl_output_dir = run_output_dir / "webcrawl"
         integration_output_dir = run_output_dir / "integration"
-        
+
         for directory in [run_output_dir, extracting_output_dir, webcrawl_output_dir, integration_output_dir]:
             directory.mkdir(parents=True, exist_ok=True)
-        
+
         logger.info(f"Starting pipeline execution at {timestamp}")
         logger.info(f"Input CSV: {input_csv}")
         logger.info(f"Output directory: {run_output_dir}")
         if category:
             logger.info(f"Filtering by category: {category}")
-        
-        # Phase 1: Extracting Machine Assets
-        phase_start_time = time.time()
-        logger.info("Phase 1: Extracting Machine Assets - Started")
-        
-        extracting_output = run_extracting_machine_pipeline(
-            input_csv=input_csv,
-            output_dir=str(extracting_output_dir),
-            category=category
-        )
-        
-        phase_duration = time.time() - phase_start_time
-        logger.info(f"Phase 1: Extracting Machine Assets - Completed in {phase_duration:.2f} seconds")
-        logger.info(f"Extracting Machine Assets output: {extracting_output}")
-        
-        # Phase 2: Crawling & Scraping Keywords
-        phase_start_time = time.time()
-        logger.info("Phase 2: Crawling & Scraping Keywords - Started")
-        
-        webcrawl_output = run_webcrawl_pipeline(
-            input_csv=input_csv,
-            output_dir=str(webcrawl_output_dir)
-        )
-        
-        phase_duration = time.time() - phase_start_time
-        logger.info(f"Phase 2: Crawling & Scraping Keywords - Completed in {phase_duration:.2f} seconds")
-        logger.info(f"Webcrawl output: {webcrawl_output}")
-        
-        # Phase 3: Final Data Integration
-        phase_start_time = time.time()
-        logger.info("Phase 3: Final Data Integration - Started")
-        
-        final_output = run_integration_pipeline(
-            extracting_output=extracting_output,
-            webcrawl_output=webcrawl_output,
-            output_dir=str(integration_output_dir)
-        )
-        
-        phase_duration = time.time() - phase_start_time
-        logger.info(f"Phase 3: Final Data Integration - Completed in {phase_duration:.2f} seconds")
-        logger.info(f"Final output: {final_output}")
-        
+
+        # Define pipeline phases
+        pipeline_phases = [
+            ("Phase 1: Extracting Machine Assets", run_extracting_machine_pipeline, extracting_output_dir, {"input_csv": input_csv, "category": category}),
+            ("Phase 2: Crawling & Scraping Keywords", run_webcrawl_pipeline, webcrawl_output_dir, {"extracting_output": None}),
+            ("Phase 3: Final Data Integration", run_integration_pipeline, integration_output_dir, {})  # Inputs depend on previous phases
+        ]
+
+        phase_outputs = {}
+
+        # Execute phases with tqdm progress bar
+        for phase_name, phase_func, phase_output_dir, phase_args in tqdm(pipeline_phases, desc="Pipeline Progress"):
+            phase_start_time = time.time()
+            logger.info("-" * 50)
+            logger.info(f"{phase_name} - Started")
+            logger.info("-" * 50)
+
+            try:
+                # Update arguments for integration phase
+                if phase_name == "Phase 2: Crawling & Scraping Keywords":
+                    phase_args["extracting_output"] = phase_outputs.get("Phase 1: Extracting Machine Assets")
+                    if not phase_args["extracting_output"]:
+                        raise ValueError("Missing required input for Webcrawl phase.")
+                elif phase_name == "Phase 3: Final Data Integration":
+                    phase_args["extracting_output"] = phase_outputs.get("Phase 1: Extracting Machine Assets")
+                    phase_args["webcrawl_output"] = phase_outputs.get("Phase 2: Crawling & Scraping Keywords")
+                    if not phase_args["extracting_output"] or not phase_args["webcrawl_output"]:
+                         raise ValueError("Missing required inputs for Integration phase.")
+
+                # Call the phase function
+                output = phase_func(output_dir=str(phase_output_dir), **phase_args)
+
+                phase_outputs[phase_name] = output  # Store output for potential use in later phases
+                if phase_name == "Phase 3: Final Data Integration":
+                    final_output = output  # Capture the final output path
+
+                phase_duration = time.time() - phase_start_time
+                logger.info(f"{phase_name} - Completed in {phase_duration:.2f} seconds")
+                logger.info(f"{phase_name} output: {output}")
+                phase_status[phase_name] = "Success"
+            except Exception as e:
+                phase_duration = time.time() - phase_start_time
+                logger.error(f"{phase_name} - Failed after {phase_duration:.2f} seconds: {str(e)}", exc_info=True)
+                phase_status[phase_name] = f"Failed: {str(e)}"
+                raise  # Re-raise the exception to stop the pipeline
+
         # Copy final output to the main output directory with a descriptive name
-        final_filename = f"final_export_{category or 'all'}.csv"
+        final_filename = f"final_export_{category or 'all'}_{timestamp}.csv"
         final_destination = Path(output_dir) / final_filename
-        
-        # Use shutil to copy the file
-        import shutil
-        if Path(final_output).exists():
+
+        if final_output and Path(final_output).exists():  # Check if final_output is set and exists
             shutil.copy2(final_output, final_destination)
-            logger.info(f"Final output copied to: {final_destination}")
+            logger.info(f"Final output successfully copied to: {final_destination}")
+        elif not final_output:
+             logger.error("Final output path was not generated by the integration phase.")
+             raise ValueError("Final output path was not generated by the integration phase.")
         else:
-            logger.warning(f"Final output file '{final_output}' does not exist, cannot copy to '{final_destination}'")
-        
-        logger.info("Pipeline execution completed successfully.")
-        logger.info(f"Final output copied to: {final_destination}")
-        
+            logger.error(f"Final output file from integration phase not found: {final_output}")
+            raise FileNotFoundError(f"Final output file from integration phase not found: {final_output}")
+
+        # --- Cleanup intermediate outputs ---
+        cleanup_intermediate_outputs(run_output_dir)
+        # --- End cleanup ---
+
+        pipeline_duration = time.time() - pipeline_start_time
+        logger.info("=" * 50)
+        logger.info(f"Pipeline Execution Completed Successfully in {pipeline_duration:.2f} seconds")
+        logger.info("=" * 50)
+        logger.info("--- Pipeline Summary ---")
+        for phase, status in phase_status.items():
+            logger.info(f"{phase}: {status}")
+        logger.info(f"Final Output File: {final_destination}")
+        logger.info("----------------------")
+
         return str(final_destination)
-        
+
     except Exception as e:
-        logger.error(f"Pipeline execution failed: {str(e)}", exc_info=True)
+        pipeline_duration = time.time() - pipeline_start_time
+        logger.error(f"Pipeline execution failed after {pipeline_duration:.2f} seconds: {str(e)}", exc_info=True)
+        logger.info("=" * 50)
+        logger.info("Pipeline Execution Failed")
+        logger.info("=" * 50)
+        logger.info("--- Pipeline Summary ---")
+        # Ensure all phases are reported, even if not started
+        if pipeline_phases:
+            all_phase_names = [p[0] for p in pipeline_phases]
+            for phase_name in all_phase_names:
+                 status = phase_status.get(phase_name, "Not Started")
+                 logger.info(f"{phase_name}: {status}")
+        else:
+            logger.info("Pipeline failed before phases could be defined.")
+        logger.info("----------------------")
         raise
+
 
 def main() -> None:
     """
@@ -630,29 +806,29 @@ def main() -> None:
     """
     # Parse command-line arguments
     args = parse_arguments()
-    
+
     # Validate input parameters
     validate_inputs(args.input_csv, args.output_dir)
-    
+
     # Load configuration (if provided)
     config = {}
     if args.config_file:
         config = load_config(args.config_file)
-    
+
     # Merge config with command-line arguments
     merged_config = merge_config_with_args(config, args)
-    
+
     # Set up logging
     log_level = merged_config.get("log_level", "INFO")
     log_file = None
     if "output_dir" in merged_config:
         log_file = Path(merged_config["output_dir"]) / "pipeline.log"
-    
+
     logger = setup_logging(log_level, log_file)
-    
+
     # Log configuration
     logger.debug(f"Running with configuration: {merged_config}")
-    
+
     # Run the pipeline
     output_file = run_pipeline(merged_config)
     logger.info(f"Pipeline completed. Output file: {output_file}")
