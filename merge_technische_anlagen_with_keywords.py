@@ -16,7 +16,39 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-# Constants for column selection
+
+def get_mapped_column_name(df, possible_names):
+    """
+    Find a column in a DataFrame that matches one of the possible names (case-insensitive).
+    
+    Args:
+        df: DataFrame to search in
+        possible_names: List of possible column names to look for
+        
+    Returns:
+        The actual column name found in the DataFrame or None if no match
+    """
+    # Convert DataFrame columns to lowercase for comparison
+    df_cols_lower = {col.lower(): col for col in df.columns}
+
+    # Try to find a match
+    for name in possible_names:
+        if name.lower() in df_cols_lower:
+            return df_cols_lower[name.lower()]
+
+    return None
+
+# Constants for column selection with alternative column names
+BASE_COLUMN_MAPPING = {
+    'Firma1': ['Firma1', 'firma1', 'company', 'company_name', 'company name'],
+    'Ort': ['Ort', 'ort', 'location', 'city', 'stadt'],
+    'Top1_Machine': ['Top1_Machine', 'top1_machine', 'top1machine', 'top_machine'],
+    'URL': ['URL', 'url', 'website', 'webpage', 'web'],
+    'Maschinen_Park_Size': ['Maschinen_Park_Size', 'maschinenpark', 'maschinen_park_size', 'park_size'],
+    'Sachanlagen': ['Sachanlagen', 'sachanlagen', 'anlagen', 'assets']
+}
+
+# Original BASE_COLUMNS list - will be replaced with actual column names during processing
 BASE_COLUMNS = ['Firma1', 'Ort', 'Top1_Machine', 'URL', 'Maschinen_Park_Size', 'Sachanlagen']
 
 
@@ -166,7 +198,7 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     if not os.path.exists(csv_path):
         logging.error(f"CSV file not found: {csv_path}")
         raise FileNotFoundError(f"CSV file not found: {csv_path}")
-        
+
     if not os.path.exists(base_data_path):
         logging.error(f"Base data file not found: {base_data_path}")
         raise FileNotFoundError(f"Base data file not found: {base_data_path}")
@@ -201,29 +233,65 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         logging.error(f"Error reading base data file: {e}")
         raise ValueError(f"Error reading base data file: {e}")
 
+    # Map column names in the base data to our expected standard names
+    logging.info("Mapping column names from base data file...")
+    column_mapping = {}
+    actual_base_columns = []
+
+    for standard_name, possible_names in BASE_COLUMN_MAPPING.items():
+        actual_name = get_mapped_column_name(base_data, possible_names)
+        if actual_name:
+            column_mapping[actual_name] = standard_name
+            actual_base_columns.append(actual_name)
+            logging.debug(f"Mapped column: '{actual_name}' → '{standard_name}'")
+        else:
+            logging.warning(f"Could not find a column matching '{standard_name}' (tried: {', '.join(possible_names)})")
+
+    # Check if we found all required columns
+    if len(actual_base_columns) < 4:  # At minimum need company name, location, technical equipment, and URL
+        missing_columns = set(BASE_COLUMNS[:4]) - set(column_mapping.values())
+        logging.error(f"Not enough columns found in base data. Missing essential columns: {missing_columns}")
+        raise ValueError(f"Not enough columns found in base data. Missing essential columns: {missing_columns}")
+
+    # Rename columns to standard names
+    if column_mapping:
+        base_data = base_data.rename(columns=column_mapping)
+        logging.info(f"Renamed {len(column_mapping)} columns to standard names")
+
     # Convert Maschinen_Park_Size column to string type to prevent type incompatibility issues
     if 'Maschinen_Park_Size' in base_data.columns:
         base_data['Maschinen_Park_Size'] = base_data['Maschinen_Park_Size'].astype(str)
         logging.debug("Converted Maschinen_Park_Size column in base data to string type")
 
     # Select necessary columns from base data (do not filter by 'Top1_Machine')
-    filtered_data = base_data[BASE_COLUMNS]
+    # Only select columns that actually exist in the dataframe
+    available_base_columns = [col for col in BASE_COLUMNS if col in base_data.columns]
+    if len(available_base_columns) < len(BASE_COLUMNS):
+        logging.warning(f"Some standard columns are missing from base data: {set(BASE_COLUMNS) - set(available_base_columns)}")
 
-    # Rename the 'Top1_Machine' column to the specified name
-    filtered_data = filtered_data.rename(columns={
-        'Top1_Machine': 'technische Anlagen und Maschinen 2021/22'
-    })
+    filtered_data = base_data[available_base_columns]
+
+    # Rename the 'Top1_Machine' column to the specified name if it exists
+    if 'Top1_Machine' in filtered_data.columns:
+        filtered_data = filtered_data.rename(columns={
+            'Top1_Machine': 'technische Anlagen und Maschinen 2021/22'
+        })
+    else:
+        # Add an empty column if Top1_Machine doesn't exist
+        filtered_data['technische Anlagen und Maschinen 2021/22'] = None
+        logging.warning("Column 'Top1_Machine' not found in base data, added empty column")
 
     # Clean trailing symbols from company names in base data
-    original_firma1 = filtered_data['Firma1'].copy()
-    filtered_data['Firma1'] = filtered_data['Firma1'].apply(clean_trailing_symbols)
+    if 'Firma1' in filtered_data.columns:
+        original_firma1 = filtered_data['Firma1'].copy()
+        filtered_data['Firma1'] = filtered_data['Firma1'].apply(clean_trailing_symbols)
 
-    # Log summary of changes made
-    changed_rows = filtered_data[original_firma1 != filtered_data['Firma1']]
-    if not changed_rows.empty:
-        logging.info(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
-        for idx, row in changed_rows.iterrows():
-            logging.debug(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'") # type: ignore
+        # Log summary of changes made
+        changed_rows = filtered_data[original_firma1 != filtered_data['Firma1']]
+        if not changed_rows.empty:
+            logging.info(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
+            for idx, row in changed_rows.iterrows():
+                logging.debug(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'") # type: ignore
 
     # Convert relevant columns to lowercase for case-insensitive merge
     csv_data['company_name_lower'] = csv_data['Company name'].str.lower()
@@ -557,9 +625,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         for idx, row in still_unmatched.iterrows():
             company_name = row.get('Company name', 'N/A')
             logging.info(f"  - {company_name}")
-    
+
     # Return the output file path for use in pipelines
     return output_file
+
 
 def main():
     """
@@ -590,10 +659,10 @@ def main():
 
     # Call the merge function with the provided arguments
     output_path = merge_csv_with_excel(args.csv, args.base, args.output)
-    
+
     # Log the output path
     logging.info(f"Merging process completed. Output file: {output_path}")
-    
+
     # Return the output path for use in pipelines
     return output_path
 
