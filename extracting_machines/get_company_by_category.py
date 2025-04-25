@@ -51,19 +51,21 @@ def extract_companies_by_category(input_file: str, category: str, output_file: O
             logger.error(f"Input file not found: {input_file}")
             raise FileNotFoundError(f"Input file not found: {input_file}")
         df = pd.read_excel(input_file, sheet_name=0)
-        required_columns = ['name', 'location', 'category']
+        required_columns = ['Firma1', 'Ort', 'Kategorie', 'URL']
+        output_columns = {'Firma1': 'company name', 'Ort': 'location', 'URL': 'url'}
         if not all(col in df.columns for col in required_columns):
-            # If the file already contains only the required columns, skip filtering
-            if set(['name', 'location']).issubset(df.columns) and 'category' not in df.columns:
+            # If the file already contains only the required output columns, skip filtering
+            if set(['company name', 'location', 'url']).issubset(df.columns) and 'Kategorie' not in df.columns:
                 logger.info("Input file already contains required columns. Skipping category filtering.")
-                result_df = df[['name', 'location']].copy()
+                result_df = df[['company name', 'location', 'url']].copy()
             else:
                 logger.error(f"Missing required columns. Found columns: {df.columns.tolist()}")
                 raise ValueError(f"Input file must contain columns: {required_columns}")
         else:
-            filtered_df = df[df['category'] == category]
-            result_df = filtered_df[['name', 'location']].copy()
-            result_df['name'] = result_df['name'].apply(clean_company_name)
+            filtered_df = df[df['Kategorie'] == category]
+            result_df = filtered_df[['Firma1', 'Ort', 'URL']].copy()
+            result_df = result_df.rename(columns=output_columns)
+            result_df['company name'] = result_df['company name'].apply(clean_company_name)
         if output_file is None:
             base_dir = os.path.dirname(os.path.abspath(input_file))
             output_file = os.path.join(base_dir, f'company_{category}_BA.csv')
@@ -101,7 +103,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     try:
         output_path = main(args.input_file, args.category, args.output)
-        logging.info(f"Output file created at: {output_path}")
     except Exception as e:
         logging.error(str(e))
         sys.exit(1)
