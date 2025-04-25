@@ -512,13 +512,13 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
     if not os.environ.get('PYTEST_CURRENT_TEST') and not os.path.isdir(input_dir):
         logging.error(f"Input directory does not exist: {input_dir}")
         raise FileNotFoundError(f"Input directory does not exist: {input_dir}")
-    
+
     try:
         os.makedirs(output_dir, exist_ok=True)
     except Exception as e:
         logging.error(f"Error creating directory: {e}")
         raise
-    
+
     # This try block will catch FileNotFoundError if the directory doesn't exist,
     # which is what we want for unit testing - it allows mocking os.listdir
     try:
@@ -577,6 +577,8 @@ def process_file_or_directory(
     Raises:
         FileNotFoundError: If the input path does not exist.
     """
+    if temperatures is None:
+        temperatures = DEFAULT_TEMPERATURES
     if os.path.isfile(input_path):
         if not input_path.endswith('.json'):
             logging.error(f"Input file must be a JSON file: {input_path}")
