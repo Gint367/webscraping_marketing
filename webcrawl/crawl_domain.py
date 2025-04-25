@@ -1086,11 +1086,11 @@ async def main(
         output_directory = output_dir
         max_links_count = max_links if max_links is not None else DEFAULT_MAX_LINKS
         overwrite_flag = overwrite
-    
+
     # Set defaults for parameters that might still be None
     if max_links_count is None:
         max_links_count = DEFAULT_MAX_LINKS
-    
+
     # Validate input file existence
     if not os.path.exists(excel_file):
         logger.error(f"Input file '{excel_file}' not found.")

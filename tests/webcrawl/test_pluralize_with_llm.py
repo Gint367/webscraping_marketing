@@ -378,7 +378,7 @@ class TestPluralizeWithLLM(unittest.TestCase):
         mock_completion.assert_called_once()
         args, kwargs = mock_completion.call_args
         self.assertIn("messages", kwargs)
-        
+
     @patch('webcrawl.pluralize_with_llm.completion')
     def test_pluralize_with_custom_temperatures(self, mock_completion):
         """Test pluralization with custom temperature values."""
@@ -494,10 +494,10 @@ class TestProcessJsonFile(unittest.TestCase):
         # Expect a ValueError to be raised with the proper message
         with self.assertRaises(ValueError) as context:
             process_json_file("input.json", "output.json")
-        
+
         # Verify the error message
         self.assertEqual(str(context.exception), "Malformed JSON in file: input.json")
-        
+
         # Check that the file was recorded as failed
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "input.json")
@@ -510,10 +510,10 @@ class TestProcessJsonFile(unittest.TestCase):
         # Expect a ValueError to be raised with the proper message
         with self.assertRaises(ValueError) as context:
             process_json_file("input.json", "output.json")
-        
+
         # Verify the error message
         self.assertEqual(str(context.exception), "Invalid JSON structure in file: input.json")
-        
+
         # Check that the file was recorded as failed
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "input.json")
@@ -626,7 +626,7 @@ class TestProcessDirectory(unittest.TestCase):
         # Execute - we expect the exception to be propagated
         with self.assertRaises(Exception) as context:
             process_directory('input_dir', 'output_dir')
-        
+
         # Verify the specific exception message
         self.assertEqual(str(context.exception), "Directory creation failed")
 

@@ -284,7 +284,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         """Test that companies are correctly tracked as matched even with missing technical data"""
         # Mock os.path.exists to return True
         mock_exists.return_value = True
-        
+
         # Create test data where all companies should match by name
         csv_data = pd.DataFrame(
             {

@@ -1,4 +1,3 @@
-import io
 import os
 import unittest
 from unittest.mock import Mock, patch
@@ -91,7 +90,7 @@ class TestEnrichData(unittest.TestCase):
         # Setup
         mock_args.return_value = Mock(input_file='nonexistent.csv', log_level='INFO')
         mock_exists.return_value = False  # Simulate file not found
-        
+
         # Execute and expect a FileNotFoundError
         with self.assertRaises(FileNotFoundError):
             main()
@@ -113,7 +112,7 @@ class TestEnrichData(unittest.TestCase):
         # Execute and expect a ValueError
         with self.assertRaises(ValueError) as context:
             main()
-            
+
         # Assert the error message contains the expected text
         self.assertIn("Missing required columns: Maschinen_Park_Size", str(context.exception))
 
@@ -138,7 +137,7 @@ class TestEnrichData(unittest.TestCase):
         # Execute and expect a ValueError
         with self.assertRaises(ValueError) as context:
             main()
-            
+
         # Assert the error message contains the expected text
         self.assertIn("Error saving output file: Permission denied", str(context.exception))
 

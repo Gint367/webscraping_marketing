@@ -1,9 +1,6 @@
 import os
 import tempfile
 import unittest
-from datetime import datetime
-from unittest.mock import patch
-from xml.dom.minidom import parseString
 
 import pandas as pd
 
@@ -344,7 +341,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Run the main merge function
         result_path = mcwe.main(
             csv_file_path=self.csv_path,
-            xlsx_file_path=self.xlsx_path,
+            original_company_file_path=self.xlsx_path,
             output_file_path=output_path,
             top_n=2,
             sachanlagen_path=self.sachanlagen_path,

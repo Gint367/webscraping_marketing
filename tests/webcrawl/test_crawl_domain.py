@@ -22,6 +22,7 @@ sys.modules['excel_reader'] = MagicMock()
 sys.modules['get_company_by_category'] = MagicMock()
 sys.modules['get_company_by_top1machine'] = MagicMock()
 
+
 class TestCrawlDomain(unittest.TestCase):
 
     def test_sanitize_filename(self):

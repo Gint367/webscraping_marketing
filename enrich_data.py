@@ -57,7 +57,7 @@ def enrich_data(input_file):
     input_basename = os.path.basename(input_file)
     output_basename = f"enriched_{input_basename}"
     output_file = os.path.join(os.path.dirname(input_file), output_basename)
-    
+
     # Check if input file exists
     if not os.path.exists(input_file):
         raise FileNotFoundError(f"Input file '{input_file}' not found.")
@@ -66,7 +66,7 @@ def enrich_data(input_file):
     try:
         logging.info(f"Reading data from {input_file}")
         df = pd.read_csv(input_file, encoding="utf-8", skipinitialspace=True)
-        
+
         # Check if the input file is empty (has only header row or no rows at all)
         if len(df) == 0:
             logging.info(f"Input file '{input_file}' is empty, creating empty output file")
@@ -118,7 +118,7 @@ def enrich_data(input_file):
     # After saving, print a summary
     total_records = len(df)
     logging.info(f"Processed {total_records} records")
-    
+
     return output_file
 
 
@@ -140,15 +140,15 @@ def main():
     parser.add_argument("input_file", help="Path to the input CSV file")
     parser.add_argument('--log-level', choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         default='INFO', help='Set the logging level (default: INFO)')
-    
+
     args = parser.parse_args()
-    
+
     # Set the logging level based on the command-line argument
     logging.getLogger().setLevel(getattr(logging, args.log_level))
-    
+
     # Process the input file
     output_path = enrich_data(args.input_file)
-    
+
     # Return the output path for use in pipelines
     return output_path
 
