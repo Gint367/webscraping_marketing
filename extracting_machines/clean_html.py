@@ -275,7 +275,11 @@ def get_latest_subfolder(company_folder):
         try:
             with open(metadata_files[0], "r", encoding="utf-8") as f:
                 metadata = json.load(f)
-                date = datetime.strptime(metadata["date"], "%Y-%m-%dT%H:%M:%S")
+                # Try parsing ISO format first, then the original format
+                try:
+                    date = datetime.fromisoformat(metadata["date"])
+                except ValueError:
+                    date = datetime.strptime(metadata["date"], "%Y-%m-%d %H:%M:%S")
 
                 if latest_date is None or date > latest_date:
                     latest_date = date
