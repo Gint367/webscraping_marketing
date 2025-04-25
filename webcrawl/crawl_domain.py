@@ -1037,18 +1037,33 @@ async def crawl_domain(
     return output_markdown_file, total_crawled
 
 
-async def main() -> Optional[str]:
+async def main(
+    input_csv_path: Optional[str] = None,
+    output_dir: Optional[str] = None,
+    max_links: Optional[int] = None,
+    overwrite: bool = False
+) -> Optional[str]:
     """
     Main function to initiate the web crawling process.
-
+    
+    Can be called:
+    1. From the command line (args will be parsed from sys.argv)
+    2. Programmatically with parameters
+    
     This function:
-    1. Parses command line arguments
+    1. Parses command line arguments (if called without parameters)
     2. Reads URLs and company names from an Excel or CSV file
     3. Creates the output directory
     4. Crawls each domain to collect and save content
     5. Outputs a summary of results
 
-    Command Line Arguments:
+    Args:
+        input_csv_path: Path to Excel/CSV file containing URLs and company names
+        output_dir: Directory to save aggregated content
+        max_links: Maximum number of internal links to crawl per domain
+        overwrite: Whether to overwrite existing files
+        
+    Command Line Arguments (when called from CLI):
         --excel (-e): Path to Excel file containing URLs and company names
         --output (-o): Directory where the output files will be saved
         --max-links: Maximum number of links to crawl per domain (default: 60)
@@ -1059,22 +1074,33 @@ async def main() -> Optional[str]:
         FileNotFoundError: If the input file does not exist
         ValueError: If the input file is missing required columns or is empty
     """
-    args = parse_args()
-    excel_file = args.excel
-
+    # Parse args if called from CLI without parameters
+    if input_csv_path is None:
+        args = parse_args()
+        excel_file = args.excel
+        output_directory = args.output or output_dir
+        max_links_count = args.max_links or max_links
+        overwrite_flag = args.overwrite or overwrite
+    else:
+        excel_file = input_csv_path
+        output_directory = output_dir
+        max_links_count = max_links if max_links is not None else DEFAULT_MAX_LINKS
+        overwrite_flag = overwrite
+    
+    # Set defaults for parameters that might still be None
+    if max_links_count is None:
+        max_links_count = DEFAULT_MAX_LINKS
+    
     # Validate input file existence
     if not os.path.exists(excel_file):
         logger.error(f"Input file '{excel_file}' not found.")
         raise FileNotFoundError(f"Input file '{excel_file}' not found.")
 
-    # Determine output directory
-    if args.output:
-        output_dir = args.output
-    else:
+    # Determine output directory if still None
+    if output_directory is None:
         extracted_name = extract_name_from_input_file(excel_file)
-        output_dir = f"domain_content_{extracted_name}"
-        logger.info("No output directory specified. Using '%s' based on input filename.", output_dir)
-    max_links = args.max_links
+        output_directory = f"domain_content_{extracted_name}"
+        logger.info("No output directory specified. Using '%s' based on input filename.", output_directory)
 
     # Read companies and URLs using robust function
     try:
@@ -1105,7 +1131,7 @@ async def main() -> Optional[str]:
             logger.error("Input file must contain columns for URL and company name.")
             raise ValueError("Input file must contain columns for URL and company name.")
 
-    ensure_output_directory(output_dir)
+    ensure_output_directory(output_directory)
     results = []
     num_companies = len(urls_and_companies)
     logger.info("Total number of companies to crawl: %d", num_companies)
@@ -1117,10 +1143,10 @@ async def main() -> Optional[str]:
         )
         markdown_file, page_count = await crawl_domain(
             url,
-            output_dir_aggregated=output_dir,
-            max_links=max_links,
+            output_dir_aggregated=output_directory,
+            max_links=max_links_count,
             company_name=company_name,
-            overwrite=args.overwrite,
+            overwrite=overwrite_flag,
         )
         results.append(
             {
@@ -1148,9 +1174,7 @@ async def main() -> Optional[str]:
 
 if __name__ == "__main__":
     # Configure logging
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    configure_logging()
 
     # Increase the recursion limit for the entire program
     sys.setrecursionlimit(5000)
