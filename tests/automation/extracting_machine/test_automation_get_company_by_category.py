@@ -26,13 +26,14 @@ class TestGetCompanyByCategory(unittest.TestCase):
         os.makedirs('tests/automation/extracting_machine/output', exist_ok=True)
         # Create sample valid input
         df = pd.DataFrame({
-            'name': ['Firma A', 'Firma B'],
-            'location': ['Berlin', 'Hamburg'],
-            'category': ['Maschinenbau', 'IT']
+            'Firma1': ['Firma A', 'Firma B'],
+            'Ort': ['Berlin', 'Hamburg'],
+            'Kategorie': ['Maschinenbau', 'IT'],
+            'URL': ['http://example.com/a', 'http://example.com/b'],
         })
         df.to_excel(self.valid_input, index=False)
         # Create sample invalid input (missing columns)
-        df_invalid = pd.DataFrame({'company': ['X'], 'city': ['Y']})
+        df_invalid = pd.DataFrame({'Firma1': ['X'], 'city': ['Y']})
         df_invalid.to_excel(self.invalid_input, index=False)
         # Create empty input
         pd.DataFrame().to_excel(self.empty_input, index=False)
@@ -49,8 +50,8 @@ class TestGetCompanyByCategory(unittest.TestCase):
         get_company_by_category_main(self.valid_input, self.category, self.output_csv)
         self.assertTrue(os.path.exists(self.output_csv))
         df = pd.read_csv(self.output_csv)
-        self.assertIn('Firma A', df['name'].values)
-        self.assertNotIn('Firma B', df['name'].values)
+        self.assertIn('Firma A', df['company name'].values)
+        self.assertNotIn('Firma B', df['company name'].values)
 
     def test_main_invalidInput_missingColumns_raisesError(self):
         """main invalid input (missing columns) raises error"""
