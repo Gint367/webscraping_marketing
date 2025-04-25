@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from urllib.parse import urlparse
@@ -45,10 +46,10 @@ def clean_url(url):
         return None
 
 
-def read_urls_and_companies_by_top1machine(input_file="input_excel.xlsx"):
+def read_urls_and_companies_by_top1machine(input_file: str = "input_excel.xlsx") -> list[tuple[str, str]]:
     """
     Read URLs and company names from an Excel or CSV file, clean the URLs to base domains,
-    and filter based on the 'Top1_Machine' column not being empty.
+    and filter based on the 'Top1_Machine' column not being empty. Column selection is case-insensitive.
 
     Args:
         input_file (str): Path to the Excel or CSV file
@@ -68,17 +69,21 @@ def read_urls_and_companies_by_top1machine(input_file="input_excel.xlsx"):
         else:
             raise ValueError(f"Unsupported file extension: {file_extension}. Use .csv, .xlsx, or .xls")
 
-        # Filter rows where 'URL' is not empty/null
-        filtered_df = df[df['URL'].notna() & (df['URL'] != '')]
-        #print(f"Filtered DataFrame shape: {filtered_df.shape}")
-        #print(f"Total rows after filtering for non-empty URL: {len(filtered_df)}")
+        # Make columns lower-case for case-insensitive selection
+        df.columns = [col.lower() for col in df.columns]
+        required_cols = ['url', 'firma1']
+        for col in required_cols:
+            if col not in df.columns:
+                raise ValueError(f"Required column '{col}' not found in input file.")
 
-        # Select only 'URL' and 'Firma1' columns
-        result_df = filtered_df[['URL', 'Firma1']].copy()
-        #print(f"Result DataFrame shape: {result_df.shape}")
+        # Filter rows where 'url' is not empty/null
+        filtered_df = df[df['url'].notna() & (df['url'] != '')]
+
+        # Select only 'url' and 'firma1' columns
+        result_df = filtered_df[['url', 'firma1']].copy()
 
         # Clean URLs
-        result_df['URL'] = result_df['URL'].apply(clean_url)
+        result_df['url'] = result_df['url'].apply(clean_url)
 
         # Rename columns for clarity
         result_df.columns = ['url', 'company_name']
@@ -86,19 +91,19 @@ def read_urls_and_companies_by_top1machine(input_file="input_excel.xlsx"):
         # Convert to list of tuples
         result_list = list(result_df.itertuples(index=False, name=None))
 
+        logging.info(f"Successfully processed {len(result_list)} entries from {input_file}")
         return result_list
 
     except Exception as e:
-        print(f"Error reading file {input_file}: {str(e)}")
+        logging.error(f"Error reading file {input_file}: {str(e)}")
         return []
 
-# Example usage
 if __name__ == "__main__":
-    # Test with Excel file
-    excel_urls_and_companies = read_urls_and_companies_by_top1machine('input_excel_merged_20250310.xlsx')
-    print(f"Found {len(excel_urls_and_companies)} companies with non-empty Top1_Machine from Excel")
-
-    # Test with CSV file
-    csv_urls_and_companies = read_urls_and_companies_by_top1machine('merged_kunststoffteile_20250314.csv')
-    print(f"Found {len(csv_urls_and_companies)} companies with non-empty Top1_Machine from CSV")
-    print(csv_urls_and_companies[:5])  # Print first 5 entries as a sample
+    import argparse
+    logging.basicConfig(level=logging.INFO)
+    parser = argparse.ArgumentParser(description="Read company URLs and names from a file.")
+    parser.add_argument('input_file', type=str, help='Path to the input Excel or CSV file')
+    args = parser.parse_args()
+    urls_and_companies = read_urls_and_companies_by_top1machine(args.input_file)
+    print(f"Found {len(urls_and_companies)} companies with non-empty URLs from {args.input_file}")
+    print(urls_and_companies[:5])  # Print first 5 entries as a sample
