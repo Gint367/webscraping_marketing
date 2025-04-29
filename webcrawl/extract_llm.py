@@ -484,7 +484,6 @@ async def main():
     max_tokens = 1000
     llm_strategy = LLMExtractionStrategy(
         llm_config=LLMConfig(
-            # provider="openai/gpt-4o-mini",
             provider="bedrock/amazon.nova-pro-v1:0",
         ),
         extraction_type="schema",

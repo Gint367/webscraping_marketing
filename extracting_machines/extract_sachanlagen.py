@@ -778,7 +778,7 @@ def run_extraction(
         input_format="html",
         apply_chunking=False,
         extra_args={"temperature": temperature, "max_tokens": max_tokens},
-        verbose=False,
+        verbose=True,
     )
 
     async def _run():
