@@ -419,9 +419,22 @@ def pluralize_with_llm(
                 logger.warning(f"Failed to parse JSON response: {e}")
                 retry_count += 1
             except JSONSchemaValidationError as se:
-                logger.warning(f"JSON schema validation failed: {se}")
+                logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
+                logger.info(f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})")
                 retry_count += 1
                 
+        except JSONSchemaValidationError as se:
+            # Specifically catch JSONSchemaValidationError that happened outside the inner try block
+            logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
+            if retry_count < max_retries - 1:
+                retry_count += 1
+                logger.info(f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})")
+                continue
+            else:
+                logger.error(f"Max retries reached for JSONSchemaValidationError")
+                if file_path:
+                    failed_files.append((file_path, "json_schema_validation_error"))
+                return cleaned_fields
         except Exception as e:
             logger.error(f"Error pluralizing words with LLM: {e}")
             if file_path:

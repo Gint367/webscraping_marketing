@@ -7,7 +7,7 @@ import sys
 import unittest
 from unittest.mock import MagicMock, patch
 
-import merge_technische_anlagen_with_keywords
+import merge_pipeline.merge_technische_anlagen_with_keywords
 
 
 class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):

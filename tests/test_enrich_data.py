@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 import pandas as pd
 
-from enrich_data import HOURS_MULTIPLIER, extract_first_number, main
+from merge_pipeline.enrich_data import HOURS_MULTIPLIER, extract_first_number, main
 
 # Import the function to test using absolute import
 

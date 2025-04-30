@@ -7,7 +7,7 @@ import sys
 import unittest
 from unittest.mock import patch
 
-import enrich_data as enrich_data
+import merge_pipeline.enrich_data as enrich_data
 
 
 class TestEnrichData(unittest.TestCase):

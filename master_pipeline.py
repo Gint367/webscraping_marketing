@@ -614,7 +614,9 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     merged_path = str(output_path / "merged_data.csv")
     try:
         # Import locally to handle potential import errors
-        from merge_pipeline.merge_technische_anlagen_with_keywords import merge_csv_with_excel
+        from merge_pipeline.merge_technische_anlagen_with_keywords import (
+            merge_csv_with_excel,
+        )
 
         merged_output = merge_csv_with_excel(
             csv_path=webcrawl_output,

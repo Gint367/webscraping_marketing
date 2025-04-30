@@ -1,4 +1,4 @@
-- For reference of code that uses crawl4ai, refer to this file `./crawl4ai_doc.md`.
+- For reference of code that uses crawl4ai, refer to this file `./docs/crawl4ai_doc.md`.
 - Use logging for all programs.
 - Allow command-line arguments when creating new programs.
 - Follow Python best practices.

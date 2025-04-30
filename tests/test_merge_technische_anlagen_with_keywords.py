@@ -4,7 +4,7 @@ from unittest.mock import patch
 import pandas as pd
 
 # Absolute import of functions to test
-from merge_technische_anlagen_with_keywords import (
+from merge_pipeline.merge_technische_anlagen_with_keywords import (
     clean_trailing_symbols,
     extract_and_log_domains,
     extract_base_domain,

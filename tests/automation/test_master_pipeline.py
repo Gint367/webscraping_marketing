@@ -280,7 +280,8 @@ class TestMasterPipeline(unittest.TestCase):
         mock_integration.return_value = "/path/to/final_output.csv"
 
         # Mock additional functions needed
-        with patch('pathlib.Path.mkdir'), \
+        with patch('master_pipeline.validate_llm_providers', return_value=True), \
+             patch('pathlib.Path.mkdir'), \
              patch('pathlib.Path.exists', return_value=True), \
              patch('time.strftime', return_value="20250425_123456"), \
              patch('shutil.copy2'):
@@ -288,7 +289,8 @@ class TestMasterPipeline(unittest.TestCase):
             config = {
                 "input_csv": str(self.input_csv),
                 "output_dir": str(self.output_dir),
-                "category": "maschinenbauer"
+                "category": "maschinenbauer",
+                "skip_llm_validation": True  # Skip the LLM validation check
             }
 
             # Call the function being tested
@@ -349,8 +351,11 @@ class TestMasterPipeline(unittest.TestCase):
             "output_dir": str(self.output_dir),
             "category": "test_category"
         }
+        
+        # Add patch for validate_llm_providers to return True
 
         with patch('master_pipeline.logger') as mock_logger, \
+             patch('master_pipeline.validate_llm_providers', return_value=True), \
              patch('pathlib.Path.mkdir'), \
              patch('pathlib.Path.exists', return_value=True), \
              patch('time.strftime', return_value="20250425_123456"), \
@@ -396,6 +401,7 @@ class TestMasterPipeline(unittest.TestCase):
         }
 
         with patch('master_pipeline.logger') as mock_logger, \
+             patch('master_pipeline.validate_llm_providers', return_value=True), \
              patch('pathlib.Path.mkdir'), \
              patch('pathlib.Path.exists', return_value=True), \
              patch('time.strftime', return_value="20250425_123456"), \
