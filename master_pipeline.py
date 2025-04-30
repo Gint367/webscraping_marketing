@@ -783,15 +783,6 @@ def run_pipeline(config: Dict[str, Any]) -> str:
         if category:
             logger.info(f"Filtering by category: {category}")
 
-        # Validate LLM providers before starting the pipeline
-        llm_validation_passed = validate_llm_providers(
-            check_providers=not config.get("skip_llm_validation", False),
-            verbose=config.get("log_level", "INFO").upper() == "DEBUG"
-        )
-        if not llm_validation_passed:
-            logger.error("LLM provider validation failed. Please check the provider configurations.")
-            raise RuntimeError("LLM provider validation failed.")
-
         # Define pipeline phases
         pipeline_phases = [
             ("Phase 1: Extracting Machine Assets", run_extracting_machine_pipeline, extracting_output_dir, {"input_csv": input_csv, "category": category}),
