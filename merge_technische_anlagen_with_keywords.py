@@ -12,9 +12,13 @@ from fuzzywuzzy import fuzz, process
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+# Create a module-specific logger
+logger = logging.getLogger('integrate_pipline.merge_tech_anlagen')
+logger.setLevel(logging.INFO)
 
 
 def get_mapped_column_name(df, possible_names):
@@ -94,7 +98,7 @@ def extract_base_domain(url):
             return main_domain.lower()
         return domain.lower() if domain else None
     except Exception as e:
-        logging.error(f"Error extracting domain from URL '{url}': {e}")
+        logger.error(f"Error extracting domain from URL '{url}': {e}")
         return None
 
 
@@ -113,19 +117,19 @@ def extract_and_log_domains(df, url_column_name, column_to_create='base_domain',
         The DataFrame with the new domain column added
     """
     if url_column_name in df.columns:
-        logging.info(f"Extracting domains from '{url_column_name}' column {description}")
+        logger.info(f"Extracting domains from '{url_column_name}' column {description}")
 
         # Log sample URLs
-        logging.debug(f"Example URLs {description}:")
+        logger.debug(f"Example URLs {description}:")
         sample_urls = df[url_column_name].dropna().head(sample_size).tolist()
         for url in sample_urls:
-            logging.debug(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
+            logger.debug(f"  - URL: {url}, Extracted domain: {extract_base_domain(url)}")
 
         # Extract domains
         df[column_to_create] = df[url_column_name].apply(extract_base_domain)
         return df
     else:
-        logging.warning(f"Column '{url_column_name}' not found in DataFrame {description}")
+        logger.warning(f"Column '{url_column_name}' not found in DataFrame {description}")
         df[column_to_create] = None
         return df
 
@@ -196,24 +200,24 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
 
     # Check if input files exist
     if not os.path.exists(csv_path):
-        logging.error(f"CSV file not found: {csv_path}")
+        logger.error(f"CSV file not found: {csv_path}")
         raise FileNotFoundError(f"CSV file not found: {csv_path}")
 
     if not os.path.exists(base_data_path):
-        logging.error(f"Base data file not found: {base_data_path}")
+        logger.error(f"Base data file not found: {base_data_path}")
         raise FileNotFoundError(f"Base data file not found: {base_data_path}")
 
     # Generate output path if not provided
     if output_path is None:
         output_path = generate_output_path(csv_path)
-        logging.info(f"Output path not provided. Automatically generated: {output_path}")
+        logger.info(f"Output path not provided. Automatically generated: {output_path}")
 
     # Read CSV file
     try:
         csv_data = pd.read_csv(csv_path, encoding='utf-8')
-        logging.info(f"CSV data loaded with {len(csv_data)} rows")
+        logger.info(f"CSV data loaded with {len(csv_data)} rows")
     except Exception as e:
-        logging.error(f"Error reading CSV file: {e}")
+        logger.error(f"Error reading CSV file: {e}")
         raise ValueError(f"Error reading CSV file: {e}")
 
     # Read base data file (Excel or CSV)
@@ -222,19 +226,19 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     try:
         if file_extension == '.xlsx' or file_extension == '.xls':
             base_data = pd.read_excel(base_data_path, sheet_name=0)
-            logging.info(f"Excel data loaded with {len(base_data)} rows")
+            logger.info(f"Excel data loaded with {len(base_data)} rows")
         elif file_extension == '.csv':
             base_data = pd.read_csv(base_data_path, encoding='utf-8')
-            logging.info(f"CSV base data loaded with {len(base_data)} rows")
+            logger.info(f"CSV base data loaded with {len(base_data)} rows")
         else:
-            logging.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
+            logger.error(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
             raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
     except Exception as e:
-        logging.error(f"Error reading base data file: {e}")
+        logger.error(f"Error reading base data file: {e}")
         raise ValueError(f"Error reading base data file: {e}")
 
     # Map column names in the base data to our expected standard names
-    logging.info("Mapping column names from base data file...")
+    logger.info("Mapping column names from base data file...")
     column_mapping = {}
     actual_base_columns = []
 
@@ -243,31 +247,31 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         if actual_name:
             column_mapping[actual_name] = standard_name
             actual_base_columns.append(actual_name)
-            logging.debug(f"Mapped column: '{actual_name}' → '{standard_name}'")
+            logger.debug(f"Mapped column: '{actual_name}' → '{standard_name}'")
         else:
-            logging.warning(f"Could not find a column matching '{standard_name}' (tried: {', '.join(possible_names)})")
+            logger.warning(f"Could not find a column matching '{standard_name}' (tried: {', '.join(possible_names)})")
 
     # Check if we found all required columns
     if len(actual_base_columns) < 4:  # At minimum need company name, location, technical equipment, and URL
         missing_columns = set(BASE_COLUMNS[:4]) - set(column_mapping.values())
-        logging.error(f"Not enough columns found in base data. Missing essential columns: {missing_columns}")
+        logger.error(f"Not enough columns found in base data. Missing essential columns: {missing_columns}")
         raise ValueError(f"Not enough columns found in base data. Missing essential columns: {missing_columns}")
 
     # Rename columns to standard names
     if column_mapping:
         base_data = base_data.rename(columns=column_mapping)
-        logging.info(f"Renamed {len(column_mapping)} columns to standard names")
+        logger.info(f"Renamed {len(column_mapping)} columns to standard names")
 
     # Convert Maschinen_Park_Size column to string type to prevent type incompatibility issues
     if 'Maschinen_Park_Size' in base_data.columns:
         base_data['Maschinen_Park_Size'] = base_data['Maschinen_Park_Size'].astype(str)
-        logging.debug("Converted Maschinen_Park_Size column in base data to string type")
+        logger.debug("Converted Maschinen_Park_Size column in base data to string type")
 
     # Select necessary columns from base data (do not filter by 'Top1_Machine')
     # Only select columns that actually exist in the dataframe
     available_base_columns = [col for col in BASE_COLUMNS if col in base_data.columns]
     if len(available_base_columns) < len(BASE_COLUMNS):
-        logging.warning(f"Some standard columns are missing from base data: {set(BASE_COLUMNS) - set(available_base_columns)}")
+        logger.warning(f"Some standard columns are missing from base data: {set(BASE_COLUMNS) - set(available_base_columns)}")
 
     filtered_data = base_data[available_base_columns]
 
@@ -279,7 +283,7 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     else:
         # Add an empty column if Top1_Machine doesn't exist
         filtered_data['technische Anlagen und Maschinen 2021/22'] = None
-        logging.warning("Column 'Top1_Machine' not found in base data, added empty column")
+        logger.warning("Column 'Top1_Machine' not found in base data, added empty column")
 
     # Clean trailing symbols from company names in base data
     if 'Firma1' in filtered_data.columns:
@@ -289,16 +293,16 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         # Log summary of changes made
         changed_rows = filtered_data[original_firma1 != filtered_data['Firma1']]
         if not changed_rows.empty:
-            logging.info(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
+            logger.info(f"Cleaned trailing symbols in {len(changed_rows)} company names:")
             for idx, row in changed_rows.iterrows():
-                logging.debug(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'") # type: ignore
+                logger.debug(f"  - '{original_firma1[idx]}' → '{row['Firma1']}'") # type: ignore
 
     # Convert relevant columns to lowercase for case-insensitive merge
     csv_data['company_name_lower'] = csv_data['Company name'].str.lower()
     filtered_data['firma1_lower'] = filtered_data['Firma1'].str.lower()
 
     # Extract base domains from URLs for matching
-    logging.info("Extracting base domains from URLs...")
+    logger.info("Extracting base domains from URLs...")
 
     # Check which URL column exists in the CSV data
     url_column = None
@@ -311,20 +315,20 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     if url_column:
         csv_data = extract_and_log_domains(csv_data, url_column, description="from CSV data")
     else:
-        logging.warning("No URL column found in CSV data. Tried: Website, Company URL, Company Url, URL, website, url")
+        logger.warning("No URL column found in CSV data. Tried: Website, Company URL, Company Url, URL, website, url")
         csv_data['base_domain'] = None
 
     # Extract domains from filtered data
     filtered_data = extract_and_log_domains(filtered_data, 'URL', description="from base data")
 
     # Log domain matching stats
-    logging.info("Domain stats:")
+    logger.info("Domain stats:")
     csv_domains = csv_data['base_domain'].dropna().unique()
     base_domains = filtered_data['base_domain'].dropna().unique()
     common_domains = set(csv_domains).intersection(set(base_domains))
-    logging.info(f"  - CSV unique domains: {len(csv_domains)}")
-    logging.info(f"  - Base data unique domains: {len(base_domains)}")
-    logging.info(f"  - Common domains: {len(common_domains)}")
+    logger.info(f"  - CSV unique domains: {len(csv_domains)}")
+    logger.info(f"  - Base data unique domains: {len(base_domains)}")
+    logger.info(f"  - Common domains: {len(common_domains)}")
 
     # Create result tracking variables
     match_stats = {
@@ -337,14 +341,14 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     }
 
     # First matching attempt: by company name
-    logging.info("First matching attempt: by company name...")
+    logger.info("First matching attempt: by company name...")
 
     # Create a new DataFrame to store the merged results
     merged_data = csv_data.copy()
 
     FUZZY_AVAILABLE = True
     if FUZZY_AVAILABLE:
-        logging.info("Using fuzzy matching with token_set_ratio (threshold: 0.90)")
+        logger.info("Using fuzzy matching with token_set_ratio (threshold: 0.90)")
 
         # Process matching company by company
         for idx, row in csv_data.iterrows():
@@ -359,7 +363,7 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                     # If exact match found, use it
                     matched_data = exact_matches.iloc[0]
                     match_stats['exact_name_matches'] += 1
-                    logging.debug(f"Exact name match found for '{row['Company name']}'")
+                    logger.debug(f"Exact name match found for '{row['Company name']}'")
                 else:
                     # Try fuzzy matching
                     matches = process.extractBests(
@@ -382,16 +386,16 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                             matched_data = filtered_data.loc[match_idx]
                             match_stats['fuzzy_name_matches'] += 1
 
-                            logging.debug(f"Fuzzy match found for '{row['Company name']}' → '{matched_data['Firma1']}' (score: {match_score}%)")
+                            logger.debug(f"Fuzzy match found for '{row['Company name']}' → '{matched_data['Firma1']}' (score: {match_score}%)")
 
                             # If there are multiple good matches, log them
                             if len(matches) > 1:
-                                logging.debug(f"  Other potential matches for '{row['Company name']}':")
+                                logger.debug(f"  Other potential matches for '{row['Company name']}':")
                                 for i, match_data in enumerate(matches[1:], 1):
                                     # Safely handle different tuple lengths
                                     match_text = match_data[0]
                                     match_score = match_data[1] if len(match_data) > 1 else 'N/A'
-                                    logging.debug(f"    {i}. '{match_text}' (score: {match_score}%)")
+                                    logger.debug(f"    {i}. '{match_text}' (score: {match_score}%)")
 
             # If we found a match (exact or fuzzy), copy the data
             if matched_data is not None:
@@ -410,10 +414,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                 tech_value = matched_data.get('technische Anlagen und Maschinen 2021/22', None)
                 sach_value = matched_data.get('Sachanlagen', None)
                 if (pd.isna(tech_value) or tech_value == '' or tech_value is None) and (pd.isna(sach_value) or sach_value == '' or sach_value is None):
-                    logging.warning(f"Both 'technische Anlagen und Maschinen 2021/22' and 'Sachanlagen' are empty for matched company: '{matched_data.get('Firma1', 'N/A')}'")
+                    logger.warning(f"Both 'technische Anlagen und Maschinen 2021/22' and 'Sachanlagen' are empty for matched company: '{matched_data.get('Firma1', 'N/A')}'")
 
     name_matched = match_stats['exact_name_matches'] + match_stats['fuzzy_name_matches']
-    logging.info(f"Matched {name_matched} companies by name (Exact: {match_stats['exact_name_matches']}, Fuzzy: {match_stats['fuzzy_name_matches']})")
+    logger.info(f"Matched {name_matched} companies by name (Exact: {match_stats['exact_name_matches']}, Fuzzy: {match_stats['fuzzy_name_matches']})")
 
     # Add a tracking column for matches instead of using technical data presence
     merged_data['is_matched'] = False
@@ -427,7 +431,7 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     unmatched_count = unmatched_idx.sum()
 
     if unmatched_count > 0:
-        logging.info(f"Found {unmatched_count} unmatched companies after name matching")
+        logger.info(f"Found {unmatched_count} unmatched companies after name matching")
         unmatched_data = merged_data[unmatched_idx]
 
         # Log information about unmatched companies
@@ -435,10 +439,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
             company_name = row['Company name'] if 'Company name' in row else 'N/A'
             url = row[url_column] if url_column and url_column in row else 'N/A'
             domain = row['base_domain'] if 'base_domain' in row and pd.notna(row['base_domain']) else row.get('base_domain_x') if 'base_domain_x' in row else 'N/A'
-            logging.debug(f"  - Unmatched: Company: '{company_name}', URL: '{url}', Domain: '{domain}'")
+            logger.debug(f"  - Unmatched: Company: '{company_name}', URL: '{url}', Domain: '{domain}'")
 
         # Second matching attempt: by URL for companies not matched by name
-        logging.info("Second matching attempt: by URL for unmatched companies...")
+        logger.info("Second matching attempt: by URL for unmatched companies...")
 
         # IMPROVEMENT 1: Vectorized URL matching approach
         # IMPROVEMENT 2: Use sets to track used matches instead of modifying DataFrame
@@ -468,10 +472,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                         if len(match_indices) > 1:
                             match_stats['duplicate_domains'] += 1
                             company_names = [filtered_data.loc[i, 'Firma1'] for i in match_indices]
-                            logging.warning(f"Multiple matches found for domain '{csv_domain}':")
+                            logger.warning(f"Multiple matches found for domain '{csv_domain}':")
                             for i, company in enumerate(company_names):
-                                logging.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
-                            logging.warning(f"  Taking the first match: '{company_names[0]}'")
+                                logger.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
+                            logger.warning(f"  Taking the first match: '{company_names[0]}'")
 
                         match_idx = match_indices[0]  # Take first match
                         match = filtered_data.loc[match_idx]
@@ -513,10 +517,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                             if len(match_indices) > 1:
                                 match_stats['duplicate_domains'] += 1
                                 company_names = [filtered_data.loc[i, 'Firma1'] for i in match_indices]
-                                logging.warning(f"Multiple matches for fuzzy domain '{best_domain}' (score: {score}%):")
+                                logger.warning(f"Multiple matches for fuzzy domain '{best_domain}' (score: {score}%):")
                                 for i, company in enumerate(company_names):
-                                    logging.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
-                                logging.warning(f"  Taking the first match: '{company_names[0]}'")
+                                    logger.warning(f"  - {company} (from {filtered_data.loc[match_indices[i], 'Ort']})")
+                                logger.warning(f"  Taking the first match: '{company_names[0]}'")
 
                             match_idx = match_indices[0]
                             match = filtered_data.loc[match_idx]
@@ -531,15 +535,15 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                             match_stats['fuzzy_url_matches'] += 1
 
         url_matches = match_stats['exact_url_matches'] + match_stats['fuzzy_url_matches']
-        logging.info(f"Additionally matched {url_matches} companies by URL (Exact: {match_stats['exact_url_matches']}, Fuzzy: {match_stats['fuzzy_url_matches']})")
+        logger.info(f"Additionally matched {url_matches} companies by URL (Exact: {match_stats['exact_url_matches']}, Fuzzy: {match_stats['fuzzy_url_matches']})")
         if match_stats['duplicate_domains'] > 0:
-            logging.warning(f"Found {match_stats['duplicate_domains']} domains with multiple company matches")
+            logger.warning(f"Found {match_stats['duplicate_domains']} domains with multiple company matches")
     else:
-        logging.info("All companies were successfully matched by name. Skipping URL matching.")
+        logger.info("All companies were successfully matched by name. Skipping URL matching.")
         url_matches = 0
 
     # Save the merged data to a new CSV file with UTF-8-BOM encoding
-    logging.info(f"Saving merged data to: {output_path}")
+    logger.info(f"Saving merged data to: {output_path}")
     # Check if output_path already has .csv extension
     if not output_path.lower().endswith('.csv'):
         output_file = f"{output_path}.csv"
@@ -550,7 +554,7 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     output_dir = os.path.dirname(output_file)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
-        logging.info(f"Created output directory: {output_dir}")
+        logger.info(f"Created output directory: {output_dir}")
 
     # Add a column to properly track if a company was matched by name or URL
     # A company is considered matched if it has a value in the Firma1 column or has values in technical data columns
@@ -599,32 +603,32 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
     match_percentage = (total_matches / total_csv_rows) * 100
 
     # Log detailed statistics
-    logging.info("\n" + "=" * 50)
-    logging.info("MATCHING STATISTICS SUMMARY")
-    logging.info("=" * 50)
-    logging.info(f"Total rows in CSV file: {total_csv_rows}")
-    logging.info(f"Total matches: {total_matches} ({match_percentage:.1f}% of input)")
-    logging.info(f"  - Name matches: {name_matched} ({name_matched/total_csv_rows*100:.1f}%)")
-    logging.info(f"    - Exact name matches: {match_stats['exact_name_matches']} ({match_stats['exact_name_matches']/total_csv_rows*100:.1f}%)")
-    logging.info(f"    - Fuzzy name matches: {match_stats['fuzzy_name_matches']} ({match_stats['fuzzy_name_matches']/total_csv_rows*100:.1f}%)")
-    logging.info(f"  - URL matches: {url_matches} ({url_matches/total_csv_rows*100:.1f}%)")
-    logging.info(f"    - Exact URL matches: {match_stats['exact_url_matches']} ({match_stats['exact_url_matches']/total_csv_rows*100:.1f}%)")
-    logging.info(f"    - Fuzzy URL matches: {match_stats['fuzzy_url_matches']} ({match_stats['fuzzy_url_matches']/total_csv_rows*100:.1f}%)")
-    logging.info(f"Unmatched: {match_stats['unmatched']} ({match_stats['unmatched']/total_csv_rows*100:.1f}%)")
-    logging.info(f"Duplicate domains found: {match_stats['duplicate_domains']}")
-    logging.info(f"Output rows: {len(merged_data)}")
+    logger.info("\n" + "=" * 50)
+    logger.info("MATCHING STATISTICS SUMMARY")
+    logger.info("=" * 50)
+    logger.info(f"Total rows in CSV file: {total_csv_rows}")
+    logger.info(f"Total matches: {total_matches} ({match_percentage:.1f}% of input)")
+    logger.info(f"  - Name matches: {name_matched} ({name_matched/total_csv_rows*100:.1f}%)")
+    logger.info(f"    - Exact name matches: {match_stats['exact_name_matches']} ({match_stats['exact_name_matches']/total_csv_rows*100:.1f}%)")
+    logger.info(f"    - Fuzzy name matches: {match_stats['fuzzy_name_matches']} ({match_stats['fuzzy_name_matches']/total_csv_rows*100:.1f}%)")
+    logger.info(f"  - URL matches: {url_matches} ({url_matches/total_csv_rows*100:.1f}%)")
+    logger.info(f"    - Exact URL matches: {match_stats['exact_url_matches']} ({match_stats['exact_url_matches']/total_csv_rows*100:.1f}%)")
+    logger.info(f"    - Fuzzy URL matches: {match_stats['fuzzy_url_matches']} ({match_stats['fuzzy_url_matches']/total_csv_rows*100:.1f}%)")
+    logger.info(f"Unmatched: {match_stats['unmatched']} ({match_stats['unmatched']/total_csv_rows*100:.1f}%)")
+    logger.info(f"Duplicate domains found: {match_stats['duplicate_domains']}")
+    logger.info(f"Output rows: {len(merged_data)}")
 
     # Performance statistics
-    logging.info(f"Processing time: {elapsed_time:.2f} seconds")
-    logging.info(f"Successfully saved {len(merged_data)} rows to {output_file}")
-    logging.info("=" * 50)
+    logger.info(f"Processing time: {elapsed_time:.2f} seconds")
+    logger.info(f"Successfully saved {len(merged_data)} rows to {output_file}")
+    logger.info("=" * 50)
 
     # Log unmatched companies if any
     if match_stats['unmatched'] > 0:
-        logging.info(f"Unmatched companies ({match_stats['unmatched']}):")
+        logger.info(f"Unmatched companies ({match_stats['unmatched']}):")
         for idx, row in still_unmatched.iterrows():
             company_name = row.get('Company name', 'N/A')
-            logging.info(f"  - {company_name}")
+            logger.info(f"  - {company_name}")
 
     # Return the output file path for use in pipelines
     return output_file
@@ -655,13 +659,13 @@ def main():
     args = parser.parse_args()
 
     # Set the logging level based on the command-line argument
-    logging.getLogger().setLevel(getattr(logging, args.log_level))
+    logger.setLevel(getattr(logging, args.log_level))
 
     # Call the merge function with the provided arguments
     output_path = merge_csv_with_excel(args.csv, args.base, args.output)
 
     # Log the output path
-    logging.info(f"Merging process completed. Output file: {output_path}")
+    logger.info(f"Merging process completed. Output file: {output_path}")
 
     # Return the output path for use in pipelines
     return output_path
@@ -671,11 +675,11 @@ if __name__ == "__main__":
     try:
         main()
     except FileNotFoundError as e:
-        logging.error(f"File not found error: {e}")
+        logger.error(f"File not found error: {e}")
         sys.exit(1)
     except ValueError as e:
-        logging.error(f"Value error: {e}")
+        logger.error(f"Value error: {e}")
         sys.exit(1)
     except Exception as e:
-        logging.error(f"Unexpected error: {e}")
+        logger.error(f"Unexpected error: {e}")
         sys.exit(1)

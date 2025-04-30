@@ -15,6 +15,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from deutschland.bundesanzeiger import Bundesanzeiger
 
+# Create a module-level logger
+logger = logging.getLogger(__name__)  # 'extracting_machines.get_bundesanzeiger_html'
+
 
 def setup_logging(verbose: bool = False) -> None:
     """
@@ -23,24 +26,26 @@ def setup_logging(verbose: bool = False) -> None:
     level = logging.DEBUG if verbose else logging.INFO
     logging.basicConfig(
         level=level,
-        format='%(asctime)s [%(levelname)s] %(message)s',
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S',
     )
+    # Set the level for this module's logger as well
+    logger.setLevel(level)
 
 
 def read_csv_with_encoding(input_csv: str) -> pd.DataFrame:
     try:
         df_input = pd.read_csv(input_csv, encoding="utf-8")
     except UnicodeDecodeError:
-        logging.warning("UTF-8 decoding failed. Trying with ISO-8859-1 encoding...")
+        logger.warning("UTF-8 decoding failed. Trying with ISO-8859-1 encoding...")
         try:
             df_input = pd.read_csv(input_csv, encoding="ISO-8859-1")
         except UnicodeDecodeError:
-            logging.error("ISO-8859-1 decoding failed. Trying with Windows-1252 encoding...")
+            logger.error("ISO-8859-1 decoding failed. Trying with Windows-1252 encoding...")
             try:
                 df_input = pd.read_csv(input_csv, encoding="Windows-1252")
             except UnicodeDecodeError as e:
-                logging.error(f"Failed to read CSV file with multiple encodings: {e}")
+                logger.error(f"Failed to read CSV file with multiple encodings: {e}")
                 sys.exit(1)
     return df_input
 
@@ -303,7 +308,7 @@ def get_reports_with_retry(
             jitter = random.uniform(0.85, 1.15)
             actual_delay = delay * jitter
 
-            logging.info(
+            logger.info(
                 f"Attempt {attempt}/{max_retries} for {company}. "
                 f"Waiting {actual_delay:.2f} seconds..."
             )
@@ -312,13 +317,13 @@ def get_reports_with_retry(
         try:
             data = ba.get_reports(company)
             if not data:
-                logging.warning(f"No or empty data for {company}")
+                logger.warning(f"No or empty data for {company}")
                 if attempt >= max_retries:
-                    logging.error(
+                    logger.error(
                         f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                     )
                     return {}
-                logging.info(
+                logger.info(
                     f"Will retry ({attempt}/{max_retries})..."
                 )
                 continue
@@ -328,33 +333,33 @@ def get_reports_with_retry(
         except AttributeError as e:
             # Specific case for 'NoneType' errors (move to next company)
             if "'NoneType' object has no attribute" in str(e):
-                logging.error(
+                logger.error(
                     f"'{company}' returned NoneType. Skipping to next company."
                 )
                 return {}  # Return an empty dict to indicate failure but move on
 
             # Otherwise, retry if we haven't exceeded max_retries
-            logging.error(
+            logger.error(
                 f"AttributeError while fetching data for {company}: {e}"
             )
             if attempt >= max_retries:
-                logging.error(
+                logger.error(
                     f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                 )
                 return {}
-            logging.info(f"Will retry ({attempt}/{max_retries})...")
+            logger.info(f"Will retry ({attempt}/{max_retries})...")
 
         except Exception as e:
             # Handle any other exceptions
-            logging.error(
+            logger.error(
                 f"Exception while fetching data for {company}: {e}"
             )
             if attempt >= max_retries:
-                logging.error(
+                logger.error(
                     f"Maximum retries ({max_retries}) reached for {company}. Giving up."
                 )
                 return {}
-            logging.info(f"Will retry ({attempt}/{max_retries})...")
+            logger.info(f"Will retry ({attempt}/{max_retries})...")
 
 
 def company_folder_exists(base_dir: str, company: str) -> bool:
@@ -420,7 +425,7 @@ def find_latest_jahresabschluss_locally(base_dir: str, company: str) -> tuple:
             html_content = f.read()
         return html_content, latest_folder
     except Exception as e:
-        logging.error(f"Failed to read HTML file {html_file}: {e}")
+        logger.error(f"Failed to read HTML file {html_file}: {e}")
         return None, None
 
 
@@ -469,7 +474,7 @@ def process_company(
 
     # Check if company folder already exists and is not empty
     if company_folder_exists(base_dir, company):
-        logging.info(
+        logger.info(
             f"{company} folder exists - using local data for extraction."
         )
         result_latest["Note"] = "Folder exists | Used local data | "
@@ -479,7 +484,7 @@ def process_company(
             base_dir, company
         )
         if html_content:
-            logging.info(
+            logger.info(
                 f"Found local HTML for {company}, extracting data..."
             )
             parsed = extract_financial_data_from_html(html_content, debug=False)
@@ -495,7 +500,7 @@ def process_company(
                 result_latest["Note"] + folder_path
             )  # local folder path
         else:
-            logging.warning(
+            logger.warning(
                 f"No suitable HTML found locally for {company}"
             )
             result_latest["Note"] = "Local data exists but no suitable HTML found"
@@ -518,7 +523,7 @@ def process_company(
     # Convert everything to a list
     all_reports = [r for r in data.values() if isinstance(r, dict)]
     if not all_reports:
-        logging.info(f"No valid (dict) reports to store for {company}.")
+        logger.info(f"No valid (dict) reports to store for {company}.")
         return result_latest
 
     # 3) Sort by actual datetime instead of the raw string
@@ -535,11 +540,11 @@ def process_company(
     ]
 
     if jahresabschluss_reports:
-        logging.info(
+        logger.info(
             f"Found the following reports for {company}: {len(jahresabschluss_reports)}"
         )
     else:
-        logging.info(
+        logger.info(
             f"No dictionary reports found for {company} (data might be incomplete)."
         )
 
@@ -621,7 +626,7 @@ def main(
         category = get_category_from_filename(input_csv)
         base_dir = f"bundesanzeiger_local_{category}"
     if not os.path.exists(input_csv):
-        logging.error(f"Input file '{input_csv}' not found.")
+        logger.error(f"Input file '{input_csv}' not found.")
         raise FileNotFoundError(f"Input file '{input_csv}' not found.")
     input_name = os.path.splitext(os.path.basename(input_csv))[0]
     output_csv = f"{input_name}_output.csv"
@@ -643,8 +648,8 @@ def main(
     try:
         df_input = read_csv_with_encoding(input_csv)
     except pd.errors.ParserError as e:
-        logging.warning(f"Error parsing CSV with default settings: {e}")
-        logging.info("Trying with different parsing settings...")
+        logger.warning(f"Error parsing CSV with default settings: {e}")
+        logger.info("Trying with different parsing settings...")
         try:
             df_input = pd.read_csv(
                 input_csv,
@@ -653,12 +658,12 @@ def main(
                 on_bad_lines='skip',
             )
         except Exception as e2:
-            logging.error(f"Failed to read input CSV: {e2}")
+            logger.error(f"Failed to read input CSV: {e2}")
             sys.exit(1)
 
     # Make sure we have the expected column
     if 'company name' not in df_input.columns:
-        logging.error("Could not find 'company name' column in the input file")
+        logger.error("Could not find 'company name' column in the input file")
         raise ValueError("Could not find 'company name' column in the input file")
 
     # 3) For each company, process and append a single row to the output file
@@ -672,7 +677,7 @@ def main(
         )
 
         location_info = f" (location: {location})" if location else ""
-        logging.info(f"Processing: {company_name}{location_info}")
+        logger.info(f"Processing: {company_name}{location_info}")
 
         # Call your existing function to get extracted data with retry parameters
         extracted = process_company(
@@ -703,8 +708,8 @@ def main(
         # 4) Append to the output CSV in 'append' mode, no header, no index
         new_df.to_csv(output_csv, mode="a", header=False, index=False)
 
-    logging.info(f"Results written to: {output_csv}")
-    logging.info(f"Folders created under: {base_dir}")
+    logger.info(f"Results written to: {output_csv}")
+    logger.info(f"Folders created under: {base_dir}")
     # At the end, return the output directory path
     return os.path.abspath(base_dir)
 
@@ -716,7 +721,7 @@ if __name__ == "__main__":
     parser.add_argument("--max_retries", type=int, default=5, help="Maximum number of retries for fetching reports.")
     parser.add_argument("--max_delay_seconds", type=int, default=300, help="Maximum delay between retries.")
     parser.add_argument("--backoff_factor", type=float, default=2.0, help="Exponential backoff factor.")
-    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging.")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logger.")
     args = parser.parse_args()
     output_dir = main(
         input_csv=args.input_csv,
@@ -726,4 +731,4 @@ if __name__ == "__main__":
         backoff_factor=args.backoff_factor,
         verbose=args.verbose,
     )
-    logging.info(f"Output directory: {output_dir}")
+    logger.info(f"Output directory: {output_dir}")

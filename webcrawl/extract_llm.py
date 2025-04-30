@@ -198,7 +198,7 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
     logger.info(f"Processing {len(actual_files_to_process)} files...")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.WRITE_ONLY,
+        cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
     )
 

@@ -703,7 +703,7 @@ async def collect_internal_links(
 
     # Configure crawler for link collection
     crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.WRITE_ONLY,
+        cache_mode=CacheMode.ENABLED,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,

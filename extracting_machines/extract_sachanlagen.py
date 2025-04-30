@@ -294,7 +294,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     logger.info(f"Processing {len(file_paths)} files using streaming mode")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.WRITE_ONLY,
+        cache_mode=CacheMode.BYPASS,
         extraction_strategy=llm_strategy,
         stream=True,  # Enable streaming mode
         verbose=False,
@@ -395,7 +395,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     except Exception:
                         content = None
                 if isinstance(content, list) and len(content) > 0:
-                    logger.info(f"Content: {content}")
+                    #logger.info(f"Content: {content}")
                     # Check if at least one entry has Sachanlagen values or table_name
                     if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
                         should_write = True

@@ -13,6 +13,8 @@ from litellm import completion
 from litellm.exceptions import JSONSchemaValidationError
 from pydantic import BaseModel, Field
 
+# Module-specific logger
+logger = logging.getLogger('webcrawl.fill_process_type')
 
 # Configure logging
 def setup_logging(log_level=logging.INFO):
@@ -22,11 +24,26 @@ def setup_logging(log_level=logging.INFO):
     Args:
         log_level: The minimum logging level to display
     """
+    # Set up the module-specific logger
+    logger.setLevel(log_level)
+    
+    # Define log format
+    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    formatter = logging.Formatter(log_format, datefmt='%Y-%m-%d %H:%M:%S')
+    
+    # Add console handler if not already present
+    if not logger.handlers:
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+    
+    # Set root logger configuration for compatibility
     logging.basicConfig(
         level=log_level,
-        format='%(asctime)s - %(levelname)s - %(message)s',
+        format=log_format,
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    
     # Set log level for HTTPx, which is used by AsyncWebCrawler
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
@@ -141,28 +158,28 @@ def generate_process_types(products: List[str], machines: List[str], category: s
             # Extract JSON string from response and parse it
             content = response.choices[0].message.content # type: ignore
             if content is None:
-                logging.error("LLM response content is None")
+                logger.error("LLM response content is None")
                 return []
             data = json.loads(content)
             process_types = data.get("process_types", [])
-            logging.debug(f"LLM returned process_types: {process_types}")
+            logger.debug(f"LLM returned process_types: {process_types}")
             return [p.strip() for p in process_types if p.strip()]
         except JSONSchemaValidationError as se:
-            logging.error(f"JSON schema validation failed: {se}")
+            logger.error(f"JSON schema validation failed: {se}")
             retries += 1
             if retries > max_retries:
-                logging.error(f"Failed after {max_retries} retries: JSON schema validation")
+                logger.error(f"Failed after {max_retries} retries: JSON schema validation")
                 return []
             delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
-            logging.warning(f"JSON schema validation error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds.")
+            logger.warning(f"JSON schema validation error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds.")
             time.sleep(delay)
         except Exception as e:
             retries += 1
             if retries > max_retries:
-                logging.error(f"Failed after {max_retries} retries: {e}")
+                logger.error(f"Failed after {max_retries} retries: {e}")
                 return []
             delay = base_delay * (2 ** (retries - 1)) + random.uniform(0, 0.5)
-            logging.warning(f"Rate limit or error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds. Error: {e}")
+            logger.warning(f"Rate limit or error encountered. Retry {retries}/{max_retries} in {delay:.1f} seconds. Error: {e}")
             time.sleep(delay)
     return []
 
@@ -235,17 +252,17 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
     if not category:
         category = extract_category_from_filename(os.path.basename(input_file))
     if not category:
-        logging.warning(f"Could not extract category from filename: {input_file}, using default category 'test'")
-        category = "test"
+        logger.warning(f"Could not extract category from filename: {input_file}, using default category 'manufacturing'")
+        category = "manufacturing"
 
-    logging.info(f"Processing file: {input_file} (Category: {category})")
+    logger.info(f"Processing file: {input_file} (Category: {category})")
 
     # Load the JSON file
     try:
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
     except json.JSONDecodeError:
-        logging.error(f"Malformed JSON in file: {input_file}")
+        logger.error(f"Malformed JSON in file: {input_file}")
         raise
 
     if not isinstance(data, list):
@@ -269,9 +286,9 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
                 # Update the company data
                 company['process_type'] = process_types
                 empty_process_types_filled += 1
-                logging.info(f"  Updated process_type for company: {company.get('company_name', 'Unknown')}")
-                logging.info(f"  Products: {products}")
-                logging.info(f"  Generated process_type: {process_types}")
+                logger.info(f"  Updated process_type for company: {company.get('company_name', 'Unknown')}")
+                logger.info(f"  Products: {products}")
+                logger.info(f"  Generated process_type: {process_types}")
         else:
             # Remove 'na' words from existing process_type
             original_process_type = company['process_type']
@@ -281,16 +298,16 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
             # Update only if changes were made
             if cleaned_process_type != original_process_type:
                 company['process_type'] = cleaned_process_type
-                logging.info(f"  Fixed conjugations in process_type for company: {company.get('company_name', 'Unknown')}")
-                logging.info(f"  Original: {original_process_type}")
-                logging.info(f"  Fixed: {cleaned_process_type}")
+                logger.info(f"  Fixed conjugations in process_type for company: {company.get('company_name', 'Unknown')}")
+                logger.info(f"  Original: {original_process_type}")
+                logger.info(f"  Fixed: {cleaned_process_type}")
 
     # Save the updated data
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-    logging.info(f"Saved processed data to: {output_file}")
+    logger.info(f"Saved processed data to: {output_file}")
 
 
 def find_pluralized_files(folder_path: str) -> List[str]:
@@ -306,7 +323,7 @@ def find_pluralized_files(folder_path: str) -> List[str]:
     matching_files = []
 
     if not os.path.isdir(folder_path):
-        logging.error(f"Folder not found: {folder_path}")
+        logger.error(f"Folder not found: {folder_path}")
         return matching_files
 
     for filename in os.listdir(folder_path):
@@ -322,6 +339,7 @@ def run_fill_process_type(
     input_file: Optional[str] = None,
     folder: Optional[str] = None,
     output_dir: Optional[str] = None,
+    category: Optional[str] = None,
     log_level: str = "INFO"
 ) -> List[str]:
     """
@@ -330,6 +348,7 @@ def run_fill_process_type(
         input_file (Optional[str]): Path to a single input JSON file.
         folder (Optional[str]): Path to a folder containing JSON files to process.
         output_dir (Optional[str]): Directory to save processed JSON files.
+        category (Optional[str]): Category to use for all files. If provided, overrides automatic extraction.
         log_level (str): Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL).
     Returns:
         List[str]: List of output file paths created/updated.
@@ -337,36 +356,60 @@ def run_fill_process_type(
         FileNotFoundError: If input file/folder does not exist.
         ValueError: If input file is not a JSON file.
     """
-    log_level_value = getattr(logging, log_level.upper(), logging.INFO)
+    log_level_value = getattr(logging, log_level.upper(), logger.INFO)
     setup_logging(log_level_value)
 
     if not input_file and not folder:
-        logging.error("Either input_file or folder must be specified")
+        logger.error("Either input_file or folder must be specified")
         raise ValueError("Either input_file or folder must be specified")
 
     files_to_process: List[str] = []
-    category: Optional[str] = None
-
-    if input_file:
-        if not os.path.isfile(input_file):
-            logging.error(f"Input file not found: {input_file}")
-            raise FileNotFoundError(f"Input file not found: {input_file}")
-        if not input_file.endswith('.json'):
-            logging.error(f"Input file must be a JSON file: {input_file}")
-            raise ValueError(f"Input file must be a JSON file: {input_file}")
-        files_to_process.append(input_file)
-        category = extract_category_from_filename(os.path.basename(input_file))
-
-    if folder:
-        folder_files = find_pluralized_files(folder)
-        if not folder_files:
-            logging.warning(f"No matching JSON files found in folder: {folder}")
-        else:
-            files_to_process.extend(folder_files)
-            category = extract_category_from_folder(folder)
+    
+    # If category is provided as parameter, use it; otherwise try to extract from input
+    if not category:
+        category_from_input: Optional[str] = None
+        
+        if input_file:
+            if not os.path.isfile(input_file):
+                logger.error(f"Input file not found: {input_file}")
+                raise FileNotFoundError(f"Input file not found: {input_file}")
+            if not input_file.endswith('.json'):
+                logger.error(f"Input file must be a JSON file: {input_file}")
+                raise ValueError(f"Input file must be a JSON file: {input_file}")
+            files_to_process.append(input_file)
+            category_from_input = extract_category_from_filename(os.path.basename(input_file))
+            
+        if folder:
+            folder_files = find_pluralized_files(folder)
+            if not folder_files:
+                logger.warning(f"No matching JSON files found in folder: {folder}")
+            else:
+                files_to_process.extend(folder_files)
+                if not category_from_input:  # Only extract from folder if we don't have a category yet
+                    category_from_input = extract_category_from_folder(folder)
+                    
+        category = category_from_input
+    else:
+        # Category was provided as a parameter, still need to collect files
+        logger.info(f"Using provided category: {category} (skipping automatic extraction)")
+        if input_file:
+            if not os.path.isfile(input_file):
+                logger.error(f"Input file not found: {input_file}")
+                raise FileNotFoundError(f"Input file not found: {input_file}")
+            if not input_file.endswith('.json'):
+                logger.error(f"Input file must be a JSON file: {input_file}")
+                raise ValueError(f"Input file must be a JSON file: {input_file}")
+            files_to_process.append(input_file)
+            
+        if folder:
+            folder_files = find_pluralized_files(folder)
+            if not folder_files:
+                logger.warning(f"No matching JSON files found in folder: {folder}")
+            else:
+                files_to_process.extend(folder_files)
 
     if not files_to_process:
-        logging.error("No files to process")
+        logger.error("No files to process")
         return []
 
     output_paths: List[str] = []
@@ -382,13 +425,13 @@ def run_fill_process_type(
             process_json_file(input_path, output_file, category=category)
             output_paths.append(output_file)
         except json.JSONDecodeError:
-            logging.error(f"Malformed JSON in file: {input_path}")
+            logger.error(f"Malformed JSON in file: {input_path}")
             raise
         except ValueError:
-            logging.error(f"Empty input file: {input_path}")
+            logger.error(f"Empty input file: {input_path}")
             raise
         except Exception as e:
-            logging.error(f"Error processing file {input_path}: {e}")
+            logger.error(f"Error processing file {input_path}: {e}")
             raise
     return output_paths
 
@@ -406,6 +449,8 @@ def main() -> Optional[List[str]]:
                         help='Path to a folder containing JSON files to process (will process all JSON files)')
     parser.add_argument('--output-dir', type=str, default=None,
                         help='Directory to save processed JSON files (defaults to same as input)')
+    parser.add_argument('--category', type=str, default=None,
+                        help='Specific category to use for all files (overrides automatic extraction)')
     parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         default='INFO', help='Set the logging level')
     args = parser.parse_args()
@@ -414,6 +459,7 @@ def main() -> Optional[List[str]]:
         input_file=args.input_file,
         folder=args.folder,
         output_dir=args.output_dir,
+        category=args.category,
         log_level=args.log_level
     )
     if output_paths:

@@ -10,9 +10,13 @@ import pandas as pd
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
+
+# Create a module-specific logger
+logger = logging.getLogger('integrate_pipeline.enrich_data.py')
+logger.setLevel(logging.INFO)
 
 # Define the constant for hours calculation
 HOURS_MULTIPLIER = 375
@@ -60,24 +64,22 @@ def enrich_data(input_file):
 
     # Check if input file exists
     if not os.path.exists(input_file):
-        raise FileNotFoundError(f"Input file '{input_file}' not found.")
-
-    # Read the CSV file
+        raise FileNotFoundError(f"Input file '{input_file}' not found.")        # Read the CSV file
     try:
-        logging.info(f"Reading data from {input_file}")
+        logger.info(f"Reading data from {input_file}")
         df = pd.read_csv(input_file, encoding="utf-8", skipinitialspace=True)
 
         # Check if the input file is empty (has only header row or no rows at all)
         if len(df) == 0:
-            logging.info(f"Input file '{input_file}' is empty, creating empty output file")
+            logger.info(f"Input file '{input_file}' is empty, creating empty output file")
             # Create an empty output file
             open(output_file, 'w').close()
             return output_file
     except pd.errors.ParserError as e:
-        logging.error(f"Error parsing CSV file: {e}")
+        logger.error(f"Error parsing CSV file: {e}")
         raise ValueError(f"Error parsing CSV file: {e}")
     except Exception as e:
-        logging.error(f"Error reading CSV file: {e}")
+        logger.error(f"Error reading CSV file: {e}")
         raise ValueError(f"Error reading CSV file: {e}")
 
     # Validate required columns exist
@@ -85,7 +87,7 @@ def enrich_data(input_file):
     missing_columns = [col for col in required_columns if col not in df.columns]
     if missing_columns:
         error_msg = f"Missing required columns: {', '.join(missing_columns)}"
-        logging.error(error_msg)
+        logger.error(error_msg)
         raise ValueError(error_msg)
 
     # Create the Maschinen_Park_var column as integer
@@ -105,19 +107,19 @@ def enrich_data(input_file):
     output_dir = os.path.dirname(output_file)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
-        logging.info(f"Created output directory: {output_dir}")
+        logger.info(f"Created output directory: {output_dir}")
 
     # Save the enriched data
     try:
         df.to_csv(output_file, index=False, encoding="utf-8-sig")
-        logging.info(f"Data enrichment completed successfully! Output saved to {output_file}")
+        logger.info(f"Data enrichment completed successfully! Output saved to {output_file}")
     except Exception as e:
-        logging.error(f"Error saving output file: {e}")
+        logger.error(f"Error saving output file: {e}")
         raise ValueError(f"Error saving output file: {e}")
 
     # After saving, print a summary
     total_records = len(df)
-    logging.info(f"Processed {total_records} records")
+    logger.info(f"Processed {total_records} records")
 
     return output_file
 
@@ -144,7 +146,7 @@ def main():
     args = parser.parse_args()
 
     # Set the logging level based on the command-line argument
-    logging.getLogger().setLevel(getattr(logging, args.log_level))
+    logger.setLevel(getattr(logging, args.log_level))
 
     # Process the input file
     output_path = enrich_data(args.input_file)
@@ -157,11 +159,11 @@ if __name__ == "__main__":
     try:
         main()
     except FileNotFoundError as e:
-        logging.error(f"File not found error: {e}")
+        logger.error(f"File not found error: {e}")
         sys.exit(1)
     except ValueError as e:
-        logging.error(f"Value error: {e}")
+        logger.error(f"Value error: {e}")
         sys.exit(1)
     except Exception as e:
-        logging.error(f"Unexpected error: {e}")
+        logger.error(f"Unexpected error: {e}")
         sys.exit(1)

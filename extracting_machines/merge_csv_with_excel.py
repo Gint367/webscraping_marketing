@@ -8,6 +8,9 @@ import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz
 
+# Set up module-specific logger
+logger = logging.getLogger('extracting_machines.merge_csv_with_excel')
+
 
 def standardize_company_name(name):
     # Replace underscores with spaces
@@ -244,7 +247,7 @@ def analyze_company_similarities(machine_data, company_df):
     std_company_list = {company: standardize_for_comparison(company)
                         for company in company_list if isinstance(company, str)}
 
-    logging.info("Analyzing company name similarities...")
+    logger.info("Analyzing company name similarities...")
     MatchingThreshold = 0.85
     for csv_company, std_company in std_csv_companies.items():
         best_match = None
@@ -307,21 +310,21 @@ def analyze_company_similarities(machine_data, company_df):
     }
 
     # Log detailed analysis
-    logging.info("\nCompany Name Similarity Analysis:")
-    logging.info(f"Total comparisons made: {stats['total_comparisons']}")
-    logging.info(f"Mean similarity: {stats['mean_similarity']:.3f}")
-    logging.info(f"Median similarity: {stats['median_similarity']:.3f}")
-    logging.info(f"Minimum similarity: {stats['min_similarity']:.3f}")
-    logging.info(f"Maximum similarity: {stats['max_similarity']:.3f}")
-    logging.info(f"Standard deviation: {stats['std_similarity']:.3f}")
+    logger.info("\nCompany Name Similarity Analysis:")
+    logger.info(f"Total comparisons made: {stats['total_comparisons']}")
+    logger.info(f"Mean similarity: {stats['mean_similarity']:.3f}")
+    logger.info(f"Median similarity: {stats['median_similarity']:.3f}")
+    logger.info(f"Minimum similarity: {stats['min_similarity']:.3f}")
+    logger.info(f"Maximum similarity: {stats['max_similarity']:.3f}")
+    logger.info(f"Standard deviation: {stats['std_similarity']:.3f}")
 
     if problematic_matches:
-        logging.info(f"\nPotentially Problematic Matches (similarity < {MatchingThreshold}):")
+        logger.info(f"\nPotentially Problematic Matches (similarity < {MatchingThreshold}):")
         for match in sorted(problematic_matches, key=lambda x: x["similarity"]):
-            logging.info(f"CSV: {match['csv_company']}")
-            logging.info(f"Best Match: {match['best_match']}")
-            logging.info(f"Similarity: {match['similarity']:.3f}")
-            logging.info("-" * 50)
+            logger.info(f"CSV: {match['csv_company']}")
+            logger.info(f"Best Match: {match['best_match']}")
+            logger.info(f"Similarity: {match['similarity']:.3f}")
+            logger.info("-" * 50)
 
     return stats
 
@@ -351,23 +354,23 @@ def load_data(csv_file_path: str, xlsx_file_path: str = "input_excel.xlsx", shee
 
         # Load the second input file based on its extension
         if file_extension in ['.xlsx', '.xls']:
-            logging.info(f"Loading Excel file: {xlsx_file_path}")
+            logger.info(f"Loading Excel file: {xlsx_file_path}")
             second_df = pd.read_excel(xlsx_file_path, sheet_name=sheet_name)
         elif file_extension == '.csv':
-            logging.info(f"Loading CSV file: {xlsx_file_path}")
+            logger.info(f"Loading CSV file: {xlsx_file_path}")
             second_df = pd.read_csv(xlsx_file_path)
         else:
             raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
 
         # Check for required column (Firma1 or Company)
         if 'Firma1' in second_df.columns:
-            logging.info("Using 'Firma1' column from input file")
+            logger.info("Using 'Firma1' column from input file")
         elif 'Company' in second_df.columns:
-            logging.info("Using 'Company' column from input file (renaming to 'Firma1')")
+            logger.info("Using 'Company' column from input file (renaming to 'Firma1')")
             # Rename to Firma1 for consistency with rest of the code
             second_df = second_df.rename(columns={'Company': 'Firma1'})
         elif 'company name' in second_df.columns:
-            logging.info("Using 'company name' column from input file (renaming to 'Firma1')")
+            logger.info("Using 'company name' column from input file (renaming to 'Firma1')")
             # Rename to Firma1 for consistency with rest of the code
             second_df = second_df.rename(columns={'company name': 'Firma1'})
         else:
@@ -380,7 +383,7 @@ def load_data(csv_file_path: str, xlsx_file_path: str = "input_excel.xlsx", shee
 
         return machine_data, second_df
     except Exception as e:
-        logging.error(f"Error loading data: {str(e)}")
+        logger.error(f"Error loading data: {str(e)}")
         raise
 
 
@@ -412,13 +415,13 @@ def create_company_mapping(machine_data, company_df):
     # Log matching statistics
     if similarity_scores:
         avg_similarity = sum(similarity_scores) / len(similarity_scores)
-        logging.info("\nMatching Statistics for companies:")
-        logging.info(f"Total companies processed: {total_companies}")
-        logging.info(f"Successfully matched: {matched_companies}")
-        logging.info(f"Average similarity score: {avg_similarity:.2f}")
-        logging.info(f"\n5 Lowest Similarity Pairs | {threshold}")
+        logger.info("\nMatching Statistics for companies:")
+        logger.info(f"Total companies processed: {total_companies}")
+        logger.info(f"Successfully matched: {matched_companies}")
+        logger.info(f"Average similarity score: {avg_similarity:.2f}")
+        logger.info(f"\n5 Lowest Similarity Pairs | {threshold}")
         for similarity, csv_company, company_name in lowest_pairs:
-            logging.info(f"Score: {similarity:.3f} | {csv_company} -> {company_name}")
+            logger.info(f"Score: {similarity:.3f} | {csv_company} -> {company_name}")
 
     return company_mapping
 
@@ -481,14 +484,14 @@ def load_sachanlagen_data(sachanlagen_path):
         sachanlagen_df = pd.read_csv(sachanlagen_path)
         # Ensure column names are correct
         if 'company_name' not in sachanlagen_df.columns or 'sachanlagen' not in sachanlagen_df.columns:
-            logging.warning(f"Required columns not found in {sachanlagen_path}")
+            logger.warning(f"Required columns not found in {sachanlagen_path}")
             return pd.DataFrame()
 
         # Normalize company names
         sachanlagen_df["company_name"] = sachanlagen_df["company_name"].apply(normalize_company_name)
         return sachanlagen_df
     except Exception as e:
-        logging.error(f"Error loading Sachanlagen data: {str(e)}")
+        logger.error(f"Error loading Sachanlagen data: {str(e)}")
         return pd.DataFrame()  # Return empty dataframe on error
 
 
@@ -508,9 +511,9 @@ def create_sachanlagen_mapping(sachanlagen_df, company_df):
             matched_companies += 1
 
     # Log matching statistics
-    logging.info("\nMatching Statistics for Sachanlagen data:")
-    logging.info(f"Total Sachanlagen companies: {total_companies}")
-    logging.info(f"Successfully matched: {matched_companies}")
+    logger.info("\nMatching Statistics for Sachanlagen data:")
+    logger.info(f"Total Sachanlagen companies: {total_companies}")
+    logger.info(f"Successfully matched: {matched_companies}")
 
     return sachanlagen_mapping
 
@@ -593,22 +596,25 @@ def main(
     Returns:
         str: Path to the output CSV file
     """
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    # Configure logging
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s %(message)s')
+    logger.setLevel(logging.INFO)
+    
     try:
         # Load data with automatic format detection
         machine_data, company_df = load_data(csv_file_path, original_company_file_path, sheet_name)
 
         # If either input is empty, do not create output
         if machine_data.empty or company_df.empty:
-            logging.error("Input CSV or company data file is empty. No output will be created.")
+            logger.error("Input CSV or company data file is empty. No output will be created.")
             return None
 
         similarities = analyze_company_similarities(machine_data, company_df)
         good_matches = len(machine_data["Company"].unique()) - len(similarities["problematic_matches"])
-        logging.info(f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies")
+        logger.info(f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies")
 
         mapping = create_company_mapping(machine_data, company_df)
-        logging.debug(f"Mapping created with {len(mapping)} matches")
+        logger.debug(f"Mapping created with {len(mapping)} matches")
         merged_df = merge_datasets(company_df, machine_data, mapping, top_n)
 
         if sachanlagen_path and os.path.exists(sachanlagen_path):
@@ -625,7 +631,7 @@ def main(
 
         # If output is empty, do not create file
         if filtered_df.empty:
-            logging.error("Merged output is empty. No output will be created.")
+            logger.error("Merged output is empty. No output will be created.")
             return None
 
         if output_file_path is not None:
@@ -635,7 +641,7 @@ def main(
 
         return output_file
     except Exception as e:
-        logging.error(f"Failed to merge CSV and company data: {e}")
+        logger.error(f"Failed to merge CSV and company data: {e}")
         raise
 
 
@@ -647,7 +653,16 @@ if __name__ == "__main__":
     parser.add_argument("--top_n", type=int, default=1, help="Number of top machines to include (default: 1)")
     parser.add_argument("--sachanlagen", type=str, help="Path to Sachanlagen CSV file", default=None)
     parser.add_argument("--sheet", type=str, default="Sheet1", help="Excel sheet name (only used for Excel files, default: Sheet1)")
+    parser.add_argument("--log-level", type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                        default='INFO', help="Set the logging level")
+    
     args = parser.parse_args()
+    
+    # Configure logging with specified level
+    log_level = getattr(logging, args.log_level)
+    logging.basicConfig(level=log_level, format='%(asctime)s %(levelname)s %(name)s %(message)s')
+    logger.setLevel(log_level)
+    
     main(
         csv_file_path=args.csv_file,
         original_company_file_path=args.company_file,

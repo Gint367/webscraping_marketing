@@ -14,17 +14,27 @@ MIN_WORD_LENGTH = 5
 DEFAULT_COLUMN_PREFIX = "Column"
 MAX_TABLE_NAME_LENGTH = 100
 
+# Module-specific logger
+logger = logging.getLogger('extracting_machines.clean_html')
+
 
 def setup_logging(verbose: bool = False) -> None:
     """
     Configures the logging module for the script.
+    
+    Args:
+        verbose: Boolean flag to enable verbose (DEBUG) logging
     """
     level = logging.DEBUG if verbose else logging.INFO
+    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     logging.basicConfig(
         level=level,
-        format='%(asctime)s [%(levelname)s] %(message)s',
+        format=log_format,
         datefmt='%Y-%m-%d %H:%M:%S',
     )
+    
+    # Set level for our module logger
+    logger.setLevel(level)
 
 
 def clean_html(input_html, filter_word=None, original_filename=None):
@@ -280,12 +290,11 @@ def get_latest_subfolder(company_folder):
                     date = datetime.fromisoformat(metadata["date"])
                 except ValueError:
                     date = datetime.strptime(metadata["date"], "%Y-%m-%d %H:%M:%S")
-
                 if latest_date is None or date > latest_date:
                     latest_date = date
                     latest_subfolder = subfolder_path
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            logging.error(f"Error processing {metadata_files[0]}: {e}")
+            logger.error(f"Error processing {metadata_files[0]}: {e}")
             continue
 
     # print(f"Latest subfolder found: {latest_subfolder}")
@@ -311,12 +320,12 @@ def main(
     """
     setup_logging(verbose)
     if not os.path.exists(input_dir):
-        logging.error(f"Input directory '{input_dir}' not found.")
+        logger.error(f"Input directory '{input_dir}' not found.")
         raise FileNotFoundError(f"Input directory '{input_dir}' not found.")
     input_dir_name = os.path.basename(os.path.normpath(input_dir))
     if output_dir is None:
         output_dir = os.path.join(os.getcwd(), f"{input_dir_name}_output")
-    logging.info(f"Output directory: {output_dir}")
+    logger.info(f"Output directory: {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
     # Iterate through each company folder in input directory
     for company_folder in os.listdir(input_dir):
@@ -325,11 +334,11 @@ def main(
             continue
         latest_subfolder = get_latest_subfolder(company_path)
         if not latest_subfolder:
-            logging.warning(f"No valid subfolder found for {company_folder}")
+            logger.warning(f"No valid subfolder found for {company_folder}")
             continue
         html_files = list(Path(latest_subfolder).glob("*.html"))
         if not html_files:
-            logging.warning(f"No HTML files found in {latest_subfolder}")
+            logger.warning(f"No HTML files found in {latest_subfolder}")
             continue
         metadata_files = list(Path(latest_subfolder).glob("*metadata.json"))
         company_name = company_folder
@@ -339,7 +348,7 @@ def main(
                     metadata = json.load(f)
                     company_name = metadata.get("company_name", company_folder)
             except Exception as e:
-                logging.error(f"Error reading metadata for {company_folder}: {e}")
+                logger.error(f"Error reading metadata for {company_folder}: {e}")
         for html_file in html_files:
             try:
                 with open(html_file, "r", encoding="utf-8") as f:
@@ -362,9 +371,9 @@ def main(
                         )
                         with open(output_file, "w", encoding="utf-8") as f:
                             json.dump(filtered_data, f, ensure_ascii=False, indent=2)
-                        logging.info(f"Processed and saved results for {company_folder}")
+                        logger.info(f"Processed and saved results for {company_folder}")
             except Exception as e:
-                logging.error(f"Error processing {html_file}: {e}")
+                logger.error(f"Error processing {html_file}: {e}")
     return os.path.abspath(output_dir)
 
 
@@ -382,7 +391,7 @@ if __name__ == "__main__":
             search_word=args.search_word,
             verbose=args.verbose,
         )
-        logging.info(f"Output directory: {output_dir}")
+        logger.info(f"Output directory: {output_dir}")
     except Exception as e:
-        logging.error(f"Failed to process HTML: {e}")
+        logger.error(f"Failed to process HTML: {e}")
         exit(1)

@@ -13,6 +13,9 @@ from pydantic import BaseModel, Field
 # Load environment variables from .env file
 load_dotenv(override=True)
 
+# Set up module-specific logger
+logger = logging.getLogger('webcrawl.pluralize_with_llm.py')
+
 # Global tracking of failed files
 failed_files = []
 
@@ -44,11 +47,16 @@ def setup_logging(log_level=logging.INFO) -> None:
     Args:
         log_level: The minimum logging level to display
     """
+    # Configure root logger
     logging.basicConfig(
         level=log_level,
-        format='%(asctime)s - %(levelname)s - %(message)s',
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
+    
+    # Configure module-specific logger
+    logger.setLevel(log_level)
+    
     # Set log level for HTTPx, which is used by AsyncWebCrawler
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
@@ -236,7 +244,7 @@ def track_cleaning_stats(
             })
 
             # Log what was changed
-            logging.info(f"Cleaned compound word in {os.path.basename(file_path)} ({field_name}): '{original}' → '{cleaned}'")
+            logger.info(f"Cleaned compound word in {os.path.basename(file_path)} ({field_name}): '{original}' → '{cleaned}'")
 
 
 def create_pluralization_prompt(fields_dict: Dict[str, List[str]]) -> str:
@@ -379,16 +387,16 @@ def pluralize_with_llm(
                     return result
                 else:
                     # If validation failed, retry
-                    logging.warning(f"Validation error: {error_message}")
+                    logger.warning(f"Validation error: {error_message}")
                     retry_count += 1
             except json.JSONDecodeError as e:
-                logging.warning(f"Failed to parse JSON response: {e}")
+                logger.warning(f"Failed to parse JSON response: {e}")
                 retry_count += 1
 
             # Check if we've reached max retries
             if retry_count >= max_retries:
                 failure_info = f"Max retries reached for file: {file_path}"
-                logging.error(failure_info)
+                logger.error(failure_info)
                 if file_path:
                     failed_fields = [f for f in cleaned_fields.keys()]
                     fields_str = ", ".join(failed_fields)
@@ -396,7 +404,7 @@ def pluralize_with_llm(
                 return cleaned_fields  # Return cleaned words even if pluralization failed
 
         except Exception as e:
-            logging.error(f"Error pluralizing words with LLM: {e}")
+            logger.error(f"Error pluralizing words with LLM: {e}")
             if file_path:
                 failed_fields = [f for f in cleaned_fields.keys()]
                 fields_str = ", ".join(failed_fields)
@@ -466,12 +474,12 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
         with open(input_file_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
     except Exception as e:
-        logging.error(f"Error processing file {input_file_path}: {e}")
+        logger.error(f"Error processing file {input_file_path}: {e}")
         if input_file_path not in [f[0] for f in failed_files]:
             failed_files.append((input_file_path, "file_processing_error"))
         raise ValueError(f"Malformed JSON in file: {input_file_path}") from e
     if not isinstance(data, list):
-        logging.error(f"Expected JSON array in {input_file_path}, but got {type(data)}")
+        logger.error(f"Expected JSON array in {input_file_path}, but got {type(data)}")
         failed_files.append((input_file_path, "invalid_json_structure"))
         raise ValueError(f"Invalid JSON structure in file: {input_file_path}")
 
@@ -492,7 +500,7 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
     with open(output_file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
-    logging.info(f"Processed {input_file_path} -> {output_file_path}")
+    logger.info(f"Processed {input_file_path} -> {output_file_path}")
 
 
 def process_directory(input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None) -> str:
@@ -510,13 +518,13 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
     """
     # Only check directory existence in production, not during tests
     if not os.environ.get('PYTEST_CURRENT_TEST') and not os.path.isdir(input_dir):
-        logging.error(f"Input directory does not exist: {input_dir}")
+        logger.error(f"Input directory does not exist: {input_dir}")
         raise FileNotFoundError(f"Input directory does not exist: {input_dir}")
 
     try:
         os.makedirs(output_dir, exist_ok=True)
     except Exception as e:
-        logging.error(f"Error creating directory: {e}")
+        logger.error(f"Error creating directory: {e}")
         raise
 
     # This try block will catch FileNotFoundError if the directory doesn't exist,
@@ -525,38 +533,38 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
         json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
         total_files = len(json_files)
         if total_files == 0:
-            logging.info(f"No JSON files found in {input_dir}")
+            logger.info(f"No JSON files found in {input_dir}")
             return output_dir
-        logging.info(f"Found {total_files} JSON files to process")
+        logger.info(f"Found {total_files} JSON files to process")
         for i, filename in enumerate(json_files, 1):
             input_file_path = os.path.join(input_dir, filename)
             output_file_path = os.path.join(output_dir, filename)
-            logging.info(f"Processing file {i}/{total_files}: {filename}")
+            logger.info(f"Processing file {i}/{total_files}: {filename}")
             process_json_file(input_file_path, output_file_path, temperatures)
     except Exception as e:
-        logging.error(f"Error accessing input directory: {e}")
+        logger.error(f"Error accessing input directory: {e}")
         raise
 
     # Report on compound word cleaning
     if compound_word_stats["files_affected"]:
-        logging.info("\n===== COMPOUND WORD CLEANING SUMMARY =====")
-        logging.info(f"Files affected: {len(compound_word_stats['files_affected'])}")
-        logging.info(f"Words modified: {len(compound_word_stats['words_modified'])}")
-        logging.info("Modified words (original → cleaned):")
+        logger.info("\n===== COMPOUND WORD CLEANING SUMMARY =====")
+        logger.info(f"Files affected: {len(compound_word_stats['files_affected'])}")
+        logger.info(f"Words modified: {len(compound_word_stats['words_modified'])}")
+        logger.info("Modified words (original → cleaned):")
 
         for item in compound_word_stats["words_modified"]:
-            logging.info(f"  - {item['file']} ({item['field']}): '{item['original']}' → '{item['cleaned']}'")
+            logger.info(f"  - {item['file']} ({item['field']}): '{item['original']}' → '{item['cleaned']}'")
 
     # Log summary of failed files
     if failed_files:
-        logging.info("\n===== FAILURE SUMMARY =====")
-        logging.info(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
-        logging.info(f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}")
-        logging.info("Failed files and fields:")
+        logger.info("\n===== FAILURE SUMMARY =====")
+        logger.info(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
+        logger.info(f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}")
+        logger.info("Failed files and fields:")
         for file_path, field_name in failed_files:
-            logging.info(f"  - {file_path}: {field_name}")
+            logger.info(f"  - {file_path}: {field_name}")
     else:
-        logging.info(f"\nAll {total_files} files processed successfully with no pluralization failures.")
+        logger.info(f"\nAll {total_files} files processed successfully with no pluralization failures.")
 
     return output_dir
 
@@ -581,16 +589,16 @@ def process_file_or_directory(
         temperatures = DEFAULT_TEMPERATURES
     if os.path.isfile(input_path):
         if not input_path.endswith('.json'):
-            logging.error(f"Input file must be a JSON file: {input_path}")
+            logger.error(f"Input file must be a JSON file: {input_path}")
             raise ValueError(f"Input file must be a JSON file: {input_path}")
-        logging.info(f"Processing single file: {input_path}")
+        logger.info(f"Processing single file: {input_path}")
         process_json_file(input_path, output_path, temperatures)
         return output_path
     elif os.path.isdir(input_path):
-        logging.info(f"Processing directory: {input_path}")
+        logger.info(f"Processing directory: {input_path}")
         return process_directory(input_path, output_path, temperatures)
     else:
-        logging.error(f"Input path does not exist: {input_path}")
+        logger.error(f"Input path does not exist: {input_path}")
         raise FileNotFoundError(f"Input path does not exist: {input_path}")
 
 
@@ -614,15 +622,15 @@ def main() -> str:
     args = parser.parse_args()
     log_level = getattr(logging, args.log_level)
     setup_logging(log_level)
-    logging.info(f"Starting pluralization with temperatures: {args.temperatures}")
+    logger.info(f"Starting pluralization with temperatures: {args.temperatures}")
     if os.path.isfile(args.input) and os.path.isdir(args.output):
-        logging.error("When input is a file, output must be a file path")
+        logger.error("When input is a file, output must be a file path")
         raise ValueError("When input is a file, output must be a file path")
     if os.path.isdir(args.input) and os.path.isfile(args.output):
-        logging.error("When input is a directory, output must be a directory path")
+        logger.error("When input is a directory, output must be a directory path")
         raise ValueError("When input is a directory, output must be a directory path")
     output_path = process_file_or_directory(args.input, args.output, args.temperatures)
-    logging.info("Pluralization process completed")
+    logger.info("Pluralization process completed")
     return output_path
 
 
@@ -630,8 +638,8 @@ if __name__ == "__main__":
     try:
         main()
     except FileNotFoundError as e:
-        logging.error(str(e))
+        logger.error(str(e))
         exit(1)
     except Exception as e:
-        logging.error(str(e))
+        logger.error(str(e))
         exit(2)

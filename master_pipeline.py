@@ -32,7 +32,7 @@ from tqdm import tqdm  # Add tqdm import
 # Import functions from webcrawl components
 
 # Configure logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("master_pipeline")
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -243,7 +243,15 @@ def setup_logging(log_level: str, log_file: Optional[Path] = None) -> logging.Lo
     # Get and configure the module logger
     logger = logging.getLogger(__name__)
     logger.setLevel(numeric_level)
-
+    # Set log level for other libraries to reduce noise
+    logging.getLogger("urllib3").setLevel(logging.WARNING)
+    logging.getLogger("asyncio").setLevel(logging.WARNING)
+    # Set log level for HTTPx, which is used by AsyncWebCrawler
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)
+    # Set log level for LiteLLM and Botocore
+    logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+    logging.getLogger("botocore").setLevel(logging.WARNING)
     return logger
 
 
@@ -423,11 +431,10 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     return final_output
 
 
-def run_webcrawl_pipeline(extracting_output: str, output_dir: str) -> str:
+def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Optional[str] = None) -> str:
     """
     Run the web crawling and keyword extraction pipeline component.
     The pipeline now follows this sequence:
-
     - Crawl domain
     - Extract keywords with LLM
     - Fill process type
@@ -495,7 +502,8 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str) -> str:
         process_type_outputs = run_fill_process_type(
             folder=extract_output,
             output_dir=str(process_type_dir),
-            log_level="INFO"
+            log_level="INFO",
+            category=category
         )
         if not process_type_outputs or not isinstance(process_type_outputs, list):
             raise ValueError("run_fill_process_type returned None or invalid output.")
@@ -709,7 +717,7 @@ def run_pipeline(config: Dict[str, Any]) -> str:
         # Define pipeline phases
         pipeline_phases = [
             ("Phase 1: Extracting Machine Assets", run_extracting_machine_pipeline, extracting_output_dir, {"input_csv": input_csv, "category": category}),
-            ("Phase 2: Crawling & Scraping Keywords", run_webcrawl_pipeline, webcrawl_output_dir, {"extracting_output": None}),
+            ("Phase 2: Crawling & Scraping Keywords", run_webcrawl_pipeline, webcrawl_output_dir, {"extracting_output": None, "category": category}),
             ("Phase 3: Final Data Integration", run_integration_pipeline, integration_output_dir, {})  # Inputs depend on previous phases
         ]
 
@@ -726,6 +734,7 @@ def run_pipeline(config: Dict[str, Any]) -> str:
                 # Update arguments for integration phase
                 if phase_name == "Phase 2: Crawling & Scraping Keywords":
                     phase_args["extracting_output"] = phase_outputs.get("Phase 1: Extracting Machine Assets")
+                    # Category is already set in the phase_args dictionary when defining pipeline_phases
                     if not phase_args["extracting_output"]:
                         raise ValueError("Missing required input for Webcrawl phase.")
                 elif phase_name == "Phase 3: Final Data Integration":
@@ -766,7 +775,7 @@ def run_pipeline(config: Dict[str, Any]) -> str:
             raise FileNotFoundError(f"Final output file from integration phase not found: {final_output}")
 
         # --- Cleanup intermediate outputs ---
-        cleanup_intermediate_outputs(run_output_dir)
+        #cleanup_intermediate_outputs(run_output_dir)
         # --- End cleanup ---
 
         pipeline_duration = time.time() - pipeline_start_time
