@@ -414,7 +414,8 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
                 tech_value = matched_data.get('technische Anlagen und Maschinen 2021/22', None)
                 sach_value = matched_data.get('Sachanlagen', None)
                 if (pd.isna(tech_value) or tech_value == '' or tech_value is None) and (pd.isna(sach_value) or sach_value == '' or sach_value is None):
-                    logger.warning(f"Both 'technische Anlagen und Maschinen 2021/22' and 'Sachanlagen' are empty for matched company: '{matched_data.get('Firma1', 'N/A')}'")
+                    company_name = matched_data.get('Firma1', 'N/A')
+                    logger.warning(f"Technical data empty for matched company: '{company_name}'")
 
     name_matched = match_stats['exact_name_matches'] + match_stats['fuzzy_name_matches']
     logger.info(f"Matched {name_matched} companies by name (Exact: {match_stats['exact_name_matches']}, Fuzzy: {match_stats['fuzzy_name_matches']})")

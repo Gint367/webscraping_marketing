@@ -356,7 +356,7 @@ def run_fill_process_type(
         FileNotFoundError: If input file/folder does not exist.
         ValueError: If input file is not a JSON file.
     """
-    log_level_value = getattr(logging, log_level.upper(), logger.INFO)
+    log_level_value = getattr(logging, log_level.upper(), logging.INFO)
     setup_logging(log_level_value)
 
     if not input_file and not folder:
