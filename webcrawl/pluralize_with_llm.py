@@ -6,12 +6,10 @@ import os
 import re
 from typing import Any, Dict, List, Optional, Tuple
 
-from dotenv import load_dotenv
+import litellm
 from litellm import completion
+from litellm.exceptions import JSONSchemaValidationError
 from pydantic import BaseModel, Field
-
-# Load environment variables from .env file
-load_dotenv(override=True)
 
 # Set up module-specific logger
 logger = logging.getLogger('webcrawl.pluralize_with_llm.py')
@@ -30,10 +28,20 @@ class PluralizedFields(BaseModel):
     """
     A model representing the pluralized fields in a company entry.
     This matches the structure for products, machines, and process_type fields.
+    Used for LLM response validation and structured output.
     """
-    products: Optional[List[str]] = Field(None, description="List of pluralized product names")
-    machines: Optional[List[str]] = Field(None, description="List of pluralized machine names")
-    process_type: Optional[List[str]] = Field(None, description="List of pluralized process types")
+    products: List[str] = Field(
+        default_factory=list,
+        description="List of pluralized product names in German"
+    )
+    machines: List[str] = Field(
+        default_factory=list,
+        description="List of pluralized machine names in German"
+    )
+    process_type: List[str] = Field(
+        default_factory=list,
+        description="List of pluralized process types in German"
+    )
 
 
 # Default temperature settings for retries
@@ -60,8 +68,17 @@ def setup_logging(log_level=logging.INFO) -> None:
     # Set log level for HTTPx, which is used by AsyncWebCrawler
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    # Set log level for LiteLLM and Botocore
-    logging.getLogger('LiteLLM').setLevel(logging.WARNING)
+    
+    # Enable LiteLLM debug mode if log level is DEBUG
+    if log_level == logging.DEBUG:
+        from litellm._logging import _turn_on_debug
+        _turn_on_debug()
+        logging.getLogger('LiteLLM').setLevel(logging.DEBUG)
+        logger.debug("LiteLLM debug mode enabled")
+    else:
+        # Set log level for LiteLLM and Botocore
+        logging.getLogger('LiteLLM').setLevel(logging.WARNING)
+    
     logging.getLogger('botocore').setLevel(logging.WARNING)
 
 
@@ -258,20 +275,26 @@ def create_pluralization_prompt(fields_dict: Dict[str, List[str]]) -> str:
         str: The prompt for the LLM
     """
     prompt = """Please translate and pluralize the following German words.
-Return your answer as a JSON object with the same structure as my input,
-containing the pluralized German words in their respective categories.
+    Return your answer as a JSON object with the same structure as my input,
+    containing the pluralized German words in their respective categories.
 
-Each input word must have exactly one output word in the same order.
-Don't add any explanatory text, just return the JSON object.
+    Each input word must have exactly one output word in the same order.
+    Use the exact same field structure as provided in the input.
+    Ensure you include all fields that were in the input, even if they are empty lists.
+    Output must be valid JSON with the structure: { "products": [...], "machines": [...], "process_type": [...] }
+    
+    Don't add any explanatory text, just return the structured JSON response.
 
-Here is the input:
-"""
+    Here is the input:
+    """
 
     # Create a structured input that distinguishes between fields
     json_input = {}
     for field in ["products", "machines", "process_type"]:
-        if field in fields_dict and fields_dict[field]:
+        if field in fields_dict:
             json_input[field] = fields_dict[field]
+        else:
+            json_input[field] = []  # Ensure all expected fields exist
 
     # Add the JSON representation to the prompt
     prompt += json.dumps(json_input, ensure_ascii=False, indent=2)
@@ -340,7 +363,8 @@ def pluralize_with_llm(
     if temperatures is None:
         temperatures = DEFAULT_TEMPERATURES
 
-    # Enable JSON schema validation
+    # Enable JSON schema validation for client-side validation
+    litellm.enable_json_schema_validation = True
     max_retries = len(temperatures)
     retry_count = 0
 
@@ -349,22 +373,23 @@ def pluralize_with_llm(
             # Get the temperature for this attempt
             current_temp = temperatures[retry_count]
 
-            # Call the LLM using LiteLLM with JSON response format
+            # Call the LLM using LiteLLM with Pydantic model for structured output
             response = completion(
                 model="bedrock/amazon.nova-pro-v1:0",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=current_temp,
                 max_tokens=1000,
-                response_format={"type": "json_object"}
+                response_format=PluralizedFields
             )
 
-            # Extract the content as JSON
+            # Extract the content directly as a dictionary
             try:
                 content = response.choices[0].message.content  # type: ignore
                 if content is None:
                     raise ValueError("LLM response content is None")
+                    
                 output_fields = json.loads(content)
-
+                
                 # Validate response structure and word counts
                 is_valid, error_message = validate_pluralized_response(cleaned_fields, output_fields)
 
@@ -376,7 +401,7 @@ def pluralize_with_llm(
                     if final_modified_pairs and file_path:
                         track_cleaning_stats(final_modified_pairs, file_path)
 
-                    # Create PluralizedFields object from the cleaned response
+                    # Create result from the cleaned response
                     result = {}
                     for field in cleaned_fields:
                         if field in final_cleaned_fields:
@@ -389,20 +414,14 @@ def pluralize_with_llm(
                     # If validation failed, retry
                     logger.warning(f"Validation error: {error_message}")
                     retry_count += 1
+                    
             except json.JSONDecodeError as e:
                 logger.warning(f"Failed to parse JSON response: {e}")
                 retry_count += 1
-
-            # Check if we've reached max retries
-            if retry_count >= max_retries:
-                failure_info = f"Max retries reached for file: {file_path}"
-                logger.error(failure_info)
-                if file_path:
-                    failed_fields = [f for f in cleaned_fields.keys()]
-                    fields_str = ", ".join(failed_fields)
-                    failed_files.append((file_path, fields_str))
-                return cleaned_fields  # Return cleaned words even if pluralization failed
-
+            except JSONSchemaValidationError as se:
+                logger.warning(f"JSON schema validation failed: {se}")
+                retry_count += 1
+                
         except Exception as e:
             logger.error(f"Error pluralizing words with LLM: {e}")
             if file_path:
@@ -410,6 +429,16 @@ def pluralize_with_llm(
                 fields_str = ", ".join(failed_fields)
                 failed_files.append((file_path, fields_str))
             return cleaned_fields  # Return cleaned words on error
+
+        # Check if we've reached max retries
+        if retry_count >= max_retries:
+            failure_info = f"Max retries reached for file: {file_path}"
+            logger.error(failure_info)
+            if file_path:
+                failed_fields = [f for f in cleaned_fields.keys()]
+                fields_str = ", ".join(failed_fields)
+                failed_files.append((file_path, fields_str))
+            return cleaned_fields  # Return cleaned words even if pluralization failed
 
     # This should not be reached, but just in case
     return cleaned_fields
@@ -496,7 +525,9 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
             data[i] = update_entry_with_pluralized_fields(entry, pluralized_fields)
 
     # Save the processed data
-    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+    output_dir = os.path.dirname(output_file_path)
+    # Always call makedirs, even if output_dir is empty (current directory)
+    os.makedirs(output_dir, exist_ok=True)
     with open(output_file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -547,7 +578,7 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
 
     # Report on compound word cleaning
     if compound_word_stats["files_affected"]:
-        logger.info("\n===== COMPOUND WORD CLEANING SUMMARY =====")
+        logger.info("===== COMPOUND WORD CLEANING SUMMARY =====")
         logger.info(f"Files affected: {len(compound_word_stats['files_affected'])}")
         logger.info(f"Words modified: {len(compound_word_stats['words_modified'])}")
         logger.info("Modified words (original → cleaned):")
@@ -557,14 +588,14 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
 
     # Log summary of failed files
     if failed_files:
-        logger.info("\n===== FAILURE SUMMARY =====")
+        logger.info("===== FAILURE SUMMARY =====")
         logger.info(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
         logger.info(f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}")
         logger.info("Failed files and fields:")
         for file_path, field_name in failed_files:
             logger.info(f"  - {file_path}: {field_name}")
     else:
-        logger.info(f"\nAll {total_files} files processed successfully with no pluralization failures.")
+        logger.info(f"All {total_files} files processed successfully with no pluralization failures.")
 
     return output_dir
 
