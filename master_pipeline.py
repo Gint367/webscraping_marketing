@@ -521,11 +521,8 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
             process_file_or_directory as pluralize_with_llm,
         )
 
-        # Determine output path type
-        if os.path.isfile(process_type_output):
-            pluralize_output_path = os.path.join(str(pluralize_dir), os.path.basename(process_type_output))
-        else:
-            pluralize_output_path = str(pluralize_dir)
+        # Always use directory output path since we're processing a directory
+        pluralize_output_path = str(pluralize_dir)
         pluralize_output = pluralize_with_llm(
             input_path=str(process_type_dir),  # Use the whole folder for pluralization
             output_path=pluralize_output_path
