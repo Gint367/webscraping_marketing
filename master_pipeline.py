@@ -21,11 +21,22 @@ import json
 import logging
 import os
 import shutil
+import sys  # Added for sys.exit
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional  # Add more typing imports
 
 from tqdm import tqdm  # Add tqdm import
+
+# Import test_llm_providers module
+try:
+    from utils.test_llm_providers import run_all_tests
+except ImportError:
+    # If the module is not found, provide a useful error message
+    raise ImportError(
+        "The test_llm_providers module could not be imported. "
+        "Please ensure the test_llm_providers.py file is in the same directory as master_pipeline.py"
+    )
 
 # Import functions from extracting_machines components
 # Import functions from integration components
@@ -75,6 +86,11 @@ def parse_arguments() -> argparse.Namespace:
         "--verbose",
         action="store_true",
         help="Enable verbose logging"
+    )
+    parser.add_argument(
+        "--skip-llm-validation",
+        action="store_true",
+        help="Skip validation of LLM providers (not recommended for production runs)"
     )
 
     return parser.parse_args()
@@ -194,6 +210,9 @@ def merge_config_with_args(config: Dict[str, Any], args: argparse.Namespace) -> 
 
     if args.input_csv:
         merged_config["input_csv"] = str(args.input_csv)
+        
+    # Include skip_llm_validation flag
+    merged_config["skip_llm_validation"] = args.skip_llm_validation
 
     # Set log level based on verbose flag
     if args.verbose:
@@ -595,7 +614,7 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     merged_path = str(output_path / "merged_data.csv")
     try:
         # Import locally to handle potential import errors
-        from merge_technische_anlagen_with_keywords import merge_csv_with_excel
+        from merge_pipeline.merge_technische_anlagen_with_keywords import merge_csv_with_excel
 
         merged_output = merge_csv_with_excel(
             csv_path=webcrawl_output,
@@ -612,7 +631,7 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     final_output = str(output_path / "final_output.csv")
     try:
         # Import locally to handle potential import errors
-        from enrich_data import enrich_data
+        from merge_pipeline.enrich_data import enrich_data
 
         # Create output directory if it doesn't exist
         final_output_dir = os.path.dirname(final_output)
@@ -664,6 +683,57 @@ def cleanup_intermediate_outputs(run_output_dir: Path, keep_final: bool = True) 
         logger.warning(f"Failed to remove run directory {run_output_dir}: {e}")
 
 
+def validate_llm_providers(check_providers: bool = True, verbose: bool = False) -> bool:
+    """
+    Validate that all required LLM providers are available and working.
+    
+    Args:
+        check_providers (bool): Whether to actually test the providers or skip the check
+        verbose (bool): Whether to enable verbose logging
+    
+    Returns:
+        bool: True if all providers are available or check is skipped, False otherwise
+        
+    Raises:
+        ImportError: If the test_llm_providers module is not available
+    """
+    if not check_providers:
+        logger.info("Skipping LLM provider validation")
+        return True
+    
+    logger.info("Validating LLM providers...")
+    
+    try:
+        # Import here to avoid circular imports
+        from utils.test_llm_providers import run_all_tests
+        
+        # Run the tests
+        results = asyncio.run(run_all_tests(verbose))
+        
+        # Check if all tests passed
+        all_providers_ok = True
+        for provider_type, provider_results in results.items():
+            for success, message in provider_results:
+                if success:
+                    logger.info(f"✅ {provider_type} provider is available: {message}")
+                else:
+                    logger.error(f"❌ {provider_type} provider is not available: {message}")
+                    all_providers_ok = False
+        
+        if all_providers_ok:
+            logger.info("All LLM providers are available and working correctly.")
+        else:
+            logger.error("One or more LLM providers failed the connectivity test.")
+            logger.error("The pipeline may not work correctly without all providers.")
+        
+        return all_providers_ok
+        
+    except ImportError:
+        logger.error("Could not import test_llm_providers module.")
+        logger.error("Please ensure the test_llm_providers.py file is available.")
+        return False
+
+
 def run_pipeline(config: Dict[str, Any]) -> str:
     """
     Run the complete pipeline with all components in sequence.
@@ -710,6 +780,15 @@ def run_pipeline(config: Dict[str, Any]) -> str:
         logger.info(f"Output directory: {run_output_dir}")
         if category:
             logger.info(f"Filtering by category: {category}")
+
+        # Validate LLM providers before starting the pipeline
+        llm_validation_passed = validate_llm_providers(
+            check_providers=not config.get("skip_llm_validation", False),
+            verbose=config.get("log_level", "INFO").upper() == "DEBUG"
+        )
+        if not llm_validation_passed:
+            logger.error("LLM provider validation failed. Please check the provider configurations.")
+            raise RuntimeError("LLM provider validation failed.")
 
         # Define pipeline phases
         pipeline_phases = [
@@ -815,6 +894,24 @@ def main() -> None:
 
     # Validate input parameters
     validate_inputs(args.input_csv, args.output_dir)
+
+    # Validate LLM providers first to ensure they're accessible
+    if not args.skip_llm_validation:
+        # Set up a temporary logger for validation messages if global logger is not configured yet
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        temp_logger = logging.getLogger("master_pipeline")
+        temp_logger.info("Validating LLM providers before starting pipeline...")
+        
+        # Validate LLM providers
+        llm_validation_passed = validate_llm_providers(check_providers=True, verbose=args.verbose)
+        
+        if not llm_validation_passed:
+            temp_logger.error("LLM provider validation failed. Pipeline cannot continue.")
+            sys.exit(1)
+        
+        temp_logger.info("LLM provider validation passed. Proceeding with pipeline.")
+    else:
+        print("LLM provider validation skipped due to --skip-llm-validation flag.")
 
     # Load configuration (if provided)
     config = {}
