@@ -28,20 +28,6 @@ from typing import Any, Dict, List, Optional  # Add more typing imports
 
 from tqdm import tqdm  # Add tqdm import
 
-# Import test_llm_providers module
-try:
-    from utils.test_llm_providers import run_all_tests
-except ImportError:
-    # If the module is not found, provide a useful error message
-    raise ImportError(
-        "The test_llm_providers module could not be imported. "
-        "Please ensure the test_llm_providers.py file is in the same directory as master_pipeline.py"
-    )
-
-# Import functions from extracting_machines components
-# Import functions from integration components
-# Import functions from webcrawl components
-
 # Configure logger
 logger = logging.getLogger("master_pipeline")
 
