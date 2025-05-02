@@ -75,7 +75,7 @@ class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):
             self.output_file
         ]
         with patch.object(sys, 'argv', test_args):
-            merge_technische_anlagen_with_keywords.main()
+            merge_pipeline.merge_technische_anlagen_with_keywords.main()
         self.assertTrue(os.path.exists(self.output_file), "Merged output CSV was not created for valid input")
 
     def test_main_withMalformedCsv_raisesValueError(self):
@@ -96,9 +96,9 @@ class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):
 
         # Use assertRaises to catch the ValueError that will propagate from our mock
         with patch.object(sys, 'argv', test_args):
-            with patch.object(merge_technische_anlagen_with_keywords, 'merge_csv_with_excel', side_effect=side_effect):
+            with patch.object(merge_pipeline.merge_technische_anlagen_with_keywords, 'merge_csv_with_excel', side_effect=side_effect):
                 with self.assertRaises(ValueError):
-                    merge_technische_anlagen_with_keywords.main()
+                    merge_pipeline.merge_technische_anlagen_with_keywords.main()
 
     def test_main_withMissingFile_raisesFileNotFoundError(self):
         """main_withMissingFile_raisesFileNotFoundError_expectedException: Should handle FileNotFoundError for missing input file"""
@@ -119,7 +119,7 @@ class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):
         # Use assertRaises to catch the FileNotFoundError that will propagate from merge_csv_with_excel
         with patch.object(sys, 'argv', test_args):
             with self.assertRaises(FileNotFoundError):
-                merge_technische_anlagen_with_keywords.main()
+                merge_pipeline.merge_technische_anlagen_with_keywords.main()
 
     def test_main_withEmptyCsv_generatesEmptyOutput(self):
         """main_withEmptyCsv_generatesEmptyOutput_expectedEmptyOutput: Should handle empty input CSVs gracefully"""
@@ -142,8 +142,8 @@ class TestMergeTechnischeAnlagenWithKeywords(unittest.TestCase):
             f.write('Company name,Company Url,technische Anlagen und Maschinen 2021/22,Ort,Maschinen_Park_Size,Sachanlagen\n')
 
         with patch.object(sys, 'argv', test_args):
-            with patch.object(merge_technische_anlagen_with_keywords, 'merge_csv_with_excel', mock_merge):
-                merge_technische_anlagen_with_keywords.main()
+            with patch.object(merge_pipeline.merge_technische_anlagen_with_keywords, 'merge_csv_with_excel', mock_merge):
+                merge_pipeline.merge_technische_anlagen_with_keywords.main()
 
         # Check that output file exists and has expected content
         self.assertTrue(os.path.exists(self.output_file),

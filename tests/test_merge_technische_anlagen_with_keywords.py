@@ -276,8 +276,8 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.read_csv")
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
-    @patch("merge_technische_anlagen_with_keywords.logger.info")
-    @patch("merge_technische_anlagen_with_keywords.logger.warning")
+    @patch("merge_pipeline.merge_technische_anlagen_with_keywords.logger.info")
+    @patch("merge_pipeline.merge_technische_anlagen_with_keywords.logger.warning")
     @patch("os.path.exists")
     def test_correct_match_tracking_with_missing_values(
         self, mock_exists, mock_log_warning, mock_log_info, mock_splitext, mock_to_csv, mock_read_csv

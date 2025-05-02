@@ -518,8 +518,8 @@ class TestMasterPipeline(unittest.TestCase):
         from master_pipeline import run_integration_pipeline
 
         # Mock all the integration components and dependencies
-        with patch('merge_technische_anlagen_with_keywords.merge_csv_with_excel') as mock_merge, \
-             patch('enrich_data.enrich_data') as mock_enrich, \
+        with patch('merge_pipeline.merge_technische_anlagen_with_keywords.merge_csv_with_excel') as mock_merge, \
+             patch('merge_pipeline.enrich_data.enrich_data') as mock_enrich, \
              patch('os.makedirs') as mock_makedirs, \
              patch('os.path.dirname') as mock_dirname, \
              patch('shutil.copy2') as mock_copy2:
