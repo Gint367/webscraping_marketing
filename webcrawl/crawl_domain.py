@@ -1,30 +1,30 @@
-import os
+# Import argparse for command line arguments
+import argparse
 import asyncio
-from datetime import datetime
-from urllib.parse import urlparse, urljoin
+import logging
+import os
 import re
-from typing import List, Dict, Tuple, Optional, Any
+
+# Import to handle colorama recursion issues
+import sys
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urljoin, urlparse
+
 from crawl4ai import (
     AsyncWebCrawler,
     BrowserConfig,
-    CrawlResult,
-    CrawlerRunConfig,
     CacheMode,
+    CrawlerRunConfig,
+    CrawlResult,
     DefaultMarkdownGenerator,
     LXMLWebScrapingStrategy,
     MemoryAdaptiveDispatcher,
     PruningContentFilter,
 )
-import logging
 
 # Import the new function
-from get_company_by_top1machine import read_urls_and_companies_by_top1machine
-
-# Import to handle colorama recursion issues
-import sys
-
-# Import argparse for command line arguments
-import argparse
+from webcrawl.get_company_by_top1machine import read_urls_and_companies_by_top1machine
 
 # Configuration constants
 # ----------------------
@@ -232,7 +232,7 @@ def parse_args() -> argparse.Namespace:
         default=60,
         help="Maximum number of internal links to crawl per domain (default: 60)",
     )
-    
+
     parser.add_argument(
         "--overwrite",
         action="store_true",
@@ -540,7 +540,7 @@ def normalize_and_filter_links(
                 absolute_link = f"{scheme}:{link}"
             else:
                 absolute_link = link
-            
+
             # Only include links from the same domain
             parsed_link = urlparse(absolute_link)
             if parsed_link.netloc and parsed_link.netloc != domain:
@@ -703,7 +703,7 @@ async def collect_internal_links(
 
     # Configure crawler for link collection
     crawl_config = CrawlerRunConfig(
-        cache_mode=CacheMode.WRITE_ONLY,
+        cache_mode=CacheMode.ENABLED,
         only_text=True,
         exclude_external_links=True,
         exclude_social_media_links=True,
@@ -830,7 +830,7 @@ async def crawl_domain(
     Returns:
         Tuple[str, int]: (output_file_path, pages_crawled)
             - note: this output is only used for reporting at the end of the run
-            - output_file_path: Path to the generated markdown file 
+            - output_file_path: Path to the generated markdown file
             - pages_crawled: Number of successfully crawled pages
     """
     prune_filter = PruningContentFilter(
@@ -881,23 +881,11 @@ async def crawl_domain(
         ),
     )
 
-    try:
-        from crawl4ai import (
-            DisplayMode,
-        )  # display mode can crash the program on background run
-
-        dispatcher = MemoryAdaptiveDispatcher(
-            memory_threshold_percent=DEFAULT_MEMORY_THRESHOLD,
-            check_interval=2.0,
-            max_session_permit=30,
-        )
-        """
-            monitor=CrawlerMonitor(
-                display_mode=DisplayMode.DETAILED
-            )
-        """
-    except ImportError:
-        dispatcher = None
+    dispatcher = MemoryAdaptiveDispatcher(
+        memory_threshold_percent=DEFAULT_MEMORY_THRESHOLD,
+        check_interval=2.0,
+        max_session_permit=30,
+    )
 
     # Ensure both output directories exist
     ensure_output_directory(output_dir_aggregated)
@@ -907,13 +895,13 @@ async def crawl_domain(
 
     # Create output filenames in their respective directories
     output_markdown_file = os.path.join(output_dir_aggregated, f"{domain_name}.md")
-    
+
     # Check if the file already exists and skip if overwrite is False
     if not overwrite and os.path.exists(output_markdown_file):
         logger.info("Skipping %s - output file already exists at %s", main_url, output_markdown_file)
         logger.info("Use --overwrite flag to overwrite existing files")
         return output_markdown_file, 0
-        
+
     # Initialize aggregate content
     aggregate_content = f"# Aggregated Content for {domain_name}\n\n"
 
@@ -1049,75 +1037,102 @@ async def crawl_domain(
     return output_markdown_file, total_crawled
 
 
-async def main() -> None:
+async def main(
+    input_csv_path: Optional[str] = None,
+    output_dir: Optional[str] = None,
+    max_links: Optional[int] = None,
+    overwrite: bool = False
+) -> Optional[str]:
     """
     Main function to initiate the web crawling process.
-
+    
+    Can be called:
+    1. From the command line (args will be parsed from sys.argv)
+    2. Programmatically with parameters
+    
     This function:
-    1. Parses command line arguments
-    2. Reads URLs and company names from an Excel file
+    1. Parses command line arguments (if called without parameters)
+    2. Reads URLs and company names from an Excel or CSV file
     3. Creates the output directory
     4. Crawls each domain to collect and save content
     5. Outputs a summary of results
 
-    Command Line Arguments:
+    Args:
+        input_csv_path: Path to Excel/CSV file containing URLs and company names
+        output_dir: Directory to save aggregated content
+        max_links: Maximum number of internal links to crawl per domain
+        overwrite: Whether to overwrite existing files
+        
+    Command Line Arguments (when called from CLI):
         --excel (-e): Path to Excel file containing URLs and company names
         --output (-o): Directory where the output files will be saved
         --max-links: Maximum number of links to crawl per domain (default: 60)
 
     Returns:
-        None
+        Optional[str]: Output directory path if successful, None otherwise
+    Raises:
+        FileNotFoundError: If the input file does not exist
+        ValueError: If the input file is missing required columns or is empty
     """
-
-    # Parse command line arguments
-    args = parse_args()
-
-    # Use arguments for Excel file and output directory
-    excel_file = args.excel
-
-    # If output directory is not specified, create one based on the input filename
-    if args.output:
-        output_dir = args.output
+    # Parse args if called from CLI without parameters
+    if input_csv_path is None:
+        args = parse_args()
+        excel_file = args.excel
+        output_directory = args.output or output_dir
+        max_links_count = args.max_links or max_links
+        overwrite_flag = args.overwrite or overwrite
     else:
-        # Extract name from input file
+        excel_file = input_csv_path
+        output_directory = output_dir
+        max_links_count = max_links if max_links is not None else DEFAULT_MAX_LINKS
+        overwrite_flag = overwrite
+
+    # Set defaults for parameters that might still be None
+    if max_links_count is None:
+        max_links_count = DEFAULT_MAX_LINKS
+
+    # Validate input file existence
+    if not os.path.exists(excel_file):
+        logger.error(f"Input file '{excel_file}' not found.")
+        raise FileNotFoundError(f"Input file '{excel_file}' not found.")
+
+    # Determine output directory if still None
+    if output_directory is None:
         extracted_name = extract_name_from_input_file(excel_file)
-        output_dir = f"domain_content_{extracted_name}"
-        logger.info("No output directory specified. Using '%s' based on input filename.", output_dir)
+        output_directory = f"domain_content_{extracted_name}"
+        logger.info("No output directory specified. Using '%s' based on input filename.", output_directory)
 
-    max_links = args.max_links
+    # Read companies and URLs using robust function
+    try:
+        urls_and_companies = read_urls_and_companies_by_top1machine(excel_file)
+    except Exception as e:
+        logger.error(f"Error reading input file: {e}")
+        raise ValueError(f"Failed to read input file: {e}")
 
-    # You can either use hardcoded domains or read from Excel
-    use_excel = True  # Set to True to use Excel file
+    # Validate input content
+    if not urls_and_companies:
+        # Check if the file is empty or just missing required columns
+        import pandas as pd
+        file_extension = os.path.splitext(excel_file)[1].lower()
+        try:
+            if file_extension == '.csv':
+                df = pd.read_csv(excel_file)
+            elif file_extension in ['.xlsx', '.xls']:
+                df = pd.read_excel(excel_file, sheet_name=0)
+            else:
+                raise ValueError(f"Unsupported file extension: {file_extension}. Use .csv, .xlsx, or .xls")
+        except Exception as e:
+            logger.error(f"Error reading input file for validation: {e}")
+            raise ValueError(f"Failed to read input file: {e}")
+        if df.empty:
+            logger.error("No valid URLs found in input file. No crawling will be performed.")
+            return None
+        else:
+            logger.error("Input file must contain columns for URL and company name.")
+            raise ValueError("Input file must contain columns for URL and company name.")
 
-    if use_excel:
-        # Use the Excel file path from arguments
-        urls_and_companies = read_urls_and_companies_by_top1machine(
-            excel_file
-        )  # For merged excel files from merge_excel.py
-        if not urls_and_companies:
-            return logger.warning(
-                "No valid URLs found in Excel file. Using default domains instead."
-            )
-
-    else:
-        # List of domains to crawl (hardcoded)
-        domains = [
-            [
-                ("https://www.ab-berghaus.de", "ab-Apparatebau Berghaus GmbH"),
-            ]
-        ]
-        # Convert to the same format as Excel reader output for consistent handling
-        urls_and_companies = [
-            (url, company) for sublist in domains for url, company in sublist
-        ]
-
-    # Create output directory from arguments
-    # This line can be removed since we've already set output_dir above
-    # output_dir = args.output
-
-    # Crawl each domain
+    ensure_output_directory(output_directory)
     results = []
-    # Count the number of companies to crawl
     num_companies = len(urls_and_companies)
     logger.info("Total number of companies to crawl: %d", num_companies)
 
@@ -1126,13 +1141,12 @@ async def main() -> None:
         logger.info(
             f"{'=' * 40}\nStarting crawl of domain: {url}{company_info}\n{'=' * 40}"
         )
-
         markdown_file, page_count = await crawl_domain(
             url,
-            output_dir_aggregated=output_dir,
-            max_links=max_links,
+            output_dir_aggregated=output_directory,
+            max_links=max_links_count,
             company_name=company_name,
-            overwrite=args.overwrite,
+            overwrite=overwrite_flag,
         )
         results.append(
             {
@@ -1155,12 +1169,12 @@ async def main() -> None:
         logger.info("Markdown file: %s", os.path.basename(result['markdown_file']))
         logger.info("-" * 40)
 
+    return output_dir
+
 
 if __name__ == "__main__":
     # Configure logging
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    configure_logging()
 
     # Increase the recursion limit for the entire program
     sys.setrecursionlimit(5000)

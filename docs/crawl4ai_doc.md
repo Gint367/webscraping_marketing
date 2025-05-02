@@ -125,6 +125,31 @@ Features of `arun_many()`:
 - Progress reporting
 - Automatic retries with backoff
 
+## 5.1 arun_many() Return Type and Iteration Notes
+
+`arun_many()` can return two types depending on the configuration:
+
+- **Batch (default, non-streaming) mode:**
+  - Returns a `List[CrawlResult]`.
+  - Usage:
+    ```python
+    results = await crawler.arun_many(urls, config=run_cfg)
+    for result in results:  # type: ignore
+        ...
+    ```
+  - If your linter or type checker complains about the type, you can safely ignore the warning with `# type: ignore` because this is the intended usage for non-streaming mode.
+
+- **Streaming mode (`stream=True` in config):**
+  - Returns an `AsyncGenerator[CrawlResult, None]`.
+  - Usage:
+    ```python
+    async for result in await crawler.arun_many(urls, config=run_cfg):
+        ...
+    ```
+
+**Note:**
+If you see a type error when iterating over the results of `arun_many()` in batch mode, verify that `stream` is not set to `True` in your `CrawlerRunConfig`. If so, you can safely use a regular `for` loop and add `# type: ignore` to suppress the warning.
+
 ## 6. CrawlResult Object
 
 Each `arun()` call returns a `CrawlResult` with:

@@ -1,0 +1,57 @@
+{
+  "// Required Parameters": "These parameters are essential for running the pipeline",
+  "input_csv": "dataset_input.csv",
+  "output_dir": "pipeline_output",
+  
+  "// Optional Parameters": "These parameters can be configured as needed",
+  "category": "maschinenbauer",
+  "log_level": "INFO",
+  "skip_llm_validation": false,
+  
+  "// Extracting Machine Phase Parameters": "Controls the behavior of the extracting machines phase",
+  "extracting_machine": {
+    "search_word": "technische Anlagen",
+    "max_retries": 5,
+    "max_delay_seconds": 300,
+    "backoff_factor": 2.0,
+    "required_columns": ["company name", "location", "url"],
+    "filter_words": ["anschaffungs", "ahk", "abschreibung", "buchwert"],
+    "top_n_machines": 1
+  },
+  
+  "// Webcrawl Phase Parameters": "Controls the behavior of the webcrawl phase",
+  "webcrawl": {
+    "crawler": {
+      "browser_type": "chromium",
+      "headless": true,
+      "verbose": false,
+      "check_robots_txt": true
+    },
+    "dispatcher": {
+      "memory_threshold_percent": 80.0,
+      "check_interval": 0.5
+    },
+    "run_config": {
+      "cache_mode": "BYPASS",
+      "css_selector": "main",
+      "word_count_threshold": 15
+    },
+    "llm_extraction": {
+      "provider": "bedrock/amazon.nova-pro-v1:0",
+      "chunk_token_threshold": 4096,
+      "overlap_rate": 0.1,
+      "temperature": 0.5,
+      "max_tokens": 800
+    }
+  },
+  
+  "// Integration Phase Parameters": "Controls the behavior of the final integration phase",
+  "integration": {
+    "data_enrichment": true,
+    "result_filename_template": "final_export_{category}_{timestamp}.csv"
+  },
+  
+  "// General Pipeline Settings": "Overall pipeline behavior settings",
+  "cleanup_intermediate_outputs": false,
+  "verbose_logging": false
+}

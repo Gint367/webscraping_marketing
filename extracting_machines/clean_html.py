@@ -1,15 +1,40 @@
+import argparse
 import json
+import logging
 import os
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
+
 from bs4 import BeautifulSoup
-import sys
 
 # Constants
 MAX_PRECEDING_ELEMENTS = 3
 MIN_WORD_LENGTH = 5
 DEFAULT_COLUMN_PREFIX = "Column"
 MAX_TABLE_NAME_LENGTH = 100
+
+# Module-specific logger
+logger = logging.getLogger('extracting_machines.clean_html')
+
+
+def setup_logging(verbose: bool = False) -> None:
+    """
+    Configures the logging module for the script.
+    
+    Args:
+        verbose: Boolean flag to enable verbose (DEBUG) logging
+    """
+    level = logging.DEBUG if verbose else logging.INFO
+    log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    logging.basicConfig(
+        level=level,
+        format=log_format,
+        datefmt='%Y-%m-%d %H:%M:%S',
+    )
+    
+    # Set level for our module logger
+    logger.setLevel(level)
 
 
 def clean_html(input_html, filter_word=None, original_filename=None):
@@ -29,18 +54,19 @@ def clean_html(input_html, filter_word=None, original_filename=None):
 
     # Create a new BeautifulSoup object for the cleaned HTML
     cleaned_soup = BeautifulSoup("", "html.parser")
-    
+
     # Add the original filename as a hidden HTML comment if provided
     if original_filename:
         # Use a Comment object instead of new_string to prevent encoding
         from bs4.element import Comment
+
         filename_comment = Comment(f"original_filename: {original_filename}")
         cleaned_soup.append(filename_comment)
 
     # Process each table
     for table in tables:
         # Skip tables with id='begin_pub' and apply filter_word if specified
-        if table.get("id") != "begin_pub" and (
+        if table.get("id") != "begin_pub" and ( # type: ignore
             not filter_word or filter_word.lower() in table.text.lower()
         ):
             # Find preceding headers and paragraphs
@@ -54,11 +80,11 @@ def clean_html(input_html, filter_word=None, original_filename=None):
                 )  # Use find_previous instead of find_previous_sibling
                 if not current:
                     break
-                if current.name == "table":  # Stop if we encounter another table
+                if current.name == "table":  # type: ignore # Stop if we encounter another table
                     break
-                if current.name == "h3":  # Stop if we encounter a section heading (h3)
+                if current.name == "h3":  # type: ignore # Stop if we encounter a section heading (h3)
                     break
-                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:
+                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
                     if (
                         current not in preceding_elements
                     ):  # Avoid duplicates if somehow found again
@@ -99,21 +125,21 @@ def filter_word_rows(input_html, search_word):
             current = current.find_previous_sibling()
             if not current:
                 break
-            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:
+            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
                 table_name = current.text.strip()
                 break
 
         # Get all header rows, focusing on thead first
         header_rows = []
-        thead = table.find("thead")
+        thead = table.find("thead") # type: ignore
 
         if thead:
             # If the table has a proper thead element, extract headers from it
-            for row in thead.find_all("tr"):
+            for row in thead.find_all("tr"): # type: ignore
                 header_cells = []
-                for cell in row.find_all(["th", "td"]):
+                for cell in row.find_all(["th", "td"]): # type: ignore
                     text = cell.text.strip()
-                    colspan = int(cell.get("colspan", 1))
+                    colspan = int(cell.get("colspan", 1)) # type: ignore
                     # Handle colspan by duplicating the header text across multiple columns
                     # This ensures alignment with data cells that will appear below this header
                     header_cells.extend([text] * colspan)
@@ -121,19 +147,19 @@ def filter_word_rows(input_html, search_word):
         else:
             # For tables without thead, try to identify headers from the top rows
             found_data = False
-            for row in table.find_all("tr"):
-                if row.find_all("th"):
+            for row in table.find_all("tr"): # type: ignore
+                if row.find_all("th"): # type: ignore
                     # If row contains th elements, treat it as a header row
                     header_cells = []
-                    for cell in row.find_all(["th", "td"]):
+                    for cell in row.find_all(["th", "td"]): # type: ignore
                         text = cell.text.strip()
-                        colspan = int(cell.get("colspan", 1))
+                        colspan = int(cell.get("colspan", 1)) # type: ignore
                         header_cells.extend([text] * colspan)
                     header_rows.append(header_cells)
                 elif not found_data:
                     # If we haven't found data yet and there's no header,
                     # use the first row with content as header
-                    cells = [td.text.strip() for td in row.find_all("td")]
+                    cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
                     if any(cells):  # Check if row has any non-empty cells
                         if (
                             not header_rows
@@ -164,13 +190,13 @@ def filter_word_rows(input_html, search_word):
         matching_rows = []
         # Get data rows either from tbody or by skipping header rows
         data_rows = (
-            table.find("tbody").find_all("tr")
-            if table.find("tbody")
-            else table.find_all("tr")[len(header_rows) :]
+            table.find("tbody").find_all("tr") # type: ignore
+            if table.find("tbody") # type: ignore
+            else table.find_all("tr")[len(header_rows) :] # type: ignore
         )
 
         for row in data_rows:
-            cells = [td.text.strip() for td in row.find_all("td")]
+            cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
             row_text = " ".join(cells)
 
             # Find the position of search word in the text
@@ -259,13 +285,16 @@ def get_latest_subfolder(company_folder):
         try:
             with open(metadata_files[0], "r", encoding="utf-8") as f:
                 metadata = json.load(f)
-                date = datetime.strptime(metadata["date"], "%Y-%m-%dT%H:%M:%S")
-
+                # Try parsing ISO format first, then the original format
+                try:
+                    date = datetime.fromisoformat(metadata["date"])
+                except ValueError:
+                    date = datetime.strptime(metadata["date"], "%Y-%m-%d %H:%M:%S")
                 if latest_date is None or date > latest_date:
                     latest_date = date
                     latest_subfolder = subfolder_path
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            print(f"Error processing {metadata_files[0]}: {e}")
+            logger.error(f"Error processing {metadata_files[0]}: {e}")
             continue
 
     # print(f"Latest subfolder found: {latest_subfolder}")
@@ -273,84 +302,96 @@ def get_latest_subfolder(company_folder):
     return latest_subfolder
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python clean_html.py <input_dir>")
-        sys.exit(1)
-
-    input_dir = sys.argv[1]
-    # Extract the base name of the input directory
+def main(
+    input_dir: str,
+    output_dir: Optional[str] = None,
+    search_word: str = "technische Anlagen",
+    verbose: bool = False,
+) -> str:
+    """
+    Main entry point for cleaning and filtering HTML files in a directory.
+    Args:
+        input_dir: Path to the input directory containing company folders.
+        output_dir: Path to the output directory. If None, auto-generated.
+        search_word: Word to filter rows in tables.
+        verbose: Enable verbose logging.
+    Returns:
+        The output directory path used for storing results.
+    """
+    setup_logging(verbose)
+    if not os.path.exists(input_dir):
+        logger.error(f"Input directory '{input_dir}' not found.")
+        raise FileNotFoundError(f"Input directory '{input_dir}' not found.")
     input_dir_name = os.path.basename(os.path.normpath(input_dir))
-    output_dir = os.path.join(os.getcwd(), f"{input_dir_name}_output")
-    print(f"Output directory: {output_dir}")
+    if output_dir is None:
+        output_dir = os.path.join(os.getcwd(), f"{input_dir_name}_output")
+    logger.info(f"Output directory: {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
-
-    search_word = "technische Anlagen"
-
     # Iterate through each company folder in input directory
     for company_folder in os.listdir(input_dir):
         company_path = os.path.join(input_dir, company_folder)
         if not os.path.isdir(company_path):
             continue
-
-        # Get the latest subfolder for this company
         latest_subfolder = get_latest_subfolder(company_path)
         if not latest_subfolder:
-            print(f"No valid subfolder found for {company_folder}")
+            logger.warning(f"No valid subfolder found for {company_folder}")
             continue
-
-        # Look for HTML files in the latest subfolder
         html_files = list(Path(latest_subfolder).glob("*.html"))
         if not html_files:
-            print(f"No HTML files found in {latest_subfolder}")
+            logger.warning(f"No HTML files found in {latest_subfolder}")
             continue
-        
-        # Read company name from metadata file
         metadata_files = list(Path(latest_subfolder).glob("*metadata.json"))
-        company_name = company_folder  # Default fallback
+        company_name = company_folder
         if metadata_files:
             try:
                 with open(metadata_files[0], "r", encoding="utf-8") as f:
                     metadata = json.load(f)
                     company_name = metadata.get("company_name", company_folder)
             except Exception as e:
-                print(f"Error reading metadata for {company_folder}: {e}")
-        
-        
-        
-        # Process each HTML file
+                logger.error(f"Error reading metadata for {company_folder}: {e}")
         for html_file in html_files:
             try:
                 with open(html_file, "r", encoding="utf-8") as f:
                     html_content = f.read()
-
-                # Clean and filter the HTML content, passing the original company name
                 cleaned_html = clean_html(html_content, original_filename=company_name)
-
-                # Save the cleaned HTML to a different folder
-                cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")
-                os.makedirs(cleaned_html_output_dir, exist_ok=True)
-                cleaned_html_file = os.path.join(
-                    cleaned_html_output_dir, f"{company_folder}_cleaned.html"
-                )
-                with open(cleaned_html_file, "w", encoding="utf-8") as f:
-                    f.write(cleaned_html)
-
                 if cleaned_html:
+                    cleaned_html_output_dir = os.path.join(output_dir, "cleaned_html")
+                    os.makedirs(cleaned_html_output_dir, exist_ok=True)
+                    cleaned_html_file = os.path.join(
+                        cleaned_html_output_dir, f"{company_folder}_cleaned.html"
+                    )
+                    with open(cleaned_html_file, "w", encoding="utf-8") as f:
+                        f.write(cleaned_html)
                     filtered_data = filter_word_rows(cleaned_html, search_word)
-                    
-                    # Add company name to each table in filtered_data
                     for table in filtered_data:
                         table["company_name"] = company_name
-
                     if filtered_data:
-                        # Create output JSON file
                         output_file = os.path.join(
                             output_dir, f"{company_folder}_filtered.json"
                         )
                         with open(output_file, "w", encoding="utf-8") as f:
                             json.dump(filtered_data, f, ensure_ascii=False, indent=2)
-                        print(f"Processed and saved results for {company_folder}")
-
+                        logger.info(f"Processed and saved results for {company_folder}")
             except Exception as e:
-                print(f"Error processing {html_file}: {e}")
+                logger.error(f"Error processing {html_file}: {e}")
+    return os.path.abspath(output_dir)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Clean and filter HTML tables in a directory.")
+    parser.add_argument("--input_dir", required=True, help="Path to the input directory containing company folders.")
+    parser.add_argument("--output_dir", default=None, help="Path to the output directory.")
+    parser.add_argument("--search_word", default="technische Anlagen", help="Word to filter rows in tables.")
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging.")
+    args = parser.parse_args()
+    try:
+        output_dir = main(
+            input_dir=args.input_dir,
+            output_dir=args.output_dir,
+            search_word=args.search_word,
+            verbose=args.verbose,
+        )
+        logger.info(f"Output directory: {output_dir}")
+    except Exception as e:
+        logger.error(f"Failed to process HTML: {e}")
+        exit(1)

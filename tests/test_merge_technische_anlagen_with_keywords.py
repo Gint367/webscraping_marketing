@@ -1,15 +1,13 @@
 import unittest
-from unittest.mock import patch, MagicMock, mock_open
-import numpy as np
+from unittest.mock import patch
+
 import pandas as pd
-import os
-import io
 
 # Absolute import of functions to test
-from merge_technische_anlagen_with_keywords import (
+from merge_pipeline.merge_technische_anlagen_with_keywords import (
     clean_trailing_symbols,
-    extract_base_domain,
     extract_and_log_domains,
+    extract_base_domain,
     merge_csv_with_excel,
 )
 
@@ -198,11 +196,13 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_xlsx_input(
-        self, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
     ):
         """Test merge_csv_with_excel with Excel input"""
         # Configure mocks
+        mock_exists.return_value = True  # Make os.path.exists() return True
         mock_read_csv.return_value = self.csv_data
         mock_read_excel.return_value = self.base_data
         mock_splitext.return_value = ("base_path", ".xlsx")
@@ -231,10 +231,13 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_csv_input(
-        self, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_to_csv, mock_read_excel, mock_read_csv
     ):
         """Test merge_csv_with_excel with CSV input"""
+        # Configure exists mock
+        mock_exists.return_value = True  # Make os.path.exists() return True
         # First call returns CSV data, second call returns base data
         mock_read_csv.side_effect = [self.csv_data, self.base_data]
         mock_splitext.return_value = ("base_path", ".csv")
@@ -255,10 +258,12 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.read_csv")
     @patch("os.path.splitext")
     @patch("builtins.print")
+    @patch("os.path.exists")
     def test_merge_csv_with_excel_unsupported_format(
-        self, mock_print, mock_splitext, mock_read_csv
+        self, mock_exists, mock_print, mock_splitext, mock_read_csv
     ):
         """Test merge_csv_with_excel with unsupported file format"""
+        mock_exists.return_value = True  # Make os.path.exists() return True
         mock_read_csv.return_value = self.csv_data
         mock_splitext.return_value = ("base_path", ".txt")
 
@@ -271,11 +276,16 @@ class TestMergeCsvWithExcel(unittest.TestCase):
     @patch("pandas.read_csv")
     @patch("pandas.DataFrame.to_csv")
     @patch("os.path.splitext")
-    @patch("logging.info")
+    @patch("merge_technische_anlagen_with_keywords.logger.info")
+    @patch("merge_technische_anlagen_with_keywords.logger.warning")
+    @patch("os.path.exists")
     def test_correct_match_tracking_with_missing_values(
-        self, mock_log_info, mock_splitext, mock_to_csv, mock_read_csv
+        self, mock_exists, mock_log_warning, mock_log_info, mock_splitext, mock_to_csv, mock_read_csv
     ):
         """Test that companies are correctly tracked as matched even with missing technical data"""
+        # Mock os.path.exists to return True
+        mock_exists.return_value = True
+
         # Create test data where all companies should match by name
         csv_data = pd.DataFrame(
             {
@@ -304,30 +314,33 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Call the function
         merge_csv_with_excel("test.csv", "test_base.csv", "output.csv")
 
-        # Count how many times "Matched X companies by name" was logged
-        match_logs = [
-            args[0]
-            for args, _ in mock_log_info.call_args_list
-            if "Matched " in args[0] and " companies by name" in args[0]
-        ]
+        # Check for warning about missing technical data for Company B
+        # Use a more flexible approach to match the warning message
+        warning_found = False
+        for call_args in mock_log_warning.call_args_list:
+            args, _ = call_args
+            if (args and isinstance(args[0], str) and
+                "Technical data empty for matched company: 'Company B'" in args[0]):
+                warning_found = True
+                break
+        
+        self.assertTrue(warning_found,
+            "Should have logged a warning about empty technical data for Company B")
 
         # Verify we reported the correct number of matched companies (3)
-        self.assertTrue(
-            any("Matched 3 companies by name" in log for log in match_logs),
-            "Should have logged that all 3 companies were matched by name",
-        )
+        # Look for the exact format of the message that the function uses
+        match_found = False
+        for call_args in mock_log_info.call_args_list:
+            args, _ = call_args
+            if args and isinstance(args[0], str) and "Matched 3 companies by name" in args[0]:
+                match_found = True
+                break
+                
+        self.assertTrue(match_found, "Should have logged that all 3 companies were matched by name")
 
-        # Verify we didn't report any unmatched companies
-        unmatched_logs = [
-            args[0]
-            for args, _ in mock_log_info.call_args_list
-            if "Found " in args[0] and " unmatched companies" in args[0]
-        ]
-        self.assertTrue(
-            any("Found 0 unmatched companies" in log for log in unmatched_logs)
-            or len(unmatched_logs) == 0,
-            "Should not have reported any unmatched companies",
-        )
+        # Verify the function continued processing despite missing values
+        # Check if the data was saved
+        mock_to_csv.assert_called_once()
 
 
 if __name__ == "__main__":
