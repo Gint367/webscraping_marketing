@@ -1,0 +1,131 @@
+{
+  "meta": {
+    "generatedAt": "2025-05-02T12:40:19.566Z",
+    "tasksAnalyzed": 15,
+    "thresholdScore": 5,
+    "projectName": "Streamlit Keywords Extractor",
+    "usedResearch": false
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 1,
+      "taskTitle": "Set up basic Streamlit application structure",
+      "complexityScore": 5,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the process of setting up a Streamlit application structure into specific implementation steps, including layout design, session state management, component organization, styling, and project structure setup.",
+      "reasoning": "This task involves creating the foundation of the application with multiple components (layout, navigation, session state). It's moderately complex as it requires understanding Streamlit's architecture but doesn't involve complex algorithms or integrations."
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "Refactor master_pipeline.py into modular components",
+      "complexityScore": 8,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Detail the steps needed to refactor the master_pipeline.py script into modular components, including code analysis, module identification, interface design, error handling implementation, and testing strategies to ensure functionality is preserved.",
+      "reasoning": "This is a high-complexity task requiring deep understanding of the existing codebase, software architecture principles, and careful refactoring to maintain functionality while improving structure. It involves multiple technical considerations and potential risks."
+    },
+    {
+      "taskId": 3,
+      "taskTitle": "Implement CSV upload and validation",
+      "complexityScore": 4,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Break down the CSV upload and validation functionality into specific implementation steps, including UI component creation, validation logic, error handling, and data storage in session state.",
+      "reasoning": "This task is relatively straightforward with clear requirements. It involves standard file upload functionality, basic validation logic, and data display, which are common patterns in web applications."
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "Develop backend job runner system",
+      "complexityScore": 9,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Detail the specific components needed for a robust backend job runner system, including job queue implementation, concurrency management, status tracking, resource management, error handling, and persistence strategies.",
+      "reasoning": "This is a highly complex task involving concurrent processing, resource management, and state tracking. It requires careful design to handle edge cases, prevent race conditions, and ensure reliable execution of jobs."
+    },
+    {
+      "taskId": 5,
+      "taskTitle": "Create basic pipeline execution flow",
+      "complexityScore": 6,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the implementation of the pipeline execution flow into specific steps, including UI component creation, backend integration, data passing mechanisms, error handling, and status indication.",
+      "reasoning": "This task bridges the UI and backend components, requiring coordination between multiple parts of the system. It has moderate complexity due to the need to handle errors and maintain state across components."
+    },
+    {
+      "taskId": 6,
+      "taskTitle": "Implement real-time job monitoring and logging",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Detail the components needed for real-time job monitoring and logging, including status dashboard design, progress tracking mechanisms, log streaming implementation, auto-refresh functionality, filtering capabilities, and time estimation features.",
+      "reasoning": "This task involves real-time data updates and display, which adds complexity. It requires careful consideration of performance, UI responsiveness, and data refresh mechanisms to provide a good user experience."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "Develop output display and download functionality",
+      "complexityScore": 5,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the output display and download functionality into specific implementation steps, including data table component creation, sorting/filtering implementation, download mechanism, pagination design, and summary statistics generation.",
+      "reasoning": "This task involves standard data display and download functionality with some additional features like pagination and filtering. It's moderately complex but follows established patterns for data presentation."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "Implement manual data entry form",
+      "complexityScore": 4,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Detail the steps needed to implement a manual data entry form, including UI design, validation logic, multi-entry support, preview functionality, and edit capabilities.",
+      "reasoning": "This is a relatively straightforward form implementation with standard validation and preview functionality. The complexity is low to moderate as it involves common web form patterns."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "Add phase selection and advanced configuration UI",
+      "complexityScore": 6,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Break down the implementation of phase selection and advanced configuration UI into specific steps, including checkbox creation, expandable section design, parameter form implementation, validation logic, tooltip integration, and reset functionality.",
+      "reasoning": "This task involves creating a more complex UI with conditional elements and validation. It requires careful consideration of user experience and parameter relationships, adding moderate complexity."
+    },
+    {
+      "taskId": 10,
+      "taskTitle": "Implement artifact access and download",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Detail the components needed for artifact access and download functionality, including browsing interface design, preview mechanisms for different file types, download implementation, zip creation, metadata display, and search functionality.",
+      "reasoning": "This task involves file management, different preview mechanisms based on file types, and organization of potentially complex artifact hierarchies. The search and metadata features add additional complexity."
+    },
+    {
+      "taskId": 11,
+      "taskTitle": "Enhance error handling and user feedback",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down the enhancement of error handling and user feedback into specific implementation areas, including comprehensive error catching, message design, warning system, success notifications, contextual error display, logging improvements, and recovery mechanisms.",
+      "reasoning": "This is a cross-cutting concern affecting many parts of the application. It requires careful consideration of error scenarios, user experience, and recovery strategies across the entire system."
+    },
+    {
+      "taskId": 12,
+      "taskTitle": "Optimize concurrent job execution",
+      "complexityScore": 9,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Detail the specific components needed to optimize concurrent job execution, including concurrency limit implementation, prioritization mechanisms, resource monitoring, job control features (cancel/pause/resume), timeout handling, and resource optimization strategies.",
+      "reasoning": "This is a highly complex task involving advanced concurrency management, resource monitoring, and job control. It requires deep understanding of threading, resource management, and potential race conditions."
+    },
+    {
+      "taskId": 13,
+      "taskTitle": "Create persona-specific views and workflows",
+      "complexityScore": 8,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down the implementation of persona-specific views and workflows into specific steps, including preference settings, view design for each persona, conditional UI rendering, default configuration management, guided workflow implementation, state preservation during view switching, and preference persistence.",
+      "reasoning": "This task involves creating multiple UI paths and workflows with shared underlying functionality. It requires careful state management and conditional rendering based on user roles, adding significant complexity."
+    },
+    {
+      "taskId": 14,
+      "taskTitle": "Implement configuration export/import",
+      "complexityScore": 6,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Detail the steps needed to implement configuration export/import functionality, including JSON serialization/deserialization, file handling, preset library creation, sharing mechanisms, versioning implementation, validation logic, and metadata management.",
+      "reasoning": "This task involves file handling, data serialization, and version management. The complexity comes from ensuring backward compatibility and handling potential validation issues with imported configurations."
+    },
+    {
+      "taskId": 15,
+      "taskTitle": "Add email notifications and scheduled runs",
+      "complexityScore": 8,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down the implementation of email notifications and scheduled runs into specific components, including email service integration, notification preference management, scheduling interface design, calendar view implementation, recurring job setup, email template creation, result linking, and notification history tracking.",
+      "reasoning": "This task involves integration with external email services, scheduling mechanisms, and potentially cron-like functionality. It requires handling of time zones, recurring schedules, and reliable delivery of notifications, adding significant complexity."
+    }
+  ]
+}

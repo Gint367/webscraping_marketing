@@ -1,4 +1,6 @@
 - For reference of code that uses crawl4ai, refer to this file `./docs/crawl4ai_doc.md`.
+- For reference of code that uses streamlit, refer to this file `./docs/streamlit_doc.md`.
+- we are using task-driven development workflows, refer to this file `./cursor/rules/dev_workflow.md`.
 - Use logging for all programs.
 - Allow command-line arguments when creating new programs.
 - Follow Python best practices.
