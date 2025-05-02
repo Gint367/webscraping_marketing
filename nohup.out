@@ -1,0 +1,1588 @@
+2025-04-30 19:31:08,534 - INFO - Validating LLM providers before starting pipeline...
+2025-04-30 19:31:08,534 - INFO - Validating LLM providers...
+2025-04-30 19:31:08,534 - INFO - Starting LLM provider connectivity tests...
+2025-04-30 19:31:08,534 - INFO - Testing LiteLLM provider (bedrock/amazon.nova-pro-v1:0)...
+2025-04-30 19:31:08,534 - INFO - Testing LiteLLM provider: bedrock/amazon.nova-pro-v1:0
+2025-04-30 19:31:09,517 - INFO - LiteLLM test result: SUCCESS - Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 0.98s)
+2025-04-30 19:31:09,517 - INFO - Testing Crawl4AI provider (bedrock/amazon.nova-pro-v1:0)...
+2025-04-30 19:31:09,517 - INFO - Testing Crawl4AI provider: bedrock/amazon.nova-pro-v1:0
+[INIT].... → Crawl4AI 0.5.0.post4
+[FETCH]... ↓ https://example.com/... | Status: True | Time: 0.84s
+[SCRAPE].. ◆ https://example.com/... | Time: 0.002s
+[EXTRACT]. ■ Completed for https://example.com/... | Time: 0.781760954996571s
+[COMPLETE] ● https://example.com/... | Status: True | Total: 1.63s
+2025-04-30 19:31:11,610 - INFO - Crawl4AI test result: SUCCESS - Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 2.00s)
+2025-04-30 19:31:11,611 - INFO - ✅ litellm provider is available: Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 0.98s)
+2025-04-30 19:31:11,611 - INFO - ✅ crawl4ai provider is available: Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 2.00s)
+2025-04-30 19:31:11,611 - INFO - All LLM providers are available and working correctly.
+2025-04-30 19:31:11,611 - INFO - LLM provider validation passed. Proceeding with pipeline.
+2025-04-30 19:31:11,611 - INFO - ==================================================
+2025-04-30 19:31:11,611 - INFO - Pipeline Execution Started
+2025-04-30 19:31:11,611 - INFO - ==================================================
+2025-04-30 19:31:11,611 - INFO - Starting pipeline execution at 20250430_193111
+2025-04-30 19:31:11,611 - INFO - Input CSV: test_folder/sample_company.csv
+2025-04-30 19:31:11,611 - INFO - Output directory: test_folder/output_master/pipeline_run_20250430_193111
+2025-04-30 19:31:11,611 - INFO - Filtering by category: Reifenhersteller
+2025-04-30 19:31:11,611 - INFO - Validating LLM providers...
+2025-04-30 19:31:11,612 - INFO - Starting LLM provider connectivity tests...
+2025-04-30 19:31:11,612 - INFO - Testing LiteLLM provider (bedrock/amazon.nova-pro-v1:0)...
+2025-04-30 19:31:11,612 - INFO - Testing LiteLLM provider: bedrock/amazon.nova-pro-v1:0
+2025-04-30 19:31:12,487 - INFO - LiteLLM test result: SUCCESS - Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 0.88s)
+2025-04-30 19:31:12,488 - INFO - Testing Crawl4AI provider (bedrock/amazon.nova-pro-v1:0)...
+2025-04-30 19:31:12,488 - INFO - Testing Crawl4AI provider: bedrock/amazon.nova-pro-v1:0
+[INIT].... → Crawl4AI 0.5.0.post4
+[FETCH]... ↓ https://example.com/... | Status: True | Time: 0.71s
+[SCRAPE].. ◆ https://example.com/... | Time: 0.001s
+[EXTRACT]. ■ Completed for https://example.com/... | Time: 0.5244160349830054s
+[COMPLETE] ● https://example.com/... | Status: True | Total: 1.24s
+2025-04-30 19:31:14,259 - INFO - Crawl4AI test result: SUCCESS - Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 1.67s)
+2025-04-30 19:31:14,259 - INFO - ✅ litellm provider is available: Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 0.88s)
+2025-04-30 19:31:14,259 - INFO - ✅ crawl4ai provider is available: Successfully connected to bedrock/amazon.nova-pro-v1:0 (in 1.67s)
+2025-04-30 19:31:14,259 - INFO - All LLM providers are available and working correctly.
+Pipeline Progress:   0%|          | 0/3 [00:00<?, ?it/s]2025-04-30 19:31:14,261 - INFO - --------------------------------------------------
+2025-04-30 19:31:14,261 - INFO - Phase 1: Extracting Machine Assets - Started
+2025-04-30 19:31:14,261 - INFO - --------------------------------------------------
+2025-04-30 19:31:14,261 - INFO - Starting Extracting Machine Assets phase
+2025-04-30 19:31:14,261 - INFO - Step 1: Processing companies from test_folder/sample_company.csv (filtered by category: Reifenhersteller)
+2025-04-30 19:31:14,261 - INFO - Input is a CSV file. Skipping company filtering step.
+2025-04-30 19:31:14,261 - INFO - CSV validation successful. Required columns present: company name, location, url
+2025-04-30 19:31:14,261 - INFO - Step 2: Extracting HTML from Bundesanzeiger
+2025-04-30 19:31:14,643 - INFO - Processing: Trelleborg Wheel Systems Germany GmbH (location: Erbach)
+2025-04-30 19:31:21,725 - INFO - Found the following reports for Trelleborg Wheel Systems Germany GmbH: 12
+2025-04-30 19:31:21,784 - INFO - Processing: Radsystem GmbH (location: Zwickau)
+2025-04-30 19:31:31,094 - INFO - Found the following reports for Radsystem GmbH: 17
+2025-04-30 19:31:31,143 - INFO - Processing: GEWE Reifengroßhandel GmbH (location: Kaiserslautern)
+2025-04-30 19:31:37,926 - INFO - Found the following reports for GEWE Reifengroßhandel GmbH: 13
+2025-04-30 19:31:37,956 - INFO - Processing: RR TEAM GmbH (location: Laubach)
+2025-04-30 19:31:46,341 - INFO - Found the following reports for RR TEAM GmbH: 16
+2025-04-30 19:31:46,529 - INFO - Processing: Best4Tires GmbH (location: Höhr-Grenzhausen)
+2025-04-30 19:31:49,575 - INFO - Found the following reports for Best4Tires GmbH: 2
+2025-04-30 19:31:49,599 - INFO - Processing: MARANGONI (location: Henstedt-Ulzburg)
+2025-04-30 19:31:59,458 - INFO - Found the following reports for MARANGONI: 17
+2025-04-30 19:31:59,508 - INFO - Processing: RIGDON GmbH (location: Günzburg)
+2025-04-30 19:32:05,066 - INFO - Found the following reports for RIGDON GmbH: 10
+2025-04-30 19:32:05,269 - INFO - Processing: Semex Reifen Großhandels GmbH (location: Furth im Wald)
+2025-04-30 19:32:15,630 - INFO - Found the following reports for Semex Reifen Großhandels GmbH: 16
+2025-04-30 19:32:15,641 - INFO - Processing: IHLE tires GmbH (location: Muggensturm)
+2025-04-30 19:32:19,579 - INFO - Found the following reports for IHLE tires GmbH: 6
+2025-04-30 19:32:19,828 - INFO - Processing: hämmerling The Tyre Company GmbH (location: Paderborn)
+2025-04-30 19:32:28,952 - INFO - Found the following reports for hämmerling The Tyre Company GmbH: 17
+2025-04-30 19:32:29,014 - INFO - Processing: SITEK-Spikes GmbH & Co. KG (location: Aichhalden)
+2025-04-30 19:32:30,236 - ERROR - 'SITEK-Spikes GmbH & Co. KG Aichhalden' returned NoneType. Skipping to next company.
+2025-04-30 19:32:30,236 - INFO - No valid (dict) reports to store for SITEK-Spikes GmbH & Co. KG.
+2025-04-30 19:32:30,237 - INFO - Processing: B & W exclusives Autozubehör (location: Stuttgart)
+2025-04-30 19:32:34,074 - INFO - Found the following reports for B & W exclusives Autozubehör: 7
+2025-04-30 19:32:34,088 - INFO - Processing: Reifen Straub GmbH (location: Kirchberg an der Iller)
+2025-04-30 19:43:06,202 - INFO - Found the following reports for Reifen Straub GmbH: 9
+2025-04-30 19:43:06,248 - INFO - Processing: Grasdorf GmbH (location: Holle)
+2025-04-30 19:43:17,863 - INFO - Found the following reports for Grasdorf GmbH: 17
+2025-04-30 19:43:17,909 - INFO - Results written to: sample_company_output.csv
+2025-04-30 19:43:17,909 - INFO - Folders created under: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/bundesanzeiger_html
+2025-04-30 19:43:17,909 - INFO - Bundesanzeiger HTML extracted successfully: /home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/bundesanzeiger_html
+2025-04-30 19:43:17,909 - INFO - Step 3: Cleaning HTML content
+2025-04-30 19:43:17,909 - INFO - Output directory: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html
+2025-04-30 19:43:17,985 - INFO - Processed and saved results for RR_TEAM_GmbH
+2025-04-30 19:43:18,046 - INFO - Processed and saved results for RIGDON_GmbH
+2025-04-30 19:43:18,184 - INFO - Processed and saved results for IHLE_tires_GmbH
+2025-04-30 19:43:19,458 - INFO - Processed and saved results for Trelleborg_Wheel_Systems_Germany_GmbH
+2025-04-30 19:43:19,502 - INFO - Processed and saved results for GEWE_Reifengrosshandel_GmbH
+2025-04-30 19:43:19,578 - INFO - Processed and saved results for Radsystem_GmbH
+2025-04-30 19:43:19,667 - INFO - Processed and saved results for MARANGONI
+2025-04-30 19:43:19,766 - INFO - Processed and saved results for Grasdorf_GmbH
+2025-04-30 19:43:19,945 - INFO - Processed and saved results for Reifen_Straub_GmbH
+2025-04-30 19:43:20,108 - INFO - Processed and saved results for haemmerling_The_Tyre_Company_GmbH
+2025-04-30 19:43:20,108 - INFO - HTML cleaned successfully: /home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html
+2025-04-30 19:43:20,108 - INFO - Step 4: Extracting Sachanlagen data
+2025-04-30 19:43:20,112 - INFO - Processing 13 files using streaming mode
+[INIT].... → Crawl4AI 0.5.0.post4
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/RIGDON_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 2 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/RIGDON_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/haemmerling_The_Tyre_Company_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/haemmerling_The_Tyre_Company_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Reifen_Straub_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 4 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Reifen_Straub_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/B_and_W_exclusives_Autozubehoer_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/B_and_W_exclusives_Autozubehoer_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Radsystem_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 3 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Radsystem_GmbH_cleaned.html block index: 0
+2025-04-30 19:43:40,187 - INFO - [1/13] Extracted data for 'Reifen Straub GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Reifen_Straub_GmbH_cleaned.json
+2025-04-30 19:43:40,187 - INFO - [2/13] Extracted data for 'hämmerling The Tyre Company GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/haemmerling_The_Tyre_Company_GmbH_cleaned.json
+2025-04-30 19:43:40,188 - INFO - [3/13] Extracted data for 'Radsystem GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Radsystem_GmbH_cleaned.json
+2025-04-30 19:43:40,188 - INFO - [4/13] Extracted data for 'B & W exclusives Autozubehör' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/B_and_W_exclusives_Autozubehoer_cleaned.json
+2025-04-30 19:43:40,188 - INFO - [5/13] Extracted data for 'RIGDON GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/RIGDON_GmbH_cleaned.json
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Trelleborg_Wheel_Systems_Germany_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Trelleborg_Wheel_Systems_Germany_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/GEWE_Reifengrosshandel_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/GEWE_Reifengrosshandel_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Best4Tires_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Best4Tires_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/IHLE_tires_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 2 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/IHLE_tires_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/MARANGONI_cleaned.html - block index: 0
+[LOG] Extracted 2 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/MARANGONI_cleaned.html block index: 0
+2025-04-30 19:44:01,199 - INFO - [6/13] Extracted data for 'IHLE tires GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/IHLE_tires_GmbH_cleaned.json
+2025-04-30 19:44:01,199 - INFO - [7/13] Extracted data for 'Trelleborg Wheel Systems Germany GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Trelleborg_Wheel_Systems_Germany_GmbH_cleaned.json
+2025-04-30 19:44:01,199 - INFO - [8/13] Extracted data for 'Best4Tires GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Best4Tires_GmbH_cleaned.json
+2025-04-30 19:44:01,199 - INFO - [9/13] Extracted data for 'MARANGONI' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/MARANGONI_cleaned.json
+2025-04-30 19:44:01,200 - INFO - [10/13] Extracted data for 'GEWE Reifengroßhandel GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/GEWE_Reifengrosshandel_GmbH_cleaned.json
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Grasdorf_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 4 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Grasdorf_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/RR_TEAM_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 3 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/RR_TEAM_GmbH_cleaned.html block index: 0
+[LOG] Call LLM for file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Semex_Reifen_Grosshandels_GmbH_cleaned.html - block index: 0
+[LOG] Extracted 1 blocks from URL: file:///home/novoai/Documents/scraper/test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/cleaned_html/cleaned_html/Semex_Reifen_Grosshandels_GmbH_cleaned.html block index: 0
+2025-04-30 19:44:15,604 - INFO - [11/13] Extracted data for 'RR TEAM GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/RR_TEAM_GmbH_cleaned.json
+2025-04-30 19:44:15,604 - INFO - [12/13] Extracted data for 'Semex Reifen Großhandels GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Semex_Reifen_Grosshandels_GmbH_cleaned.json
+2025-04-30 19:44:15,604 - INFO - [13/13] Extracted data for 'Grasdorf GmbH' saved to test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/Grasdorf_GmbH_cleaned.json
+
+=== Token Usage Summary ===
+Type                   Count
+------------------------------
+Completion             2,043
+Prompt               250,239
+Total                252,282
+
+=== Usage History ===
+Request #    Completion       Prompt        Total
+------------------------------------------------
+1                   174       15,998       16,172
+2                    83       26,570       26,653
+3                   305       14,016       14,321
+4                    75        5,312        5,387
+5                   255       23,217       23,472
+6                    83       30,732       30,815
+7                    87       12,212       12,299
+8                    66        8,801        8,867
+9                   186       34,911       35,097
+10                  168       26,178       26,346
+11                  316       25,072       25,388
+12                  164       23,340       23,504
+13                   81        3,880        3,961
+2025-04-30 19:44:15,739 - INFO - Processing extracted Sachanlagen data in test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data...
+2025-04-30 19:44:15,739 - WARNING - No 'Aktiva' table found in Radsystem_GmbH_cleaned.json
+2025-04-30 19:44:15,739 - INFO - Teuro conversion in Best4Tires_GmbH_cleaned.json, table 'Aktiva': Original value 12 converted to 12000
+2025-04-30 19:44:15,739 - INFO - Teuro conversion in Best4Tires_GmbH_cleaned.json, table 'Aktiva': Original value 0 converted to 0
+2025-04-30 19:44:15,740 - WARNING - No 'Aktiva' table found in Reifen_Straub_GmbH_cleaned.json
+2025-04-30 19:44:15,740 - INFO - CSV report generated: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/sachanlagen_data.csv
+2025-04-30 19:44:15,740 - INFO - Processing summary: 11 of 13 files had usable tables
+2025-04-30 19:44:15,740 - INFO -   - 11 files had 'Aktiva' tables
+2025-04-30 19:44:15,740 - INFO -   - 0 files had no 'Aktiva' table but used a single available table
+2025-04-30 19:44:15,740 - INFO -   - 2 files had no usable tables
+2025-04-30 19:44:15,740 - INFO - CSV summary generated at: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/sachanlagen_data.csv
+2025-04-30 19:44:15,740 - INFO - Sachanlagen data extracted successfully: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/sachanlagen_data/sachanlagen_data.csv
+2025-04-30 19:44:15,740 - INFO - Step 5: Generating CSV report
+2025-04-30 19:44:15,741 - INFO - CSV report generated: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/reports/machine_report_20250430.csv
+2025-04-30 19:44:15,741 - INFO - CSV report generated successfully: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/reports/machine_report_20250430.csv
+2025-04-30 19:44:15,741 - INFO - Step 6: Merging CSV with Excel data
+2025-04-30 19:44:15,756 - INFO - Loading CSV file: test_folder/sample_company.csv
+2025-04-30 19:44:15,757 - INFO - Using 'company name' column from input file (renaming to 'Firma1')
+2025-04-30 19:44:15,758 - INFO - Analyzing company name similarities...
+2025-04-30 19:44:15,758 - INFO - 
+Company Name Similarity Analysis:
+2025-04-30 19:44:15,758 - INFO - Total comparisons made: 6
+2025-04-30 19:44:15,758 - INFO - Mean similarity: 1.000
+2025-04-30 19:44:15,758 - INFO - Median similarity: 1.000
+2025-04-30 19:44:15,758 - INFO - Minimum similarity: 1.000
+2025-04-30 19:44:15,758 - INFO - Maximum similarity: 1.000
+2025-04-30 19:44:15,758 - INFO - Standard deviation: 0.000
+2025-04-30 19:44:15,758 - INFO - Found 6 good matches out of 6 machine companies
+2025-04-30 19:44:15,759 - INFO - 
+Matching Statistics for companies:
+2025-04-30 19:44:15,759 - INFO - Total companies processed: 6
+2025-04-30 19:44:15,759 - INFO - Successfully matched: 6
+2025-04-30 19:44:15,759 - INFO - Average similarity score: 1.00
+2025-04-30 19:44:15,759 - INFO - 
+5 Lowest Similarity Pairs | 0.85
+2025-04-30 19:44:15,759 - INFO - Score: 1.000 |  -> 
+2025-04-30 19:44:15,759 - INFO - Score: 1.000 |  -> 
+2025-04-30 19:44:15,759 - INFO - Score: 1.000 |  -> 
+2025-04-30 19:44:15,759 - INFO - Score: 1.000 |  -> 
+2025-04-30 19:44:15,759 - INFO - Score: 1.000 |  -> 
+2025-04-30 19:44:15,762 - INFO - 
+Matching Statistics for Sachanlagen data:
+2025-04-30 19:44:15,762 - INFO - Total Sachanlagen companies: 11
+2025-04-30 19:44:15,762 - INFO - Successfully matched: 11
+2025-04-30 19:44:15,767 - INFO - CSV merged with Original Base successfully: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/extracting_machine_output_Reifenhersteller.csv
+2025-04-30 19:44:15,767 - INFO - Extracting Machine Assets phase completed successfully
+2025-04-30 19:44:15,767 - INFO - Phase 1: Extracting Machine Assets - Completed in 781.51 seconds
+2025-04-30 19:44:15,767 - INFO - Phase 1: Extracting Machine Assets output: test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/extracting_machine_output_Reifenhersteller.csv
+Pipeline Progress:  33%|███▎      | 1/3 [13:01<26:03, 781.51s/it]2025-04-30 19:44:15,767 - INFO - --------------------------------------------------
+2025-04-30 19:44:15,767 - INFO - Phase 2: Crawling & Scraping Keywords - Started
+2025-04-30 19:44:15,767 - INFO - --------------------------------------------------
+2025-04-30 19:44:15,767 - INFO - Starting Crawling & Scraping Keywords phase
+2025-04-30 19:44:15,767 - INFO - Step 1: Crawling company domains
+2025-04-30 19:44:15,772 - INFO - Successfully processed 11 entries from test_folder/output_master/pipeline_run_20250430_193111/extracting_machine/extracting_machine_output_Reifenhersteller.csv
+2025-04-30 19:44:15,772 - INFO - Total number of companies to crawl: 11
+2025-04-30 19:44:15,772 - INFO - ========================================
+Starting crawl of domain: http://www.trelleborg.com/de/ (Trelleborg Wheel Systems Germany GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:16,146 - INFO - 
+=== Phase 1: Crawling main URL: http://www.trelleborg.com/de/ ===
+
+[FETCH]... ↓ http://www.trelleborg.com/de/... | Status: True | Time: 2.26s
+[SCRAPE].. ◆ http://www.trelleborg.com/de/... | Time: 0.091s
+[COMPLETE] ● http://www.trelleborg.com/de/... | Status: True | Total: 2.35s
+2025-04-30 19:44:18,515 - INFO - Successfully crawled main URL: http://www.trelleborg.com/de/
+2025-04-30 19:44:18,515 - INFO - Collecting internal links from http://www.trelleborg.com/de/...
+[FETCH]... ↓ http://www.trelleborg.com/de/... | Status: True | Time: 0.00s
+[COMPLETE] ● http://www.trelleborg.com/de/... | Status: True | Total: 0.00s
+2025-04-30 19:44:18,524 - INFO - Found 69 internal links.
+2025-04-30 19:44:18,524 - INFO - Filtered out 0 anchor links (URLs with '#')
+2025-04-30 19:44:18,524 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:18,525 - INFO - Site appears to use language codes in URLs
+2025-04-30 19:44:18,525 - INFO - Skipping non-content page: http://www.trelleborg.com/de-de/uber-uns/kontakt
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: https://www.trelleborg.com/en/boots
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: https://www.trelleborg.com/en/engineered-coated-fabrics
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: https://www.trelleborg.com/en/medical
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: https://www.trelleborg.com/en/marine-and-infrastructure
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: http://www.trelleborg.com/en/
+2025-04-30 19:44:18,525 - INFO - Skipping non-German language URL: http://www.trelleborg.com/sv-se/
+2025-04-30 19:44:18,526 - INFO - Skipping non-content page: http://www.trelleborg.com/de-de/datenschutzerklarung
+2025-04-30 19:44:18,526 - INFO - Filtered out 2 non-content pages
+2025-04-30 19:44:18,526 - INFO - Filtered out 6 non-German language URLs
+2025-04-30 19:44:18,526 - INFO - Filtered from 61 to 13 URLs with depth <= 2
+2025-04-30 19:44:18,526 - INFO - Reduced from 13 to 13 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:18,526 - INFO - 
+=== Phase 2: Crawling 12 internal links (body only) ===
+
+[FETCH]... ↓ http://www.trelleborg.com/de-de... | Status: True | Time: 1.35s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de... | Time: 0.24s
+[COMPLETE] ● http://www.trelleborg.com/de-de... | Status: True | Total: 1.59s
+[FETCH]... ↓ https://www.trelleborg.com/de-de... | Status: True | Time: 1.59s
+[SCRAPE].. ◆ https://www.trelleborg.com/de-de... | Time: 0.235s
+[COMPLETE] ● https://www.trelleborg.com/de-de... | Status: True | Total: 1.83s
+[FETCH]... ↓ https://www.trelleborg.com/de-de/seals-and-profile... | Status: True | Time: 1.87s
+[SCRAPE].. ◆ https://www.trelleborg.com/de-de/seals-and-profile... | Time: 0.532s
+[COMPLETE] ● https://www.trelleborg.com/de-de/seals-and-profile... | Status: True | Total: 2.41s
+[FETCH]... ↓ https://www.trelleborg.com/de-de/anti-vibration-so... | Status: True | Time: 2.95s
+[SCRAPE].. ◆ https://www.trelleborg.com/de-de/anti-vibration-so... | Time: 0.156s
+[COMPLETE] ● https://www.trelleborg.com/de-de/anti-vibration-so... | Status: True | Total: 3.11s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/produkte-und-lösun... | Status: True | Time: 3.11s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/produkte-und-lösun... | Time: 0.111s
+[COMPLETE] ● http://www.trelleborg.com/de-de/produkte-und-lösun... | Status: True | Total: 3.22s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/investoren... | Status: True | Time: 3.22s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/investoren... | Time: 0.102s
+[COMPLETE] ● http://www.trelleborg.com/de-de/investoren... | Status: True | Total: 3.33s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/nachhaltigkeit... | Status: True | Time: 3.33s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/nachhaltigkeit... | Time: 0.143s
+[COMPLETE] ● http://www.trelleborg.com/de-de/nachhaltigkeit... | Status: True | Total: 3.47s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/medien... | Status: True | Time: 3.49s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/medien... | Time: 0.137s
+[COMPLETE] ● http://www.trelleborg.com/de-de/medien... | Status: True | Total: 3.63s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/uber-uns... | Status: True | Time: 3.63s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/uber-uns... | Time: 0.132s
+[COMPLETE] ● http://www.trelleborg.com/de-de/uber-uns... | Status: True | Total: 3.77s
+[FETCH]... ↓ http://www.trelleborg.com/de-de/karriere... | Status: True | Time: 3.77s
+[SCRAPE].. ◆ http://www.trelleborg.com/de-de/karriere... | Time: 0.129s
+[COMPLETE] ● http://www.trelleborg.com/de-de/karriere... | Status: True | Total: 3.90s
+[FETCH]... ↓ https://www.trelleborg.com/de-de/seals... | Status: True | Time: 3.90s
+[SCRAPE].. ◆ https://www.trelleborg.com/de-de/seals... | Time: 0.158s
+[COMPLETE] ● https://www.trelleborg.com/de-de/seals... | Status: True | Total: 4.07s
+[FETCH]... ↓ https://www.trelleborg.com/de-de/fluidhandling... | Status: True | Time: 4.07s
+[SCRAPE].. ◆ https://www.trelleborg.com/de-de/fluidhandling... | Time: 0.136s
+[COMPLETE] ● https://www.trelleborg.com/de-de/fluidhandling... | Status: True | Total: 4.21s
+2025-04-30 19:44:22,803 - INFO - Successfully crawled: http://www.trelleborg.com/de-de
+2025-04-30 19:44:22,804 - INFO - Successfully crawled: https://www.trelleborg.com/de-de
+2025-04-30 19:44:22,804 - INFO - Successfully crawled: https://www.trelleborg.com/de-de/seals-and-profiles
+2025-04-30 19:44:22,804 - INFO - Successfully crawled: https://www.trelleborg.com/de-de/anti-vibration-solutions
+2025-04-30 19:44:22,804 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/produkte-und-lösungen
+2025-04-30 19:44:22,805 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/nachhaltigkeit
+2025-04-30 19:44:22,805 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/investoren
+2025-04-30 19:44:22,805 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/medien
+2025-04-30 19:44:22,806 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/uber-uns
+2025-04-30 19:44:22,806 - INFO - Successfully crawled: http://www.trelleborg.com/de-de/karriere
+2025-04-30 19:44:22,806 - INFO - Successfully crawled: https://www.trelleborg.com/de-de/fluidhandling
+2025-04-30 19:44:22,806 - INFO - Successfully crawled: https://www.trelleborg.com/de-de/seals
+2025-04-30 19:44:22,929 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/trelleborg.com.md
+2025-04-30 19:44:22,929 - INFO - ========================================
+Starting crawl of domain: https://www.gewe.de (GEWE Reifengroßhandel GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:23,324 - INFO - 
+=== Phase 1: Crawling main URL: https://www.gewe.de ===
+
+[FETCH]... ↓ https://www.gewe.de... | Status: True | Time: 1.41s
+[SCRAPE].. ◆ https://www.gewe.de... | Time: 0.046s
+[COMPLETE] ● https://www.gewe.de... | Status: True | Total: 1.45s
+2025-04-30 19:44:24,789 - INFO - Successfully crawled main URL: https://www.gewe.de
+2025-04-30 19:44:24,789 - INFO - Collecting internal links from https://www.gewe.de...
+[FETCH]... ↓ https://www.gewe.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.gewe.de... | Status: True | Total: 0.00s
+2025-04-30 19:44:24,797 - INFO - Found 15 internal links.
+2025-04-30 19:44:24,798 - INFO - Skipping anchor link: https://www.gewe.de#1
+2025-04-30 19:44:24,798 - INFO - Skipping anchor link: https://www.gewe.de#2
+2025-04-30 19:44:24,798 - INFO - Skipping anchor link: https://www.gewe.de#3
+2025-04-30 19:44:24,798 - INFO - Skipping anchor link: https://www.gewe.de#4
+2025-04-30 19:44:24,798 - INFO - Filtered out 4 anchor links (URLs with '#')
+2025-04-30 19:44:24,798 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:24,798 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:24,798 - INFO - Skipping non-content page: https://www.gewe.de/impressum/
+2025-04-30 19:44:24,798 - INFO - Filtered out 1 non-content pages
+2025-04-30 19:44:24,798 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:44:24,798 - INFO - Filtered from 6 to 5 URLs with depth <= 2
+2025-04-30 19:44:24,798 - INFO - Reduced from 5 to 5 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:24,798 - INFO - 
+=== Phase 2: Crawling 5 internal links (body only) ===
+
+[FETCH]... ↓ https://www.gewe.de/komplettrad/... | Status: True | Time: 0.77s
+[SCRAPE].. ◆ https://www.gewe.de/komplettrad/... | Time: 0.002s
+[COMPLETE] ● https://www.gewe.de/komplettrad/... | Status: True | Total: 0.78s
+[FETCH]... ↓ https://www.gewe.de/presse/... | Status: True | Time: 0.99s
+[SCRAPE].. ◆ https://www.gewe.de/presse/... | Time: 0.027s
+[COMPLETE] ● https://www.gewe.de/presse/... | Status: True | Total: 1.01s
+[FETCH]... ↓ https://www.gewe.de/verantwortung/... | Status: True | Time: 1.02s
+[SCRAPE].. ◆ https://www.gewe.de/verantwortung/... | Time: 0.019s
+[COMPLETE] ● https://www.gewe.de/verantwortung/... | Status: True | Total: 1.04s
+[FETCH]... ↓ https://www.gewe.de/... | Status: True | Time: 1.04s
+[SCRAPE].. ◆ https://www.gewe.de/... | Time: 0.044s
+[COMPLETE] ● https://www.gewe.de/... | Status: True | Total: 1.08s
+[FETCH]... ↓ https://www.gewe.de/jobs/... | Status: True | Time: 1.20s
+[SCRAPE].. ◆ https://www.gewe.de/jobs/... | Time: 0.131s
+[COMPLETE] ● https://www.gewe.de/jobs/... | Status: True | Total: 1.33s
+2025-04-30 19:44:26,145 - INFO - Successfully crawled: https://www.gewe.de/komplettrad/
+2025-04-30 19:44:26,145 - INFO - Successfully crawled: https://www.gewe.de/presse/
+2025-04-30 19:44:26,145 - INFO - Successfully crawled: https://www.gewe.de/verantwortung/
+2025-04-30 19:44:26,145 - INFO - Successfully crawled: https://www.gewe.de/
+2025-04-30 19:44:26,145 - INFO - Successfully crawled: https://www.gewe.de/jobs/
+2025-04-30 19:44:26,239 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/gewe.de.md
+2025-04-30 19:44:26,239 - INFO - ========================================
+Starting crawl of domain: https://www.rrteam.de (RR TEAM GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:26,614 - INFO - 
+=== Phase 1: Crawling main URL: https://www.rrteam.de ===
+
+[FETCH]... ↓ https://www.rrteam.de... | Status: True | Time: 1.58s
+[SCRAPE].. ◆ https://www.rrteam.de... | Time: 0.049s
+[COMPLETE] ● https://www.rrteam.de... | Status: True | Total: 1.63s
+2025-04-30 19:44:28,253 - INFO - Successfully crawled main URL: https://www.rrteam.de
+2025-04-30 19:44:28,253 - INFO - Collecting internal links from https://www.rrteam.de...
+[FETCH]... ↓ https://www.rrteam.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.rrteam.de... | Status: True | Total: 0.00s
+2025-04-30 19:44:28,261 - INFO - Found 25 internal links.
+2025-04-30 19:44:28,262 - INFO - Skipping anchor link: https://www.rrteam.de#content
+2025-04-30 19:44:28,262 - INFO - Filtered out 1 anchor links (URLs with '#')
+2025-04-30 19:44:28,262 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:28,262 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:28,262 - INFO - Skipping non-content page: https://www.rrteam.de/leistungen/autohaus-support/
+2025-04-30 19:44:28,262 - INFO - Skipping non-content page: https://www.rrteam.de/kontakt/
+2025-04-30 19:44:28,262 - INFO - Skipping non-content page: https://www.rrteam.de/impressum/
+2025-04-30 19:44:28,262 - INFO - Skipping non-content page: https://www.rrteam.de/datenschutz/
+2025-04-30 19:44:28,262 - INFO - Skipping non-content page: https://www.rrteam.de/agb/
+2025-04-30 19:44:28,262 - INFO - Filtered out 5 non-content pages
+2025-04-30 19:44:28,262 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:44:28,262 - INFO - Filtered from 19 to 17 URLs with depth <= 2
+2025-04-30 19:44:28,262 - INFO - Reduced from 17 to 17 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:28,262 - INFO - 
+=== Phase 2: Crawling 17 internal links (body only) ===
+
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/historie/... | Status: True | Time: 2.08s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/historie/... | Time: 0.111s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/historie/... | Status: True | Total: 2.19s
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/verantwortung/... | Status: True | Time: 2.20s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/verantwortung/... | Time: 0.057s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/verantwortung/... | Status: True | Total: 2.26s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/einkauf-und-verma... | Status: True | Time: 2.26s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/einkauf-und-verma... | Time: 0.063s
+[COMPLETE] ● https://www.rrteam.de/leistungen/einkauf-und-verma... | Status: True | Total: 2.33s
+[FETCH]... ↓ https://www.rrteam.de/author/jakob/... | Status: True | Time: 2.34s
+[SCRAPE].. ◆ https://www.rrteam.de/author/jakob/... | Time: 0.066s
+[COMPLETE] ● https://www.rrteam.de/author/jakob/... | Status: True | Total: 2.41s
+[FETCH]... ↓ https://www.rrteam.de/presse/... | Status: True | Time: 2.44s
+[SCRAPE].. ◆ https://www.rrteam.de/presse/... | Time: 0.076s
+[COMPLETE] ● https://www.rrteam.de/presse/... | Status: True | Total: 2.52s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/... | Status: True | Time: 2.52s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/... | Time: 0.057s
+[COMPLETE] ● https://www.rrteam.de/leistungen/... | Status: True | Total: 2.58s
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/... | Status: True | Time: 2.58s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/... | Time: 0.046s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/... | Status: True | Total: 2.63s
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/stellenangebote/... | Status: True | Time: 2.63s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/stellenangebote/... | Time: 0.198s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/stellenangebote/... | Status: True | Total: 2.83s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/trend-und-marktan... | Status: True | Time: 2.83s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/trend-und-marktan... | Time: 0.057s
+[COMPLETE] ● https://www.rrteam.de/leistungen/trend-und-marktan... | Status: True | Total: 2.88s
+[FETCH]... ↓ https://www.rrteam.de/presse/pressemitteilungen/... | Status: True | Time: 2.89s
+[SCRAPE].. ◆ https://www.rrteam.de/presse/pressemitteilungen/... | Time: 0.069s
+[COMPLETE] ● https://www.rrteam.de/presse/pressemitteilungen/... | Status: True | Total: 2.96s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/komplettradmontag... | Status: True | Time: 2.96s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/komplettradmontag... | Time: 0.059s
+[COMPLETE] ● https://www.rrteam.de/leistungen/komplettradmontag... | Status: True | Total: 3.02s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/business-developm... | Status: True | Time: 3.02s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/business-developm... | Time: 0.067s
+[COMPLETE] ● https://www.rrteam.de/leistungen/business-developm... | Status: True | Total: 3.09s
+[FETCH]... ↓ https://www.rrteam.de/presse/events/... | Status: True | Time: 3.09s
+[SCRAPE].. ◆ https://www.rrteam.de/presse/events/... | Time: 0.055s
+[COMPLETE] ● https://www.rrteam.de/presse/events/... | Status: True | Total: 3.15s
+[FETCH]... ↓ https://www.rrteam.de/... | Status: True | Time: 3.15s
+[SCRAPE].. ◆ https://www.rrteam.de/... | Time: 0.059s
+[COMPLETE] ● https://www.rrteam.de/... | Status: True | Total: 3.21s
+[FETCH]... ↓ https://www.rrteam.de/leistungen/it-tools/... | Status: True | Time: 3.21s
+[SCRAPE].. ◆ https://www.rrteam.de/leistungen/it-tools/... | Time: 0.06s
+[COMPLETE] ● https://www.rrteam.de/leistungen/it-tools/... | Status: True | Total: 3.27s
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/soziales-engagem... | Status: True | Time: 3.27s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/soziales-engagem... | Time: 0.059s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/soziales-engagem... | Status: True | Total: 3.33s
+[FETCH]... ↓ https://www.rrteam.de/unternehmen/unser-team/... | Status: True | Time: 3.34s
+[SCRAPE].. ◆ https://www.rrteam.de/unternehmen/unser-team/... | Time: 0.077s
+[COMPLETE] ● https://www.rrteam.de/unternehmen/unser-team/... | Status: True | Total: 3.41s
+2025-04-30 19:44:31,774 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/historie/
+2025-04-30 19:44:31,774 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/verantwortung/
+2025-04-30 19:44:31,774 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/einkauf-und-vermarktung/
+2025-04-30 19:44:31,775 - INFO - Successfully crawled: https://www.rrteam.de/author/jakob/
+2025-04-30 19:44:31,775 - INFO - Successfully crawled: https://www.rrteam.de/presse/
+2025-04-30 19:44:31,775 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/trend-und-marktanalysen/
+2025-04-30 19:44:31,775 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/
+2025-04-30 19:44:31,775 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/it-tools/
+2025-04-30 19:44:31,776 - INFO - Successfully crawled: https://www.rrteam.de/presse/pressemitteilungen/
+2025-04-30 19:44:31,776 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/stellenangebote/
+2025-04-30 19:44:31,777 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/soziales-engagement/
+2025-04-30 19:44:31,777 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/komplettradmontage/
+2025-04-30 19:44:31,777 - INFO - Successfully crawled: https://www.rrteam.de/leistungen/business-development/
+2025-04-30 19:44:31,778 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/unser-team/
+2025-04-30 19:44:31,778 - INFO - Successfully crawled: https://www.rrteam.de/unternehmen/
+2025-04-30 19:44:31,778 - INFO - Successfully crawled: https://www.rrteam.de/presse/events/
+2025-04-30 19:44:31,778 - INFO - Successfully crawled: https://www.rrteam.de/
+2025-04-30 19:44:31,884 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/rrteam.de.md
+2025-04-30 19:44:31,884 - INFO - ========================================
+Starting crawl of domain: https://www.reifengundlach.de (Best4Tires GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:32,257 - INFO - 
+=== Phase 1: Crawling main URL: https://www.reifengundlach.de ===
+
+[FETCH]... ↓ https://www.reifengundlach.de... | Status: True | Time: 2.19s
+[SCRAPE].. ◆ https://www.reifengundlach.de... | Time: 0.075s
+[COMPLETE] ● https://www.reifengundlach.de... | Status: True | Total: 2.26s
+2025-04-30 19:44:34,547 - INFO - Successfully crawled main URL: https://www.reifengundlach.de
+2025-04-30 19:44:34,547 - INFO - Collecting internal links from https://www.reifengundlach.de...
+[FETCH]... ↓ https://www.reifengundlach.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.reifengundlach.de... | Status: True | Total: 0.00s
+2025-04-30 19:44:34,556 - INFO - Found 40 internal links.
+2025-04-30 19:44:34,556 - INFO - Filtered out 0 anchor links (URLs with '#')
+2025-04-30 19:44:34,556 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:34,556 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:34,556 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/service/faq
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/product-range/tires
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/product-range/complete-wheels
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/product-range/rims
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/product-range/tpms
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/service-promise
+2025-04-30 19:44:34,556 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/garage4tires
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/tire-purchase
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/configurator
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/tire-warranty
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/drop-off
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/track4tires
+2025-04-30 19:44:34,557 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/service/contact
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/pirelli
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/giti
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/gt-radial
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/radar-tyres
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/tourador
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/bfgoodrich/bfgoodrich
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/continental
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/oxxo
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/michelin
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/bridgestone
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/goodyear
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/mak
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/vredestein
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/hankook
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands/yokohama/yokohama
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/world-of-brands
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/company/about
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/company/history
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/news
+2025-04-30 19:44:34,557 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/info/data-privacy
+2025-04-30 19:44:34,557 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/service/komplettradwelt
+2025-04-30 19:44:34,558 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/info/imprint
+2025-04-30 19:44:34,558 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/info/terms-of-service
+2025-04-30 19:44:34,558 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/info/terms-of-use
+2025-04-30 19:44:34,558 - INFO - Skipping non-content page: https://www.reifengundlach.de/en/info/purchase-conditions
+2025-04-30 19:44:34,558 - INFO - Skipping non-German language URL: https://www.reifengundlach.de/en/info/delivery
+2025-04-30 19:44:34,558 - INFO - Filtered out 7 non-content pages
+2025-04-30 19:44:34,558 - INFO - Filtered out 33 non-German language URLs
+2025-04-30 19:44:34,558 - INFO - Reduced from 0 to 0 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:34,558 - INFO - No additional internal links found to crawl
+2025-04-30 19:44:34,644 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/reifengundlach.de.md
+2025-04-30 19:44:34,645 - INFO - ========================================
+Starting crawl of domain: https://de.marangoni.com (MARANGONI)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:35,028 - INFO - 
+=== Phase 1: Crawling main URL: https://de.marangoni.com ===
+
+[FETCH]... ↓ https://de.marangoni.com... | Status: True | Time: 1.94s
+[SCRAPE].. ◆ https://de.marangoni.com... | Time: 0.091s
+[COMPLETE] ● https://de.marangoni.com... | Status: True | Total: 2.04s
+2025-04-30 19:44:37,078 - INFO - Successfully crawled main URL: https://de.marangoni.com
+2025-04-30 19:44:37,078 - INFO - Collecting internal links from https://de.marangoni.com...
+[FETCH]... ↓ https://de.marangoni.com... | Status: True | Time: 0.00s
+[COMPLETE] ● https://de.marangoni.com... | Status: True | Total: 0.00s
+2025-04-30 19:44:37,087 - INFO - Found 45 internal links.
+2025-04-30 19:44:37,087 - INFO - Filtered out 0 anchor links (URLs with '#')
+2025-04-30 19:44:37,087 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:37,087 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:37,088 - INFO - Skipping non-German language URL: https://de.marangoni.com/en/innovation/
+2025-04-30 19:44:37,088 - INFO - Skipping non-German language URL: https://de.marangoni.com/en/sustainability/
+2025-04-30 19:44:37,088 - INFO - Skipping non-German language URL: https://de.marangoni.com/en/ringtread-tyres/
+2025-04-30 19:44:37,088 - INFO - Skipping non-German language URL: https://de.marangoni.com/en/ringtread-system/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/contact-us
+2025-04-30 19:44:37,088 - INFO - Skipping non-German language URL: https://de.marangoni.com/en/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/newsletter/
+2025-04-30 19:44:37,088 - INFO - Skipping link with file extension: https://de.marangoni.com/wp-content/uploads/sites/18/2024/11/MARANGONI-Verhaltenskodex-code-of-conduct-1.pdf
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/downloads/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/contact-us/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/impressum/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/datenschutzerklaerung/
+2025-04-30 19:44:37,088 - INFO - Skipping non-content page: https://de.marangoni.com/general-terms-and-conditions/
+2025-04-30 19:44:37,088 - INFO - Filtered out 8 non-content pages
+2025-04-30 19:44:37,088 - INFO - Filtered out 5 non-German language URLs
+2025-04-30 19:44:37,088 - INFO - Filtered from 31 to 29 URLs with depth <= 2
+2025-04-30 19:44:37,089 - INFO - Reduced from 29 to 29 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:37,089 - INFO - 
+=== Phase 2: Crawling 29 internal links (body only) ===
+
+[FETCH]... ↓ https://de.marangoni.com/end-user/... | Status: True | Time: 4.06s
+[SCRAPE].. ◆ https://de.marangoni.com/end-user/... | Time: 0.028s
+[COMPLETE] ● https://de.marangoni.com/end-user/... | Status: True | Total: 4.09s
+[FETCH]... ↓ https://de.marangoni.com/ringtread-tyres/... | Status: True | Time: 4.26s
+[SCRAPE].. ◆ https://de.marangoni.com/ringtread-tyres/... | Time: 0.108s
+[COMPLETE] ● https://de.marangoni.com/ringtread-tyres/... | Status: True | Total: 4.37s
+[FETCH]... ↓ https://de.marangoni.com/you-retreader-de/... | Status: True | Time: 4.39s
+[SCRAPE].. ◆ https://de.marangoni.com/you-retreader-de/... | Time: 0.055s
+[COMPLETE] ● https://de.marangoni.com/you-retreader-de/... | Status: True | Total: 4.45s
+[FETCH]... ↓ https://de.marangoni.com/marangoni-mehrfach-nomini... | Status: True | Time: 4.53s
+[SCRAPE].. ◆ https://de.marangoni.com/marangoni-mehrfach-nomini... | Time: 0.036s
+[COMPLETE] ● https://de.marangoni.com/marangoni-mehrfach-nomini... | Status: True | Total: 4.57s
+[FETCH]... ↓ https://de.marangoni.com/you-moulding-specialist/... | Status: True | Time: 4.74s
+[SCRAPE].. ◆ https://de.marangoni.com/you-moulding-specialist/... | Time: 0.022s
+[COMPLETE] ● https://de.marangoni.com/you-moulding-specialist/... | Status: True | Total: 4.76s
+[FETCH]... ↓ https://de.marangoni.com/werksbesichtigung/... | Status: True | Time: 4.91s
+[SCRAPE].. ◆ https://de.marangoni.com/werksbesichtigung/... | Time: 0.016s
+[COMPLETE] ● https://de.marangoni.com/werksbesichtigung/... | Status: True | Total: 4.92s
+[FETCH]... ↓ https://de.marangoni.com/you-dealer/... | Status: True | Time: 5.05s
+[SCRAPE].. ◆ https://de.marangoni.com/you-dealer/... | Time: 0.021s
+[COMPLETE] ● https://de.marangoni.com/you-dealer/... | Status: True | Total: 5.07s
+[FETCH]... ↓ https://de.marangoni.com/technical-coumpounding/... | Status: True | Time: 5.50s
+[SCRAPE].. ◆ https://de.marangoni.com/technical-coumpounding/... | Time: 0.035s
+[COMPLETE] ● https://de.marangoni.com/technical-coumpounding/... | Status: True | Total: 5.54s
+[FETCH]... ↓ https://de.marangoni.com/otr-reifen/... | Status: True | Time: 5.78s
+[SCRAPE].. ◆ https://de.marangoni.com/otr-reifen/... | Time: 0.045s
+[COMPLETE] ● https://de.marangoni.com/otr-reifen/... | Status: True | Total: 5.83s
+[FETCH]... ↓ https://de.marangoni.com/innovation/... | Status: True | Time: 5.94s
+[SCRAPE].. ◆ https://de.marangoni.com/innovation/... | Time: 0.049s
+[COMPLETE] ● https://de.marangoni.com/innovation/... | Status: True | Total: 5.99s
+[FETCH]... ↓ https://de.marangoni.com/firmenprofil/... | Status: True | Time: 6.12s
+[SCRAPE].. ◆ https://de.marangoni.com/firmenprofil/... | Time: 0.099s
+[COMPLETE] ● https://de.marangoni.com/firmenprofil/... | Status: True | Total: 6.22s
+[FETCH]... ↓ https://de.marangoni.com/ringtread-system/... | Status: True | Time: 6.26s
+[SCRAPE].. ◆ https://de.marangoni.com/ringtread-system/... | Time: 0.108s
+[COMPLETE] ● https://de.marangoni.com/ringtread-system/... | Status: True | Total: 6.37s
+[FETCH]... ↓ https://de.marangoni.com/case-studies/... | Status: True | Time: 6.38s
+[SCRAPE].. ◆ https://de.marangoni.com/case-studies/... | Time: 0.02s
+[COMPLETE] ● https://de.marangoni.com/case-studies/... | Status: True | Total: 6.41s
+[FETCH]... ↓ https://de.marangoni.com/... | Status: True | Time: 6.59s
+[SCRAPE].. ◆ https://de.marangoni.com/... | Time: 0.111s
+[COMPLETE] ● https://de.marangoni.com/... | Status: True | Total: 6.70s
+[FETCH]... ↓ https://de.marangoni.com/newsroom/... | Status: True | Time: 6.71s
+[SCRAPE].. ◆ https://de.marangoni.com/newsroom/... | Time: 0.006s
+[COMPLETE] ● https://de.marangoni.com/newsroom/... | Status: True | Total: 6.72s
+[FETCH]... ↓ https://de.marangoni.com/tyre-machinery/... | Status: True | Time: 6.72s
+[SCRAPE].. ◆ https://de.marangoni.com/tyre-machinery/... | Time: 0.044s
+[COMPLETE] ● https://de.marangoni.com/tyre-machinery/... | Status: True | Total: 6.77s
+[FETCH]... ↓ https://de.marangoni.com/retreading-systems/... | Status: True | Time: 6.90s
+[SCRAPE].. ◆ https://de.marangoni.com/retreading-systems/... | Time: 0.123s
+[COMPLETE] ● https://de.marangoni.com/retreading-systems/... | Status: True | Total: 7.02s
+[FETCH]... ↓ https://de.marangoni.com/runderneuerte-reifen-opti... | Status: True | Time: 7.04s
+[SCRAPE].. ◆ https://de.marangoni.com/runderneuerte-reifen-opti... | Time: 0.038s
+[COMPLETE] ● https://de.marangoni.com/runderneuerte-reifen-opti... | Status: True | Total: 7.08s
+[FETCH]... ↓ https://de.marangoni.com/recircle-awards-2023/... | Status: True | Time: 7.30s
+[SCRAPE].. ◆ https://de.marangoni.com/recircle-awards-2023/... | Time: 0.015s
+[COMPLETE] ● https://de.marangoni.com/recircle-awards-2023/... | Status: True | Total: 7.31s
+[FETCH]... ↓ https://de.marangoni.com/geschichte/... | Status: True | Time: 7.33s
+[SCRAPE].. ◆ https://de.marangoni.com/geschichte/... | Time: 0.111s
+[COMPLETE] ● https://de.marangoni.com/geschichte/... | Status: True | Total: 7.44s
+[FETCH]... ↓ https://de.marangoni.com/zertifizierungen/... | Status: True | Time: 7.46s
+[SCRAPE].. ◆ https://de.marangoni.com/zertifizierungen/... | Time: 0.035s
+[COMPLETE] ● https://de.marangoni.com/zertifizierungen/... | Status: True | Total: 7.49s
+[FETCH]... ↓ https://de.marangoni.com/jobs-karriere/... | Status: True | Time: 7.61s
+[SCRAPE].. ◆ https://de.marangoni.com/jobs-karriere/... | Time: 0.158s
+[COMPLETE] ● https://de.marangoni.com/jobs-karriere/... | Status: True | Total: 7.77s
+[FETCH]... ↓ https://de.marangoni.com/sustainability/... | Status: True | Time: 7.84s
+[SCRAPE].. ◆ https://de.marangoni.com/sustainability/... | Time: 0.085s
+[COMPLETE] ● https://de.marangoni.com/sustainability/... | Status: True | Total: 7.93s
+[FETCH]... ↓ https://de.marangoni.com/tyre-division/... | Status: True | Time: 8.01s
+[SCRAPE].. ◆ https://de.marangoni.com/tyre-division/... | Time: 0.038s
+[COMPLETE] ● https://de.marangoni.com/tyre-division/... | Status: True | Total: 8.05s
+[FETCH]... ↓ https://de.marangoni.com/you-retreader/... | Status: True | Time: 8.05s
+[SCRAPE].. ◆ https://de.marangoni.com/you-retreader/... | Time: 0.035s
+[COMPLETE] ● https://de.marangoni.com/you-retreader/... | Status: True | Total: 8.09s
+[FETCH]... ↓ https://de.marangoni.com/de/innovation/... | Status: True | Time: 8.12s
+[SCRAPE].. ◆ https://de.marangoni.com/de/innovation/... | Time: 0.041s
+[COMPLETE] ● https://de.marangoni.com/de/innovation/... | Status: True | Total: 8.16s
+[FETCH]... ↓ https://de.marangoni.com/new-tyre-machinery/... | Status: True | Time: 8.15s
+[SCRAPE].. ◆ https://de.marangoni.com/new-tyre-machinery/... | Time: 0.027s
+[COMPLETE] ● https://de.marangoni.com/new-tyre-machinery/... | Status: True | Total: 8.18s
+[FETCH]... ↓ https://de.marangoni.com/marangoni-global-network/... | Status: True | Time: 8.18s
+[SCRAPE].. ◆ https://de.marangoni.com/marangoni-global-network/... | Time: 0.068s
+[COMPLETE] ● https://de.marangoni.com/marangoni-global-network/... | Status: True | Total: 8.25s
+[FETCH]... ↓ https://de.marangoni.com/de/case-studies/... | Status: True | Time: 8.50s
+[SCRAPE].. ◆ https://de.marangoni.com/de/case-studies/... | Time: 0.023s
+[COMPLETE] ● https://de.marangoni.com/de/case-studies/... | Status: True | Total: 8.53s
+2025-04-30 19:44:45,641 - INFO - Successfully crawled: https://de.marangoni.com/end-user/
+2025-04-30 19:44:45,641 - INFO - Successfully crawled: https://de.marangoni.com/ringtread-tyres/
+2025-04-30 19:44:45,641 - INFO - Successfully crawled: https://de.marangoni.com/you-retreader-de/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/marangoni-mehrfach-nominiert-bei-den-recircle-awards-2023/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/you-moulding-specialist/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/werksbesichtigung/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/you-dealer/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/technical-coumpounding/
+2025-04-30 19:44:45,642 - INFO - Successfully crawled: https://de.marangoni.com/otr-reifen/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/innovation/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/firmenprofil/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/ringtread-system/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/case-studies/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/
+2025-04-30 19:44:45,643 - INFO - Successfully crawled: https://de.marangoni.com/newsroom/
+2025-04-30 19:44:45,644 - INFO - Successfully crawled: https://de.marangoni.com/tyre-machinery/
+2025-04-30 19:44:45,644 - INFO - Successfully crawled: https://de.marangoni.com/retreading-systems/
+2025-04-30 19:44:45,644 - INFO - Successfully crawled: https://de.marangoni.com/runderneuerte-reifen-optimale-energieeffizienz-klasse-a-rollwiderstand/
+2025-04-30 19:44:45,644 - INFO - Successfully crawled: https://de.marangoni.com/recircle-awards-2023/
+2025-04-30 19:44:45,644 - INFO - Successfully crawled: https://de.marangoni.com/geschichte/
+2025-04-30 19:44:45,645 - INFO - Successfully crawled: https://de.marangoni.com/zertifizierungen/
+2025-04-30 19:44:45,645 - INFO - Successfully crawled: https://de.marangoni.com/jobs-karriere/
+2025-04-30 19:44:45,645 - INFO - Successfully crawled: https://de.marangoni.com/sustainability/
+2025-04-30 19:44:45,645 - INFO - Successfully crawled: https://de.marangoni.com/tyre-division/
+2025-04-30 19:44:45,645 - INFO - Successfully crawled: https://de.marangoni.com/you-retreader/
+2025-04-30 19:44:45,646 - INFO - Successfully crawled: https://de.marangoni.com/de/innovation/
+2025-04-30 19:44:45,646 - INFO - Successfully crawled: https://de.marangoni.com/new-tyre-machinery/
+2025-04-30 19:44:45,646 - INFO - Successfully crawled: https://de.marangoni.com/marangoni-global-network/
+2025-04-30 19:44:45,646 - INFO - Successfully crawled: https://de.marangoni.com/de/case-studies/
+2025-04-30 19:44:45,771 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/de.marangoni.com.md
+2025-04-30 19:44:45,771 - INFO - ========================================
+Starting crawl of domain: https://www.rigdon.de (RIGDON GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:46,152 - INFO - 
+=== Phase 1: Crawling main URL: https://www.rigdon.de ===
+
+[FETCH]... ↓ https://www.rigdon.de... | Status: True | Time: 1.68s
+[SCRAPE].. ◆ https://www.rigdon.de... | Time: 0.117s
+[COMPLETE] ● https://www.rigdon.de... | Status: True | Total: 1.80s
+2025-04-30 19:44:47,968 - INFO - Successfully crawled main URL: https://www.rigdon.de
+2025-04-30 19:44:47,968 - INFO - Collecting internal links from https://www.rigdon.de...
+[FETCH]... ↓ https://www.rigdon.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.rigdon.de... | Status: True | Total: 0.00s
+2025-04-30 19:44:47,978 - INFO - Found 50 internal links.
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de#content
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de/werkstatt-zubehoer/upcycling-2024/#anfahrpuffer
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de/werkstatt-zubehoer/upcycling-2024/#trs-platten
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de/werkstatt-zubehoer/upcycling-2024/#schlauchbruecken
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de/werkstatt-zubehoer/upcycling-2024/#schneepflugleisten
+2025-04-30 19:44:47,978 - INFO - Skipping anchor link: https://www.rigdon.de/werkstatt-zubehoer/upcycling-2024/#tsr-platten
+2025-04-30 19:44:47,978 - INFO - Filtered out 6 anchor links (URLs with '#')
+2025-04-30 19:44:47,979 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:47,979 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:47,979 - INFO - Skipping link with file extension: https://www.rigdon.de/wp-content/uploads/2025/03/Rigdon_Verkaufsaktion.pdf
+2025-04-30 19:44:47,979 - INFO - Skipping non-content page: https://www.rigdon.de/geschaeftskunden-login/
+2025-04-30 19:44:47,979 - INFO - Skipping non-content page: https://www.rigdon.de/agb/
+2025-04-30 19:44:47,979 - INFO - Skipping non-content page: https://www.rigdon.de/datenschutz/
+2025-04-30 19:44:47,979 - INFO - Skipping non-content page: https://www.rigdon.de/impressum/
+2025-04-30 19:44:47,979 - INFO - Filtered out 5 non-content pages
+2025-04-30 19:44:47,979 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:44:47,979 - INFO - Filtered from 39 to 39 URLs with depth <= 2
+2025-04-30 19:44:47,979 - INFO - Reduced from 39 to 39 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:47,979 - INFO - 
+=== Phase 2: Crawling 38 internal links (body only) ===
+
+[FETCH]... ↓ https://www.rigdon.de/alle-reifen/... | Status: True | Time: 1.95s
+[SCRAPE].. ◆ https://www.rigdon.de/alle-reifen/... | Time: 0.148s
+[COMPLETE] ● https://www.rigdon.de/alle-reifen/... | Status: True | Total: 2.10s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns/points-service-sta... | Status: True | Time: 3.44s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns/points-service-sta... | Time: 0.101s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns/points-service-sta... | Status: True | Total: 3.54s
+[FETCH]... ↓ https://www.rigdon.de/geeignet-fur/transporter/... | Status: True | Time: 3.95s
+[SCRAPE].. ◆ https://www.rigdon.de/geeignet-fur/transporter/... | Time: 0.042s
+[COMPLETE] ● https://www.rigdon.de/geeignet-fur/transporter/... | Status: True | Total: 4.00s
+[FETCH]... ↓ https://www.rigdon.de/werkstatt-zubehoer/... | Status: True | Time: 3.93s
+[SCRAPE].. ◆ https://www.rigdon.de/werkstatt-zubehoer/... | Time: 0.075s
+[COMPLETE] ● https://www.rigdon.de/werkstatt-zubehoer/... | Status: True | Total: 4.01s
+[FETCH]... ↓ https://www.rigdon.de/reifenregale/3d-planung/... | Status: True | Time: 4.15s
+[SCRAPE].. ◆ https://www.rigdon.de/reifenregale/3d-planung/... | Time: 0.042s
+[COMPLETE] ● https://www.rigdon.de/reifenregale/3d-planung/... | Status: True | Total: 4.20s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns/produktion/... | Status: True | Time: 4.06s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns/produktion/... | Time: 0.066s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns/produktion/... | Status: True | Total: 4.13s
+[FETCH]... ↓ https://www.rigdon.de/produktanfrage/... | Status: True | Time: 4.27s
+[SCRAPE].. ◆ https://www.rigdon.de/produktanfrage/... | Time: 0.036s
+[COMPLETE] ● https://www.rigdon.de/produktanfrage/... | Status: True | Total: 4.31s
+[FETCH]... ↓ https://www.rigdon.de/reifen/rigdon-416/... | Status: True | Time: 4.19s
+[SCRAPE].. ◆ https://www.rigdon.de/reifen/rigdon-416/... | Time: 0.06s
+[COMPLETE] ● https://www.rigdon.de/reifen/rigdon-416/... | Status: True | Total: 4.25s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns/news/... | Status: True | Time: 4.29s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns/news/... | Time: 0.085s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns/news/... | Status: True | Total: 4.38s
+[FETCH]... ↓ https://www.rigdon.de/anerkannter-ausbildungsbetri... | Status: True | Time: 4.43s
+[SCRAPE].. ◆ https://www.rigdon.de/anerkannter-ausbildungsbetri... | Time: 0.045s
+[COMPLETE] ● https://www.rigdon.de/anerkannter-ausbildungsbetri... | Status: True | Total: 4.47s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns-2024/points-servic... | Status: True | Time: 4.48s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns-2024/points-servic... | Time: 0.064s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns-2024/points-servic... | Status: True | Total: 4.54s
+[FETCH]... ↓ https://www.rigdon.de/green-deal/... | Status: True | Time: 4.56s
+[SCRAPE].. ◆ https://www.rigdon.de/green-deal/... | Time: 0.072s
+[COMPLETE] ● https://www.rigdon.de/green-deal/... | Status: True | Total: 4.63s
+[FETCH]... ↓ https://www.rigdon.de/reifenregale/... | Status: True | Time: 4.78s
+[SCRAPE].. ◆ https://www.rigdon.de/reifenregale/... | Time: 0.061s
+[COMPLETE] ● https://www.rigdon.de/reifenregale/... | Status: True | Total: 4.84s
+[FETCH]... ↓ https://www.rigdon.de/reifen/rigdon-435/... | Status: True | Time: 4.70s
+[SCRAPE].. ◆ https://www.rigdon.de/reifen/rigdon-435/... | Time: 0.054s
+[COMPLETE] ● https://www.rigdon.de/reifen/rigdon-435/... | Status: True | Total: 4.75s
+[FETCH]... ↓ https://www.rigdon.de/reifenregale/tyrestorage/... | Status: True | Time: 4.90s
+[SCRAPE].. ◆ https://www.rigdon.de/reifenregale/tyrestorage/... | Time: 0.108s
+[COMPLETE] ● https://www.rigdon.de/reifenregale/tyrestorage/... | Status: True | Total: 5.01s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns/... | Status: True | Time: 4.93s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns/... | Time: 0.065s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns/... | Status: True | Total: 4.99s
+[FETCH]... ↓ https://www.rigdon.de/geeignet-fur/flughafen/... | Status: True | Time: 5.14s
+[SCRAPE].. ◆ https://www.rigdon.de/geeignet-fur/flughafen/... | Time: 0.039s
+[COMPLETE] ● https://www.rigdon.de/geeignet-fur/flughafen/... | Status: True | Total: 5.18s
+[FETCH]... ↓ https://www.rigdon.de/reifen/rigdon-418/... | Status: True | Time: 5.04s
+[SCRAPE].. ◆ https://www.rigdon.de/reifen/rigdon-418/... | Time: 0.061s
+[COMPLETE] ● https://www.rigdon.de/reifen/rigdon-418/... | Status: True | Total: 5.10s
+[FETCH]... ↓ https://www.rigdon.de/reifenregale/tyrecrane/... | Status: True | Time: 5.24s
+[SCRAPE].. ◆ https://www.rigdon.de/reifenregale/tyrecrane/... | Time: 0.042s
+[COMPLETE] ● https://www.rigdon.de/reifenregale/tyrecrane/... | Status: True | Total: 5.29s
+[FETCH]... ↓ https://www.rigdon.de/umwelt-und-sicherheit/... | Status: True | Time: 5.29s
+[SCRAPE].. ◆ https://www.rigdon.de/umwelt-und-sicherheit/... | Time: 0.066s
+[COMPLETE] ● https://www.rigdon.de/umwelt-und-sicherheit/... | Status: True | Total: 5.36s
+[FETCH]... ↓ https://www.rigdon.de/ueber-uns/ansprechpartner/... | Status: True | Time: 5.22s
+[SCRAPE].. ◆ https://www.rigdon.de/ueber-uns/ansprechpartner/... | Time: 0.079s
+[COMPLETE] ● https://www.rigdon.de/ueber-uns/ansprechpartner/... | Status: True | Total: 5.30s
+[FETCH]... ↓ https://www.rigdon.de/geeignet-fur/lkw-bus/... | Status: True | Time: 5.44s
+[SCRAPE].. ◆ https://www.rigdon.de/geeignet-fur/lkw-bus/... | Time: 0.18s
+[COMPLETE] ● https://www.rigdon.de/geeignet-fur/lkw-bus/... | Status: True | Total: 5.62s
+[FETCH]... ↓ https://www.rigdon.de/karriere/... | Status: True | Time: 5.48s
+[SCRAPE].. ◆ https://www.rigdon.de/karriere/... | Time: 0.121s
+[COMPLETE] ● https://www.rigdon.de/karriere/... | Status: True | Total: 5.60s
+[FETCH]... ↓ https://www.rigdon.de/geeignet-fur/landwirtschaft-... | Status: True | Time: 5.75s
+[SCRAPE].. ◆ https://www.rigdon.de/geeignet-fur/landwirtschaft-... | Time: 0.037s
+[COMPLETE] ● https://www.rigdon.de/geeignet-fur/landwirtschaft-... | Status: True | Total: 5.79s
+[FETCH]... ↓ https://www.rigdon.de/treffen-bei-rigdon-eu-abgeor... | Status: True | Time: 3.68s
+[SCRAPE].. ◆ https://www.rigdon.de/treffen-bei-rigdon-eu-abgeor... | Time: 0.039s
+[COMPLETE] ● https://www.rigdon.de/treffen-bei-rigdon-eu-abgeor... | Status: True | Total: 3.72s
+[FETCH]... ↓ https://www.rigdon.de/geeignet-fur/erdbewegung-em/... | Status: True | Time: 5.83s
+[SCRAPE].. ◆ https://www.rigdon.de/geeignet-fur/erdbewegung-em/... | Time: 0.027s
+[COMPLETE] ● https://www.rigdon.de/geeignet-fur/erdbewegung-em/... | Status: True | Total: 5.86s
+[FETCH]... ↓ https://www.rigdon.de/rigdon-fuer-den-recircle-awa... | Status: True | Time: 5.72s
+[SCRAPE].. ◆ https://www.rigdon.de/rigdon-fuer-den-recircle-awa... | Time: 0.038s
+[COMPLETE] ● https://www.rigdon.de/rigdon-fuer-den-recircle-awa... | Status: True | Total: 5.76s
+[FETCH]... ↓ https://www.rigdon.de/tyredisc/... | Status: True | Time: 5.76s
+[SCRAPE].. ◆ https://www.rigdon.de/tyredisc/... | Time: 0.031s
+[COMPLETE] ● https://www.rigdon.de/tyredisc/... | Status: True | Total: 5.80s
+[FETCH]... ↓ https://www.rigdon.de/reifen/rigdon-405/... | Status: True | Time: 5.79s
+[SCRAPE].. ◆ https://www.rigdon.de/reifen/rigdon-405/... | Time: 0.049s
+[COMPLETE] ● https://www.rigdon.de/reifen/rigdon-405/... | Status: True | Total: 5.85s
+[FETCH]... ↓ https://www.rigdon.de/tyrecarry/... | Status: True | Time: 5.85s
+[SCRAPE].. ◆ https://www.rigdon.de/tyrecarry/... | Time: 0.054s
+[COMPLETE] ● https://www.rigdon.de/tyrecarry/... | Status: True | Total: 5.91s
+[FETCH]... ↓ https://www.rigdon.de/rigdon-investiert-in-nachhal... | Status: True | Time: 5.90s
+[SCRAPE].. ◆ https://www.rigdon.de/rigdon-investiert-in-nachhal... | Time: 0.037s
+[COMPLETE] ● https://www.rigdon.de/rigdon-investiert-in-nachhal... | Status: True | Total: 5.94s
+[FETCH]... ↓ https://www.rigdon.de/de-minimis/... | Status: True | Time: 2.87s
+[SCRAPE].. ◆ https://www.rigdon.de/de-minimis/... | Time: 0.07s
+[COMPLETE] ● https://www.rigdon.de/de-minimis/... | Status: True | Total: 2.95s
+[FETCH]... ↓ https://www.rigdon.de/news-2024... | Status: True | Time: 2.65s
+[SCRAPE].. ◆ https://www.rigdon.de/news-2024... | Time: 0.08s
+[COMPLETE] ● https://www.rigdon.de/news-2024... | Status: True | Total: 2.73s
+[FETCH]... ↓ https://www.rigdon.de/haftungsausschuss/... | Status: True | Time: 2.37s
+[SCRAPE].. ◆ https://www.rigdon.de/haftungsausschuss/... | Time: 0.044s
+[COMPLETE] ● https://www.rigdon.de/haftungsausschuss/... | Status: True | Total: 2.41s
+[FETCH]... ↓ https://www.rigdon.de/tyrestorage/... | Status: True | Time: 3.28s
+[SCRAPE].. ◆ https://www.rigdon.de/tyrestorage/... | Time: 0.106s
+[COMPLETE] ● https://www.rigdon.de/tyrestorage/... | Status: True | Total: 3.38s
+[FETCH]... ↓ https://www.rigdon.de/tyrecrane/... | Status: True | Time: 3.29s
+[SCRAPE].. ◆ https://www.rigdon.de/tyrecrane/... | Time: 0.051s
+[COMPLETE] ● https://www.rigdon.de/tyrecrane/... | Status: True | Total: 3.35s
+[FETCH]... ↓ https://www.rigdon.de/3d-planung/... | Status: True | Time: 3.36s
+[SCRAPE].. ◆ https://www.rigdon.de/3d-planung/... | Time: 0.045s
+[COMPLETE] ● https://www.rigdon.de/3d-planung/... | Status: True | Total: 3.41s
+[FETCH]... ↓ https://www.rigdon.de/karriere-2/... | Status: True | Time: 3.52s
+[SCRAPE].. ◆ https://www.rigdon.de/karriere-2/... | Time: 0.12s
+[COMPLETE] ● https://www.rigdon.de/karriere-2/... | Status: True | Total: 3.64s
+2025-04-30 19:44:56,069 - INFO - Successfully crawled: https://www.rigdon.de/alle-reifen/
+2025-04-30 19:44:56,069 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns/points-service-standorte/
+2025-04-30 19:44:56,069 - INFO - Successfully crawled: https://www.rigdon.de/geeignet-fur/transporter/
+2025-04-30 19:44:56,069 - INFO - Successfully crawled: https://www.rigdon.de/werkstatt-zubehoer/
+2025-04-30 19:44:56,069 - INFO - Successfully crawled: https://www.rigdon.de/produktanfrage/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/reifenregale/3d-planung/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns/produktion/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/reifen/rigdon-416/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns/news/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/anerkannter-ausbildungsbetrieb-2025/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/reifenregale/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/green-deal/
+2025-04-30 19:44:56,070 - INFO - Successfully crawled: https://www.rigdon.de/reifen/rigdon-435/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/reifenregale/tyrestorage/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns-2024/points-service-standorte/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/geeignet-fur/flughafen/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/reifen/rigdon-418/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/reifenregale/tyrecrane/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/geeignet-fur/landwirtschaft-lws/
+2025-04-30 19:44:56,071 - INFO - Successfully crawled: https://www.rigdon.de/rigdon-fuer-den-recircle-award-2024-nominiert-jetzt-abstimmen-und-unterstuetzen/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/geeignet-fur/lkw-bus/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/geeignet-fur/erdbewegung-em/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/reifen/rigdon-405/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/karriere/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/rigdon-investiert-in-nachhaltige-maschinenausstattung-35-innovative-pkw-pressen-von-cima-impianti-bestellt/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/tyrecarry/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/umwelt-und-sicherheit/
+2025-04-30 19:44:56,072 - INFO - Successfully crawled: https://www.rigdon.de/ueber-uns/ansprechpartner/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/tyredisc/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/treffen-bei-rigdon-eu-abgeordneter-markus-ferber-setzt-sich-fuer-die-runderneuerungsbranche-ein/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/de-minimis/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/news-2024
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/haftungsausschuss/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/tyrestorage/
+2025-04-30 19:44:56,073 - INFO - Successfully crawled: https://www.rigdon.de/tyrecrane/
+2025-04-30 19:44:56,074 - INFO - Successfully crawled: https://www.rigdon.de/3d-planung/
+2025-04-30 19:44:56,074 - INFO - Successfully crawled: https://www.rigdon.de/karriere-2/
+2025-04-30 19:44:56,195 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/rigdon.de.md
+2025-04-30 19:44:56,195 - INFO - ========================================
+Starting crawl of domain: https://www.semex.de (Semex Reifen Großhandels GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:56,581 - INFO - 
+=== Phase 1: Crawling main URL: https://www.semex.de ===
+
+[FETCH]... ↓ https://www.semex.de... | Status: True | Time: 1.44s
+[SCRAPE].. ◆ https://www.semex.de... | Time: 0.026s
+[COMPLETE] ● https://www.semex.de... | Status: True | Total: 1.47s
+2025-04-30 19:44:58,059 - INFO - Successfully crawled main URL: https://www.semex.de
+2025-04-30 19:44:58,059 - INFO - Collecting internal links from https://www.semex.de...
+[FETCH]... ↓ https://www.semex.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.semex.de... | Status: True | Total: 0.00s
+2025-04-30 19:44:58,068 - INFO - Found 11 internal links.
+2025-04-30 19:44:58,068 - INFO - Skipping anchor link: https://www.semex.de#myCarousel
+2025-04-30 19:44:58,068 - INFO - Skipping anchor link: https://www.semex.de#layAGB
+2025-04-30 19:44:58,068 - INFO - Filtered out 2 anchor links (URLs with '#')
+2025-04-30 19:44:58,069 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:44:58,069 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Semperit_Semex_Bestellformular_TyreAllianz_A4_2017_02.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Reihenfachverkaeufer.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Lagerist.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Vredestein_2024_9.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Michelin_2024_09.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Continental_2024_09.pdf
+2025-04-30 19:44:58,069 - INFO - Skipping link with file extension: https://www.semex.de/downloads/Kleber_2024_09.pdf
+2025-04-30 19:44:58,069 - INFO - Filtered out 7 non-content pages
+2025-04-30 19:44:58,069 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:44:58,069 - INFO - Filtered from 2 to 2 URLs with depth <= 2
+2025-04-30 19:44:58,069 - INFO - Reduced from 2 to 2 URLs after removing duplicates (normalized by path)
+2025-04-30 19:44:58,069 - INFO - 
+=== Phase 2: Crawling 1 internal links (body only) ===
+
+[FETCH]... ↓ https://www.semex.de/index.php... | Status: True | Time: 0.82s
+[SCRAPE].. ◆ https://www.semex.de/index.php... | Time: 0.031s
+[COMPLETE] ● https://www.semex.de/index.php... | Status: True | Total: 0.85s
+2025-04-30 19:44:58,932 - INFO - Successfully crawled: https://www.semex.de/index.php
+2025-04-30 19:44:59,028 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/semex.de.md
+2025-04-30 19:44:59,028 - INFO - ========================================
+Starting crawl of domain: https://www.ihlenet.de/de/ (IHLE tires GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:44:59,404 - INFO - 
+=== Phase 1: Crawling main URL: https://www.ihlenet.de/de/ ===
+
+[FETCH]... ↓ https://www.ihlenet.de/de/... | Status: True | Time: 1.51s
+[SCRAPE].. ◆ https://www.ihlenet.de/de/... | Time: 0.028s
+[COMPLETE] ● https://www.ihlenet.de/de/... | Status: True | Total: 1.54s
+2025-04-30 19:45:00,955 - INFO - Successfully crawled main URL: https://www.ihlenet.de/de/
+2025-04-30 19:45:00,955 - INFO - Collecting internal links from https://www.ihlenet.de/de/...
+[FETCH]... ↓ https://www.ihlenet.de/de/... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.ihlenet.de/de/... | Status: True | Total: 0.00s
+2025-04-30 19:45:00,964 - INFO - Found 25 internal links.
+2025-04-30 19:45:00,964 - INFO - Skipping anchor link: https://www.ihlenet.de/de/datenschutzerklaerung.html#hide-cookie-layer
+2025-04-30 19:45:00,964 - INFO - Filtered out 1 anchor links (URLs with '#')
+2025-04-30 19:45:00,964 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:45:00,964 - INFO - Site appears to use language codes in URLs
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/faqs.html
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/kontakt/kontakt.html
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/kontakt/ansprechpartner.html
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/impressum.html
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/datenschutzerklaerung.html
+2025-04-30 19:45:00,964 - INFO - Skipping non-content page: https://www.ihlenet.de/de/cookies.html
+2025-04-30 19:45:00,965 - INFO - Skipping non-content page: https://www.ihlenet.de/de/agb.html
+2025-04-30 19:45:00,965 - INFO - Filtered out 7 non-content pages
+2025-04-30 19:45:00,965 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:45:00,965 - INFO - Filtered from 17 to 3 URLs with depth <= 2
+2025-04-30 19:45:00,965 - INFO - Reduced from 3 to 3 URLs after removing duplicates (normalized by path)
+2025-04-30 19:45:00,965 - INFO - 
+=== Phase 2: Crawling 3 internal links (body only) ===
+
+[FETCH]... ↓ https://www.ihlenet.de/de/de... | Status: True | Time: 0.89s
+[SCRAPE].. ◆ https://www.ihlenet.de/de/de... | Time: 0.014s
+[COMPLETE] ● https://www.ihlenet.de/de/de... | Status: True | Total: 0.91s
+[FETCH]... ↓ https://www.ihlenet.de/de/home.html... | Status: True | Time: 0.91s
+[SCRAPE].. ◆ https://www.ihlenet.de/de/home.html... | Time: 0.034s
+[COMPLETE] ● https://www.ihlenet.de/de/home.html... | Status: True | Total: 0.94s
+[FETCH]... ↓ https://www.ihlenet.de/de/rechtliche-hinweise.html... | Status: True | Time: 1.05s
+[SCRAPE].. ◆ https://www.ihlenet.de/de/rechtliche-hinweise.html... | Time: 0.013s
+[COMPLETE] ● https://www.ihlenet.de/de/rechtliche-hinweise.html... | Status: True | Total: 1.06s
+2025-04-30 19:45:02,042 - INFO - Successfully crawled: https://www.ihlenet.de/de/de
+2025-04-30 19:45:02,042 - INFO - Successfully crawled: https://www.ihlenet.de/de/home.html
+2025-04-30 19:45:02,042 - INFO - Successfully crawled: https://www.ihlenet.de/de/rechtliche-hinweise.html
+2025-04-30 19:45:02,135 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/ihlenet.de.md
+2025-04-30 19:45:02,135 - INFO - ========================================
+Starting crawl of domain: https://www.haemmerling.de (hämmerling The Tyre Company GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:45:02,525 - INFO - 
+=== Phase 1: Crawling main URL: https://www.haemmerling.de ===
+
+[FETCH]... ↓ https://www.haemmerling.de... | Status: True | Time: 1.81s
+[SCRAPE].. ◆ https://www.haemmerling.de... | Time: 0.033s
+[COMPLETE] ● https://www.haemmerling.de... | Status: True | Total: 1.85s
+2025-04-30 19:45:04,384 - INFO - Successfully crawled main URL: https://www.haemmerling.de
+2025-04-30 19:45:04,384 - INFO - Collecting internal links from https://www.haemmerling.de...
+[FETCH]... ↓ https://www.haemmerling.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.haemmerling.de... | Status: True | Total: 0.00s
+2025-04-30 19:45:04,393 - INFO - Found 13 internal links.
+2025-04-30 19:45:04,393 - INFO - Skipping anchor link: https://www.haemmerling.de#main
+2025-04-30 19:45:04,393 - INFO - Skipping non-web link: phone:0049525499790
+2025-04-30 19:45:04,393 - INFO - Skipping anchor link: https://www.haemmerling.de#top
+2025-04-30 19:45:04,394 - INFO - Filtered out 2 anchor links (URLs with '#')
+2025-04-30 19:45:04,394 - INFO - Filtered out 1 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:45:04,394 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:45:04,394 - INFO - Skipping non-German language URL: https://www.haemmerling.de/en/home/
+2025-04-30 19:45:04,394 - INFO - Skipping non-content page: https://www.haemmerling.de/agb/
+2025-04-30 19:45:04,394 - INFO - Skipping non-content page: https://www.haemmerling.de/impressum/
+2025-04-30 19:45:04,394 - INFO - Skipping non-content page: https://www.haemmerling.de/datenschutzerklaerung/
+2025-04-30 19:45:04,394 - INFO - Filtered out 3 non-content pages
+2025-04-30 19:45:04,394 - INFO - Filtered out 1 non-German language URLs
+2025-04-30 19:45:04,394 - INFO - Filtered from 2 to 1 URLs with depth <= 2
+2025-04-30 19:45:04,394 - INFO - Reduced from 1 to 1 URLs after removing duplicates (normalized by path)
+2025-04-30 19:45:04,394 - INFO - 
+=== Phase 2: Crawling 1 internal links (body only) ===
+
+[FETCH]... ↓ https://www.haemmerling.de/... | Status: True | Time: 1.06s
+[SCRAPE].. ◆ https://www.haemmerling.de/... | Time: 0.044s
+[COMPLETE] ● https://www.haemmerling.de/... | Status: True | Total: 1.11s
+2025-04-30 19:45:05,513 - INFO - Successfully crawled: https://www.haemmerling.de/
+2025-04-30 19:45:05,613 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/haemmerling.de.md
+2025-04-30 19:45:05,613 - INFO - ========================================
+Starting crawl of domain: https://www.bwexclusiv.de (B & W exclusives Autozubehör)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:45:06,004 - INFO - 
+=== Phase 1: Crawling main URL: https://www.bwexclusiv.de ===
+
+[FETCH]... ↓ https://www.bwexclusiv.de... | Status: True | Time: 6.71s
+[SCRAPE].. ◆ https://www.bwexclusiv.de... | Time: 0.017s
+[COMPLETE] ● https://www.bwexclusiv.de... | Status: True | Total: 6.73s
+2025-04-30 19:45:12,744 - INFO - Successfully crawled main URL: https://www.bwexclusiv.de
+2025-04-30 19:45:12,744 - INFO - Collecting internal links from https://www.bwexclusiv.de...
+[FETCH]... ↓ https://www.bwexclusiv.de... | Status: True | Time: 0.00s
+[COMPLETE] ● https://www.bwexclusiv.de... | Status: True | Total: 0.00s
+2025-04-30 19:45:12,753 - INFO - Found 24 internal links.
+2025-04-30 19:45:12,753 - INFO - Skipping anchor link: https://www.bwexclusiv.de#access
+2025-04-30 19:45:12,754 - INFO - Skipping anchor link: https://www.bwexclusiv.de#nogo
+2025-04-30 19:45:12,754 - INFO - Filtered out 2 anchor links (URLs with '#')
+2025-04-30 19:45:12,754 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:45:12,754 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:45:12,754 - INFO - Skipping non-content page: https://www.bwexclusiv.de/kontakt
+2025-04-30 19:45:12,754 - INFO - Skipping non-content page: https://www.bwexclusiv.de/impressum
+2025-04-30 19:45:12,754 - INFO - Skipping non-content page: https://www.bwexclusiv.de/datenschutzerklaerung
+2025-04-30 19:45:12,754 - INFO - Filtered out 3 non-content pages
+2025-04-30 19:45:12,754 - INFO - Filtered out 0 non-German language URLs
+2025-04-30 19:45:12,754 - INFO - Filtered from 19 to 19 URLs with depth <= 2
+2025-04-30 19:45:12,754 - INFO - Reduced from 19 to 19 URLs after removing duplicates (normalized by path)
+2025-04-30 19:45:12,754 - INFO - 
+=== Phase 2: Crawling 19 internal links (body only) ===
+
+[FETCH]... ↓ https://www.bwexclusiv.de/... | Status: True | Time: 1.63s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/... | Time: 0.01s
+[COMPLETE] ● https://www.bwexclusiv.de/... | Status: True | Total: 1.64s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/audi... | Status: True | Time: 1.70s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/audi... | Time: 0.01s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/audi... | Status: True | Total: 1.71s
+[FETCH]... ↓ https://www.bwexclusiv.de/ueber-uns... | Status: True | Time: 1.73s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/ueber-uns... | Time: 0.016s
+[COMPLETE] ● https://www.bwexclusiv.de/ueber-uns... | Status: True | Total: 1.75s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie... | Status: True | Time: 1.82s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie... | Status: True | Total: 1.83s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/ferrari... | Status: True | Time: 1.88s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/ferrari... | Time: 0.009s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/ferrari... | Status: True | Total: 1.89s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/aston-martin... | Status: True | Time: 1.92s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/aston-martin... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/aston-martin... | Status: True | Total: 1.92s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/ford... | Status: True | Time: 1.99s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/ford... | Time: 0.007s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/ford... | Status: True | Total: 2.00s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/infiniti... | Status: True | Time: 2.07s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/infiniti... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/infiniti... | Status: True | Total: 2.08s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/wiesmann... | Status: True | Time: 2.12s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/wiesmann... | Time: 0.008s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/wiesmann... | Status: True | Total: 2.13s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/mini... | Status: True | Time: 2.17s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/mini... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/mini... | Status: True | Total: 2.18s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/bmw... | Status: True | Time: 2.24s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/bmw... | Time: 0.018s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/bmw... | Status: True | Total: 2.26s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/land-rover... | Status: True | Time: 2.31s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/land-rover... | Time: 0.006s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/land-rover... | Status: True | Total: 2.31s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/jaguar... | Status: True | Time: 2.40s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/jaguar... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/jaguar... | Status: True | Total: 2.40s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/mercedes-benz... | Status: True | Time: 2.45s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/mercedes-benz... | Time: 0.035s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/mercedes-benz... | Status: True | Total: 2.49s
+[FETCH]... ↓ https://www.bwexclusiv.de/partner... | Status: True | Time: 2.51s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/partner... | Time: 0.006s
+[COMPLETE] ● https://www.bwexclusiv.de/partner... | Status: True | Total: 2.51s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/volkswagen... | Status: True | Time: 2.54s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/volkswagen... | Time: 0.011s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/volkswagen... | Status: True | Total: 2.55s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/porsche... | Status: True | Time: 2.61s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/porsche... | Time: 0.013s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/porsche... | Status: True | Total: 2.62s
+[FETCH]... ↓ https://www.bwexclusiv.de/galerie/smart... | Status: True | Time: 2.64s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/galerie/smart... | Time: 0.006s
+[COMPLETE] ● https://www.bwexclusiv.de/galerie/smart... | Status: True | Total: 2.64s
+[FETCH]... ↓ https://www.bwexclusiv.de/videos... | Status: True | Time: 2.68s
+[SCRAPE].. ◆ https://www.bwexclusiv.de/videos... | Time: 0.005s
+[COMPLETE] ● https://www.bwexclusiv.de/videos... | Status: True | Total: 2.69s
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/audi
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/ueber-uns
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/ferrari
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/aston-martin
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/ford
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/infiniti
+2025-04-30 19:45:15,459 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/wiesmann
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/mini
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/bmw
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/land-rover
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/jaguar
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/mercedes-benz
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/partner
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/volkswagen
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/porsche
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/galerie/smart
+2025-04-30 19:45:15,460 - INFO - Successfully crawled: https://www.bwexclusiv.de/videos
+2025-04-30 19:45:15,555 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/bwexclusiv.de.md
+2025-04-30 19:45:15,555 - INFO - ========================================
+Starting crawl of domain: https://grasdorf-rad.eu (Grasdorf GmbH)
+========================================
+[INIT].... → Crawl4AI 0.5.0.post4
+2025-04-30 19:45:15,928 - INFO - 
+=== Phase 1: Crawling main URL: https://grasdorf-rad.eu ===
+
+[FETCH]... ↓ https://grasdorf-rad.eu... | Status: True | Time: 5.59s
+[SCRAPE].. ◆ https://grasdorf-rad.eu... | Time: 0.056s
+[COMPLETE] ● https://grasdorf-rad.eu... | Status: True | Total: 5.65s
+2025-04-30 19:45:21,593 - INFO - Successfully crawled main URL: https://grasdorf-rad.eu
+2025-04-30 19:45:21,593 - INFO - Collecting internal links from https://grasdorf-rad.eu...
+[FETCH]... ↓ https://grasdorf-rad.eu... | Status: True | Time: 0.00s
+[COMPLETE] ● https://grasdorf-rad.eu... | Status: True | Total: 0.00s
+2025-04-30 19:45:21,602 - INFO - Found 38 internal links.
+2025-04-30 19:45:21,603 - INFO - Skipping anchor link: https://grasdorf-rad.eu#main
+2025-04-30 19:45:21,603 - INFO - Filtered out 1 anchor links (URLs with '#')
+2025-04-30 19:45:21,603 - INFO - Filtered out 0 non-HTTP(S) links (e.g., mailto:, tel:, callto:)
+2025-04-30 19:45:21,603 - INFO - Site appears to not use language codes in URLs
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/downloads/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/kontakt-2/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/impressum/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/support/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/datenschutz/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/agb/
+2025-04-30 19:45:21,603 - INFO - Skipping non-German language URL: https://grasdorf-rad.eu/en/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/kontakt/
+2025-04-30 19:45:21,603 - INFO - Skipping non-content page: https://grasdorf-rad.eu/downloads
+2025-04-30 19:45:21,604 - INFO - Filtered out 8 non-content pages
+2025-04-30 19:45:21,604 - INFO - Filtered out 1 non-German language URLs
+2025-04-30 19:45:21,604 - INFO - Filtered from 28 to 27 URLs with depth <= 2
+2025-04-30 19:45:21,604 - INFO - Reduced from 27 to 27 URLs after removing duplicates (normalized by path)
+2025-04-30 19:45:21,604 - INFO - 
+=== Phase 2: Crawling 26 internal links (body only) ===
+
+[FETCH]... ↓ https://grasdorf-rad.eu/grasdorfrad/... | Status: True | Time: 22.14s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/grasdorfrad/... | Time: 0.043s
+[COMPLETE] ● https://grasdorf-rad.eu/grasdorfrad/... | Status: True | Total: 22.19s
+[FETCH]... ↓ https://grasdorf-rad.eu/hbi-zwillingsraeder-mobilb... | Status: True | Time: 24.12s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/hbi-zwillingsraeder-mobilb... | Time: 0.087s
+[COMPLETE] ● https://grasdorf-rad.eu/hbi-zwillingsraeder-mobilb... | Status: True | Total: 24.21s
+[FETCH]... ↓ https://grasdorf-rad.eu/continental-reifen/... | Status: True | Time: 24.26s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/continental-reifen/... | Time: 0.048s
+[COMPLETE] ● https://grasdorf-rad.eu/continental-reifen/... | Status: True | Total: 24.31s
+[FETCH]... ↓ https://grasdorf-rad.eu/unsere_radtypen/... | Status: True | Time: 24.62s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/unsere_radtypen/... | Time: 0.074s
+[COMPLETE] ● https://grasdorf-rad.eu/unsere_radtypen/... | Status: True | Total: 24.69s
+[FETCH]... ↓ https://grasdorf-rad.eu/pflegeraeder/... | Status: True | Time: 24.92s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/pflegeraeder/... | Time: 0.081s
+[COMPLETE] ● https://grasdorf-rad.eu/pflegeraeder/... | Status: True | Total: 25.00s
+[FETCH]... ↓ https://grasdorf-rad.eu/grasdorf-torque/... | Status: True | Time: 25.02s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/grasdorf-torque/... | Time: 0.046s
+[COMPLETE] ● https://grasdorf-rad.eu/grasdorf-torque/... | Status: True | Total: 25.07s
+[FETCH]... ↓ https://grasdorf-rad.eu/news/... | Status: True | Time: 25.13s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/news/... | Time: 0.03s
+[COMPLETE] ● https://grasdorf-rad.eu/news/... | Status: True | Total: 25.16s
+[FETCH]... ↓ https://grasdorf-rad.eu/reifen/... | Status: True | Time: 25.24s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/reifen/... | Time: 0.058s
+[COMPLETE] ● https://grasdorf-rad.eu/reifen/... | Status: True | Total: 25.30s
+[FETCH]... ↓ https://grasdorf-rad.eu/hbi-reifen/... | Status: True | Time: 25.60s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/hbi-reifen/... | Time: 0.064s
+[COMPLETE] ● https://grasdorf-rad.eu/hbi-reifen/... | Status: True | Total: 25.67s
+[FETCH]... ↓ https://grasdorf-rad.eu/michelin-reifen/... | Status: True | Time: 26.04s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/michelin-reifen/... | Time: 0.059s
+[COMPLETE] ● https://grasdorf-rad.eu/michelin-reifen/... | Status: True | Total: 26.10s
+[FETCH]... ↓ https://grasdorf-rad.eu/bauen-sie-auf-uns/... | Status: True | Time: 26.11s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/bauen-sie-auf-uns/... | Time: 0.221s
+[COMPLETE] ● https://grasdorf-rad.eu/bauen-sie-auf-uns/... | Status: True | Total: 26.33s
+[FETCH]... ↓ https://grasdorf-rad.eu/ceat-reifen/... | Status: True | Time: 27.52s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/ceat-reifen/... | Time: 0.089s
+[COMPLETE] ● https://grasdorf-rad.eu/ceat-reifen/... | Status: True | Total: 27.61s
+[FETCH]... ↓ https://grasdorf-rad.eu/airbooster-plus/... | Status: True | Time: 27.85s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/airbooster-plus/... | Time: 0.107s
+[COMPLETE] ● https://grasdorf-rad.eu/airbooster-plus/... | Status: True | Total: 27.96s
+[FETCH]... ↓ https://grasdorf-rad.eu/grasdorfrad-2/... | Status: True | Time: 35.53s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/grasdorfrad-2/... | Time: 0.007s
+[COMPLETE] ● https://grasdorf-rad.eu/grasdorfrad-2/... | Status: True | Total: 35.54s
+[FETCH]... ↓ https://grasdorf-rad.eu/karriere/... | Status: True | Time: 39.29s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/karriere/... | Time: 0.131s
+[COMPLETE] ● https://grasdorf-rad.eu/karriere/... | Status: True | Total: 39.43s
+[FETCH]... ↓ https://grasdorf-rad.eu/historie/... | Status: True | Time: 49.20s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/historie/... | Time: 0.042s
+[COMPLETE] ● https://grasdorf-rad.eu/historie/... | Status: True | Total: 49.24s
+[FETCH]... ↓ https://grasdorf-rad.eu/hafen-2/... | Status: True | Time: 49.50s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/hafen-2/... | Time: 0.028s
+[COMPLETE] ● https://grasdorf-rad.eu/hafen-2/... | Status: True | Total: 49.53s
+[FETCH]... ↓ https://grasdorf-rad.eu/aktion/... | Status: True | Time: 50.50s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/aktion/... | Time: 0.009s
+[COMPLETE] ● https://grasdorf-rad.eu/aktion/... | Status: True | Total: 50.51s
+[FETCH]... ↓ https://grasdorf-rad.eu/wald/... | Status: True | Time: 50.78s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/wald/... | Time: 0.018s
+[COMPLETE] ● https://grasdorf-rad.eu/wald/... | Status: True | Total: 50.80s
+[FETCH]... ↓ https://grasdorf-rad.eu/pressemitteilung-03-03-202... | Status: True | Time: 51.30s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/pressemitteilung-03-03-202... | Time: 0.028s
+[COMPLETE] ● https://grasdorf-rad.eu/pressemitteilung-03-03-202... | Status: True | Total: 51.32s
+[FETCH]... ↓ https://grasdorf-rad.eu/taurus/... | Status: True | Time: 51.67s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/taurus/... | Time: 0.051s
+[COMPLETE] ● https://grasdorf-rad.eu/taurus/... | Status: True | Total: 51.73s
+[FETCH]... ↓ https://grasdorf-rad.eu/traktor... | Status: True | Time: 52.25s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/traktor... | Time: 0.045s
+[COMPLETE] ● https://grasdorf-rad.eu/traktor... | Status: True | Total: 52.29s
+[FETCH]... ↓ https://grasdorf-rad.eu/kundenservice/... | Status: True | Time: 52.55s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/kundenservice/... | Time: 0.038s
+[COMPLETE] ● https://grasdorf-rad.eu/kundenservice/... | Status: True | Total: 52.59s
+[FETCH]... ↓ https://grasdorf-rad.eu/galaxy/... | Status: True | Time: 52.60s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/galaxy/... | Time: 0.026s
+[COMPLETE] ● https://grasdorf-rad.eu/galaxy/... | Status: True | Total: 52.63s
+[FETCH]... ↓ https://grasdorf-rad.eu/team/... | Status: True | Time: 52.85s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/team/... | Time: 0.23s
+[COMPLETE] ● https://grasdorf-rad.eu/team/... | Status: True | Total: 53.08s
+[FETCH]... ↓ https://grasdorf-rad.eu/ceat/... | Status: True | Time: 58.50s
+[SCRAPE].. ◆ https://grasdorf-rad.eu/ceat/... | Time: 0.128s
+[COMPLETE] ● https://grasdorf-rad.eu/ceat/... | Status: True | Total: 58.63s
+2025-04-30 19:46:20,257 - INFO - Successfully crawled: https://grasdorf-rad.eu/grasdorfrad/
+2025-04-30 19:46:20,257 - INFO - Successfully crawled: https://grasdorf-rad.eu/hbi-zwillingsraeder-mobilbagger/
+2025-04-30 19:46:20,257 - INFO - Successfully crawled: https://grasdorf-rad.eu/continental-reifen/
+2025-04-30 19:46:20,257 - INFO - Successfully crawled: https://grasdorf-rad.eu/unsere_radtypen/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/pflegeraeder/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/grasdorf-torque/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/news/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/reifen/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/hbi-reifen/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/michelin-reifen/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/bauen-sie-auf-uns/
+2025-04-30 19:46:20,258 - INFO - Successfully crawled: https://grasdorf-rad.eu/ceat-reifen/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/airbooster-plus/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/grasdorfrad-2/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/karriere/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/historie/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/hafen-2/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/aktion/
+2025-04-30 19:46:20,259 - INFO - Successfully crawled: https://grasdorf-rad.eu/wald/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/pressemitteilung-03-03-2024/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/taurus/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/traktor
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/kundenservice/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/galaxy/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/team/
+2025-04-30 19:46:20,260 - INFO - Successfully crawled: https://grasdorf-rad.eu/ceat/
+2025-04-30 19:46:20,355 - INFO - Aggregate content saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content/grasdorf-rad.eu.md
+2025-04-30 19:46:20,355 - INFO - 
+
+========================================
+2025-04-30 19:46:20,355 - INFO - CRAWL SUMMARY
+2025-04-30 19:46:20,355 - INFO - ========================================
+2025-04-30 19:46:20,355 - INFO - Domain: http://www.trelleborg.com/de/
+2025-04-30 19:46:20,355 - INFO - Company: Trelleborg Wheel Systems Germany GmbH
+2025-04-30 19:46:20,355 - INFO - Pages crawled: 13
+2025-04-30 19:46:20,355 - INFO - Markdown file: trelleborg.com.md
+2025-04-30 19:46:20,355 - INFO - ----------------------------------------
+2025-04-30 19:46:20,355 - INFO - Domain: https://www.gewe.de
+2025-04-30 19:46:20,355 - INFO - Company: GEWE Reifengroßhandel GmbH
+2025-04-30 19:46:20,355 - INFO - Pages crawled: 6
+2025-04-30 19:46:20,355 - INFO - Markdown file: gewe.de.md
+2025-04-30 19:46:20,355 - INFO - ----------------------------------------
+2025-04-30 19:46:20,355 - INFO - Domain: https://www.rrteam.de
+2025-04-30 19:46:20,355 - INFO - Company: RR TEAM GmbH
+2025-04-30 19:46:20,355 - INFO - Pages crawled: 18
+2025-04-30 19:46:20,355 - INFO - Markdown file: rrteam.de.md
+2025-04-30 19:46:20,355 - INFO - ----------------------------------------
+2025-04-30 19:46:20,355 - INFO - Domain: https://www.reifengundlach.de
+2025-04-30 19:46:20,355 - INFO - Company: Best4Tires GmbH
+2025-04-30 19:46:20,355 - INFO - Pages crawled: 1
+2025-04-30 19:46:20,355 - INFO - Markdown file: reifengundlach.de.md
+2025-04-30 19:46:20,355 - INFO - ----------------------------------------
+2025-04-30 19:46:20,355 - INFO - Domain: https://de.marangoni.com
+2025-04-30 19:46:20,355 - INFO - Company: MARANGONI
+2025-04-30 19:46:20,355 - INFO - Pages crawled: 30
+2025-04-30 19:46:20,355 - INFO - Markdown file: de.marangoni.com.md
+2025-04-30 19:46:20,355 - INFO - ----------------------------------------
+2025-04-30 19:46:20,355 - INFO - Domain: https://www.rigdon.de
+2025-04-30 19:46:20,356 - INFO - Company: RIGDON GmbH
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 39
+2025-04-30 19:46:20,356 - INFO - Markdown file: rigdon.de.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,356 - INFO - Domain: https://www.semex.de
+2025-04-30 19:46:20,356 - INFO - Company: Semex Reifen Großhandels GmbH
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 2
+2025-04-30 19:46:20,356 - INFO - Markdown file: semex.de.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,356 - INFO - Domain: https://www.ihlenet.de/de/
+2025-04-30 19:46:20,356 - INFO - Company: IHLE tires GmbH
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 4
+2025-04-30 19:46:20,356 - INFO - Markdown file: ihlenet.de.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,356 - INFO - Domain: https://www.haemmerling.de
+2025-04-30 19:46:20,356 - INFO - Company: hämmerling The Tyre Company GmbH
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 2
+2025-04-30 19:46:20,356 - INFO - Markdown file: haemmerling.de.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,356 - INFO - Domain: https://www.bwexclusiv.de
+2025-04-30 19:46:20,356 - INFO - Company: B & W exclusives Autozubehör
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 20
+2025-04-30 19:46:20,356 - INFO - Markdown file: bwexclusiv.de.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,356 - INFO - Domain: https://grasdorf-rad.eu
+2025-04-30 19:46:20,356 - INFO - Company: Grasdorf GmbH
+2025-04-30 19:46:20,356 - INFO - Pages crawled: 27
+2025-04-30 19:46:20,356 - INFO - Markdown file: grasdorf-rad.eu.md
+2025-04-30 19:46:20,356 - INFO - ----------------------------------------
+2025-04-30 19:46:20,357 - INFO - Domains crawled successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/domain_content
+2025-04-30 19:46:20,357 - INFO - Step 2: Extracting keywords with LLM
+2025-04-30 19:46:20,360 - INFO - Found 11 files to potentially process...
+2025-04-30 19:46:20,360 - INFO - Skipped 0 files as output already exists. Use --overwrite to reprocess.
+2025-04-30 19:46:20,360 - INFO - Processing 11 files...
+[INIT].... → Crawl4AI 0.5.0.post4
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.003s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 2.2163774899963755s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 2.22s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.004s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 2.2030153709929436s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 2.21s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.011s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 7.341866652976023s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 7.35s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.001s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 1.4271985289815348s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 1.43s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.009s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 6.596223672997439s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 6.61s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.006s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 4.745069950004108s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 4.75s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.009s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 6.535289343009936s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 6.55s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.001s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 1.6243204550119117s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 1.63s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.001s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 1.3798904190189205s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 1.38s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.014s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 7.681674369989196s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 7.70s
+[FETCH]... ↓ file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Time: 0.00s
+[SCRAPE].. ◆ file:///home/novoai/Documents/scraper/test_folder/... | Time: 0.002s
+[EXTRACT]. ■ Completed for file:///home/novoai/Documents/scraper/test_folder/... | Time: 1.5409037380013615s
+[COMPLETE] ● file:///home/novoai/Documents/scraper/test_folder/... | Status: True | Total: 1.54s
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/ihlenet.de_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rigdon.de_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/semex.de_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rrteam.de_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/grasdorf-rad.eu_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/haemmerling.de_extracted.json
+2025-04-30 19:47:04,110 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/bwexclusiv.de_extracted.json
+2025-04-30 19:47:04,111 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/gewe.de_extracted.json
+2025-04-30 19:47:04,111 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/de.marangoni.com_extracted.json
+2025-04-30 19:47:04,111 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/reifengundlach.de_extracted.json
+2025-04-30 19:47:04,111 - INFO - Extracted data saved to test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/trelleborg.com_extracted.json
+
+=== Token Usage Summary ===
+Type                   Count
+------------------------------
+Completion             1,308
+Prompt               234,108
+Total                235,416
+
+=== Usage History ===
+Request #    Completion       Prompt        Total
+------------------------------------------------
+1                   104        8,476        8,580
+2                   109       12,846       12,955
+3                   135       43,308       43,443
+4                   106        5,598        5,704
+5                   174       32,134       32,308
+6                   100       28,384       28,484
+7                   160       33,613       33,773
+8                   108        7,063        7,171
+9                   104        5,506        5,610
+10                  112       48,146       48,258
+11                   96        9,034        9,130
+2025-04-30 19:47:04,190 - INFO - Checking for files with errors in test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords...
+2025-04-30 19:47:04,190 - INFO - No files with errors found needing reprocessing.
+2025-04-30 19:47:04,191 - INFO - Keywords extracted successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords
+2025-04-30 19:47:04,191 - INFO - Step 3: Filling process types
+2025-04-30 19:47:04 - webcrawl.fill_process_type - INFO - Using provided category: Reifenhersteller (skipping automatic extraction)
+2025-04-30 19:47:04,192 - INFO - Using provided category: Reifenhersteller (skipping automatic extraction)
+2025-04-30 19:47:04 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/trelleborg.com_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:04,192 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/trelleborg.com_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:05 - webcrawl.fill_process_type - INFO -   Updated process_type for company: Trelleborg Wheel Systems Germany GmbH
+2025-04-30 19:47:05,718 - INFO -   Updated process_type for company: Trelleborg Wheel Systems Germany GmbH
+2025-04-30 19:47:05 - webcrawl.fill_process_type - INFO -   Products: ['Dichtungslösungen', 'Antivibrationslösungen', 'Boots', 'Engineered Coated Fabrics', 'Fluid Handling Solutions']
+2025-04-30 19:47:05,719 - INFO -   Products: ['Dichtungslösungen', 'Antivibrationslösungen', 'Boots', 'Engineered Coated Fabrics', 'Fluid Handling Solutions']
+2025-04-30 19:47:05 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Extrusionen', 'Vulkanisationen', 'Beschichtungen', 'Prüfungen', 'Verpackungen']
+2025-04-30 19:47:05,719 - INFO -   Generated process_type: ['Extrusionen', 'Vulkanisationen', 'Beschichtungen', 'Prüfungen', 'Verpackungen']
+2025-04-30 19:47:05 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/trelleborg.com_extracted.json
+2025-04-30 19:47:05,719 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/trelleborg.com_extracted.json
+2025-04-30 19:47:05 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/haemmerling.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:05,719 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/haemmerling.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO -   Updated process_type for company: Hämmerling The Tyre Company GmbH
+2025-04-30 19:47:07,164 - INFO -   Updated process_type for company: Hämmerling The Tyre Company GmbH
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO -   Products: ['Reifen', 'Felgen', 'Logistikdienstleistungen', 'IT-Dienstleistungen', 'Eigenmarken']
+2025-04-30 19:47:07,165 - INFO -   Products: ['Reifen', 'Felgen', 'Logistikdienstleistungen', 'IT-Dienstleistungen', 'Eigenmarken']
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Mischungen', 'Vulkanisationen', 'Formungen', 'Prüfungen', 'Montagen']
+2025-04-30 19:47:07,165 - INFO -   Generated process_type: ['Mischungen', 'Vulkanisationen', 'Formungen', 'Prüfungen', 'Montagen']
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/haemmerling.de_extracted.json
+2025-04-30 19:47:07,166 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/haemmerling.de_extracted.json
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rrteam.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:07,166 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rrteam.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rrteam.de_extracted.json
+2025-04-30 19:47:07,166 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rrteam.de_extracted.json
+2025-04-30 19:47:07 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/gewe.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:07,166 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/gewe.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:08 - webcrawl.fill_process_type - INFO -   Updated process_type for company: GEWE Reifengroßhandel GmbH
+2025-04-30 19:47:08,822 - INFO -   Updated process_type for company: GEWE Reifengroßhandel GmbH
+2025-04-30 19:47:08 - webcrawl.fill_process_type - INFO -   Products: ['Reifen', 'Räder', 'Kompletträder', 'Felgen', 'Tuningräder']
+2025-04-30 19:47:08,822 - INFO -   Products: ['Reifen', 'Räder', 'Kompletträder', 'Felgen', 'Tuningräder']
+2025-04-30 19:47:08 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Spritzgüssen', 'Vulkanisationen', 'Montagen', 'Prüfungen', 'Lagerungen']
+2025-04-30 19:47:08,823 - INFO -   Generated process_type: ['Spritzgüssen', 'Vulkanisationen', 'Montagen', 'Prüfungen', 'Lagerungen']
+2025-04-30 19:47:08 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/gewe.de_extracted.json
+2025-04-30 19:47:08,823 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/gewe.de_extracted.json
+2025-04-30 19:47:08 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/semex.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:08,823 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/semex.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:10 - webcrawl.fill_process_type - INFO -   Updated process_type for company: Semex Reifen Großhandels GmbH
+2025-04-30 19:47:10,105 - INFO -   Updated process_type for company: Semex Reifen Großhandels GmbH
+2025-04-30 19:47:10 - webcrawl.fill_process_type - INFO -   Products: ['Reifen', 'Landwirtschaftsreifen', 'Traktorenreifen', 'Schlepperreifen', 'Pkw-Reifen']
+2025-04-30 19:47:10,106 - INFO -   Products: ['Reifen', 'Landwirtschaftsreifen', 'Traktorenreifen', 'Schlepperreifen', 'Pkw-Reifen']
+2025-04-30 19:47:10 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Mischungen', 'Vulkanisationen', 'Formungen', 'Prüfungen', 'Reparaturen']
+2025-04-30 19:47:10,106 - INFO -   Generated process_type: ['Mischungen', 'Vulkanisationen', 'Formungen', 'Prüfungen', 'Reparaturen']
+2025-04-30 19:47:10 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/semex.de_extracted.json
+2025-04-30 19:47:10,106 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/semex.de_extracted.json
+2025-04-30 19:47:10 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/grasdorf-rad.eu_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:10,106 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/grasdorf-rad.eu_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:11 - webcrawl.fill_process_type - INFO -   Updated process_type for company: Grasdorf GmbH
+2025-04-30 19:47:11,445 - INFO -   Updated process_type for company: Grasdorf GmbH
+2025-04-30 19:47:11 - webcrawl.fill_process_type - INFO -   Products: ['Räder', 'Reifen', 'Kompletträder', 'Felgen', 'Zubehör']
+2025-04-30 19:47:11,446 - INFO -   Products: ['Räder', 'Reifen', 'Kompletträder', 'Felgen', 'Zubehör']
+2025-04-30 19:47:11 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Spritzgüsse', 'Vulkanisationen', 'Montagen', 'Fräsungen', 'Prüfungen']
+2025-04-30 19:47:11,446 - INFO -   Generated process_type: ['Spritzgüsse', 'Vulkanisationen', 'Montagen', 'Fräsungen', 'Prüfungen']
+2025-04-30 19:47:11 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/grasdorf-rad.eu_extracted.json
+2025-04-30 19:47:11,446 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/grasdorf-rad.eu_extracted.json
+2025-04-30 19:47:11 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/ihlenet.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:11,447 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/ihlenet.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Updated process_type for company: IHLE tires GmbH
+2025-04-30 19:47:13,797 - INFO -   Updated process_type for company: IHLE tires GmbH
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Products: ['Reifen', 'Felgen', 'Kompletträder', 'Marketing Services', 'Digitale Services']
+2025-04-30 19:47:13,798 - INFO -   Products: ['Reifen', 'Felgen', 'Kompletträder', 'Marketing Services', 'Digitale Services']
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Spritzgüssen', 'Vulkanisationen', 'Fräsungen', 'Montagen', 'Prüfungen']
+2025-04-30 19:47:13,798 - INFO -   Generated process_type: ['Spritzgüssen', 'Vulkanisationen', 'Fräsungen', 'Montagen', 'Prüfungen']
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/ihlenet.de_extracted.json
+2025-04-30 19:47:13,798 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/ihlenet.de_extracted.json
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/de.marangoni.com_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:13,798 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/de.marangoni.com_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Fixed conjugations in process_type for company: Marangoni
+2025-04-30 19:47:13,798 - INFO -   Fixed conjugations in process_type for company: Marangoni
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Original: ['Retreading', 'Compounding', 'Pressing', 'Mixing', 'Repairing']
+2025-04-30 19:47:13,799 - INFO -   Original: ['Retreading', 'Compounding', 'Pressing', 'Mixing', 'Repairing']
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO -   Fixed: ['Retreading', 'Pressing', 'Mixing', 'Repairing']
+2025-04-30 19:47:13,799 - INFO -   Fixed: ['Retreading', 'Pressing', 'Mixing', 'Repairing']
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/de.marangoni.com_extracted.json
+2025-04-30 19:47:13,799 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/de.marangoni.com_extracted.json
+2025-04-30 19:47:13 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/reifengundlach.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:13,799 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/reifengundlach.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:14 - webcrawl.fill_process_type - INFO -   Updated process_type for company: Best4Tires GmbH
+2025-04-30 19:47:14,892 - INFO -   Updated process_type for company: Best4Tires GmbH
+2025-04-30 19:47:14 - webcrawl.fill_process_type - INFO -   Products: ['Tires', 'Rims', 'Complete wheels', 'TPMS']
+2025-04-30 19:47:14,893 - INFO -   Products: ['Tires', 'Rims', 'Complete wheels', 'TPMS']
+2025-04-30 19:47:14 - webcrawl.fill_process_type - INFO -   Generated process_type: ['Gussformen', 'Spritzgüssen', 'Vulkanisationen', 'Montagen', 'Prüfungen']
+2025-04-30 19:47:14,893 - INFO -   Generated process_type: ['Gussformen', 'Spritzgüssen', 'Vulkanisationen', 'Montagen', 'Prüfungen']
+2025-04-30 19:47:14 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/reifengundlach.de_extracted.json
+2025-04-30 19:47:14,893 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/reifengundlach.de_extracted.json
+2025-04-30 19:47:14 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/bwexclusiv.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:14,893 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/bwexclusiv.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Updated process_type for company: B & W exclusives Autozubehör
+2025-04-30 19:47:16,044 - INFO -   Updated process_type for company: B & W exclusives Autozubehör
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Products: ['Tuning', 'Fahrzeugpflege', 'Lackierung', 'Folierung', 'Reparaturen']
+2025-04-30 19:47:16,045 - INFO -   Products: ['Tuning', 'Fahrzeugpflege', 'Lackierung', 'Folierung', 'Reparaturen']
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Generated process_type: []
+2025-04-30 19:47:16,045 - INFO -   Generated process_type: []
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/bwexclusiv.de_extracted.json
+2025-04-30 19:47:16,046 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/bwexclusiv.de_extracted.json
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rigdon.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:16,046 - INFO - Processing file: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/extracted_keywords/rigdon.de_extracted.json (Category: Reifenhersteller)
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Fixed conjugations in process_type for company: RIGDON GmbH
+2025-04-30 19:47:16,046 - INFO -   Fixed conjugations in process_type for company: RIGDON GmbH
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Original: ['Runderneuerung', 'Robotik', 'Automatisierung', 'Vulkanisation', 'Heißrunderneuerung']
+2025-04-30 19:47:16,046 - INFO -   Original: ['Runderneuerung', 'Robotik', 'Automatisierung', 'Vulkanisation', 'Heißrunderneuerung']
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO -   Fixed: ['Robotik', 'Automatisierung', 'Vulkanisation']
+2025-04-30 19:47:16,046 - INFO -   Fixed: ['Robotik', 'Automatisierung', 'Vulkanisation']
+2025-04-30 19:47:16 - webcrawl.fill_process_type - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rigdon.de_extracted.json
+2025-04-30 19:47:16,047 - INFO - Saved processed data to: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rigdon.de_extracted.json
+2025-04-30 19:47:16,047 - INFO - Process types filled successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/trelleborg.com_extracted.json
+2025-04-30 19:47:16,047 - INFO - Step 4: Pluralizing keywords
+2025-04-30 19:47:16,048 - INFO - Processing directory: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled
+2025-04-30 19:47:16,049 - INFO - Found 11 JSON files to process
+2025-04-30 19:47:16,049 - INFO - Processing file 1/11: trelleborg.com_extracted.json
+2025-04-30 19:47:17,856 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/trelleborg.com_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/trelleborg.com_extracted.json
+2025-04-30 19:47:17,856 - INFO - Processing file 2/11: haemmerling.de_extracted.json
+2025-04-30 19:47:19,365 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/haemmerling.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/haemmerling.de_extracted.json
+2025-04-30 19:47:19,365 - INFO - Processing file 3/11: rrteam.de_extracted.json
+2025-04-30 19:47:21,368 - WARNING - JSON schema validation failed: litellm.JSONSchemaValidationError: model=, returned an invalid response=<thinking> The user has provided a list of German words categorized into products, machines, and process types. The task is to translate and pluralize these words, maintaining the same structure and order. However, the provided tool, PluralizedFields, is designed to validate and structure output rather than perform translations or pluralizations. Therefore, I cannot directly use the tool to complete the task. I will inform the user that I cannot help with the translation and pluralization of the words. </thinking>
+2025-04-30 19:47:21,368 - INFO - Retrying with temperature 0.1 (attempt 2/3)
+2025-04-30 19:47:23,128 - WARNING - JSON schema validation failed: litellm.JSONSchemaValidationError: model=, returned an invalid response=<thinking> The user has provided a list of German words categorized into products, machines, and process types. The task is to translate and pluralize these words, maintaining the same structure and order. However, the provided tool 'PluralizedFields' does not support translation or pluralization of German words. Therefore, I cannot directly use the tool to fulfill the user's request. I will inform the user that I cannot help with this task due to the limitations of the available tool. </thinking>
+2025-04-30 19:47:23,128 - INFO - Retrying with temperature 1.0 (attempt 3/3)
+2025-04-30 19:47:24,927 - WARNING - JSON schema validation failed: litellm.JSONSchemaValidationError: model=, returned an invalid response=<thinking> The user has provided a list of German words categorized into products, machines, and process types. The task is to translate and pluralize these words, maintaining the same structure and order. However, the provided tool 'PluralizedFields' does not support translation or pluralization. It only validates and outputs structured data in the specified format. Therefore, I cannot directly use the tool to fulfill the user's request. I will inform the user that I cannot help with the translation and pluralization of the words. </thinking>
+2025-04-30 19:47:24,928 - ERROR - Max retries reached for JSONSchemaValidationError
+2025-04-30 19:47:24,928 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rrteam.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/rrteam.de_extracted.json
+2025-04-30 19:47:24,928 - INFO - Processing file 4/11: gewe.de_extracted.json
+2025-04-30 19:47:26,541 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/gewe.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/gewe.de_extracted.json
+2025-04-30 19:47:26,541 - INFO - Processing file 5/11: semex.de_extracted.json
+2025-04-30 19:47:28,200 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/semex.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/semex.de_extracted.json
+2025-04-30 19:47:28,200 - INFO - Processing file 6/11: grasdorf-rad.eu_extracted.json
+2025-04-30 19:47:29,567 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/grasdorf-rad.eu_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/grasdorf-rad.eu_extracted.json
+2025-04-30 19:47:29,567 - INFO - Processing file 7/11: ihlenet.de_extracted.json
+2025-04-30 19:47:31,721 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/ihlenet.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/ihlenet.de_extracted.json
+2025-04-30 19:47:31,722 - INFO - Processing file 8/11: de.marangoni.com_extracted.json
+2025-04-30 19:47:34,954 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/de.marangoni.com_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/de.marangoni.com_extracted.json
+2025-04-30 19:47:34,954 - INFO - Processing file 9/11: reifengundlach.de_extracted.json
+2025-04-30 19:47:36,816 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/reifengundlach.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/reifengundlach.de_extracted.json
+2025-04-30 19:47:36,816 - INFO - Processing file 10/11: bwexclusiv.de_extracted.json
+2025-04-30 19:47:38,062 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/bwexclusiv.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/bwexclusiv.de_extracted.json
+2025-04-30 19:47:38,062 - INFO - Processing file 11/11: rigdon.de_extracted.json
+2025-04-30 19:47:39,945 - WARNING - JSON schema validation failed: litellm.JSONSchemaValidationError: model=, returned an invalid response={"process_type": ["Robotik", "Automatisierung", "Vulkanisation"], "products": ["Reifen", "Reifenregale"]}, for schema={"description": "A model representing the pluralized fields in a company entry.\nThis matches the structure for products, machines, and process_type fields.\nUsed for LLM response validation and structured output.", "properties": {"products": {"description": "List of pluralized product names in German", "items": {"type": "string"}, "title": "Products", "type": "array"}, "machines": {"description": "List of pluralized machine names in German", "items": {"type": "string"}, "title": "Machines", "type": "array"}, "process_type": {"description": "List of pluralized process types in German", "items": {"type": "string"}, "title": "Process Type", "type": "array"}}, "title": "PluralizedFields", "type": "object", "additionalProperties": false, "required": ["products", "machines", "process_type"]}.
+2025-04-30 19:47:39,945 - INFO - Retrying with temperature 0.1 (attempt 2/3)
+2025-04-30 19:47:41,394 - INFO - Processed test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rigdon.de_extracted.json -> test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords/rigdon.de_extracted.json
+2025-04-30 19:47:41,394 - INFO - ===== FAILURE SUMMARY =====
+2025-04-30 19:47:41,394 - INFO - Total files with failures: 1
+2025-04-30 19:47:41,394 - INFO - Success rate: 90.9%
+2025-04-30 19:47:41,394 - INFO - Failed files and fields:
+2025-04-30 19:47:41,394 - INFO -   - test_folder/output_master/pipeline_run_20250430_193111/webcrawl/process_type_filled/rrteam.de_extracted.json: json_schema_validation_error
+2025-04-30 19:47:41,394 - INFO - Keywords pluralized successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/pluralized_keywords
+2025-04-30 19:47:41,394 - INFO - Step 5: Consolidating data
+2025-04-30 19:47:41,395 - INFO - Output path: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/consolidated_data.json
+2025-04-30 19:47:41,395 - INFO - Processed 11 files. Found 11 unique companies.
+2025-04-30 19:47:41,396 - INFO - No companies were merged from multiple files.
+2025-04-30 19:47:41,396 - INFO - Data consolidated successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/consolidated_data.json
+2025-04-30 19:47:41,396 - INFO - Step 6: Converting to CSV
+2025-04-30 19:47:41,396 - INFO - Conversion successful. CSV file created at: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/webcrawl_output.csv
+2025-04-30 19:47:41,396 - INFO - Converted to CSV successfully: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/webcrawl_output.csv
+2025-04-30 19:47:41,396 - INFO - Crawling & Scraping Keywords phase completed successfully
+2025-04-30 19:47:41,396 - INFO - Phase 2: Crawling & Scraping Keywords - Completed in 205.63 seconds
+2025-04-30 19:47:41,396 - INFO - Phase 2: Crawling & Scraping Keywords output: test_folder/output_master/pipeline_run_20250430_193111/webcrawl/webcrawl_output.csv
+Pipeline Progress:  67%|██████▋   | 2/3 [16:27<07:22, 442.76s/it]2025-04-30 19:47:41,397 - INFO - --------------------------------------------------
+2025-04-30 19:47:41,397 - INFO - Phase 3: Final Data Integration - Started
+2025-04-30 19:47:41,397 - INFO - --------------------------------------------------
+2025-04-30 19:47:41,397 - INFO - Starting Final Data Integration phase
+2025-04-30 19:47:41,397 - INFO - Step 1: Merging technische anlagen with keywords
+2025-04-30 19:47:41,398 - INFO - CSV data loaded with 11 rows
+2025-04-30 19:47:41,399 - INFO - CSV base data loaded with 11 rows
+2025-04-30 19:47:41,399 - INFO - Mapping column names from base data file...
+2025-04-30 19:47:41,399 - INFO - Renamed 6 columns to standard names
+2025-04-30 19:47:41,401 - INFO - Extracting base domains from URLs...
+2025-04-30 19:47:41,401 - INFO - Extracting domains from 'Company Url' column from CSV data
+2025-04-30 19:47:41,402 - INFO - Extracting domains from 'URL' column from base data
+2025-04-30 19:47:41,402 - INFO - Domain stats:
+2025-04-30 19:47:41,402 - INFO -   - CSV unique domains: 11
+2025-04-30 19:47:41,403 - INFO -   - Base data unique domains: 11
+2025-04-30 19:47:41,403 - INFO -   - Common domains: 11
+2025-04-30 19:47:41,403 - INFO - First matching attempt: by company name...
+2025-04-30 19:47:41,403 - INFO - Using fuzzy matching with token_set_ratio (threshold: 0.90)
+2025-04-30 19:47:41,408 - INFO - Matched 11 companies by name (Exact: 11, Fuzzy: 0)
+2025-04-30 19:47:41,409 - INFO - All companies were successfully matched by name. Skipping URL matching.
+2025-04-30 19:47:41,410 - INFO - Saving merged data to: test_folder/output_master/pipeline_run_20250430_193111/integration/merged_data.csv
+2025-04-30 19:47:41,411 - INFO - 
+==================================================
+2025-04-30 19:47:41,411 - INFO - MATCHING STATISTICS SUMMARY
+2025-04-30 19:47:41,411 - INFO - ==================================================
+2025-04-30 19:47:41,411 - INFO - Total rows in CSV file: 11
+2025-04-30 19:47:41,411 - INFO - Total matches: 11 (100.0% of input)
+2025-04-30 19:47:41,411 - INFO -   - Name matches: 11 (100.0%)
+2025-04-30 19:47:41,411 - INFO -     - Exact name matches: 11 (100.0%)
+2025-04-30 19:47:41,411 - INFO -     - Fuzzy name matches: 0 (0.0%)
+2025-04-30 19:47:41,411 - INFO -   - URL matches: 0 (0.0%)
+2025-04-30 19:47:41,411 - INFO -     - Exact URL matches: 0 (0.0%)
+2025-04-30 19:47:41,412 - INFO -     - Fuzzy URL matches: 0 (0.0%)
+2025-04-30 19:47:41,412 - INFO - Unmatched: 0 (0.0%)
+2025-04-30 19:47:41,412 - INFO - Duplicate domains found: 0
+2025-04-30 19:47:41,412 - INFO - Output rows: 11
+2025-04-30 19:47:41,412 - INFO - Processing time: 0.01 seconds
+2025-04-30 19:47:41,412 - INFO - Successfully saved 11 rows to test_folder/output_master/pipeline_run_20250430_193111/integration/merged_data.csv
+2025-04-30 19:47:41,412 - INFO - ==================================================
+2025-04-30 19:47:41,412 - INFO - Data merged successfully: test_folder/output_master/pipeline_run_20250430_193111/integration/merged_data.csv
+2025-04-30 19:47:41,412 - INFO - Step 2: Enriching data with additional information
+2025-04-30 19:47:41,412 - INFO - Reading data from test_folder/output_master/pipeline_run_20250430_193111/integration/merged_data.csv
+2025-04-30 19:47:41,414 - INFO - Data enrichment completed successfully! Output saved to test_folder/output_master/pipeline_run_20250430_193111/integration/enriched_merged_data.csv
+2025-04-30 19:47:41,414 - INFO - Processed 11 records
+2025-04-30 19:47:41,414 - INFO - Data enriched successfully: test_folder/output_master/pipeline_run_20250430_193111/integration/final_output.csv
+2025-04-30 19:47:41,414 - INFO - Final Data Integration phase completed successfully
+2025-04-30 19:47:41,414 - INFO - Phase 3: Final Data Integration - Completed in 0.02 seconds
+2025-04-30 19:47:41,414 - INFO - Phase 3: Final Data Integration output: test_folder/output_master/pipeline_run_20250430_193111/integration/final_output.csv
+Pipeline Progress: 100%|██████████| 3/3 [16:27<00:00, 329.05s/it]
+2025-04-30 19:47:41,415 - INFO - Final output successfully copied to: test_folder/output_master/final_export_Reifenhersteller_20250430_193111.csv
+2025-04-30 19:47:41,415 - INFO - ==================================================
+2025-04-30 19:47:41,415 - INFO - Pipeline Execution Completed Successfully in 989.80 seconds
+2025-04-30 19:47:41,415 - INFO - ==================================================
+2025-04-30 19:47:41,415 - INFO - --- Pipeline Summary ---
+2025-04-30 19:47:41,415 - INFO - Phase 1: Extracting Machine Assets: Success
+2025-04-30 19:47:41,415 - INFO - Phase 2: Crawling & Scraping Keywords: Success
+2025-04-30 19:47:41,415 - INFO - Phase 3: Final Data Integration: Success
+2025-04-30 19:47:41,415 - INFO - Final Output File: test_folder/output_master/final_export_Reifenhersteller_20250430_193111.csv
+2025-04-30 19:47:41,415 - INFO - ----------------------
+2025-04-30 19:47:41,415 - INFO - Pipeline completed. Output file: test_folder/output_master/final_export_Reifenhersteller_20250430_193111.csv

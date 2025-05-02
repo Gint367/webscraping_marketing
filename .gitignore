@@ -5,7 +5,12 @@ __pycache__/
 .coverage
 
 # Ignore virtual environment directories
+<<<<<<< HEAD
 *venv/
+=======
+venv/
+.venv/
+>>>>>>> 8fa08c3 (add .venv and misc files)
 .env/
 .env
 
@@ -44,4 +49,8 @@ sachanlagen*
 
 makefile
 *.toml
+<<<<<<< HEAD
 uv.lock
+=======
+*.lock
+>>>>>>> 8fa08c3 (add .venv and misc files)
