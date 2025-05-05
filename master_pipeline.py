@@ -289,6 +289,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         FileNotFoundError: If input file doesn't exist
     """
     logger.info("Starting Extracting Machine Assets phase")
+    logger.info("PROGRESS:extracting_machine:main:0/6:Starting Extracting Machine Assets phase")  # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -340,6 +341,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             logger.error(f"Error filtering companies: {str(e)}")
             raise
 
+    logger.info("PROGRESS:extracting_machine:main:1/6:Completed Step 1 (Company Filtering/Validation)")
+
     # Step 2: Get HTML from Bundesanzeiger
     logger.info("Step 2: Extracting HTML from Bundesanzeiger")
     try:
@@ -354,6 +357,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error extracting Bundesanzeiger HTML: {str(e)}")
         raise
+
+    logger.info("PROGRESS:extracting_machine:main:2/6:Completed Step 2 (Bundesanzeiger HTML Extraction)")
 
     # Step 3: Clean HTML
     logger.info("Step 3: Cleaning HTML content")
@@ -370,6 +375,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         logger.error(f"Error cleaning HTML: {str(e)}")
         raise
 
+    logger.info("PROGRESS:extracting_machine:main:3/6:Completed Step 3 (HTML Cleaning)")
+
     # Step 4: Extract Sachanlagen
     logger.info("Step 4: Extracting Sachanlagen data")
     try:
@@ -385,6 +392,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error extracting Sachanlagen: {str(e)}")
         raise
+
+    logger.info("PROGRESS:extracting_machine:main:4/6:Completed Step 4 (Sachanlagen Extraction)")
 
     # Step 5: Generate CSV report
     logger.info("Step 5: Generating CSV report")
@@ -410,6 +419,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         logger.error(f"Error generating CSV report: {str(e)}")
         raise
 
+    logger.info("PROGRESS:extracting_machine:main:5/6:Completed Step 5 (CSV Report Generation)")
+
     # Step 6: Merge CSV with Excel
     logger.info("Step 6: Merging CSV with Excel data")
     final_output = str(output_path / f"extracting_machine_output_{category or 'all'}.csv")
@@ -428,6 +439,8 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     except Exception as e:
         logger.error(f"Error merging CSV with Base: {str(e)}")
         raise
+
+    logger.info("PROGRESS:extracting_machine:main:6/6:Completed Step 6 (Data Merging)")
 
     logger.info("Extracting Machine Assets phase completed successfully")
     if final_output is None:

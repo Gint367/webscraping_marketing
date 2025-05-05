@@ -113,28 +113,38 @@ def generate_csv_report(
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
     valid_rows = []
     try:
-        for filename in os.listdir(input_dir):
-            if filename.endswith('_filtered.json'):
-                file_path = os.path.join(input_dir, filename)
-                try:
-                    with open(file_path, 'r', encoding='utf-8') as jsonfile:
-                        data = json.load(jsonfile)
-                except (json.JSONDecodeError, OSError) as e:
-                    logger.error(f"Failed to parse {file_path}: {e}")
-                    raise  # Raise immediately on malformed JSON as per test expectation
-                company_name = extract_company_name(data)
-                values, table_name, _ = extract_func(data, n)
-                if any(values):
-                    valid_rows.append([company_name, table_name.replace('\n', ' ')] + values)
+        files_to_process = [f for f in os.listdir(input_dir) if f.endswith('_filtered.json')]
+        total_files = len(files_to_process)
+        logger.info(f"PROGRESS:extracting_machine:generate_report:0/{total_files}:Starting report generation from {input_dir}") # Progress Start
+
+        for i, filename in enumerate(files_to_process):
+            file_path = os.path.join(input_dir, filename)
+            # Progress Log Inside Loop
+            logger.info(f"PROGRESS:extracting_machine:generate_report:{i+1}/{total_files}:Processing {filename}")
+            try:
+                with open(file_path, 'r', encoding='utf-8') as jsonfile:
+                    data = json.load(jsonfile)
+            except (json.JSONDecodeError, OSError) as e:
+                logger.error(f"Failed to parse {file_path}: {e}")
+                raise  # Raise immediately on malformed JSON as per test expectation
+            company_name = extract_company_name(data)
+            values, table_name, _ = extract_func(data, n)
+            if any(values):
+                valid_rows.append([company_name, table_name.replace('\n', ' ')] + values)
+
         if valid_rows:
             with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(headers)
                 writer.writerows(valid_rows)
-            logger.info(f"CSV report generated: {output_file_with_timestamp}")
+            # Progress Log End
+            logger.info(f"PROGRESS:extracting_machine:generate_report:{len(valid_rows)}/{total_files}:Generated report with {len(valid_rows)} valid entries to {output_file_with_timestamp}")
+            logger.info(f"CSV report generated: {output_file_with_timestamp}") # Keep original log
             return output_file_with_timestamp
         else:
-            logger.info("No valid data found. No CSV report generated.")
+            # Progress Log End (No Data)
+            logger.info(f"PROGRESS:extracting_machine:generate_report:0/{total_files}:No valid data found, no report generated.")
+            logger.info("No valid data found. No CSV report generated.") # Keep original log
             raise FileNotFoundError("No valid data found. No CSV report generated.")
     except Exception as e:
         logger.error(f"Failed to generate CSV report: {e}")

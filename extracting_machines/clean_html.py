@@ -327,11 +327,25 @@ def main(
         output_dir = os.path.join(os.getcwd(), f"{input_dir_name}_output")
     logger.info(f"Output directory: {output_dir}")
     os.makedirs(output_dir, exist_ok=True)
+
+    # Get list of company folders to process and count them
+    company_folders = [
+        item
+        for item in os.listdir(input_dir)
+        if os.path.isdir(os.path.join(input_dir, item))
+    ]
+    total_companies = len(company_folders)
+    logger.info(f"Found {total_companies} company folders to process.")
+
     # Iterate through each company folder in input directory
-    for company_folder in os.listdir(input_dir):
+    for index, company_folder in enumerate(company_folders):
         company_path = os.path.join(input_dir, company_folder)
-        if not os.path.isdir(company_path):
-            continue
+
+        # --- Progress Logging ---
+        current_company_num = index + 1
+        logger.info(f"PROGRESS:extracting_machine:clean_html:{current_company_num}/{total_companies}:Cleaning HTML for company {company_folder}")
+        # --- End Progress Logging ---
+
         latest_subfolder = get_latest_subfolder(company_path)
         if not latest_subfolder:
             logger.warning(f"No valid subfolder found for {company_folder}")

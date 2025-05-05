@@ -315,17 +315,18 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Merge Sachanlagen data
         result = mcwe.merge_with_sachanlagen(merged_df, sachanlagen_df, mapping)
 
-        # Check if Sachanlagen column exists
-        self.assertIn('Sachanlagen', result.columns)
+        # Check if sachanlagen column exists (lowercase)
+        self.assertIn('sachanlagen', result.columns)
 
-        # Check if Sachanlagen values are correctly mapped
+        # Check if sachanlagen values are correctly mapped by comparing numeric values
         for company in ['Test Company', 'Another Company', 'Third GmbH & Co. KG']:
-            sachanlagen_value = self.sachanlagen_data.loc[self.sachanlagen_data['company_name'] == company, 'sachanlagen'].values[0]
-            result_value = str(result.loc[result['Firma1'] == company, 'Sachanlagen'].values[0])
-            self.assertEqual(result_value, sachanlagen_value)
+            sachanlagen_value_str = self.sachanlagen_data.loc[self.sachanlagen_data['company_name'] == company, 'sachanlagen'].values[0]
+            result_value_str = str(result.loc[result['Firma1'] == company, 'sachanlagen'].values[0]) # Use lowercase 'sachanlagen'
+            # Convert both to int after float to handle potential '.0'
+            self.assertEqual(int(float(result_value_str)), int(sachanlagen_value_str))
 
-        # Check if non-matching company has NaN for Sachanlagen
-        self.assertTrue(pd.isna(result.loc[result['Firma1'] == 'No Match Company', 'Sachanlagen'].values[0]))
+        # Check if non-matching company has NaN for sachanlagen
+        self.assertTrue(pd.isna(result.loc[result['Firma1'] == 'No Match Company', 'sachanlagen'].values[0])) # Use lowercase 'sachanlagen'
 
     def test_integration(self):
         """
@@ -355,8 +356,8 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Read the output file
         merged_df = pd.read_csv(result_path if result_path is not None else output_path)
 
-        # Check that expected columns exist
-        expected_columns = {'Firma1', 'URL', 'Ort', 'Top1_Machine', 'Top2_Machine', 'Maschinen_Park_Size', 'Sachanlagen'}
+        # Check that expected columns exist (using lowercase 'sachanlagen')
+        expected_columns = {'Firma1', 'URL', 'Ort', 'Top1_Machine', 'Top2_Machine', 'Maschinen_Park_Size', 'sachanlagen'}
         self.assertTrue(expected_columns.issubset(set(merged_df.columns)))
 
         # Check that all test companies are present in the output
@@ -366,7 +367,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Check that Sachanlagen values are correctly merged
         for company in self.sachanlagen_data['company_name']:
             sachanlagen_value = self.sachanlagen_data[self.sachanlagen_data['company_name'] == company]['sachanlagen']
-            result_value = merged_df[merged_df['Firma1'] == company]['Sachanlagen']
+            result_value = merged_df[merged_df['Firma1'] == company]['sachanlagen']
             if len(sachanlagen_value) > 0 and len(result_value) > 0:
                 self.assertEqual(str(result_value.iloc[0]), str(sachanlagen_value.iloc[0]))
 

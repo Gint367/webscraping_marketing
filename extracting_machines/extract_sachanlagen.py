@@ -8,8 +8,8 @@ import re
 import sys
 from decimal import Decimal
 from typing import List, Optional
-from urllib.parse import urlparse
 
+# from urllib.parse import urlparse # Removed unused import
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig, LLMConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
@@ -313,38 +313,24 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
         ): # type: ignore
             processed_count += 1
 
+            # --- Progress Logging ---
+            file_path = "Unknown file"
+            log_message_subject = "Unknown file"
+            if result.url in file_urls:
+                file_path = file_paths[file_urls.index(result.url)]
+                company_name_from_html = extract_company_name(file_path)
+                if company_name_from_html:
+                    log_message_subject = f"company {company_name_from_html}"
+                else:
+                    log_message_subject = f"file {os.path.basename(file_path)}"
+            logger.info(f"PROGRESS:extracting_machine:extract_sachanlagen:{processed_count}/{len(file_paths)}:Processing {log_message_subject}")
+            # --- End Progress Logging ---
+
             # Process result as it comes in
             if result.success and result.extracted_content:
 
-                # Find the corresponding file path
-                file_idx = file_urls.index(result.url)
-                file_path = file_paths[file_idx]
-
-                # Extract company name from HTML comment
-                company_name = extract_company_name(file_path)
-
-                # Extract source URL info for validation and naming
-                original_url = result.url
-                parsed_url = urlparse(original_url)
-
-                # Always use the URL for naming, regardless of whether it's a file or web URL
-                netloc = parsed_url.netloc
-                # For file URLs, netloc will be empty, so handle that case
-                if not netloc and parsed_url.path:
-                    # For file URLs, extract the filename from the path
-                    basename = os.path.basename(parsed_url.path)
-                    name_without_ext = os.path.splitext(basename)[0]
-                    logger.debug(
-                        f"File URL: extracted name '{name_without_ext}' from path '{parsed_url.path}'"
-                    )
-                else:
-                    # For web URLs, remove 'www.' prefix if present
-                    if netloc.startswith("www."):
-                        netloc = netloc[4:]
-                    name_without_ext = netloc
-                    logger.debug(f"Web URL: using netloc '{netloc}' as name")
-
-                output_file = os.path.join(output_dir, f"{name_without_ext}.json")
+                # Extract company name from HTML comment (already done above for logging)
+                company_name = company_name_from_html  # Use the name extracted for logging
 
                 # Add company_name to each entry in the extracted content
                 try:
@@ -395,7 +381,6 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     except Exception:
                         content = None
                 if isinstance(content, list) and len(content) > 0:
-                    #logger.info(f"Content: {content}")
                     # Check if at least one entry has Sachanlagen values or table_name
                     if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
                         should_write = True
@@ -408,9 +393,6 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                             f.write(result.extracted_content)
                         else:
                             json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
-                    logger.info(
-                        f"[{processed_count}/{len(file_paths)}] Extracted data for '{company_name}' saved to {output_file}"
-                    )
                     extracted_data.append(result.extracted_content)
                 else:
                     # Ensure no output file is created for irrelevant or empty data
@@ -420,23 +402,18 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                             logger.debug(f"Removed irrelevant output file: {output_file}")
                         except Exception as e:
                             logger.warning(f"Failed to remove irrelevant output file {output_file}: {e}")
-                    logger.info(
-                        f"[{processed_count}/{len(file_paths)}] No relevant Sachanlagen data extracted for '{company_name}', skipping output file."
-                    )
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                file_path = file_paths[file_urls.index(result.url)] if result.url in file_urls else "Unknown file"
 
                 # Handle empty file or parsing errors specifically
                 if "'NoneType' object has no attribute 'find_all'" in str(error_msg):
                     logger.warning(
-                        f"[{processed_count}/{len(file_paths)}] File appears to be empty or cannot be parsed: {file_path}"
+                        f"File appears to be empty or cannot be parsed: {file_path}"
                     )
                 else:
                     logger.warning(
-                        f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}"
+                        f"No content extracted: {error_msg}"
                     )
-                    # Do NOT create a .json file for irrelevant input or generic errors
 
         # Show usage stats
         llm_strategy.show_usage()
