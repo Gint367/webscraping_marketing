@@ -468,6 +468,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         str: Path to the output file from this pipeline component
     """
     logger.info("Starting Crawling & Scraping Keywords phase")
+    logger.info("PROGRESS:webcrawl:main:0/6:Starting Crawling & Scraping Keywords phase") # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -494,6 +495,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error crawling domains: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:1/6:Completed Step 1 (Domain Crawling)")
 
     # Step 2: Extract keywords with LLM
     logger.info("Step 2: Extracting keywords with LLM")
@@ -512,6 +514,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error extracting keywords: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:2/6:Completed Step 2 (Keyword Extraction)")
 
     # Step 3: Fill process type (output to process_type_filled folder)
     logger.info("Step 3: Filling process types")
@@ -531,6 +534,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error filling process types: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:3/6:Completed Step 3 (Process Type Filling)")
 
     # Step 4: Pluralize keywords with LLM
     logger.info("Step 4: Pluralizing keywords")
@@ -551,6 +555,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error pluralizing keywords: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:4/6:Completed Step 4 (Keyword Pluralization)")
 
     # Step 5: Consolidate data
     logger.info("Step 5: Consolidating data")
@@ -568,6 +573,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error consolidating data: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:5/6:Completed Step 5 (Data Consolidation)")
 
     # Step 6: Convert to CSV
     logger.info("Step 6: Converting to CSV")
@@ -585,6 +591,7 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     except Exception as e:
         logger.error(f"Error converting to CSV: {str(e)}")
         raise
+    logger.info("PROGRESS:webcrawl:main:6/6:Completed Step 6 (CSV Conversion)")
 
     logger.info("Crawling & Scraping Keywords phase completed successfully")
     return final_output
@@ -603,6 +610,7 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
         str: Path to the final output file
     """
     logger.info("Starting Final Data Integration phase")
+    logger.info("PROGRESS:integration:main:0/2:Starting Final Data Integration phase") # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -626,6 +634,7 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     except Exception as e:
         logger.error(f"Error merging data: {str(e)}")
         raise
+    logger.info("PROGRESS:integration:main:1/2:Completed Step 1 (Data Merging)")
 
     # Step 2: Enrich data
     logger.info("Step 2: Enriching data with additional information")
@@ -651,6 +660,7 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     except Exception as e:
         logger.error(f"Error enriching data: {str(e)}")
         raise
+    logger.info("PROGRESS:integration:main:2/2:Completed Step 2 (Data Enrichment)")
 
     logger.info("Final Data Integration phase completed successfully")
     return enriched_output

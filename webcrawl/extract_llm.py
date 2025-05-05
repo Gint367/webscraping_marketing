@@ -12,6 +12,9 @@ from crawl4ai.extraction_strategy import LLMExtractionStrategy
 from pydantic import BaseModel, Field
 
 
+# Define logger at the module level
+logger = logging.getLogger(__name__)
+
 # Configure logging
 def setup_logging(log_level: str = "INFO"):
     """Sets up the basic logging configuration with a configurable log level."""
@@ -108,8 +111,9 @@ def _filter_files_to_process(file_paths: List[str], output_dir: str, overwrite: 
         logger.info("All files already have output files. Use --overwrite to reprocess.")
 
     skipped_count = len(file_paths) - len(filtered_file_paths)
-    logger.debug(f"file path {len(file_paths)} | filtered {len(filtered_file_paths)}")
-    logger.info(f"Skipped {skipped_count} files as output already exists. Use --overwrite to reprocess.")
+    logger.debug(f"Total file paths: {len(file_paths)}, Filtered paths: {len(filtered_file_paths)}")
+    if skipped_count > 0:
+        logger.info(f"Skipped {skipped_count} files as output already exists. Use --overwrite to reprocess.")
     return filtered_file_paths
 
 
@@ -211,25 +215,26 @@ async def process_files(file_paths: List[str], llm_strategy: LLMExtractionStrate
         )
 
         extracted_data = []
-        # Use actual_files_to_process for indexing results correctly
-        for idx, result in enumerate(results): # type: ignore
-            original_file_path = actual_files_to_process[idx]
-            if result.success and result.extracted_content:
-                logger.debug(f"Extracted content for {original_file_path}: {result.extracted_content}")
-                is_relevant = _is_relevant_extraction(result.extracted_content)
-                if is_relevant:
-                    _save_result(result.extracted_content, output_dir, result.url)
-                    if isinstance(result.extracted_content, str):
-                        try:
-                            extracted_data.append(json.loads(result.extracted_content))
-                        except json.JSONDecodeError:
-                            extracted_data.append({"raw_content": result.extracted_content})
-                    else:
-                        extracted_data.append(result.extracted_content)
+        total_files = len(actual_files_to_process)
+        for idx, result in enumerate(results):
+            current_file_num = idx + 1
+            source_url = result.url
+            # Extract original filename for logging
+            original_filename = os.path.basename(urlparse(source_url).path)
+            
+            # Log progress using the standard format
+            logger.info(f"PROGRESS:webcrawl:extract_llm:{current_file_num}/{total_files}:Extracting data from {original_filename}")
+
+            if result.extracted_content:
+                # Check if the extraction is relevant before saving
+                if _is_relevant_extraction(result.extracted_content):
+                    _save_result(result.extracted_content, output_dir, source_url)
+                    extracted_data.append(result.extracted_content)
                 else:
-                    logger.info(f"Skipping output for {original_file_path} as extracted content is empty or irrelevant.")
+                    logger.info(f"Skipping save for {source_url} as extraction was not relevant (no products/machines/processes found).")
+                    
             else:
-                logger.info(f"Skipping error output for {original_file_path} as input is irrelevant or empty.")
+                logger.warning(f"No content extracted from {source_url}")
 
         # Show usage stats
         llm_strategy.show_usage()

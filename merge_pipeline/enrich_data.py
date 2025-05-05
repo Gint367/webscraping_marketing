@@ -90,6 +90,9 @@ def enrich_data(input_file):
         logger.error(error_msg)
         raise ValueError(error_msg)
 
+    total_records = len(df)
+    logger.info(f"PROGRESS:merge_pipeline:enrich_data:0/{total_records}:Starting enrichment for {input_basename}")
+
     # Create the Maschinen_Park_var column as integer
     df["Maschinen_Park_var"] = df["Maschinen_Park_Size"].apply(extract_first_number)
 
@@ -112,6 +115,8 @@ def enrich_data(input_file):
     # Save the enriched data
     try:
         df.to_csv(output_file, index=False, encoding="utf-8-sig")
+        # Log completion progress
+        logger.info(f"PROGRESS:merge_pipeline:enrich_data:{total_records}/{total_records}:Enrichment completed for {input_basename}")
         logger.info(f"Data enrichment completed successfully! Output saved to {output_file}")
     except Exception as e:
         logger.error(f"Error saving output file: {e}")

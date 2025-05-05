@@ -525,8 +525,13 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
         failed_files.append((input_file_path, "invalid_json_structure"))
         raise ValueError(f"Invalid JSON structure in file: {input_file_path}")
 
+    total_entries = len(data)
     # Process each entry in the JSON file
     for i, entry in enumerate(data):
+        current_entry_num = i + 1
+        company_name = entry.get('company_name', 'Unknown') # Get company name for logging
+        logger.info(f"PROGRESS:webcrawl:pluralize_llm_entry:{current_entry_num}/{total_entries}:Processing entry for {company_name} in file {os.path.basename(input_file_path)}")
+
         # Extract fields to be pluralized
         fields_dict = extract_fields_from_entry(entry)
 
@@ -583,7 +588,8 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
         for i, filename in enumerate(json_files, 1):
             input_file_path = os.path.join(input_dir, filename)
             output_file_path = os.path.join(output_dir, filename)
-            logger.info(f"Processing file {i}/{total_files}: {filename}")
+            # Log progress for each file
+            logger.info(f"PROGRESS:webcrawl:pluralize_llm_file:{i}/{total_files}:Processing file {filename}")
             process_json_file(input_file_path, output_file_path, temperatures)
     except Exception as e:
         logger.error(f"Error accessing input directory: {e}")

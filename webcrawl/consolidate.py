@@ -11,6 +11,8 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 
+logger = logging.getLogger(__name__)
+
 
 def load_json_data(file_path: str) -> List[Dict[str, Any]]:
     """Load JSON data from a file."""
@@ -18,13 +20,13 @@ def load_json_data(file_path: str) -> List[Dict[str, Any]]:
         with open(file_path, 'r', encoding='utf-8') as f:
             return json.load(f)
     except FileNotFoundError:
-        logging.error(f"Error: File not found: {file_path}")
+        logger.error(f"Error: File not found: {file_path}")
         return []
     except json.JSONDecodeError as e:
-        logging.error(f"Error parsing JSON in {file_path}: {e}")
+        logger.error(f"Error parsing JSON in {file_path}: {e}")
         return []
     except Exception as e:
-        logging.error(f"Unexpected error loading {file_path}: {e}")
+        logger.error(f"Unexpected error loading {file_path}: {e}")
         return []
 
 
@@ -138,7 +140,7 @@ def load_filter_words(filter_file: str) -> List[str]:
         with open(filter_file, 'r', encoding='utf-8') as f:
             return [line.strip() for line in f if line.strip() and not line.startswith('#')]
     except Exception as e:
-        logging.error(f"Error loading filter words from {filter_file}: {e}")
+        logger.error(f"Error loading filter words from {filter_file}: {e}")
         return []
 
 
@@ -256,7 +258,13 @@ def process_files(input_path, output_path):
                  if f.endswith('.json')]
 
     # Process each file
-    for file_path in files:
+    total_files = len(files)  # Get total for progress logging
+    logger.info(f"Found {total_files} JSON files to process.")
+
+    for index, file_path in enumerate(files):
+        current_file_num = index + 1
+        logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Processing file {file_path}")
+
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 companies = json.load(f)
@@ -272,7 +280,7 @@ def process_files(input_path, output_path):
                 company_filepaths.setdefault(company_name, []).append(file_path)
             if company_name in all_companies:
                 existing_company = all_companies[company_name]
-                logging.info(f"Merging company: {company_name} from file {file_path}")
+                logger.info(f"Merging company: {company_name} from file {file_path}")
                 # Merge products
                 if 'products' in primary_entry:
                     existing_company.setdefault('products', []).extend(primary_entry.get('products', []))
@@ -290,12 +298,14 @@ def process_files(input_path, output_path):
                     existing_company['lohnfertigung'] = True
             else:
                 all_companies[company_name] = primary_entry
-                logging.debug(f"New company added: {company_name} from file {file_path}")
+                logger.debug(f"New company added: {company_name} from file {file_path}")
         except json.JSONDecodeError as e:
-            logging.error(f"Malformed JSON in file {file_path}: {e}")
+            logger.error(f"Malformed JSON in file {file_path}: {e}")
+            logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}")
             raise
         except Exception as e:
-            logging.error(f"Error processing file {file_path}: {e}")
+            logger.error(f"Error processing file {file_path}: {e}")
+            logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}")
             # For other errors, continue processing other files
 
     # Convert companies dictionary to list
@@ -305,7 +315,7 @@ def process_files(input_path, output_path):
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
 
-    logging.info(f"Processed {len(files)} files. Found {len(result)} unique companies.")
+    logger.info(f"Processed {len(files)} files. Found {len(result)} unique companies.")
     return result, company_filepaths
 
 
@@ -317,7 +327,7 @@ def print_merged_companies_summary(company_filepaths: dict) -> None:
     """
     merged = {name: paths for name, paths in company_filepaths.items() if len(paths) > 1}
     if not merged:
-        logging.info("No companies were merged from multiple files.")
+        logger.info("No companies were merged from multiple files.")
         return
     print("Merged companies summary (companies with more than one file):")
     for name, paths in merged.items():
@@ -337,18 +347,18 @@ def consolidate_main(input_path: str, output_path: str = "", log_level: str = "I
         Exception: If a fatal error occurs during processing.
     """
     log_level_value = getattr(logging, log_level.upper(), logging.INFO)
-    logging.getLogger().setLevel(log_level_value)
+    logger.setLevel(log_level_value)
 
     if not output_path:
         output_path = get_default_output_path(input_path)
-    logging.info(f"Output path: {output_path}")
+    logger.info(f"Output path: {output_path}")
 
     try:
         result, company_filepaths = process_files(input_path, output_path)
         print_merged_companies_summary(company_filepaths)
         return output_path
     except Exception as e:
-        logging.error(f"Fatal error during consolidation: {e}")
+        logger.error(f"Fatal error during consolidation: {e}")
         raise
 
 
@@ -369,7 +379,7 @@ def main():
     try:
         consolidate_main(args.input, args.output, args.log_level)
     except Exception as e:
-        logging.error(f"Consolidation failed: {e}")
+        logger.error(f"Consolidation failed: {e}")
         # Re-raise the exception instead of calling exit(1)
         # This allows tests to properly catch and verify error conditions
         raise

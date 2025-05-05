@@ -354,6 +354,10 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         for idx, row in csv_data.iterrows():
             company_name = row['company_name_lower']
             matched_data = None
+            current_company_num = idx + 1
+            total_companies = len(csv_data)
+            # Log progress for name matching
+            logger.info(f"PROGRESS:merge_pipeline:merge_tech_anlagen:{current_company_num}/{total_companies}:Attempting name match for {row.get('Company name', 'Unknown')}")
 
             if pd.notna(company_name):
                 # Try exact matching first
@@ -463,7 +467,12 @@ def merge_csv_with_excel(csv_path, base_data_path, output_path=None):
         for idx, row in unmatched_data.iterrows():
             csv_domain = row.get('base_domain')
             if pd.isna(csv_domain) and 'base_domain_x' in row:
-                csv_domain = row['base_domain_x']
+                csv_domain = row.get('base_domain_x')
+            
+            # Log progress for URL matching
+            # Note: We don't have a simple current/total here as it's a subset
+            # We'll log the company name being processed for URL matching
+            logger.info(f"PROGRESS:merge_pipeline:merge_tech_anlagen:{idx+1}/{len(csv_data)}:Attempting URL match for {row.get('Company name', 'Unknown')} (Domain: {csv_domain})")
 
             if pd.notna(csv_domain) and csv_domain and csv_domain not in used_domains:
                 # Try exact domain matching first

@@ -268,10 +268,15 @@ def process_json_file(input_file: str, output_file: str, category: Optional[str]
     if not isinstance(data, list):
         raise ValueError(f"Input JSON must be a list of companies, got {type(data).__name__}")
 
+    total_companies = len(data)
     # Process each company in the data
-    for company in data:
+    for index, company in enumerate(data):
         processed_companies += 1
         company_name = company.get('company_name', 'Unknown')
+        current_company_num = index + 1
+        # Log progress for each company
+        logger.info(f"PROGRESS:webcrawl:fill_process_type:{current_company_num}/{total_companies}:Processing company {company_name} in file {os.path.basename(input_file)}")
+
         # Check if process_type is empty
         if not company.get('process_type'):
             products = company.get('products', [])
@@ -413,7 +418,8 @@ def run_fill_process_type(
         return []
 
     output_paths: List[str] = []
-    for input_path in files_to_process:
+    total_files = len(files_to_process)
+    for index, input_path in enumerate(files_to_process):
         filename = os.path.basename(input_path)
         output_filename = filename
         if output_dir:
@@ -421,6 +427,11 @@ def run_fill_process_type(
         else:
             out_dir = os.path.dirname(input_path)
         output_file = os.path.join(out_dir, output_filename)
+        
+        current_file_num = index + 1
+        # Log progress for each file
+        logger.info(f"PROGRESS:webcrawl:fill_process_type:{current_file_num}/{total_files}:Processing file {input_path}")
+        
         try:
             process_json_file(input_path, output_file, category=category)
             output_paths.append(output_file)

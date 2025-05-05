@@ -1136,7 +1136,11 @@ async def main(
     num_companies = len(urls_and_companies)
     logger.info("Total number of companies to crawl: %d", num_companies)
 
-    for url, company_name in urls_and_companies:
+    for index, (url, company_name) in enumerate(urls_and_companies):
+        current_company_num = index + 1
+        # Log progress using the standard format
+        logger.info(f"PROGRESS:webcrawl:crawl_domain:{current_company_num}/{num_companies}:Crawling domain {url} for company {company_name}")
+
         company_info = f" ({company_name})" if company_name else ""
         logger.info(
             f"{'=' * 40}\nStarting crawl of domain: {url}{company_info}\n{'=' * 40}"

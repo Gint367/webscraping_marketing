@@ -76,14 +76,17 @@ def filter_items(items: List[str], omit_keywords: Set[str]) -> List[str]:
 
 def convert_json_to_csv(json_file_path: str, csv_file_path: Optional[str] = None, omit_config_path: Optional[str] = None) -> Optional[str]:
     """
-    Convert JSON file to CSV format with specified headers, omitting items containing specified keywords.
-    Takes first 3 items from products, machines, and process_type arrays after filtering.
+    Converts a consolidated JSON file (output from consolidate.py) to a CSV file.
+    Each row in the CSV corresponds to a company (top-level key in JSON).
+    Columns include 'company_name', 'process_type', 'keywords', 'pluralized_keywords'.
+    Optionally omits keywords based on a configuration file.
+
     Args:
         json_file_path: Path to the input JSON file
         csv_file_path: Path to the output CSV file. If None, derived from JSON filename
         omit_config_path: Path to the omit keywords config file (optional)
     Returns:
-        Path to the created CSV file, or None on failure.
+        The path to the generated CSV file.
     """
     logger = logging.getLogger(__name__)
     if not os.path.isfile(json_file_path):
@@ -105,7 +108,14 @@ def convert_json_to_csv(json_file_path: str, csv_file_path: Optional[str] = None
         with open(csv_file_path, 'w', newline='', encoding='utf-8-sig') as csv_file:
             writer = csv.writer(csv_file)
             writer.writerow(headers)
-            for company in data:
+            
+            total_companies = len(data)
+            for index, company in enumerate(data):
+                current_company_num = index + 1
+                company_name = company.get('company_name', 'Unknown')
+                # Log progress for each company being written to CSV
+                logger.info(f"PROGRESS:webcrawl:convert_to_csv:{current_company_num}/{total_companies}:Processing company {company_name} for CSV conversion")
+
                 products = clean_items(company.get('products', []))
                 products = filter_items(products, omit_keywords)
                 products = (products + ['', '', ''])[:3]
@@ -175,6 +185,7 @@ def main() -> None:
         except json.JSONDecodeError:
             raise json.JSONDecodeError(f"'{args.input_file}' is not a valid JSON file", args.input_file, 0)
         raise Exception("Unknown error during conversion")
+
 
 if __name__ == "__main__":
     main()
