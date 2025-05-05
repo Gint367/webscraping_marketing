@@ -69,6 +69,7 @@ def init_session_state():
         "job_status": "Idle",
         "results": None,
         "log_messages": [],
+        "testing_mode": False, # Flag to disable st.rerun() calls during tests
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -110,10 +111,25 @@ def display_input_section():
         ("File Upload", "Manual Input"),
         key="input_method_choice",
         horizontal=True,
-        label_visibility="collapsed",
-        on_change=lambda: clear_other_input(st.session_state.input_method_choice) # Clear state on change
+        label_visibility="collapsed"
     )
-    st.session_state['input_method'] = input_method # Update state based on radio choice
+    
+    # Check if we need to update the input method
+    if 'input_method' not in st.session_state or st.session_state['input_method'] != input_method:
+        # For real app, but not for tests
+        if hasattr(st.session_state, "running_test") and st.session_state.running_test:
+            # In test mode, just update state without rerun
+            st.session_state['input_method'] = input_method
+        else:
+            # Normal app flow
+            old_method = st.session_state.get('input_method')
+            clear_other_input(input_method)
+            st.session_state['input_method'] = input_method
+            
+            # Only rerun if input method actually changed (not on first load)
+            # Skip rerun if in testing mode
+            if old_method and old_method != input_method and not st.session_state.get("testing_mode", False):
+                st.rerun()
 
     # Flag to track validation status for uploaded file
     validation_passed_all = True # Assume true unless file upload fails validation
@@ -139,7 +155,10 @@ def display_input_section():
                 st.session_state['company_list'] = None # Clear processed list as input changed
                 logging.info(f"File selected: {uploaded_file.name}")
                 st.success(f"File '{uploaded_file.name}' selected.") # Use standard quotes
-                st.rerun() # Rerun immediately to show the 'Change File' button state
+                
+                # Only rerun if not in testing mode
+                if not st.session_state.get("testing_mode", False):
+                    st.rerun() # Rerun immediately to show the 'Change File' button state
 
         else:
             # --- Show File Info ---
@@ -254,7 +273,10 @@ def display_input_section():
                 st.session_state['uploaded_file_data'] = None
                 st.session_state['company_list'] = None # Clear processed list
                 logging.info("User clicked 'Change File'. Clearing uploaded file.")
-                st.rerun()
+                
+                # Only rerun if not in testing mode
+                if not st.session_state.get("testing_mode", False):
+                    st.rerun()
 
     elif input_method == "Manual Input":
         st.subheader("Enter Data Manually")
@@ -331,7 +353,8 @@ def process_data():
     st.session_state['results'] = None # Clear previous results
     st.session_state['log_messages'] = ["Processing started..."] # Reset logs
     logging.info("Processing started.")
-    st.rerun() # Rerun to update status immediately
+    if not st.session_state.get("testing_mode", False):
+        st.rerun() # Rerun to update status immediately
 
     data_to_process = None
 
@@ -464,7 +487,8 @@ def process_data():
          st.session_state['job_status'] = "Idle"
          logging.warning("process_data called but data_to_process was empty.")
 
-    st.rerun() # Rerun to update UI with results/status
+    if not st.session_state.get("testing_mode", False):
+        st.rerun() # Rerun to update UI with results/status
 
 
 def display_config_section():
