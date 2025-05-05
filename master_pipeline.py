@@ -26,16 +26,28 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
 
+# Import the enhanced ArtifactManager for artifact management
+from utils.artifact_manager import ArtifactManager as BaseArtifactManager
 
 # --- Artifact Management ---
-class PipelineArtifacts:
+
+class PipelineArtifacts(BaseArtifactManager):
     """
     Collects and manages paths to intermediate and final artifacts produced by each pipeline phase.
     Provides methods to register, list, and retrieve artifacts for UI or downstream use.
+    
+    This is a wrapper around the ArtifactManager that preserves compatibility with existing code.
     """
-    def __init__(self) -> None:
-        self._artifacts: Dict[str, Dict[str, Union[str, List[str]]]] = {}
-
+    def __init__(self, storage_root: Optional[str] = None) -> None:
+        """
+        Initialize the pipeline artifacts manager.
+        
+        Args:
+            storage_root: Optional root directory for artifact storage.
+        """
+        super().__init__(storage_root)
+        
+    # Override register to match the original signature and behavior
     def register(self, phase: str, name: str, path: Union[str, List[str]], description: str = "") -> None:
         """
         Register an artifact for a pipeline phase.
@@ -45,52 +57,9 @@ class PipelineArtifacts:
             path: Path(s) to the artifact file(s)
             description: Optional description of the artifact
         """
-        if phase not in self._artifacts:
-            self._artifacts[phase] = {}
-        self._artifacts[phase][name] = {
-            "path": path,
-            "description": description
-        }
-
-    def list_artifacts(self, phase: Optional[str] = None) -> Dict[str, Dict[str, Any]]:
-        """
-        List all registered artifacts, optionally filtered by phase.
-        Args:
-            phase: If provided, only list artifacts for this phase.
-        Returns:
-            Dict of artifacts.
-        """
-        if phase:
-            return {phase: self._artifacts.get(phase, {})}
-        return self._artifacts
-
-    def get_artifact(self, phase: str, name: str) -> Optional[Dict[str, Any]]:
-        """
-        Retrieve a specific artifact by phase and name.
-        Args:
-            phase: Pipeline phase
-            name: Artifact name
-        Returns:
-            Dict with 'path' and 'description', or None if not found.
-        """
-        return self._artifacts.get(phase, {}).get(name)
-
-    def as_list(self) -> List[Dict[str, Any]]:
-        """
-        Return all artifacts as a flat list (for UI display).
-        Returns:
-            List of dicts with phase, name, path, description.
-        """
-        result = []
-        for phase, artifacts in self._artifacts.items():
-            for name, info in artifacts.items():
-                result.append({
-                    "phase": phase,
-                    "name": name,
-                    "path": info["path"],
-                    "description": info.get("description", "")
-                })
-        return result
+        super().register(phase, name, path, description)
+        
+    # Original methods are inherited from the parent class
 
 from tqdm import tqdm  # Add tqdm import
 

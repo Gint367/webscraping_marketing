@@ -104,7 +104,7 @@ class TestMasterPipeline(unittest.TestCase):
         # Test retrieval
         filtered = artifacts.get_artifact('extracting_machine', 'filtered_csv')
         self.assertIsNotNone(filtered)
-        self.assertEqual(filtered['path'], '/tmp/filtered.csv')
+        self.assertEqual(filtered['path'], ['/tmp/filtered.csv'])  # Path is now a list
         self.assertEqual(filtered['description'], 'Filtered CSV')
 
         # Test listing
