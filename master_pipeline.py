@@ -24,7 +24,73 @@ import shutil
 import sys  # Added for sys.exit
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional  # Add more typing imports
+from typing import Any, Dict, List, Optional, Union
+
+
+# --- Artifact Management ---
+class PipelineArtifacts:
+    """
+    Collects and manages paths to intermediate and final artifacts produced by each pipeline phase.
+    Provides methods to register, list, and retrieve artifacts for UI or downstream use.
+    """
+    def __init__(self) -> None:
+        self._artifacts: Dict[str, Dict[str, Union[str, List[str]]]] = {}
+
+    def register(self, phase: str, name: str, path: Union[str, List[str]], description: str = "") -> None:
+        """
+        Register an artifact for a pipeline phase.
+        Args:
+            phase: Name of the pipeline phase (e.g., 'extracting_machine')
+            name: Artifact name (e.g., 'filtered_csv')
+            path: Path(s) to the artifact file(s)
+            description: Optional description of the artifact
+        """
+        if phase not in self._artifacts:
+            self._artifacts[phase] = {}
+        self._artifacts[phase][name] = {
+            "path": path,
+            "description": description
+        }
+
+    def list_artifacts(self, phase: Optional[str] = None) -> Dict[str, Dict[str, Any]]:
+        """
+        List all registered artifacts, optionally filtered by phase.
+        Args:
+            phase: If provided, only list artifacts for this phase.
+        Returns:
+            Dict of artifacts.
+        """
+        if phase:
+            return {phase: self._artifacts.get(phase, {})}
+        return self._artifacts
+
+    def get_artifact(self, phase: str, name: str) -> Optional[Dict[str, Any]]:
+        """
+        Retrieve a specific artifact by phase and name.
+        Args:
+            phase: Pipeline phase
+            name: Artifact name
+        Returns:
+            Dict with 'path' and 'description', or None if not found.
+        """
+        return self._artifacts.get(phase, {}).get(name)
+
+    def as_list(self) -> List[Dict[str, Any]]:
+        """
+        Return all artifacts as a flat list (for UI display).
+        Returns:
+            List of dicts with phase, name, path, description.
+        """
+        result = []
+        for phase, artifacts in self._artifacts.items():
+            for name, info in artifacts.items():
+                result.append({
+                    "phase": phase,
+                    "name": name,
+                    "path": info["path"],
+                    "description": info.get("description", "")
+                })
+        return result
 
 from tqdm import tqdm  # Add tqdm import
 
@@ -288,6 +354,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
         ValueError: If the input CSV file is missing required columns
         FileNotFoundError: If input file doesn't exist
     """
+
     logger.info("Starting Extracting Machine Assets phase")
     logger.info("PROGRESS:extracting_machine:main:0/6:Starting Extracting Machine Assets phase")  # Progress Start
 
@@ -301,6 +368,9 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     for directory in [filtered_dir, bundesanzeiger_dir, cleaned_html_dir, sachanlagen_dir, report_dir]:
         directory.mkdir(parents=True, exist_ok=True)
 
+    # Artifact management
+    artifacts = PipelineArtifacts()
+
     # Determine if the input is a CSV or Excel file
     input_file_path = Path(input_csv)
     is_csv_input = input_file_path.suffix.lower() == '.csv'
@@ -309,6 +379,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     from_category = f" (filtered by category: {category})" if category else ""
     logger.info(f"Step 1: Processing companies from {input_csv}{from_category}")
     filtered_csv = str(filtered_dir / f"filtered_companies_{category or 'all'}.csv")
+
 
     if is_csv_input:
         # Skip step 1 for CSV input, but verify required columns are present
@@ -341,10 +412,18 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             logger.error(f"Error filtering companies: {str(e)}")
             raise
 
+    artifacts.register(
+        phase="extracting_machine",
+        name="filtered_csv",
+        path=str(filtered_csv),
+        description="Filtered companies CSV (after category filtering or validation)"
+    )
+
     logger.info("PROGRESS:extracting_machine:main:1/6:Completed Step 1 (Company Filtering/Validation)")
 
     # Step 2: Get HTML from Bundesanzeiger
     logger.info("Step 2: Extracting HTML from Bundesanzeiger")
+
     try:
         from extracting_machines.get_bundesanzeiger_html import (
             main as get_bundesanzeiger_html,
@@ -354,6 +433,12 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             base_dir=str(bundesanzeiger_dir)
         )
         logger.info(f"Bundesanzeiger HTML extracted successfully: {bundesanzeiger_output}")
+        artifacts.register(
+            phase="extracting_machine",
+            name="bundesanzeiger_html",
+            path=str(bundesanzeiger_output),
+            description="Extracted HTML files from Bundesanzeiger"
+        )
     except Exception as e:
         logger.error(f"Error extracting Bundesanzeiger HTML: {str(e)}")
         raise
@@ -362,6 +447,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
 
     # Step 3: Clean HTML
     logger.info("Step 3: Cleaning HTML content")
+
     try:
         from extracting_machines.clean_html import main as clean_html_main
         cleaned_html_output = clean_html_main(
@@ -371,6 +457,12 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             verbose=False
         )
         logger.info(f"HTML cleaned successfully: {cleaned_html_output}")
+        artifacts.register(
+            phase="extracting_machine",
+            name="cleaned_html",
+            path=str(cleaned_html_output),
+            description="Cleaned HTML files after processing"
+        )
     except Exception as e:
         logger.error(f"Error cleaning HTML: {str(e)}")
         raise
@@ -379,6 +471,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
 
     # Step 4: Extract Sachanlagen
     logger.info("Step 4: Extracting Sachanlagen data")
+
     try:
         from extracting_machines.extract_sachanlagen import run_extraction
         sachanlagen_output = run_extraction(
@@ -389,6 +482,12 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             log_level="INFO"
         )
         logger.info(f"Sachanlagen data extracted successfully: {sachanlagen_output}")
+        artifacts.register(
+            phase="extracting_machine",
+            name="sachanlagen_data",
+            path=str(sachanlagen_output),
+            description="Extracted Sachanlagen data files"
+        )
     except Exception as e:
         logger.error(f"Error extracting Sachanlagen: {str(e)}")
         raise
@@ -397,6 +496,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
 
     # Step 5: Generate CSV report
     logger.info("Step 5: Generating CSV report")
+
     try:
         from extracting_machines.generate_csv_report import (
             extract_values,
@@ -415,6 +515,12 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             extract_func=lambda data, n: extract_values(data, n, filter_words)
         )
         logger.info(f"CSV report generated successfully: {csv_report}")
+        artifacts.register(
+            phase="extracting_machine",
+            name="csv_report",
+            path=str(csv_report),
+            description="Generated CSV report from Sachanlagen extraction"
+        )
     except Exception as e:
         logger.error(f"Error generating CSV report: {str(e)}")
         raise
@@ -423,6 +529,7 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
 
     # Step 6: Merge CSV with Excel
     logger.info("Step 6: Merging CSV with Excel data")
+
     final_output = str(output_path / f"extracting_machine_output_{category or 'all'}.csv")
     try:
         from extracting_machines.merge_csv_with_excel import (
@@ -436,6 +543,12 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
             top_n=1
         )
         logger.info(f"CSV merged with Original Base successfully: {final_output}")
+        artifacts.register(
+            phase="extracting_machine",
+            name="final_output",
+            path=str(final_output),
+            description="Final merged output CSV for extracting machine phase"
+        )
     except Exception as e:
         logger.error(f"Error merging CSV with Base: {str(e)}")
         raise
@@ -446,7 +559,9 @@ def run_extracting_machine_pipeline(input_csv: str, output_dir: str, category: O
     if final_output is None:
         logger.error("Final output from Extracting Machine Assets pipeline is None.")
         raise ValueError("Final output from Extracting Machine Assets pipeline is None.")
-    return final_output
+
+    # Optionally, return both the final output and the artifacts registry
+    return final_output, artifacts
 
 
 def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Optional[str] = None) -> str:
@@ -479,6 +594,9 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
     for directory in [crawl_dir, extract_dir, pluralize_dir, process_type_dir]:
         directory.mkdir(parents=True, exist_ok=True)
 
+    # Artifact management
+    artifacts = PipelineArtifacts()
+
     # Step 1: Crawl domain
     logger.info("Step 1: Crawling company domains")
     try:
@@ -492,6 +610,12 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         if not crawl_output:
             raise ValueError("crawl_domain_mains returned None or empty output.")
         logger.info(f"Domains crawled successfully: {crawl_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="crawl_output",
+            path=str(crawl_output),
+            description="Crawled domain content"
+        )
     except Exception as e:
         logger.error(f"Error crawling domains: {str(e)}")
         raise
@@ -511,6 +635,12 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         if not extract_output:
             raise ValueError("extract_llm returned None or empty output.")
         logger.info(f"Keywords extracted successfully: {extract_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="extracted_keywords",
+            path=str(extract_output),
+            description="Extracted keywords"
+        )
     except Exception as e:
         logger.error(f"Error extracting keywords: {str(e)}")
         raise
@@ -531,6 +661,12 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         # Use the first output file as the main output
         process_type_output = process_type_outputs[0]
         logger.info(f"Process types filled successfully: {process_type_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="process_type_filled",
+            path=str(process_type_dir),
+            description="Process type filled"
+        )
     except Exception as e:
         logger.error(f"Error filling process types: {str(e)}")
         raise
@@ -552,6 +688,12 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         if not pluralize_output:
             raise ValueError("pluralize_with_llm returned None or empty output.")
         logger.info(f"Keywords pluralized successfully: {pluralize_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="pluralized_keywords",
+            path=str(pluralize_output),
+            description="Pluralized keywords"
+        )
     except Exception as e:
         logger.error(f"Error pluralizing keywords: {str(e)}")
         raise
@@ -570,6 +712,12 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         if not consolidated_output:
             raise ValueError("consolidate_main returned None or empty output.")
         logger.info(f"Data consolidated successfully: {consolidated_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="consolidated_data",
+            path=str(consolidated_output),
+            description="Consolidated data JSON"
+        )
     except Exception as e:
         logger.error(f"Error consolidating data: {str(e)}")
         raise
@@ -588,13 +736,19 @@ def run_webcrawl_pipeline(extracting_output: str, output_dir: str, category: Opt
         if not final_output:
             raise ValueError("convert_json_to_csv returned None or empty output.")
         logger.info(f"Converted to CSV successfully: {final_output}")
+        artifacts.register(
+            phase="webcrawl",
+            name="final_output",
+            path=str(final_output),
+            description="Webcrawl final CSV"
+        )
     except Exception as e:
         logger.error(f"Error converting to CSV: {str(e)}")
         raise
     logger.info("PROGRESS:webcrawl:main:6/6:Completed Step 6 (CSV Conversion)")
 
     logger.info("Crawling & Scraping Keywords phase completed successfully")
-    return final_output
+    return final_output, artifacts
 
 
 def run_integration_pipeline(extracting_output: str, webcrawl_output: str, output_dir: str) -> str:
@@ -616,6 +770,9 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
+    # Artifact management
+    artifacts = PipelineArtifacts()
+
     # Step 1: Merge technische anlagen with keywords
     logger.info("Step 1: Merging technische anlagen with keywords")
     merged_path = str(output_path / "merged_data.csv")
@@ -631,6 +788,12 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
             output_path=merged_path
         )
         logger.info(f"Data merged successfully: {merged_output}")
+        artifacts.register(
+            phase="integration",
+            name="merged_csv",
+            path=str(merged_output),
+            description="Merged CSV from integration phase"
+        )
     except Exception as e:
         logger.error(f"Error merging data: {str(e)}")
         raise
@@ -657,13 +820,19 @@ def run_integration_pipeline(extracting_output: str, webcrawl_output: str, outpu
             enriched_output = final_output
 
         logger.info(f"Data enriched successfully: {enriched_output}")
+        artifacts.register(
+            phase="integration",
+            name="enriched_output",
+            path=str(enriched_output),
+            description="Enriched final output"
+        )
     except Exception as e:
         logger.error(f"Error enriching data: {str(e)}")
         raise
     logger.info("PROGRESS:integration:main:2/2:Completed Step 2 (Data Enrichment)")
 
     logger.info("Final Data Integration phase completed successfully")
-    return enriched_output
+    return enriched_output, artifacts
 
 
 def cleanup_intermediate_outputs(run_output_dir: Path, keep_final: bool = True) -> None:
