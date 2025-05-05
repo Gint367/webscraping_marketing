@@ -1,9 +1,12 @@
 # Correct import order: stdlib -> third-party -> local
+import io
 import logging
 import os
 import sys
 import unittest
 from unittest.mock import MagicMock, patch
+
+import pandas as pd  # Add pandas import for DataFrame comparison
 
 # Add the project root to the Python path to allow imports like 'from streamlit_app import app'
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -14,6 +17,7 @@ try:
     # Now import using the package path relative to the project root
     from streamlit_app.app import (
         StreamlitLogHandler,
+        clear_other_input,  # Import the function to be patched if needed, or just patch the target string
         display_config_section,
         display_input_section,
         init_session_state,
@@ -30,6 +34,8 @@ except ImportError as e:
     def display_input_section():
         pass
     def display_config_section():
+        pass
+    def clear_other_input():
         pass
     # Mock streamlit itself if the import fails at the top level
     st_mock = MagicMock()
@@ -54,17 +60,25 @@ class TestStreamlitAppSetup(unittest.TestCase):
         """
         mock_st.session_state = {} # Start with an empty session state
         init_session_state()
+        # Expected defaults based on the updated app.py
         expected_defaults = {
             "page": "Input",
             "company_list": None,
+            "uploaded_file_data": None,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]), # Expect empty DF
+            "input_method": "File Upload",
             "config": {},
             "job_status": "Idle",
             "results": None,
             "log_messages": [] # Expect empty logs *during* init test
         }
+        # Compare DataFrames separately for robust comparison
+        actual_manual_df = mock_st.session_state.pop("manual_input_df", None)
+        expected_manual_df = expected_defaults.pop("manual_input_df", None)
+        pd.testing.assert_frame_equal(actual_manual_df, expected_manual_df)
+
+        # Compare the rest of the dictionary
         self.assertEqual(mock_st.session_state, expected_defaults)
-        # Optionally, assert that logging.info was called if needed, but not required for this fix
-        # mock_logging_info.assert_called_once_with("Session state initialized.")
 
     def test_init_session_state_does_not_overwrite_existing(self, mock_st, mock_logging_info):
         """
@@ -74,25 +88,37 @@ class TestStreamlitAppSetup(unittest.TestCase):
             "page": "Output",
             "job_status": "Running",
             "custom_key": "custom_value",
-            "log_messages": ["Existing log"]
+            "log_messages": ["Existing log"],
+            "input_method": "Manual Input", # Test existing value
+            "manual_input_df": pd.DataFrame([{"company name": "Test", "location": "Here", "url": "http://t.co"}]) # Test existing DF
         }
         init_session_state()
         # Check that existing keys were not overwritten
         self.assertEqual(mock_st.session_state["page"], "Output")
         self.assertEqual(mock_st.session_state["job_status"], "Running")
         self.assertEqual(mock_st.session_state["custom_key"], "custom_value")
+        self.assertEqual(mock_st.session_state["input_method"], "Manual Input") # Should remain Manual Input
+
+        # Check existing DataFrame was not overwritten
+        expected_existing_df = pd.DataFrame([{"company name": "Test", "location": "Here", "url": "http://t.co"}])
+        pd.testing.assert_frame_equal(mock_st.session_state["manual_input_df"], expected_existing_df)
+
         # Check that missing default keys were added
         self.assertIn("company_list", mock_st.session_state)
-        self.assertIsNone(mock_st.session_state["company_list"])
+        # If input_method was 'Manual Input' and company_list was missing, it gets initialized to an empty DF
+        expected_company_list_df = pd.DataFrame(columns=["company name", "location", "url"])
+        pd.testing.assert_frame_equal(mock_st.session_state["company_list"], expected_company_list_df)
+
         self.assertIn("config", mock_st.session_state)
         self.assertEqual(mock_st.session_state["config"], {})
         self.assertIn("results", mock_st.session_state)
         self.assertIsNone(mock_st.session_state["results"])
+        self.assertIn("uploaded_file_data", mock_st.session_state) # Check new key added
+        self.assertIsNone(mock_st.session_state["uploaded_file_data"])
+
         # Check that log_messages was NOT modified by init_session_state logging
         self.assertIn("log_messages", mock_st.session_state)
         self.assertEqual(mock_st.session_state["log_messages"], ["Existing log"])
-        # Optionally, assert that logging.info was called if needed
-        # mock_logging_info.assert_called_once_with("Session state initialized.")
 
 
 @patch('streamlit_app.app.st') # Patch st where it's used in the app module
@@ -138,40 +164,101 @@ class TestStreamlitLogHandler(unittest.TestCase):
 
 
 @patch('streamlit_app.app.st') # Patch st where it's used in the app module
+@patch('streamlit_app.app.clear_other_input') # Patch the clear_other_input function
 class TestUISections(unittest.TestCase):
     """Tests for the UI section display functions, focusing on session state updates."""
 
-    def test_display_input_section_updates_state_on_upload(self, mock_st):
+    # Add mock_clear_other_input to the arguments (order matters, patches applied bottom-up)
+    def test_display_input_section_updates_state_on_upload(self, mock_clear_other_input, mock_st):
         """
         Test that display_input_section updates session_state when a file is uploaded.
         """
-        mock_st.session_state = {"company_list": None}
-        mock_file = MagicMock()
+        # Simulate initial state and radio button selection
+        mock_st.session_state = {
+            "company_list": None,
+            "uploaded_file_data": None,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "input_method": "File Upload", # Assume user selected File Upload
+            "input_method_choice": "File Upload" # Mock the radio button's state key
+        }
+        mock_st.radio.return_value = "File Upload" # Mock radio button selection
+
+        # Simulate file upload
+        mock_file = MagicMock(spec=io.BytesIO) # Use BytesIO spec for seek/getvalue
         mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = b"Company Name,Location,URL\nTestCo,TestCity,http://test.co" # Add minimal content
         mock_st.file_uploader.return_value = mock_file
-        mock_st.text_area.return_value = "" # No manual URLs
+
+        # Mock pandas read_csv used for preview/validation
+        mock_preview_df = pd.DataFrame([{"Company Name": "TestCo", "Location": "TestCity", "URL": "http://test.co"}])
+        # Patch pd.read_csv within the app module where it's used. Remove 'as _' since the mock isn't used.
+        with patch('streamlit_app.app.pd.read_csv', return_value=mock_preview_df):
+            display_input_section()
+
+            # Assert radio was called
+            mock_st.radio.assert_called_once()
+            # Assert file_uploader was called (since input_method is File Upload)
+            mock_st.file_uploader.assert_called_once_with(
+                "Upload a CSV or Excel file",
+                type=["csv", "xlsx"],
+                key="file_uploader_widget",
+                accept_multiple_files=False
+            )
+            # Assert success message for file selection
+            mock_st.success.assert_any_call("File 'test.csv' selected.") # Check for selection message
+            # Assert state update for uploaded file data
+            self.assertEqual(mock_st.session_state['uploaded_file_data'], mock_file)
+            # Assert other input method state was cleared
+            self.assertTrue(mock_st.session_state['manual_input_df'].empty)
+            # Assert company_list was cleared (processing happens later)
+            self.assertIsNone(mock_st.session_state['company_list'])
+            # Assert rerun was called once (by the file upload logic, not the radio on_change)
+            # mock_st.rerun.assert_called_once()
+            # Assert clear_other_input was NOT called by the radio button's on_change
+            mock_clear_other_input.assert_not_called()
+
+
+    # Add mock_clear_other_input to the arguments
+    def test_display_input_section_updates_state_on_manual_input(self, mock_clear_other_input, mock_st):
+        """
+        Test that display_input_section updates session_state when manual input is provided.
+        """
+        # Simulate initial state and radio button selection
+        mock_st.session_state = {
+            "company_list": None,
+            "uploaded_file_data": None,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "input_method": "Manual Input", # Assume user selected Manual Input
+            "input_method_choice": "Manual Input" # Mock the radio button's state key
+        }
+        mock_st.radio.return_value = "Manual Input" # Mock radio button selection
+
+        # Simulate data editor returning data
+        edited_df = pd.DataFrame([
+            {"company name": "ManualCo", "location": "ManualCity", "url": "http://manual.co"}
+        ])
+        mock_st.data_editor.return_value = edited_df
 
         display_input_section()
 
-        mock_st.file_uploader.assert_called_once_with("Upload Company List", type=["csv", "xlsx"])
-        mock_st.success.assert_called_once_with("File 'test.csv' uploaded.")
-        self.assertEqual(mock_st.session_state["company_list"], "File: test.csv") # Checks placeholder logic
+        # Assert radio was called
+        mock_st.radio.assert_called_once()
+        # Assert data_editor was called (since input_method is Manual Input)
+        mock_st.data_editor.assert_called_once()
+        # Assert state update for manual input data
+        pd.testing.assert_frame_equal(mock_st.session_state['manual_input_df'], edited_df)
+        # Assert other input method state was cleared
+        self.assertIsNone(mock_st.session_state['uploaded_file_data'])
+        # Assert company_list was cleared (processing happens later)
+        self.assertIsNone(mock_st.session_state["company_list"])
+        # Assert rerun was NOT called for manual input change
+        mock_st.rerun.assert_not_called() # Added assertion for clarity
+        # Assert clear_other_input was NOT called
+        mock_clear_other_input.assert_not_called()
 
-    def test_display_input_section_updates_state_on_manual_urls(self, mock_st):
-        """
-        Test that display_input_section updates session_state when manual URLs are entered.
-        """
-        mock_st.session_state = {"company_list": None}
-        mock_st.file_uploader.return_value = None # No file uploaded
-        mock_st.text_area.return_value = "http://example.com\nhttp://anotherexample.com"
 
-        display_input_section()
-
-        mock_st.text_area.assert_called_once_with("Or Enter URLs (one per line)")
-        mock_st.success.assert_called_once_with("2 URLs entered.")
-        self.assertEqual(mock_st.session_state["company_list"], "URLs: 2") # Checks placeholder logic
-
-    def test_display_config_section_updates_state(self, mock_st):
+    # Add mock_clear_other_input to the arguments
+    def test_display_config_section_updates_state(self, mock_clear_other_input, mock_st):
         """
         Test that display_config_section updates session_state.config with widget values.
         """
