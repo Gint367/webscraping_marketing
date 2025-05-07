@@ -1,16 +1,29 @@
 import io
+import json
 import logging
+import multiprocessing
 import os
 import sys
+import tempfile
+import time
+from multiprocessing import Manager, Process, Queue
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
 import pandas as pd
 import streamlit as st
+from regex import F
 
 # Add project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
+# Import from master_pipeline.py
+from master_pipeline import (  # noqa: E402
+    run_pipeline,
+)
 
+# FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
 # --- Page Configuration (Must be the first Streamlit command) ---
 st.set_page_config(layout="wide", page_title="Company Enrichment Tool") # Added page config
 
@@ -22,7 +35,11 @@ REQUIRED_COLUMNS_MAP = {
 }
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S'
+)
 
 # --- Helper Function for Validation ---
 def validate_columns(df_columns: list[str]) -> tuple[dict[str, tuple[bool, str | None]], bool]:
@@ -58,7 +75,16 @@ def validate_columns(df_columns: list[str]) -> tuple[dict[str, tuple[bool, str |
 
 # --- Session State Initialization ---
 def init_session_state():
-    """Initializes session state variables if they don't exist."""
+    """
+    Initializes session state variables if they don't exist.
+    Also handles specific state adjustments based on input method.
+    
+    Returns:
+        bool: True if this was the first full initialization, False otherwise.
+    """
+    # Sentinel key to check if this is the first time defaults are being applied in this session.
+    is_first_full_init = '_app_defaults_initialized' not in st.session_state
+
     defaults = {
         "page": "Input",
         "company_list": None, # Will store list of dicts for processing
@@ -67,37 +93,204 @@ def init_session_state():
         "input_method": "File Upload", # Default input method
         "config": {},
         "job_status": "Idle",
+        "progress": 0,
+        "current_phase": "",
         "results": None,
         "log_messages": [],
+        "log_queue": None,
+        "status_queue": None,
+        "pipeline_process": None,
+        "pipeline_config": None,
+        "error_message": None,
+        "artifacts": None,
         "testing_mode": False, # Flag to disable st.rerun() calls during tests
+        # Auto-refresh configuration
+        "auto_refresh_enabled": True, # Auto-refresh logs by default
+        "refresh_interval": 3.0, # Default refresh interval in seconds
     }
+    
+    # Apply defaults if keys don't exist
     for key, value in defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
-    # Ensure company_list is initialized correctly for data_editor if needed
-    if st.session_state['input_method'] == 'Manual Input' and st.session_state['company_list'] is None:
-         st.session_state['company_list'] = pd.DataFrame(columns=["company name", "location", "url"])
+    
+    # Set the sentinel AFTER initializing the main values
+    if is_first_full_init:
+        st.session_state['_app_defaults_initialized'] = True
+        print("Default session state values initialized for the new user session.")
 
-    logging.info("Session state initialized.")
+    # Specific state adjustments that might need to occur on reruns
+    if st.session_state.get("input_method") == "Manual Input":
+        if not isinstance(st.session_state.get('manual_input_df'), pd.DataFrame):
+            st.session_state['manual_input_df'] = pd.DataFrame(columns=["company name", "location", "url"])
+            logging.info("Re-initialized 'manual_input_df' as it was not a DataFrame in Manual Input mode.")
+        
+    # Safeguard: Ensure 'log_messages' is always a list
+    if not isinstance(st.session_state.get('log_messages'), list):
+        st.session_state['log_messages'] = []
+        logging.warning("Re-initialized 'log_messages' as it was not a list.")
+    
+    return is_first_full_init
 
 init_session_state()
 
 # --- Logging Handler for Streamlit ---
 class StreamlitLogHandler(logging.Handler):
-    def emit(self, record):
+    def emit(self, record: logging.LogRecord):
         try:
             msg = self.format(record)
+
+            # Ensure log_messages exists and is a list in session_state
+            if not isinstance(st.session_state.get('log_messages'), list):
+                st.session_state['log_messages'] = [] 
+            
             # Use key access for log_messages
             st.session_state['log_messages'].append(msg)
             # Keep only the last N messages if needed
             # max_log_entries = 100
             # st.session_state['log_messages'] = st.session_state['log_messages'][-max_log_entries:]
-        except Exception:
+        except (KeyError, AttributeError, Exception):
+        # Pass the record to handleError as expected by the logging framework
             self.handleError(record)
 
 # Add the handler to the root logger AFTER initial state setup
 streamlit_handler = StreamlitLogHandler()
 logging.getLogger().addHandler(streamlit_handler)
+
+# --- Pipeline Processing in Separate Process ---
+def run_pipeline_in_process(config: Dict[str, Any], log_queue: Queue, status_queue: Queue):
+    """
+    Run the pipeline in a separate process.
+    
+    Args:
+        config: Configuration for the pipeline
+        log_queue: Queue for passing log messages back to the main process
+        status_queue: Queue for sending status updates to the main process
+    """
+    # Configure logging to capture pipeline logs and send to queue and file
+    root_logger = logging.getLogger()
+    
+    # Create log directory if it doesn't exist
+    log_dir = os.path.join(project_root, 'logfiles')
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # Generate log filename with timestamp
+    timestamp = time.strftime('%Y%m%d_%H%M%S')
+    log_file_path = os.path.join(log_dir, f'pipeline_{timestamp}.log')
+    
+    # Add a handler for the log queue
+    class QueueHandler(logging.Handler):
+        def emit(self, record):
+            log_queue.put(record)
+    
+    # Clear existing handlers
+    for handler in root_logger.handlers[:]:
+        root_logger.removeHandler(handler)
+    
+    # Set up file handler
+    file_handler = logging.FileHandler(log_file_path)
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'))
+    root_logger.addHandler(file_handler)
+    
+    # Set up queue handler
+    queue_handler = QueueHandler()
+    queue_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S'))
+    root_logger.addHandler(queue_handler)
+    root_logger.setLevel(logging.INFO)
+    
+    # Log the file location so it's available in the queue
+    logging.info(f"Pipeline logs are being saved to: {log_file_path}")
+    
+    # Send initial status
+    status_queue.put({"status": "Running", "progress": 0, "phase": "Initializing"})
+    
+    try:
+        print(f"Pipeline process started with config: {config}")
+        logging.info("Pipeline process started")
+        status_queue.put({"status": "Running", "progress": 10, "phase": "Starting Pipeline"})
+        
+        # Execute the pipeline
+        final_output = run_pipeline(config)
+        
+        # Send success status with final output path
+        status_queue.put({
+            "status": "Completed",
+            "progress": 100,
+            "phase": "Finished",
+            "output_path": final_output
+        })
+        print(f"Pipeline process completed successfully, output at: {final_output}")
+        logging.info(f"Pipeline completed successfully, output at: {final_output}")
+        
+    except Exception as e:
+        error_msg = str(e)
+        logging.error(f"Pipeline process failed: {error_msg}")
+        print(f"Pipeline process failed: {error_msg}")
+        status_queue.put({
+            "status": "Error",
+            "progress": 0,
+            "phase": "Failed",
+            "error": error_msg
+        })
+
+# Function to monitor queues and update session state
+def process_queue_messages():
+    """
+    Process messages from the log and status queues, updating the Streamlit session state.
+    This should be called on each Streamlit rerun.
+    """
+    # Process log messages
+    logs_updated = False
+    if 'log_queue' in st.session_state and st.session_state['log_queue'] is not None:
+        try:
+            while not st.session_state['log_queue'].empty():
+                record = st.session_state['log_queue'].get_nowait()
+                if record:
+                    log_message = f"{record.asctime if hasattr(record, 'asctime') else ''} - {record.levelname if hasattr(record, 'levelname') else ''} - {record.getMessage() if hasattr(record, 'getMessage') else str(record)}"
+                    st.session_state['log_messages'].append(log_message)
+                    logs_updated = True
+        except Exception as e:
+            log_error_msg = f"Error processing log queue: {e}"
+            st.session_state['log_messages'].append(log_error_msg)
+            logs_updated = True
+            
+    # Set flag in session state to indicate new logs available
+    if logs_updated:
+        st.session_state['logs_updated'] = True
+    
+    # Process status updates
+    if 'status_queue' in st.session_state and st.session_state['status_queue'] is not None:
+        try:
+            while not st.session_state['status_queue'].empty():
+                status_update = st.session_state['status_queue'].get_nowait()
+                if status_update:
+                    # Update job status
+                    if "status" in status_update:
+                        st.session_state['job_status'] = status_update["status"]
+                    
+                    # Update progress
+                    if "progress" in status_update:
+                        st.session_state['progress'] = status_update["progress"]
+                    
+                    # Update phase
+                    if "phase" in status_update:
+                        st.session_state['current_phase'] = status_update["phase"]
+                    
+                    # Handle completion
+                    if status_update.get("status") == "Completed" and "output_path" in status_update:
+                        output_path = status_update["output_path"]
+                        try:
+                            # Load the results
+                            results_df = pd.read_csv(output_path)
+                            st.session_state['results'] = results_df
+                        except Exception as e:
+                            st.session_state['log_messages'].append(f"Error loading results: {e}")
+                    
+                    # Handle error
+                    if status_update.get("status") == "Error" and "error" in status_update:
+                        st.session_state['error_message'] = status_update["error"]
+        except Exception as e:
+            st.session_state['log_messages'].append(f"Error processing status queue: {e}")
 
 # --- UI Sections ---
 def display_input_section():
@@ -153,7 +346,7 @@ def display_input_section():
                 # Clear other input method's state
                 st.session_state['manual_input_df'] = pd.DataFrame(columns=["company name", "location", "url"])
                 st.session_state['company_list'] = None # Clear processed list as input changed
-                logging.info(f"File selected: {uploaded_file.name}")
+                print(f"File selected: {uploaded_file.name}")
                 st.success(f"File '{uploaded_file.name}' selected.") # Use standard quotes
                 
                 # Only rerun if not in testing mode
@@ -272,7 +465,7 @@ def display_input_section():
             if st.button("Change File"):
                 st.session_state['uploaded_file_data'] = None
                 st.session_state['company_list'] = None # Clear processed list
-                logging.info("User clicked 'Change File'. Clearing uploaded file.")
+                print("User clicked 'Change File'. Clearing uploaded file.")
                 
                 # Only rerun if not in testing mode
                 if not st.session_state.get("testing_mode", False):
@@ -349,16 +542,19 @@ def clear_other_input(selected_method):
 
 def process_data():
     """Processes the data from the selected input method."""
+    st.toast("process_data called")
     st.session_state['job_status'] = "Processing"
     st.session_state['results'] = None # Clear previous results
-    st.session_state['log_messages'] = ["Processing started..."] # Reset logs
-    logging.info("Processing started.")
-    if not st.session_state.get("testing_mode", False):
-        st.rerun() # Rerun to update status immediately
+    
+    # Don't reset logs completely, just add a separator and new start message
+    # This ensures log history is preserved across reruns during a session
+    st.session_state['log_messages'].append("-" * 40)  # Separator
+    st.session_state['log_messages'].append("Processing started...")
+    print("Processing started.")
 
     data_to_process = None
 
-    if st.session_state['input_method'] == 'file' and st.session_state['uploaded_file_data']:
+    if st.session_state['input_method'] == 'File Upload' and st.session_state['uploaded_file_data']:
         uploaded_file = st.session_state['uploaded_file_data']
         logging.info(f"Processing uploaded file: {uploaded_file.name}")
         try:
@@ -415,7 +611,7 @@ def process_data():
             logging.error(f"Error processing file {uploaded_file.name}: {e}")
             return
 
-    elif st.session_state['input_method'] == 'manual':
+    elif st.session_state['input_method'] == 'Manual Input':
         manual_df = st.session_state.get('manual_input_df')
         if manual_df is not None and not manual_df.empty:
              # Basic cleaning (optional, adapt as needed)
@@ -444,42 +640,68 @@ def process_data():
         logging.warning("Start Processing clicked with no data source selected or data provided.")
         return
 
-    # --- Placeholder for Actual Pipeline Execution ---
+    # --- Prepare Pipeline Configuration ---
     if data_to_process:
         st.info(f"Starting enrichment for {len(data_to_process)} companies...")
         logging.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
-        # try:
-        #     # **** Replace with your actual pipeline call ****
-        #     # results_df = run_extracting_machine_pipeline(data_to_process, st.session_state['config'])
-        #     # Mock results for now
-        #     time.sleep(2) # Simulate work
-        #     mock_results = [{"company name": d["company name"], "location": d["location"], "url": d["url"], "enriched_data": "Processed"} for d in data_to_process]
-        #     results_df = pd.DataFrame(mock_results)
-        #     # **** End Replace ****
-
-        #     st.session_state['results'] = results_df
-        #     st.session_state['job_status'] = "Completed"
-        #     logging.info("Processing completed successfully.")
-        #     st.success("Processing finished!")
-        #     # Switch to output page?
-        #     # st.session_state['page'] = "Output"
-        #     # st.rerun()
-
-        # except Exception as e:
-        #     st.error(f"Pipeline execution failed: {e}")
-        #     st.session_state['job_status'] = "Error"
-        #     logging.error(f"Pipeline execution failed: {e}")
-
-        # --- Mock Implementation ---
-        import time
-        time.sleep(1) # Simulate work
-        mock_results = [{"company name": d["company name"], "location": d["location"], "url": d["url"], "enriched_data": f"Processed_{i+1}"} for i, d in enumerate(data_to_process)]
-        results_df = pd.DataFrame(mock_results)
-        st.session_state['results'] = results_df
-        st.session_state['job_status'] = "Completed"
-        logging.info("Mock processing completed successfully.")
-        st.success("Processing finished!")
-        # --- End Mock ---
+        
+        try:
+            # Create a temporary CSV file for the pipeline
+            with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as temp_file:
+                temp_csv_path = temp_file.name
+                df = pd.DataFrame(data_to_process)
+                df.to_csv(temp_csv_path, index=False)
+                logging.info(f"Temporary input CSV created at {temp_csv_path}")
+            
+            # Create output directory if it doesn't exist
+            output_dir = os.path.join(project_root, 'outputs')
+            os.makedirs(output_dir, exist_ok=True)
+            
+            # Prepare the configuration
+            pipeline_config = {
+                'input_csv': temp_csv_path,
+                'output_dir': output_dir,
+                'category': st.session_state['config'].get('category'),
+                'log_level': "INFO",  # This can be configured via UI if needed
+                'skip_llm_validation': True  # Adjust as needed or make configurable via UI
+            }
+            
+            # Set up the queues for communication between processes
+            manager = Manager()
+            log_queue = manager.Queue()
+            status_queue = manager.Queue()
+            
+            # Store the queues in session state for monitoring
+            st.session_state['log_queue'] = log_queue
+            st.session_state['status_queue'] = status_queue
+            st.session_state['pipeline_config'] = pipeline_config
+            
+            # Start the pipeline in a separate process
+            p = Process(target=run_pipeline_in_process, args=(pipeline_config, log_queue, status_queue))
+            p.daemon = True  # Set as daemon so it terminates when the main process ends
+            p.start()
+            
+            # Store the process in session state
+            st.session_state['pipeline_process'] = p
+            
+            # Update job status
+            st.session_state['job_status'] = "Running"
+            st.session_state['progress'] = 10
+            st.session_state['current_phase'] = "Starting Pipeline"
+            
+            print(f"Pipeline process started with PID: {p.pid}")
+            logging.info(f"Pipeline process started with PID: {p.pid}")
+            
+        except Exception as e:
+            st.error(f"Failed to start pipeline: {e}")
+            st.session_state['job_status'] = "Error"
+            logging.error(f"Failed to start pipeline: {e}", exc_info=True)
+            # Clean up any temporary files
+            try:
+                if 'temp_csv_path' in locals():
+                    os.unlink(temp_csv_path)
+            except Exception:
+                pass
 
     else:
          # This case should ideally be caught earlier, but as a fallback:
@@ -487,70 +709,304 @@ def process_data():
          st.session_state['job_status'] = "Idle"
          logging.warning("process_data called but data_to_process was empty.")
 
-    if not st.session_state.get("testing_mode", False):
-        st.rerun() # Rerun to update UI with results/status
 
 
 def display_config_section():
     """Displays the UI for configuration settings."""
     st.header("2. Configuration")
     st.write("Configure scraping and enrichment parameters.")
-    # Use key access for config dictionary
-    st.session_state['config']['depth'] = st.slider("Crawling Depth", 1, 5, 2)
-    st.session_state['config']['llm_provider'] = st.selectbox("LLM Provider", ["OpenAI", "Anthropic", "Gemini", "Mock"])
-    st.session_state['config']['api_key'] = st.text_input("API Key", type="password")
-    logging.info(f"Configuration updated: Depth={st.session_state['config'].get('depth')}, LLM={st.session_state['config'].get('llm_provider')}")
+    
+    # Store current config values before UI interaction
+    prev_depth = st.session_state['config'].get('depth', 2)
+    prev_llm = st.session_state['config'].get('llm_provider', 'OpenAI')
+    prev_api_key = st.session_state['config'].get('api_key', '')
+    
+    # UI elements for configuration
+    st.session_state['config']['depth'] = st.slider("Crawling Depth", 1, 5, prev_depth)
+    st.session_state['config']['llm_provider'] = st.selectbox("LLM Provider", ["OpenAI", "Anthropic", "Gemini", "Mock"], 
+                                                            index=["OpenAI", "Anthropic", "Gemini", "Mock"].index(prev_llm) if prev_llm in ["OpenAI", "Anthropic", "Gemini", "Mock"] else 0)
+    st.session_state['config']['api_key'] = st.text_input("API Key", value=prev_api_key, type="password")
+    
+    # Only log if configuration values have actually changed
+    if (prev_depth != st.session_state['config'].get('depth') or 
+        prev_llm != st.session_state['config'].get('llm_provider') or
+        prev_api_key != st.session_state['config'].get('api_key')):
+        logging.info(f"Configuration updated: Depth={st.session_state['config'].get('depth')}, LLM={st.session_state['config'].get('llm_provider')}")
 
 
 def display_monitoring_section():
     """Displays the job monitoring and log output."""
     st.header("3. Monitoring")
     st.write("Track the progress of the scraping and enrichment process.")
+    
+    # Process any messages from the queues
+    process_queue_messages()
+    # Only print log message count for debugging, not the full content
+    if st.session_state.get('log_messages'):
+        print(f"Log messages count: {len(st.session_state.get('log_messages', []))}")
+    # Check if the pipeline process is still running
+    if 'pipeline_process' in st.session_state and st.session_state['pipeline_process']:
+        p = st.session_state['pipeline_process']
+        if p.is_alive():
+            if st.session_state['job_status'] != "Running":
+                st.session_state['job_status'] = "Running"
+        else:
+            # Process completed or terminated
+            if st.session_state['job_status'] == "Running":
+                # Process ended but status wasn't updated properly
+                # This could happen if the process crashed unexpectedly
+                st.session_state['job_status'] = "Completed"
+                logging.info("Pipeline process ended")
 
-    # Use key access for job_status
-    st.info(f"Current Status: **{st.session_state['job_status']}**")
-    if st.session_state['job_status'] == "Running":
-        st.progress(50) # Example progress
+    # Display current status and phase
+    status_color = {
+        "Idle": "blue",
+        "Running": "orange",
+        "Completed": "green",
+        "Error": "red"
+    }.get(st.session_state['job_status'], "blue")
+    
+    st.markdown(f"**Status:** <span style='color:{status_color}'>{st.session_state['job_status']}</span>", unsafe_allow_html=True)
+    
+    if 'current_phase' in st.session_state and st.session_state['current_phase']:
+        st.markdown(f"**Current Phase:** {st.session_state['current_phase']}")
+    
+    # Display progress bar
+    if st.session_state['job_status'] == "Running" and 'progress' in st.session_state:
+        st.progress(st.session_state['progress']/100)
+    
+    # Display error message if present
+    if 'error_message' in st.session_state and st.session_state['error_message']:
+        st.error(f"Error: {st.session_state['error_message']}")
 
-    st.subheader("Logs")
-    log_container = st.container(height=300)
-    with log_container:
-        # Use key access for log_messages
-        for msg in reversed(st.session_state['log_messages']):
-            st.text(msg)
+    # Cancel button for running processes
+    if st.session_state['job_status'] == "Running" and 'pipeline_process' in st.session_state:
+        if st.button("Cancel Processing"):
+            try:
+                p = st.session_state['pipeline_process']
+                if p and p.is_alive():
+                    p.terminate()
+                    logging.info("Pipeline process terminated by user")
+                st.session_state['job_status'] = "Cancelled"
+                st.warning("Processing cancelled by user")
+            except Exception as e:
+                logging.error(f"Error cancelling process: {e}")
+                st.error(f"Error cancelling process: {e}")
+
+    # Display log directory location
+    log_dir = os.path.join(project_root, 'logfiles')
+    if os.path.exists(log_dir):
+        st.info(f"Log files are being saved to: {log_dir}")
+        
+        # Get the latest log file in the directory (if available)
+        try:
+            log_files = sorted(
+                [f for f in os.listdir(log_dir) if f.startswith('pipeline_')], 
+                key=lambda x: os.path.getmtime(os.path.join(log_dir, x)),
+                reverse=True
+            )
+            if log_files:
+                latest_log = log_files[0]
+                st.success(f"Latest log file: {latest_log}")
+                
+        except Exception as e:
+            st.warning(f"Could not list log files: {e}")
+
+    # Display logs with auto-refresh capability
+    st.subheader("Live Logs")
+    
+    # Add auto-refresh controls in an expander
+    with st.expander("Log Auto-Refresh Settings"):
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            auto_refresh = st.toggle(
+                "Auto-refresh enabled",
+                value=st.session_state.get("auto_refresh_enabled", True),
+                key="auto_refresh_toggle"
+            )
+            # Update session state when toggle changes
+            st.session_state["auto_refresh_enabled"] = auto_refresh
+        
+        with col2:
+            if auto_refresh:
+                refresh_rate = st.slider(
+                    "Refresh interval (seconds)",
+                    min_value=1.0,
+                    max_value=10.0,
+                    value=st.session_state.get("refresh_interval", 3.0),
+                    step=0.5,
+                    key="refresh_slider"
+                )
+                # Update session state when slider changes
+                st.session_state["refresh_interval"] = refresh_rate
+                
+                # Show refresh status
+                if st.session_state.get("job_status") == "Running":
+                    st.caption(f"Logs will refresh every {refresh_rate:.1f} seconds")
+                else:
+                    st.caption(f"Logs will refresh every {refresh_rate * 2:.1f} seconds (slower in idle state)")
+    
+    # Create a fragment with auto-refresh using the built-in run_every parameter
+    # This eliminates the need for manual tracking of refresh time
+    @st.fragment(run_every=st.session_state.get("refresh_interval", 3.0) if st.session_state.get("auto_refresh_enabled", True) and not st.session_state.get("testing_mode", False) else None)
+    def display_live_logs():
+        # Process messages from queues
+        process_queue_messages()
+        
+        # Determine if we need to adjust refresh rate for next run based on job status
+        # The fragment's run_every parameter will be re-evaluated on each rerun
+        if st.session_state.get("auto_refresh_enabled", True) and not st.session_state.get("testing_mode", False):
+            if st.session_state.get("job_status") != "Running":
+                # For non-running states, we'll use a slower refresh on next rerun
+                refresh_rate = st.session_state.get("refresh_interval", 3.0) * 2
+                print(f"Non-running state: Next refresh in {refresh_rate:.1f} seconds")
+            else:
+                refresh_rate = st.session_state.get("refresh_interval", 3.0)
+                print(f"Running state: Next refresh in {refresh_rate:.1f} seconds")
+
+        # Display logs in reverse order (newest first)
+        # Wrap logs in a container with a fixed height and scrollbar
+        log_container = st.container(height=300) # Adjust height as needed
+        with log_container:
+            log_messages_to_display = st.session_state.get('log_messages', [])
+            for msg in reversed(log_messages_to_display): # Display newest first at the top of the scroll
+                st.text(msg)
+
+    # Call the fragment function
+    display_live_logs()
 
 
 def display_output_section():
     """Displays the results and download options."""
     st.header("4. Output")
-    st.write("View and download the enriched data.")
-    # Use key access for results
-    results_data = st.session_state.get('results') # Use .get for safer access
+    
+    # Process any pending messages to ensure we have the latest results
+    process_queue_messages()
+    
+    # Final results tab
+    st.write("View and download the enriched data, logs, and intermediate artifacts.")
+    
+    tab1, tab2 = st.tabs(["Final Results", "Pipeline Artifacts"])
+    
+    with tab1:
+        # Display final results
+        results_data = st.session_state.get('results')  # Use .get for safer access
 
-    if results_data is not None and not results_data.empty:
-        st.dataframe(results_data, use_container_width=True)
+        if results_data is not None and not results_data.empty:
+            st.subheader("Final Enriched Data")
+            st.dataframe(results_data, use_container_width=True)
 
-        # Prepare data for download
-        @st.cache_data # Cache the conversion to avoid re-running on every interaction
-        def convert_df_to_csv(df):
-            # IMPORTANT: Cache the conversion to prevent computation on every rerun
-            return df.to_csv(index=False).encode('utf-8')
+            # Prepare data for download
+            @st.cache_data  # Cache the conversion to avoid re-running on every interaction
+            def convert_df_to_csv(df):
+                # IMPORTANT: Cache the conversion to prevent computation on every rerun
+                return df.to_csv(index=False).encode('utf-8')
 
-        csv_data = convert_df_to_csv(results_data)
+            csv_data = convert_df_to_csv(results_data)
 
-        st.download_button(
-            label="Download Results as CSV",
-            data=csv_data,
-            file_name="enriched_company_data.csv",
-            mime="text/csv",
-            key='download-csv'
-        )
-    elif st.session_state['job_status'] == "Processing":
-         st.info("Processing is ongoing. Results will appear here when complete.")
-    elif st.session_state['job_status'] in ["Error", "Completed (No Data)"]:
-         st.warning("No results to display. Check the Monitoring section for status and logs.")
-    else:
-        st.info("No results yet. Input data and start processing.")
+            st.download_button(
+                label="Download Results as CSV",
+                data=csv_data,
+                file_name="enriched_company_data.csv",
+                mime="text/csv",
+                key='download-csv'
+            )
+        elif st.session_state['job_status'] == "Running":
+            st.info("Processing is ongoing. Results will appear here when complete.")
+        elif st.session_state['job_status'] in ["Error", "Completed (No Data)"]:
+            st.warning("No results to display. Check the Monitoring section for status and logs.")
+        else:
+            st.info("No results yet. Input data and start processing.")
+    
+    with tab2:
+        st.subheader("Pipeline Artifacts")
+        
+        # Get pipeline output path from session state
+        if 'pipeline_config' in st.session_state and st.session_state['pipeline_config']:
+            output_dir = st.session_state['pipeline_config'].get('output_dir')
+            if output_dir and Path(output_dir).exists():
+                st.write(f"Pipeline output directory: `{output_dir}`")
+                
+                # List all files in the output directory
+                output_path = Path(output_dir)
+                all_runs = [d for d in output_path.glob("pipeline_run_*") if d.is_dir()]
+                
+                if all_runs:
+                    # Sort runs by modification time (newest first)
+                    all_runs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+                    
+                    # Select run
+                    selected_run = st.selectbox(
+                        "Select Run:", 
+                        all_runs,
+                        format_func=lambda p: f"{p.name} ({time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(p.stat().st_mtime))})"
+                    )
+                    
+                    if selected_run:
+                        # List phases in this run
+                        phases = [d for d in selected_run.glob("*") if d.is_dir()]
+                        if phases:
+                            st.write("### Available Phases")
+                            
+                            # Create tabs for each phase
+                            phase_tabs = st.tabs([p.name for p in phases])
+                            
+                            # Display files for each phase
+                            for i, phase_dir in enumerate(phases):
+                                with phase_tabs[i]:
+                                    st.write(f"#### Files from {phase_dir.name}")
+                                    
+                                    # List all files in the phase directory
+                                    phase_files = list(phase_dir.glob("**/*"))
+                                    phase_files = [f for f in phase_files if f.is_file()]
+                                    
+                                    if phase_files:
+                                        # Create a table of files
+                                        file_data = []
+                                        for file_path in phase_files:
+                                            rel_path = file_path.relative_to(phase_dir)
+                                            size = file_path.stat().st_size
+                                            size_str = f"{size/1024:.1f} KB" if size > 1024 else f"{size} bytes"
+                                            file_data.append({
+                                                "File": str(rel_path),
+                                                "Size": size_str,
+                                                "Path": str(file_path)
+                                            })
+                                        
+                                        # Display as a DataFrame
+                                        df_files = pd.DataFrame(file_data)
+                                        st.dataframe(df_files, use_container_width=True)
+                                        
+                                        # Create download buttons for each file
+                                        selected_file = st.selectbox(
+                                            "Select file to download:", 
+                                            phase_files,
+                                            format_func=lambda p: p.name,
+                                            key=f"select_{phase_dir.name}"
+                                        )
+                                        
+                                        if selected_file:
+                                            try:
+                                                file_contents = selected_file.read_bytes()
+                                                st.download_button(
+                                                    label=f"Download {selected_file.name}",
+                                                    data=file_contents,
+                                                    file_name=selected_file.name,
+                                                    mime="application/octet-stream",
+                                                    key=f"download_{phase_dir.name}_{selected_file.name}"
+                                                )
+                                            except Exception as e:
+                                                st.error(f"Error reading file: {e}")
+                                    else:
+                                        st.info("No files found in this phase.")
+                        else:
+                            st.info("No phase directories found in this run.")
+                else:
+                    st.info("No pipeline runs found in the output directory.")
+            else:
+                st.info("Output directory not found or not yet created.")
+        else:
+            st.info("No pipeline has been run yet. Start processing data first.")
 
 
 # --- Sidebar Navigation ---
@@ -558,7 +1014,7 @@ def display_output_section():
 def handle_navigation():
     """Callback function to update the page state."""
     st.session_state['page'] = st.session_state['navigation_choice']
-    logging.info(f"Navigation handled, page set to: {st.session_state['page']}")
+    print(f"Navigation handled, page set to: {st.session_state['page']}")
 
 st.sidebar.title("Navigation")
 page_options = ["Input", "Configuration", "Monitoring", "Output"]
@@ -575,6 +1031,26 @@ st.sidebar.radio(
 
 # --- Main App Logic ---
 if __name__ == "__main__":
+    # Initialize multiprocessing support
+    multiprocessing.set_start_method('fork', force=True)
+    
+    # Process any queue messages on each rerun if pipeline is running
+    if st.session_state['job_status'] == "Running":
+        process_queue_messages()
+    
+    # Check if process is done
+    if 'pipeline_process' in st.session_state and st.session_state['pipeline_process'] is not None:
+        p = st.session_state['pipeline_process']
+        if not p.is_alive() and st.session_state['job_status'] == "Running":
+            # Final processing of any remaining messages
+            process_queue_messages()
+            
+            # If status wasn't updated by the queue messages, update it now
+            if st.session_state['job_status'] == "Running":
+                st.session_state['job_status'] = "Completed"
+                st.session_state['progress'] = 100
+                logging.info("Pipeline process completed")
+    
     # Display the selected page
     page = st.session_state['page']
     if page == "Input":
@@ -586,5 +1062,5 @@ if __name__ == "__main__":
     elif page == "Output":
         display_output_section()
 
-    logging.info(f"Displayed page: {page}")
+    print(f"Displayed page: {page}")
 
