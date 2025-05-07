@@ -739,59 +739,76 @@ def display_monitoring_section():
     st.header("3. Monitoring")
     st.write("Track the progress of the scraping and enrichment process.")
     
-    # Process any messages from the queues
+    # Initial queue processing is still needed outside the fragment
     process_queue_messages()
     # Only print log message count for debugging, not the full content
     if st.session_state.get('log_messages'):
         print(f"Log messages count: {len(st.session_state.get('log_messages', []))}")
-    # Check if the pipeline process is still running
-    if 'pipeline_process' in st.session_state and st.session_state['pipeline_process']:
-        p = st.session_state['pipeline_process']
-        if p.is_alive():
-            if st.session_state['job_status'] != "Running":
-                st.session_state['job_status'] = "Running"
-        else:
-            # Process completed or terminated
-            if st.session_state['job_status'] == "Running":
-                # Process ended but status wasn't updated properly
-                # This could happen if the process crashed unexpectedly
-                st.session_state['job_status'] = "Completed"
-                logging.info("Pipeline process ended")
 
-    # Display current status and phase
-    status_color = {
-        "Idle": "blue",
-        "Running": "orange",
-        "Completed": "green",
-        "Error": "red"
-    }.get(st.session_state['job_status'], "blue")
-    
-    st.markdown(f"**Status:** <span style='color:{status_color}'>{st.session_state['job_status']}</span>", unsafe_allow_html=True)
-    
-    if 'current_phase' in st.session_state and st.session_state['current_phase']:
-        st.markdown(f"**Current Phase:** {st.session_state['current_phase']}")
-    
-    # Display progress bar
-    if st.session_state['job_status'] == "Running" and 'progress' in st.session_state:
-        st.progress(st.session_state['progress']/100)
-    
-    # Display error message if present
-    if 'error_message' in st.session_state and st.session_state['error_message']:
-        st.error(f"Error: {st.session_state['error_message']}")
+    # Create a fragment for status information that auto-refreshes
+    @st.fragment(run_every=st.session_state.get("refresh_interval", 3.0) if st.session_state.get("auto_refresh_enabled", True) and not st.session_state.get("testing_mode", False) else None)
+    def display_status_info():
+        # Process messages from queues inside fragment to ensure fresh data
+        process_queue_messages()
+        
+        # Check if the pipeline process is still running
+        if 'pipeline_process' in st.session_state and st.session_state['pipeline_process']:
+            p = st.session_state['pipeline_process']
+            if p.is_alive():
+                if st.session_state['job_status'] != "Running":
+                    st.session_state['job_status'] = "Running"
+            else:
+                # Process completed or terminated
+                if st.session_state['job_status'] == "Running":
+                    # Process ended but status wasn't updated properly
+                    # This could happen if the process crashed unexpectedly
+                    st.session_state['job_status'] = "Completed"
+                    logging.info("Pipeline process ended")
 
-    # Cancel button for running processes
-    if st.session_state['job_status'] == "Running" and 'pipeline_process' in st.session_state:
-        if st.button("Cancel Processing"):
-            try:
-                p = st.session_state['pipeline_process']
-                if p and p.is_alive():
-                    p.terminate()
-                    logging.info("Pipeline process terminated by user")
-                st.session_state['job_status'] = "Cancelled"
-                st.warning("Processing cancelled by user")
-            except Exception as e:
-                logging.error(f"Error cancelling process: {e}")
-                st.error(f"Error cancelling process: {e}")
+        # Display current status and phase
+        status_color = {
+            "Idle": "blue",
+            "Running": "orange",
+            "Completed": "green",
+            "Error": "red"
+        }.get(st.session_state['job_status'], "blue")
+        
+        st.markdown(f"**Status:** <span style='color:{status_color}'>{st.session_state['job_status']}</span>", unsafe_allow_html=True)
+        
+        if 'current_phase' in st.session_state and st.session_state['current_phase']:
+            st.markdown(f"**Current Phase:** {st.session_state['current_phase']}")
+        
+        # Display progress bar
+        if st.session_state['job_status'] == "Running" and 'progress' in st.session_state:
+            st.progress(st.session_state['progress']/100)
+        
+        # Display error message if present
+        if 'error_message' in st.session_state and st.session_state['error_message']:
+            st.error(f"Error: {st.session_state['error_message']}")
+    
+    # Call the status fragment
+    display_status_info()
+
+    # Move Cancel button into the status fragment to ensure it refreshes with status
+    # The button should only appear when the job is actually running
+    @st.fragment(run_every=st.session_state.get("refresh_interval", 3.0) if st.session_state.get("auto_refresh_enabled", True) and not st.session_state.get("testing_mode", False) else None)
+    def display_cancel_button():
+        # Only show cancel button if job is running
+        if st.session_state['job_status'] == "Running" and 'pipeline_process' in st.session_state:
+            if st.button("Cancel Processing"):
+                try:
+                    p = st.session_state['pipeline_process']
+                    if p and p.is_alive():
+                        p.terminate()
+                        logging.info("Pipeline process terminated by user")
+                    st.session_state['job_status'] = "Cancelled"
+                    st.warning("Processing cancelled by user")
+                except Exception as e:
+                    logging.error(f"Error cancelling process: {e}")
+                    st.error(f"Error cancelling process: {e}")
+    
+    # Call the cancel button fragment
+    display_cancel_button()
 
     # Display log directory location
     log_dir = os.path.join(project_root, 'logfiles')
@@ -859,10 +876,10 @@ def display_monitoring_section():
             if st.session_state.get("job_status") != "Running":
                 # For non-running states, we'll use a slower refresh on next rerun
                 refresh_rate = st.session_state.get("refresh_interval", 3.0) * 2
-                print(f"Non-running state: Next refresh in {refresh_rate:.1f} seconds")
+                # print(f"Non-running state: Next refresh in {refresh_rate:.1f} seconds")
             else:
                 refresh_rate = st.session_state.get("refresh_interval", 3.0)
-                print(f"Running state: Next refresh in {refresh_rate:.1f} seconds")
+                # print(f"Running state: Next refresh in {refresh_rate:.1f} seconds")
 
         # Display logs in reverse order (newest first)
         # Wrap logs in a container with a fixed height and scrollbar
