@@ -313,11 +313,19 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
         ): # type: ignore
             processed_count += 1
 
-            # --- Progress Logging ---
+            # --- Get file path and define output file path ---
             file_path = "Unknown file"
-            log_message_subject = "Unknown file"
+            output_file = None
             if result.url in file_urls:
                 file_path = file_paths[file_urls.index(result.url)]
+                basename = os.path.basename(file_path)
+                name_without_ext = os.path.splitext(basename)[0]
+                output_file = os.path.join(output_dir, f"{name_without_ext}.json")
+                
+            # --- Progress Logging ---
+            log_message_subject = "Unknown file"
+            company_name_from_html = ""
+            if file_path != "Unknown file":
                 company_name_from_html = extract_company_name(file_path)
                 if company_name_from_html:
                     log_message_subject = f"company {company_name_from_html}"
@@ -327,7 +335,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
             # --- End Progress Logging ---
 
             # Process result as it comes in
-            if result.success and result.extracted_content:
+            if result.success and result.extracted_content and output_file:
 
                 # Extract company name from HTML comment (already done above for logging)
                 company_name = company_name_from_html  # Use the name extracted for logging
@@ -388,13 +396,16 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     should_write = True
 
                 if should_write:
+                    logger.debug(f"Writing output to {output_file}")
                     with open(output_file, "w", encoding="utf-8") as f:
                         if isinstance(result.extracted_content, str):
                             f.write(result.extracted_content)
                         else:
                             json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
                     extracted_data.append(result.extracted_content)
+                    logger.info(f"Successfully extracted data for {log_message_subject}")
                 else:
+                    logger.warning(f"No relevant Sachanlagen data found for {log_message_subject}")
                     # Ensure no output file is created for irrelevant or empty data
                     if os.path.exists(output_file):
                         try:
