@@ -537,3 +537,290 @@ if __name__ == "__main__":
     unittest.main()
 
 # Added newline at the end of the file
+
+
+@patch("streamlit_app.app.st")  # Patch st where it's used in the app module
+@patch("streamlit_app.app.os")  # Patch os for temp file operations
+class TestProcessDataCSVValidation(unittest.TestCase):
+    """Tests for the CSV upload and validation functionality in process_data."""
+
+    def setUp(self):
+        """Set up test fixtures before each test method."""
+        # Import process_data directly
+        from streamlit_app.app import process_data
+
+        self.process_data = process_data
+
+        # Mock StringIO and BytesIO objects
+        self.mock_stringio = MagicMock(spec=io.StringIO)
+        self.mock_bytesio = MagicMock(spec=io.BytesIO)
+
+        # Set up test data
+        self.valid_csv_content = "company name,location,url\nCompany A,Location A,http://www.a.com\nCompany B,Location B,http://www.b.com"
+        self.missing_columns_csv_content = (
+            "name,city,website\nCompany A,Location A,http://www.a.com"
+        )
+        self.empty_csv_content = "company name,location,url"
+
+    def test_process_data_validCSV_populatesCompanyList(self, mock_os, mock_st):
+        """
+        Test that process_data correctly processes a valid CSV file.
+
+        When a valid CSV with all required columns is uploaded,
+        the function should parse the data and populate the company_list in session_state.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+            "config": {},
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = self.valid_csv_content.encode("utf-8")
+
+        # Mock StringIO to return the test content
+        with patch("streamlit_app.app.io.StringIO", return_value=self.mock_stringio):
+            self.mock_stringio.getvalue.return_value = self.valid_csv_content
+
+            # Mock pandas read_csv to return a proper DataFrame
+            valid_df = pd.DataFrame(
+                {
+                    "company name": ["Company A", "Company B"],
+                    "location": ["Location A", "Location B"],
+                    "url": ["http://www.a.com", "http://www.b.com"],
+                }
+            )
+
+            with patch("streamlit_app.app.pd.read_csv", return_value=valid_df):
+                # Mock tempfile.NamedTemporaryFile to avoid file operations
+                mock_temp_file = MagicMock()
+                mock_temp_file.name = "/tmp/test.csv"
+                mock_temp_file.__enter__.return_value = mock_temp_file
+
+                with patch(
+                    "streamlit_app.app.tempfile.NamedTemporaryFile",
+                    return_value=mock_temp_file,
+                ):
+                    # Mock Process to avoid actual process creation
+                    mock_process = MagicMock()
+                    with patch("streamlit_app.app.Process", return_value=mock_process):
+                        # Mock Manager and Queue
+                        mock_manager = MagicMock()
+                        mock_queue = MagicMock()
+                        mock_manager.Queue.return_value = mock_queue
+                        with patch(
+                            "streamlit_app.app.Manager", return_value=mock_manager
+                        ):
+                            self.process_data()
+
+        # Assert session state was updated correctly
+        self.assertEqual(mock_st.session_state["job_status"], "Running")
+        self.assertEqual(mock_st.session_state["current_phase"], "Starting Pipeline")
+        self.assertEqual(len(mock_st.session_state.get("company_list", [])), 2)
+        self.assertTrue(mock_process.start.called)
+        mock_st.info.assert_any_call("Starting enrichment for 2 companies...")
+
+    def test_process_data_csvMissingRequiredColumns_showsError(self, mock_os, mock_st):
+        """
+        Test that process_data detects and reports missing required columns in a CSV.
+
+        When a CSV is uploaded that is missing required columns (company name, location, url),
+        the function should report an error and not start processing.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = self.missing_columns_csv_content.encode(
+            "utf-8"
+        )
+
+        # Mock StringIO to return the test content
+        with patch("streamlit_app.app.io.StringIO", return_value=self.mock_stringio):
+            self.mock_stringio.getvalue.return_value = self.missing_columns_csv_content
+
+            # Mock pandas read_csv to return a DataFrame with wrong columns
+            invalid_df = pd.DataFrame(
+                {
+                    "name": ["Company A"],
+                    "city": ["Location A"],
+                    "website": ["http://www.a.com"],
+                }
+            )
+
+            with patch("streamlit_app.app.pd.read_csv", return_value=invalid_df):
+                self.process_data()
+
+        # Assert error was shown and processing was not started
+        mock_st.error.assert_called_with(
+            "Uploaded file is missing required columns: company name, location, url"
+        )
+        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+    def test_process_data_emptyCSV_showsWarning(self, mock_os, mock_st):
+        """
+        Test that process_data handles empty CSVs correctly.
+
+        When an empty CSV (or one with no data rows) is uploaded,
+        the function should show a warning and not proceed with processing.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = self.empty_csv_content.encode("utf-8")
+
+        # Mock StringIO to return the test content
+        with patch("streamlit_app.app.io.StringIO", return_value=self.mock_stringio):
+            self.mock_stringio.getvalue.return_value = self.empty_csv_content
+
+            # Mock pandas read_csv to return an empty DataFrame with correct columns
+            empty_df = pd.DataFrame(columns=["company name", "location", "url"])
+
+            with patch("streamlit_app.app.pd.read_csv", return_value=empty_df):
+                self.process_data()
+
+        # Assert warning was shown and processing was marked as completed (no data)
+        mock_st.warning.assert_called_with(
+            "No valid data found in the uploaded file after cleaning."
+        )
+        self.assertEqual(mock_st.session_state["job_status"], "Completed (No Data)")
+
+    def test_process_data_unsupportedFileType_showsError(self, mock_os, mock_st):
+        """
+        Test that process_data rejects unsupported file types.
+
+        When a file with an unsupported extension is uploaded,
+        the function should show an error and not attempt to process it.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.txt"  # Unsupported extension
+
+        self.process_data()
+
+        # Assert error was shown
+        mock_st.error.assert_called_with("Unsupported file type.")
+        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+    def test_process_data_malformedCSV_showsError(self, mock_os, mock_st):
+        """
+        Test that process_data handles malformed CSV files correctly.
+
+        When a CSV file with parsing errors is uploaded,
+        the function should catch the exception and show an error.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = (
+            "malformed,csv,data\nrow with too many,columns,here,extra".encode("utf-8")
+        )
+
+        # Mock StringIO to return the test content
+        with patch("streamlit_app.app.io.StringIO", return_value=self.mock_stringio):
+            # Mock pandas read_csv to raise a parsing error
+            with patch(
+                "streamlit_app.app.pd.read_csv",
+                side_effect=pd.errors.ParserError("Parsing error"),
+            ):
+                self.process_data()
+
+        # Assert error was shown
+        mock_st.error.assert_called_with(
+            "Error reading or processing file: Parsing error"
+        )
+        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+    def test_process_data_csvWithFormattingIssues_cleansAndProcessesData(
+        self, mock_os, mock_st
+    ):
+        """
+        Test that process_data handles CSV files with formatting issues.
+
+        When a CSV file with formatting issues (like extra whitespace in values) is uploaded,
+        the function should clean the data and continue processing if all required columns are present.
+        """
+        # Set up mocks
+        mock_st.session_state = {
+            "input_method": "File Upload",
+            "uploaded_file_data": MagicMock(),
+            "log_messages": [],
+            "job_status": "Idle",
+            "config": {},
+        }
+        mock_file = mock_st.session_state["uploaded_file_data"]
+        mock_file.name = "test.csv"
+
+        # CSV with extra whitespace in values
+        formatting_issues_content = "company name,  location  ,    url    \n Company A ,  Location A  ,  http://www.a.com  "
+        mock_file.getvalue.return_value = formatting_issues_content.encode("utf-8")
+
+        # Mock StringIO to return the test content
+        with patch("streamlit_app.app.io.StringIO", return_value=self.mock_stringio):
+            self.mock_stringio.getvalue.return_value = formatting_issues_content
+
+            # First return DataFrame with whitespace issues, then return cleaned DataFrame
+            # to simulate the cleaning operation
+            df_with_issues = pd.DataFrame(
+                {
+                    "company name": [" Company A "],
+                    "  location  ": ["  Location A  "],
+                    "    url    ": ["  http://www.a.com  "],
+                }
+            )
+
+            # The cleaning operation is performed in the function, so we mock a DataFrame
+            # with correctly named columns but still containing whitespace
+            with patch("streamlit_app.app.pd.read_csv", return_value=df_with_issues):
+                # Mock tempfile.NamedTemporaryFile to avoid file operations
+                mock_temp_file = MagicMock()
+                mock_temp_file.name = "/tmp/test.csv"
+                mock_temp_file.__enter__.return_value = mock_temp_file
+
+                with patch(
+                    "streamlit_app.app.tempfile.NamedTemporaryFile",
+                    return_value=mock_temp_file,
+                ):
+                    # Mock Process to avoid actual process creation
+                    mock_process = MagicMock()
+                    with patch("streamlit_app.app.Process", return_value=mock_process):
+                        # Mock Manager and Queue
+                        mock_manager = MagicMock()
+                        mock_queue = MagicMock()
+                        mock_manager.Queue.return_value = mock_queue
+                        with patch(
+                            "streamlit_app.app.Manager", return_value=mock_manager
+                        ):
+                            self.process_data()
+
+        # Check if process was started despite formatting issues
+        self.assertEqual(mock_st.session_state["job_status"], "Running")
+        self.assertTrue(mock_process.start.called)
+        # Check if data was properly cleaned and stored in company_list
+        self.assertIsNotNone(mock_st.session_state.get("company_list"))
