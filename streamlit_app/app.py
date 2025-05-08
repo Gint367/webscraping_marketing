@@ -381,6 +381,24 @@ def display_input_section():
 
     if input_method == "File Upload":
         st.subheader("Upload Company List")
+        with st.expander("Required Input Columns & Example"):
+            st.markdown(
+                """
+                The input data (either from a file or manual entry) must contain the following columns:
+                - **company name**: The name of the company.
+                - **location**: The location of the company (e.g., city, country).
+                - **url**: The company's website URL.
+
+                **Example:**
+                | company name | location   | url                 |
+                |--------------|------------|---------------------|
+                | Acme Corp    | New York   | http://www.acme.com |
+                | Beta Ltd     | London     | http://www.beta.uk  |
+
+                Column names are case-insensitive and leading/trailing spaces will be removed.
+                Aliases are also accepted for some columns (e.g., "firma1" for "company name", "ort" for "location").
+                """
+            )
         current_file_in_state = st.session_state.get("uploaded_file_data")
 
         if current_file_in_state is None:
