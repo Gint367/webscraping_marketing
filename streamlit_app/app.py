@@ -103,21 +103,24 @@ def init_session_state():
         ),  # For data editor
         "input_method": "File Upload",  # Default input method
         "config": {},
-        "job_status": "Idle",
-        "progress": 0,
-        "current_phase": "",
-        "results": None,
-        "log_messages": [],
-        "log_queue": None,
-        "status_queue": None,
-        "pipeline_process": None,
-        "pipeline_config": None,
-        "error_message": None,
+        "job_status": "Idle",  # Legacy - for backwards compatibility
+        "progress": 0,  # Legacy - for backwards compatibility
+        "current_phase": "",  # Legacy - for backwards compatibility
+        "results": None,  # Legacy - for backwards compatibility
+        "log_messages": [],  # Legacy - for backwards compatibility
+        "log_queue": None,  # Legacy - for backwards compatibility
+        "status_queue": None,  # Legacy - for backwards compatibility
+        "pipeline_process": None,  # Legacy - for backwards compatibility
+        "pipeline_config": None,  # Legacy - for backwards compatibility
+        "error_message": None,  # Legacy - for backwards compatibility
         "artifacts": None,
         "testing_mode": False,  # Flag to disable st.rerun() calls during tests
         # Auto-refresh configuration
         "auto_refresh_enabled": True,  # Auto-refresh logs by default
         "refresh_interval": 3.0,  # Default refresh interval in seconds
+        # Multi-job management
+        "active_jobs": {},  # Dictionary of job_id -> job_data for all active/recent jobs
+        "selected_job_id": None,  # Currently selected job for viewing details
     }
 
     # Apply defaults if keys don't exist
@@ -176,9 +179,60 @@ streamlit_handler = StreamlitLogHandler()
 logging.getLogger().addHandler(streamlit_handler)
 
 
+# --- Job Management Utilities ---
+def generate_job_id() -> str:
+    """
+    Generate a unique job ID combining timestamp.
+
+    Returns:
+        str: A unique job ID string
+    """
+
+    # Generate timestamp with milliseconds
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+
+    # Combine for a unique ID
+    return f"job_{timestamp}"
+
+
+def cancel_job(job_id: str) -> bool:
+    """
+    Cancel a running job by its ID.
+
+    Args:
+        job_id: The ID of the job to cancel
+
+    Returns:
+        bool: True if job was cancelled, False if it couldn't be found or was already completed
+    """
+    if job_id not in st.session_state.get("active_jobs", {}):
+        return False
+
+    job_data = st.session_state["active_jobs"][job_id]
+
+    # Only attempt to cancel if process exists and is running
+    if job_data.get("process") and job_data.get("process").is_alive():
+        try:
+            # Terminate the process
+            job_data["process"].terminate()
+
+            # Update job status
+            job_data["status"] = "Cancelled"
+            job_data["phase"] = "Terminated by user"
+            job_data["end_time"] = time.time()
+
+            logging.info(f"Job {job_id} was cancelled by user")
+            return True
+        except Exception as e:
+            logging.error(f"Failed to cancel job {job_id}: {e}")
+            return False
+
+    return False
+
+
 # --- Pipeline Processing in Separate Process ---
 def run_pipeline_in_process(
-    config: Dict[str, Any], log_queue: Queue, status_queue: Queue
+    config: Dict[str, Any], log_queue: Queue, status_queue: Queue, job_id: str = None
 ):
     """
     Run the pipeline in a separate process.
@@ -187,6 +241,7 @@ def run_pipeline_in_process(
         config: Configuration for the pipeline
         log_queue: Queue for passing log messages back to the main process
         status_queue: Queue for sending status updates to the main process
+        job_id: The unique ID for this pipeline job
     """
     # Configure logging to capture pipeline logs and send to queue and file
     root_logger = logging.getLogger()
@@ -231,65 +286,100 @@ def run_pipeline_in_process(
     logging.info(f"Pipeline logs are being saved to: {log_file_path}")
 
     # Send initial status
-    status_queue.put({"status": "Running", "progress": 0, "phase": "Initializing"})
+    status_data = {"status": "Running", "progress": 0, "phase": "Initializing"}
+    if job_id:
+        status_data["job_id"] = job_id
+    status_queue.put(status_data)
 
     try:
         print(f"Pipeline process started with config: {config}")
-        logging.info("Pipeline process started")
-        status_queue.put(
-            {"status": "Running", "progress": 10, "phase": "Starting Pipeline"}
+        logging.info(
+            f"Pipeline process started for job {job_id}"
+            if job_id
+            else "Pipeline process started"
         )
+
+        status_data = {
+            "status": "Running",
+            "progress": 10,
+            "phase": "Starting Pipeline",
+        }
+        if job_id:
+            status_data["job_id"] = job_id
+        status_queue.put(status_data)
 
         # Execute the pipeline
         final_output = run_pipeline(config)
 
         # Send success status with final output path
-        status_queue.put(
-            {
-                "status": "Completed",
-                "progress": 100,
-                "phase": "Finished",
-                "output_path": final_output,
-            }
-        )
+        status_data = {
+            "status": "Completed",
+            "progress": 100,
+            "phase": "Finished",
+            "output_path": final_output,
+        }
+        if job_id:
+            status_data["job_id"] = job_id
+        status_queue.put(status_data)
+
         print(f"Pipeline process completed successfully, output at: {final_output}")
-        logging.info(f"Pipeline completed successfully, output at: {final_output}")
+        logging.info(
+            f"Pipeline process completed successfully for job {job_id}, output at: {final_output}"
+            if job_id
+            else f"Pipeline completed successfully, output at: {final_output}"
+        )
 
     except Exception as e:
         error_msg = str(e)
-        logging.error(f"Pipeline process failed: {error_msg}")
-        print(f"Pipeline process failed: {error_msg}")
-        status_queue.put(
-            {"status": "Error", "progress": 0, "phase": "Failed", "error": error_msg}
+        logging.error(
+            f"Pipeline process failed for job {job_id}: {error_msg}"
+            if job_id
+            else f"Pipeline process failed: {error_msg}"
         )
+        print(f"Pipeline process failed: {error_msg}")
+
+        status_data = {
+            "status": "Error",
+            "progress": 0,
+            "phase": "Failed",
+            "error": error_msg,
+        }
+        if job_id:
+            status_data["job_id"] = job_id
+        status_queue.put(status_data)
 
 
 # Function to monitor queues and update session state
 def process_queue_messages():
     """
-    Process messages from the log and status queues, updating the Streamlit session state.
+    Process messages from the log and status queues for all active jobs,
+    updating the Streamlit session state.
     This should be called on each Streamlit rerun.
     """
-    # Process log messages
-    logs_updated = False
+    # Initialize active_jobs if it doesn't exist
+    if "active_jobs" not in st.session_state:
+        st.session_state["active_jobs"] = {}
+
+    # Process messages for all active jobs
+    any_logs_updated = False
+
+    # Process legacy single job (backward compatibility)
     if "log_queue" in st.session_state and st.session_state["log_queue"] is not None:
         try:
+            logs_updated = False
             while not st.session_state["log_queue"].empty():
                 record = st.session_state["log_queue"].get_nowait()
                 if record:
                     log_message = f"{record.asctime if hasattr(record, 'asctime') else ''} - {record.levelname if hasattr(record, 'levelname') else ''} - {record.getMessage() if hasattr(record, 'getMessage') else str(record)}"
                     st.session_state["log_messages"].append(log_message)
                     logs_updated = True
+            if logs_updated:
+                any_logs_updated = True
         except Exception as e:
-            log_error_msg = f"Error processing log queue: {e}"
+            log_error_msg = f"Error processing legacy log queue: {e}"
             st.session_state["log_messages"].append(log_error_msg)
-            logs_updated = True
+            any_logs_updated = True
 
-    # Set flag in session state to indicate new logs available
-    if logs_updated:
-        st.session_state["logs_updated"] = True
-
-    # Process status updates
     if (
         "status_queue" in st.session_state
         and st.session_state["status_queue"] is not None
@@ -298,43 +388,124 @@ def process_queue_messages():
             while not st.session_state["status_queue"].empty():
                 status_update = st.session_state["status_queue"].get_nowait()
                 if status_update:
-                    # Update job status
-                    if "status" in status_update:
-                        st.session_state["job_status"] = status_update["status"]
+                    # Check if this update has a job_id
+                    job_id = status_update.get("job_id")
 
-                    # Update progress
-                    if "progress" in status_update:
-                        st.session_state["progress"] = status_update["progress"]
+                    if job_id and job_id in st.session_state["active_jobs"]:
+                        # Update the specific job's status
+                        job_data = st.session_state["active_jobs"][job_id]
 
-                    # Update phase
-                    if "phase" in status_update:
-                        st.session_state["current_phase"] = status_update["phase"]
+                        # Update status fields
+                        if "status" in status_update:
+                            job_data["status"] = status_update["status"]
+                        if "progress" in status_update:
+                            job_data["progress"] = status_update["progress"]
+                        if "phase" in status_update:
+                            job_data["phase"] = status_update["phase"]
 
-                    # Handle completion
-                    if (
-                        status_update.get("status") == "Completed"
-                        and "output_path" in status_update
-                    ):
-                        output_path = status_update["output_path"]
-                        try:
-                            # Load the results
-                            results_df = pd.read_csv(output_path)
-                            st.session_state["results"] = results_df
-                        except Exception as e:
-                            st.session_state["log_messages"].append(
-                                f"Error loading results: {e}"
-                            )
+                        # Handle completion
+                        if (
+                            status_update.get("status") == "Completed"
+                            and "output_path" in status_update
+                        ):
+                            output_path = status_update["output_path"]
+                            try:
+                                # Load the results
+                                results_df = pd.read_csv(output_path)
+                                job_data["results"] = results_df
+                                job_data["output_path"] = output_path
+                                job_data["end_time"] = time.time()
 
-                    # Handle error
-                    if (
-                        status_update.get("status") == "Error"
-                        and "error" in status_update
-                    ):
-                        st.session_state["error_message"] = status_update["error"]
+                                # Also update legacy results if this is the selected job
+                                if job_id == st.session_state.get("selected_job_id"):
+                                    st.session_state["results"] = results_df
+                            except Exception as e:
+                                error_msg = (
+                                    f"Error loading results for job {job_id}: {e}"
+                                )
+                                job_data["log_messages"].append(error_msg)
+                                job_data["error_message"] = error_msg
+
+                        # Handle error
+                        if (
+                            status_update.get("status") == "Error"
+                            and "error" in status_update
+                        ):
+                            job_data["error_message"] = status_update["error"]
+                            job_data["end_time"] = time.time()
+                    else:
+                        # Legacy compatibility: update global status for messages without job_id
+                        if "status" in status_update:
+                            st.session_state["job_status"] = status_update["status"]
+                        if "progress" in status_update:
+                            st.session_state["progress"] = status_update["progress"]
+                        if "phase" in status_update:
+                            st.session_state["current_phase"] = status_update["phase"]
+
+                        # Handle completion for legacy mode
+                        if (
+                            status_update.get("status") == "Completed"
+                            and "output_path" in status_update
+                        ):
+                            output_path = status_update["output_path"]
+                            try:
+                                # Load the results
+                                results_df = pd.read_csv(output_path)
+                                st.session_state["results"] = results_df
+                            except Exception as e:
+                                st.session_state["log_messages"].append(
+                                    f"Error loading results: {e}"
+                                )
+
+                        # Handle error for legacy mode
+                        if (
+                            status_update.get("status") == "Error"
+                            and "error" in status_update
+                        ):
+                            st.session_state["error_message"] = status_update["error"]
         except Exception as e:
-            st.session_state["log_messages"].append(
-                f"Error processing status queue: {e}"
-            )
+            error_msg = f"Error processing status queues: {e}"
+            st.session_state["log_messages"].append(error_msg)
+
+    # Now process all jobs' log queues
+    for job_id, job_data in st.session_state["active_jobs"].items():
+        if "log_queue" in job_data and job_data["log_queue"] is not None:
+            try:
+                logs_updated = False
+                while not job_data["log_queue"].empty():
+                    record = job_data["log_queue"].get_nowait()
+                    if record:
+                        log_message = f"{record.asctime if hasattr(record, 'asctime') else ''} - {record.levelname if hasattr(record, 'levelname') else ''} - {record.getMessage() if hasattr(record, 'getMessage') else str(record)}"
+                        # Add to job-specific logs
+                        job_data["log_messages"].append(log_message)
+
+                        # Also add to global logs if this is the selected job
+                        if job_id == st.session_state.get("selected_job_id"):
+                            st.session_state["log_messages"].append(log_message)
+
+                        logs_updated = True
+
+                # Check if the job process is still alive
+                if "process" in job_data and job_data["process"] is not None:
+                    process = job_data["process"]
+                    if not process.is_alive() and job_data.get("status") == "Running":
+                        # Process ended but status wasn't properly updated
+                        job_data["status"] = "Completed"
+                        job_data["phase"] = "Finished (Status not properly updated)"
+                        job_data["end_time"] = time.time()
+
+                if logs_updated:
+                    any_logs_updated = True
+
+            except Exception as e:
+                error_msg = f"Error processing log queue for job {job_id}: {e}"
+                job_data["log_messages"].append(error_msg)
+                st.session_state["log_messages"].append(error_msg)
+                any_logs_updated = True
+
+    # Set flag in session state to indicate new logs available
+    if any_logs_updated:
+        st.session_state["logs_updated"] = True
 
 
 # --- UI Sections ---
@@ -795,15 +966,25 @@ def process_data():
         logging.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
         try:
+            # Generate a unique job ID
+            job_id = generate_job_id()
+
+            # Create a job-specific output directory to prevent overwriting
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            job_output_dir = os.path.join(project_root, "outputs", f"job_{timestamp}")
+            os.makedirs(job_output_dir, exist_ok=True)
+
             # Create a temporary CSV file for the pipeline
             with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp_file:
                 temp_csv_path = temp_file.name
                 df = pd.DataFrame(data_to_process)
                 df.to_csv(temp_csv_path, index=False)
-                logging.info(f"Temporary input CSV created at {temp_csv_path}")
+                logging.info(
+                    f"Temporary input CSV created at {temp_csv_path} for job {job_id}"
+                )
 
             # Create output directory if it doesn't exist
-            output_dir = os.path.join(project_root, "outputs")
+            output_dir = job_output_dir
             os.makedirs(output_dir, exist_ok=True)
 
             # Prepare the configuration
@@ -813,6 +994,7 @@ def process_data():
                 "category": st.session_state["config"].get("category"),
                 "log_level": "INFO",  # This can be configured via UI if needed
                 "skip_llm_validation": True,  # Adjust as needed or make configurable via UI
+                "job_id": job_id,  # Include job_id in the configuration
             }
 
             # Set up the queues for communication between processes
@@ -820,34 +1002,91 @@ def process_data():
             log_queue = manager.Queue()
             status_queue = manager.Queue()
 
-            # Store the queues in session state for monitoring
-            st.session_state["log_queue"] = log_queue
-            st.session_state["status_queue"] = status_queue
-            st.session_state["pipeline_config"] = pipeline_config
+            # Create job entry with initial state
+            job_data = {
+                "id": job_id,
+                "status": "Initializing",
+                "progress": 0,
+                "phase": "Creating job",
+                "start_time": time.time(),
+                "end_time": None,
+                "process": None,
+                "log_queue": log_queue,
+                "status_queue": status_queue,
+                "config": pipeline_config,
+                "log_messages": [],
+                "results": None,
+                "output_path": None,
+                "error_message": None,
+                "file_info": {
+                    "type": st.session_state["input_method"],
+                    "name": (
+                        st.session_state["uploaded_file_data"].name
+                        if st.session_state["input_method"] == "File Upload"
+                        and st.session_state["uploaded_file_data"]
+                        else "Manual Input"
+                    ),
+                    "record_count": len(data_to_process),
+                },
+            }
+
+            # Store the job data in session state
+            if "active_jobs" not in st.session_state:
+                st.session_state["active_jobs"] = {}
+            st.session_state["active_jobs"][job_id] = job_data
+
+            # Set this as the selected job
+            st.session_state["selected_job_id"] = job_id
 
             # Start the pipeline in a separate process
             p = Process(
                 target=run_pipeline_in_process,
-                args=(pipeline_config, log_queue, status_queue),
+                args=(pipeline_config, log_queue, status_queue, job_id),
             )
             p.daemon = True  # Set as daemon so it terminates when the main process ends
             p.start()
 
-            # Store the process in session state
-            st.session_state["pipeline_process"] = p
+            # Update the job record with the process
+            job_data["process"] = p
+            job_data["status"] = "Running"
+            job_data["phase"] = "Starting Pipeline"
+            job_data["progress"] = 5
 
-            # Update job status
+            # Also maintain backwards compatibility with single job variables
+            st.session_state["log_queue"] = log_queue
+            st.session_state["status_queue"] = status_queue
+            st.session_state["pipeline_config"] = pipeline_config
+            st.session_state["pipeline_process"] = p
             st.session_state["job_status"] = "Running"
-            st.session_state["progress"] = 10
+            st.session_state["progress"] = 5
             st.session_state["current_phase"] = "Starting Pipeline"
 
-            print(f"Pipeline process started with PID: {p.pid}")
-            logging.info(f"Pipeline process started with PID: {p.pid}")
+            print(f"Pipeline process started with PID: {p.pid} for job {job_id}")
+            logging.info(f"Pipeline process started with PID: {p.pid} for job {job_id}")
+
+            # Add initial log entry to the job
+            job_data["log_messages"].append(
+                f"{time.strftime('%Y-%m-%d %H:%M:%S')} - INFO - Job {job_id} started with {len(data_to_process)} companies"
+            )
 
         except Exception as e:
             st.error(f"Failed to start pipeline: {e}")
+
+            # Update job status if job was created
+            if "job_id" in locals() and job_id in st.session_state.get(
+                "active_jobs", {}
+            ):
+                st.session_state["active_jobs"][job_id]["status"] = "Error"
+                st.session_state["active_jobs"][job_id]["phase"] = "Failed to start"
+                st.session_state["active_jobs"][job_id]["error_message"] = str(e)
+                st.session_state["active_jobs"][job_id]["end_time"] = time.time()
+
+            # Also update legacy state
             st.session_state["job_status"] = "Error"
+            st.session_state["error_message"] = str(e)
+
             logging.error(f"Failed to start pipeline: {e}", exc_info=True)
+
             # Clean up any temporary files
             try:
                 if "temp_csv_path" in locals():
@@ -899,10 +1138,131 @@ def display_config_section():
 def display_monitoring_section():
     """Displays the job monitoring and log output."""
     st.header("3. Monitoring")
-    st.write("Track the progress of the scraping and enrichment process.")
+    st.write("Track the progress of the scraping and enrichment processes.")
 
     # Initial queue processing is still needed outside the fragment
     process_queue_messages()
+
+    # Job selection and management section
+    with st.container():
+        st.subheader("Jobs")
+
+        # Get active jobs
+        active_jobs = st.session_state.get("active_jobs", {})
+
+        if not active_jobs:
+            st.info(
+                "No jobs have been run yet. Start a new job from the Input section."
+            )
+        else:
+            # Create a table of jobs with their status
+            job_rows = []
+            for job_id, job_data in active_jobs.items():
+                # Format timestamp as human-readable
+                start_time_str = time.strftime(
+                    "%Y-%m-%d %H:%M:%S", time.localtime(job_data.get("start_time", 0))
+                )
+
+                # Calculate duration
+                if job_data.get("end_time"):
+                    duration_sec = job_data["end_time"] - job_data["start_time"]
+                    if duration_sec < 60:
+                        duration = f"{int(duration_sec)}s"
+                    else:
+                        duration = (
+                            f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s"
+                        )
+                else:
+                    # For running jobs, calculate current duration
+                    duration_sec = time.time() - job_data["start_time"]
+                    if duration_sec < 60:
+                        duration = f"{int(duration_sec)}s (running)"
+                    else:
+                        duration = f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s (running)"
+
+                # Get file info
+                file_info = job_data.get("file_info", {})
+                file_type = file_info.get("type", "Unknown")
+                file_name = file_info.get("name", "Unknown")
+                record_count = file_info.get("record_count", 0)
+
+                job_rows.append(
+                    {
+                        "ID": job_id,
+                        "Status": job_data.get("status", "Unknown"),
+                        "Start Time": start_time_str,
+                        "Duration": duration,
+                        "Progress": job_data.get("progress", 0),
+                        "Source": f"{file_type}: {file_name} ({record_count} records)",
+                    }
+                )
+
+            # Convert to DataFrame for display
+            jobs_df = pd.DataFrame(job_rows)
+
+            # Display jobs table
+            st.dataframe(
+                jobs_df,
+                column_config={
+                    "ID": st.column_config.TextColumn("Job ID"),
+                    "Status": st.column_config.TextColumn("Status"),
+                    "Start Time": st.column_config.TextColumn("Start Time"),
+                    "Duration": st.column_config.TextColumn("Duration"),
+                    "Progress": st.column_config.ProgressColumn(
+                        "Progress", format="%d%%", min_value=0, max_value=100
+                    ),
+                    "Source": st.column_config.TextColumn("Source"),
+                },
+                hide_index=True,
+                use_container_width=True,
+            )
+
+            # Add a selectbox for job selection
+            job_ids = [job_id for job_id in active_jobs.keys()]
+            job_labels = [
+                f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}"
+                for job_id in job_ids
+            ]
+
+            selected_job_index = 0
+            if (
+                "selected_job_id" in st.session_state
+                and st.session_state["selected_job_id"] in job_ids
+            ):
+                selected_job_index = job_ids.index(st.session_state["selected_job_id"])
+
+            selected_job_label = st.selectbox(
+                "Select Job:",
+                options=job_labels,
+                index=selected_job_index,
+                key="job_selector",
+            )
+
+            # Extract job_id from the selected label
+            if selected_job_label:
+                selected_job_id = job_ids[job_labels.index(selected_job_label)]
+                st.session_state["selected_job_id"] = selected_job_id
+
+            # Show only the Cancel button for the selected job
+            if st.button("Cancel Selected Job", key="cancel_job_btn"):
+                if (
+                    "selected_job_id" in st.session_state
+                    and st.session_state["selected_job_id"]
+                ):
+                    job_id = st.session_state["selected_job_id"]
+
+                    # Only try to cancel if job is running
+                    if active_jobs[job_id].get("status") == "Running":
+                        if cancel_job(job_id):
+                            st.success(f"Job {job_id} has been cancelled.")
+                        else:
+                            st.error(f"Failed to cancel job {job_id}.")
+                    else:
+                        st.warning(
+                            f"Job {job_id} is not running (status: {active_jobs[job_id].get('status')}). Only running jobs can be cancelled."
+                        )
+                else:
+                    st.warning("Please select a job from the dropdown first.")
 
     # Create a fragment for status information that auto-refreshes
     @st.fragment(
@@ -915,118 +1275,111 @@ def display_monitoring_section():
         # Process messages from queues inside fragment to ensure fresh data
         process_queue_messages()
 
-        # Check if the pipeline process is still running
-        if (
-            "pipeline_process" in st.session_state
-            and st.session_state["pipeline_process"]
+        # Show details for selected job
+        selected_job_id = st.session_state.get("selected_job_id")
+
+        if selected_job_id and selected_job_id in st.session_state.get(
+            "active_jobs", {}
         ):
-            p = st.session_state["pipeline_process"]
-            if p.is_alive():
-                if st.session_state["job_status"] != "Running":
-                    st.session_state["job_status"] = "Running"
-            else:
-                # Process completed or terminated
-                if st.session_state["job_status"] == "Running":
-                    # Process ended but status wasn't updated properly
-                    # This could happen if the process crashed unexpectedly
-                    st.session_state["job_status"] = "Completed"
-                    logging.info("Pipeline process ended")
+            job_data = st.session_state["active_jobs"][selected_job_id]
 
-        # Display current status and phase
-        status_color = {
-            "Idle": "blue",
-            "Running": "orange",
-            "Completed": "green",
-            "Error": "red",
-        }.get(st.session_state["job_status"], "blue")
+            # Display current job status and phase
+            status_color = {
+                "Idle": "blue",
+                "Initializing": "blue",
+                "Running": "orange",
+                "Completed": "green",
+                "Error": "red",
+                "Cancelled": "gray",
+            }.get(job_data.get("status", "Unknown"), "blue")
 
-        st.markdown(
-            f"**Status:** <span style='color:{status_color}'>{st.session_state['job_status']}</span>",
-            unsafe_allow_html=True,
-        )
+            st.markdown(f"### Job: {selected_job_id}")
 
-        if "current_phase" in st.session_state and st.session_state["current_phase"]:
-            st.markdown(f"**Current Phase:** {st.session_state['current_phase']}")
+            st.markdown(
+                f"**Status:** <span style='color:{status_color}'>{job_data.get('status', 'Unknown')}</span>",
+                unsafe_allow_html=True,
+            )
 
-        # Display progress bar
-        if (
-            st.session_state["job_status"] == "Running"
-            and "progress" in st.session_state
-        ):
-            st.progress(st.session_state["progress"] / 100)
+            if job_data.get("phase"):
+                st.markdown(f"**Current Phase:** {job_data.get('phase')}")
 
-        # Display error message if present
-        if "error_message" in st.session_state and st.session_state["error_message"]:
-            st.error(f"Error: {st.session_state['error_message']}")
+            # Display progress bar based on selected job
+            if job_data.get("status") == "Running":
+                st.progress(job_data.get("progress", 0) / 100)
+            elif job_data.get("status") in ["Completed", "Error", "Cancelled"]:
+                st.progress(1.0)  # Full progress bar
 
-    # Call the status fragment
+            # Display error message if there is one
+            if job_data.get("error_message"):
+                st.error(f"Error: {job_data['error_message']}")
+        else:
+            # Fallback to legacy single job display if no job is selected
+            # Check if the pipeline process is still running
+            if (
+                "pipeline_process" in st.session_state
+                and st.session_state["pipeline_process"]
+            ):
+                p = st.session_state["pipeline_process"]
+                if p.is_alive():
+                    if st.session_state["job_status"] != "Running":
+                        st.session_state["job_status"] = "Running"
+                else:
+                    # Process completed or terminated
+                    if st.session_state["job_status"] == "Running":
+                        # Process ended but status wasn't updated properly
+                        # This could happen if the process crashed unexpectedly
+                        st.session_state["job_status"] = "Completed"
+                        logging.info("Pipeline process ended")
+
+            # Display current status and phase
+            status_color = {
+                "Idle": "blue",
+                "Running": "orange",
+                "Completed": "green",
+                "Error": "red",
+            }.get(st.session_state["job_status"], "blue")
+
+            st.markdown(
+                f"**Status:** <span style='color:{status_color}'>{st.session_state['job_status']}</span>",
+                unsafe_allow_html=True,
+            )
+
+            if (
+                "current_phase" in st.session_state
+                and st.session_state["current_phase"]
+            ):
+                st.markdown(f"**Current Phase:** {st.session_state['current_phase']}")
+
+            # Display progress bar
+            if st.session_state["job_status"] == "Running":
+                st.progress(st.session_state.get("progress", 0) / 100)
+            elif st.session_state["job_status"] == "Completed":
+                st.progress(1.0)  # Full progress bar
+
+            # Display error message if there is one
+            if (
+                "error_message" in st.session_state
+                and st.session_state["error_message"] is not None
+            ):
+                st.error(f"Error: {st.session_state['error_message']}")
+
+    # Call the fragment to display the initial status
     display_status_info()
 
-    # Move Cancel button into the status fragment to ensure it refreshes with status
-    # The button should only appear when the job is actually running
-    @st.fragment(
-        run_every=st.session_state.get("refresh_interval", 3.0)
-        if st.session_state.get("auto_refresh_enabled", True)
-        and not st.session_state.get("testing_mode", False)
-        else None
-    )
-    def display_cancel_button():
-        # Only show cancel button if job is running
-        if (
-            st.session_state["job_status"] == "Running"
-            and "pipeline_process" in st.session_state
-        ):
-            if st.button("Cancel Processing"):
-                try:
-                    p = st.session_state["pipeline_process"]
-                    if p and p.is_alive():
-                        p.terminate()
-                        logging.info("Pipeline process terminated by user")
-                    st.session_state["job_status"] = "Cancelled"
-                    st.warning("Processing cancelled by user")
-                except Exception as e:
-                    logging.error(f"Error cancelling process: {e}")
-                    st.error(f"Error cancelling process: {e}")
-
-    # Call the cancel button fragment
-    display_cancel_button()
-
-    # Display log directory location
-    log_dir = os.path.join(project_root, "logfiles")
-    if os.path.exists(log_dir):
-        st.info(f"Log files are being saved to: {log_dir}")
-
-        # Get the latest log file in the directory (if available)
-        try:
-            log_files = sorted(
-                [f for f in os.listdir(log_dir) if f.startswith("pipeline_")],
-                key=lambda x: os.path.getmtime(os.path.join(log_dir, x)),
-                reverse=True,
-            )
-            if log_files:
-                latest_log = log_files[0]
-                st.success(f"Latest log file: {latest_log}")
-
-        except Exception as e:
-            st.warning(f"Could not list log files: {e}")
-
-    # Display logs with auto-refresh capability
-    st.subheader("Live Logs")
-
-    # Add auto-refresh controls in an expander
+    # Auto-refresh control
     with st.expander("Log Auto-Refresh Settings"):
         col1, col2 = st.columns([1, 3])
+
         with col1:
             auto_refresh = st.toggle(
                 "Auto-refresh enabled",
                 value=st.session_state.get("auto_refresh_enabled", True),
                 key="auto_refresh_toggle",
             )
-            # Update session state when toggle changes
             st.session_state["auto_refresh_enabled"] = auto_refresh
 
         with col2:
-            refresh_rate = st.slider(
+            refresh_interval = st.slider(
                 "Refresh interval (seconds)",
                 min_value=1.0,
                 max_value=10.0,
@@ -1034,43 +1387,70 @@ def display_monitoring_section():
                 step=0.5,
                 key="refresh_slider",
             )
-            # Update session state when slider changes
-            st.session_state["refresh_interval"] = refresh_rate
+            st.session_state["refresh_interval"] = refresh_interval
 
-            # Show refresh status - ensure refresh_rate is a number for formatting
             try:
-                refresh_rate_display = float(refresh_rate)
+                refresh_rate_display = float(refresh_interval)
                 st.caption(
                     f"Logs will refresh every {refresh_rate_display:.1f} seconds"
                 )
             except (TypeError, ValueError):
-                # Fallback for tests where refresh_rate might be a mock
                 st.caption("Logs will refresh automatically")
 
-    # Create a fragment with auto-refresh using the built-in run_every parameter
-    # This eliminates the need for manual tracking of refresh time
+    # Log display with selection based on selected job
+    st.subheader("Logs")
+
+    # The selected_job_id is already set by the selectbox above
+    selected_job_id = st.session_state.get("selected_job_id")
+
+    if selected_job_id and selected_job_id in st.session_state.get("active_jobs", {}):
+        # Show logs for the selected job
+        job_data = st.session_state["active_jobs"][selected_job_id]
+
+        # Notify user which job's logs they're viewing
+        st.markdown(f"*Showing logs for job: {selected_job_id}*")
+    else:
+        # Fallback to global logs if no job is selected
+        st.markdown("*Showing global logs (no job selected)*")
+
+    # Display logs in a scrollable container
     @st.fragment(
         run_every=st.session_state.get("refresh_interval", 3.0)
         if st.session_state.get("auto_refresh_enabled", True)
         and not st.session_state.get("testing_mode", False)
         else None
     )
-    def display_live_logs():
-        # Process messages from queues
+    def display_logs():
+        # Process queue messages to ensure logs are up to date
         process_queue_messages()
 
-        # Display logs in reverse order (newest first)
-        # Wrap logs in a container with a fixed height and scrollbar
-        log_container = st.container(height=300)  # Adjust height as needed
-        with log_container:
-            log_messages_to_display = st.session_state.get("log_messages", [])
-            for msg in reversed(
-                log_messages_to_display
-            ):  # Display newest first at the top of the scroll
-                st.text(msg)
+        # Get logs based on currently selected job
+        selected_job_id = st.session_state.get("selected_job_id")
+        current_logs = []
 
-    # Call the fragment function
-    display_live_logs()
+        if selected_job_id and selected_job_id in st.session_state.get(
+            "active_jobs", {}
+        ):
+            current_logs = st.session_state["active_jobs"][selected_job_id].get(
+                "log_messages", []
+            )
+            if not current_logs:
+                current_logs = []  # Ensure we have a valid list even if log_messages is None
+        else:
+            current_logs = st.session_state.get("log_messages", [])
+
+        # Display logs in a container
+        log_container = st.container(height=400)
+        with log_container:
+            if not current_logs:
+                st.info("No log messages yet.")
+            else:
+                # Display logs in reverse order (newest first)
+                for msg in reversed(current_logs):
+                    st.text(msg)
+
+    # Call the logs fragment
+    display_logs()
 
 
 def display_output_section():
@@ -1086,139 +1466,252 @@ def display_output_section():
     tab1, tab2 = st.tabs(["Final Results", "Pipeline Artifacts"])
 
     with tab1:
-        # Display final results
-        results_data = st.session_state.get("results")  # Use .get for safer access
+        # Display a job selector for selecting which job's results to view
+        selected_job_id = st.session_state.get("selected_job_id")
+        active_jobs = st.session_state.get("active_jobs", {})
 
-        if results_data is not None and not results_data.empty:
-            st.subheader("Final Enriched Data")
-            st.dataframe(results_data, use_container_width=True)
+        # Create a list of completed jobs for selection
+        completed_jobs = []
+        for job_id, job_data in active_jobs.items():
+            if (
+                job_data.get("status") == "Completed"
+                and job_data.get("results") is not None
+            ):
+                job_info = job_data.get("file_info", {})
+                timestamp = time.strftime(
+                    "%Y-%m-%d %H:%M:%S", time.localtime(job_data.get("start_time", 0))
+                )
+                completed_jobs.append(
+                    {
+                        "id": job_id,
+                        "display": f"Job {job_id} ({timestamp}) - {job_info.get('name', 'Unknown')} ({job_info.get('record_count', 0)} records)",
+                    }
+                )
 
-            # Prepare data for download
-            @st.cache_data  # Cache the conversion to avoid re-running on every interaction
-            def convert_df_to_csv(df):
-                # IMPORTANT: Cache the conversion to prevent computation on every rerun
-                return df.to_csv(index=False).encode("utf-8")
+        if completed_jobs:
+            job_options = [job["display"] for job in completed_jobs]
+            job_ids = [job["id"] for job in completed_jobs]
 
-            csv_data = convert_df_to_csv(results_data)
+            # Default selection to current selected job if it's completed, otherwise first completed job
+            default_idx = 0
+            if selected_job_id in job_ids:
+                default_idx = job_ids.index(selected_job_id)
 
-            st.download_button(
-                label="Download Results as CSV",
-                data=csv_data,
-                file_name="enriched_company_data.csv",
-                mime="text/csv",
-                key="download-csv",
+            selected_display = st.selectbox(
+                "Select job results to view:",
+                options=job_options,
+                index=default_idx,
+                key="output_job_selector",
             )
-        elif st.session_state["job_status"] == "Running":
-            st.info("Processing is ongoing. Results will appear here when complete.")
-        elif st.session_state["job_status"] in ["Error", "Completed (No Data)"]:
+
+            # Get the job ID from the selection
+            selected_output_job_id = job_ids[job_options.index(selected_display)]
+
+            # Display results for the selected job
+            job_data = active_jobs[selected_output_job_id]
+            results_data = job_data.get("results")
+
+            if results_data is not None and not results_data.empty:
+                st.subheader(f"Final Enriched Data - Job {selected_output_job_id}")
+                st.dataframe(results_data, use_container_width=True)
+
+                # Get output path for download
+                output_path = job_data.get("output_path")
+                if output_path:
+                    try:
+                        # Prepare data for download
+                        @st.cache_data  # Cache the conversion to avoid re-running on every interaction
+                        def convert_df_to_csv(df):
+                            # IMPORTANT: Cache the conversion to prevent computation on every rerun
+                            return df.to_csv(index=False).encode("utf-8")
+
+                        csv_data = convert_df_to_csv(results_data)
+
+                        st.download_button(
+                            label="Download Results as CSV",
+                            data=csv_data,
+                            file_name=f"job_{selected_output_job_id}_results.csv",
+                            mime="text/csv",
+                            key=f"download-csv-{selected_output_job_id}",
+                        )
+                    except Exception as e:
+                        st.error(f"Error preparing download: {e}")
+            else:
+                st.warning("Selected job has no results data available.")
+
+        # Handle case when no jobs are completed yet
+        elif any(
+            job_data.get("status") == "Running" for job_data in active_jobs.values()
+        ):
+            st.info("Jobs are still running. Results will appear here when complete.")
+        elif active_jobs:
             st.warning(
-                "No results to display. Check the Monitoring section for status and logs."
+                "No completed jobs with results available. Check for errors in the Monitoring section."
             )
         else:
-            st.info("No results yet. Input data and start processing.")
+            st.info(
+                "No jobs have been run yet. Start a job from the Input section to see results here."
+            )
 
     with tab2:
         st.subheader("Pipeline Artifacts")
 
-        # Get pipeline output path from session state
-        if (
-            "pipeline_config" in st.session_state
-            and st.session_state["pipeline_config"]
-        ):
-            output_dir = st.session_state["pipeline_config"].get("output_dir")
-            if output_dir and Path(output_dir).exists():
-                st.write(f"Pipeline output directory: `{output_dir}`")
+        # Get active jobs with output directories
+        job_dirs = {}
+        for job_id, job_data in st.session_state.get("active_jobs", {}).items():
+            if "config" in job_data and job_data["config"].get("output_dir"):
+                output_dir = job_data["config"].get("output_dir")
+                if Path(output_dir).exists():
+                    timestamp = time.strftime(
+                        "%Y-%m-%d %H:%M:%S",
+                        time.localtime(job_data.get("start_time", 0)),
+                    )
+                    job_dirs[job_id] = {
+                        "path": output_dir,
+                        "display": f"Job {job_id} ({timestamp}) - {job_data.get('file_info', {}).get('name', 'Unknown')}",
+                    }
 
-                # List all files in the output directory
-                output_path = Path(output_dir)
-                all_runs = [d for d in output_path.glob("pipeline_run_*") if d.is_dir()]
+        if job_dirs:
+            # Create job selection dropdown
+            job_ids = list(job_dirs.keys())
+            job_displays = [job_dirs[job_id]["display"] for job_id in job_ids]
 
-                if all_runs:
-                    # Sort runs by modification time (newest first)
-                    all_runs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            # Default to currently selected job if it exists in the list
+            default_idx = 0
+            selected_job_id = st.session_state.get("selected_job_id")
+            if selected_job_id in job_ids:
+                default_idx = job_ids.index(selected_job_id)
 
-                    # Select run
-                    selected_run = st.selectbox(
-                        "Select Run:",
-                        all_runs,
-                        format_func=lambda p: f"{p.name} ({time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(p.stat().st_mtime))})",
+            selected_job_display = st.selectbox(
+                "Select job artifacts to view:",
+                options=job_displays,
+                index=default_idx,
+                key="artifacts_job_selector",
+            )
+
+            # Get the job ID and output directory from selection
+            selected_artifact_job_id = job_ids[job_displays.index(selected_job_display)]
+            output_dir = job_dirs[selected_artifact_job_id]["path"]
+
+            st.write(f"Pipeline output directory: `{output_dir}`")
+
+            # List all directories in the output directory (these are the phase directories)
+            output_path = Path(output_dir)
+            phases = [d for d in output_path.glob("*") if d.is_dir()]
+
+            if phases:
+                st.write("### Available Phases")
+
+                # Create tabs for each phase
+                phase_tabs = st.tabs([p.name for p in phases])
+
+                # Display files for each phase
+                for i, phase_dir in enumerate(phases):
+                    with phase_tabs[i]:
+                        st.write(f"#### Files from {phase_dir.name}")
+
+                        # List all files in the phase directory
+                        phase_files = list(phase_dir.glob("**/*"))
+                        phase_files = [f for f in phase_files if f.is_file()]
+
+                        if phase_files:
+                            # Create a table of files
+                            file_data = []
+                            for file_path in phase_files:
+                                rel_path = file_path.relative_to(phase_dir)
+                                size = file_path.stat().st_size
+                                size_str = (
+                                    f"{size / 1024:.1f} KB"
+                                    if size > 1024
+                                    else f"{size} bytes"
+                                )
+                                file_data.append(
+                                    {
+                                        "File": str(rel_path),
+                                        "Size": size_str,
+                                        "Path": str(file_path),
+                                    }
+                                )
+
+                            # Display as a DataFrame
+                            df_files = pd.DataFrame(file_data)
+                            st.dataframe(df_files, use_container_width=True)
+
+                            # Create download buttons for each file
+                            selected_file = st.selectbox(
+                                "Select file to download:",
+                                phase_files,
+                                format_func=lambda p: p.name,
+                                key=f"select_{selected_artifact_job_id}_{phase_dir.name}",
+                            )
+
+                            if selected_file:
+                                try:
+                                    file_contents = selected_file.read_bytes()
+                                    st.download_button(
+                                        label=f"Download {selected_file.name}",
+                                        data=file_contents,
+                                        file_name=selected_file.name,
+                                        mime="application/octet-stream",
+                                        key=f"download_{selected_artifact_job_id}_{phase_dir.name}_{selected_file.name}",
+                                    )
+                                except Exception as e:
+                                    st.error(f"Error reading file: {e}")
+                        else:
+                            st.info("No files found in this phase.")
+            else:
+                # Check if there are any files directly in the output directory
+                direct_files = [f for f in output_path.glob("*") if f.is_file()]
+                if direct_files:
+                    st.write("### Files in Output Directory")
+
+                    # Create a table of files
+                    file_data = []
+                    for file_path in direct_files:
+                        size = file_path.stat().st_size
+                        size_str = (
+                            f"{size / 1024:.1f} KB" if size > 1024 else f"{size} bytes"
+                        )
+                        file_data.append(
+                            {
+                                "File": file_path.name,
+                                "Size": size_str,
+                                "Path": str(file_path),
+                            }
+                        )
+
+                    # Display as a DataFrame
+                    df_files = pd.DataFrame(file_data)
+                    st.dataframe(df_files, use_container_width=True)
+
+                    # Create download buttons for files
+                    selected_file = st.selectbox(
+                        "Select file to download:",
+                        direct_files,
+                        format_func=lambda p: p.name,
+                        key=f"select_direct_{selected_artifact_job_id}",
                     )
 
-                    if selected_run:
-                        # List phases in this run
-                        phases = [d for d in selected_run.glob("*") if d.is_dir()]
-                        if phases:
-                            st.write("### Available Phases")
-
-                            # Create tabs for each phase
-                            phase_tabs = st.tabs([p.name for p in phases])
-
-                            # Display files for each phase
-                            for i, phase_dir in enumerate(phases):
-                                with phase_tabs[i]:
-                                    st.write(f"#### Files from {phase_dir.name}")
-
-                                    # List all files in the phase directory
-                                    phase_files = list(phase_dir.glob("**/*"))
-                                    phase_files = [
-                                        f for f in phase_files if f.is_file()
-                                    ]
-
-                                    if phase_files:
-                                        # Create a table of files
-                                        file_data = []
-                                        for file_path in phase_files:
-                                            rel_path = file_path.relative_to(phase_dir)
-                                            size = file_path.stat().st_size
-                                            size_str = (
-                                                f"{size / 1024:.1f} KB"
-                                                if size > 1024
-                                                else f"{size} bytes"
-                                            )
-                                            file_data.append(
-                                                {
-                                                    "File": str(rel_path),
-                                                    "Size": size_str,
-                                                    "Path": str(file_path),
-                                                }
-                                            )
-
-                                        # Display as a DataFrame
-                                        df_files = pd.DataFrame(file_data)
-                                        st.dataframe(df_files, use_container_width=True)
-
-                                        # Create download buttons for each file
-                                        selected_file = st.selectbox(
-                                            "Select file to download:",
-                                            phase_files,
-                                            format_func=lambda p: p.name,
-                                            key=f"select_{phase_dir.name}",
-                                        )
-
-                                        if selected_file:
-                                            try:
-                                                file_contents = (
-                                                    selected_file.read_bytes()
-                                                )
-                                                st.download_button(
-                                                    label=f"Download {selected_file.name}",
-                                                    data=file_contents,
-                                                    file_name=selected_file.name,
-                                                    mime="application/octet-stream",
-                                                    key=f"download_{phase_dir.name}_{selected_file.name}",
-                                                )
-                                            except Exception as e:
-                                                st.error(f"Error reading file: {e}")
-                                    else:
-                                        st.info("No files found in this phase.")
-                        else:
-                            st.info("No phase directories found in this run.")
+                    if selected_file:
+                        try:
+                            file_contents = selected_file.read_bytes()
+                            st.download_button(
+                                label=f"Download {selected_file.name}",
+                                data=file_contents,
+                                file_name=selected_file.name,
+                                mime="application/octet-stream",
+                                key=f"download_direct_{selected_artifact_job_id}_{selected_file.name}",
+                            )
+                        except Exception as e:
+                            st.error(f"Error reading file: {e}")
                 else:
-                    st.info("No pipeline runs found in the output directory.")
-            else:
-                st.info("Output directory not found or not yet created.")
+                    st.info(
+                        "No pipeline runs or direct files found in the output directory."
+                    )
         else:
-            st.info("No pipeline has been run yet. Start processing data first.")
+            st.info(
+                "No output directories found for any jobs. Start processing data first."
+            )
 
 
 # --- Sidebar Navigation ---
