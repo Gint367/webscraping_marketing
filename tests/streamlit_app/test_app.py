@@ -3,6 +3,7 @@ import io
 import logging
 import os
 import sys
+import time
 import unittest
 from operator import index
 from unittest.mock import ANY, MagicMock, patch
@@ -76,7 +77,7 @@ class TestStreamlitAppSetup(unittest.TestCase):
 
         # Expected defaults based on the updated app.py
         expected_defaults = {
-            "_app_defaults_initialized": True,  # Flag to prevent re-initialization
+            "_app_defaults_initialized": True,
             "page": "Input",
             "company_list": None,  # Will store list of dicts for processing
             "uploaded_file_data": None,  # Stores the uploaded file object
@@ -85,20 +86,14 @@ class TestStreamlitAppSetup(unittest.TestCase):
             ),  # For data editor
             "input_method": "File Upload",  # Default input method
             "config": {},
-            "job_status": "Idle",
-            "progress": 0,
-            "current_phase": "",
-            "results": None,
-            "log_messages": [],
-            "log_queue": None,
-            "status_queue": None,
-            "pipeline_process": None,
-            "pipeline_config": None,
-            "error_message": None,
             "artifacts": None,
             "testing_mode": False,  # Flag to disable st.rerun() calls during tests
-            "auto_refresh_enabled": True,
-            "refresh_interval": 3.0,
+            # Auto-refresh configuration
+            "auto_refresh_enabled": True,  # Auto-refresh logs by default
+            "refresh_interval": 3.0,  # Default refresh interval in seconds
+            # Job management
+            "active_jobs": {},  # Dictionary of job_id -> job_data for all active/recent jobs
+            "selected_job_id": None,  # Currently selected job for viewing details
         }
         # Compare DataFrames separately for robust comparison
         actual_manual_df = mock_st.session_state.pop("manual_input_df", None)
@@ -148,8 +143,9 @@ class TestStreamlitAppSetup(unittest.TestCase):
 
         self.assertIn("config", mock_st.session_state)
         self.assertEqual(mock_st.session_state["config"], {})
-        self.assertIn("results", mock_st.session_state)
-        self.assertIsNone(mock_st.session_state["results"])
+        # Check for the artifacts key (which might be the replacement for results)
+        self.assertIn("artifacts", mock_st.session_state)
+        self.assertIsNone(mock_st.session_state["artifacts"])
         self.assertIn(
             "uploaded_file_data", mock_st.session_state
         )  # Check new key added
@@ -161,13 +157,17 @@ class TestStreamlitAppSetup(unittest.TestCase):
 
 
 @patch("streamlit_app.app.st")  # Patch st where it's used in the app module
+@patch(
+    "streamlit_app.app.open", new_callable=unittest.mock.mock_open
+)  # Mock file operations
 class TestStreamlitLogHandler(unittest.TestCase):
     """Tests for the custom StreamlitLogHandler."""
 
-    def test_emit_appends_formatted_message_to_session_state(self, mock_st):
+    def test_emit_appends_formatted_message_to_session_state(self, mock_open, mock_st):
         """
         Test that the handler formats a log record and appends it to session_state.log_messages.
         """
+        # This test is for legacy behavior - keeping for compatibility
         mock_st.session_state = {"log_messages": []}  # Initialize log_messages
         handler = StreamlitLogHandler()
         # Use a standard formatter for testing
@@ -189,6 +189,169 @@ class TestStreamlitLogHandler(unittest.TestCase):
         self.assertEqual(
             mock_st.session_state["log_messages"][0], "INFO:Test log message"
         )
+
+    def test_streamlit_log_handler_emit_CreatesAndAppendsToAppLogFile(
+        self, mock_open, mock_st
+    ):
+        """
+        Verify that when StreamlitLogHandler is initialized and emit is called,
+        the streamlit_app.log file is created in the logfiles directory and the log message is appended.
+        """
+        # Set up the session state
+        mock_st.session_state = {}
+
+        # Create the handler
+        handler = StreamlitLogHandler()
+        handler.setFormatter(logging.Formatter("%(levelname)s:%(message)s"))
+
+        # Create a log record
+        record = logging.LogRecord(
+            name="testlogger",
+            level=logging.INFO,
+            pathname="testpath",
+            lineno=1,
+            msg="App log message",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+
+        # Call emit
+        handler.emit(record)
+
+        # Check that file was opened for appending
+        mock_open.assert_called_with(handler.log_file_path, "a")
+
+        # Check that correct content was written to the file
+        mock_open().write.assert_called_with("INFO:App log message\n")
+
+    def test_streamlit_log_handler_emit_RoutesLogToSelectedJobMessages(
+        self, mock_open, mock_st
+    ):
+        """
+        Ensure that if a selected_job_id is set and exists in active_jobs,
+        logs are appended to that job's log_messages list.
+        """
+        # Set up the session state with selected job
+        mock_st.session_state = {
+            "selected_job_id": "job_123",
+            "active_jobs": {"job_123": {"log_messages": ["Existing job log"]}},
+        }
+
+        # Create the handler
+        handler = StreamlitLogHandler()
+        handler.setFormatter(logging.Formatter("%(levelname)s:%(message)s"))
+
+        # Create a log record
+        record = logging.LogRecord(
+            name="testlogger",
+            level=logging.INFO,
+            pathname="testpath",
+            lineno=1,
+            msg="Job specific log message",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+
+        # Call emit
+        handler.emit(record)
+
+        # Verify log was added to the selected job's log_messages
+        job_logs = mock_st.session_state["active_jobs"]["job_123"]["log_messages"]
+        self.assertEqual(len(job_logs), 2)
+        self.assertEqual(job_logs[1], "INFO:Job specific log message")
+
+        # Verify log was also written to app log file
+        mock_open.assert_called_with(handler.log_file_path, "a")
+
+    def test_streamlit_log_handler_emit_DoesNotRouteLogToUnselectedJobMessages(
+        self, mock_open, mock_st
+    ):
+        """
+        Verify logs are not added to a job's log_messages if that job is not the selected_job_id.
+        """
+        # Set up the session state with selected job and another job
+        mock_st.session_state = {
+            "selected_job_id": "job_123",
+            "active_jobs": {
+                "job_123": {"log_messages": ["Selected job log"]},
+                "job_456": {"log_messages": ["Unselected job log"]},
+            },
+        }
+
+        # Create the handler
+        handler = StreamlitLogHandler()
+        handler.setFormatter(logging.Formatter("%(levelname)s:%(message)s"))
+
+        # Create a log record
+        record = logging.LogRecord(
+            name="testlogger",
+            level=logging.INFO,
+            pathname="testpath",
+            lineno=1,
+            msg="Should only go to job_123",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+
+        # Call emit
+        handler.emit(record)
+
+        # Verify log was added to the selected job's log_messages
+        selected_job_logs = mock_st.session_state["active_jobs"]["job_123"][
+            "log_messages"
+        ]
+        self.assertEqual(len(selected_job_logs), 2)
+        self.assertEqual(selected_job_logs[1], "INFO:Should only go to job_123")
+
+        # Verify log was NOT added to the unselected job's log_messages
+        unselected_job_logs = mock_st.session_state["active_jobs"]["job_456"][
+            "log_messages"
+        ]
+        self.assertEqual(len(unselected_job_logs), 1)
+        self.assertEqual(unselected_job_logs[0], "Unselected job log")
+
+    def test_streamlit_log_handler_emit_HandlesNoSelectedJobForJobMessagesGracefully(
+        self, mock_open, mock_st
+    ):
+        """
+        If no selected_job_id is set or it doesn't exist in active_jobs, ensure logs are still written to app log
+        but don't cause errors.
+        """
+        # Set up the session state with no selected job
+        mock_st.session_state = {
+            "selected_job_id": None,
+            "active_jobs": {"job_123": {"log_messages": ["Existing job log"]}},
+        }
+
+        # Create the handler
+        handler = StreamlitLogHandler()
+        handler.setFormatter(logging.Formatter("%(levelname)s:%(message)s"))
+
+        # Create a log record
+        record = logging.LogRecord(
+            name="testlogger",
+            level=logging.INFO,
+            pathname="testpath",
+            lineno=1,
+            msg="With no selected job",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+
+        # Call emit
+        handler.emit(record)
+
+        # Verify no changes to active_jobs
+        job_logs = mock_st.session_state["active_jobs"]["job_123"]["log_messages"]
+        self.assertEqual(len(job_logs), 1)
+        self.assertEqual(job_logs[0], "Existing job log")
+
+        # Verify log was written to app log file despite no selected job
+        mock_open.assert_called_with(handler.log_file_path, "a")
 
 
 @patch("streamlit_app.app.st")  # Patch st where it's used in the app module
@@ -318,32 +481,452 @@ class TestUISections(unittest.TestCase):
 from streamlit_app import app
 
 
-class TestMonitoringSectionProgressBar(unittest.TestCase):
-    """
-    Test suite for the progress bar UI in the monitoring section.
-    Focuses on the logic within the display_status_info function.
-    """
+# ---- New test cases for pipeline process and queue processing ----
+@patch("streamlit_app.app.st")
+@patch("streamlit_app.app.os")
+@patch("streamlit_app.app.logging")
+class TestRunPipelineInProcess(unittest.TestCase):
+    """Tests for the run_pipeline_in_process function."""
+
+    def test_run_pipeline_in_process_CreatesDedicatedPipelineLogFile(
+        self, mock_logging, mock_os, mock_st
+    ):
+        """
+        Verify that run_pipeline_in_process creates a unique log file in the logfiles directory.
+        """
+        from streamlit_app.app import project_root, run_pipeline_in_process
+
+        # Mock log queue and status queue
+        mock_log_queue = MagicMock()
+        mock_status_queue = MagicMock()
+
+        # Mock os.path.join to track log file path creation
+        mock_os.path.join.side_effect = lambda *args: "/".join(args)
+        mock_os.makedirs = MagicMock()
+
+        # Mock time to control timestamp
+        with patch("streamlit_app.app.time") as mock_time:
+            mock_time.strftime.return_value = "20250509_123456"
+
+            # Mock FileHandler to avoid actual file creation
+            with patch("streamlit_app.app.logging.FileHandler") as mock_file_handler:
+                # Run the function with minimal config
+                run_pipeline_in_process(
+                    {"test": "config"}, mock_log_queue, mock_status_queue, "job_test"
+                )
+
+                # Verify log directory was created
+                mock_os.makedirs.assert_called_with(
+                    f"{project_root}/logfiles", exist_ok=True
+                )
+
+                # Verify a log file with timestamp was created
+                expected_log_path = (
+                    f"{project_root}/logfiles/pipeline_20250509_123456.log"
+                )
+                # Check the call to FileHandler
+                mock_file_handler.assert_called_with(expected_log_path)
+
+    def test_run_pipeline_in_process_PutsLogsIntoJobSpecificLogQueue(
+        self, mock_logging, mock_os, mock_st
+    ):
+        """
+        Check that log messages from run_pipeline_in_process are sent to the job-specific log_queue.
+        """
+        from streamlit_app.app import run_pipeline_in_process
+
+        # Mock the queues
+        mock_log_queue = MagicMock()
+        mock_status_queue = MagicMock()
+
+        # Create a handler that will capture the QueueHandler that gets created
+        queue_handler_instance = None
+        original_handler = logging.Handler
+
+        class MockHandler(logging.Handler):
+            def __init__(self, *args, **kwargs):
+                nonlocal queue_handler_instance
+                if queue_handler_instance is None and args == () and kwargs == {}:
+                    queue_handler_instance = self
+                original_handler.__init__(self, *args, **kwargs)
+
+            def emit(self, record):
+                pass
+
+        # Replace Handler with our mock to capture the instance
+        logging.Handler = MockHandler
+
+        try:
+            # Mock FileHandler to avoid actual file creation
+            with patch("streamlit_app.app.logging.FileHandler") as mock_file_handler:
+                # Mock run_pipeline to avoid actual execution and set a return value
+                with patch("streamlit_app.app.run_pipeline") as mock_run_pipeline:
+                    # Set a return value for the mocked run_pipeline
+                    mock_run_pipeline.return_value = "/tmp/test_output/results.csv"
+
+                    # Create a proper config with required fields
+                    test_config = {
+                        "input_csv": "/tmp/test_input.csv",
+                        "output_dir": "/tmp/test_output",
+                        "test": "config",
+                    }
+
+                    # Run the function with proper config
+                    run_pipeline_in_process(
+                        test_config,
+                        mock_log_queue,
+                        mock_status_queue,
+                        "job_test",
+                    )
+
+                    # Verify status messages were sent to status queue
+                    # Use assert_any_call instead of assert_called_with to check for specific calls among potentially many
+                    mock_status_queue.put.assert_any_call(
+                        {
+                            "status": "Running",
+                            "progress": 0,
+                            "phase": "Initializing",
+                            "job_id": "job_test",
+                        }
+                    )
+
+                    # Now manually trigger the queue handler's emit to verify it sends to log_queue
+                    if queue_handler_instance:
+                        test_record = logging.LogRecord(
+                            name="test",
+                            level=logging.INFO,
+                            pathname="test.py",
+                            lineno=1,
+                            msg="Test pipeline log",
+                            args=(),
+                            exc_info=None,
+                            func="test_func",
+                        )
+                        queue_handler_instance.emit(test_record)
+
+                        # Verify the record was put on the log queue
+                        mock_log_queue.put.assert_called_once()
+        finally:
+            # Restore original Handler class
+            logging.Handler = original_handler
+
+
+@patch("streamlit_app.app.st")
+@patch("streamlit_app.app.pd")
+class TestProcessQueueMessages(unittest.TestCase):
+    """Tests for the process_queue_messages function."""
+
+    def test_process_queue_messages_UpdatesStatusProgressPhaseForSpecificJobFromStatusQueue(
+        self, mock_pd, mock_st
+    ):
+        """
+        Verify that status updates from a job's status_queue are correctly applied to that job's data.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                }
+            }
+        }
+
+        # Configure the status_queue to return a status update then be empty
+        mock_queue = mock_st.session_state["active_jobs"]["job_123"]["status_queue"]
+        status_update = {
+            "status": "Running",
+            "progress": 50,
+            "phase": "Processing data",
+        }
+        mock_queue.empty.side_effect = [
+            False,
+            True,
+        ]  # Not empty on first call, empty on second
+        mock_queue.get_nowait.return_value = status_update
+
+        # Call the function
+        process_queue_messages()
+
+        # Verify job status was updated
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(job_data["status"], "Running")
+        self.assertEqual(job_data["progress"], 50)
+        self.assertEqual(job_data["phase"], "Processing data")
+
+    def test_process_queue_messages_AppendsFormattedLogsForSpecificJobFromLogQueue(
+        self, mock_pd, mock_st
+    ):
+        """
+        Verify that log records from a job's log_queue are correctly formatted and appended to that job's log_messages.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": ["Existing log message"],
+                }
+            }
+        }
+
+        # Create a log record
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="New log message",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:34:56"  # Add timestamp for formatting
+        log_record.levelname = "INFO"
+
+        # Configure the log_queue to return a log record then be empty
+        mock_queue = mock_st.session_state["active_jobs"]["job_123"]["log_queue"]
+        mock_queue.empty.side_effect = [
+            False,
+            True,
+        ]  # Not empty on first call, empty on second
+        mock_queue.get_nowait.return_value = log_record
+
+        # Call the function
+        process_queue_messages()
+
+        # Verify job log messages were updated
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(len(job_data["log_messages"]), 2)
+        self.assertEqual(job_data["log_messages"][0], "Existing log message")
+        self.assertEqual(
+            job_data["log_messages"][1], "2025-05-09 12:34:56 - INFO - New log message"
+        )
+
+    def test_process_queue_messages_HandlesJobCompletionStatusUpdatesResultsOutputPathAndEndTime(
+        self, mock_pd, mock_st
+    ):
+        """
+        Verify that Completed status with output_path loads results and sets output_path and end_time.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 50,
+                    "phase": "Processing data",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                }
+            }
+        }
+
+        # Create a mock DataFrame for the results
+        mock_results_df = pd.DataFrame({"col1": [1, 2], "col2": ["a", "b"]})
+        mock_pd.read_csv.return_value = mock_results_df
+
+        # Configure the status_queue to return a completion update then be empty
+        mock_queue = mock_st.session_state["active_jobs"]["job_123"]["status_queue"]
+        completion_update = {
+            "status": "Completed",
+            "progress": 100,
+            "phase": "Finished",
+            "output_path": "/path/to/results.csv",
+        }
+        mock_queue.empty.side_effect = [
+            False,
+            True,
+        ]  # Not empty on first call, empty on second
+        mock_queue.get_nowait.return_value = completion_update
+
+        # Mock time for end_time verification
+        current_time = time.time()
+        with patch("streamlit_app.app.time.time", return_value=current_time):
+            # Call the function
+            process_queue_messages()
+
+        # Verify job status and results were updated
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(job_data["status"], "Completed")
+        self.assertEqual(job_data["progress"], 100)
+        self.assertEqual(job_data["phase"], "Finished")
+        self.assertEqual(job_data["output_path"], "/path/to/results.csv")
+        self.assertEqual(job_data["end_time"], current_time)
+        pd.testing.assert_frame_equal(job_data["results"], mock_results_df)
+        mock_pd.read_csv.assert_called_with("/path/to/results.csv")
+
+    def test_process_queue_messages_HandlesJobErrorStatusUpdatesErrorMessageAndEndTime(
+        self, mock_pd, mock_st
+    ):
+        """
+        Verify that Error status with error detail sets error_message and end_time.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 50,
+                    "phase": "Processing data",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                }
+            }
+        }
+
+        # Configure the status_queue to return an error update then be empty
+        mock_queue = mock_st.session_state["active_jobs"]["job_123"]["status_queue"]
+        error_update = {
+            "status": "Error",
+            "progress": 50,
+            "phase": "Failed",
+            "error": "Test error message",
+        }
+        mock_queue.empty.side_effect = [
+            False,
+            True,
+        ]  # Not empty on first call, empty on second
+        mock_queue.get_nowait.return_value = error_update
+
+        # Mock time for end_time verification
+        current_time = time.time()
+        with patch("streamlit_app.app.time.time", return_value=current_time):
+            # Call the function
+            process_queue_messages()
+
+        # Verify job status and error were updated
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(job_data["status"], "Error")
+        self.assertEqual(job_data["phase"], "Failed")
+        self.assertEqual(job_data["error_message"], "Test error message")
+        self.assertEqual(job_data["end_time"], current_time)
+
+    def test_process_queue_messages_HandlesEmptyJobQueuesGracefully(
+        self, mock_pd, mock_st
+    ):
+        """
+        Verify that process_queue_messages handles empty queues without errors.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs that have empty queues
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 50,
+                    "phase": "Processing data",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        # Configure all queues to be empty
+        mock_st.session_state["active_jobs"]["job_123"][
+            "status_queue"
+        ].empty.return_value = True
+        mock_st.session_state["active_jobs"]["job_123"][
+            "log_queue"
+        ].empty.return_value = True
+
+        # Call the function - should complete without errors
+        process_queue_messages()
+
+        # Verify job status remains unchanged
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(job_data["status"], "Running")
+        self.assertEqual(job_data["progress"], 50)
+        self.assertEqual(job_data["phase"], "Processing data")
+        self.assertEqual(job_data["log_messages"], [])
+
+    def test_process_queue_messages_UpdatesStatusIfJobProcessDiedUnexpectedly(
+        self, mock_pd, mock_st
+    ):
+        """
+        If a job's process is no longer alive but status is still Running, update to Completed with appropriate message.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Create a mock process that's no longer alive
+        mock_process = MagicMock()
+        mock_process.is_alive.return_value = False
+
+        # Set up mock session state with a job with a dead process but running status
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_123": {
+                    "status": "Running",
+                    "progress": 50,
+                    "phase": "Processing data",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "process": mock_process,
+                    "log_messages": [],
+                }
+            }
+        }
+
+        # Configure queues to be empty to simulate no last messages
+        mock_st.session_state["active_jobs"]["job_123"][
+            "status_queue"
+        ].empty.return_value = True
+        mock_st.session_state["active_jobs"]["job_123"][
+            "log_queue"
+        ].empty.return_value = True
+
+        # Mock time for end_time verification
+        current_time = time.time()
+        with patch("streamlit_app.app.time.time", return_value=current_time):
+            # Call the function
+            process_queue_messages()
+
+        # Verify job status was updated to Completed due to dead process
+        job_data = mock_st.session_state["active_jobs"]["job_123"]
+        self.assertEqual(job_data["status"], "Completed")
+        self.assertEqual(job_data["phase"], "Finished (Status not properly updated)")
+        self.assertEqual(job_data["end_time"], current_time)
+
+
+class TestMonitoringSectionStatusAndProgressBar(unittest.TestCase):
+    """Tests for the monitoring section of the Streamlit app."""
 
     def setUp(self):
         """
         Set up mocks for Streamlit and other dependencies before each test.
         """
-        # Mock streamlit and its components
         self.patcher_st = patch("streamlit_app.app.st", MagicMock())
         self.mock_st = self.patcher_st.start()
 
-        # Configure st.fragment to be a pass-through decorator for testing
-        # This means @st.fragment won't interfere with the function definition.
         self.mock_st.fragment = MagicMock(return_value=lambda func: func)
-
-        # Mock st.columns to return two mock columns for unpacking
         self.mock_st.columns = MagicMock(return_value=(MagicMock(), MagicMock()))
-
-        # Set up slider mock to return a float value instead of a MagicMock
         self.mock_st.slider = MagicMock(return_value=3.0)
+        self.mock_st.container = MagicMock()
+        self.mock_st.container.return_value.__enter__ = MagicMock(return_value=None)
+        self.mock_st.container.return_value.__exit__ = MagicMock(return_value=None)
+        self.mock_st.expander = MagicMock()
+        self.mock_st.expander.return_value.__enter__ = MagicMock(return_value=None)
+        self.mock_st.expander.return_value.__exit__ = MagicMock(return_value=None)
 
-        # Mock session_state as a dictionary that can be manipulated in tests
-        # Initialize session_state with defaults as in init_session_state
+        self.test_job_id = "job_20250509_123456"
+
         self.mock_st.session_state = {
             "page": "Input",
             "company_list": None,
@@ -353,20 +936,11 @@ class TestMonitoringSectionProgressBar(unittest.TestCase):
             ),
             "input_method": "File Upload",
             "config": {},
-            "job_status": "Idle",
-            "progress": 0,
-            "current_phase": "",
-            "results": None,
-            "log_messages": [],
-            "log_queue": None,
-            "status_queue": None,
-            "pipeline_process": None,
-            "pipeline_config": None,
-            "error_message": None,
-            "artifacts": None,
-            "testing_mode": False,  # this need to be false to mimick the real app
+            "active_jobs": {},
+            "selected_job_id": None,
+            "testing_mode": False,
             "auto_refresh_enabled": True,
-            "refresh_interval": 3.0,  # Ensure this is a float, not a MagicMock
+            "refresh_interval": 3.0,
         }
 
         # Mock process_queue_messages as it's called within the tested functions
@@ -379,9 +953,34 @@ class TestMonitoringSectionProgressBar(unittest.TestCase):
         self.patcher_logging = patch("streamlit_app.app.logging", MagicMock())
         self.mock_logging = self.patcher_logging.start()
 
-        # Default setup for pipeline_process to avoid errors in unrelated checks
-        # Tests can override this if specific pipeline_process behavior is needed.
-        self.mock_st.session_state["pipeline_process"] = None
+        # Mock cancel_job
+        self.patcher_cancel_job = patch("streamlit_app.app.cancel_job", MagicMock())
+        self.mock_cancel_job = self.patcher_cancel_job.start()
+
+        # Patch time.time for consistent duration calculations
+        self.patcher_time_time = patch(
+            "streamlit_app.app.time.time", MagicMock(return_value=766015200.0)
+        )  # Example: May 9, 2025 12:00:00 PM
+        self.mock_time_time = self.patcher_time_time.start()
+
+        # Patch time.strftime for consistent time formatting
+        self.patcher_time_strftime = patch(
+            "streamlit_app.app.time.strftime",
+            MagicMock(return_value="2025-05-09 12:00:00"),
+        )
+        self.mock_time_strftime = self.patcher_time_strftime.start()
+
+        def generic_selectbox_side_effect(*args_effect, **kwargs_effect):
+            options_val = kwargs_effect.get("options", [])
+            index_val = kwargs_effect.get("index", 0)
+            if isinstance(options_val, list) and options_val:
+                if 0 <= index_val < len(options_val):
+                    return options_val[index_val]
+                return options_val[0]  # Fallback to first option
+            return None  # No options or not a list
+
+        self.mock_st.selectbox = MagicMock(side_effect=generic_selectbox_side_effect)
+        self.mock_st.button = MagicMock(return_value=False)  # Default to not clicked
 
     def tearDown(self):
         """
@@ -390,153 +989,157 @@ class TestMonitoringSectionProgressBar(unittest.TestCase):
         self.patcher_st.stop()
         self.patcher_pqm.stop()
         self.patcher_logging.stop()
+        self.patcher_cancel_job.stop()
+        self.patcher_time_time.stop()
+        self.patcher_time_strftime.stop()
         self.mock_st.session_state.clear()  # Ensure clean state for next test
 
-    def test_displayStatusInfo_JobRunningAndProgressSet_DisplaysProgressBar(self):
+    def test_displayMonitoringSection_NoActiveJobs_ShowsInfoAndNoJobSpecificUI(self):
         """
-        Tests that the progress bar is displayed with the correct value when
-        job_status is "Running" and 'progress' is set.
+        Tests that an info message is shown and no job-specific UI elements
+        are rendered when there are no active jobs.
         """
-        self.mock_st.session_state["job_status"] = "Running"
-        self.mock_st.session_state["progress"] = 50
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = True
-        self.mock_st.session_state["pipeline_process"] = mock_process
+        self.mock_st.session_state["active_jobs"] = {}
+        self.mock_st.session_state["selected_job_id"] = None
 
-        app.display_monitoring_section()
+        display_monitoring_section()
 
-        self.mock_st.progress.assert_called_once_with(0.5)
-        self.mock_st.markdown.assert_any_call(
-            ANY, unsafe_allow_html=True
-        )  # Status markdown
+        self.mock_st.info.assert_any_call(
+            "No jobs have been run yet. Start a new job from the Input section."
+        )
+        # This one is for the job details part when no job is selected or no jobs exist
+        self.mock_st.info.assert_any_call(
+            "No jobs have been started yet. Use the 'Input' section to start a new job."
+        )
+        self.mock_st.dataframe.assert_not_called()
+        self.mock_st.selectbox.assert_not_called()  # Specifically the job selector
 
-    def test_displayStatusInfo_JobRunningAndProgressNotSet_DoesNotDisplayProgressBar(
-        self,
-    ):
-        """
-        Tests that the progress bar is NOT displayed when job_status is "Running"
-        but 'progress' key is missing from session_state.
-        """
-        # Create a new clean session_state instead of using the initialized one with defaults
-        self.mock_st.session_state = {
-            "job_status": "Running",
-            # Explicitly remove 'progress' key
-            "log_messages": [],  # Include this to avoid KeyError in other places
-        }
-
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = True
-        self.mock_st.session_state["pipeline_process"] = mock_process
-
-        app.display_monitoring_section()
-
-        self.mock_st.progress.assert_not_called()
-
-    def test_displayStatusInfo_JobCompletedAndProgressSet_DoesNotDisplayProgressBar(
-        self,
-    ):
-        """
-        Tests that the progress bar is NOT displayed when job_status is "Completed",
-        even if 'progress' is set.
-        """
-        self.mock_st.session_state["job_status"] = "Completed"
-        self.mock_st.session_state["progress"] = 75
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = False  # Process not alive
-        self.mock_st.session_state["pipeline_process"] = mock_process
-
-        app.display_monitoring_section()
-
-        self.mock_st.progress.assert_not_called()
-
-    def test_displayStatusInfo_JobIdleAndProgressSet_DoesNotDisplayProgressBar(self):
-        """
-        Tests that the progress bar is NOT displayed when job_status is "Idle",
-        even if 'progress' is set.
-        """
-        self.mock_st.session_state["job_status"] = "Idle"
-        self.mock_st.session_state["progress"] = 20
-        # 'pipeline_process' might be None or not alive for Idle status
-        if "pipeline_process" in self.mock_st.session_state:
-            del self.mock_st.session_state["pipeline_process"]
-
-        app.display_monitoring_section()
-
-        self.mock_st.progress.assert_not_called()
-
-    def test_displayStatusInfo_JobErrorAndProgressSet_DoesNotDisplayProgressBarAndShowsError(
-        self,
-    ):
-        """
-        Tests that the progress bar is NOT displayed when job_status is "Error",
-        even if 'progress' is set. Also checks that st.error is called.
-        """
-        self.mock_st.session_state["job_status"] = "Error"
-        self.mock_st.session_state["progress"] = 90
-        self.mock_st.session_state["error_message"] = "A test error occurred"
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = False
-        self.mock_st.session_state["pipeline_process"] = mock_process
-
-        app.display_monitoring_section()
-
-        self.mock_st.progress.assert_not_called()
-        self.mock_st.error.assert_called_once_with(
-            f"Error: {self.mock_st.session_state['error_message']}"
+        # Check that markdown for job details header is not called
+        job_header_found = False
+        for call_args in self.mock_st.markdown.call_args_list:
+            if call_args[0][0].startswith("### Job:"):
+                job_header_found = True
+                break
+        self.assertFalse(
+            job_header_found, "Job details header was unexpectedly rendered."
         )
 
-    def test_displayStatusInfo_PipelineEndsAndJobWasRunning_ChangesStatusToCompletedAndHidesProgress(
+        # process_queue_messages is called at the start and in fragments
+        self.assertTrue(self.mock_process_queue_messages.called)
+
+    def test_displayMonitoringSection_WithActiveJobs_DisplaysTableAndSelectsMostRecentJobByDefault(
         self,
     ):
         """
-        Tests that if pipeline_process is not alive and job_status was "Running",
-        the status updates to "Completed", and the progress bar is not shown.
+        Tests that the jobs table is displayed and the most recent job is
+        selected by default if no job is initially selected.
         """
-        self.mock_st.session_state["job_status"] = "Running"  # Initial status
-        self.mock_st.session_state["progress"] = 99
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = False  # Process has finished
-        self.mock_st.session_state["pipeline_process"] = mock_process
+        current_ts = 1715256000.0  # May 9, 2025 12:00:00 PM
+        self.mock_time_time.return_value = current_ts
 
-        app.display_monitoring_section()
+        job1_id = "job_old"
+        job2_id = "job_recent"  # More recent
 
-        self.assertEqual(self.mock_st.session_state["job_status"], "Completed")
-        self.mock_st.progress.assert_not_called()  # Progress bar not shown for "Completed"
-        self.mock_logging.info.assert_any_call("Pipeline process ended")
-
-    def test_displayStatusInfo_JobIdleButProcessAlive_ChangesStatusToRunningAndShowsProgress(
-        self,
-    ):
-        """
-        Tests that if job_status is "Idle" but the pipeline_process is alive,
-        the status changes to "Running" and the progress bar is displayed (if 'progress' is set).
-        """
-        # Create a completely fresh session_state to avoid interference from other tests
-        self.mock_st.session_state = {
-            "job_status": "Idle",  # Initial status
-            "progress": 30,
-            "log_messages": [],  # Include this to avoid KeyError in other places
+        # Important: Create jobs in reverse insertion order (oldest first)
+        # to test that the code still selects the most recent job
+        active_jobs = {
+            job1_id: {
+                "status": "Completed",
+                "start_time": current_ts - 200,  # Older timestamp
+                "end_time": current_ts - 100,
+                "progress": 100,
+                "file_info": {"type": "CSV", "name": "data1.csv", "record_count": 10},
+            }
+        }
+        # Add job2 after job1 to ensure a specific insertion order
+        active_jobs[job2_id] = {
+            "status": "Running",
+            "start_time": current_ts - 50,  # More recent timestamp
+            "progress": 50,
+            "file_info": {
+                "type": "Manual",
+                "name": "Manual Input",
+                "record_count": 5,
+            },
         }
 
-        # Explicitly configure button to return False (not clicked)
-        self.mock_st.button.return_value = False
+        self.mock_st.session_state["active_jobs"] = active_jobs
+        self.mock_st.session_state["selected_job_id"] = None
 
-        mock_process = MagicMock()
-        mock_process.is_alive.return_value = True  # Process is alive
-        self.mock_st.session_state["pipeline_process"] = mock_process
+        display_monitoring_section()
 
-        # Mock process_queue_messages as it's called within the tested function
-        with patch("streamlit_app.app.process_queue_messages", MagicMock()):
-            app.display_monitoring_section()
+        self.mock_st.dataframe.assert_called_once()
 
-        self.assertEqual(self.mock_st.session_state["job_status"], "Running")
-        self.mock_st.progress.assert_called_once_with(0.30)
+        # Verify that the most recent job (job2_id) was selected based on timestamp, not insertion order
+        self.assertEqual(self.mock_st.session_state["selected_job_id"], job2_id)
+        self.mock_st.markdown.assert_any_call(f"### Job: {job2_id}")
+        self.assertTrue(self.mock_process_queue_messages.called)
 
+        self.assertEqual(self.mock_st.session_state["selected_job_id"], job2_id)
+        self.mock_st.markdown.assert_any_call(f"### Job: {job2_id}")
+        self.assertTrue(self.mock_process_queue_messages.called)
 
-if __name__ == "__main__":
-    unittest.main()
+    def test_displayMonitoringSection_JobCancellation_CancelRunningJob_CallsCancelJobAndShowsSuccess(
+        self,
+    ):
+        """
+        Tests that cancelling a running job calls cancel_job and shows a success message.
+        """
+        job_id = self.test_job_id
+        self.mock_st.session_state["active_jobs"] = {
+            job_id: {
+                "status": "Running",
+                "start_time": time.time() - 60,
+                "progress": 10,
+                "file_info": {"type": "Test", "name": "test.csv", "record_count": 1},
+            }
+        }
+        self.mock_st.session_state["selected_job_id"] = job_id
 
-# Added newline at the end of the file
+        self.mock_st.button.return_value = True  # Simulate button click
+        self.mock_cancel_job.return_value = True
+
+        display_monitoring_section()
+
+        self.mock_st.button.assert_called_with(
+            "Cancel Selected Job", key="cancel_job_btn"
+        )
+        self.mock_cancel_job.assert_called_with(job_id)
+        self.mock_st.success.assert_called_with(f"Job {job_id} has been cancelled.")
+        self.assertTrue(self.mock_process_queue_messages.called)
+
+    def test_displayMonitoringSection_JobCancellation_CancelCompletedJob_ShowsWarningAndNotCancelled(
+        self,
+    ):
+        """
+        Tests that attempting to cancel a completed job shows a warning
+        and cancel_job is not called.
+        """
+        job_id = self.test_job_id
+        job_status = "Completed"
+        self.mock_st.session_state["active_jobs"] = {
+            job_id: {
+                "status": job_status,
+                "start_time": time.time() - 120,
+                "end_time": time.time() - 60,
+                "progress": 100,
+                "file_info": {"type": "Test", "name": "test.csv", "record_count": 1},
+            }
+        }
+        self.mock_st.session_state["selected_job_id"] = job_id
+
+        self.mock_st.button.return_value = True  # Simulate button click
+
+        display_monitoring_section()
+
+        self.mock_st.button.assert_called_with(
+            "Cancel Selected Job", key="cancel_job_btn"
+        )
+        self.mock_st.warning.assert_called_with(
+            f"Job {job_id} is not running (status: {job_status}). Only running jobs can be cancelled."
+        )
+        self.mock_cancel_job.assert_not_called()
+        self.assertTrue(self.mock_process_queue_messages.called)
 
 
 @patch("streamlit_app.app.st")  # Patch st where it's used in the app module
@@ -576,6 +1179,7 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "log_messages": [],
             "job_status": "Idle",
             "config": {},
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.csv"
@@ -611,14 +1215,27 @@ class TestProcessDataCSVValidation(unittest.TestCase):
                         mock_manager = MagicMock()
                         mock_queue = MagicMock()
                         mock_manager.Queue.return_value = mock_queue
-                        with patch(
-                            "streamlit_app.app.Manager", return_value=mock_manager
-                        ):
-                            self.process_data()
+
+                        # Mock time.strftime for consistent job ID generation
+                        with patch("streamlit_app.app.time.strftime") as mock_strftime:
+                            mock_strftime.return_value = "20250509_125158"
+
+                            with patch(
+                                "streamlit_app.app.Manager", return_value=mock_manager
+                            ):
+                                self.process_data()
 
         # Assert session state was updated correctly
-        self.assertEqual(mock_st.session_state["job_status"], "Running")
-        self.assertEqual(mock_st.session_state["current_phase"], "Starting Pipeline")
+        # Check that a job was created
+        self.assertGreater(len(mock_st.session_state["active_jobs"]), 0)
+
+        # Get the created job (there should be only one)
+        job_id = list(mock_st.session_state["active_jobs"].keys())[0]
+        job_data = mock_st.session_state["active_jobs"][job_id]
+
+        # Check job status and process
+        self.assertEqual(job_data["status"], "Running")
+        self.assertEqual(job_data["phase"], "Starting Pipeline")
         self.assertEqual(len(mock_st.session_state.get("company_list", [])), 2)
         self.assertTrue(mock_process.start.called)
         mock_st.info.assert_any_call("Starting enrichment for 2 companies...")
@@ -636,6 +1253,8 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "uploaded_file_data": MagicMock(),
             "log_messages": [],
             "job_status": "Idle",
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
+            "config": {},  # Add config to prevent KeyError
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.csv"
@@ -657,13 +1276,19 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             )
 
             with patch("streamlit_app.app.pd.read_csv", return_value=invalid_df):
-                self.process_data()
+                # Mock time.strftime for consistent job ID generation
+                with patch("streamlit_app.app.time.strftime") as mock_strftime:
+                    mock_strftime.return_value = "20250509_125158"
+                    self.process_data()
 
         # Assert error was shown and processing was not started
         mock_st.error.assert_called_with(
             "Uploaded file is missing required columns: company name, location, url"
         )
-        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+        # In the new implementation, job_status might be handled differently
+        # Let's update the test to verify that no active job was created on error
+        self.assertEqual(len(mock_st.session_state["active_jobs"]), 0)
 
     def test_process_data_emptyCSV_showsWarning(self, mock_os, mock_st):
         """
@@ -678,6 +1303,8 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "uploaded_file_data": MagicMock(),
             "log_messages": [],
             "job_status": "Idle",
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
+            "config": {},  # Add config to prevent KeyError
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.csv"
@@ -691,13 +1318,18 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             empty_df = pd.DataFrame(columns=["company name", "location", "url"])
 
             with patch("streamlit_app.app.pd.read_csv", return_value=empty_df):
-                self.process_data()
+                # Mock time.strftime for consistent job ID generation
+                with patch("streamlit_app.app.time.strftime") as mock_strftime:
+                    mock_strftime.return_value = "20250509_125158"
+                    self.process_data()
 
         # Assert warning was shown and processing was marked as completed (no data)
         mock_st.warning.assert_called_with(
             "No valid data found in the uploaded file after cleaning."
         )
-        self.assertEqual(mock_st.session_state["job_status"], "Completed (No Data)")
+
+        # In the new implementation, check that no job was created
+        self.assertEqual(len(mock_st.session_state["active_jobs"]), 0)
 
     def test_process_data_unsupportedFileType_showsError(self, mock_os, mock_st):
         """
@@ -712,15 +1344,22 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "uploaded_file_data": MagicMock(),
             "log_messages": [],
             "job_status": "Idle",
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
+            "config": {},  # Add config to prevent KeyError
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.txt"  # Unsupported extension
 
-        self.process_data()
+        # Mock time.strftime for consistent job ID generation
+        with patch("streamlit_app.app.time.strftime") as mock_strftime:
+            mock_strftime.return_value = "20250509_125158"
+            self.process_data()
 
         # Assert error was shown
         mock_st.error.assert_called_with("Unsupported file type.")
-        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+        # In the new implementation, check that no job was created
+        self.assertEqual(len(mock_st.session_state["active_jobs"]), 0)
 
     def test_process_data_malformedCSV_showsError(self, mock_os, mock_st):
         """
@@ -735,6 +1374,8 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "uploaded_file_data": MagicMock(),
             "log_messages": [],
             "job_status": "Idle",
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
+            "config": {},  # Add config to prevent KeyError
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.csv"
@@ -749,13 +1390,18 @@ class TestProcessDataCSVValidation(unittest.TestCase):
                 "streamlit_app.app.pd.read_csv",
                 side_effect=pd.errors.ParserError("Parsing error"),
             ):
-                self.process_data()
+                # Mock time.strftime for consistent job ID generation
+                with patch("streamlit_app.app.time.strftime") as mock_strftime:
+                    mock_strftime.return_value = "20250509_125158"
+                    self.process_data()
 
         # Assert error was shown
         mock_st.error.assert_called_with(
             "Error reading or processing file: Parsing error"
         )
-        self.assertEqual(mock_st.session_state["job_status"], "Error")
+
+        # In the new implementation, check that no job was created
+        self.assertEqual(len(mock_st.session_state["active_jobs"]), 0)
 
     def test_process_data_csvWithFormattingIssues_cleansAndProcessesData(
         self, mock_os, mock_st
@@ -773,6 +1419,7 @@ class TestProcessDataCSVValidation(unittest.TestCase):
             "log_messages": [],
             "job_status": "Idle",
             "config": {},
+            "active_jobs": {},  # Initialize with empty active_jobs dictionary
         }
         mock_file = mock_st.session_state["uploaded_file_data"]
         mock_file.name = "test.csv"
@@ -814,13 +1461,33 @@ class TestProcessDataCSVValidation(unittest.TestCase):
                         mock_manager = MagicMock()
                         mock_queue = MagicMock()
                         mock_manager.Queue.return_value = mock_queue
-                        with patch(
-                            "streamlit_app.app.Manager", return_value=mock_manager
-                        ):
-                            self.process_data()
+
+                        # Mock time.strftime for consistent job ID generation
+                        with patch("streamlit_app.app.time.strftime") as mock_strftime:
+                            mock_strftime.return_value = "20250509_125158"
+
+                            with patch(
+                                "streamlit_app.app.Manager", return_value=mock_manager
+                            ):
+                                self.process_data()
 
         # Check if process was started despite formatting issues
-        self.assertEqual(mock_st.session_state["job_status"], "Running")
+        # Check that a job was created
+        self.assertGreater(len(mock_st.session_state["active_jobs"]), 0)
+
+        # Get the created job (there should be only one)
+        job_id = list(mock_st.session_state["active_jobs"].keys())[0]
+        job_data = mock_st.session_state["active_jobs"][job_id]
+
+        # Check job status and process
+        self.assertEqual(job_data["status"], "Running")
         self.assertTrue(mock_process.start.called)
+
         # Check if data was properly cleaned and stored in company_list
         self.assertIsNotNone(mock_st.session_state.get("company_list"))
+
+
+if __name__ == "__main__":
+    unittest.main()
+
+# Added newline at the end of the file
