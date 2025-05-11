@@ -1,5 +1,4 @@
 import io
-import json
 import logging
 import multiprocessing
 import os
@@ -8,19 +7,22 @@ import tempfile
 import time
 from multiprocessing import Manager, Process, Queue
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict
 
 import pandas as pd
 import streamlit as st
-from regex import F
 
 # Add project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
+
 # Import from master_pipeline.py
 from master_pipeline import (  # noqa: E402
     run_pipeline,
+)
+from streamlit_app.section.output_section import (  # noqa: E402
+    display_output_section,
 )
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
@@ -363,7 +365,7 @@ def run_pipeline_in_process(
 
 
 # Function to monitor queues and update session state
-def process_queue_messages():
+def process_queue_messages():  # TODO it shows application logs when job finished. application logs should not be shown in the log viewer
     """
     Process messages from the log and status queues for all active jobs,
     updating the Streamlit session state.
@@ -423,7 +425,22 @@ def process_queue_messages():
                     job_data["log_messages"] = []
                 job_data["log_messages"].append(error_msg)
 
-    # Now process all jobs' log queues
+    # Hardcoded phase parsing dictionary for known phases and formatting
+    PHASE_FORMATS = {  # TODO Correct the phases to the actual process.
+        "extracting_machine": {
+            "clean_html": "Extracting Machine: Clean HTML",
+            "extract_sachanlagen": "Extracting Machine: Extract Sachanlagen",
+        },
+        "webcrawl": {
+            "crawl_domain": "Webcrawl: Crawl Domain",
+            "extract_with_llm": "Webcrawl: Extract with LLM",
+        },
+        "integration_phase": {
+            "merge_keyword": "Integration: Merge Keyword",
+            "enrich_data": "Integration: Enrich Data",
+        },
+    }
+
     for job_id, job_data in st.session_state["active_jobs"].items():
         if "log_queue" in job_data and job_data["log_queue"] is not None:
             try:
@@ -438,13 +455,98 @@ def process_queue_messages():
                         job_data["log_messages"].append(log_message)
                         logs_updated = True
 
+                        # --- PROGRESS log parsing for phase update ---
+                        try:
+                            log_message_text = (
+                                record.getMessage()
+                                if hasattr(record, "getMessage")
+                                else str(record)
+                            )
+                            if log_message_text.startswith("PROGRESS:"):
+                                progress_details = log_message_text.split(
+                                    "PROGRESS:", 1
+                                )[1].strip()
+                                # Split into at most 4 parts: component, sub_component, steps, description
+                                parts = progress_details.split(":", 3)
+                                new_phase_description = None
+                                if len(parts) == 4:
+                                    component, sub_component, steps_str, description = (
+                                        parts
+                                    )
+                                    # Try to format component and sub_component
+                                    comp_fmt = component.replace("_", " ").title()
+                                    sub_fmt = sub_component.replace("_", " ").title()
+                                    # Try to parse steps (X/Y)
+                                    if "/" in steps_str:
+                                        try:
+                                            current_step, total_steps = steps_str.split(
+                                                "/"
+                                            )
+                                            if (
+                                                current_step.isdigit()
+                                                and total_steps.isdigit()
+                                            ):
+                                                # Use hardcoded phase dictionary if possible
+                                                phase_fmt = PHASE_FORMATS.get(
+                                                    component, {}
+                                                ).get(sub_component)
+                                                if phase_fmt:
+                                                    new_phase_description = f"{phase_fmt} - {description} ({current_step}/{total_steps})"
+                                                else:
+                                                    new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({current_step}/{total_steps})"
+                                            else:
+                                                new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
+                                        except Exception as e:
+                                            logging.debug(
+                                                f"Error parsing steps in PROGRESS log: {e}"
+                                            )
+                                            new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
+                                    else:
+                                        new_phase_description = (
+                                            f"{comp_fmt}: {sub_fmt} - {description}"
+                                        )
+                                elif len(parts) == 3:
+                                    component, sub_component, description = parts
+                                    comp_fmt = component.replace("_", " ").title()
+                                    sub_fmt = sub_component.replace("_", " ").title()
+                                    new_phase_description = (
+                                        f"{comp_fmt}: {sub_fmt} - {description}"
+                                    )
+                                elif len(parts) == 2:
+                                    component, description = parts
+                                    comp_fmt = component.replace("_", " ").title()
+                                    new_phase_description = (
+                                        f"{comp_fmt} - {description}"
+                                    )
+                                else:
+                                    # Fallback: just use the progress details
+                                    new_phase_description = (
+                                        progress_details
+                                        if len(progress_details) < 80
+                                        else progress_details[:77] + "..."
+                                    )
+
+                                if new_phase_description:
+                                    job_data["phase"] = new_phase_description
+                                    logging.debug(
+                                        f"Updated job {job_id} phase to: {new_phase_description}"
+                                    )
+                        except Exception as e:
+                            logging.warning(
+                                f"Error parsing PROGRESS log for job {job_id}: {e}"
+                            )
+
                 # Check if the job process is still alive
                 if "process" in job_data and job_data["process"] is not None:
                     process = job_data["process"]
                     if not process.is_alive() and job_data.get("status") == "Running":
                         # Process ended but status wasn't properly updated
                         job_data["status"] = "Completed"
-                        job_data["phase"] = "Finished (Status not properly updated)"
+                        if (
+                            not job_data.get("phase")
+                            or "Finished" not in job_data["phase"]
+                        ):
+                            job_data["phase"] = "Finished (Status not properly updated)"
                         job_data["end_time"] = time.time()
 
                 if logs_updated:
@@ -463,7 +565,7 @@ def process_queue_messages():
 
 
 # --- UI Sections ---
-def display_input_section():
+def display_input_section():  # TODO Clear the input when Start is clicked
     """Displays the UI for data input using radio buttons and data editor."""
     st.header("1. Input Data")
     st.write("Choose your input method:")
@@ -1242,7 +1344,7 @@ def display_monitoring_section():
             unsafe_allow_html=True,
         )
 
-        if job_data.get("phase"):
+        if job_data.get("phase"):  # TODO Phases is not changing.
             st.markdown(f"**Current Phase:** {job_data.get('phase')}")
 
         # Display progress bar based on selected job
@@ -1349,270 +1451,7 @@ def display_monitoring_section():
     display_logs()
 
 
-def display_output_section():
-    """Displays the results and download options."""
-    st.header("4. Output")
-
-    # Process any pending messages to ensure we have the latest results
-    process_queue_messages()
-
-    # Final results tab
-    st.write("View and download the enriched data, logs, and intermediate artifacts.")
-
-    tab1, tab2 = st.tabs(["Final Results", "Pipeline Artifacts"])
-
-    with tab1:
-        # Display a job selector for selecting which job's results to view
-        selected_job_id = st.session_state.get("selected_job_id")
-        active_jobs = st.session_state.get("active_jobs", {})
-
-        # Create a list of completed jobs for selection
-        completed_jobs = []
-        for job_id, job_data in active_jobs.items():
-            if (
-                job_data.get("status") == "Completed"
-                and job_data.get("results") is not None
-            ):
-                job_info = job_data.get("file_info", {})
-                timestamp = time.strftime(
-                    "%Y-%m-%d %H:%M:%S", time.localtime(job_data.get("start_time", 0))
-                )
-                completed_jobs.append(
-                    {
-                        "id": job_id,
-                        "display": f"Job {job_id} ({timestamp}) - {job_info.get('name', 'Unknown')} ({job_info.get('record_count', 0)} records)",
-                    }
-                )
-
-        if completed_jobs:
-            job_options = [job["display"] for job in completed_jobs]
-            job_ids = [job["id"] for job in completed_jobs]
-
-            # Default selection to current selected job if it's completed, otherwise first completed job
-            default_idx = 0
-            if selected_job_id in job_ids:
-                default_idx = job_ids.index(selected_job_id)
-
-            selected_display = st.selectbox(
-                "Select job results to view:",
-                options=job_options,
-                index=default_idx,
-                key="output_job_selector",
-            )
-
-            # Get the job ID from the selection
-            selected_output_job_id = job_ids[job_options.index(selected_display)]
-
-            # Display results for the selected job
-            job_data = active_jobs[selected_output_job_id]
-            results_data = job_data.get("results")
-
-            if results_data is not None and not results_data.empty:
-                st.subheader(f"Final Enriched Data - Job {selected_output_job_id}")
-                st.dataframe(results_data, use_container_width=True)
-
-                # Get output path for download
-                output_path = job_data.get("output_path")
-                if output_path:
-                    try:
-                        # Prepare data for download
-                        @st.cache_data  # Cache the conversion to avoid re-running on every interaction
-                        def convert_df_to_csv(df):
-                            # IMPORTANT: Cache the conversion to prevent computation on every rerun
-                            return df.to_csv(index=False).encode("utf-8")
-
-                        csv_data = convert_df_to_csv(results_data)
-
-                        st.download_button(
-                            label="Download Results as CSV",
-                            data=csv_data,
-                            file_name=f"job_{selected_output_job_id}_results.csv",
-                            mime="text/csv",
-                            key=f"download-csv-{selected_output_job_id}",
-                        )
-                    except Exception as e:
-                        st.error(f"Error preparing download: {e}")
-            else:
-                st.warning("Selected job has no results data available.")
-
-        # Handle case when no jobs are completed yet
-        elif any(
-            job_data.get("status") == "Running" for job_data in active_jobs.values()
-        ):
-            st.info("Jobs are still running. Results will appear here when complete.")
-        elif active_jobs:
-            st.warning(
-                "No completed jobs with results available. Check for errors in the Monitoring section."
-            )
-        else:
-            st.info(
-                "No jobs have been run yet. Start a job from the Input section to see results here."
-            )
-
-    with tab2:
-        st.subheader("Pipeline Artifacts")
-
-        # Get active jobs with output directories
-        job_dirs = {}
-        for job_id, job_data in st.session_state.get("active_jobs", {}).items():
-            if "config" in job_data and job_data["config"].get("output_dir"):
-                output_dir = job_data["config"].get("output_dir")
-                if Path(output_dir).exists():
-                    timestamp = time.strftime(
-                        "%Y-%m-%d %H:%M:%S",
-                        time.localtime(job_data.get("start_time", 0)),
-                    )
-                    job_dirs[job_id] = {
-                        "path": output_dir,
-                        "display": f"Job {job_id} ({timestamp}) - {job_data.get('file_info', {}).get('name', 'Unknown')}",
-                    }
-
-        if job_dirs:
-            # Create job selection dropdown
-            job_ids = list(job_dirs.keys())
-            job_displays = [job_dirs[job_id]["display"] for job_id in job_ids]
-
-            # Default to currently selected job if it exists in the list
-            default_idx = 0
-            selected_job_id = st.session_state.get("selected_job_id")
-            if selected_job_id in job_ids:
-                default_idx = job_ids.index(selected_job_id)
-
-            selected_job_display = st.selectbox(
-                "Select job artifacts to view:",
-                options=job_displays,
-                index=default_idx,
-                key="artifacts_job_selector",
-            )
-
-            # Get the job ID and output directory from selection
-            selected_artifact_job_id = job_ids[job_displays.index(selected_job_display)]
-            output_dir = job_dirs[selected_artifact_job_id]["path"]
-
-            st.write(f"Pipeline output directory: `{output_dir}`")
-
-            # List all directories in the output directory (these are the phase directories)
-            output_path = Path(output_dir)
-            phases = [d for d in output_path.glob("*") if d.is_dir()]
-
-            if phases:
-                st.write("### Available Phases")
-
-                # Create tabs for each phase
-                phase_tabs = st.tabs([p.name for p in phases])
-
-                # Display files for each phase
-                for i, phase_dir in enumerate(phases):
-                    with phase_tabs[i]:
-                        st.write(f"#### Files from {phase_dir.name}")
-
-                        # List all files in the phase directory
-                        phase_files = list(phase_dir.glob("**/*"))
-                        phase_files = [f for f in phase_files if f.is_file()]
-
-                        if phase_files:
-                            # Create a table of files
-                            file_data = []
-                            for file_path in phase_files:
-                                rel_path = file_path.relative_to(phase_dir)
-                                size = file_path.stat().st_size
-                                size_str = (
-                                    f"{size / 1024:.1f} KB"
-                                    if size > 1024
-                                    else f"{size} bytes"
-                                )
-                                file_data.append(
-                                    {
-                                        "File": str(rel_path),
-                                        "Size": size_str,
-                                        "Path": str(file_path),
-                                    }
-                                )
-
-                            # Display as a DataFrame
-                            df_files = pd.DataFrame(file_data)
-                            st.dataframe(df_files, use_container_width=True)
-
-                            # Create download buttons for each file
-                            selected_file = st.selectbox(
-                                "Select file to download:",
-                                phase_files,
-                                format_func=lambda p: p.name,
-                                key=f"select_{selected_artifact_job_id}_{phase_dir.name}",
-                            )
-
-                            if selected_file:
-                                try:
-                                    file_contents = selected_file.read_bytes()
-                                    st.download_button(
-                                        label=f"Download {selected_file.name}",
-                                        data=file_contents,
-                                        file_name=selected_file.name,
-                                        mime="application/octet-stream",
-                                        key=f"download_{selected_artifact_job_id}_{phase_dir.name}_{selected_file.name}",
-                                    )
-                                except Exception as e:
-                                    st.error(f"Error reading file: {e}")
-                        else:
-                            st.info("No files found in this phase.")
-            else:
-                # Check if there are any files directly in the output directory
-                direct_files = [f for f in output_path.glob("*") if f.is_file()]
-                if direct_files:
-                    st.write("### Files in Output Directory")
-
-                    # Create a table of files
-                    file_data = []
-                    for file_path in direct_files:
-                        size = file_path.stat().st_size
-                        size_str = (
-                            f"{size / 1024:.1f} KB" if size > 1024 else f"{size} bytes"
-                        )
-                        file_data.append(
-                            {
-                                "File": file_path.name,
-                                "Size": size_str,
-                                "Path": str(file_path),
-                            }
-                        )
-
-                    # Display as a DataFrame
-                    df_files = pd.DataFrame(file_data)
-                    st.dataframe(df_files, use_container_width=True)
-
-                    # Create download buttons for files
-                    selected_file = st.selectbox(
-                        "Select file to download:",
-                        direct_files,
-                        format_func=lambda p: p.name,
-                        key=f"select_direct_{selected_artifact_job_id}",
-                    )
-
-                    if selected_file:
-                        try:
-                            file_contents = selected_file.read_bytes()
-                            st.download_button(
-                                label=f"Download {selected_file.name}",
-                                data=file_contents,
-                                file_name=selected_file.name,
-                                mime="application/octet-stream",
-                                key=f"download_direct_{selected_artifact_job_id}_{selected_file.name}",
-                            )
-                        except Exception as e:
-                            st.error(f"Error reading file: {e}")
-                else:
-                    st.info(
-                        "No pipeline runs or direct files found in the output directory."
-                    )
-        else:
-            st.info(
-                "No output directories found for any jobs. Start processing data first."
-            )
-
-
 # --- Sidebar Navigation ---
-
-
 def handle_navigation():
     """Callback function to update the page state."""
     st.session_state["page"] = st.session_state["navigation_choice"]

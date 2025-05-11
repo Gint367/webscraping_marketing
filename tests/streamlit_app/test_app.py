@@ -5,8 +5,7 @@ import os
 import sys
 import time
 import unittest
-from operator import index
-from unittest.mock import ANY, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import pandas as pd  # Add pandas import for DataFrame comparison
 
@@ -478,9 +477,6 @@ class TestUISections(unittest.TestCase):
         pass  # TODO after implementing the config section
 
 
-from streamlit_app import app
-
-
 # ---- New test cases for pipeline process and queue processing ----
 @patch("streamlit_app.app.st")
 @patch("streamlit_app.app.os")
@@ -614,6 +610,230 @@ class TestRunPipelineInProcess(unittest.TestCase):
 @patch("streamlit_app.app.st")
 @patch("streamlit_app.app.pd")
 class TestProcessQueueMessages(unittest.TestCase):
+    def test_process_queue_messages_ParsesProgressLog_UpdatesPhaseExtractingMachine(
+        self, mock_pd, mock_st
+    ):
+        """
+        Test that process_queue_messages parses a PROGRESS log for extracting_machine and updates the job phase accordingly.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        # Set up mock session state with active jobs
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_1": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        # Create a log record for extracting_machine:clean_html
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="PROGRESS:extracting_machine:clean_html:0/6:Starting...",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:34:56"
+        log_record.levelname = "INFO"
+
+        # Configure the log_queue to return the log record then be empty
+        mock_queue = mock_st.session_state["active_jobs"]["job_1"]["log_queue"]
+        mock_queue.empty.side_effect = [False, True]
+        mock_queue.get_nowait.return_value = log_record
+
+        # Call the function
+        process_queue_messages()
+
+        # Verify phase was updated to the expected formatted string
+        job_data = mock_st.session_state["active_jobs"]["job_1"]
+        self.assertIn("Extracting Machine: Clean HTML", job_data["phase"])
+        self.assertIn("Starting... (0/6)", job_data["phase"])
+
+    def test_process_queue_messages_ParsesProgressLog_UpdatesPhaseWebcrawl(
+        self, mock_pd, mock_st
+    ):
+        """
+        Test that process_queue_messages parses a PROGRESS log for webcrawl and updates the job phase accordingly.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_2": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="PROGRESS:webcrawl:extract_with_llm:2/4:Extracting with LLM",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:35:00"
+        log_record.levelname = "INFO"
+
+        mock_queue = mock_st.session_state["active_jobs"]["job_2"]["log_queue"]
+        mock_queue.empty.side_effect = [False, True]
+        mock_queue.get_nowait.return_value = log_record
+
+        process_queue_messages()
+
+        job_data = mock_st.session_state["active_jobs"]["job_2"]
+        self.assertIn("Webcrawl: Extract with LLM", job_data["phase"])
+        self.assertIn("Extracting with LLM (2/4)", job_data["phase"])
+
+    def test_process_queue_messages_ParsesProgressLog_UpdatesPhaseIntegrationPhase(
+        self, mock_pd, mock_st
+    ):
+        """
+        Test that process_queue_messages parses a PROGRESS log for integration_phase and updates the job phase accordingly.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_3": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="PROGRESS:integration_phase:merge_keyword:1/2:Merging keywords",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:35:10"
+        log_record.levelname = "INFO"
+
+        mock_queue = mock_st.session_state["active_jobs"]["job_3"]["log_queue"]
+        mock_queue.empty.side_effect = [False, True]
+        mock_queue.get_nowait.return_value = log_record
+
+        process_queue_messages()
+
+        job_data = mock_st.session_state["active_jobs"]["job_3"]
+        self.assertIn("Integration: Merge Keyword", job_data["phase"])
+        self.assertIn("Merging keywords (1/2)", job_data["phase"])
+
+    def test_process_queue_messages_ParsesProgressLog_UnknownPhaseFallback(
+        self, mock_pd, mock_st
+    ):
+        """
+        Test that process_queue_messages falls back to sensible formatting for unknown PROGRESS log phases.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_4": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="PROGRESS:unknown_component:unknown_sub:3/5:Doing something",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:35:20"
+        log_record.levelname = "INFO"
+
+        mock_queue = mock_st.session_state["active_jobs"]["job_4"]["log_queue"]
+        mock_queue.empty.side_effect = [False, True]
+        mock_queue.get_nowait.return_value = log_record
+
+        process_queue_messages()
+
+        job_data = mock_st.session_state["active_jobs"]["job_4"]
+        self.assertIn("Unknown Component: Unknown Sub", job_data["phase"])
+        self.assertIn("Doing something (3/5)", job_data["phase"])
+
+    def test_process_queue_messages_ParsesProgressLog_HandlesShortProgressLine(
+        self, mock_pd, mock_st
+    ):
+        """
+        Test that process_queue_messages handles a short PROGRESS log line gracefully.
+        """
+        from streamlit_app.app import process_queue_messages
+
+        mock_st.session_state = {
+            "active_jobs": {
+                "job_5": {
+                    "status": "Running",
+                    "progress": 0,
+                    "phase": "Initializing",
+                    "status_queue": MagicMock(),
+                    "log_queue": MagicMock(),
+                    "log_messages": [],
+                }
+            }
+        }
+
+        log_record = logging.LogRecord(
+            name="test",
+            level=logging.INFO,
+            pathname="test.py",
+            lineno=1,
+            msg="PROGRESS:Just a short progress message",
+            args=(),
+            exc_info=None,
+            func="test_func",
+        )
+        log_record.asctime = "2025-05-09 12:35:30"
+        log_record.levelname = "INFO"
+
+        mock_queue = mock_st.session_state["active_jobs"]["job_5"]["log_queue"]
+        mock_queue.empty.side_effect = [False, True]
+        mock_queue.get_nowait.return_value = log_record
+
+        process_queue_messages()
+
+        job_data = mock_st.session_state["active_jobs"]["job_5"]
+        self.assertIn("Just a short progress message", job_data["phase"])
+
     """Tests for the process_queue_messages function."""
 
     def test_process_queue_messages_UpdatesStatusProgressPhaseForSpecificJobFromStatusQueue(
