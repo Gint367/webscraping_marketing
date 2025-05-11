@@ -7,7 +7,7 @@ import tempfile
 import time
 from multiprocessing import Manager, Process, Queue
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import pandas as pd
 import streamlit as st
@@ -21,6 +21,9 @@ if project_root not in sys.path:
 from master_pipeline import (  # noqa: E402
     run_pipeline,
 )
+
+# Import from input_section modules (moved to top-level imports)
+from streamlit_app.section.input_section import display_input_section  # noqa: E402
 from streamlit_app.section.output_section import (  # noqa: E402
     display_output_section,
 )
@@ -140,6 +143,30 @@ def init_session_state():
     return is_first_full_init
 
 
+def clear_other_input(selected_method):
+    """
+    Clears the session state of the non-selected input method.
+    This function is now defined in app.py and passed to input_section.
+    """
+    if selected_method == "File Upload":
+        # When switching to File Upload, clear manual input DataFrame
+        st.session_state["manual_input_df"] = pd.DataFrame(
+            columns=["company name", "location", "url"]
+        )
+        st.session_state["company_list"] = None  # Clear any processed list
+        print("Switched to File Upload, cleared manual input state.")
+        logging.info("Switched to File Upload, cleared manual input state.")
+    elif selected_method == "Manual Input":
+        # When switching to Manual Input, clear uploaded file data
+        st.session_state["uploaded_file_data"] = None
+        # Consider if file_uploader widget needs explicit reset (often handled by Streamlit's keying)
+        st.session_state["company_list"] = None  # Clear any processed list
+        print("Switched to Manual Input, cleared file upload state.")
+        logging.info("Switched to Manual Input, cleared file upload state.")
+    else:
+        logging.warning(f"clear_other_input called with unknown method: {selected_method}")
+
+
 init_session_state()
 
 
@@ -183,15 +210,25 @@ class StreamlitLogHandler(logging.Handler):
             with open(self.log_file_path, "a") as f:
                 f.write(f"{msg}\n")
 
-        except (KeyError, AttributeError, Exception) as e:
+        except (KeyError, AttributeError, Exception):
             # Pass the record to handleError as expected by the logging framework
-            print(f"Error in StreamlitLogHandler: {str(e)}")
             self.handleError(record)
 
 
-# Add the handler to the root logger AFTER initial state setup
-streamlit_handler = StreamlitLogHandler()
-logging.getLogger().addHandler(streamlit_handler)
+# Add the handler to the root logger AFTER initial state setup, but only if it doesn't exist yet
+root_logger = logging.getLogger()
+
+# Check if our custom handler is already present to avoid duplicates
+handler_exists = False
+for handler in root_logger.handlers:
+    if isinstance(handler, StreamlitLogHandler):
+        handler_exists = True
+        break
+
+if not handler_exists:
+    streamlit_handler = StreamlitLogHandler()
+    root_logger.addHandler(streamlit_handler)
+    logging.debug("Added StreamlitLogHandler to the root logger")
 
 
 # --- Job Management Utilities ---
@@ -246,8 +283,13 @@ def cancel_job(job_id: str) -> bool:
 
 
 # --- Pipeline Processing in Separate Process ---
+
+
 def run_pipeline_in_process(
-    config: Dict[str, Any], log_queue: Queue, status_queue: Queue, job_id: str = None
+    config: Dict[str, Any],
+    log_queue: Queue,
+    status_queue: Queue,
+    job_id: Optional[str] = None,
 ):
     """
     Run the pipeline in a separate process.
@@ -375,9 +417,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
     if "active_jobs" not in st.session_state:
         st.session_state["active_jobs"] = {}
 
-    # Process messages for all active jobs
-    any_logs_updated = False
-
     # Process all jobs' status queues
     for job_id, job_data in st.session_state["active_jobs"].items():
         if "status_queue" in job_data and job_data["status_queue"] is not None:
@@ -444,7 +483,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
     for job_id, job_data in st.session_state["active_jobs"].items():
         if "log_queue" in job_data and job_data["log_queue"] is not None:
             try:
-                logs_updated = False
                 while not job_data["log_queue"].empty():
                     record = job_data["log_queue"].get_nowait()
                     if record:
@@ -453,7 +491,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                         if "log_messages" not in job_data:
                             job_data["log_messages"] = []
                         job_data["log_messages"].append(log_message)
-                        logs_updated = True
 
                         # --- PROGRESS log parsing for phase update ---
                         try:
@@ -549,349 +586,11 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                             job_data["phase"] = "Finished (Status not properly updated)"
                         job_data["end_time"] = time.time()
 
-                if logs_updated:
-                    any_logs_updated = True
-
             except Exception as e:
                 error_msg = f"Error processing log queue for job {job_id}: {e}"
                 if "log_messages" not in job_data:
                     job_data["log_messages"] = []
                 job_data["log_messages"].append(error_msg)
-                any_logs_updated = True
-
-    # Set flag in session state to indicate new logs available
-    if any_logs_updated:
-        st.session_state["logs_updated"] = True
-
-
-# --- UI Sections ---
-def display_input_section():  # TODO Clear the input when Start is clicked
-    """Displays the UI for data input using radio buttons and data editor."""
-    st.header("1. Input Data")
-    st.write("Choose your input method:")
-
-    # Radio button to select input method
-    input_method = st.radio(
-        "Select Input Method:",
-        ("File Upload", "Manual Input"),
-        key="input_method_choice",
-        horizontal=True,
-        label_visibility="collapsed",
-    )
-
-    # Check if we need to update the input method
-    if (
-        "input_method" not in st.session_state
-        or st.session_state["input_method"] != input_method
-    ):
-        # For real app, but not for tests
-        if hasattr(st.session_state, "running_test") and st.session_state.running_test:
-            st.session_state["input_method"] = input_method
-        else:
-            # Normal app flow
-            old_method = st.session_state.get("input_method")
-            clear_other_input(input_method)
-            st.session_state["input_method"] = input_method
-
-            # Only rerun if input method actually changed (not on first load)
-            # Skip rerun if in testing mode
-            if (
-                old_method
-                and old_method != input_method
-                and not st.session_state.get("testing_mode", False)
-            ):
-                st.rerun()
-
-    # Flag to track validation status for uploaded file
-    validation_passed_all = True  # Assume true unless file upload fails validation
-
-    if input_method == "File Upload":
-        st.subheader("Upload Company List")
-        with st.expander("Required Input Columns & Example"):
-            st.markdown(
-                """
-                The input data (either from a file or manual entry) must contain the following columns:
-                - **company name**: The name of the company.
-                - **location**: The location of the company (e.g., city, country).
-                - **url**: The company's website URL.
-
-                **Example:**
-                | company name | location   | url                 |
-                |--------------|------------|---------------------|
-                | Acme Corp    | New York   | http://www.acme.com |
-                | Beta Ltd     | London     | http://www.beta.uk  |
-
-                Column names are case-insensitive and leading/trailing spaces will be removed.
-                Aliases are also accepted for some columns (e.g., "firma1" for "company name", "ort" for "location").
-                """
-            )
-        current_file_in_state = st.session_state.get("uploaded_file_data")
-
-        if current_file_in_state is None:
-            # --- Show File Uploader ---
-            uploaded_file = st.file_uploader(
-                "Upload a CSV or Excel file",  # Standard label
-                type=["csv", "xlsx"],
-                key="file_uploader_widget",  # Use a distinct key for the widget
-                accept_multiple_files=False,
-            )
-
-            if uploaded_file is not None:
-                # File has just been uploaded
-                st.session_state["uploaded_file_data"] = uploaded_file
-                # Clear other input method's state
-                st.session_state["manual_input_df"] = pd.DataFrame(
-                    columns=["company name", "location", "url"]
-                )
-                st.session_state["company_list"] = (
-                    None  # Clear processed list as input changed
-                )
-                print(f"File selected: {uploaded_file.name}")
-                st.success(
-                    f"File '{uploaded_file.name}' selected."
-                )  # Use standard quotes
-
-                st.rerun()
-
-        else:
-            # --- Show File Info ---
-            st.success(f"Selected file: **{current_file_in_state.name}**")
-
-            # --- Display Preview and Validation ---
-            st.write("Preview & Column Validation:")
-            preview_df = None
-            header_columns = []  # Store header columns found
-            # validation_passed_all = True # Reset here for this specific file check
-
-            try:
-                # Read header and first 5 rows together
-                current_file_in_state.seek(0)  # Ensure we start from the beginning
-
-                if current_file_in_state.name.endswith(".csv"):
-                    bytesio = io.BytesIO(current_file_in_state.getvalue())
-                    try:
-                        # Try auto-detect separator, let pandas handle encoding from bytes
-                        temp_df = pd.read_csv(
-                            bytesio, nrows=6, sep=None, engine="python"
-                        )
-                        # Check if columns were read correctly, sometimes sep=None gives one wrong col
-                        if len(temp_df.columns) <= 1 and "," in temp_df.columns[0]:
-                            logging.warning(
-                                "Auto-detected separator might be wrong, trying comma explicitly."
-                            )
-                            bytesio.seek(0)
-                            temp_df = pd.read_csv(bytesio, nrows=6, sep=",")
-                        elif len(temp_df.columns) <= 1 and ";" in temp_df.columns[0]:
-                            logging.warning(
-                                "Auto-detected separator might be wrong, trying semicolon explicitly."
-                            )
-                            bytesio.seek(0)
-                            temp_df = pd.read_csv(bytesio, nrows=6, sep=";")
-
-                    except Exception as e_read:
-                        logging.warning(
-                            f"CSV read failed with auto/comma separator: {e_read}. Trying semicolon."
-                        )
-                        # Reset and try semicolon if default failed
-                        bytesio.seek(0)
-                        try:
-                            temp_df = pd.read_csv(bytesio, nrows=6, sep=";")
-                        except Exception as e_read_semi:
-                            logging.error(
-                                f"CSV read failed with common separators: {e_read_semi}",
-                                exc_info=True,
-                            )
-                            raise ValueError(
-                                "Could not parse CSV file. Check format, encoding, and separator."
-                            ) from e_read_semi
-
-                    if not temp_df.empty:
-                        header_columns = temp_df.columns.tolist()
-                        preview_df = temp_df.head(
-                            5
-                        )  # Take the first 5 rows for preview
-                    else:
-                        # Check if file has content but pandas couldn't parse columns/rows
-                        bytesio.seek(0)
-                        file_content_sample = bytesio.read(200).decode(errors="ignore")
-                        if file_content_sample.strip():
-                            logging.warning(
-                                f"Pandas read CSV resulted in empty DataFrame, but file has content. Sample: {file_content_sample[:100]}..."
-                            )
-                            st.warning(
-                                "Could not parse rows/columns correctly. Please check CSV format (separator, quotes, encoding)."
-                            )
-                        else:
-                            logging.warning(
-                                "Pandas read CSV resulted in empty DataFrame, file appears empty."
-                            )
-                            st.warning("File appears to be empty.")
-                        validation_passed_all = False
-
-                elif current_file_in_state.name.endswith((".xls", ".xlsx")):
-                    bytesio = io.BytesIO(current_file_in_state.getvalue())
-                    # Read header and first 5 rows
-                    temp_df = pd.read_excel(
-                        bytesio, nrows=6
-                    )  # Reads header + 5 data rows
-                    if not temp_df.empty:
-                        header_columns = temp_df.columns.tolist()
-                        preview_df = temp_df.head(5)
-                    else:
-                        logging.warning(
-                            "Pandas read Excel resulted in empty DataFrame."
-                        )
-                        st.warning("File appears empty or the first sheet has no data.")
-                        validation_passed_all = False
-
-                else:
-                    st.warning("Cannot preview this file type.")
-                    validation_passed_all = False  # Cannot validate if cannot preview
-
-                # --- Perform Validation ---
-                if header_columns:  # Check if we actually got columns
-                    column_validation, validation_passed_all_cols = validate_columns(
-                        header_columns
-                    )
-                    # st.markdown("---") # Separator
-                    # st.write("**Required Column Status:**")
-                    for canonical_name, (
-                        found,
-                        actual_name,
-                    ) in column_validation.items():
-                        aliases_str = "/".join(REQUIRED_COLUMNS_MAP[canonical_name])
-                        if found:
-                            st.success(
-                                f"✔️ Found: **{canonical_name}** (as '{actual_name}')"
-                            )
-                        else:
-                            st.error(
-                                f"❌ Missing: **{canonical_name}** (expected one of: {aliases_str})"
-                            )
-                    # st.markdown("---") # Separator
-                    # Update overall validation status based on columns
-                    if not validation_passed_all_cols:
-                        validation_passed_all = False
-                elif (
-                    validation_passed_all
-                ):  # Only show error if no other warning/error was raised during read
-                    # No columns found during read attempt
-                    st.error(
-                        "Could not detect columns in the file. Please ensure the file is correctly formatted."
-                    )
-                    validation_passed_all = False
-
-                # --- Display Preview DataFrame ---
-                if (
-                    preview_df is not None and not preview_df.empty
-                ):  # Check if preview has rows
-                    st.dataframe(preview_df, use_container_width=True)
-                elif header_columns:  # Header found, but no data rows in the first 5
-                    st.info(
-                        "File has columns, but no data rows found in the preview (first 5 rows)."
-                    )
-                # If header_columns is empty, the error message above was already shown
-
-                # Reset pointer for the actual processing function later
-                current_file_in_state.seek(0)
-
-            except Exception as e:
-                st.error(f"Could not read or preview the file: {e}")
-                logging.error(
-                    f"Error previewing file {current_file_in_state.name}: {e}",
-                    exc_info=True,
-                )  # Add traceback
-                validation_passed_all = False  # Error means validation fails
-
-            # --- Change File Button ---
-            if st.button("Change File"):
-                st.session_state["uploaded_file_data"] = None
-                st.session_state["company_list"] = None  # Clear processed list
-                print("User clicked 'Change File'. Clearing uploaded file.")
-
-                st.rerun()
-
-    elif input_method == "Manual Input":
-        st.subheader("Enter Data Manually")
-        st.write("Add or edit company details below:")
-
-        # Initialize DataFrame in session state if it doesn't exist or is None
-        if (
-            "manual_input_df" not in st.session_state
-            or st.session_state["manual_input_df"] is None
-        ):
-            st.session_state["manual_input_df"] = pd.DataFrame(
-                columns=["company name", "location", "url"]
-            )
-
-        # Use st.data_editor for manual input
-        edited_df = st.data_editor(
-            st.session_state["manual_input_df"],
-            num_rows="dynamic",
-            key="manual_data_editor",
-            column_config={  # Optional: Add specific configurations if needed
-                "company name": st.column_config.TextColumn(
-                    "Company Name", required=True
-                ),
-                "location": st.column_config.TextColumn("Location", required=True),
-                "url": st.column_config.LinkColumn(
-                    "URL", required=True, validate="^https?://"
-                ),
-            },
-            hide_index=True,
-            use_container_width=True,
-        )
-
-        # Update session state with the edited data
-        st.session_state["manual_input_df"] = edited_df
-
-        # Clear uploaded file data when manual input is used
-        st.session_state["uploaded_file_data"] = None
-        st.session_state["company_list"] = (
-            None  # Clear processed list until "Start" is clicked
-        )
-
-        if not edited_df.empty:
-            logging.info(f"Manual input data updated. Rows: {len(edited_df)}")
-            # Convert DataFrame to list of dicts for potential downstream use
-            # This conversion can happen here or just before processing
-            # st.session_state['company_list'] = edited_df.to_dict('records')
-
-    # --- Processing Trigger ---
-    st.divider()
-    # Disable button if validation failed for uploaded file OR if no file/manual data
-    processing_disabled = False
-    if st.session_state["input_method"] == "File Upload":
-        if st.session_state.get("uploaded_file_data") is None:
-            processing_disabled = True  # No file uploaded
-        elif not validation_passed_all:
-            processing_disabled = True  # File uploaded but failed validation
-            st.warning(
-                "Cannot start processing. Please upload a file with all required columns (or fix the current one)."
-            )
-    elif st.session_state["input_method"] == "Manual Input":
-        manual_df = st.session_state.get("manual_input_df")
-        if manual_df is None or manual_df.empty:
-            processing_disabled = True  # No manual data entered
-
-    if st.button("Start Processing", type="primary", disabled=processing_disabled):
-        # No need for the inner check if button is correctly disabled
-        process_data()
-
-
-def clear_other_input(selected_method):
-    """Clears the session state of the non-selected input method."""
-    if selected_method == "File Upload":
-        st.session_state["manual_input_df"] = pd.DataFrame(
-            columns=["company name", "location", "url"]
-        )
-        st.session_state["company_list"] = None
-        print("Switched to File Upload, cleared manual input state.")
-    elif selected_method == "Manual Input":
-        st.session_state["uploaded_file_data"] = None
-        # Reset file uploader widget state if possible (Streamlit might handle this)
-        st.session_state["company_list"] = None
-        print("Switched to Manual Input, cleared file upload state.")
 
 
 def process_data():
@@ -900,7 +599,7 @@ def process_data():
     print("Processing started.")
 
     data_to_process = None
-
+    temp_csv_path = None
     if (
         st.session_state["input_method"] == "File Upload"
         and st.session_state["uploaded_file_data"]
@@ -1002,6 +701,7 @@ def process_data():
         st.info(f"Starting enrichment for {len(data_to_process)} companies...")
         logging.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
+        job_id = None
         try:
             # Generate a unique job ID
             job_id = generate_job_id()
@@ -1111,13 +811,16 @@ def process_data():
 
             logging.error(f"Failed to start pipeline: {e}", exc_info=True)
 
-            # Clean up any temporary files
-            try:
-                if "temp_csv_path" in locals():
+        finally:
+            # Clean up the temporary CSV file if it exists
+            if temp_csv_path and os.path.exists(temp_csv_path):
+                try:
                     os.unlink(temp_csv_path)
-            except Exception:
-                pass
-
+                    logging.debug(f"Temporary CSV file deleted: {temp_csv_path}")
+                except Exception as e_unlink:
+                    logging.warning(
+                        f"Failed to delete temporary CSV file: {temp_csv_path} reason: {e_unlink}"
+                    )
     else:
         # This case should ideally be caught earlier, but as a fallback:
         st.warning("No data available to process.")
@@ -1482,7 +1185,12 @@ if __name__ == "__main__":
     # Display the selected page
     page = st.session_state["page"]
     if page == "Input":
-        display_input_section()
+        display_input_section(
+            process_data_func=process_data,
+            validate_columns_func=validate_columns,
+            req_cols_map=REQUIRED_COLUMNS_MAP,
+            clear_other_input_func_from_app=clear_other_input # Pass the function
+        )
     elif page == "Configuration":
         display_config_section()
     elif page == "Monitoring":
