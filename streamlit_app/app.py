@@ -164,7 +164,9 @@ def clear_other_input(selected_method):
         print("Switched to Manual Input, cleared file upload state.")
         logging.info("Switched to Manual Input, cleared file upload state.")
     else:
-        logging.warning(f"clear_other_input called with unknown method: {selected_method}")
+        logging.warning(
+            f"clear_other_input called with unknown method: {selected_method}"
+        )
 
 
 init_session_state()
@@ -172,12 +174,36 @@ init_session_state()
 
 # --- Logging Handler for Streamlit ---
 class StreamlitLogHandler(logging.Handler):
+    LOG_FILE_TTL_DAYS = 2  # If streamlit_app.log is older than these days, delete it
+
     def __init__(self):
         super().__init__()
         # Create log directory if it doesn't exist
         self.log_dir = os.path.join(project_root, "logfiles")
         os.makedirs(self.log_dir, exist_ok=True)
         self.log_file_path = os.path.join(self.log_dir, "streamlit_app.log")
+
+        # TTL Checks
+        try:
+            if os.path.exists(self.log_file_path):
+                file_mod_time = os.path.getmtime(self.log_file_path)
+                current_time = time.time()
+                age_seconds = current_time - file_mod_time
+                age_days = age_seconds / (24 * 3600)
+
+                if age_days > self.LOG_FILE_TTL_DAYS:
+                    os.remove(self.log_file_path)
+                    logging.info(
+                        f"Old log file {self.log_file_path} exceeded TTL and was deleted."
+                    )
+        except Exception as e:
+            # Log an error if there's an issue checking/deleting the old log file,
+            # but don't prevent the app from starting.
+            # Using a direct print here as logger might not be fully set up.
+            print(
+                f"Error managing log file TTL for {self.log_file_path}: {e}",
+                file=sys.stderr,
+            )
 
     def emit(self, record: logging.LogRecord):
         """
@@ -295,10 +321,18 @@ def run_pipeline_in_process(
     Run the pipeline in a separate process.
 
     Args:
-        config: Configuration for the pipeline
-        log_queue: Queue for passing log messages back to the main process
-        status_queue: Queue for sending status updates to the main process
-        job_id: The unique ID for this pipeline job
+        config: Configuration for the pipeline. Example structure:
+            {
+                "input_csv": "/path/to/input.csv",  # Path to the input CSV file
+                "output_dir": "/path/to/output",  # Directory to save the output
+                "category": "example_category",  # Category for processing (optional)
+                "log_level": "INFO",  # Logging level (e.g., DEBUG, INFO, WARNING)
+                "skip_llm_validation": True,  # Whether to skip LLM validation (optional)
+                "job_id": "job_20231010_123456",  # Unique job ID (optional)
+            }
+        log_queue: Queue for passing log messages back to the main process.
+        status_queue: Queue for sending status updates to the main process.
+        job_id: The unique ID for this pipeline job.
     """
     # Configure logging to capture pipeline logs and send to queue and file
     root_logger = logging.getLogger()
@@ -347,7 +381,7 @@ def run_pipeline_in_process(
     if job_id:
         status_data["job_id"] = job_id
     status_queue.put(status_data)
-
+    input_csv_path_to_delete = config.get("input_csv")  # Store path for cleanup
     try:
         print(f"Pipeline process started with config: {config}")
         logging.info(
@@ -404,6 +438,17 @@ def run_pipeline_in_process(
         if job_id:
             status_data["job_id"] = job_id
         status_queue.put(status_data)
+    finally:
+        if input_csv_path_to_delete and os.path.exists(input_csv_path_to_delete):
+            try:
+                os.unlink(input_csv_path_to_delete)
+                logging.info(
+                    f"Temporary input CSV file deleted by pipeline process: {input_csv_path_to_delete}"
+                )
+            except Exception as e_unlink:
+                logging.warning(
+                    f"Pipeline process failed to delete temporary input CSV file: {input_csv_path_to_delete}, reason: {e_unlink}"
+                )
 
 
 # Function to monitor queues and update session state
@@ -811,16 +856,6 @@ def process_data():
 
             logging.error(f"Failed to start pipeline: {e}", exc_info=True)
 
-        finally:
-            # Clean up the temporary CSV file if it exists
-            if temp_csv_path and os.path.exists(temp_csv_path):
-                try:
-                    os.unlink(temp_csv_path)
-                    logging.debug(f"Temporary CSV file deleted: {temp_csv_path}")
-                except Exception as e_unlink:
-                    logging.warning(
-                        f"Failed to delete temporary CSV file: {temp_csv_path} reason: {e_unlink}"
-                    )
     else:
         # This case should ideally be caught earlier, but as a fallback:
         st.warning("No data available to process.")
@@ -1189,7 +1224,7 @@ if __name__ == "__main__":
             process_data_func=process_data,
             validate_columns_func=validate_columns,
             req_cols_map=REQUIRED_COLUMNS_MAP,
-            clear_other_input_func_from_app=clear_other_input # Pass the function
+            clear_other_input_func_from_app=clear_other_input,  # Pass the function
         )
     elif page == "Configuration":
         display_config_section()
