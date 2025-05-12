@@ -116,7 +116,7 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
     # Read the CSV file into a pandas DataFrame
     csv_df = pd.read_csv(csv_file)
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_process_machines:0/{len(csv_df)}:Starting machine data processing from {csv_file}"
+        f"PROGRESS:extracting_machine:merge_data:0/{len(csv_df)}:Starting machine data processing from {csv_file}"
     )  # Progress Start
 
     # Check for required column
@@ -124,7 +124,7 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
         raise ValueError("Input CSV must contain a 'Company' column")
     if csv_df.empty:
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_process_machines:0/0:Input CSV {csv_file} is empty, returning empty DataFrame"
+            f"PROGRESS:extracting_machine:merge_data:0/0:Input CSV {csv_file} is empty, returning empty DataFrame"
         )  # Progress End (Empty)
         return pd.DataFrame(
             columns=["Company"]
@@ -197,7 +197,7 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
     )
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_process_machines:{len(result_df)}/{len(csv_df)}:Finished processing machine data, found {len(result_df)} companies with top machines"
+        f"PROGRESS:extracting_machine:merge_data:{len(result_df)}/{len(csv_df)}:Finished processing machine data, found {len(result_df)} companies with top machines"
     )  # Progress End
     return result_df
 
@@ -380,13 +380,13 @@ def load_data(
         ValueError: If required columns are missing or file format is invalid
     """
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_load:0/2:Starting data loading from {csv_file_path} and {xlsx_file_path}"
+        f"PROGRESS:extracting_machine:merge_data:0/2:Starting data loading from {csv_file_path} and {xlsx_file_path}"
     )  # Progress Start
     try:
         # Process machine data from first input (always CSV)
         machine_data = process_machine_data(csv_file=csv_file_path)
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_load:1/2:Loaded machine data ({len(machine_data)} companies)"
+            f"PROGRESS:extracting_machine:merge_data:1/2:Loaded machine data ({len(machine_data)} companies)"
         )  # Progress Step 1
 
         # Determine file type based on extension for second input file
@@ -429,7 +429,7 @@ def load_data(
         machine_data["Company"] = machine_data["Company"].apply(normalize_company_name)
 
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_load:2/2:Loaded company data ({len(second_df)} rows)"
+            f"PROGRESS:extracting_machine:merge_data:2/2:Loaded company data ({len(second_df)} rows)"
         )  # Progress End
         return machine_data, second_df
     except Exception as e:
@@ -452,14 +452,14 @@ def create_company_mapping(machine_data, company_df):
     threshold = 0.85
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_map_companies:0/{total_companies}:Starting company name mapping for {total_companies} companies"
+        f"PROGRESS:extracting_machine:merge_data:0/{total_companies}:Starting company name mapping for {total_companies} companies"
     )  # Progress Start
 
     for i, csv_company in enumerate(unique_csv_companies):
         best_match, ratio = find_best_match(csv_company, company_list, threshold)
         # Progress Log Inside Loop
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_map_companies:{i + 1}/{total_companies}:Mapping '{csv_company}' -> '{best_match}' (Score: {ratio:.2f})"
+            f"PROGRESS:extracting_machine:merge_data:{i + 1}/{total_companies}:Mapping '{csv_company}' -> '{best_match}' (Score: {ratio:.2f})"
         )
         if best_match:
             company_mapping[csv_company] = best_match
@@ -484,7 +484,7 @@ def create_company_mapping(machine_data, company_df):
             logger.info(f"Score: {similarity:.3f} | {csv_comp} -> {comp_name}")
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_map_companies:{matched_companies}/{total_companies}:Finished mapping, {matched_companies} matched"
+        f"PROGRESS:extracting_machine:merge_data:{matched_companies}/{total_companies}:Finished mapping, {matched_companies} matched"
     )  # Progress End
     return company_mapping
 
@@ -492,7 +492,7 @@ def create_company_mapping(machine_data, company_df):
 def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
     """Merge Excel and CSV data using the company mapping."""
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_merge_main:0/1:Starting main dataset merge ({len(xlsx_df)} base rows, {len(machine_data)} machine rows)"
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting main dataset merge ({len(xlsx_df)} base rows, {len(machine_data)} machine rows)"
     )  # Progress Start
     # Create a new column with mapped company names
     machine_data["Mapped_Company"] = machine_data["Company"].map(company_mapping)
@@ -532,7 +532,7 @@ def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
 
     # Note: We're not filtering rows here anymore
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_merge_main:1/1:Finished main dataset merge, result has {len(merged_df)} rows"
+        f"PROGRESS:extracting_machine:merge_data:1/1:Finished main dataset merge, result has {len(merged_df)} rows"
     )  # Progress End
     return merged_df
 
@@ -554,7 +554,7 @@ def save_merged_data(
 def load_sachanlagen_data(sachanlagen_path):
     """Load Sachanlagen data from CSV file."""
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_load_sachanlagen:0/1:Starting Sachanlagen data loading from {sachanlagen_path}"
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting Sachanlagen data loading from {sachanlagen_path}"
     )  # Progress Start
     try:
         sachanlagen_df = pd.read_csv(sachanlagen_path)
@@ -565,7 +565,7 @@ def load_sachanlagen_data(sachanlagen_path):
         ):
             logger.warning(f"Required columns not found in {sachanlagen_path}")
             logger.info(
-                "PROGRESS:extracting_machine:merge_data_load_sachanlagen:0/0:Required columns missing, returning empty DataFrame"
+                "PROGRESS:extracting_machine:merge_data:0/0:Required columns missing, returning empty DataFrame"
             )  # Progress End (Error)
             return pd.DataFrame()
 
@@ -574,13 +574,13 @@ def load_sachanlagen_data(sachanlagen_path):
             normalize_company_name
         )
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_load_sachanlagen:1/1:Loaded {len(sachanlagen_df)} Sachanlagen entries"
+            f"PROGRESS:extracting_machine:merge_data:1/1:Loaded {len(sachanlagen_df)} Sachanlagen entries"
         )  # Progress End
         return sachanlagen_df
     except Exception as e:
         logger.error(f"Error loading Sachanlagen data: {str(e)}")
         logger.info(
-            "PROGRESS:extracting_machine:merge_data_load_sachanlagen:0/0:Error loading data, returning empty DataFrame"
+            "PROGRESS:extracting_machine:merge_data:0/0:Error loading data, returning empty DataFrame"
         )  # Progress End (Error)
         return pd.DataFrame()  # Return empty dataframe on error
 
@@ -595,7 +595,7 @@ def create_sachanlagen_mapping(sachanlagen_df, company_df):
     threshold = 0.85  # Same threshold as main mapping
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_map_sachanlagen:0/{total_companies}:Starting Sachanlagen mapping for {total_companies} companies"
+        f"PROGRESS:extracting_machine:merge_data:0/{total_companies}:Starting Sachanlagen mapping for {total_companies} companies"
     )  # Progress Start
 
     for i, sachanlagen_company in enumerate(unique_sachanlagen_companies):
@@ -604,14 +604,14 @@ def create_sachanlagen_mapping(sachanlagen_df, company_df):
         )
         # Progress Log Inside Loop
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_map_sachanlagen:{i + 1}/{total_companies}:Mapping Sachanlagen '{sachanlagen_company}' -> '{best_match}' (Score: {ratio:.2f})"
+            f"PROGRESS:extracting_machine:merge_data:{i + 1}/{total_companies}:Mapping Sachanlagen '{sachanlagen_company}' -> '{best_match}' (Score: {ratio:.2f})"
         )
         if best_match:
             sachanlagen_mapping[sachanlagen_company] = best_match
             matched_companies += 1
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_map_sachanlagen:{matched_companies}/{total_companies}:Finished Sachanlagen mapping, {matched_companies} matched"
+        f"Finished Sachanlagen mapping, {matched_companies} matched"
     )  # Progress End
     return sachanlagen_mapping
 
@@ -624,7 +624,7 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
         return merged_df
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_merge_sachanlagen:0/1:Starting Sachanlagen merge ({len(merged_df)} base rows, {len(sachanlagen_df)} Sachanlagen rows)"
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting Sachanlagen merge ({len(merged_df)} base rows, {len(sachanlagen_df)} Sachanlagen rows)"
     )  # Progress Start
 
     # Map Sachanlagen company names to the main company list names
@@ -660,7 +660,7 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
         final_merged_df = final_merged_df.drop(columns=["Mapped_Company"])
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_merge_sachanlagen:1/1:Finished Sachanlagen merge, result has {len(final_merged_df)} rows"
+        f"PROGRESS:extracting_machine:merge_data:1/1:Finished Sachanlagen merge, result has {len(final_merged_df)} rows"
     )  # Progress End
     return final_merged_df
 
@@ -694,7 +694,7 @@ def main(
     logger.setLevel(logging.INFO)
 
     logger.info(
-        f"PROGRESS:extracting_machine:merge_data_main:0/1:Starting merge process for {csv_file_path} and {original_company_file_path}"
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting merge process for {csv_file_path} and {original_company_file_path}"
     )  # Progress Start
     try:
         # Load data with automatic format detection
@@ -750,7 +750,7 @@ def main(
             output_file = save_merged_data(filtered_df, csv_file_path)
 
         logger.info(
-            f"PROGRESS:extracting_machine:merge_data_main:1/1:Merge process completed, output: {output_file}"
+            f"PROGRESS:extracting_machine:merge_data:1/1:Merge process completed, output: {output_file}"
         )  # Progress End
         return output_file
     except Exception as e:
