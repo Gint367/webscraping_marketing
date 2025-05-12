@@ -1037,7 +1037,7 @@ def display_monitoring_section():
                 else:
                     st.warning("Please select a job from the dropdown first.")
 
-    # Create a fragment for status information that auto-refreshes
+    # Create a fragment for status information that auto-refreshes and displays job status/phase
     @st.fragment(
         run_every=st.session_state.get("refresh_interval", 3.0)
         if st.session_state.get("auto_refresh_enabled", True)
@@ -1048,58 +1048,60 @@ def display_monitoring_section():
         # Process messages from queues inside fragment to ensure fresh data
         process_queue_messages()
 
-    # Show details for selected job (if none selected, select the most recent one)
-    selected_job_id = st.session_state.get("selected_job_id")
-    active_jobs = st.session_state.get("active_jobs", {})
+        # Show details for selected job (if none selected, select the most recent one)
+        selected_job_id = st.session_state.get("selected_job_id")
+        active_jobs = st.session_state.get("active_jobs", {})
 
-    # If no job is selected but jobs exist, select the most recent one
-    if not selected_job_id and active_jobs:
-        # Sort jobs by start_time (descending) and get the most recent
-        sorted_jobs = sorted(
-            active_jobs.items(), key=lambda x: x[1].get("start_time", 0), reverse=True
-        )
-        if sorted_jobs:
-            selected_job_id = sorted_jobs[0][0]
-            st.session_state["selected_job_id"] = selected_job_id
+        # If no job is selected but jobs exist, select the most recent one
+        if not selected_job_id and active_jobs:
+            # Sort jobs by start_time (descending) and get the most recent
+            sorted_jobs = sorted(
+                active_jobs.items(),
+                key=lambda x: x[1].get("start_time", 0),
+                reverse=True,
+            )
+            if sorted_jobs:
+                selected_job_id = sorted_jobs[0][0]
+                st.session_state["selected_job_id"] = selected_job_id
 
-    if selected_job_id and selected_job_id in active_jobs:
-        job_data = active_jobs[selected_job_id]
+        if selected_job_id and selected_job_id in active_jobs:
+            job_data = active_jobs[selected_job_id]
 
-        # Display current job status and phase
-        status_color = {
-            "Idle": "blue",
-            "Initializing": "blue",
-            "Running": "orange",
-            "Completed": "green",
-            "Error": "red",
-            "Cancelled": "gray",
-        }.get(job_data.get("status", "Unknown"), "blue")
+            # Display current job status and phase
+            status_color = {
+                "Idle": "blue",
+                "Initializing": "blue",
+                "Running": "orange",
+                "Completed": "green",
+                "Error": "red",
+                "Cancelled": "gray",
+            }.get(job_data.get("status", "Unknown"), "blue")
 
-        st.markdown(f"### Job: {selected_job_id}")
+            st.markdown(f"### Job: {selected_job_id}")
 
-        st.markdown(
-            f"**Status:** <span style='color:{status_color}'>{job_data.get('status', 'Unknown')}</span>",
-            unsafe_allow_html=True,
-        )
+            st.markdown(
+                f"**Status:** <span style='color:{status_color}'>{job_data.get('status', 'Unknown')}</span>",
+                unsafe_allow_html=True,
+            )
 
-        if job_data.get("phase"):  # TODO Phases is not changing.
-            st.markdown(f"**Current Phase:** {job_data.get('phase')}")
+            if job_data.get("phase"):
+                st.markdown(f"**Current Phase:** {job_data.get('phase')}")
 
-        # Display progress bar based on selected job
-        if job_data.get("status") == "Running":
-            st.progress(job_data.get("progress", 0) / 100)
-        elif job_data.get("status") in ["Completed", "Error", "Cancelled"]:
-            st.progress(1.0)  # Full progress bar
+            # Display progress bar based on selected job
+            if job_data.get("status") == "Running":
+                st.progress(job_data.get("progress", 0) / 100)
+            elif job_data.get("status") in ["Completed", "Error", "Cancelled"]:
+                st.progress(1.0)  # Full progress bar
 
-        # Display error message if there is one
-        if job_data.get("error_message"):
-            st.error(f"Error: {job_data['error_message']}")
-    else:
-        st.info(
-            "No jobs have been started yet. Use the 'Input' section to start a new job."
-        )
+            # Display error message if there is one
+            if job_data.get("error_message"):
+                st.error(f"Error: {job_data['error_message']}")
+        else:
+            st.info(
+                "No jobs have been started yet. Use the 'Input' section to start a new job."
+            )
 
-    # Call the fragment to display the initial status
+    # Call the fragment to display the initial status and enable auto-refresh for these details
     display_status_info()
 
     # Auto-refresh control
