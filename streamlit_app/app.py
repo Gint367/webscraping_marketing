@@ -41,12 +41,18 @@ REQUIRED_COLUMNS_MAP = {
     "url": ["url"],
 }
 
-# Configure logging
+
+# Configure basic logging for the root logger (e.g., for libraries)
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Added %(name)s
     datefmt="%H:%M:%S",
 )
+
+# Create a dedicated logger for the Streamlit application
+app_logger = logging.getLogger("streamlit_app_main")
+app_logger.setLevel(logging.INFO)
+app_logger.propagate = False  # Do not pass logs to the root logger
 
 
 # --- Helper Functions ---
@@ -134,7 +140,7 @@ def init_session_state():
             st.session_state["manual_input_df"] = pd.DataFrame(
                 columns=["company name", "location", "url"]
             )
-            logging.info(
+            app_logger.info(
                 "Re-initialized 'manual_input_df' as it was not a DataFrame in Manual Input mode."
             )
 
@@ -155,16 +161,16 @@ def clear_other_input(selected_method):
         )
         st.session_state["company_list"] = None  # Clear any processed list
         print("Switched to File Upload, cleared manual input state.")
-        logging.info("Switched to File Upload, cleared manual input state.")
+        app_logger.info("Switched to File Upload, cleared manual input state.")
     elif selected_method == "Manual Input":
         # When switching to Manual Input, clear uploaded file data
         st.session_state["uploaded_file_data"] = None
         # Consider if file_uploader widget needs explicit reset (often handled by Streamlit's keying)
         st.session_state["company_list"] = None  # Clear any processed list
         print("Switched to Manual Input, cleared file upload state.")
-        logging.info("Switched to Manual Input, cleared file upload state.")
+        app_logger.info("Switched to Manual Input, cleared file upload state.")
     else:
-        logging.warning(
+        app_logger.warning(
             f"clear_other_input called with unknown method: {selected_method}"
         )
 
@@ -193,7 +199,7 @@ class StreamlitLogHandler(logging.Handler):
 
                 if age_days > self.LOG_FILE_TTL_DAYS:
                     os.remove(self.log_file_path)
-                    logging.info(
+                    app_logger.info(
                         f"Old log file {self.log_file_path} exceeded TTL and was deleted."
                     )
         except Exception as e:
@@ -207,36 +213,17 @@ class StreamlitLogHandler(logging.Handler):
 
     def emit(self, record: logging.LogRecord):
         """
-        Emit a log record to the appropriate location in Streamlit session state and to the app log file.
-        - If a job is selected and exists in active_jobs, append to that job's log_messages.
-        - If 'log_messages' exists at the top level of session_state (legacy), append there as well.
+        Emit a log record ONLY to the application log file (streamlit_app.log).
+        Job-specific logs are populated by reading from their respective queues
+        in `process_queue_messages`.
         """
+
         try:
             msg = self.format(record)
-
-            # Get the currently selected job id
-            selected_job_id = st.session_state.get("selected_job_id")
-
-            # If a job is selected, add the log to that job's log list
-            if selected_job_id and selected_job_id in st.session_state.get(
-                "active_jobs", {}
-            ):
-                job_data = st.session_state["active_jobs"][selected_job_id]
-                if "log_messages" not in job_data:
-                    job_data["log_messages"] = []
-                job_data["log_messages"].append(msg)
-
-            # Legacy support: if 'log_messages' exists at the top level, append there too
-            if "log_messages" in st.session_state and isinstance(
-                st.session_state["log_messages"], list
-            ):
-                st.session_state["log_messages"].append(msg)
-
             # Always write to the application log file
-            with open(self.log_file_path, "a") as f:
+            with open(self.log_file_path, "a", encoding="utf-8") as f:
                 f.write(f"{msg}\n")
-
-        except (KeyError, AttributeError, Exception):
+        except Exception:
             # Pass the record to handleError as expected by the logging framework
             self.handleError(record)
 
@@ -244,17 +231,38 @@ class StreamlitLogHandler(logging.Handler):
 # Add the handler to the root logger AFTER initial state setup, but only if it doesn't exist yet
 root_logger = logging.getLogger()
 
-# Check if our custom handler is already present to avoid duplicates
-handler_exists = False
-for handler in root_logger.handlers:
-    if isinstance(handler, StreamlitLogHandler):
-        handler_exists = True
-        break
+# Use session_state to ensure the handler is added only once per session
+if "_streamlit_log_handler_added" not in st.session_state:
+    # This print helps confirm when this block is entered
+    app_logger.debug(
+        f"'_streamlit_log_handler_added' flag not in session_state. Checking root_logger.handlers: {root_logger.handlers}"
+    )
 
-if not handler_exists:
-    streamlit_handler = StreamlitLogHandler()
-    root_logger.addHandler(streamlit_handler)
-    logging.debug("Added StreamlitLogHandler to the root logger")
+    # As a safeguard, also check if a handler with the same class name is already present.
+    # This handles edge cases but the session_state flag is the primary guard.
+    if not any(
+        h.__class__.__name__ == "StreamlitLogHandler" for h in root_logger.handlers
+    ):
+        streamlit_handler = StreamlitLogHandler()
+        root_logger.addHandler(streamlit_handler)
+        app_logger.debug(
+            f"StreamlitLogHandler added. New root_logger.handlers: {root_logger.handlers}"
+        )
+    else:
+        app_logger.debug(
+            "StreamlitLogHandler with the same class name already found in root_logger.handlers. Not re-adding, but setting session flag."
+        )
+        app_logger.debug(
+            f"StreamlitLogHandler found by class name. Not re-adding. root_logger.handlers: {root_logger.handlers}"
+        )
+
+    st.session_state["_streamlit_log_handler_added"] = (
+        True  # Mark as added for this session
+    )
+else:
+    app_logger.debug(
+        f"'_streamlit_log_handler_added' flag found in session_state. Handler not added again. root_logger.handlers: {root_logger.handlers}"
+    )
 
 
 # --- Job Management Utilities ---
@@ -299,10 +307,10 @@ def cancel_job(job_id: str) -> bool:
             job_data["phase"] = "Terminated by user"
             job_data["end_time"] = time.time()
 
-            logging.info(f"Job {job_id} was cancelled by user")
+            app_logger.info(f"Job {job_id} was cancelled by user")
             return True
         except Exception as e:
-            logging.error(f"Failed to cancel job {job_id}: {e}")
+            app_logger.error(f"Failed to cancel job {job_id}: {e}")
             return False
 
     return False
@@ -374,7 +382,7 @@ def run_pipeline_in_process(
     root_logger.setLevel(logging.INFO)
 
     # Log the file location so it's available in the queue
-    logging.info(f"Pipeline logs are being saved to: {log_file_path}")
+    app_logger.info(f"Pipeline logs are being saved to: {log_file_path}")
 
     # Send initial status
     status_data = {"status": "Running", "progress": 0, "phase": "Initializing"}
@@ -384,7 +392,7 @@ def run_pipeline_in_process(
     input_csv_path_to_delete = config.get("input_csv")  # Store path for cleanup
     try:
         print(f"Pipeline process started with config: {config}")
-        logging.info(
+        app_logger.info(
             f"Pipeline process started for job {job_id}"
             if job_id
             else "Pipeline process started"
@@ -414,7 +422,7 @@ def run_pipeline_in_process(
         status_queue.put(status_data)
 
         print(f"Pipeline process completed successfully, output at: {final_output}")
-        logging.info(
+        app_logger.info(
             f"Pipeline process completed successfully for job {job_id}, output at: {final_output}"
             if job_id
             else f"Pipeline completed successfully, output at: {final_output}"
@@ -422,7 +430,7 @@ def run_pipeline_in_process(
 
     except Exception as e:
         error_msg = str(e)
-        logging.error(
+        app_logger.error(
             f"Pipeline process failed for job {job_id}: {error_msg}"
             if job_id
             else f"Pipeline process failed: {error_msg}"
@@ -442,11 +450,11 @@ def run_pipeline_in_process(
         if input_csv_path_to_delete and os.path.exists(input_csv_path_to_delete):
             try:
                 os.unlink(input_csv_path_to_delete)
-                logging.info(
+                app_logger.info(
                     f"Temporary input CSV file deleted by pipeline process: {input_csv_path_to_delete}"
                 )
             except Exception as e_unlink:
-                logging.warning(
+                app_logger.warning(
                     f"Pipeline process failed to delete temporary input CSV file: {input_csv_path_to_delete}, reason: {e_unlink}"
                 )
 
@@ -555,10 +563,8 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                                     component, sub_component, steps_str, description = (
                                         parts
                                     )
-                                    # Try to format component and sub_component
                                     comp_fmt = component.replace("_", " ").title()
                                     sub_fmt = sub_component.replace("_", " ").title()
-                                    # Try to parse steps (X/Y)
                                     if "/" in steps_str:
                                         try:
                                             current_step, total_steps = steps_str.split(
@@ -568,7 +574,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                                                 current_step.isdigit()
                                                 and total_steps.isdigit()
                                             ):
-                                                # Use hardcoded phase dictionary if possible
                                                 phase_fmt = PHASE_FORMATS.get(
                                                     component, {}
                                                 ).get(sub_component)
@@ -578,9 +583,9 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                                                     new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({current_step}/{total_steps})"
                                             else:
                                                 new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
-                                        except Exception as e:
-                                            logging.debug(
-                                                f"Error parsing steps in PROGRESS log: {e}"
+                                        except Exception as e_parse_steps:
+                                            app_logger.debug(
+                                                f"Error parsing steps in PROGRESS log: {e_parse_steps}"
                                             )
                                             new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
                                     else:
@@ -601,7 +606,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                                         f"{comp_fmt} - {description}"
                                     )
                                 else:
-                                    # Fallback: just use the progress details
                                     new_phase_description = (
                                         progress_details
                                         if len(progress_details) < 80
@@ -610,12 +614,12 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
 
                                 if new_phase_description:
                                     job_data["phase"] = new_phase_description
-                                    logging.debug(
+                                    app_logger.debug(
                                         f"Updated job {job_id} phase to: {new_phase_description}"
                                     )
-                        except Exception as e:
-                            logging.warning(
-                                f"Error parsing PROGRESS log for job {job_id}: {e}"
+                        except Exception as e_parse_progress:
+                            app_logger.warning(
+                                f"Error parsing PROGRESS log for job {job_id}: {e_parse_progress}"
                             )
 
                 # Check if the job process is still alive
@@ -650,7 +654,7 @@ def process_data():
         and st.session_state["uploaded_file_data"]
     ):
         uploaded_file = st.session_state["uploaded_file_data"]
-        logging.info(f"Processing uploaded file: {uploaded_file.name}")
+        app_logger.info(f"Processing uploaded file: {uploaded_file.name}")
         try:
             if uploaded_file.name.endswith(".csv"):
                 # Use StringIO to treat the byte stream as a text file
@@ -661,7 +665,7 @@ def process_data():
                 df = pd.read_excel(uploaded_file)
             else:
                 st.error("Unsupported file type.")
-                logging.error("Unsupported file type uploaded.")
+                app_logger.error("Unsupported file type uploaded.")
                 return
 
             # --- Data Validation and Formatting ---
@@ -674,7 +678,7 @@ def process_data():
                 st.error(
                     f"Uploaded file is missing required columns: {', '.join(missing_cols)}"
                 )
-                logging.error(f"Uploaded file missing columns: {missing_cols}")
+                app_logger.error(f"Uploaded file missing columns: {missing_cols}")
                 return
 
             # Select and rename columns to ensure consistency
@@ -691,24 +695,25 @@ def process_data():
             # Basic cleaning (optional, adapt as needed)
             df = df.map(lambda x: x.strip() if isinstance(x, str) else x)
             df.dropna(
-                subset=required_cols, inplace=True
-            )  # Drop rows with missing required values
+                subset=required_cols,
+                inplace=True,  # Drop rows with missing required values
+            )
 
             if df.empty:
                 st.warning("No valid data found in the uploaded file after cleaning.")
-                logging.warning("No valid data in uploaded file.")
+                app_logger.warning("No valid data in uploaded file.")
                 return
 
             data_to_process = df.to_dict("records")
             st.session_state["company_list"] = data_to_process  # Store the final list
-            logging.info(
+            app_logger.info(
                 f"Successfully parsed {len(data_to_process)} records from file."
             )
 
         except Exception as e:
             st.error(f"Error reading or processing file: {e}")
             st.session_state["job_status"] = "Error"
-            logging.error(f"Error processing file {uploaded_file.name}: {e}")
+            app_logger.error(f"Error processing file {uploaded_file.name}: {e}")
             return
 
     elif st.session_state["input_method"] == "Manual Input":
@@ -719,24 +724,27 @@ def process_data():
             # Validate required columns (data editor should enforce this, but double-check)
             required_cols = ["company name", "location", "url"]
             manual_df.dropna(
-                subset=required_cols, inplace=True
-            )  # Drop rows missing required values
+                subset=required_cols,
+                inplace=True,  # Drop rows missing required values
+            )
 
             if manual_df.empty:
                 st.warning("No valid data entered manually after cleaning.")
-                logging.warning("No valid data in manual input.")
+                app_logger.warning("No valid data in manual input.")
                 return
 
             data_to_process = manual_df.to_dict("records")
             st.session_state["company_list"] = data_to_process  # Store the final list
-            logging.info(f"Processing {len(data_to_process)} manually entered records.")
+            app_logger.info(
+                f"Processing {len(data_to_process)} manually entered records."
+            )
         else:
             st.warning("No manual data entered.")
-            logging.warning("Start Processing clicked with no manual data.")
+            app_logger.warning("Start Processing clicked with no manual data.")
             return
     else:
         st.warning("No data provided. Please upload a file or enter data manually.")
-        logging.warning(
+        app_logger.warning(
             "Start Processing clicked with no data source selected or data provided."
         )
         return
@@ -744,7 +752,7 @@ def process_data():
     # --- Prepare Pipeline Configuration ---
     if data_to_process:
         st.info(f"Starting enrichment for {len(data_to_process)} companies...")
-        logging.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
+        app_logger.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
         job_id = None
         try:
@@ -761,7 +769,7 @@ def process_data():
                 temp_csv_path = temp_file.name
                 df = pd.DataFrame(data_to_process)
                 df.to_csv(temp_csv_path, index=False)
-                logging.info(
+                app_logger.info(
                     f"Temporary input CSV created at {temp_csv_path} for job {job_id}"
                 )
 
@@ -835,7 +843,9 @@ def process_data():
             job_data["progress"] = 5
 
             print(f"Pipeline process started with PID: {p.pid} for job {job_id}")
-            logging.info(f"Pipeline process started with PID: {p.pid} for job {job_id}")
+            app_logger.info(
+                f"Pipeline process started with PID: {p.pid} for job {job_id}"
+            )
 
             # Add initial log entry to the job
             job_data["log_messages"].append(
@@ -854,12 +864,12 @@ def process_data():
                 st.session_state["active_jobs"][job_id]["error_message"] = str(e)
                 st.session_state["active_jobs"][job_id]["end_time"] = time.time()
 
-            logging.error(f"Failed to start pipeline: {e}", exc_info=True)
+            app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
 
     else:
         # This case should ideally be caught earlier, but as a fallback:
         st.warning("No data available to process.")
-        logging.warning("process_data called but data_to_process was empty.")
+        app_logger.warning("process_data called but data_to_process was empty.")
 
 
 def display_config_section():
@@ -891,7 +901,7 @@ def display_config_section():
         or prev_llm != st.session_state["config"].get("llm_provider")
         or prev_api_key != st.session_state["config"].get("api_key")
     ):
-        logging.info(
+        app_logger.info(
             f"Configuration updated: Depth={st.session_state['config'].get('depth')}, LLM={st.session_state['config'].get('llm_provider')}"
         )
 
@@ -986,6 +996,7 @@ def display_monitoring_section():
             and st.session_state["selected_job_id"] in job_ids
         ):
             selected_job_index = job_ids.index(st.session_state["selected_job_id"])
+
         selected_job_label = st.selectbox(
             "Select Job:",
             options=job_labels,
@@ -994,26 +1005,23 @@ def display_monitoring_section():
         )
         # Extract job_id from the selected label
         if selected_job_label:
-            selected_job_id = job_ids[job_labels.index(selected_job_label)]
-            st.session_state["selected_job_id"] = selected_job_id
+            st.session_state["selected_job_id"] = selected_job_label.split(" - ")[0]
+
         # Show only the Cancel button for the selected job
         if st.button("Cancel Selected Job", key="cancel_job_btn"):
             if (
                 "selected_job_id" in st.session_state
                 and st.session_state["selected_job_id"]
             ):
-                job_id = st.session_state["selected_job_id"]
-                if active_jobs.get(job_id, {}).get("status") == "Running":
-                    if cancel_job(job_id):
-                        st.success(f"Job {job_id} has been cancelled.")
-                    else:
-                        st.error(f"Failed to cancel job {job_id}.")
+                if cancel_job(st.session_state["selected_job_id"]):
+                    st.toast(f"Job {st.session_state['selected_job_id']} cancelled.")
+                    # No need to rerun here, fragment will update
                 else:
-                    st.warning(
-                        f"Job {job_id} is not running (status: {active_jobs.get(job_id, {}).get('status')}). Only running jobs can be cancelled."
+                    st.error(
+                        f"Could not cancel job {st.session_state['selected_job_id']}."
                     )
             else:
-                st.warning("Please select a job from the dropdown first.")
+                st.warning("No job selected to cancel.")
 
     # Create a fragment for status information that auto-refreshes and displays job status/phase
     @st.fragment(
