@@ -52,7 +52,7 @@ logging.basicConfig(
 # Create a dedicated logger for the Streamlit application
 app_logger = logging.getLogger("streamlit_app_main")
 app_logger.setLevel(logging.INFO)
-app_logger.propagate = False  # Do not pass logs to the root logger
+app_logger.propagate = True  # Do not pass logs to the root logger
 
 
 # --- Helper Functions ---
@@ -188,7 +188,12 @@ class StreamlitLogHandler(logging.Handler):
         self.log_dir = os.path.join(project_root, "logfiles")
         os.makedirs(self.log_dir, exist_ok=True)
         self.log_file_path = os.path.join(self.log_dir, "streamlit_app.log")
-
+        formatter = logging.Formatter(
+            "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+        )
+        self.setFormatter(formatter)
+        # Set the log level to INFO by default
+        self.setLevel(logging.INFO)
         # TTL Checks
         try:
             if os.path.exists(self.log_file_path):
@@ -199,7 +204,7 @@ class StreamlitLogHandler(logging.Handler):
 
                 if age_days > self.LOG_FILE_TTL_DAYS:
                     os.remove(self.log_file_path)
-                    app_logger.info(
+                    self.info(
                         f"Old log file {self.log_file_path} exceeded TTL and was deleted."
                     )
         except Exception as e:
@@ -459,8 +464,112 @@ def run_pipeline_in_process(
                 )
 
 
+# Hardcoded phase parsing dictionary for known phases and formatting (move to global scope)
+PHASE_FORMATS = {
+    "extracting_machine": {
+        "get_bundesanzeiger_html": "Extracting Machine: Fetch Bundesanzeiger HTML",
+        "clean_html": "Extracting Machine: Clean HTML",
+        "extract_sachanlagen": "Extracting Machine: Extract Sachanlagen",
+        "generate_report": "Extracting Machine: Generate Report",
+        "merge_data": "Extracting Machine: Merge Technische Anlagen and Sachanlagen",
+    },
+    "webcrawl": {
+        "crawl_domain": "Webcrawl: Crawl Domain",
+        "extract_llm": "Webcrawl: Extract Keywords (LLM)",
+        "fill_process_type": "Webcrawl: Fill Process Type",
+        "pluralize_llm_file": "Webcrawl: Pluralize Keywords in File",
+        "pluralize_llm_entry": "Webcrawl: Pluralize Keywords for Entry",
+        "process_files": "Webcrawl: Consolidate Data",
+        "convert_to_csv": "Webcrawl: Convert to CSV",
+    },
+    "integration": {
+        "merge_technische_anlagen": "Integration: Merge Technische Anlagen",
+        "enrich_data": "Integration: Enrich Data",
+    },
+}
+
+# Define the order of main phases for progress calculation
+PHASE_ORDER = ["extracting_machine", "webcrawl", "integration"]
+
+
 # Function to monitor queues and update session state
-def process_queue_messages():  # TODO it shows application logs when job finished. application logs should not be shown in the log viewer
+def calculate_progress_from_phase(
+    current_phase_str: Optional[str],
+    phase_formats: dict,
+    phase_order: list,
+    current_status: Optional[str] = None,
+    initial_progress_value: float = 0.01,
+    starting_progress_value: float = 0.05,
+    base_progress: float = 0.0,
+) -> float:
+    """
+    Calculates the progress percentage based on the current phase relative to PHASE_FORMATS.
+
+    Args:
+        current_phase_str: The string describing the current phase.
+        phase_formats: The dictionary defining known phases and their formats.
+        phase_order: The list defining the order of main phases.
+        current_status: The current job status (e.g., "Running", "Completed").
+        initial_progress_value: Progress value for "Initializing" or "Creating job" phase.
+        starting_progress_value: Progress value for "Starting Pipeline" phase.
+
+    Returns:
+        A float between 0.0 and 1.0 representing the progress.
+    """
+    if not current_phase_str:
+        return base_progress
+
+    # Handle terminal statuses or specific end phases first
+    if (
+        current_status in ["Completed", "Failed", "Error", "Cancelled"]
+        or "Finished" in current_phase_str
+    ):
+        return 1.0
+
+    # Handle specific initial phases that might occur before those in PHASE_FORMATS
+    if "Initializing" in current_phase_str or "Creating job" in current_phase_str:
+        return max(base_progress, initial_progress_value)
+    if "Starting Pipeline" in current_phase_str:
+        return max(base_progress, starting_progress_value)
+
+    flat_ordered_phases = []
+    for main_phase_key in phase_order:
+        if main_phase_key in phase_formats:
+            for sub_phase_description in phase_formats[main_phase_key].values():
+                flat_ordered_phases.append(sub_phase_description)
+
+    if not flat_ordered_phases:
+        app_logger.warning(
+            "PHASE_FORMATS is empty or misconfigured; cannot calculate dynamic progress."
+        )
+        return base_progress  # Fallback if no phases are defined in PHASE_FORMATS
+
+    total_steps = len(flat_ordered_phases)
+    current_step_count = 0
+
+    for i, fmt_phase_description in enumerate(flat_ordered_phases):
+        if current_phase_str.startswith(fmt_phase_description):
+            current_step_count = i + 1  # Current step is 1-indexed
+            break  # Found the current phase
+
+    # If current_step_count is 0, it means the phase wasn't found in PHASE_FORMATS.
+    # The progress will be based on the last matched phase or 0 if none matched yet.
+    # This aligns with basing progress on known phases in PHASE_FORMATS.
+
+    if total_steps == 0:  # Should be caught earlier, but as a safeguard
+        return base_progress
+
+    # Progress is distributed from base_progress to 1.0
+    # For example, if base_progress=0.05, then phase progress goes from 0.05 to 1.0
+    # So, progress = base_progress + (1-base_progress) * (current_step_count/total_steps)
+    progress = base_progress + (1.0 - base_progress) * (
+        float(current_step_count) / total_steps
+    )
+
+    return min(progress, 1.0)  # Ensure progress doesn't exceed 1.0
+
+
+def process_queue_messages():
     """
     Process messages from the log and status queues for all active jobs,
     updating the Streamlit session state.
@@ -516,22 +625,6 @@ def process_queue_messages():  # TODO it shows application logs when job finishe
                 if "log_messages" not in job_data:
                     job_data["log_messages"] = []
                 job_data["log_messages"].append(error_msg)
-
-    # Hardcoded phase parsing dictionary for known phases and formatting
-    PHASE_FORMATS = {  # TODO Correct the phases to the actual process.
-        "extracting_machine": {
-            "clean_html": "Extracting Machine: Clean HTML",
-            "extract_sachanlagen": "Extracting Machine: Extract Sachanlagen",
-        },
-        "webcrawl": {
-            "crawl_domain": "Webcrawl: Crawl Domain",
-            "extract_with_llm": "Webcrawl: Extract with LLM",
-        },
-        "integration_phase": {
-            "merge_keyword": "Integration: Merge Keyword",
-            "enrich_data": "Integration: Enrich Data",
-        },
-    }
 
     for job_id, job_data in st.session_state["active_jobs"].items():
         if "log_queue" in job_data and job_data["log_queue"] is not None:
@@ -1052,6 +1145,8 @@ def display_monitoring_section():
 
         if selected_job_id and selected_job_id in active_jobs:
             job_data = active_jobs[selected_job_id]
+            job_status = job_data.get("status")
+            current_phase = job_data.get("phase")
 
             # Display current job status and phase
             status_color = {
@@ -1061,23 +1156,57 @@ def display_monitoring_section():
                 "Completed": "green",
                 "Error": "red",
                 "Cancelled": "gray",
-            }.get(job_data.get("status", "Unknown"), "blue")
+                "Failed": "red",
+            }.get(job_status, "blue")
 
             st.markdown(f"### Job: {selected_job_id}")
 
             st.markdown(
-                f"**Status:** <span style='color:{status_color}'>{job_data.get('status', 'Unknown')}</span>",
+                f"**Status:** <span style='color:{status_color}'>{job_status or 'Unknown'}</span>",
                 unsafe_allow_html=True,
             )
 
-            if job_data.get("phase"):
-                st.markdown(f"**Current Phase:** {job_data.get('phase')}")
+            if current_phase:
+                st.markdown(f"**Current Phase:** {current_phase}")
 
-            # Display progress bar based on selected job
-            if job_data.get("status") == "Running":
-                st.progress(job_data.get("progress", 0) / 100)
-            elif job_data.get("status") in ["Completed", "Error", "Cancelled"]:
-                st.progress(1.0)  # Full progress bar
+            # Determine base_progress from job_data["progress"] if available and valid
+            base_progress = 0.0
+            try:
+                if "progress" in job_data and isinstance(
+                    job_data["progress"], (int, float)
+                ):
+                    base_progress = float(job_data["progress"]) / 100.0
+                    if base_progress >= 1.0:
+                        base_progress = 0.99
+                    if base_progress < 0.0:
+                        base_progress = 0.0
+            except Exception:
+                base_progress = 0.0
+
+            # Calculate progress dynamically, starting from base_progress
+            calculated_progress = calculate_progress_from_phase(
+                current_phase_str=current_phase,
+                phase_formats=PHASE_FORMATS,
+                phase_order=PHASE_ORDER,
+                current_status=job_status,
+                base_progress=base_progress,
+            )
+
+            # --- Prevent progress from going backwards ---
+            if "max_progress" not in job_data:
+                job_data["max_progress"] = 0.0
+            if calculated_progress > job_data["max_progress"]:
+                job_data["max_progress"] = calculated_progress
+            progress_to_display = job_data["max_progress"]
+
+            # Display progress bar based on progress_to_display
+            if job_status == "Running":
+                st.progress(progress_to_display)
+            elif job_status == "Initializing":
+                st.progress(progress_to_display)
+            elif job_status in ["Completed", "Error", "Cancelled", "Failed"]:
+                st.progress(1.0)
+            # else: no progress bar for other states
 
             # Display error message if there is one
             if job_data.get("error_message"):
@@ -1128,9 +1257,6 @@ def display_monitoring_section():
     selected_job_id = st.session_state.get("selected_job_id")
 
     if selected_job_id and selected_job_id in st.session_state.get("active_jobs", {}):
-        # Show logs for the selected job
-        job_data = st.session_state["active_jobs"][selected_job_id]
-
         # Notify user which job's logs they're viewing
         st.markdown(f"*Showing logs for job: {selected_job_id}*")
     else:
