@@ -7,8 +7,8 @@ from typing import Any, Dict, List, Union
 # Setup logging at the top of the file
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s %(levelname)s %(message)s',
-    handlers=[logging.StreamHandler()]
+    format="%(asctime)s %(levelname)s %(message)s",
+    handlers=[logging.StreamHandler()],
 )
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def load_json_data(file_path: str) -> List[Dict[str, Any]]:
     """Load JSON data from a file."""
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         logger.error(f"Error: File not found: {file_path}")
@@ -40,9 +40,11 @@ def get_all_json_files(directory: str) -> List[str]:
     json_files = []
     with os.scandir(directory) as entries:
         for entry in entries:
-            if (entry.is_file() and
-                entry.name.endswith('.json') and
-                    not entry.name.startswith('combined_')):
+            if (
+                entry.is_file()
+                and entry.name.endswith(".json")
+                and not entry.name.startswith("combined_")
+            ):
                 json_files.append(entry.path)
 
     return json_files
@@ -88,7 +90,9 @@ def sort_items(items: List[str]) -> List[str]:
     return machine_items + non_machine_items
 
 
-def filter_items(items: List[str], exclude_substrings: List[str], exact_match: bool = False) -> List[str]:
+def filter_items(
+    items: List[str], exclude_substrings: List[str], exact_match: bool = False
+) -> List[str]:
     """
     Filter out items containing any of the specified substrings or exact words.
 
@@ -137,27 +141,35 @@ def load_filter_words(filter_file: str) -> List[str]:
     if not filter_file or not os.path.exists(filter_file):
         return []
     try:
-        with open(filter_file, 'r', encoding='utf-8') as f:
-            return [line.strip() for line in f if line.strip() and not line.startswith('#')]
+        with open(filter_file, "r", encoding="utf-8") as f:
+            return [
+                line.strip() for line in f if line.strip() and not line.startswith("#")
+            ]
     except Exception as e:
         logger.error(f"Error loading filter words from {filter_file}: {e}")
         return []
 
 
-def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[str] = [], exact_match: bool = False) -> Union[Dict[str, Any], None]:
+def consolidate_entries(
+    entries: List[Dict[str, Any]],
+    exclude_substrings: List[str] = [],
+    exact_match: bool = False,
+) -> Union[Dict[str, Any], None]:
     """Consolidate multiple entries into a single entry."""
     if not entries:
         return None
 
     # Choose the longest company name
-    company_name = max([e.get('company_name', '') for e in entries], key=len)
+    company_name = max([e.get("company_name", "") for e in entries], key=len)
 
     # Skip entries with empty company names
     if not company_name.strip():
         return None
 
     # Get the first non-empty company URL
-    company_url = next((e.get('company_url', '') for e in entries if e.get('company_url')), '')
+    company_url = next(
+        (e.get("company_url", "") for e in entries if e.get("company_url")), ""
+    )
 
     # Combine and deduplicate products and machines
     products = []
@@ -166,10 +178,10 @@ def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[
     lohnfertigung = False
 
     for entry in entries:
-        products.extend(entry.get('products', []))
-        machines.extend(entry.get('machines', []))
-        process_types.extend(entry.get('process_type', []))
-        if entry.get('lohnfertigung', False):
+        products.extend(entry.get("products", []))
+        machines.extend(entry.get("machines", []))
+        process_types.extend(entry.get("process_type", []))
+        if entry.get("lohnfertigung", False):
             lohnfertigung = True
 
     # Filter out items containing excluded substrings
@@ -184,13 +196,13 @@ def consolidate_entries(entries: List[Dict[str, Any]], exclude_substrings: List[
     unique_process_types = sort_items(process_types)
 
     return {
-        'company_name': company_name,
-        'company_url': company_url,
-        'products': unique_products,
-        'machines': unique_machines,
-        'process_type': unique_process_types,
-        'lohnfertigung': lohnfertigung,
-        'error': any(entry.get('error', False) for entry in entries)
+        "company_name": company_name,
+        "company_url": company_url,
+        "products": unique_products,
+        "machines": unique_machines,
+        "process_type": unique_process_types,
+        "lohnfertigung": lohnfertigung,
+        "error": any(entry.get("error", False) for entry in entries),
     }
 
 
@@ -212,7 +224,9 @@ def get_default_output_path(input_path: str) -> str:
         return os.path.join(output_dir, f"{dir_name}.json")
 
 
-def process_single_file(file_path: str, exclude_substrings: List[str], exact_match: bool) -> Union[Dict[str, Any], None]:
+def process_single_file(
+    file_path: str, exclude_substrings: List[str], exact_match: bool
+) -> Union[Dict[str, Any], None]:
     """Process a single JSON file and consolidate its entries."""
     entries = load_json_data(file_path)
     if entries:
@@ -220,7 +234,9 @@ def process_single_file(file_path: str, exclude_substrings: List[str], exact_mat
     return None
 
 
-def select_primary_company_entry(entries: List[Dict[str, Any]]) -> Union[Dict[str, Any], None]:
+def select_primary_company_entry(
+    entries: List[Dict[str, Any]],
+) -> Union[Dict[str, Any], None]:
     """
     Select the primary company entry from a list of entries.
     Prefer the entry with 'gmbh' in the company_name (case-insensitive).
@@ -230,10 +246,10 @@ def select_primary_company_entry(entries: List[Dict[str, Any]]) -> Union[Dict[st
         return None
     # Prefer entry with 'gmbh' in company_name
     for entry in entries:
-        if 'company_name' in entry and 'gmbh' in entry['company_name'].lower():
+        if "company_name" in entry and "gmbh" in entry["company_name"].lower():
             return entry
     # Otherwise, select the entry with the longest company_name
-    return max(entries, key=lambda e: len(e.get('company_name', '')))
+    return max(entries, key=lambda e: len(e.get("company_name", "")))
 
 
 def process_files(input_path, output_path):
@@ -254,8 +270,11 @@ def process_files(input_path, output_path):
     if os.path.isfile(input_path):
         files = [input_path]
     else:
-        files = [os.path.join(input_path, f) for f in os.listdir(input_path)
-                 if f.endswith('.json')]
+        files = [
+            os.path.join(input_path, f)
+            for f in os.listdir(input_path)
+            if f.endswith(".json")
+        ]
 
     # Process each file
     total_files = len(files)  # Get total for progress logging
@@ -263,17 +282,19 @@ def process_files(input_path, output_path):
 
     for index, file_path in enumerate(files):
         current_file_num = index + 1
-        logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Processing file {file_path}")
+        logger.info(
+            f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Processing file {file_path}"
+        )
 
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
+            with open(file_path, "r", encoding="utf-8") as f:
                 companies = json.load(f)
 
             # Select the primary company entry for this file
             primary_entry = select_primary_company_entry(companies)
             if not primary_entry:
                 continue
-            company_name = primary_entry.get('company_name')
+            company_name = primary_entry.get("company_name")
             if company_name:
                 all_raw_names.append(company_name)
                 # Track file paths for each company
@@ -282,37 +303,53 @@ def process_files(input_path, output_path):
                 existing_company = all_companies[company_name]
                 logger.info(f"Merging company: {company_name} from file {file_path}")
                 # Merge products
-                if 'products' in primary_entry:
-                    existing_company.setdefault('products', []).extend(primary_entry.get('products', []))
-                    existing_company['products'] = sort_items(existing_company['products'])
+                if "products" in primary_entry:
+                    existing_company.setdefault("products", []).extend(
+                        primary_entry.get("products", [])
+                    )
+                    existing_company["products"] = sort_items(
+                        existing_company["products"]
+                    )
                 # Merge machines
-                if 'machines' in primary_entry:
-                    existing_company.setdefault('machines', []).extend(primary_entry.get('machines', []))
-                    existing_company['machines'] = sort_items(existing_company['machines'])
+                if "machines" in primary_entry:
+                    existing_company.setdefault("machines", []).extend(
+                        primary_entry.get("machines", [])
+                    )
+                    existing_company["machines"] = sort_items(
+                        existing_company["machines"]
+                    )
                 # Merge process_types
-                if 'process_type' in primary_entry:
-                    existing_company.setdefault('process_type', []).extend(primary_entry.get('process_type', []))
-                    existing_company['process_type'] = list(set(existing_company['process_type']))
+                if "process_type" in primary_entry:
+                    existing_company.setdefault("process_type", []).extend(
+                        primary_entry.get("process_type", [])
+                    )
+                    existing_company["process_type"] = list(
+                        set(existing_company["process_type"])
+                    )
                 # Set lohnfertigung to True if any instance is True
-                if primary_entry.get('lohnfertigung', False):
-                    existing_company['lohnfertigung'] = True
+                if primary_entry.get("lohnfertigung", False):
+                    existing_company["lohnfertigung"] = True
             else:
                 all_companies[company_name] = primary_entry
                 logger.debug(f"New company added: {company_name} from file {file_path}")
         except json.JSONDecodeError as e:
             logger.error(f"Malformed JSON in file {file_path}: {e}")
-            logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}")
+            logger.info(
+                f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}"
+            )
             raise
         except Exception as e:
             logger.error(f"Error processing file {file_path}: {e}")
-            logger.info(f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}")
+            logger.info(
+                f"PROGRESS:webcrawl:process_files:{current_file_num}/{total_files}:Error processing {file_path}"
+            )
             # For other errors, continue processing other files
 
     # Convert companies dictionary to list
     result = list(all_companies.values())
 
     # Write consolidated data to output file
-    with open(output_path, 'w', encoding='utf-8') as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
 
     logger.info(f"Processed {len(files)} files. Found {len(result)} unique companies.")
@@ -325,16 +362,20 @@ def print_merged_companies_summary(company_filepaths: dict) -> None:
     Args:
         company_filepaths: Dict mapping company name to list of file paths
     """
-    merged = {name: paths for name, paths in company_filepaths.items() if len(paths) > 1}
+    merged = {
+        name: paths for name, paths in company_filepaths.items() if len(paths) > 1
+    }
     if not merged:
         logger.info("No companies were merged from multiple files.")
         return
-    print("Merged companies summary (companies with more than one file):")
+    logger.info("Merged companies summary (companies with more than one file):")
     for name, paths in merged.items():
-        print(f"Company: {name}\n  Files: {', '.join(paths)}")
+        logger.info(f"Company: {name} Files: {', '.join(paths)}")
 
 
-def consolidate_main(input_path: str, output_path: str = "", log_level: str = "INFO") -> str:
+def consolidate_main(
+    input_path: str, output_path: str = "", log_level: str = "INFO"
+) -> str:
     """
     Main entry point for consolidating company entries from JSON files.
     Args:
@@ -365,14 +406,22 @@ def consolidate_main(input_path: str, output_path: str = "", log_level: str = "I
 def main():
     """
     Command-line interface for consolidating company entries from JSON files.
-    
+
     Raises:
         Exception: Propagates any exceptions from consolidate_main for proper error handling.
     """
-    parser = argparse.ArgumentParser(description='Consolidate company entries from JSON files')
-    parser.add_argument('input', help='Input JSON file or directory containing JSON files')
-    parser.add_argument('--output', '-o', help='Output JSON file path (optional)')
-    parser.add_argument('--log-level', default='INFO', help='Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)')
+    parser = argparse.ArgumentParser(
+        description="Consolidate company entries from JSON files"
+    )
+    parser.add_argument(
+        "input", help="Input JSON file or directory containing JSON files"
+    )
+    parser.add_argument("--output", "-o", help="Output JSON file path (optional)")
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        help="Set the logging level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL)",
+    )
 
     args = parser.parse_args()
 

@@ -15,13 +15,13 @@ DEFAULT_COLUMN_PREFIX = "Column"
 MAX_TABLE_NAME_LENGTH = 100
 
 # Module-specific logger
-logger = logging.getLogger('extracting_machines.clean_html')
+logger = logging.getLogger("extracting_machines.clean_html")
 
 
 def setup_logging(verbose: bool = False) -> None:
     """
     Configures the logging module for the script.
-    
+
     Args:
         verbose: Boolean flag to enable verbose (DEBUG) logging
     """
@@ -30,9 +30,9 @@ def setup_logging(verbose: bool = False) -> None:
     logging.basicConfig(
         level=level,
         format=log_format,
-        datefmt='%Y-%m-%d %H:%M:%S',
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
-    
+
     # Set level for our module logger
     logger.setLevel(level)
 
@@ -66,7 +66,7 @@ def clean_html(input_html, filter_word=None, original_filename=None):
     # Process each table
     for table in tables:
         # Skip tables with id='begin_pub' and apply filter_word if specified
-        if table.get("id") != "begin_pub" and ( # type: ignore
+        if table.get("id") != "begin_pub" and (  # type: ignore
             not filter_word or filter_word.lower() in table.text.lower()
         ):
             # Find preceding headers and paragraphs
@@ -84,7 +84,7 @@ def clean_html(input_html, filter_word=None, original_filename=None):
                     break
                 if current.name == "h3":  # type: ignore # Stop if we encounter a section heading (h3)
                     break
-                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
+                if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:  # type: ignore
                     if (
                         current not in preceding_elements
                     ):  # Avoid duplicates if somehow found again
@@ -125,21 +125,21 @@ def filter_word_rows(input_html, search_word):
             current = current.find_previous_sibling()
             if not current:
                 break
-            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]: # type: ignore
+            if current.name in ["h1", "h2", "h3", "h4", "h5", "h6", "p"]:  # type: ignore
                 table_name = current.text.strip()
                 break
 
         # Get all header rows, focusing on thead first
         header_rows = []
-        thead = table.find("thead") # type: ignore
+        thead = table.find("thead")  # type: ignore
 
         if thead:
             # If the table has a proper thead element, extract headers from it
-            for row in thead.find_all("tr"): # type: ignore
+            for row in thead.find_all("tr"):  # type: ignore
                 header_cells = []
-                for cell in row.find_all(["th", "td"]): # type: ignore
+                for cell in row.find_all(["th", "td"]):  # type: ignore
                     text = cell.text.strip()
-                    colspan = int(cell.get("colspan", 1)) # type: ignore
+                    colspan = int(cell.get("colspan", 1))  # type: ignore
                     # Handle colspan by duplicating the header text across multiple columns
                     # This ensures alignment with data cells that will appear below this header
                     header_cells.extend([text] * colspan)
@@ -147,19 +147,19 @@ def filter_word_rows(input_html, search_word):
         else:
             # For tables without thead, try to identify headers from the top rows
             found_data = False
-            for row in table.find_all("tr"): # type: ignore
-                if row.find_all("th"): # type: ignore
+            for row in table.find_all("tr"):  # type: ignore
+                if row.find_all("th"):  # type: ignore
                     # If row contains th elements, treat it as a header row
                     header_cells = []
-                    for cell in row.find_all(["th", "td"]): # type: ignore
+                    for cell in row.find_all(["th", "td"]):  # type: ignore
                         text = cell.text.strip()
-                        colspan = int(cell.get("colspan", 1)) # type: ignore
+                        colspan = int(cell.get("colspan", 1))  # type: ignore
                         header_cells.extend([text] * colspan)
                     header_rows.append(header_cells)
                 elif not found_data:
                     # If we haven't found data yet and there's no header,
                     # use the first row with content as header
-                    cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
+                    cells = [td.text.strip() for td in row.find_all("td")]  # type: ignore
                     if any(cells):  # Check if row has any non-empty cells
                         if (
                             not header_rows
@@ -190,13 +190,13 @@ def filter_word_rows(input_html, search_word):
         matching_rows = []
         # Get data rows either from tbody or by skipping header rows
         data_rows = (
-            table.find("tbody").find_all("tr") # type: ignore
-            if table.find("tbody") # type: ignore
-            else table.find_all("tr")[len(header_rows) :] # type: ignore
+            table.find("tbody").find_all("tr")  # type: ignore
+            if table.find("tbody")  # type: ignore
+            else table.find_all("tr")[len(header_rows) :]  # type: ignore
         )
 
         for row in data_rows:
-            cells = [td.text.strip() for td in row.find_all("td")] # type: ignore
+            cells = [td.text.strip() for td in row.find_all("td")]  # type: ignore
             row_text = " ".join(cells)
 
             # Find the position of search word in the text
@@ -343,7 +343,9 @@ def main(
 
         # --- Progress Logging ---
         current_company_num = index + 1
-        logger.info(f"PROGRESS:extracting_machine:clean_html:{current_company_num}/{total_companies}:Cleaning HTML for company {company_folder}")
+        logger.info(
+            f"PROGRESS:extracting_machine:clean_html:{current_company_num}/{total_companies}:Cleaning HTML for company {company_folder}"
+        )
         # --- End Progress Logging ---
 
         latest_subfolder = get_latest_subfolder(company_path)
@@ -392,11 +394,25 @@ def main(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Clean and filter HTML tables in a directory.")
-    parser.add_argument("--input_dir", required=True, help="Path to the input directory containing company folders.")
-    parser.add_argument("--output_dir", default=None, help="Path to the output directory.")
-    parser.add_argument("--search_word", default="technische Anlagen", help="Word to filter rows in tables.")
-    parser.add_argument("--verbose", action="store_true", help="Enable verbose logging.")
+    parser = argparse.ArgumentParser(
+        description="Clean and filter HTML tables in a directory."
+    )
+    parser.add_argument(
+        "--input_dir",
+        required=True,
+        help="Path to the input directory containing company folders.",
+    )
+    parser.add_argument(
+        "--output_dir", default=None, help="Path to the output directory."
+    )
+    parser.add_argument(
+        "--search_word",
+        default="technische Anlagen",
+        help="Word to filter rows in tables.",
+    )
+    parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose logging."
+    )
     args = parser.parse_args()
     try:
         output_dir = main(
