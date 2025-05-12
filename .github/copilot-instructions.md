@@ -8,6 +8,7 @@
 - When creating a function, follow the single responsibility principle. Ensure the function is easy to test.
 - Add docstrings to all functions and classes.
 - Add type hints to all functions and classes when possible.
+- no need to fix linting issues.
 - testing framework: unittest
 - Follow test naming standards. The name of your test should consist of three parts:
     - Name of the method being tested

@@ -100,7 +100,7 @@ def _display_list_view_items(current_path: Path, base_output_dir: Path, job_id: 
                 st.rerun()
         return
 
-    col_widths = (2, 1, 1, 1)
+    col_widths = (3, 1, 1, 1)
     header_cols = st.columns(col_widths, gap="small")
     header_cols[0].markdown("**Name**")
     header_cols[1].markdown("**Type**")

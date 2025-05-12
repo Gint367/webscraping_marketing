@@ -281,7 +281,9 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 files_to_process.append(file_path)
 
         if skipped_count > 0:
-            logger.info(f"Skipping {skipped_count} files that already have output files")
+            logger.info(
+                f"Skipping {skipped_count} files that already have output files"
+            )
             file_paths = files_to_process
 
         if not file_paths:
@@ -294,7 +296,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     logger.info(f"Processing {len(file_paths)} files using streaming mode")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.ENABLED,
         extraction_strategy=llm_strategy,
         stream=True,  # Enable streaming mode
         verbose=False,
@@ -310,7 +312,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
             config=config,
             dispatcher=dispatcher,
             rate_limiter=rate_limiter,
-        ): # type: ignore
+        ):  # type: ignore
             processed_count += 1
 
             # --- Get file path and define output file path ---
@@ -321,7 +323,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 basename = os.path.basename(file_path)
                 name_without_ext = os.path.splitext(basename)[0]
                 output_file = os.path.join(output_dir, f"{name_without_ext}.json")
-                
+
             # --- Progress Logging ---
             log_message_subject = "Unknown file"
             company_name_from_html = ""
@@ -331,14 +333,17 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                     log_message_subject = f"company {company_name_from_html}"
                 else:
                     log_message_subject = f"file {os.path.basename(file_path)}"
-            logger.info(f"PROGRESS:extracting_machine:extract_sachanlagen:{processed_count}/{len(file_paths)}:Processing {log_message_subject}")
+            logger.info(
+                f"PROGRESS:extracting_machine:extract_sachanlagen:{processed_count}/{len(file_paths)}:Processing {log_message_subject}"
+            )
             # --- End Progress Logging ---
 
             # Process result as it comes in
             if result.success and result.extracted_content and output_file:
-
                 # Extract company name from HTML comment (already done above for logging)
-                company_name = company_name_from_html  # Use the name extracted for logging
+                company_name = (
+                    company_name_from_html  # Use the name extracted for logging
+                )
 
                 # Add company_name to each entry in the extracted content
                 try:
@@ -348,15 +353,26 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                         content_to_modify = json.loads(content_to_modify)
 
                     # Check for error in extracted content and raise exception if found
-                    if (
-                        isinstance(content_to_modify, list)
-                        and any(isinstance(entry, dict) and entry.get("error") is True for entry in content_to_modify)
+                    if isinstance(content_to_modify, list) and any(
+                        isinstance(entry, dict) and entry.get("error") is True
+                        for entry in content_to_modify
                     ):
-                        error_entry = next(entry for entry in content_to_modify if entry.get("error") is True)
-                        raise RuntimeError(f"Extraction error for '{company_name}': {error_entry.get('content', 'Unknown error')}")
+                        error_entry = next(
+                            entry
+                            for entry in content_to_modify
+                            if entry.get("error") is True
+                        )
+                        raise RuntimeError(
+                            f"Extraction error for '{company_name}': {error_entry.get('content', 'Unknown error')}"
+                        )
 
-                    if isinstance(content_to_modify, dict) and content_to_modify.get("error") is True:
-                        raise RuntimeError(f"Extraction error for '{company_name}': {content_to_modify.get('content', 'Unknown error')}")
+                    if (
+                        isinstance(content_to_modify, dict)
+                        and content_to_modify.get("error") is True
+                    ):
+                        raise RuntimeError(
+                            f"Extraction error for '{company_name}': {content_to_modify.get('content', 'Unknown error')}"
+                        )
 
                     # Add company name to each entry
                     if isinstance(content_to_modify, list):
@@ -382,7 +398,9 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 should_write = False
                 content = result.extracted_content
                 logger.debug(f"Content type: {type(content)}")
-                logger.debug(f"extracted content type: {type(result.extracted_content)}")
+                logger.debug(
+                    f"extracted content type: {type(result.extracted_content)}"
+                )
                 if isinstance(content, str):
                     try:
                         content = json.loads(content)
@@ -390,9 +408,14 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                         content = None
                 if isinstance(content, list) and len(content) > 0:
                     # Check if at least one entry has Sachanlagen values or table_name
-                    if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
+                    if any(
+                        isinstance(e, dict) and (e.get("values") or e.get("table_name"))
+                        for e in content
+                    ):
                         should_write = True
-                elif isinstance(content, dict) and (content.get("values") or content.get("table_name")):
+                elif isinstance(content, dict) and (
+                    content.get("values") or content.get("table_name")
+                ):
                     should_write = True
 
                 if should_write:
@@ -401,18 +424,31 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                         if isinstance(result.extracted_content, str):
                             f.write(result.extracted_content)
                         else:
-                            json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
+                            json.dump(
+                                result.extracted_content,
+                                f,
+                                indent=2,
+                                ensure_ascii=False,
+                            )
                     extracted_data.append(result.extracted_content)
-                    logger.info(f"Successfully extracted data for {log_message_subject}")
+                    logger.info(
+                        f"Successfully extracted data for {log_message_subject}"
+                    )
                 else:
-                    logger.warning(f"No relevant Sachanlagen data found for {log_message_subject}")
+                    logger.warning(
+                        f"No relevant Sachanlagen data found for {log_message_subject}"
+                    )
                     # Ensure no output file is created for irrelevant or empty data
                     if os.path.exists(output_file):
                         try:
                             os.remove(output_file)
-                            logger.debug(f"Removed irrelevant output file: {output_file}")
+                            logger.debug(
+                                f"Removed irrelevant output file: {output_file}"
+                            )
                         except Exception as e:
-                            logger.warning(f"Failed to remove irrelevant output file {output_file}: {e}")
+                            logger.warning(
+                                f"Failed to remove irrelevant output file {output_file}: {e}"
+                            )
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
 
@@ -422,9 +458,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                         f"File appears to be empty or cannot be parsed: {file_path}"
                     )
                 else:
-                    logger.warning(
-                        f"No content extracted: {error_msg}"
-                    )
+                    logger.warning(f"No content extracted: {error_msg}")
 
         # Show usage stats
         llm_strategy.show_usage()
@@ -771,9 +805,13 @@ def run_extraction(
 
     async def _run():
         if only_recheck:
-            await check_and_reprocess_error_files(output_dir, input_path, ext, llm_strategy)
+            await check_and_reprocess_error_files(
+                output_dir, input_path, ext, llm_strategy
+            )
         else:
-            await process_files(file_paths, llm_strategy, output_dir, overwrite=overwrite)
+            await process_files(
+                file_paths, llm_strategy, output_dir, overwrite=overwrite
+            )
         csv_path = process_sachanlagen_output(output_dir)
         logger.info(f"CSV summary generated at: {csv_path}")
         return csv_path
