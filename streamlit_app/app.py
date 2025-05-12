@@ -904,39 +904,27 @@ def display_monitoring_section():
     # Initial queue processing is still needed outside the fragment
     process_queue_messages()
 
-    # Job selection and management section
-    with st.container():  # TODO Use st.fragment to auto update this container
+    # --- Jobs Table (auto-refreshing fragment) ---
+    @st.fragment(
+        run_every=st.session_state.get("refresh_interval", 3.0)
+        if st.session_state.get("auto_refresh_enabled", True)
+        and not st.session_state.get("testing_mode", False)
+        else None
+    )
+    def jobs_table_fragment():
         st.subheader("Jobs")
-
-        # Get active jobs
+        process_queue_messages()
         active_jobs = st.session_state.get("active_jobs", {})
-
-        # Ensure the most recent job is selected by default if none is selected
-        selected_job_id = st.session_state.get("selected_job_id")
-        if not selected_job_id and active_jobs:
-            sorted_jobs = sorted(
-                active_jobs.items(),
-                key=lambda x: x[1].get("start_time", 0),
-                reverse=True,
-            )
-            if sorted_jobs:
-                selected_job_id = sorted_jobs[0][0]
-                st.session_state["selected_job_id"] = selected_job_id
-
         if not active_jobs:
             st.info(
                 "No jobs have been run yet. Start a new job from the Input section."
             )
         else:
-            # Create a table of jobs with their status
             job_rows = []
             for job_id, job_data in active_jobs.items():
-                # Format timestamp as human-readable
                 start_time_str = time.strftime(
                     "%Y-%m-%d %H:%M:%S", time.localtime(job_data.get("start_time", 0))
                 )
-
-                # Calculate duration
                 if job_data.get("end_time"):
                     duration_sec = job_data["end_time"] - job_data["start_time"]
                     if duration_sec < 60:
@@ -946,19 +934,15 @@ def display_monitoring_section():
                             f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s"
                         )
                 else:
-                    # For running jobs, calculate current duration
                     duration_sec = time.time() - job_data["start_time"]
                     if duration_sec < 60:
                         duration = f"{int(duration_sec)}s (running)"
                     else:
                         duration = f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s (running)"
-
-                # Get file info
                 file_info = job_data.get("file_info", {})
                 file_type = file_info.get("type", "Unknown")
                 file_name = file_info.get("name", "Unknown")
                 record_count = file_info.get("record_count", 0)
-
                 job_rows.append(
                     {
                         "ID": job_id,
@@ -969,11 +953,7 @@ def display_monitoring_section():
                         "Source": f"{file_type}: {file_name} ({record_count} records)",
                     }
                 )
-
-            # Convert to DataFrame for display
             jobs_df = pd.DataFrame(job_rows)
-
-            # Display jobs table
             st.dataframe(
                 jobs_df,
                 column_config={
@@ -990,52 +970,50 @@ def display_monitoring_section():
                 use_container_width=True,
             )
 
-            # Add a selectbox for job selection
-            job_ids = [job_id for job_id in active_jobs.keys()]
-            job_labels = [
-                f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}"
-                for job_id in job_ids
-            ]
+    jobs_table_fragment()
 
-            selected_job_index = 0
+    # --- Job Selection and Cancel Button (separate container, not auto-refreshing) ---
+    with st.container():
+        active_jobs = st.session_state.get("active_jobs", {})
+        job_ids = [job_id for job_id in active_jobs.keys()]
+        job_labels = [
+            f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}"
+            for job_id in job_ids
+        ]
+        selected_job_index = 0
+        if (
+            "selected_job_id" in st.session_state
+            and st.session_state["selected_job_id"] in job_ids
+        ):
+            selected_job_index = job_ids.index(st.session_state["selected_job_id"])
+        selected_job_label = st.selectbox(
+            "Select Job:",
+            options=job_labels,
+            index=selected_job_index if job_labels else 0,
+            key="job_selector",
+        )
+        # Extract job_id from the selected label
+        if selected_job_label:
+            selected_job_id = job_ids[job_labels.index(selected_job_label)]
+            st.session_state["selected_job_id"] = selected_job_id
+        # Show only the Cancel button for the selected job
+        if st.button("Cancel Selected Job", key="cancel_job_btn"):
             if (
                 "selected_job_id" in st.session_state
-                and st.session_state["selected_job_id"] in job_ids
+                and st.session_state["selected_job_id"]
             ):
-                selected_job_index = job_ids.index(st.session_state["selected_job_id"])
-
-            selected_job_label = st.selectbox(
-                "Select Job:",
-                options=job_labels,
-                index=selected_job_index,
-                key="job_selector",
-            )
-
-            # Extract job_id from the selected label
-            if selected_job_label:
-                selected_job_id = job_ids[job_labels.index(selected_job_label)]
-                st.session_state["selected_job_id"] = selected_job_id
-
-            # Show only the Cancel button for the selected job
-            if st.button("Cancel Selected Job", key="cancel_job_btn"):
-                if (
-                    "selected_job_id" in st.session_state
-                    and st.session_state["selected_job_id"]
-                ):
-                    job_id = st.session_state["selected_job_id"]
-
-                    # Only try to cancel if job is running
-                    if active_jobs[job_id].get("status") == "Running":
-                        if cancel_job(job_id):
-                            st.success(f"Job {job_id} has been cancelled.")
-                        else:
-                            st.error(f"Failed to cancel job {job_id}.")
+                job_id = st.session_state["selected_job_id"]
+                if active_jobs.get(job_id, {}).get("status") == "Running":
+                    if cancel_job(job_id):
+                        st.success(f"Job {job_id} has been cancelled.")
                     else:
-                        st.warning(
-                            f"Job {job_id} is not running (status: {active_jobs[job_id].get('status')}). Only running jobs can be cancelled."
-                        )
+                        st.error(f"Failed to cancel job {job_id}.")
                 else:
-                    st.warning("Please select a job from the dropdown first.")
+                    st.warning(
+                        f"Job {job_id} is not running (status: {active_jobs.get(job_id, {}).get('status')}). Only running jobs can be cancelled."
+                    )
+            else:
+                st.warning("Please select a job from the dropdown first.")
 
     # Create a fragment for status information that auto-refreshes and displays job status/phase
     @st.fragment(
