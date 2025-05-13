@@ -94,7 +94,7 @@ def validate_columns(
 
 
 # --- Session State Initialization ---
-def init_session_state():
+def init_session_state() -> bool:
     """
     Initializes session state variables if they don't exist.
     Also handles specific state adjustments based on input method.
@@ -149,10 +149,15 @@ def init_session_state():
     return is_first_full_init
 
 
-def clear_other_input(selected_method):
+def clear_other_input(selected_method: str) -> None:
     """
     Clears the session state of the non-selected input method.
-    This function is now defined in app.py and passed to input_section.
+
+    Args:
+        selected_method (str): The input method selected ("File Upload" or "Manual Input").
+
+    Returns:
+        None
     """
     if selected_method == "File Upload":
         # When switching to File Upload, clear manual input DataFrame
