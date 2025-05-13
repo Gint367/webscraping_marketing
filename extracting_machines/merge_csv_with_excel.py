@@ -558,16 +558,24 @@ def load_sachanlagen_data(sachanlagen_path):
     )  # Progress Start
     try:
         sachanlagen_df = pd.read_csv(sachanlagen_path)
-        # Ensure column names are correct
-        if (
-            "company_name" not in sachanlagen_df.columns
-            or "sachanlagen" not in sachanlagen_df.columns
-        ):
+        # Create a mapping from lower-case column names to actual column names
+        col_map = {col.lower(): col for col in sachanlagen_df.columns}
+        # Required columns (case-insensitive)
+        required_cols = ["company_name", "sachanlagen"]
+        if not all(col in col_map for col in required_cols):
             logger.warning(f"Required columns not found in {sachanlagen_path}")
             logger.info(
                 "PROGRESS:extracting_machine:merge_data:0/0:Required columns missing, returning empty DataFrame"
             )  # Progress End (Error)
             return pd.DataFrame()
+
+        # Rename columns to expected lowercase names
+        sachanlagen_df = sachanlagen_df.rename(
+            columns={
+                col_map["company_name"]: "company_name",
+                col_map["sachanlagen"]: "sachanlagen",
+            }
+        )
 
         # Normalize company names
         sachanlagen_df["company_name"] = sachanlagen_df["company_name"].apply(
@@ -632,8 +640,12 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
         sachanlagen_mapping
     )
 
+    # Find the actual sachanlagen column in a case-insensitive way
+    sachanlagen_col = next(
+        (col for col in sachanlagen_df.columns if col.lower() == "sachanlagen"), None
+    )
     # Select only necessary columns and drop duplicates based on the mapped name
-    sachanlagen_to_merge = sachanlagen_df[["Mapped_Company", "sachanlagen"]].dropna(
+    sachanlagen_to_merge = sachanlagen_df[["Mapped_Company", sachanlagen_col]].dropna(
         subset=["Mapped_Company"]
     )
     sachanlagen_to_merge = sachanlagen_to_merge.drop_duplicates(
@@ -732,10 +744,12 @@ def main(
         has_machine_value = False
         for col in machine_cols:
             has_machine_value = has_machine_value | merged_df[col].notna()
+        # Case-insensitive check for 'sachanlagen' column
+        sachanlagen_col = next(
+            (col for col in merged_df.columns if col.lower() == "sachanlagen"), None
+        )
         has_sachanlagen_value = (
-            merged_df["Sachanlagen"].notna()
-            if "Sachanlagen" in merged_df.columns
-            else False
+            merged_df[sachanlagen_col].notna() if sachanlagen_col else False
         )
         filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
 
