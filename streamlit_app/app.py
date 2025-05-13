@@ -597,7 +597,7 @@ def calculate_progress_from_phase(
 
 def process_queue_messages():
     """
-    Process messages from the log and status queues for all active jobs,
+    Process messages from the status queues for all active jobs,
     updating the Streamlit session state.
     This should be called on each Streamlit rerun.
     """
@@ -619,6 +619,12 @@ def process_queue_messages():
                             job_data["progress"] = status_update["progress"]
                         if "phase" in status_update:
                             job_data["phase"] = status_update["phase"]
+                        if (
+                            "pipeline_log_file_path" in status_update
+                        ):  # Added this check
+                            job_data["pipeline_log_file_path"] = status_update[
+                                "pipeline_log_file_path"
+                            ]
 
                         # Handle completion
                         if (
@@ -636,7 +642,6 @@ def process_queue_messages():
                                 error_msg = (
                                     f"Error loading results for job {job_id}: {e}"
                                 )
-                                job_data["log_messages"].append(error_msg)
                                 job_data["error_message"] = error_msg
 
                         # Handle error
@@ -648,117 +653,20 @@ def process_queue_messages():
                             job_data["end_time"] = time.time()
             except Exception as e:
                 error_msg = f"Error processing status queue for job {job_id}: {e}"
-                if "log_messages" not in job_data:
-                    job_data["log_messages"] = []
-                job_data["log_messages"].append(error_msg)
+                app_logger.error(error_msg)
 
-    for job_id, job_data in st.session_state["active_jobs"].items():
-        if "log_queue" in job_data and job_data["log_queue"] is not None:
-            try:
-                while not job_data["log_queue"].empty():
-                    record = job_data["log_queue"].get_nowait()
-                    if record:
-                        log_message = f"{record.asctime if hasattr(record, 'asctime') else ''} - {record.levelname if hasattr(record, 'levelname') else ''} - {record.getMessage() if hasattr(record, 'getMessage') else str(record)}"
-                        # Add to job-specific logs
-                        if "log_messages" not in job_data:
-                            job_data["log_messages"] = []
-                        job_data["log_messages"].append(log_message)
-
-                        # --- PROGRESS log parsing for phase update ---
-                        try:
-                            log_message_text = (
-                                record.getMessage()
-                                if hasattr(record, "getMessage")
-                                else str(record)
-                            )
-                            if log_message_text.startswith("PROGRESS:"):
-                                progress_details = log_message_text.split(
-                                    "PROGRESS:", 1
-                                )[1].strip()
-                                # Split into at most 4 parts: component, sub_component, steps, description
-                                parts = progress_details.split(":", 3)
-                                new_phase_description = None
-                                if len(parts) == 4:
-                                    component, sub_component, steps_str, description = (
-                                        parts
-                                    )
-                                    comp_fmt = component.replace("_", " ").title()
-                                    sub_fmt = sub_component.replace("_", " ").title()
-                                    if "/" in steps_str:
-                                        try:
-                                            current_step, total_steps = steps_str.split(
-                                                "/"
-                                            )
-                                            if (
-                                                current_step.isdigit()
-                                                and total_steps.isdigit()
-                                            ):
-                                                phase_fmt = PHASE_FORMATS.get(
-                                                    component, {}
-                                                ).get(sub_component)
-                                                if phase_fmt:
-                                                    new_phase_description = f"{phase_fmt} - {description} ({current_step}/{total_steps})"
-                                                else:
-                                                    new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({current_step}/{total_steps})"
-                                            else:
-                                                new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
-                                        except Exception as e_parse_steps:
-                                            app_logger.debug(
-                                                f"Error parsing steps in PROGRESS log: {e_parse_steps}"
-                                            )
-                                            new_phase_description = f"{comp_fmt}: {sub_fmt} - {description} ({steps_str})"
-                                    else:
-                                        new_phase_description = (
-                                            f"{comp_fmt}: {sub_fmt} - {description}"
-                                        )
-                                elif len(parts) == 3:
-                                    component, sub_component, description = parts
-                                    comp_fmt = component.replace("_", " ").title()
-                                    sub_fmt = sub_component.replace("_", " ").title()
-                                    new_phase_description = (
-                                        f"{comp_fmt}: {sub_fmt} - {description}"
-                                    )
-                                elif len(parts) == 2:
-                                    component, description = parts
-                                    comp_fmt = component.replace("_", " ").title()
-                                    new_phase_description = (
-                                        f"{comp_fmt} - {description}"
-                                    )
-                                else:
-                                    new_phase_description = (
-                                        progress_details
-                                        if len(progress_details) < 80
-                                        else progress_details[:77] + "..."
-                                    )
-
-                                if new_phase_description:
-                                    job_data["phase"] = new_phase_description
-                                    app_logger.debug(
-                                        f"Updated job {job_id} phase to: {new_phase_description}"
-                                    )
-                        except Exception as e_parse_progress:
-                            app_logger.warning(
-                                f"Error parsing PROGRESS log for job {job_id}: {e_parse_progress}"
-                            )
-
-                # Check if the job process is still alive
-                if "process" in job_data and job_data["process"] is not None:
-                    process = job_data["process"]
-                    if not process.is_alive() and job_data.get("status") == "Running":
-                        # Process ended but status wasn't properly updated
-                        job_data["status"] = "Completed"
-                        if (
-                            not job_data.get("phase")
-                            or "Finished" not in job_data["phase"]
-                        ):
-                            job_data["phase"] = "Finished (Status not properly updated)"
-                        job_data["end_time"] = time.time()
-
-            except Exception as e:
-                error_msg = f"Error processing log queue for job {job_id}: {e}"
-                if "log_messages" not in job_data:
-                    job_data["log_messages"] = []
-                job_data["log_messages"].append(error_msg)
+        # Check if the job process is still alive (moved from the deleted log_queue loop)
+        if "process" in job_data and job_data["process"] is not None:
+            process = job_data["process"]
+            if not process.is_alive() and job_data.get("status") == "Running":
+                # Process ended but status wasn't properly updated via queue
+                job_data["status"] = "Completed"  # Or "Unknown" / "Error"
+                if not job_data.get("phase") or "Finished" not in job_data["phase"]:
+                    job_data["phase"] = "Finished (Process ended unexpectedly)"
+                job_data["end_time"] = time.time()
+                app_logger.warning(
+                    f"Process for job {job_id} ended unexpectedly. Status updated."
+                )
 
 
 def process_data():
@@ -965,9 +873,9 @@ def process_data():
             )
 
             # Add initial log entry to the job
-            job_data["log_messages"].append(
+            job_data["log_messages"] = [
                 f"{time.strftime('%Y-%m-%d %H:%M:%S')} - INFO - Job {job_id} started with {len(data_to_process)} companies"
-            )
+            ]
 
         except Exception as e:
             st.error(f"Failed to start pipeline: {e}")
