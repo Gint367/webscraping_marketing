@@ -1,13 +1,14 @@
 # Correct import order: stdlib -> third-party -> local
-import io  # Added for MagicMock spec
-import logging  # Added for LogRecord
+import io
+import logging
+import multiprocessing
 import os
 import sys
-import time  # Ensure time is imported
+import time
 import unittest
 from unittest.mock import MagicMock, mock_open, patch
 
-import pandas as pd  # Add pandas import for DataFrame comparison
+import pandas as pd
 
 # Add the project root to the Python path to allow imports like 'from streamlit_app import app'
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -17,6 +18,7 @@ sys.path.insert(0, project_root)
 try:
     # Now import using the package path relative to the project root
     from streamlit_app.app import (
+        REQUIRED_COLUMNS_MAP,  # Assuming this exists in app.py
         StreamlitLogHandler,
         # display_input_section, # Removed from here
         display_monitoring_section,
@@ -24,7 +26,8 @@ try:
         # Functions that are now dependencies for display_input_section
         process_data,  # Assuming this exists in app.py
         validate_columns,  # Assuming this exists in app.py
-        REQUIRED_COLUMNS_MAP,  # Assuming this exists in app.py
+    )
+    from streamlit_app.app import (
         clear_other_input as clear_other_input_from_app,  # Alias for clarity
     )
     from streamlit_app.section.input_section import (
@@ -988,3 +991,152 @@ class TestMonitoringSectionStatusAndProgressBar(unittest.TestCase):
             "No jobs have been run yet. Start a new job from the Input section."
         )
         # This one is for the job details part when no job is selected or no job
+
+
+# ---- New test cases for job management functions ----
+@patch("streamlit_app.app.st")
+@patch("streamlit_app.app.time")  # For mocking time.strftime and time.time
+@patch("streamlit_app.app.app_logger")  # For mocking app_logger
+class TestJobManagementFunctions(unittest.TestCase):
+    """Tests for job management utility functions."""
+
+    def test_generate_job_id_ReturnsStringStartingWithJobPrefix_ContainsTimestampLikeStructure(
+        self, mock_app_logger, mock_time, mock_st
+    ):
+        """
+        Checks if the generated ID has the correct prefix and a timestamp-like format.
+        """
+        # Mock time.strftime to return a predictable timestamp
+        mock_time.strftime.return_value = "20250513_103000"
+
+        # Import generate_job_id here to use the mocked time
+        from streamlit_app.app import generate_job_id
+
+        job_id = generate_job_id()
+
+        self.assertTrue(job_id.startswith("job_"))
+        timestamp_part = job_id[len("job_") :]
+        self.assertEqual(timestamp_part, "20250513_103000")
+        self.assertEqual(len(timestamp_part), 15)  # YYYYMMDD_HHMMSS
+        self.assertTrue(all(c.isdigit() or c == "_" for c in timestamp_part))
+        mock_time.strftime.assert_called_once_with("%Y%m%d_%H%M%S")
+
+    def test_cancel_job_JobExistsAndProcessAlive_TerminatesProcessUpdatesStatusAndReturnsTrue(
+        self, mock_app_logger, mock_time, mock_st
+    ):
+        """
+        Tests successful cancellation of a running job.
+        """
+        # Import cancel_job here
+        from streamlit_app.app import cancel_job
+
+        mock_process = MagicMock(spec=multiprocessing.Process)
+        mock_process.is_alive.return_value = True
+        job_id = "job_test123"
+        mock_st.session_state = {
+            "active_jobs": {
+                job_id: {
+                    "process": mock_process,
+                    "status": "Running",
+                    "phase": "Processing",
+                }
+            }
+        }
+        mock_time.time.return_value = 1234567890.0  # Mock current time
+
+        result = cancel_job(job_id)
+
+        self.assertTrue(result)
+        mock_process.terminate.assert_called_once()
+        self.assertEqual(
+            mock_st.session_state["active_jobs"][job_id]["status"], "Cancelled"
+        )
+        self.assertEqual(
+            mock_st.session_state["active_jobs"][job_id]["phase"],
+            "Terminated by user",
+        )
+        self.assertEqual(
+            mock_st.session_state["active_jobs"][job_id]["end_time"], 1234567890.0
+        )
+        mock_app_logger.info.assert_called_with(f"Job {job_id} was cancelled by user")
+
+    def test_cancel_job_JobIdNotFound_ReturnsFalse(
+        self, mock_app_logger, mock_time, mock_st
+    ):
+        """
+        Tests behavior when the job ID doesn't exist.
+        """
+        # Import cancel_job here
+        from streamlit_app.app import cancel_job
+
+        mock_st.session_state = {"active_jobs": {}}
+        job_id = "non_existent_job"
+
+        result = cancel_job(job_id)
+
+        self.assertFalse(result)
+        mock_app_logger.info.assert_not_called()
+        mock_app_logger.error.assert_not_called()
+
+    def test_cancel_job_ProcessNotAlive_ReturnsFalseDoesNotChangeStatus(
+        self, mock_app_logger, mock_time, mock_st
+    ):
+        """
+        Tests when the job process is already dead.
+        """
+        # Import cancel_job here
+        from streamlit_app.app import cancel_job
+
+        mock_process = MagicMock(spec=multiprocessing.Process)
+        mock_process.is_alive.return_value = False
+        job_id = "job_dead_process"
+        initial_job_data = {
+            "process": mock_process,
+            "status": "Running",  # Should remain unchanged
+            "phase": "Processing",
+        }
+        mock_st.session_state = {"active_jobs": {job_id: initial_job_data.copy()}}
+
+        result = cancel_job(job_id)
+
+        self.assertFalse(result)
+        mock_process.terminate.assert_not_called()
+        self.assertEqual(
+            mock_st.session_state["active_jobs"][job_id]["status"], "Running"
+        )  # Status unchanged
+        mock_app_logger.info.assert_not_called()
+        mock_app_logger.error.assert_not_called()
+
+    def test_cancel_job_ProcessTerminateRaisesException_LogsErrorReturnsFalse(
+        self, mock_app_logger, mock_time, mock_st
+    ):
+        """
+        Tests error handling during process termination.
+        """
+        # Import cancel_job here
+        from streamlit_app.app import cancel_job
+
+        mock_process = MagicMock(spec=multiprocessing.Process)
+        mock_process.is_alive.return_value = True
+        mock_process.terminate.side_effect = OSError("Termination failed")
+        job_id = "job_terminate_fail"
+        initial_job_data = {
+            "process": mock_process,
+            "status": "Running",
+            "phase": "Processing",
+        }
+        mock_st.session_state = {"active_jobs": {job_id: initial_job_data.copy()}}
+
+        result = cancel_job(job_id)
+
+        self.assertFalse(result)
+        mock_process.terminate.assert_called_once()
+        mock_app_logger.error.assert_called_with(
+            f"Failed to cancel job {job_id}: Termination failed"
+        )
+        # Status should ideally remain 'Running' or be set to an error state,
+        # but current implementation doesn't change it on exception.
+        self.assertEqual(
+            mock_st.session_state["active_jobs"][job_id]["status"], "Running"
+        )
+        mock_app_logger.info.assert_not_called()
