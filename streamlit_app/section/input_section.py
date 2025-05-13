@@ -141,66 +141,118 @@ def _read_csv_with_error_handling(bytesio) -> tuple[pd.DataFrame, list, bool]:
         tuple: (DataFrame, list of column names, validation success flag)
     """
     header_columns = []
-    preview_df = None
-    validation_passed = True
+    preview_df = pd.DataFrame()
+    encodings_to_try = ["utf-8", "cp1252", "latin1", "iso-8859-1"]
+    error_messages = []
 
-    try:
-        # First attempt: auto-detect separator
-        temp_df = pd.read_csv(bytesio, nrows=6, sep=None, engine="python")
-
-        # Check if columns were parsed correctly - sometimes sep=None gives only one column
-        if len(temp_df.columns) <= 1 and "," in temp_df.columns[0]:
-            logging.warning(
-                "Auto-detected separator might be wrong, trying comma explicitly."
-            )
-            bytesio.seek(0)
-            temp_df = pd.read_csv(bytesio, nrows=6, sep=",")
-        elif len(temp_df.columns) <= 1 and ";" in temp_df.columns[0]:
-            logging.warning(
-                "Auto-detected separator might be wrong, trying semicolon explicitly."
-            )
-            bytesio.seek(0)
-            temp_df = pd.read_csv(bytesio, nrows=6, sep=";")
-
-    except Exception as e_read:
-        # Second attempt: try semicolon separator if auto-detect failed
-        logging.warning(
-            f"CSV read failed with auto/comma separator: {e_read}. Trying semicolon."
-        )
-        bytesio.seek(0)
+    for encoding in encodings_to_try:
         try:
-            temp_df = pd.read_csv(bytesio, nrows=6, sep=";")
-        except Exception as e_read_semi:
-            logging.error(
-                f"CSV read failed with common separators: {e_read_semi}", exc_info=True
+            bytesio.seek(0)  # Reset stream position for each attempt
+            # First attempt: auto-detect separator with current encoding
+            temp_df = pd.read_csv(
+                bytesio,
+                nrows=6,
+                sep=None,
+                engine="python",
+                encoding=encoding,
+                dtype=str,
             )
-            raise ValueError(
-                "Could not parse CSV file. Check format, encoding, and separator."
-            ) from e_read_semi
 
-    # Process the read results
-    if not temp_df.empty:
-        header_columns = temp_df.columns.tolist()
-        preview_df = temp_df.head(5)  # Take the first 5 rows for preview
-    else:
-        # Check if file has content but pandas couldn't parse columns/rows
-        bytesio.seek(0)
-        file_content_sample = bytesio.read(200).decode(errors="ignore")
-        if file_content_sample.strip():
-            logging.warning(
-                f"Pandas read CSV resulted in empty DataFrame, but file has content. Sample: {file_content_sample[:100]}..."
-            )
-            st.warning(
-                "Could not parse rows/columns correctly. Please check CSV format (separator, quotes, encoding)."
-            )
-        else:
-            logging.warning(
-                "Pandas read CSV resulted in empty DataFrame, file appears empty."
-            )
-            st.warning("File appears to be empty.")
-        validation_passed = False
+            # Check if columns were parsed correctly
+            if (
+                len(temp_df.columns) <= 1 and temp_df.shape[0] > 0
+            ):  # Check if there's data
+                if "," in temp_df.columns[0]:
+                    logging.warning(
+                        f"Auto-detected separator might be wrong with {encoding}, trying comma explicitly."
+                    )
+                    bytesio.seek(0)
+                    temp_df = pd.read_csv(
+                        bytesio, nrows=6, sep=",", encoding=encoding, dtype=str
+                    )
+                elif ";" in temp_df.columns[0]:
+                    logging.warning(
+                        f"Auto-detected separator might be wrong with {encoding}, trying semicolon explicitly."
+                    )
+                    bytesio.seek(0)
+                    temp_df = pd.read_csv(
+                        bytesio, nrows=6, sep=";", encoding=encoding, dtype=str
+                    )
 
-    return preview_df, header_columns, validation_passed
+            # If successfully read, prepare to return
+            header_columns = temp_df.columns.tolist()
+            preview_df = temp_df.head(5)  # Ensure we only pass 5 rows for preview
+            successful_read_params = {
+                "encoding": encoding,
+                "separator": "auto-detected",
+            }
+            try:
+                logging.info(
+                    f"Successfully read CSV preview with encoding: {encoding}, separator: {successful_read_params['separator']}"
+                )
+            except Exception as ui_log_ex:
+                logging.warning(
+                    f"Error during logging/UI success message for preview: {ui_log_ex}"
+                )
+            return preview_df, header_columns, True
+
+        except UnicodeDecodeError as e_unicode:
+            error_messages.append(f"Encoding {encoding} failed: {e_unicode}")
+            logging.warning(f"CSV read failed with encoding {encoding}: {e_unicode}")
+            if encoding == encodings_to_try[-1]:  # If this was the last encoding
+                logging.error(
+                    f"All attempted encodings failed. Last error: {e_unicode}",
+                    exc_info=True,
+                )
+                raise ValueError(
+                    "Could not parse CSV file. Tried encodings: "
+                    f"{', '.join(encodings_to_try)}. Check format, encoding, and separator."
+                ) from e_unicode
+        except Exception as e_read:
+            logging.warning(
+                f"CSV read failed with auto/comma separator using {encoding}: {e_read}. Trying semicolon."
+            )
+            try:
+                bytesio.seek(0)
+                temp_df = pd.read_csv(
+                    bytesio, nrows=6, sep=";", encoding=encoding, dtype=str
+                )
+                header_columns = temp_df.columns.tolist()
+                preview_df = temp_df.head(5)  # Ensure we only pass 5 rows for preview
+                successful_read_params = {
+                    "encoding": encoding,
+                    "separator": ";",
+                }
+                try:
+                    logging.info(
+                        f"Successfully read CSV preview with encoding: {encoding}, separator: {successful_read_params['separator']}"
+                    )
+                except Exception as ui_log_ex:
+                    logging.warning(
+                        f"Error during logging/UI success message for preview: {ui_log_ex}"
+                    )
+                return preview_df, header_columns, True
+
+            except Exception as e_read_semi:
+                error_messages.append(
+                    f"Encoding {encoding} with ';' separator failed: {e_read_semi}"
+                )
+                logging.warning(
+                    f"CSV read failed with semicolon separator using {encoding}: {e_read_semi}"
+                )
+                if encoding == encodings_to_try[-1]:  # If this was the last encoding
+                    logging.error(
+                        f"All attempted encodings and common separators failed. Last error: {e_read_semi}",
+                        exc_info=True,
+                    )
+                    raise ValueError(
+                        "Could not parse CSV file. Tried encodings: "
+                        f"{', '.join(encodings_to_try)} and common separators. "
+                        "Check format, encoding, and separator."
+                    ) from e_read_semi
+
+    logging.error("CSV parsing failed after trying all encodings and separators.")
+    return pd.DataFrame(), [], False
 
 
 def _display_file_preview_and_validate(file_data) -> bool:
@@ -219,77 +271,40 @@ def _display_file_preview_and_validate(file_data) -> bool:
     validation_passed = True
 
     try:
-        # Ensure we start from the beginning of the file
-        file_data.seek(0)
-
-        # Handle different file types
-        if file_data.name.endswith(".csv"):
-            # Create a BytesIO object from the file's contents
-            bytesio = io.BytesIO(file_data.getvalue())
-            preview_df, header_columns, validation_passed = (
-                _read_csv_with_error_handling(bytesio)
-            )
-
-        elif file_data.name.endswith((".xls", ".xlsx")):
-            bytesio = io.BytesIO(file_data.getvalue())
-            # Read header and first 5 rows
-            temp_df = pd.read_excel(bytesio, nrows=6)  # Reads header + 5 data rows
-            if not temp_df.empty:
-                header_columns = temp_df.columns.tolist()
-                preview_df = temp_df.head(5)
-            else:
-                logging.warning("Pandas read Excel resulted in empty DataFrame.")
-                st.warning("File appears empty or the first sheet has no data.")
-                validation_passed = False
-        else:
-            # Unsupported file type
-            st.warning("Cannot preview this file type.")
-            validation_passed = False  # Cannot validate if cannot preview
-
-        # --- Perform Column Validation ---
-        if header_columns:  # Check if we actually got columns
-            column_validation, validation_passed_all_cols = _validate_columns_func(
-                header_columns
-            )
-
-            # Display validation results for each required column
-            for canonical_name, (found, actual_name) in column_validation.items():
-                aliases_str = "/".join(_req_cols_map[canonical_name])
-                if found:
-                    st.success(f"✔️ Found: **{canonical_name}** (as '{actual_name}')")
-                else:
-                    st.error(
-                        f"❌ Missing: **{canonical_name}** (expected one of: {aliases_str})"
-                    )
-
-            # Update overall validation status based on columns
-            if not validation_passed_all_cols:
-                validation_passed = False
-
-        elif validation_passed:
-            # Only show error if no other warning/error was raised during read
-            # No columns found during read attempt
-            st.error(
-                "Could not detect columns in the file. Please ensure the file is correctly formatted."
-            )
-            validation_passed = False
-
-        # --- Display Preview DataFrame ---
-        if preview_df is not None and not preview_df.empty:  # Check if preview has rows
-            st.dataframe(preview_df, use_container_width=True)
-        elif header_columns:  # Header found, but no data rows in the first 5
-            st.info(
-                "File has columns, but no data rows found in the preview (first 5 rows)."
-            )
-
-        # Reset pointer for the actual processing function later
-        file_data.seek(0)
-
+        bytesio = io.BytesIO(file_data.getvalue())
+        preview_df, header_columns, validation_passed = _read_csv_with_error_handling(
+            bytesio
+        )
     except Exception as e:
-        # Handle any errors during preview and validation
-        st.error(f"Could not read or preview the file: {e}")
+        st.error(f"Error previewing file {file_data.name}: {e}")
         logging.error(f"Error previewing file {file_data.name}: {e}", exc_info=True)
-        validation_passed = False  # Error means validation fails
+        validation_passed = False
+        preview_df = pd.DataFrame()
+        header_columns = []
+
+    if preview_df is not None and not preview_df.empty:
+        st.dataframe(preview_df)
+        if _validate_columns_func:
+            validation_results, all_found = _validate_columns_func(
+                header_columns, _req_cols_map
+            )
+            validation_passed = all_found
+
+            for canonical_name, (found, actual_name) in validation_results.items():
+                col_display_name = f"'{canonical_name}'"
+                if actual_name and actual_name != canonical_name:
+                    col_display_name += f" (found as '{actual_name}')"
+                if found:
+                    st.success(f"Required column {col_display_name} found.")
+                else:
+                    st.error(f"Required column {col_display_name} NOT found.")
+                    validation_passed = False
+        else:
+            st.warning("Column validation function not available.")
+            validation_passed = False
+    elif validation_passed:
+        if not header_columns:
+            st.info("File is empty or does not contain data rows for preview.")
 
     return validation_passed
 
