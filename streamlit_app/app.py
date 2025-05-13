@@ -921,10 +921,10 @@ def process_data():
                 "process": None,
                 "status_queue": status_queue,
                 "config": pipeline_config,
-                "log_messages": [],
                 "results": None,
                 "output_path": None,
                 "error_message": None,
+                "pipeline_log_file_path": None,  # Initialize with None, will be updated
                 "file_info": {
                     "type": st.session_state["input_method"],
                     "name": (
