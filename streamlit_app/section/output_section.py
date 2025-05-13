@@ -270,16 +270,27 @@ def _display_list_view_items(current_path: Path, base_output_dir: Path, job_id: 
                             # Consider st.rerun() if error display needs to refresh other elements
 
     if "preview_file_path" in st.session_state and st.session_state.preview_file_path:
-        with st.expander(
-            f"Preview: {Path(st.session_state.preview_file_path).name}", expanded=True
-        ):
-            st.text_area(
-                "File Content (first 2000 characters):",
-                st.session_state.get("preview_content", ""),
-                height=300,
-                key="preview_text_area_content",
-                disabled=True,
-            )
+        preview_path = Path(st.session_state.preview_file_path)
+        with st.expander(f"Preview: {preview_path.name}", expanded=True):
+            if preview_path.suffix.lower() == ".csv":
+                import pandas as pd
+
+                try:
+                    df = pd.read_csv(preview_path)
+                    st.dataframe(df, use_container_width=True)
+                except Exception as e:
+                    st.error(f"Error reading CSV file: {e}")
+                    logger.error(
+                        f"Error reading CSV file {preview_path}: {e}", exc_info=True
+                    )
+            else:
+                st.text_area(
+                    "File Content (first 2000 characters):",
+                    st.session_state.get("preview_content", ""),
+                    height=300,
+                    key="preview_text_area_content",
+                    disabled=True,
+                )
             if st.button("Close Preview", key="close_preview_button_expander"):
                 del st.session_state.preview_file_path
                 if "preview_content" in st.session_state:

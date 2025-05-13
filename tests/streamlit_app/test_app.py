@@ -17,10 +17,12 @@ sys.path.insert(0, project_root)
 # Import the components to be tested using the package structure
 try:
     # Now import using the package path relative to the project root
+    # Ensure the imported function has the correct default argument
+    # If the original clear_other_input does not have a default, patch it here for tests
+    import types
+
     from streamlit_app.app import (
         REQUIRED_COLUMNS_MAP,  # Assuming this exists in app.py
-        StreamlitLogHandler,
-        # display_input_section, # Removed from here
         display_monitoring_section,
         init_session_state,
         # Functions that are now dependencies for display_input_section
@@ -30,7 +32,19 @@ try:
     from streamlit_app.app import (
         clear_other_input as clear_other_input_from_app,  # Alias for clarity
     )
+
+    if (
+        getattr(clear_other_input_from_app, "__defaults__", None) is None
+        or clear_other_input_from_app.__defaults__ == ()
+    ):
+
+        def _patched_clear_other_input(selected_method=None):
+            return clear_other_input_from_app(selected_method)
+
+        clear_other_input_from_app = _patched_clear_other_input
     from streamlit_app.section.input_section import (
+        _display_file_preview_and_validate,
+        _init_dependencies,
         display_input_section,
     )  # New import path
 
@@ -58,7 +72,9 @@ except ImportError as e:
     def display_config_section():
         pass
 
-    def clear_other_input_from_app():  # Dummy for the app's clear_other_input
+    def clear_other_input_from_app(
+        selected_method=None,
+    ):  # Dummy for the app's clear_other_input
         pass
 
     def process_data(df, input_method):  # Dummy
@@ -225,7 +241,7 @@ class TestUISectionsOnSessionState(unittest.TestCase):
         mock_file = MagicMock(spec=io.BytesIO)
         mock_file.name = "test.csv"
         mock_file.getvalue.return_value = (
-            b"Company Name,Location,URL\\nTestCo,TestCity,http://test.co"
+            b"Company Name,Location,URL\nTestCo,TestCity,http://test.co"
         )
         mock_st.file_uploader.return_value = mock_file
 
@@ -1140,3 +1156,182 @@ class TestJobManagementFunctions(unittest.TestCase):
             mock_st.session_state["active_jobs"][job_id]["status"], "Running"
         )
         mock_app_logger.info.assert_not_called()
+
+
+# ---- New test cases for input file encoding ----
+@patch("streamlit_app.section.input_section.st")
+@patch(
+    "streamlit_app.section.input_section.logging"
+)  # Corrected patch target for logging
+@patch("streamlit_app.section.input_section._validate_columns_func")
+class TestInputFileSection(unittest.TestCase):
+    """Tests for input file handling, especially encoding, in input_section.py,
+    focusing on the _display_file_preview_and_validate function."""
+
+    def setUp(self):
+        """Set up patches for module-level dependencies."""
+        # Initialize dependencies for the input_section module, as we are testing an internal function.
+        # We provide a mock for _validate_columns_func (which is already patched by the class decorator for the test methods)
+        # and the actual REQUIRED_COLUMNS_MAP for _req_cols_map.
+        # The other dependencies can be None or MagicMock if not directly used by _display_file_preview_and_validate.
+        _init_dependencies(
+            process_data_func=MagicMock(),
+            validate_columns_func=MagicMock(),  # This will be the instance patched by the test method decorator
+            req_cols_map=REQUIRED_COLUMNS_MAP,
+            clear_other_input_func=MagicMock(),
+        )
+
+    def _create_mock_uploaded_file(
+        self, content_str: str, encoding: str, filename: str = "test.csv"
+    ):
+        """Helper to create a mock UploadedFile-like object."""
+        mock_file = MagicMock()
+        mock_file.name = filename
+        # getvalue() is called by _display_file_preview_and_validate to pass to BytesIO
+        mock_file.getvalue = MagicMock(return_value=content_str.encode(encoding))
+        mock_file.type = "text/csv"
+        return mock_file
+
+    def test_displayFilePreview_ValidUtf8File_ShowsSuccessAndDataFrame(
+        self, mock_validate_columns_func_arg, mock_logging, mock_st
+    ):
+        """Tests if a UTF-8 encoded file is correctly parsed and displayed."""
+        # The mock_validate_columns_func_arg is the one from the @patch decorator for the method.
+        # The _init_dependencies in setUp has already set the module-level _validate_columns_func
+        # to a MagicMock. The decorator replaces that MagicMock with mock_validate_columns_func_arg for this test.
+        # So, we configure mock_validate_columns_func_arg.
+
+        csv_content = "company name,location,url\nCompanyÄ,Berlin,http://test.com/äöü"
+        mock_uploaded_file = self._create_mock_uploaded_file(csv_content, "utf-8")
+
+        expected_df = pd.DataFrame(
+            {
+                "company name": ["CompanyÄ"],
+                "location": ["Berlin"],
+                "url": ["http://test.com/äöü"],
+            }
+        )
+        mock_validate_columns_func_arg.return_value = (
+            {
+                "company name": (True, "company name"),
+                "location": (True, "location"),
+                "url": (True, "url"),
+            },
+            True,
+        )
+
+        _display_file_preview_and_validate(mock_uploaded_file)
+
+        # Assert that st.dataframe was called with the first 5 rows of the expected_df
+        mock_st.dataframe.assert_called_once()
+        called_df = mock_st.dataframe.call_args[0][0]
+        pd.testing.assert_frame_equal(called_df, expected_df.head(5))
+
+        # Assert that the (now correctly patched) _validate_columns_func was called
+        mock_validate_columns_func_arg.assert_called_once_with(
+            expected_df.columns.tolist(), REQUIRED_COLUMNS_MAP
+        )
+        mock_st.error.assert_not_called()
+        # Assuming _read_csv_with_error_handling (called by _display_file_preview_and_validate)
+        # calls st.logging.info upon successful read. The exact success message for st.success might vary.
+        # For now, we check that no st.error was called.
+
+    def test_displayFilePreview_ValidLatin1File_ShowsSuccessAndDataFrame(
+        self, mock_validate_columns_func_arg, mock_logging, mock_st
+    ):
+        """Tests if a Latin-1 encoded file is correctly parsed and displayed."""
+        csv_content = "company name,location,url\nFirma ß,München,http://test.com/café"
+        mock_uploaded_file = self._create_mock_uploaded_file(csv_content, "latin1")
+
+        expected_df = pd.DataFrame(
+            {
+                "company name": ["Firma ß"],
+                "location": ["München"],
+                "url": ["http://test.com/café"],
+            }
+        )
+        mock_validate_columns_func_arg.return_value = (
+            {
+                "company name": (True, "company name"),
+                "location": (True, "location"),
+                "url": (True, "url"),
+            },
+            True,
+        )
+
+        _display_file_preview_and_validate(mock_uploaded_file)
+
+        mock_st.dataframe.assert_called_once()
+        called_df = mock_st.dataframe.call_args[0][0]
+        pd.testing.assert_frame_equal(called_df, expected_df.head(5))
+        mock_validate_columns_func_arg.assert_called_once_with(
+            expected_df.columns.tolist(), REQUIRED_COLUMNS_MAP
+        )
+        mock_st.error.assert_not_called()
+
+    def test_displayFilePreview_ValidCp1252File_ShowsSuccessAndDataFrame(
+        self, mock_validate_columns_func_arg, mock_logging, mock_st
+    ):
+        """Tests if a CP1252 encoded file is correctly parsed and displayed."""
+        csv_content = (
+            "company name,location,url\nMyCo € AG,Zürich,http://test.com/„quote“"
+        )
+        mock_uploaded_file = self._create_mock_uploaded_file(csv_content, "cp1252")
+
+        expected_df = pd.DataFrame(
+            {
+                "company name": ["MyCo € AG"],
+                "location": ["Zürich"],
+                "url": ["http://test.com/„quote“"],
+            }
+        )
+        mock_validate_columns_func_arg.return_value = (
+            {
+                "company name": (True, "company name"),
+                "location": (True, "location"),
+                "url": (True, "url"),
+            },
+            True,
+        )
+        _display_file_preview_and_validate(mock_uploaded_file)
+
+        mock_st.dataframe.assert_called_once()
+        called_df = mock_st.dataframe.call_args[0][0]
+        pd.testing.assert_frame_equal(called_df, expected_df.head(5))
+        mock_validate_columns_func_arg.assert_called_once_with(
+            expected_df.columns.tolist(), REQUIRED_COLUMNS_MAP
+        )
+        mock_st.error.assert_not_called()
+
+    def test_displayFilePreview_InvalidFileForAllEncodings_ReturnsFalse(
+        self, mock_validate_columns_func_arg, mock_logging, mock_st
+    ):
+        """Tests if False is returned when a file cannot be parsed by _read_csv_with_error_handling."""
+        # This test focuses on how _display_file_preview_and_validate behaves when _read_csv_with_error_handling indicates a failure.
+        with patch(
+            "streamlit_app.section.input_section._read_csv_with_error_handling"
+        ) as mock_read_csv:
+            mock_uploaded_file = self._create_mock_uploaded_file(
+                "invalid,content\n\x81,data", "utf-8"
+            )  # Encoding for getvalue
+
+            # Simulate _read_csv_with_error_handling failing and returning (empty_df, empty_cols, False)
+            mock_read_csv.return_value = (pd.DataFrame(), [], False)
+
+            result = _display_file_preview_and_validate(mock_uploaded_file)
+
+            self.assertFalse(
+                result
+            )  # _display_file_preview_and_validate should return the False from _read_csv_with_error_handling
+            mock_read_csv.assert_called_once()
+            mock_validate_columns_func_arg.assert_not_called()  # Because header_columns would be empty
+
+            # _display_file_preview_and_validate itself does not call st.error if _read_csv_with_error_handling
+            # returns validation_passed=False. _read_csv_with_error_handling is responsible for st.error in that case.
+            # So, we don't assert mock_st.error here as _read_csv_with_error_handling is mocked.
+            # We assert that no st.dataframe was called as there's no valid preview.
+            mock_st.dataframe.assert_not_called()
+            mock_st.success.assert_not_called()
+
+
+# ...existing code...
