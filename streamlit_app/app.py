@@ -58,26 +58,31 @@ app_logger.propagate = True  # Do not pass logs to the root logger
 # --- Helper Functions ---
 def validate_columns(
     df_columns: list[str],
+    required_columns_map: dict[
+        str, list[str]
+    ],  # this is because of dependency injection
 ) -> tuple[dict[str, tuple[bool, str | None]], bool]:
     """
     Checks if required columns (or their aliases) exist in the DataFrame columns.
 
     Args:
-        df_columns: A list of column names from the DataFrame.
+        df_columns (list[str]): A list of column names from the DataFrame.
+        required_columns_map (dict[str, list[str]]):
+            A dictionary where keys are canonical required column names and values are lists of aliases for each required column.
 
     Returns:
-        A tuple containing:
-        - A dictionary where keys are the canonical required column names
-          and values are tuples: (found_status: bool, actual_name_found: str | None).
-        - A boolean indicating if all required columns were found.
+        tuple[dict[str, tuple[bool, str | None]], bool]:
+            - A dictionary where keys are the canonical required column names
+              and values are tuples: (found_status: bool, actual_name_found: str | None).
+            - A boolean indicating if all required columns were found.
     """
-    validation_results = {}
-    all_found = True
-    normalized_df_columns = {
+    validation_results: dict[str, tuple[bool, str | None]] = {}
+    all_found: bool = True
+    normalized_df_columns: dict[str, str] = {
         col.lower().strip(): col for col in df_columns
     }  # Store original casing
 
-    for canonical_name, aliases in REQUIRED_COLUMNS_MAP.items():
+    for canonical_name, aliases in required_columns_map.items():
         found = False
         actual_name = None
         for alias in aliases:
@@ -769,7 +774,6 @@ def process_queue_messages():
 
 def process_data():
     """Processes the data from the selected input method."""
-    st.toast("process_data called")
     print("Processing started.")
 
     data_to_process = None
@@ -876,14 +880,15 @@ def process_data():
 
     # --- Prepare Pipeline Configuration ---
     if data_to_process:
-        st.info(f"Starting enrichment for {len(data_to_process)} companies...")
         app_logger.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
         job_id = None
         try:
             # Generate a unique job ID
             job_id = generate_job_id()
-
+            st.info(
+                f"Starting enrichment for {len(data_to_process)} companies as job {job_id}"
+            )
             # Create a job-specific output directory to prevent overwriting
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             job_output_dir = os.path.join(project_root, "outputs", f"job_{timestamp}")
