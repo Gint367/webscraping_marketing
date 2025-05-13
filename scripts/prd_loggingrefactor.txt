@@ -1,0 +1,30 @@
+here's a summary of the changes needed in app.py to rely entirely on saved log files for job-specific logs, instead of storing them in memory (`st.session_state`):
+
+1.  **`run_pipeline_in_process` Function (Background Process Logic):**
+    *   **Remove Log Queue (`log_queue`):** This queue, previously used to send individual log records back to the main Streamlit app for in-memory storage, will no longer be needed for log messages. The function will continue to use the `status_queue` for critical status updates, progress, phase information, the final output path, any critical error messages from the pipeline, and importantly, the `pipeline_log_file_path`.
+    *   **File Handler Remains:** The existing `logging.FileHandler` that writes pipeline logs directly to a job-specific file (e.g., `logfiles/pipeline_YYYYMMDD_HHMMSS.log`) will become the sole source for detailed job logs.
+    *   **Send `pipeline_log_file_path` via `status_queue`:** Ensure this path is reliably sent as part of an early status update so the main app knows where to find the logs for this job. This is likely already in place.
+
+2.  **`process_data` Function (Job Creation and Initialization):**
+    *   **Remove `log_queue` Initialization:** When setting up queues for a new job, the `log_queue` will no longer be created or passed to the `Process`.
+    *   **Remove `log_messages` from `job_data`:** The `job_data` dictionary for a new job will no longer include the `log_messages: []` key.
+    *   **Remove Initial Log Append:** The line that appends an initial "Job started..." message to `job_data["log_messages"]` will be removed. This information will naturally be the first entry in the dedicated log file.
+
+3.  **`process_queue_messages` Function (Handling Updates from Background Process):**
+    *   **Stop Processing `log_queue`:** The entire section of code that iterates through `job_data["log_queue"]` to retrieve and store log messages in `job_data["log_messages"]` will be removed.
+    *   **No Appending to `job_data["log_messages"]`:** Any other instances where messages (e.g., errors during queue processing itself) were appended to `job_data["log_messages"]` will be removed. Such app-level errors related to a job might be logged to the main application log (`streamlit_app.log`) or handled differently if they need to be visible in the UI.
+    *   **Retain `status_queue` Processing:** Continue to process the `status_queue` for job status, progress, phase, `pipeline_log_file_path`, `output_path`, and `error_message`. The `error_message` field in `job_data` will remain crucial for displaying critical pipeline failures.
+
+4.  **`display_logs` Function (within `display_monitoring_section`):**
+    *   **Exclusive File Reading:** This function will be modified to *only* read log content from the file specified by `job_data["pipeline_log_file_path"]` for the `selected_job_id`.
+    *   **Remove `job_data["log_messages"]` Access:** All references to `st.session_state["active_jobs"][selected_job_id].get("log_messages", [])` will be removed.
+    *   **File Handling Logic:** It will need robust logic to:
+        *   Check if `pipeline_log_file_path` exists and is valid.
+        *   Handle cases where the file might not exist yet (e.g., job is initializing), is empty, or is unreadable, displaying appropriate messages to the user (e.g., "Log file not yet created," "Log file is empty," "Error reading log file").
+        *   Continue to read and display a configurable number of lines from the end of the log file (tailing) to show the most recent entries.
+        *   The auto-refresh mechanism will trigger re-reading this file.
+
+5.  **General `job_data` Structure:**
+    *   The `log_messages` key will be removed from the structure of `job_data` within `st.session_state["active_jobs"]`.
+
+These changes will shift the log viewing mechanism from in-memory lists (which are lost on full app restart and consume memory) to a file-based approach, which is more persistent and scalable for log data. The `pipeline_log_file_path` stored with each job's metadata becomes the critical link to its logs.

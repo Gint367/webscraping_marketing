@@ -363,7 +363,6 @@ def cancel_job(job_id: str) -> bool:
 
 def run_pipeline_in_process(
     config: Dict[str, Any],
-    log_queue: Queue,
     status_queue: Queue,
     job_id: Optional[str] = None,
 ):
@@ -380,11 +379,10 @@ def run_pipeline_in_process(
                 "skip_llm_validation": True,  # Whether to skip LLM validation (optional)
                 "job_id": "job_20231010_123456",  # Unique job ID (optional)
             }
-        log_queue: Queue for passing log messages back to the main process.
         status_queue: Queue for sending status updates to the main process.
         job_id: The unique ID for this pipeline job.
     """
-    # Configure logging to capture pipeline logs and send to queue and file
+    # Configure logging to capture pipeline logs and send to file
     root_logger = logging.getLogger()
 
     # Create log directory if it doesn't exist
@@ -394,11 +392,6 @@ def run_pipeline_in_process(
     # Generate log filename with timestamp
     timestamp = time.strftime("%Y%m%d_%H%M%S")
     log_file_path = os.path.join(log_dir, f"pipeline_{timestamp}.log")
-
-    # Add a handler for the log queue
-    class QueueHandler(logging.Handler):
-        def emit(self, record):
-            log_queue.put(record)
 
     # Clear existing handlers
     for handler in root_logger.handlers[:]:
@@ -412,22 +405,18 @@ def run_pipeline_in_process(
         )
     )
     root_logger.addHandler(file_handler)
-
-    # Set up queue handler
-    queue_handler = QueueHandler()
-    queue_handler.setFormatter(
-        logging.Formatter(
-            "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-        )
-    )
-    root_logger.addHandler(queue_handler)
     root_logger.setLevel(logging.INFO)
 
-    # Log the file location so it's available in the queue
+    # Log the file location
     app_logger.info(f"Pipeline logs are being saved to: {log_file_path}")
 
-    # Send initial status
-    status_data = {"status": "Running", "progress": 0, "phase": "Initializing"}
+    # Send initial status, including the log_file_path
+    status_data = {
+        "status": "Running",
+        "progress": 0,
+        "phase": "Initializing",
+        "pipeline_log_file_path": log_file_path,  # Add log file path here
+    }
     if job_id:
         status_data["job_id"] = job_id
     status_queue.put(status_data)
@@ -919,7 +908,6 @@ def process_data():
 
             # Set up the queues for communication between processes
             manager = Manager()
-            log_queue = manager.Queue()
             status_queue = manager.Queue()
 
             # Create job entry with initial state
@@ -931,7 +919,6 @@ def process_data():
                 "start_time": time.time(),
                 "end_time": None,
                 "process": None,
-                "log_queue": log_queue,
                 "status_queue": status_queue,
                 "config": pipeline_config,
                 "log_messages": [],
@@ -961,7 +948,7 @@ def process_data():
             # Start the pipeline in a separate process
             p = Process(
                 target=run_pipeline_in_process,
-                args=(pipeline_config, log_queue, status_queue, job_id),
+                args=(pipeline_config, status_queue, job_id),
             )
             p.daemon = True  # Set as daemon so it terminates when the main process ends
             p.start()
