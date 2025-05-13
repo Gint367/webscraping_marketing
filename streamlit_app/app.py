@@ -204,7 +204,7 @@ class StreamlitLogHandler(logging.Handler):
 
                 if age_days > self.LOG_FILE_TTL_DAYS:
                     os.remove(self.log_file_path)
-                    self.info(
+                    logging.getLogger("streamlit_app_main").info(
                         f"Old log file {self.log_file_path} exceeded TTL and was deleted."
                     )
         except Exception as e:
@@ -301,11 +301,38 @@ def cancel_job(job_id: str) -> bool:
 
     job_data = st.session_state["active_jobs"][job_id]
 
+    process_object = job_data.get("process")
+
+    # Check if the process_object is an instance of multiprocessing.Process
+    if not isinstance(process_object, Process):
+        app_logger.error(
+            f"Job {job_id} has an invalid process object. "
+            f"Expected multiprocessing.Process, got {type(process_object)}"
+        )
+        return False
+
     # Only attempt to cancel if process exists and is running
-    if job_data.get("process") and job_data.get("process").is_alive():
+    if process_object and process_object.is_alive():
         try:
             # Terminate the process
-            job_data["process"].terminate()
+            process_object.terminate()
+
+            # After termination, check process details by PID and log
+            pid = getattr(process_object, "pid", None)
+            if pid is not None:
+                try:
+                    from streamlit_app.utils.utils import check_process_details_by_pid
+                except ImportError:
+                    # fallback for relative import if running as __main__
+                    from utils.utils import check_process_details_by_pid
+                is_alive, details = check_process_details_by_pid(pid)
+                app_logger.info(
+                    f"After cancelling job {job_id}, process PID {pid} alive: {is_alive}. Details: {details}"
+                )
+            else:
+                app_logger.info(
+                    f"After cancelling job {job_id}, process object has no PID attribute."
+                )
 
             # Update job status
             job_data["status"] = "Cancelled"
