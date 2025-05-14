@@ -243,6 +243,8 @@ class StreamlitLogHandler(logging.Handler):
             self.handleError(record)
 
 
+# Define streamlit_handler at module level, initialized to None
+streamlit_handler: Optional[StreamlitLogHandler] = None
 # Add the handler to the root logger AFTER initial state setup, but only if it doesn't exist yet
 root_logger = logging.getLogger()
 
@@ -1010,27 +1012,23 @@ def display_monitoring_section():
     # --- Job Selection and Cancel Button (separate container, not auto-refreshing) ---
     with st.container():
         active_jobs = st.session_state.get("active_jobs", {})
-        job_ids = [job_id for job_id in active_jobs.keys()]
-        job_labels = [
-            f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}"
+        job_ids = list(active_jobs.keys())
+        job_options = [
+            (job_id, f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}")
             for job_id in job_ids
         ]
-        selected_job_index = 0
-        if (
-            "selected_job_id" in st.session_state
-            and st.session_state["selected_job_id"] in job_ids
-        ):
-            selected_job_index = job_ids.index(st.session_state["selected_job_id"])
+        job_id_to_label = dict(job_options)
 
-        selected_job_label = st.selectbox(
-            "Select Job:",
-            options=job_labels,
-            index=selected_job_index if job_labels else 0,
-            key="job_selector",
-        )
-        # Extract job_id from the selected label
-        if selected_job_label:
-            st.session_state["selected_job_id"] = selected_job_label.split(" - ")[0]
+        # Use job_id as the value, label as the display
+        if job_ids:
+            selected_job_id = st.selectbox(
+                "Select Job:",
+                options=job_ids,
+                format_func=lambda job_id: job_id_to_label.get(job_id, job_id),
+                key="selected_job_id",
+            )
+        else:
+            selected_job_id = None
 
         # Show only the Cancel button for the selected job
         if st.button("Cancel Selected Job", key="cancel_job_btn"):
@@ -1208,28 +1206,57 @@ def display_monitoring_section():
 
         # Get logs based on currently selected job
         selected_job_id = st.session_state.get("selected_job_id")
-        current_logs = []
+        log_lines = []  # Initialize as an empty list
 
         if selected_job_id and selected_job_id in st.session_state.get(
             "active_jobs", {}
         ):
-            current_logs = st.session_state["active_jobs"][selected_job_id].get(
-                "log_messages", []
-            )
-            if not current_logs:
-                current_logs = []  # Ensure we have a valid list even if log_messages is None
+            job_data = st.session_state["active_jobs"][selected_job_id]
+            pipeline_log_file_path = job_data.get("pipeline_log_file_path")
+
+            if pipeline_log_file_path and os.path.exists(pipeline_log_file_path):
+                try:
+                    with open(pipeline_log_file_path, "r", encoding="utf-8") as f:
+                        log_lines = f.readlines()
+                except Exception as e:
+                    log_lines = [f"Error reading log file: {e}"]
+            elif pipeline_log_file_path:
+                log_lines = [f"Log file not found: {pipeline_log_file_path}"]
+            else:
+                # This case handles when the log file path hasn't been received yet
+                # or if the job doesn't produce a log file (e.g., very early error).
+                # We can check for an error message in job_data as a fallback.
+                error_message = job_data.get("error_message")
+                if error_message:
+                    log_lines = [f"Job Error: {error_message}"]
+                else:
+                    # If there's no specific error and no log file path yet,
+                    # it might be that the job is still initializing.
+                    status = job_data.get("status", "Unknown")
+                    phase = job_data.get("phase", "N/A")
+                    if (
+                        status in ["Initializing", "Running"]
+                        and not pipeline_log_file_path
+                    ):
+                        log_lines = [
+                            f"Job status: {status} - Phase: {phase} - Waiting for log file path..."
+                        ]
+                    else:
+                        log_lines = ["No log file path available for this job yet."]
+
         else:
-            current_logs = []  # No fallback to global logs anymore
+            # This case handles when no job is selected.
+            log_lines = ["No job selected or job data not found."]
 
         # Display logs in a container
         log_container = st.container(height=400)
         with log_container:
-            if not current_logs:
+            if not log_lines:
                 st.info("No log messages yet.")
             else:
                 # Display logs in reverse order (newest first)
-                for msg in reversed(current_logs):
-                    st.text(msg)
+                for msg in reversed(log_lines):
+                    st.text(msg.strip())  # Use strip() to remove trailing newlines
 
     # Call the logs fragment
     display_logs()
