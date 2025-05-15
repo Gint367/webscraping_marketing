@@ -9,7 +9,6 @@ import logging
 import pandas as pd
 import streamlit as st
 
-
 # --- Module-level placeholders for dependencies ---
 _process_data_func = None
 _validate_columns_func = None

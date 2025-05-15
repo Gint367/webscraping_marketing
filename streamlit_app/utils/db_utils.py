@@ -3,9 +3,12 @@ import logging
 import time
 from typing import Any, Dict, List, Optional
 
-from sqlalchemy.exc import SQLAlchemyError
+from pydantic import BaseModel
 from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 from streamlit.connections import SQLConnection
+
+from streamlit_app.app import JobDataModel  # Import the JobDataModel
 
 # Initialize logger for this module
 logger = logging.getLogger(__name__)
@@ -51,54 +54,27 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: Dict[str, Any]) -> No
 
     Args:
         conn: The Streamlit SQLConnection object.
-        job_data: A dictionary containing the job's data.
-                  Expected keys match the 'jobs' table columns.
-                  'config' and 'file_info' should be dicts if provided,
-                  or 'config_json' and 'file_info_json' can be pre-serialized strings.
+        job_data: A JobDataModel instance containing the job's data.
     """
-    # Ensure 'id' is present and valid
-    if "id" not in job_data or job_data["id"] is None:
-        logger.error(
-            "Job data must contain a valid 'id' to be added or updated in the database."
-        )
+    # Accept only JobDataModel
+    if not isinstance(job_data, JobDataModel):
+        logger.error("add_or_update_job_in_db expects a JobDataModel instance.")
         return
 
-    job_id_for_logging = job_data["id"]
+    job_id_for_logging = job_data.id
+
+    # Prepare dict for DB, exclude non-serializable fields
+    db_dict = job_data.model_dump(
+        exclude={"process", "status_queue", "log_messages"}, exclude_none=True
+    )
 
     # Add/update last_updated timestamp
-    job_data["last_updated"] = time.time()
+    db_dict["last_updated"] = time.time()
 
-    # Process 'config' and 'config_json'
-    if "config" in job_data and isinstance(job_data["config"], dict):
-        job_data["config_json"] = json.dumps(job_data["config"])
-        del job_data["config"]  # Remove original dict
-    elif "config_json" not in job_data:
-        job_data["config_json"] = None
+    # Serialize config and file_info
+    db_dict["config_json"] = json.dumps(db_dict.pop("config", {}))
+    db_dict["file_info_json"] = json.dumps(db_dict.pop("file_info", {}))
 
-    # Process 'file_info' and 'file_info_json'
-    if "file_info" in job_data and isinstance(job_data["file_info"], dict):
-        job_data["file_info_json"] = json.dumps(job_data["file_info"])
-        del job_data["file_info"]  # Remove original dict
-    elif "file_info_json" not in job_data:
-        job_data["file_info_json"] = None
-
-    # Ensure *_json fields are either string or None before database operation
-    if "config_json" in job_data and not isinstance(
-        job_data["config_json"], (str, type(None))
-    ):
-        logger.warning(
-            f"Job '{job_id_for_logging}': 'config_json' was of type {type(job_data['config_json']).__name__}, not string or None. Converting to None."
-        )
-        job_data["config_json"] = None
-    if "file_info_json" in job_data and not isinstance(
-        job_data["file_info_json"], (str, type(None))
-    ):
-        logger.warning(
-            f"Job '{job_id_for_logging}': 'file_info_json' was of type {type(job_data['file_info_json']).__name__}, not string or None. Converting to None."
-        )
-        job_data["file_info_json"] = None
-
-    # Prepare for INSERT OR REPLACE
     allowed_columns = {
         "id",
         "status",
@@ -115,12 +91,8 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: Dict[str, Any]) -> No
         "last_updated",
     }
 
-    # Rename output_path to output_final_file_path if present
-    if "output_path" in job_data:
-        job_data["output_final_file_path"] = job_data.pop("output_path")
-
     db_job_data = {
-        k: v for k, v in job_data.items() if k in allowed_columns and v is not None
+        k: v for k, v in db_dict.items() if k in allowed_columns and v is not None
     }
 
     if not db_job_data.get("id"):
@@ -150,20 +122,18 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: Dict[str, Any]) -> No
         raise
 
 
-def load_jobs_from_db(conn: SQLConnection) -> Dict[str, Dict[str, Any]]:
+def load_jobs_from_db(conn: SQLConnection) -> Dict[str, JobDataModel]:
     """
-    Loads all job records from the 'jobs' table.
+    Loads all job records from the 'jobs' table and returns a dict of JobDataModel instances.
 
     Args:
         conn: The Streamlit SQLConnection object.
 
     Returns:
-        A dictionary where keys are job IDs and values are dictionaries
-        of job data, mirroring the structure of st.session_state["active_jobs"].
-        JSON string fields ('config_json', 'file_info_json') are deserialized.
+        A dictionary where keys are job IDs and values are JobDataModel instances.
     """
     query = text("SELECT * FROM jobs ORDER BY last_updated DESC;")
-    active_jobs: Dict[str, Dict[str, Any]] = {}
+    active_jobs: Dict[str, JobDataModel] = {}
     try:
         results_df = conn.query(str(query), ttl=0)
 
@@ -199,7 +169,12 @@ def load_jobs_from_db(conn: SQLConnection) -> Dict[str, Dict[str, Any]]:
                 else:
                     job_data["file_info"] = {}
 
-                active_jobs[job_id] = job_data
+                # Convert to JobDataModel
+                try:
+                    job_model = JobDataModel.model_validate(job_data)
+                    active_jobs[job_id] = job_model
+                except Exception as e:
+                    logger.error(f"Failed to create JobDataModel for job {job_id}: {e}")
         logger.info(f"Loaded {len(active_jobs)} jobs from the database.")
     except SQLAlchemyError as e:
         logger.error(f"Error loading jobs from database: {e}")
@@ -209,17 +184,16 @@ def load_jobs_from_db(conn: SQLConnection) -> Dict[str, Dict[str, Any]]:
     return active_jobs
 
 
-def get_job_from_db(conn: SQLConnection, job_id: str) -> Optional[Dict[str, Any]]:
+def get_job_from_db(conn: SQLConnection, job_id: str) -> Optional[JobDataModel]:
     """
-    Retrieves a single job by its ID from the database.
+    Retrieves a single job by its ID from the database and returns a JobDataModel instance if found.
 
     Args:
         conn: The Streamlit SQLConnection object.
         job_id: The ID of the job to retrieve.
 
     Returns:
-        A dictionary containing the job's data if found, else None.
-        JSON string fields are deserialized.
+        A JobDataModel instance if found, else None.
     """
     query = text("SELECT * FROM jobs WHERE id = :job_id;")
     try:
@@ -252,8 +226,13 @@ def get_job_from_db(conn: SQLConnection, job_id: str) -> Optional[Dict[str, Any]
             else:
                 job_data["file_info"] = {}
 
-            logger.info(f"Successfully retrieved job '{job_id}' from database.")
-            return job_data
+            try:
+                job_model = JobDataModel.model_validate(job_data)
+                logger.info(f"Successfully retrieved job '{job_id}' from database.")
+                return job_model
+            except Exception as e:
+                logger.error(f"Failed to create JobDataModel for job {job_id}: {e}")
+                return None
         else:
             logger.info(f"Job '{job_id}' not found in database.")
             return None
@@ -281,7 +260,9 @@ def delete_job_from_db(conn: SQLConnection, job_id: str) -> bool:
         with conn.session as s:
             result = s.execute(query, {"job_id": job_id})
             s.commit()
-            if result.rowcount > 0:
+            # SQLAlchemy 2.x: rowcount is not always available; use returned rowcount if present, else assume success
+            deleted = getattr(result, "rowcount", None)
+            if deleted is not None and deleted > 0:
                 logger.info(f"Job '{job_id}' deleted from the database.")
             else:
                 logger.info(
@@ -328,7 +309,8 @@ def update_job_status_in_db(
         with conn.session as s:
             result = s.execute(query, params)
             s.commit()
-            if result.rowcount > 0:
+            updated = getattr(result, "rowcount", None)
+            if updated is not None and updated > 0:
                 logger.info(
                     f"Successfully updated status for job '{job_id}' to '{status}'."
                 )

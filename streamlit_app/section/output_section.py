@@ -10,6 +10,8 @@ from pathlib import Path
 
 import streamlit as st
 
+from streamlit_app.app import JobDataModel
+
 # Configure logging
 logger = logging.getLogger(__name__)
 # Ensure logger is configured (e.g., in main app or here if standalone)
@@ -298,16 +300,14 @@ def _display_list_view_items(current_path: Path, base_output_dir: Path, job_id: 
                 st.rerun()
 
 
-def display_final_output_file_section(job_data: dict) -> None:
+def display_final_output_file_section(job_data: JobDataModel) -> None:
     """
     Displays a container with the final output file and a download button if it exists.
 
     Args:
-        job_data (dict): The job data dictionary loaded from the database.
+        job_data (JobDataModel): The job data model loaded from the database.
     """
-    import streamlit as st
-
-    output_final_file_path = job_data.get("output_final_file_path")
+    output_final_file_path = getattr(job_data, "output_final_file_path", None)
     if output_final_file_path and Path(output_final_file_path).is_file():
         file_path = Path(output_final_file_path)
         with st.container():
@@ -317,13 +317,11 @@ def display_final_output_file_section(job_data: dict) -> None:
             )
             with open(file_path, "rb") as f:
                 st.download_button(
-                    label="Download",
-                    data=f,
+                    label="Download Final Output",
+                    data=f.read(),
                     file_name=file_path.name,
-                    mime="text/csv",
-                    key=f"download_final_output_{file_path.as_posix()}",
-                    help="Download the final output file for this job.",
-                    icon=":material/download:",
+                    mime="application/octet-stream",
+                    key=f"download_final_output_{file_path.name}",
                 )
     else:
         st.info("No final output file available for this job.")
@@ -343,8 +341,9 @@ def display_output_section(conn):
     job_id_to_label = {}
     for job_id, job_data in all_jobs_dict.items():
         # Compose a label with file_info name and timestamp if available
-        file_info_name = job_data.get("file_info", {}).get("name", f"Job {job_id}")
-        start_time = job_data.get("start_time", 0)
+        file_info = getattr(job_data, "file_info", {})
+        file_info_name = file_info.get("name", f"Job {job_id}")
+        start_time = getattr(job_data, "start_time", 0)
         timestamp = time.strftime(
             "%Y-%m-%d %H:%M:%S",
             time.localtime(start_time if start_time else time.time()),
@@ -364,8 +363,8 @@ def display_output_section(conn):
     base_output_dir = None
     if selected_job_id:
         job_data = all_jobs_dict.get(selected_job_id)
-        if job_data and isinstance(job_data, dict):
-            config = job_data.get("config", {})
+        if job_data is not None:
+            config = getattr(job_data, "config", {})
             base_output_dir_str = config.get("output_dir")
             if base_output_dir_str:
                 base_output_dir = Path(base_output_dir_str)
