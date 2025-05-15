@@ -1,0 +1,71 @@
+Okay, I've updated the document to reflect that log messages are read directly from their files, and only the file path is stored in the database.
+
+**Objective:**
+
+To implement a persistent job list for the Company Enrichment Tool, allowing users to view past and current job statuses, logs, and outputs even after refreshing the browser or accessing the application from a different computer (assuming shared access to the application's data store).
+
+**Key Changes & Implementation Details:**
+
+1.  **Persistence Mechanism & Connection Management:**
+    *   Job metadata will be persisted using a local **SQLite database** (`jobs.db`), typically located in a `data/` subdirectory of the project root.
+    *   To manage the database connection in line with Streamlit best practices, **`st.connection`** will be utilized.
+    *   The connection will be configured in the `.streamlit/secrets.toml` file, for example:
+        ````toml
+        # filepath: .streamlit/secrets.toml
+        [connections.jobs_db]
+        url = "sqlite:///data/jobs.db"
+        ````
+    *   In the application (e.g., within `streamlit_app/utils/db_utils.py` or initialized in app.py and passed), the connection would be established using:
+        ````python
+        # filepath: streamlit_app/app.py or streamlit_app/utils/db_utils.py
+        # import streamlit as st
+        # conn = st.connection('jobs_db', type='sql')
+        ````
+    *   This approach leverages Streamlit's built-in connection handling, including SQLAlchemy integration and resource caching for query results.
+
+2.  **Database Schema (`jobs` table):**
+    *   The database stores crucial information for each job, including:
+        *   `id` (Primary Key, e.g., "job\_YYYYMMDD\_HHMMSS")
+        *   `status` (e.g., "Initializing", "Running", "Completed", "Error", "Cancelled", "Interrupted")
+        *   `progress` (integer 0-100)
+        *   `phase` (text description of the current processing stage)
+        *   `start_time`, `end_time` (timestamps)
+        *   `config_json` (pipeline configuration stored as JSON)
+        *   `pipeline_log_file_path` (text, path to the job-specific log file)
+        *   `output_path` (path to the final output artifact)
+        *   `error_message` (if any errors occurred)
+        *   `file_info_json` (details about the input source, like filename and record count)
+        *   `input_csv_path` (path to the temporary input CSV used by the pipeline)
+        *   `last_updated` (timestamp of the last modification to the job record)
+
+3.  **Code Structure for Database Logic (using `st.connection`):**
+    *   To maintain modularity, all database-specific functions are centralized in `streamlit_app/utils/db_utils.py`. This module will utilize the `st.connection` object (e.g., `conn`) for all database interactions.
+    *   Key functions in this module will include:
+        *   `init_db(conn)`: Initializes the database and creates the `jobs` table using `conn.session` for DDL operations (e.g., `CREATE TABLE`).
+        *   `add_or_update_job_in_db(conn, job_data)`: Handles inserting or updating job records using `conn.session.execute()` and `conn.session.commit()`.
+        *   `load_jobs_from_db(conn)`: Loads job records using `conn.query('SELECT * FROM jobs')`. This benefits from Streamlit's caching capabilities (configurable with `ttl` if data freshness is a concern).
+        *   Generic helper functions like `db_write` and `db_read` (if needed) would be implemented using `conn.session` and `conn.query` respectively.
+
+4.  **Integration with Application Lifecycle (leveraging `db_utils` and `st.connection`):**
+    *   **Application Start (`init_session_state` in app.py):**
+        *   The `st.connection` object for `jobs_db` is established (e.g., `conn = st.connection('jobs_db', type='sql')`).
+        *   The database is initialized by calling `db_utils.init_db(conn)`.
+        *   Existing jobs are loaded from `jobs.db` into `st.session_state["active_jobs"]` using `db_utils.load_jobs_from_db(conn)`.
+        *   Jobs that were "Running" or "Initializing" in a previous session (and don't have a live process object) are marked as "Interrupted" in both session state and the database (via `db_utils.add_or_update_job_in_db(conn, ...)`).
+    *   **Job Creation (`process_data` in app.py):**
+        *   When a new job is initiated, its initial details are immediately written to the database using `db_utils.add_or_update_job_in_db(conn, ...)`.
+        *   The database record is updated again once the background process for the job has started, also using `db_utils.add_or_update_job_in_db(conn, ...)`.
+    *   **Job Updates (`process_queue_messages` in app.py):**
+        *   As jobs run, status updates, progress changes, the path to the pipeline log file, and completion/error information received from the background process queues are reflected in `st.session_state` and simultaneously persisted to the database using `db_utils.add_or_update_job_in_db(conn, ...)`.
+    *   **Job Cancellation (`cancel_job` in app.py):**
+        *   When a job is cancelled, its status is updated to "Cancelled" in the database using `db_utils.add_or_update_job_in_db(conn, ...)`.
+
+5.  **Impact on Existing Features:**
+    *   **Log Messages:**
+        *   The *path* to the job-specific pipeline log file (e.g., `pipeline_log_file_path`) is stored in the database.
+        *   The UI reads log messages directly from this file path when a job is selected for viewing. This allows viewing logs for completed, running, or interrupted jobs from past sessions, provided the log file still exists at the stored location.
+        *   Full, detailed pipeline logs continue to be saved to individual files in the logfiles directory, and these are the files referenced by `pipeline_log_file_path`.
+    *   **Output Artifacts:**
+        *   The *path* to the output artifact (e.g., the final CSV file) is stored in the database.
+        *   The actual output data is **not** stored in the database or session state.
+        *   The "Output" section of the UI will use this stored path to load and display/provide a download link for the results, provided the file still exists at that location.

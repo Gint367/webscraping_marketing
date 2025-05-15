@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional
 
 import pandas as pd
 import streamlit as st
+from streamlit.connections import SQLConnection
 
 # Add project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -27,12 +28,16 @@ from streamlit_app.section.input_section import display_input_section  # noqa: E
 from streamlit_app.section.output_section import (  # noqa: E402
     display_output_section,
 )
+from streamlit_app.utils import db_utils  # noqa: E402
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
 # --- Page Configuration (Must be the first Streamlit command) ---
 st.set_page_config(
     layout="wide", page_title="Company Enrichment Tool"
 )  # Added page config
+
+# --- Database Connection ---
+conn = st.connection("jobs_db", type="sql")
 
 # --- Constants for Column Validation ---
 REQUIRED_COLUMNS_MAP = {
@@ -52,7 +57,7 @@ logging.basicConfig(
 # Create a dedicated logger for the Streamlit application
 app_logger = logging.getLogger("streamlit_app_main")
 app_logger.setLevel(logging.INFO)
-app_logger.propagate = True  # Do not pass logs to the root logger
+app_logger.propagate = True  # This will pass the logs to the streamlit_app.log
 
 
 # --- Helper Functions ---
@@ -103,12 +108,30 @@ def init_session_state() -> bool:
     """
     Initializes session state variables if they don't exist.
     Also handles specific state adjustments based on input method.
+    Initializes the database and loads existing jobs.
+    Marks interrupted jobs.
 
     Returns:
         bool: True if this was the first full initialization, False otherwise.
     """
     # Sentinel key to check if this is the first time defaults are being applied in this session.
     is_first_full_init = "_app_defaults_initialized" not in st.session_state
+
+    # Initialize database and create tables if they don't exist
+    # This should be done early, before loading jobs or setting defaults that might depend on DB state.
+    if "_db_initialized" not in st.session_state:
+        try:
+            db_utils.init_db(conn)
+            app_logger.info("Database connection established and schema initialized.")
+            st.session_state["_db_initialized"] = True
+        except Exception as e:
+            app_logger.error(f"Failed to initialize database: {e}")
+            st.error(f"Application critical error: Failed to initialize database: {e}")
+            # Depending on the severity, you might want to halt further execution
+            # or allow the app to run in a degraded state if possible.
+            # For now, we'll let it continue so other UI elements can render,
+            # but operations requiring the DB will likely fail.
+            st.session_state["_db_initialized"] = False  # Mark as failed
 
     defaults = {
         "page": "Input",
@@ -133,6 +156,51 @@ def init_session_state() -> bool:
     for key, value in defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
+
+    # Load existing jobs from DB and update/mark interrupted ones
+    # This should happen AFTER defaults are set, especially for 'active_jobs'
+    if "_jobs_loaded_from_db" not in st.session_state:
+        try:
+            loaded_jobs = db_utils.load_jobs_from_db(conn)
+            st.session_state["active_jobs"] = (
+                loaded_jobs  # Overwrite default empty dict
+            )
+            app_logger.info(
+                f"Successfully loaded {len(loaded_jobs)} jobs from the database."
+            )
+
+            jobs_to_update = {}
+            for job_id, job_data in st.session_state["active_jobs"].items():
+                # Check for jobs that were running/initializing and don't have a live process
+                # (assuming 'process' object is not stored/retrieved from DB directly)
+                if job_data.get("status") in ["Running", "Initializing"]:
+                    # This logic assumes 'process' is a runtime-only attribute not in db_data
+                    # If 'process' was somehow stored (it shouldn't be), this check needs adjustment
+                    # For now, we assume any "Running" or "Initializing" job from DB was interrupted
+                    job_data["status"] = "Interrupted"
+                    job_data["phase"] = "Interrupted (application restart)"
+                    job_data["end_time"] = time.time()  # Mark interruption time
+                    jobs_to_update[job_id] = job_data
+                    app_logger.info(
+                        f"Job {job_id} was in status '{job_data.get('status')}' and marked as 'Interrupted'."
+                    )
+
+            if jobs_to_update:
+                for job_id, updated_job_data in jobs_to_update.items():
+                    db_utils.add_or_update_job_in_db(conn, updated_job_data)
+                app_logger.info(
+                    f"Updated {len(jobs_to_update)} interrupted jobs in the database."
+                )
+
+            st.session_state["_jobs_loaded_from_db"] = (
+                True  # Mark that DB load has occurred
+            )
+
+        except Exception as e:
+            app_logger.error(f"Failed to load or update jobs from database: {e}")
+            # Keep the default empty 'active_jobs' if DB load fails
+            if "active_jobs" not in st.session_state:  # Ensure it exists
+                st.session_state["active_jobs"] = {}
 
     # Set the sentinel AFTER initializing the main values
     if is_first_full_init:
@@ -228,9 +296,8 @@ class StreamlitLogHandler(logging.Handler):
 
     def emit(self, record: logging.LogRecord):
         """
-        Emit a log record ONLY to the application log file (streamlit_app.log).
-        Job-specific logs are populated by reading from their respective queues
-        in `process_queue_messages`.
+        Emit a log record ONLY to the main application log file (streamlit_app.log).
+        Job-specific logs are read directly from their dedicated files in the UI.
         """
 
         try:
@@ -352,6 +419,14 @@ def cancel_job(job_id: str) -> bool:
             job_data["end_time"] = time.time()
 
             app_logger.info(f"Job {job_id} was cancelled by user")
+            # Persist cancellation to DB
+            try:
+                db_utils.add_or_update_job_in_db(conn, job_data)
+                app_logger.info(f"Job {job_id} cancellation status saved to database.")
+            except Exception as db_exc:
+                app_logger.error(
+                    f"Failed to save cancellation status for job {job_id} to database: {db_exc}"
+                )
             return True
         except Exception as e:
             app_logger.error(f"Failed to cancel job {job_id}: {e}")
@@ -424,7 +499,7 @@ def run_pipeline_in_process(
     status_queue.put(status_data)
     input_csv_path_to_delete = config.get("input_csv")  # Store path for cleanup
     try:
-        print(f"Pipeline process started with config: {config}")
+        app_logger.info(f"Pipeline process started with config: {config}")
         app_logger.info(
             f"Pipeline process started for job {job_id}"
             if job_id
@@ -443,12 +518,12 @@ def run_pipeline_in_process(
         # Execute the pipeline
         final_output = run_pipeline(config)
 
-        # Send success status with final output path
+        # Send success status with final output file path
         status_data = {
             "status": "Completed",
             "progress": 100,
             "phase": "Finished",
-            "output_path": final_output,
+            "output_final_file_path": final_output,
         }
         if job_id:
             status_data["job_id"] = job_id
@@ -631,18 +706,22 @@ def process_queue_messages():
                         # Handle completion
                         if (
                             status_update.get("status") == "Completed"
-                            and "output_path" in status_update
+                            and "output_final_file_path" in status_update
                         ):
-                            output_path = status_update["output_path"]
+                            output_final_file_path = status_update[
+                                "output_final_file_path"
+                            ]
                             try:
                                 # Load the results
-                                results_df = pd.read_csv(output_path)
-                                job_data["results"] = results_df
-                                job_data["output_path"] = output_path
+                                # results_df = pd.read_csv(output_final_file_path) # Results are not stored in session/db
+                                # job_data["results"] = results_df
+                                job_data["output_final_file_path"] = (
+                                    output_final_file_path
+                                )
                                 job_data["end_time"] = time.time()
                             except Exception as e:
                                 error_msg = (
-                                    f"Error loading results for job {job_id}: {e}"
+                                    f"Error processing completion for job {job_id}: {e}"
                                 )
                                 job_data["error_message"] = error_msg
 
@@ -653,6 +732,15 @@ def process_queue_messages():
                         ):
                             job_data["error_message"] = status_update["error"]
                             job_data["end_time"] = time.time()
+
+                        # Persist changes to DB after processing an update
+                        try:
+                            db_utils.add_or_update_job_in_db(conn, job_data)
+                        except Exception as db_exc:
+                            app_logger.error(
+                                f"Failed to update job {job_id} in database after queue message: {db_exc}"
+                            )
+
             except Exception as e:
                 error_msg = f"Error processing status queue for job {job_id}: {e}"
                 app_logger.error(error_msg)
@@ -663,12 +751,24 @@ def process_queue_messages():
             if not process.is_alive() and job_data.get("status") == "Running":
                 # Process ended but status wasn't properly updated via queue
                 job_data["status"] = "Completed"  # Or "Unknown" / "Error"
-                if not job_data.get("phase") or "Finished" not in job_data["phase"]:
+                if not job_data.get("phase") or "Finished" not in job_data.get(
+                    "phase", ""
+                ):
                     job_data["phase"] = "Finished (Process ended unexpectedly)"
                 job_data["end_time"] = time.time()
                 app_logger.warning(
-                    f"Process for job {job_id} ended unexpectedly. Status updated."
+                    f"Process for job {job_id} ended unexpectedly. Status updated in session."
                 )
+                # Persist this unexpected completion/error to DB
+                try:
+                    db_utils.add_or_update_job_in_db(conn, job_data)
+                    app_logger.info(
+                        f"Job {job_id} unexpected end status saved to database."
+                    )
+                except Exception as db_exc:
+                    app_logger.error(
+                        f"Failed to save unexpected end status for job {job_id} to database: {db_exc}"
+                    )
 
 
 def process_data():
@@ -830,11 +930,12 @@ def process_data():
                 "end_time": None,
                 "process": None,
                 "status_queue": status_queue,
-                "config": pipeline_config,
+                "config": pipeline_config,  # Contains the temp_csv_path as 'input_csv'
                 "results": None,
-                "output_path": None,
+                "output_final_file_path": None,
                 "error_message": None,
                 "pipeline_log_file_path": None,  # Initialize with None, will be updated
+                "temp_input_csv_path": temp_csv_path,  # Added this field
                 "file_info": {
                     "type": st.session_state["input_method"],
                     "name": (
@@ -855,6 +956,15 @@ def process_data():
             # Set this as the selected job
             st.session_state["selected_job_id"] = job_id
 
+            # Persist initial job data to DB
+            try:
+                db_utils.add_or_update_job_in_db(conn, job_data)
+                app_logger.info(f"Initial data for job {job_id} saved to database.")
+            except Exception as db_exc:
+                app_logger.error(
+                    f"Failed to save initial data for job {job_id} to database: {db_exc}"
+                )
+
             # Start the pipeline in a separate process
             p = Process(
                 target=run_pipeline_in_process,
@@ -874,6 +984,17 @@ def process_data():
                 f"Pipeline process started with PID: {p.pid} for job {job_id}"
             )
 
+            # Persist job data after process start to DB
+            try:
+                db_utils.add_or_update_job_in_db(conn, job_data)
+                app_logger.info(
+                    f"Job {job_id} data after process start saved to database."
+                )
+            except Exception as db_exc:
+                app_logger.error(
+                    f"Failed to save job {job_id} data after process start to database: {db_exc}"
+                )
+
             # Add initial log entry to the job
             job_data["log_messages"] = [
                 f"{time.strftime('%Y-%m-%d %H:%M:%S')} - INFO - Job {job_id} started with {len(data_to_process)} companies"
@@ -890,6 +1011,16 @@ def process_data():
                 st.session_state["active_jobs"][job_id]["phase"] = "Failed to start"
                 st.session_state["active_jobs"][job_id]["error_message"] = str(e)
                 st.session_state["active_jobs"][job_id]["end_time"] = time.time()
+                # Persist error status to DB
+                try:
+                    db_utils.add_or_update_job_in_db(
+                        conn, st.session_state["active_jobs"][job_id]
+                    )
+                    app_logger.info(f"Error status for job {job_id} saved to database.")
+                except Exception as db_exc:
+                    app_logger.error(
+                        f"Failed to save error status for job {job_id} to database: {db_exc}"
+                    )
 
             app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
 
@@ -937,7 +1068,12 @@ def display_monitoring_section():
     """Displays the job monitoring and log output."""
     st.header("3. Monitoring")
     st.write("Track the progress of the scraping and enrichment processes.")
-
+    # Always reload jobs from DB to ensure up-to-date info
+    try:
+        loaded_jobs = db_utils.load_jobs_from_db(conn)
+        st.session_state["active_jobs"] = loaded_jobs
+    except Exception as e:
+        app_logger.error(f"Failed to reload jobs from DB: {e}")
     # Initial queue processing is still needed outside the fragment
     process_queue_messages()
 
@@ -1013,36 +1149,59 @@ def display_monitoring_section():
     with st.container():
         active_jobs = st.session_state.get("active_jobs", {})
         job_ids = list(active_jobs.keys())
-        job_options = [
-            (job_id, f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}")
-            for job_id in job_ids
-        ]
-        job_id_to_label = dict(job_options)
+        # --- Sort job_ids by start_time (latest first) ---
+        sorted_jobs = sorted(
+            active_jobs.items(),
+            key=lambda x: x[1].get("start_time", 0),
+            reverse=True,
+        )
+        sorted_job_ids = [job_id for job_id, _ in sorted_jobs]
+        # --- Create a selectbox for job selection ---
+        job_id_to_label = {
+            job_id: f"{job_id} - {active_jobs[job_id].get('status', 'Unknown')}"
+            for job_id in sorted_job_ids
+        }
 
-        # Use job_id as the value, label as the display
+        # Determine the initial value for selected_job_id if not already set or invalid.
+        # This logic runs BEFORE the selectbox is instantiated.
+        current_selection = st.session_state.get("selected_job_id")
+
+        if (
+            not current_selection or current_selection not in active_jobs
+        ) and active_jobs:
+            # If no valid job is selected and jobs exist, select the most recent one.
+            sorted_jobs = sorted(
+                active_jobs.items(),
+                key=lambda x: x[1].get("start_time", 0),
+                reverse=True,
+            )
+            if sorted_jobs:
+                st.session_state["selected_job_id"] = sorted_jobs[0][0]
+        elif not active_jobs:
+            # If there are no jobs, ensure selected_job_id is None
+            st.session_state["selected_job_id"] = None
+        # If current_selection is valid and in active_jobs, it remains unchanged.
+
+        # The st.selectbox will now use the value from st.session_state.selected_job_id
+        # as its current selection due to the `key`.
         if job_ids:
-            selected_job_id = st.selectbox(
-                "Select Job:",
+            st.selectbox(
+                label="Select Job:",
                 options=job_ids,
-                format_func=lambda job_id: job_id_to_label.get(job_id, job_id),
+                format_func=lambda job_id: job_id_to_label.get(job_id, str(job_id)),
                 key="selected_job_id",
             )
-        else:
-            selected_job_id = None
+        # else: No selectbox if no jobs. st.session_state.selected_job_id would be None.
 
-        # Show only the Cancel button for the selected job
+        # Read the selected job ID from session state for the cancel button logic
+        selected_job_id_for_cancel = st.session_state.get("selected_job_id")
+
         if st.button("Cancel Selected Job", key="cancel_job_btn"):
-            if (
-                "selected_job_id" in st.session_state
-                and st.session_state["selected_job_id"]
-            ):
-                if cancel_job(st.session_state["selected_job_id"]):
-                    st.toast(f"Job {st.session_state['selected_job_id']} cancelled.")
-                    # No need to rerun here, fragment will update
+            if selected_job_id_for_cancel:
+                if cancel_job(selected_job_id_for_cancel):
+                    st.toast(f"Job {selected_job_id_for_cancel} cancelled.")
                 else:
-                    st.error(
-                        f"Could not cancel job {st.session_state['selected_job_id']}."
-                    )
+                    st.error(f"Could not cancel job {selected_job_id_for_cancel}.")
             else:
                 st.warning("No job selected to cancel.")
 
@@ -1057,21 +1216,9 @@ def display_monitoring_section():
         # Process messages from queues inside fragment to ensure fresh data
         process_queue_messages()
 
-        # Show details for selected job (if none selected, select the most recent one)
+        # Show details for selected job (value is read from session state)
         selected_job_id = st.session_state.get("selected_job_id")
         active_jobs = st.session_state.get("active_jobs", {})
-
-        # If no job is selected but jobs exist, select the most recent one
-        if not selected_job_id and active_jobs:
-            # Sort jobs by start_time (descending) and get the most recent
-            sorted_jobs = sorted(
-                active_jobs.items(),
-                key=lambda x: x[1].get("start_time", 0),
-                reverse=True,
-            )
-            if sorted_jobs:
-                selected_job_id = sorted_jobs[0][0]
-                st.session_state["selected_job_id"] = selected_job_id
 
         if selected_job_id and selected_job_id in active_jobs:
             job_data = active_jobs[selected_job_id]
@@ -1189,9 +1336,6 @@ def display_monitoring_section():
     if selected_job_id and selected_job_id in st.session_state.get("active_jobs", {}):
         # Notify user which job's logs they're viewing
         st.markdown(f"*Showing logs for job: {selected_job_id}*")
-    else:
-        # Fallback to global logs if no job is selected
-        st.markdown("*Showing global logs (no job selected)*")
 
     # Display logs in a scrollable container
     @st.fragment(
@@ -1223,26 +1367,19 @@ def display_monitoring_section():
             elif pipeline_log_file_path:
                 log_lines = [f"Log file not found: {pipeline_log_file_path}"]
             else:
-                # This case handles when the log file path hasn't been received yet
-                # or if the job doesn't produce a log file (e.g., very early error).
-                # We can check for an error message in job_data as a fallback.
-                error_message = job_data.get("error_message")
-                if error_message:
-                    log_lines = [f"Job Error: {error_message}"]
+                initial_logs = job_data.get("log_messages", [])
+                if initial_logs:
+                    st.text_area(
+                        "Initial Job Messages",
+                        value="\n".join(initial_logs),
+                        height=100,
+                        key=f"initial_log_{job_data['id']}",
+                        disabled=True,
+                    )
                 else:
-                    # If there's no specific error and no log file path yet,
-                    # it might be that the job is still initializing.
-                    status = job_data.get("status", "Unknown")
-                    phase = job_data.get("phase", "N/A")
-                    if (
-                        status in ["Initializing", "Running"]
-                        and not pipeline_log_file_path
-                    ):
-                        log_lines = [
-                            f"Job status: {status} - Phase: {phase} - Waiting for log file path..."
-                        ]
-                    else:
-                        log_lines = ["No log file path available for this job yet."]
+                    st.info(
+                        f"Job status: {job_data.get('status', 'N/A')} - Phase: {job_data.get('phase', 'N/A')} - Waiting for log file path..."
+                    )
 
         else:
             # This case handles when no job is selected.
@@ -1304,6 +1441,6 @@ if __name__ == "__main__":
     elif page == "Monitoring":
         display_monitoring_section()
     elif page == "Output":
-        display_output_section()
+        display_output_section(conn)
 
     print(f"Displayed page: {page}")

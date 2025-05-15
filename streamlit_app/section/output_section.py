@@ -298,74 +298,92 @@ def _display_list_view_items(current_path: Path, base_output_dir: Path, job_id: 
                 st.rerun()
 
 
-def display_output_section():
+def display_final_output_file_section(job_data: dict) -> None:
+    """
+    Displays a container with the final output file and a download button if it exists.
+
+    Args:
+        job_data (dict): The job data dictionary loaded from the database.
+    """
+    import streamlit as st
+
+    output_final_file_path = job_data.get("output_final_file_path")
+    if output_final_file_path and Path(output_final_file_path).is_file():
+        file_path = Path(output_final_file_path)
+        with st.container():
+            st.markdown("### Final Output File")
+            st.success(
+                f"**{file_path.name}** ({format_size(file_path.stat().st_size)})"
+            )
+            with open(file_path, "rb") as f:
+                st.download_button(
+                    label="Download",
+                    data=f,
+                    file_name=file_path.name,
+                    mime="text/csv",
+                    key=f"download_final_output_{file_path.as_posix()}",
+                    help="Download the final output file for this job.",
+                    icon=":material/download:",
+                )
+    else:
+        st.info("No final output file available for this job.")
+
+
+def display_output_section(conn):
     """Displays the pipeline artifacts browsing section."""
     st.subheader("Pipeline Artifacts")
     st.caption("Browse and download intermediate files generated during processing.")
 
-    active_jobs = st.session_state.get("active_jobs", {})
-    if not active_jobs:
-        st.info("No job data found. Run a job to generate artifacts.")
-        return
+    # --- Refactored for DB-driven job selection ---
+    # Get all jobs from DB for selectbox
+    from streamlit_app.utils import db_utils
 
-    job_options = {}
-    for job_id, job_data in active_jobs.items():
-        if isinstance(job_data, dict) and job_data.get("config", {}).get("output_dir"):
-            start_time = job_data.get("start_time", 0)
-            timestamp = time.strftime(
-                "%Y-%m-%d %H:%M:%S",
-                time.localtime(start_time if start_time else time.time()),
-            )
-            file_info_name = job_data.get("file_info", {}).get("name", f"Job {job_id}")
-            job_display_name = f"{file_info_name} ({timestamp})"
-            job_options[job_display_name] = job_id
-        else:
-            logger.warning(f"Job {job_id} has missing data for artifact display.")
-
-    if not job_options:
-        st.info("No jobs with output artifacts found or jobs have incomplete data.")
-        return
-
-    default_job_idx = 0
-    last_selected_key = "last_selected_artifact_job_display_name_output_section"
-    if (
-        last_selected_key in st.session_state
-        and st.session_state[last_selected_key] in job_options
-    ):
-        default_job_idx = list(job_options.keys()).index(
-            st.session_state[last_selected_key]
+    all_jobs_dict = db_utils.load_jobs_from_db(conn)
+    job_ids = list(all_jobs_dict.keys())
+    job_id_to_label = {}
+    for job_id, job_data in all_jobs_dict.items():
+        # Compose a label with file_info name and timestamp if available
+        file_info_name = job_data.get("file_info", {}).get("name", f"Job {job_id}")
+        start_time = job_data.get("start_time", 0)
+        timestamp = time.strftime(
+            "%Y-%m-%d %H:%M:%S",
+            time.localtime(start_time if start_time else time.time()),
         )
+        job_id_to_label[job_id] = f"{file_info_name} ({timestamp})"
 
-    selected_job_display_name = st.selectbox(
+    # Use selectbox to pick job, following streamlit_rules (value is job_id, label is formatted)
+    selected_job_id = st.selectbox(
         "Select job to view artifacts:",
-        options=list(job_options.keys()),
-        index=default_job_idx,
-        key="artifact_job_selector_new_component",
+        options=job_ids,
+        format_func=lambda job_id: job_id_to_label.get(job_id, job_id),
+        key="selected_job_id",
     )
 
-    if not selected_job_display_name:
-        st.error("No job selected.")
-        return
+    # Load job data from DB if a job is selected
+    job_data = None
+    base_output_dir = None
+    if selected_job_id:
+        job_data = all_jobs_dict.get(selected_job_id)
+        if job_data and isinstance(job_data, dict):
+            config = job_data.get("config", {})
+            base_output_dir_str = config.get("output_dir")
+            if base_output_dir_str:
+                base_output_dir = Path(base_output_dir_str)
 
-    st.session_state[last_selected_key] = selected_job_display_name
-    selected_job_id = job_options[selected_job_display_name]
-    job_data = active_jobs[selected_job_id]
-
-    try:
-        base_output_dir_str = job_data["config"]["output_dir"]
-        if not base_output_dir_str:
-            raise ValueError("Output directory path is empty.")
-        base_output_dir = Path(base_output_dir_str)
-        if not base_output_dir.exists() or not base_output_dir.is_dir():
-            st.error(
-                f"Output directory for job {selected_job_id} is invalid or not found: {base_output_dir}"
-            )
-            return
-    except (KeyError, TypeError, ValueError) as e:
-        st.error(
-            f"Configuration for job {selected_job_id} is missing or has an invalid 'output_dir': {e}"
+    if (
+        not selected_job_id
+        or not job_data
+        or not base_output_dir
+        or not base_output_dir.exists()
+        or not base_output_dir.is_dir()
+    ):
+        st.info(
+            "No job selected or no output artifacts found. Please select a job to view its artifacts."
         )
         return
+
+    # --- Final Output File Section ---
+    display_final_output_file_section(job_data)
 
     view_mode_cols = st.columns([1, 1, 1, 2])
     if "artifact_view_mode" not in st.session_state:
