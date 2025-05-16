@@ -10,7 +10,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from streamlit_app.app import JobDataModel
+from streamlit_app.models.job_data_model import JobDataModel
 
 # Configure logging
 logger = logging.getLogger(__name__)

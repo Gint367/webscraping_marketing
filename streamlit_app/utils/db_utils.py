@@ -8,7 +8,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from streamlit.connections import SQLConnection
 
-from streamlit_app.app import JobDataModel  # Import the JobDataModel
+from streamlit_app.models.job_data_model import JobDataModel  # Import the JobDataModel
 
 # Initialize logger for this module
 logger = logging.getLogger(__name__)
@@ -48,7 +48,7 @@ def init_db(conn: SQLConnection) -> None:
         raise
 
 
-def add_or_update_job_in_db(conn: SQLConnection, job_data: Dict[str, Any]) -> None:
+def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None:
     """
     Adds a new job or updates an existing one in the 'jobs' table.
 
@@ -56,8 +56,10 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: Dict[str, Any]) -> No
         conn: The Streamlit SQLConnection object.
         job_data: A JobDataModel instance containing the job's data.
     """
+
     # Accept only JobDataModel
     if not isinstance(job_data, JobDataModel):
+        logger.error(f"DEBUG: Type of job_model before DB save: {type(job_data)}")
         logger.error("add_or_update_job_in_db expects a JobDataModel instance.")
         return
 

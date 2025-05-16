@@ -5,15 +5,12 @@ import os
 import sys
 import tempfile
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from multiprocessing import Manager, Process, Queue
-from pathlib import Path
-from typing import Any, Dict, List, Optional
-from typing import Optional as TypingOptional
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import pandas as pd
 import streamlit as st
-from pydantic import BaseModel, Field
-from streamlit.connections import SQLConnection
 
 # Add project root to Python path
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -24,6 +21,7 @@ if project_root not in sys.path:
 from master_pipeline import (  # noqa: E402
     run_pipeline,
 )
+from streamlit_app.models.job_data_model import JobDataModel  # noqa: E402
 
 # Import from input_section modules (moved to top-level imports)
 from streamlit_app.section.input_section import display_input_section  # noqa: E402
@@ -31,6 +29,7 @@ from streamlit_app.section.output_section import (  # noqa: E402
     display_output_section,
 )
 from streamlit_app.utils import db_utils  # noqa: E402
+from streamlit_app.utils.utils import check_process_details_by_pid  # noqa: E402
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
 # --- Page Configuration (Must be the first Streamlit command) ---
@@ -60,37 +59,6 @@ logging.basicConfig(
 app_logger = logging.getLogger("streamlit_app_main")
 app_logger.setLevel(logging.INFO)
 app_logger.propagate = True  # This will pass the logs to the streamlit_app.log
-
-
-# --- JobDataModel Definition ---
-class JobDataModel(BaseModel):
-    """
-    Represents the data structure for a single job in the application.
-    Uses Pydantic for data validation, type hinting, and settings management.
-    """
-
-    id: str
-    status: str
-    progress: float = 0.0
-    phase: str
-    start_time: float = Field(default_factory=time.time)
-    end_time: TypingOptional[float] = None
-    process: TypingOptional[Process] = None
-    status_queue: TypingOptional[Any] = None  # Using Any to support both Queue types
-    config: Dict[str, Any] = Field(default_factory=dict)
-    output_final_file_path: TypingOptional[str] = None
-    error_message: TypingOptional[str] = None
-    pipeline_log_file_path: TypingOptional[str] = None
-    temp_input_csv_path: TypingOptional[str] = None
-    file_info: Dict[str, Any] = Field(default_factory=dict)
-    log_messages: List[str] = Field(default_factory=list)
-    max_progress: float = 0.0
-
-    class Config:
-        """Pydantic model configuration."""
-
-        arbitrary_types_allowed = True  # Needed for multiprocessing.Process and Queue
-        validate_assignment = True
 
 
 # --- Helper Functions ---
@@ -183,6 +151,7 @@ def init_session_state() -> bool:
         # Job management
         "active_jobs": {},  # Dictionary of job_id -> job_data for all active/recent jobs
         "selected_job_id": None,  # Currently selected job for viewing details
+        "log_file_positions": {},  # Stores last read position for job log files
     }
 
     # Apply defaults if keys don't exist
@@ -190,8 +159,6 @@ def init_session_state() -> bool:
         if key not in st.session_state:
             st.session_state[key] = value
 
-    # Load existing jobs from DB and update/mark interrupted ones
-    # This should happen AFTER defaults are set, especially for 'active_jobs'
     if "_jobs_loaded_from_db" not in st.session_state:
         try:
             loaded_jobs = db_utils.load_jobs_from_db(conn)
@@ -199,18 +166,6 @@ def init_session_state() -> bool:
             app_logger.info(
                 f"Successfully loaded {len(loaded_jobs)} jobs from the database."
             )
-
-            jobs_to_update = {}
-            for job_id, job_model in st.session_state["active_jobs"].items():
-                if job_model.status in ["Running", "Initializing"]:
-                    job_model.status = "Interrupted"
-                    jobs_to_update[job_id] = job_model
-
-            if jobs_to_update:
-                for job_id, job_model in jobs_to_update.items():
-                    db_utils.add_or_update_job_in_db(
-                        conn, job_model.dict(exclude={"process", "status_queue"})
-                    )
 
             st.session_state["_jobs_loaded_from_db"] = True
 
@@ -272,6 +227,159 @@ def clear_other_input(selected_method: str) -> None:
 
 
 init_session_state()
+
+
+def parse_progress_log_line(log_line: str) -> Optional[tuple[str, str, str]]:
+    """
+    Parses a log line to extract progress information.
+    Expected format: "PROGRESS: main_phase.step - Optional details"
+                     or "PROGRESS: main_phase.step"
+
+    Args:
+        log_line (str): A single line from the log file.
+
+    Returns:
+        Optional[Tuple[str, str, str]]: A tuple containing (main_phase, step, details_str)
+                                         if the line is a valid progress line.
+                                         details_str will be empty if no details are present.
+                                         Returns None otherwise.
+    """
+    log_line = log_line.strip()
+    if not log_line.startswith("PROGRESS:"):
+        return None
+
+    try:
+        # Remove "PROGRESS: " part
+        content = log_line[len("PROGRESS:") :].strip()
+
+        # Split by " - " to separate phase.step from details
+        parts = content.split(" - ", 1)
+        phase_step_part = parts[0]
+        details = parts[1] if len(parts) > 1 else ""
+
+        # Split phase_step_part by "."
+        phase_step_split = phase_step_part.split(".", 1)
+        if len(phase_step_split) != 2:
+            return None
+
+        main_phase = phase_step_split[0].strip()
+        step = phase_step_split[1].strip()
+
+        if not main_phase or not step:
+            return None
+
+        return main_phase, step, details.strip()
+    except Exception as e:
+        app_logger.error(f"Error parsing progress log line '{log_line}': {e}")
+        return None
+
+
+def update_selected_job_progress_from_log(
+    job_model: JobDataModel,
+    conn,
+    PHASE_FORMATS: Dict[str, Any],
+    PHASE_ORDER: list[str],
+    calculate_progress_from_phase: Callable[..., float],
+) -> bool:
+    """
+    Reads new lines from a job's log file, parses the latest progress information,
+    updates the job model, and saves it to the database.
+
+    Args:
+        job_model (JobDataModel): The job data model to update.
+        conn: The database connection object.
+        PHASE_FORMATS (Dict[str, Any]): Configuration for phase descriptions.
+        PHASE_ORDER (list[str]): Order of phases for progress calculation.
+        calculate_progress_from_phase (Callable[..., float]): Function to calculate progress,
+                                                                expected to return a float.
+
+
+    Returns:
+        bool: True if an update occurred, False otherwise.
+    """
+    if not job_model.pipeline_log_file_path or not os.path.exists(
+        job_model.pipeline_log_file_path
+    ):
+        # app_logger.debug(f"Log file path not set or does not exist for job {job_model.id}")
+        return False
+
+    updated = False
+    last_read_position = st.session_state.get("log_file_positions", {}).get(
+        job_model.id, 0
+    )
+
+    try:
+        with open(job_model.pipeline_log_file_path, "r", encoding="utf-8") as f:
+            f.seek(last_read_position)
+            new_lines = f.readlines()
+            current_position = f.tell()
+            st.session_state.setdefault("log_file_positions", {})[job_model.id] = (
+                current_position
+            )
+
+        if not new_lines:
+            return False
+
+        latest_progress_info = None
+        for line in reversed(new_lines):
+            # We are interested in lines that contain "PROGRESS:" not necessarily start with it,
+            # as the logger might add timestamps etc.
+            if "PROGRESS:" in line:
+                # Extract the part of the string that actually starts with PROGRESS:
+                progress_segment = line[line.find("PROGRESS:") :]
+                parsed_info = parse_progress_log_line(progress_segment)
+                if parsed_info:
+                    latest_progress_info = parsed_info
+                    break  # Found the last valid progress line
+
+        if latest_progress_info:
+            main_phase_key, sub_phase_key, details = latest_progress_info
+            descriptive_phase = PHASE_FORMATS.get(main_phase_key, {}).get(sub_phase_key)
+
+            if descriptive_phase:
+                # Ensure job_model.status is valid before passing
+                current_status = (
+                    job_model.status
+                    if hasattr(job_model, "status") and job_model.status
+                    else "Running"
+                )
+
+                new_progress_float = calculate_progress_from_phase(
+                    descriptive_phase,
+                    PHASE_FORMATS,
+                    PHASE_ORDER,
+                    current_status,  # Use current_status
+                    base_progress=0.05,
+                )
+                new_progress_int = int(new_progress_float * 100)
+
+                if (
+                    job_model.phase != descriptive_phase
+                    or job_model.progress != new_progress_int
+                ):
+                    job_model.phase = descriptive_phase
+                    job_model.progress = new_progress_int
+                    db_utils.add_or_update_job_in_db(conn, job_model)
+                    app_logger.info(
+                        f"Job {job_model.id} progress updated from log: Phase='{descriptive_phase}', Progress={new_progress_int}%"
+                    )
+                    updated = True
+            else:
+                app_logger.warning(
+                    f"Could not find descriptive phase for {main_phase_key}.{sub_phase_key} in PHASE_FORMATS for job {job_model.id}"
+                )
+
+    except FileNotFoundError:
+        app_logger.warning(
+            f"Log file not found for job {job_model.id} at {job_model.pipeline_log_file_path} during progress update."
+        )
+    except Exception as e:
+        app_logger.error(
+            f"Error updating job progress from log for job {job_model.id}: {e}",
+            exc_info=True,
+        )
+
+    return updated
 
 
 # --- Logging Handler for Streamlit ---
@@ -416,9 +524,7 @@ def cancel_job(job_id: str) -> bool:
             process_object.join()
             job_model.status = "Cancelled"
             job_model.end_time = time.time()
-            db_utils.add_or_update_job_in_db(
-                conn, job_model.dict(exclude={"process", "status_queue"})
-            )
+            db_utils.add_or_update_job_in_db(conn, job_model)
             app_logger.info(f"Job {job_id} successfully cancelled.")
             return True
         except Exception as e:
@@ -698,22 +804,14 @@ def process_queue_messages():
                         job_model.error_message = status_update["error"]
 
                     # Save updates to the database
-                    db_utils.add_or_update_job_in_db(
-                        conn, job_model.dict(exclude={"process", "status_queue"})
-                    )
+                    db_utils.add_or_update_job_in_db(conn, job_model)
 
                 except Exception as e:
                     error_msg = f"Error processing status queue for job {job_id}: {e}"
                     app_logger.error(error_msg)
 
-        # Check if the job process is still alive
-        if job_model.process is not None and not job_model.process.is_alive():
-            if job_model.status not in ["Completed", "Cancelled", "Error"]:
-                job_model.status = "Error"
-                job_model.error_message = "Process terminated unexpectedly."
-                db_utils.add_or_update_job_in_db(
-                    conn, job_model.dict(exclude={"process", "status_queue"})
-                )
+        # Do not set job status to Error/Interrupted just because process is None after rerun.
+        # Status updates for running jobs should be handled by PID check logic only.
 
 
 def process_data():
@@ -837,9 +935,7 @@ def process_data():
 
             # Persist initial job data to DB
             try:
-                db_utils.add_or_update_job_in_db(
-                    conn, job_model.dict(exclude={"process", "status_queue"})
-                )
+                db_utils.add_or_update_job_in_db(conn, job_model)
                 app_logger.info(f"Initial data for job {job_id} saved to database.")
             except Exception as db_exc:
                 app_logger.error(
@@ -867,9 +963,7 @@ def process_data():
 
             # Persist job data after process start to DB
             try:
-                db_utils.add_or_update_job_in_db(
-                    conn, job_model.dict(exclude={"process", "status_queue"})
-                )
+                db_utils.add_or_update_job_in_db(conn, job_model)
                 app_logger.info(
                     f"Job {job_id} data after process start saved to database."
                 )
@@ -892,9 +986,7 @@ def process_data():
                 job_model.end_time = time.time()
                 # Persist error status to DB
                 try:
-                    db_utils.add_or_update_job_in_db(
-                        conn, job_model.dict(exclude={"process", "status_queue"})
-                    )
+                    db_utils.add_or_update_job_in_db(conn, job_model)
                     app_logger.info(f"Error status for job {job_id} saved to database.")
                 except Exception as db_exc:
                     app_logger.error(
@@ -947,9 +1039,65 @@ def display_monitoring_section():
     """Displays the job monitoring and log output."""
     st.header("3. Monitoring")
     st.write("Track the progress of the scraping and enrichment processes.")
+
+    # --- Helper: Non-blocking PID check for jobs ---
+
+    def _update_job_statuses_with_pid_check(jobs_dict, min_interval=30.0):
+        """
+        Checks the aliveness of jobs with status 'Running' or 'Initializing' that have a PID but no attached process object.
+        Uses a non-blocking, debounced approach to avoid redundant checks and UI blocking.
+        If the process is alive, keeps the job status as 'Running'.
+        If the process is not alive, sets the job status to 'Completed' and updates the end time.
+
+        Args:
+            jobs_dict (dict): Dictionary of job_id to job_data objects.
+            min_interval (float): Minimum interval in seconds between PID checks. Default is 30.0 seconds.
+
+        Returns:
+            None
+        """
+        now = time.time()
+        last_check = st.session_state.get("_last_pid_check_time", 0)
+        if st.session_state.get("_pid_check_in_progress", False):
+            return  # Already running, skip
+        if now - last_check < min_interval:
+            return  # Too soon since last check, skip
+
+        st.session_state["_pid_check_in_progress"] = True
+        try:
+            jobs_to_check = [
+                (job_id, job_data)
+                for job_id, job_data in jobs_dict.items()
+                if getattr(job_data, "status", None) in ("Running", "Initializing")
+                and getattr(job_data, "process", None) is None
+                and getattr(job_data, "pid", None) is not None
+            ]
+            # If process is not attached (e.g. after reload), check PID
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                future_to_job_id = {
+                    executor.submit(check_process_details_by_pid, job_data.pid): job_id
+                    for job_id, job_data in jobs_to_check
+                }
+                for future in as_completed(future_to_job_id):
+                    job_id = future_to_job_id[future]
+                    try:
+                        is_alive, _ = future.result()
+                        if is_alive:
+                            jobs_dict[job_id].status = "Running"
+                        else:
+                            jobs_dict[job_id].status = "Completed"
+                            jobs_dict[job_id].end_time = time.time()
+                    except Exception as e:
+                        app_logger.warning(f"PID check failed for job {job_id}: {e}")
+            st.session_state["_last_pid_check_time"] = now
+        finally:
+            st.session_state["_pid_check_in_progress"] = False
+
     # Always reload jobs from DB to ensure up-to-date info
     try:
         loaded_jobs = db_utils.load_jobs_from_db(conn)
+        # Run non-blocking PID check for jobs that are "Running" or "Initializing" and have a PID but no process
+        _update_job_statuses_with_pid_check(loaded_jobs)
         st.session_state["active_jobs"] = loaded_jobs
     except Exception as e:
         app_logger.error(f"Failed to reload jobs from DB: {e}")
@@ -974,24 +1122,54 @@ def display_monitoring_section():
         else:
             job_rows = []
             for job_id, job_data in active_jobs.items():
-                start_time_str = time.strftime(
-                    "%Y-%m-%d %H:%M:%S",
-                    time.localtime(getattr(job_data, "start_time", 0)),
-                )
-                if getattr(job_data, "end_time", None):
-                    duration_sec = job_data.end_time - job_data.start_time
-                    if duration_sec < 60:
-                        duration = f"{int(duration_sec)}s"
-                    else:
-                        duration = (
-                            f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s"
-                        )
+                start_time = getattr(job_data, "start_time", 0)
+                end_time = getattr(job_data, "end_time", None)
+                # Defensive: handle None, NaN, or invalid values
+                try:
+                    if start_time is None or (
+                        isinstance(start_time, float) and (start_time != start_time)
+                    ):
+                        start_time = 0
+                    if end_time is not None and (
+                        isinstance(end_time, float) and (end_time != end_time)
+                    ):
+                        end_time = None
+                except Exception:
+                    start_time = 0
+                    end_time = None
+
+                try:
+                    start_time_str = time.strftime(
+                        "%Y-%m-%d %H:%M:%S",
+                        time.localtime(start_time),
+                    )
+                except Exception:
+                    start_time_str = "N/A"
+
+                if end_time is not None:
+                    try:
+                        duration_sec = end_time - start_time
+                        if duration_sec != duration_sec or duration_sec < 0:
+                            duration = "N/A"
+                        elif duration_sec < 60:
+                            duration = f"{int(duration_sec)}s"
+                        else:
+                            duration = (
+                                f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s"
+                            )
+                    except Exception:
+                        duration = "N/A"
                 else:
-                    duration_sec = time.time() - job_data.start_time
-                    if duration_sec < 60:
-                        duration = f"{int(duration_sec)}s (running)"
-                    else:
-                        duration = f"{int(duration_sec / 60)}m {int(duration_sec % 60)}s (running)"
+                    try:
+                        duration_sec = time.time() - start_time
+                        if duration_sec != duration_sec or duration_sec < 0:
+                            duration = "N/A (running)"
+                        elif duration_sec < 60:
+                            duration = f"{int(duration_sec)}s (running)"
+                        else:
+                            duration = f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s (running)"
+                    except Exception:
+                        duration = "N/A (running)"
                 file_info = getattr(job_data, "file_info", {})
                 file_type = file_info.get("type", "Unknown")
                 file_name = file_info.get("name", "Unknown")
@@ -1103,7 +1281,9 @@ def display_monitoring_section():
         if selected_job_id and selected_job_id in active_jobs:
             job_data = active_jobs[selected_job_id]
             job_status = getattr(job_data, "status", None)
-            current_phase = getattr(job_data, "phase", None)
+            current_phase = getattr(
+                job_data, "phase", None
+            )  # TODO phase is not working, check parsing
 
             # Display current job status and phase
             status_color = {
