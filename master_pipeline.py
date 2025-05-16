@@ -298,7 +298,7 @@ def setup_logging(log_level: str, log_file: Optional[Path] = None) -> logging.Lo
 
 def run_extracting_machine_pipeline(
     input_csv: str, output_dir: str, category: Optional[str] = None
-) -> str:
+) -> tuple[str, PipelineArtifacts]:
     """
     Run the extracting machine assets pipeline component.
 
@@ -328,9 +328,6 @@ def run_extracting_machine_pipeline(
     """
 
     logger.info("Starting Extracting Machine Assets phase")
-    logger.info(
-        "PROGRESS:extracting_machine:main:0/6:Starting Extracting Machine Assets phase"
-    )  # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -405,10 +402,6 @@ def run_extracting_machine_pipeline(
         description="Filtered companies CSV (after category filtering or validation)",
     )
 
-    logger.info(
-        "PROGRESS:extracting_machine:main:1/6:Completed Step 1 (Company Filtering/Validation)"
-    )
-
     # Step 2: Get HTML from Bundesanzeiger
     logger.info("Step 2: Extracting HTML from Bundesanzeiger")
 
@@ -433,10 +426,6 @@ def run_extracting_machine_pipeline(
         logger.error(f"Error extracting Bundesanzeiger HTML: {str(e)}")
         raise
 
-    logger.info(
-        "PROGRESS:extracting_machine:main:2/6:Completed Step 2 (Bundesanzeiger HTML Extraction)"
-    )
-
     # Step 3: Clean HTML
     logger.info("Step 3: Cleaning HTML content")
 
@@ -459,8 +448,6 @@ def run_extracting_machine_pipeline(
     except Exception as e:
         logger.error(f"Error cleaning HTML: {str(e)}")
         raise
-
-    logger.info("PROGRESS:extracting_machine:main:3/6:Completed Step 3 (HTML Cleaning)")
 
     # Step 4: Extract Sachanlagen
     logger.info("Step 4: Extracting Sachanlagen data")
@@ -485,10 +472,6 @@ def run_extracting_machine_pipeline(
     except Exception as e:
         logger.error(f"Error extracting Sachanlagen: {str(e)}")
         raise
-
-    logger.info(
-        "PROGRESS:extracting_machine:main:4/6:Completed Step 4 (Sachanlagen Extraction)"
-    )
 
     # Step 5: Generate CSV report
     logger.info("Step 5: Generating CSV report")
@@ -521,11 +504,6 @@ def run_extracting_machine_pipeline(
     except Exception as e:
         logger.error(f"Error generating CSV report: {str(e)}")
         raise
-
-    logger.info(
-        "PROGRESS:extracting_machine:main:5/6:Completed Step 5 (CSV Report Generation)"
-    )
-
     # Step 6: Merge CSV with Excel
     logger.info("Step 6: Merging CSV with Excel data")
 
@@ -555,8 +533,6 @@ def run_extracting_machine_pipeline(
         logger.error(f"Error merging CSV with Base: {str(e)}")
         raise
 
-    logger.info("PROGRESS:extracting_machine:main:6/6:Completed Step 6 (Data Merging)")
-
     logger.info("Extracting Machine Assets phase completed successfully")
     if final_output is None:
         logger.error("Final output from Extracting Machine Assets pipeline is None.")
@@ -570,7 +546,7 @@ def run_extracting_machine_pipeline(
 
 def run_webcrawl_pipeline(
     extracting_output: str, output_dir: str, category: Optional[str] = None
-) -> str:
+) -> tuple[str, PipelineArtifacts]:
     """
     Run the web crawling and keyword extraction pipeline component.
     The pipeline now follows this sequence:
@@ -589,9 +565,6 @@ def run_webcrawl_pipeline(
         str: Path to the output file from this pipeline component
     """
     logger.info("Starting Crawling & Scraping Keywords phase")
-    logger.info(
-        "PROGRESS:webcrawl:main:0/6:Starting Crawling & Scraping Keywords phase"
-    )  # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -629,7 +602,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error crawling domains: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:1/6:Completed Step 1 (Domain Crawling)")
 
     # Step 2: Extract keywords with LLM
     logger.info("Step 2: Extracting keywords with LLM")
@@ -655,7 +627,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error extracting keywords: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:2/6:Completed Step 2 (Keyword Extraction)")
 
     # Step 3: Fill process type (output to process_type_filled folder)
     logger.info("Step 3: Filling process types")
@@ -682,7 +653,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error filling process types: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:3/6:Completed Step 3 (Process Type Filling)")
 
     # Step 4: Pluralize keywords with LLM
     logger.info("Step 4: Pluralizing keywords")
@@ -709,7 +679,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error pluralizing keywords: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:4/6:Completed Step 4 (Keyword Pluralization)")
 
     # Step 5: Consolidate data
     logger.info("Step 5: Consolidating data")
@@ -732,7 +701,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error consolidating data: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:5/6:Completed Step 5 (Data Consolidation)")
 
     # Step 6: Convert to CSV
     logger.info("Step 6: Converting to CSV")
@@ -757,7 +725,6 @@ def run_webcrawl_pipeline(
     except Exception as e:
         logger.error(f"Error converting to CSV: {str(e)}")
         raise
-    logger.info("PROGRESS:webcrawl:main:6/6:Completed Step 6 (CSV Conversion)")
 
     logger.info("Crawling & Scraping Keywords phase completed successfully")
     return final_output, artifacts
@@ -765,7 +732,7 @@ def run_webcrawl_pipeline(
 
 def run_integration_pipeline(
     extracting_output: str, webcrawl_output: str, output_dir: str
-) -> str:
+) -> tuple[str, PipelineArtifacts]:
     """
     Run the final data integration pipeline component.
 
@@ -778,9 +745,6 @@ def run_integration_pipeline(
         str: Path to the final output file
     """
     logger.info("Starting Final Data Integration phase")
-    logger.info(
-        "PROGRESS:integration:main:0/2:Starting Final Data Integration phase"
-    )  # Progress Start
 
     # Create necessary output directories
     output_path = Path(output_dir)
@@ -821,8 +785,6 @@ def run_integration_pipeline(
     except Exception as e:
         logger.error(f"Error merging data: {str(e)}")
         raise
-    logger.info("PROGRESS:integration:main:1/2:Completed Step 1 (Data Merging)")
-
     # Step 2: Enrich data
     logger.info("Step 2: Enriching data with additional information")
     final_output = str(output_path / "final_output.csv")
@@ -853,7 +815,6 @@ def run_integration_pipeline(
     except Exception as e:
         logger.error(f"Error enriching data: {str(e)}")
         raise
-    logger.info("PROGRESS:integration:main:2/2:Completed Step 2 (Data Enrichment)")
 
     logger.info("Final Data Integration phase completed successfully")
     return enriched_output, artifacts

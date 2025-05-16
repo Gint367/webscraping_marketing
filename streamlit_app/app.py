@@ -232,8 +232,8 @@ init_session_state()
 def parse_progress_log_line(log_line: str) -> Optional[tuple[str, str, str]]:
     """
     Parses a log line to extract progress information.
-    Expected format: "PROGRESS: main_phase.step - Optional details"
-                     or "PROGRESS: main_phase.step"
+    Expected format: "PROGRESS:main_phase:step:details"
+                     For example: "PROGRESS:webcrawl:extract_llm:1/8:Extracting data from example.com"
 
     Args:
         log_line (str): A single line from the log file.
@@ -249,26 +249,27 @@ def parse_progress_log_line(log_line: str) -> Optional[tuple[str, str, str]]:
         return None
 
     try:
-        # Remove "PROGRESS: " part
+        # Remove "PROGRESS:" part
         content = log_line[len("PROGRESS:") :].strip()
 
-        # Split by " - " to separate phase.step from details
-        parts = content.split(" - ", 1)
-        phase_step_part = parts[0]
-        details = parts[1] if len(parts) > 1 else ""
+        # Split by ":" to get components
+        components = content.split(
+            ":", 2
+        )  # Split into max 3 parts: main_phase, step, details
 
-        # Split phase_step_part by "."
-        phase_step_split = phase_step_part.split(".", 1)
-        if len(phase_step_split) != 2:
+        if len(components) < 2:
             return None
 
-        main_phase = phase_step_split[0].strip()
-        step = phase_step_split[1].strip()
+        main_phase = components[0].strip()
+        step = components[1].strip()
+
+        # The rest is details (which might contain additional colons)
+        details = components[2].strip() if len(components) > 2 else ""
 
         if not main_phase or not step:
             return None
 
-        return main_phase, step, details.strip()
+        return main_phase, step, details
     except Exception as e:
         app_logger.error(f"Error parsing progress log line '{log_line}': {e}")
         return None
@@ -788,27 +789,52 @@ def process_queue_messages():
                     status_update = job_model.status_queue.get_nowait()
                     if "status" in status_update:
                         job_model.status = status_update["status"]
+                        app_logger.info(
+                            f"Job {job_id} status updated to: {job_model.status}"
+                        )
+
                     if "progress" in status_update:
                         job_model.progress = status_update["progress"]
+                        app_logger.debug(
+                            f"Job {job_id} progress updated to: {job_model.progress}%"
+                        )
+
                     if "phase" in status_update:
                         job_model.phase = status_update["phase"]
+                        app_logger.info(
+                            f"Job {job_id} phase updated to: {job_model.phase}"
+                        )
+
                     if "pipeline_log_file_path" in status_update:
                         job_model.pipeline_log_file_path = status_update[
                             "pipeline_log_file_path"
                         ]
+                        app_logger.info(
+                            f"Job {job_id} log file path set to: {job_model.pipeline_log_file_path}"
+                        )
+
                     if "output_final_file_path" in status_update:
-                        job_model.output_final_file_path = status_update[
+                        job_model.output_file_path = status_update[
                             "output_final_file_path"
                         ]
+                        app_logger.info(
+                            f"Job {job_id} output file path set to: {job_model.output_file_path}"
+                        )
+
                     if "error" in status_update:
                         job_model.error_message = status_update["error"]
+                        app_logger.error(
+                            f"Job {job_id} encountered an error: {job_model.error_message}"
+                        )
 
-                    # Save updates to the database
+                    # Always update the database after processing a message
                     db_utils.add_or_update_job_in_db(conn, job_model)
 
                 except Exception as e:
-                    error_msg = f"Error processing status queue for job {job_id}: {e}"
-                    app_logger.error(error_msg)
+                    app_logger.error(
+                        f"Error processing status update for job {job_id}: {e}",
+                        exc_info=True,
+                    )
 
         # Do not set job status to Error/Interrupted just because process is None after rerun.
         # Status updates for running jobs should be handled by PID check logic only.
@@ -869,12 +895,9 @@ def process_data():
 
             # Create a temporary CSV file for the pipeline
             with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp_file:
+                pd.DataFrame(data_to_process).to_csv(temp_file.name, index=False)
                 temp_csv_path = temp_file.name
-                df = pd.DataFrame(data_to_process)
-                df.to_csv(temp_csv_path, index=False)
-                app_logger.info(
-                    f"Temporary input CSV created at {temp_csv_path} for job {job_id}"
-                )
+                app_logger.info(f"Temporary input data CSV created at {temp_csv_path}")
 
             # Create output directory if it doesn't exist
             output_dir = job_output_dir
@@ -885,9 +908,9 @@ def process_data():
                 "input_csv": temp_csv_path,
                 "output_dir": output_dir,
                 "category": st.session_state["config"].get("category"),
-                "log_level": "INFO",  # This can be configured via UI if needed
-                "skip_llm_validation": True,  # Adjust as needed or make configurable via UI
-                "job_id": job_id,  # Include job_id in the configuration
+                "log_level": "INFO",
+                "skip_llm_validation": True,
+                "job_id": job_id,
             }
 
             # Set up the queues for communication between processes
@@ -996,9 +1019,8 @@ def process_data():
             app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
 
     else:
-        # This case should ideally be caught earlier, but as a fallback:
-        st.warning("No data available to process.")
-        app_logger.warning("process_data called but data_to_process was empty.")
+        st.warning("No data to process. Please check your input.")
+        app_logger.warning("No data to process after preparation.")
 
 
 def display_config_section():
@@ -1280,10 +1302,24 @@ def display_monitoring_section():
 
         if selected_job_id and selected_job_id in active_jobs:
             job_data = active_jobs[selected_job_id]
+
+            # --- Task 2.1: Call update_selected_job_progress_from_log ---
+            if (
+                job_data
+                and job_data.status in ["Running", "Initializing"]
+                and job_data.pipeline_log_file_path
+            ):
+                update_selected_job_progress_from_log(
+                    job_model=job_data,
+                    conn=conn,
+                    PHASE_FORMATS=PHASE_FORMATS,
+                    PHASE_ORDER=PHASE_ORDER,
+                    calculate_progress_from_phase=calculate_progress_from_phase,
+                )
+            # --- End Task 2.1 ---
+
             job_status = getattr(job_data, "status", None)
-            current_phase = getattr(
-                job_data, "phase", None
-            )  # TODO phase is not working, check parsing
+            current_phase = getattr(job_data, "phase", None)
 
             # Display current job status and phase
             status_color = {
@@ -1303,39 +1339,43 @@ def display_monitoring_section():
                 unsafe_allow_html=True,
             )
 
-            if current_phase:
+            # --- Task 2.1: Displayed phase should directly use job_data.phase ---
+            if current_phase:  # current_phase is already job_data.phase
                 st.markdown(f"**Current Phase:** {current_phase}")
+            # --- End Task 2.1 ---
 
-            # Determine base_progress from job_data["progress"] if available and valid
-            base_progress = 0.0
-            try:
-                base_progress = float(getattr(job_data, "progress", 0.0)) / 100.0
-            except Exception:
-                base_progress = 0.0
-
-            # Calculate progress dynamically, starting from base_progress
-            calculated_progress = calculate_progress_from_phase(
-                current_phase_str=current_phase,
-                phase_formats=PHASE_FORMATS,
-                phase_order=PHASE_ORDER,
-                current_status=job_status,
-                base_progress=base_progress,
+            # --- Task 2.1: Adjust progress display ---
+            # Primary progress source is job_data.progress (integer 0-100)
+            current_progress_from_model = (
+                float(getattr(job_data, "progress", 0.0)) / 100.0
             )
 
-            # --- Prevent progress from going backwards ---
-            if not hasattr(job_data, "max_progress"):
-                job_data.max_progress = 0.0
-            if calculated_progress > job_data.max_progress:
-                job_data.max_progress = calculated_progress
-            progress_to_display = job_data.max_progress
+            # Use the existing max_progress field from JobDataModel instead of max_progress_displayed
+            # max_progress is already defined in JobDataModel and is properly stored
 
-            # Display progress bar based on progress_to_display
-            if job_status == "Running":
-                st.progress(progress_to_display)
-            elif job_status == "Initializing":
-                st.progress(progress_to_display)
-            else:
+            # Update logic for max_progress (stored as fraction 0.0-1.0)
+            if current_progress_from_model > job_data.max_progress:
+                job_data.max_progress = current_progress_from_model
+
+            progress_to_display_on_bar = job_data.max_progress
+            # --- End Task 2.1 ---
+
+            # Display progress bar based on progress_to_display_on_bar
+            if (
+                job_status == "Running" or job_status == "Initializing"
+            ):  # Combined condition
+                st.progress(progress_to_display_on_bar)
+            elif job_status in [
+                "Completed",
+                "Error",
+                "Failed",
+                "Cancelled",
+            ]:  # Explicitly handle terminal states
                 st.progress(1.0)
+            else:  # Default for unknown or other states
+                st.progress(
+                    progress_to_display_on_bar
+                )  # Or 0.0, depending on desired behavior for non-active states
 
             # Display error message if there is one
             if getattr(job_data, "error_message", None):

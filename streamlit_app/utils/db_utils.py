@@ -57,10 +57,14 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None
         job_data: A JobDataModel instance containing the job's data.
     """
 
-    # Accept only JobDataModel
-    if not isinstance(job_data, JobDataModel):
-        logger.error(f"DEBUG: Type of job_model before DB save: {type(job_data)}")
-        logger.error("add_or_update_job_in_db expects a JobDataModel instance.")
+    # Use a more lenient type check that works across module reloads
+    if (
+        not hasattr(job_data, "model_dump")
+        or job_data.__class__.__name__ != "JobDataModel"
+    ):
+        logger.error(
+            f"add_or_update_job_in_db expects a JobDataModel instance. Type of job_model before DB save: {type(job_data)}"
+        )
         return
 
     job_id_for_logging = job_data.id
