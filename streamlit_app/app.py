@@ -666,6 +666,8 @@ def process_data():
     """Processes the data from the selected input method."""
     data_to_process = None
     temp_csv_path = None
+
+    # Get data from the selected input method
     if (
         st.session_state["input_method"] == "File Upload"
         and st.session_state["uploaded_file_data"]
@@ -673,10 +675,9 @@ def process_data():
         uploaded_file = st.session_state["uploaded_file_data"]
         app_logger.info(f"Processing uploaded file: {uploaded_file.name}")
         try:
-            temp_csv_path = os.path.join(tempfile.gettempdir(), uploaded_file.name)
-            with open(temp_csv_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            data_to_process = pd.read_csv(temp_csv_path).to_dict(orient="records")
+            # Read the uploaded file into data_to_process
+            # Not writing to temp_csv_path here as we'll create a consolidated temp file later
+            data_to_process = pd.read_csv(uploaded_file).to_dict(orient="records")
         except Exception as e:
             app_logger.error(f"Failed to process uploaded file: {e}")
             st.error(f"Error processing uploaded file: {e}")
@@ -702,22 +703,28 @@ def process_data():
         app_logger.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
         job_id = None
+        temp_csv_path = None
+
         try:
             # Generate a unique job ID
             job_id = generate_job_id()
             st.info(
                 f"Starting enrichment for {len(data_to_process)} companies as job {job_id}"
             )
+
             # Create a job-specific output directory to prevent overwriting
             timestamp = time.strftime("%Y%m%d_%H%M%S")
             job_output_dir = os.path.join(project_root, "outputs", f"job_{timestamp}")
             os.makedirs(job_output_dir, exist_ok=True)
 
-            # Create a temporary CSV file for the pipeline
+            # CONSOLIDATED APPROACH: Create a single temporary CSV file for the pipeline
+            # regardless of input method
             with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp_file:
                 pd.DataFrame(data_to_process).to_csv(temp_file.name, index=False)
                 temp_csv_path = temp_file.name
-                app_logger.info(f"Temporary input data CSV created at {temp_csv_path}")
+                app_logger.info(
+                    f"Consolidated temporary input data CSV created at {temp_csv_path}"
+                )
 
             # Create output directory if it doesn't exist
             output_dir = job_output_dir
@@ -819,6 +826,18 @@ def process_data():
                 )
 
         except Exception as e:
+            # Clean up temporary file if job fails to start
+            if temp_csv_path and os.path.exists(temp_csv_path):
+                try:
+                    os.unlink(temp_csv_path)
+                    app_logger.info(
+                        f"Cleaned up temporary CSV file after error: {temp_csv_path}"
+                    )
+                except Exception as cleanup_error:
+                    app_logger.warning(
+                        f"Failed to clean up temporary CSV after error: {cleanup_error}"
+                    )
+
             st.error(f"Failed to start pipeline: {e}")
             app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
 
