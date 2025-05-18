@@ -1,0 +1,885 @@
+import io
+import logging
+import multiprocessing
+import os
+import signal
+import sys
+import tempfile
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from multiprocessing import Manager, Process, Queue
+from typing import Any, Callable, Dict, Optional, Tuple
+
+import pandas as pd
+import streamlit as st
+
+import streamlit_app.utils.db_utils as db_utils
+from streamlit_app.models.job_data_model import JobDataModel
+
+# Get a logger that is a child of the main app logger configured in app.py
+monitoring_logger = logging.getLogger("streamlit_app_main.monitoring")
+
+# Hardcoded phase parsing dictionary for known phases and formatting (move to global scope)
+PHASE_FORMATS = {
+    "extracting_machine": {
+        "get_bundesanzeiger_html": "Extracting Machine: Fetch Bundesanzeiger HTML",
+        "clean_html": "Extracting Machine: Clean HTML",
+        "extract_sachanlagen": "Extracting Machine: Extract Sachanlagen",
+        "generate_report": "Extracting Machine: Generate Report",
+        "merge_data": "Extracting Machine: Merge Technische Anlagen and Sachanlagen",
+    },
+    "webcrawl": {
+        "crawl_domain": "Webcrawl: Crawl Domain",
+        "extract_llm": "Webcrawl: Extract Keywords (LLM)",
+        "fill_process_type": "Webcrawl: Fill Process Type",
+        "pluralize_llm_file": "Webcrawl: Pluralize Keywords in File",
+        "pluralize_llm_entry": "Webcrawl: Pluralize Keywords for Entry",
+        "process_files": "Webcrawl: Consolidate Data",
+        "convert_to_csv": "Webcrawl: Convert to CSV",
+    },
+    "integration": {
+        "merge_technische_anlagen": "Integration: Merge Technische Anlagen",
+        "enrich_data": "Integration: Enrich Data",
+    },
+}
+
+# Define the order of main phases for progress calculation
+PHASE_ORDER = ["extracting_machine", "webcrawl", "integration"]
+
+
+# Function to monitor queues and update session state
+def calculate_progress_from_phase(
+    current_phase_str: Optional[str],
+    phase_formats: dict,
+    phase_order: list,
+    current_status: Optional[str] = None,
+    initial_progress_value: float = 0.01,
+    starting_progress_value: float = 0.05,
+    base_progress: float = 0.0,
+) -> float:
+    """
+    Calculates the progress percentage based on the current phase relative to PHASE_FORMATS.
+
+    Args:
+        current_phase_str: The string describing the current phase.
+        phase_formats: The dictionary defining known phases and their formats.
+        phase_order: The list defining the order of main phases.
+        current_status: The current job status (e.g., "Running", "Completed").
+        initial_progress_value: Progress value for "Initializing" or "Creating job" phase.
+        starting_progress_value: Progress value for "Starting Pipeline" phase.
+
+    Returns:
+        A float between 0.0 and 1.0 representing the progress.
+    """
+    if not current_phase_str:
+        return base_progress
+
+    # Handle terminal statuses or specific end phases first
+    if (
+        current_status in ["Completed", "Failed", "Error", "Cancelled"]
+        or "Finished" in current_phase_str
+    ):
+        return 1.0
+
+    # Handle specific initial phases that might occur before those in PHASE_FORMATS
+    if "Initializing" in current_phase_str or "Creating job" in current_phase_str:
+        return max(base_progress, initial_progress_value)
+    if "Starting Pipeline" in current_phase_str:
+        return max(base_progress, starting_progress_value)
+
+    flat_ordered_phases = []
+    for main_phase_key in phase_order:
+        if main_phase_key in phase_formats:
+            for sub_phase_description in phase_formats[main_phase_key].values():
+                flat_ordered_phases.append(sub_phase_description)
+
+    if not flat_ordered_phases:
+        monitoring_logger.warning(
+            "PHASE_FORMATS is empty or misconfigured; cannot calculate dynamic progress."
+        )
+        return base_progress  # Fallback if no phases are defined in PHASE_FORMATS
+
+    total_steps = len(flat_ordered_phases)
+    current_step_count = 0
+
+    for i, fmt_phase_description in enumerate(flat_ordered_phases):
+        if current_phase_str.startswith(fmt_phase_description):
+            current_step_count = i + 1  # Current step is 1-indexed
+            break  # Found the current phase
+
+    # If current_step_count is 0, it means the phase wasn't found in PHASE_FORMATS.
+    # The progress will be based on the last matched phase or 0 if none matched yet.
+    # This aligns with basing progress on known phases in PHASE_FORMATS.
+
+    if total_steps == 0:  # Should be caught earlier, but as a safeguard
+        return base_progress
+
+    # Progress is distributed from base_progress to 1.0
+    # For example, if base_progress=0.05, then phase progress goes from 0.05 to 1.0
+    # So, progress = base_progress + (1-base_progress) * (current_step_count/total_steps)
+    progress = base_progress + (1.0 - base_progress) * (
+        float(current_step_count) / total_steps
+    )
+
+    return min(progress, 1.0)
+
+
+def parse_progress_log_line(log_line: str) -> Optional[tuple[str, str, str]]:
+    """
+    Parses a log line to extract progress information.
+    Expected format: "PROGRESS:main_phase:step:details"
+                     For example: "PROGRESS:webcrawl:extract_llm:1/8:Extracting data from example.com"
+
+    Args:
+        log_line (str): A single line from the log file.
+
+    Returns:
+        Optional[Tuple[str, str, str]]: A tuple containing (main_phase, step, details_str)
+                                         if the line is a valid progress line.
+                                         details_str will be empty if no details are present.
+                                         Returns None otherwise.
+    """
+    log_line = log_line.strip()
+    if not log_line.startswith("PROGRESS:"):
+        return None
+
+    try:
+        # Remove "PROGRESS:" part
+        content = log_line[len("PROGRESS:") :].strip()
+
+        # Split by ":" to get components
+        components = content.split(
+            ":", 2
+        )  # Split into max 3 parts: main_phase, step, details
+
+        if len(components) < 2:
+            return None
+
+        main_phase = components[0].strip()
+        step = components[1].strip()
+
+        # The rest is details (which might contain additional colons)
+        details = components[2].strip() if len(components) > 2 else ""
+
+        if not main_phase or not step:
+            return None
+
+        return main_phase, step, details
+    except Exception as e:
+        monitoring_logger.error(f"Error parsing progress log line '{log_line}': {e}")
+        return None
+
+
+def update_selected_job_progress_from_log(
+    job_model: JobDataModel,
+    conn,
+    PHASE_FORMATS: Dict[str, Any],
+    PHASE_ORDER: list[str],
+    calculate_progress_from_phase: Callable[..., float],
+) -> bool:
+    """
+    Reads new lines from a job's log file, parses progress, phase, errors,
+    and completion status, updates the job model, and saves it to the database.
+
+    Args:
+        job_model (JobDataModel): The job data model to update.
+        conn: The database connection object.
+        PHASE_FORMATS (Dict[str, Any]): Configuration for phase descriptions.
+        PHASE_ORDER (list[str]): Order of phases for progress calculation.
+        calculate_progress_from_phase (Callable[..., float]): Function to calculate progress.
+
+    Returns:
+        bool: True if an update occurred, False otherwise.
+    """
+    if not job_model.pipeline_log_file_path or not os.path.exists(
+        job_model.pipeline_log_file_path
+    ):
+        return False
+
+    updated = False
+    log_changed_job_state = False  # Flag if log parsing changes terminal state
+    last_read_position = st.session_state.get("log_file_positions", {}).get(
+        job_model.id, 0
+    )
+
+    try:
+        with open(job_model.pipeline_log_file_path, "r", encoding="utf-8") as f:
+            f.seek(last_read_position)
+            new_lines = f.readlines()
+            current_position = f.tell()
+            if new_lines:  # Only update position if new lines were read
+                st.session_state.setdefault("log_file_positions", {})[job_model.id] = (
+                    current_position
+                )
+
+        if not new_lines:
+            return False
+
+        latest_progress_info = None
+        # Iterate through new lines to find specific markers
+        for line in new_lines:  # Process in chronological order
+            line_strip = line.strip()
+            if "PROGRESS:" in line_strip:
+                progress_segment = line_strip[line_strip.find("PROGRESS:") :]
+                parsed_info = parse_progress_log_line(progress_segment)
+                if parsed_info:
+                    latest_progress_info = (
+                        parsed_info  # Keep the latest one found in this batch
+                    )
+
+            final_output_marker = "FINAL_OUTPUT_PATH:"
+            if final_output_marker in line_strip:
+                try:
+                    path = line_strip.split(final_output_marker, 1)[1].strip()
+                    if job_model.output_final_file_path != path:
+                        job_model.output_final_file_path = path
+                        monitoring_logger.info(
+                            f"Job {job_model.id} output file path set from log: {path}"
+                        )
+                        updated = True
+                except IndexError:
+                    monitoring_logger.warning(
+                        f"Could not parse payload for {final_output_marker} in line: {line_strip}"
+                    )
+
+            error_marker = "PIPELINE_PROCESS_ERROR:"
+            if error_marker in line_strip:
+                try:
+                    error_msg = line_strip.split(error_marker, 1)[1].strip()
+                    if (
+                        job_model.error_message != error_msg
+                        or job_model.status != "Error"
+                    ):
+                        job_model.error_message = error_msg
+                        job_model.status = "Error"
+                        job_model.phase = "Failed (from log)"
+                        if job_model.end_time is None:
+                            job_model.end_time = time.time()
+                        monitoring_logger.error(
+                            f"Job {job_model.id} error set from log: {error_msg}"
+                        )
+                        updated = True
+                        log_changed_job_state = True
+                except IndexError:
+                    monitoring_logger.warning(
+                        f"Could not parse payload for {error_marker} in line: {line_strip}"
+                    )
+
+            completed_marker = "PIPELINE_PROCESS_COMPLETED"
+            if completed_marker in line_strip:
+                if job_model.status != "Completed":
+                    job_model.status = "Completed"
+                    job_model.phase = "Finished (from log)"
+                    job_model.progress = 100  # Ensure progress is 100%
+                    job_model.end_time = job_model.end_time or time.time()
+                    monitoring_logger.info(
+                        f"Job {job_model.id} status COMPLETED from log."
+                    )
+                    updated = True
+                    log_changed_job_state = True
+
+            # Marker for pipeline exiting (Note: this log might go to a different file)
+            exiting_marker = "PIPELINE_PROCESS_EXITING:"
+            if exiting_marker in line_strip:
+                if job_model.status not in [
+                    "Completed",
+                    "Error",
+                    "Failed",
+                    "Cancelled",
+                ]:
+                    monitoring_logger.info(
+                        f"Job {job_model.id} log indicates process exiting. PID check will confirm."
+                    )
+
+        if (
+            latest_progress_info and not log_changed_job_state
+        ):  # Don't update progress if job already marked completed/error by logs
+            main_phase_key, sub_phase_key, details = latest_progress_info
+            descriptive_phase = PHASE_FORMATS.get(main_phase_key, {}).get(sub_phase_key)
+
+            if descriptive_phase:
+                current_status = (
+                    job_model.status
+                    if hasattr(job_model, "status") and job_model.status
+                    else "Running"
+                )
+                new_progress_float = calculate_progress_from_phase(
+                    descriptive_phase,
+                    PHASE_FORMATS,
+                    PHASE_ORDER,
+                    current_status,
+                    base_progress=0.05,
+                )
+                new_progress_int = int(new_progress_float * 100)
+
+                if (
+                    job_model.phase != descriptive_phase
+                    or job_model.progress != new_progress_int
+                ):
+                    job_model.phase = descriptive_phase
+                    job_model.progress = new_progress_int
+                    monitoring_logger.info(
+                        f"Job {job_model.id} progress updated from log: Phase='{descriptive_phase}', Progress={new_progress_int}%"
+                    )
+                    updated = True
+            else:
+                monitoring_logger.warning(
+                    f"Could not find descriptive phase for {main_phase_key}.{sub_phase_key} in PHASE_FORMATS for job {job_model.id}"
+                )
+
+        if updated:
+            job_model.touch()
+            db_utils.add_or_update_job_in_db(conn, job_model)
+
+    except FileNotFoundError:
+        monitoring_logger.warning(
+            f"Log file not found for job {job_model.id} at {job_model.pipeline_log_file_path} during progress update."
+        )
+        if job_model.status in [
+            "Running",
+            "Initializing",
+        ]:  # If log file disappears for a running job
+            job_model.status = "Error"
+            job_model.error_message = "Log file disappeared."
+            job_model.phase = "Log file missing"
+            job_model.end_time = time.time()
+            job_model.touch()
+            db_utils.add_or_update_job_in_db(conn, job_model)
+            updated = True
+    except Exception as e:
+        monitoring_logger.error(
+            f"Error updating job progress from log for job {job_model.id}: {e}",
+            exc_info=True,
+        )
+    return updated
+
+
+def display_monitoring_section(
+    db_connection: Any,  # Replace Any with the actual type of conn
+    cancel_job_callback: Callable[[str], bool],
+    process_queue_messages_callback: Callable[[], None],
+    check_pid_callback: Callable[[int], Tuple[bool, str]],
+    # Add other parameters as identified
+):
+    """Displays the job monitoring and log output."""
+    st.header("3. Monitoring")
+    st.write("Track the progress of the scraping and enrichment processes.")
+
+    # --- Helper: Non-blocking PID check for jobs ---
+
+    def _update_job_statuses_with_pid_check(jobs_dict, min_interval=1.0):
+        """
+        Checks the aliveness of jobs with status 'Running' or 'Initializing' that have a PID but no attached process object.
+        Uses a non-blocking, debounced approach to avoid redundant checks and UI blocking.
+        If the process is alive, keeps the job status as 'Running'.
+        If the process is not alive, sets the job status to 'Completed' and updates the end time.
+
+        Args:
+            jobs_dict (dict): Dictionary of job_id to job_data objects.
+            min_interval (float): Minimum interval in seconds between PID checks.
+
+        Returns:
+            None
+        """
+        monitoring_logger.info("checking job PIDs for aliveness...")
+        now = time.time()
+        last_check = st.session_state.get("_last_pid_check_time", 0)
+        if st.session_state.get("_pid_check_in_progress", False):
+            monitoring_logger.info("PID check skipped: already in progress")
+            return  # Already running, skip
+        if now - last_check < min_interval:
+            monitoring_logger.info(
+                f"PID check skipped: only {now - last_check:.2f}s since last check (min_interval={min_interval})"
+            )
+            return  # Too soon since last check, skip
+
+        st.session_state["_pid_check_in_progress"] = True
+        try:
+            # Find running/initializing jobs that need PID checks
+            jobs_to_check = []
+            for job_id, job_data in jobs_dict.items():
+                # Only check jobs that are still in active states
+                if getattr(job_data, "status", None) not in ("Running", "Initializing"):
+                    continue
+
+                current_pid = getattr(job_data, "pid", None)
+                if current_pid is not None:
+                    jobs_to_check.append((job_id, job_data, current_pid))
+                    monitoring_logger.debug(
+                        f"Job {job_id}: Queued for PID check (PID {current_pid})"
+                    )
+                else:
+                    # If job is Running/Initializing but has no PID, it's an anomaly.
+                    # Could be a very early error before PID was set, or data inconsistency.
+                    monitoring_logger.warning(
+                        f"Job {job_id} is {job_data.status} but has no PID. Marking as Error."
+                    )
+                    job_data.status = "Error"
+                    job_data.phase = "Missing PID"
+                    job_data.error_message = "Job was in an active state without a PID."
+                    job_data.end_time = time.time()
+                    job_data.touch()
+                    # Consider db_utils.add_or_update_job_in_db(conn, job_data) here if this function modifies db directly
+                    # For now, it modifies the jobs_dict which is then set to session_state
+
+            monitoring_logger.info(f"Found {len(jobs_to_check)} jobs to check PIDs")
+
+            if not jobs_to_check:  # No jobs to check, release lock and update time
+                st.session_state["_last_pid_check_time"] = now
+                st.session_state["_pid_check_in_progress"] = (
+                    False  # Explicitly release if no jobs
+                )
+                return
+
+            with ThreadPoolExecutor(max_workers=4) as executor:
+                future_to_job_id = {
+                    executor.submit(check_pid_callback, pid_to_check): j_id
+                    for j_id, _, pid_to_check in jobs_to_check  # Iterate through the prepared list
+                }
+                for future in as_completed(future_to_job_id):
+                    job_id_from_future = future_to_job_id[future]
+                    try:
+                        is_alive, details = future.result()
+                        monitoring_logger.info(
+                            f"PID check for job {job_id_from_future}: is_alive={is_alive}, details='{details}'"
+                        )
+                        # Ensure job_id_from_future is valid in jobs_dict
+                        if job_id_from_future in jobs_dict:
+                            target_job_model = jobs_dict[job_id_from_future]
+                            if is_alive:
+                                # Check if the process is a zombie (defunct)
+                                if details and "defunct" in details.lower():
+                                    monitoring_logger.warning(
+                                        f"Job {job_id_from_future} (PID {target_job_model.pid}) is a defunct (zombie) process. Marking as Completed."
+                                    )
+                                    target_job_model.status = "Completed"
+                                    target_job_model.phase = "Process finished"
+                                    target_job_model.end_time = time.time()
+                                    target_job_model.touch()
+                                    db_utils.add_or_update_job_in_db(
+                                        db_connection, target_job_model
+                                    )  # If updating DB directly
+                                elif (
+                                    target_job_model.status != "Running"
+                                ):  # If it was Initializing
+                                    target_job_model.status = "Running"
+                                    target_job_model.touch()
+                                    # db_utils.add_or_update_job_in_db(conn, target_job_model) # If updating DB directly
+                            else:
+                                # If process is not alive, and status is still Running/Initializing,
+                                # it means it completed/failed/was killed without explicit update through logs yet.
+                                # Log parsing should ideally set the final state.
+                                # This PID check acts as a fallback.
+                                if target_job_model.status in [
+                                    "Running",
+                                    "Initializing",
+                                ]:
+                                    target_job_model.status = (
+                                        "Completed"  # Default to Completed
+                                    )
+                                    target_job_model.phase = (
+                                        "Process ended (detected by PID check)"
+                                    )
+                                    target_job_model.end_time = time.time()
+                                    target_job_model.touch()
+                                    db_utils.add_or_update_job_in_db(
+                                        db_connection, target_job_model
+                                    )  # If updating DB directly
+                                    monitoring_logger.info(
+                                        f"Job {job_id_from_future} (PID {target_job_model.pid}) detected as not alive. Marked Completed."
+                                    )
+                        else:
+                            monitoring_logger.warning(
+                                f"Job ID {job_id_from_future} from future not found in jobs_dict during PID check."
+                            )
+                    except Exception as e:
+                        # Ensure job_id_from_future is valid in jobs_dict before trying to update
+                        if job_id_from_future in jobs_dict:
+                            jobs_dict[job_id_from_future].status = "Error"
+                            jobs_dict[job_id_from_future].phase = "PID check failed"
+                            jobs_dict[
+                                job_id_from_future
+                            ].error_message = f"PID check error: {e}"
+                            jobs_dict[job_id_from_future].touch()
+                            # db_utils.add_or_update_job_in_db(conn, jobs_dict[job_id_from_future]) # If updating DB directly
+                        monitoring_logger.warning(
+                            f"PID check failed for job {job_id_from_future}: {e}"
+                        )
+            st.session_state["_last_pid_check_time"] = now
+        finally:
+            st.session_state["_pid_check_in_progress"] = False
+
+    # Always reload jobs from DB to ensure up-to-date info
+    try:
+        loaded_jobs = db_utils.load_jobs_from_db(db_connection)
+        # Run non-blocking PID check for jobs that are "Running" or "Initializing" and have a PID but no process
+        _update_job_statuses_with_pid_check(loaded_jobs)
+        st.session_state["active_jobs"] = loaded_jobs
+    except Exception as e:
+        monitoring_logger.error(f"Failed to reload jobs from DB: {e}")
+    # Initial queue processing is still needed outside the fragment
+    process_queue_messages_callback()
+
+    # --- Jobs Table (auto-refreshing fragment) ---
+    @st.fragment(
+        run_every=st.session_state.get("refresh_interval", 3.0)
+        if st.session_state.get("auto_refresh_enabled", True)
+        and not st.session_state.get("testing_mode", False)
+        else None
+    )
+    def jobs_table_fragment():
+        st.subheader("Jobs")
+        process_queue_messages_callback()
+        active_jobs = st.session_state.get("active_jobs", {})
+        if not active_jobs:
+            st.info(
+                "No jobs have been run yet. Start a new job from the Input section."
+            )
+        else:
+            job_rows = []
+            for job_id, job_data in active_jobs.items():
+                start_time = getattr(job_data, "start_time", 0)
+                end_time = getattr(job_data, "end_time", None)
+                # Defensive: handle None, NaN, or invalid values
+                try:
+                    if start_time is None or (
+                        isinstance(start_time, float) and (start_time != start_time)
+                    ):
+                        start_time = 0
+                    if end_time is not None and (
+                        isinstance(end_time, float) and (end_time != end_time)
+                    ):
+                        end_time = None
+                except Exception:
+                    start_time = 0
+                    end_time = None
+
+                try:
+                    start_time_str = time.strftime(
+                        "%Y-%m-%d %H:%M:%S",
+                        time.localtime(start_time),
+                    )
+                except Exception:
+                    start_time_str = "N/A"
+
+                if end_time is not None:
+                    try:
+                        duration_sec = end_time - start_time
+                        if duration_sec != duration_sec or duration_sec < 0:
+                            duration = "N/A"
+                        elif duration_sec < 60:
+                            duration = f"{int(duration_sec)}s"
+                        else:
+                            duration = (
+                                f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s"
+                            )
+                    except Exception:
+                        duration = "N/A"
+                else:
+                    try:
+                        duration_sec = time.time() - start_time
+                        if duration_sec != duration_sec or duration_sec < 0:
+                            duration = "N/A (running)"
+                        elif duration_sec < 60:
+                            duration = f"{int(duration_sec)}s (running)"
+                        else:
+                            duration = f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s (running)"
+                    except Exception:
+                        duration = "N/A (running)"
+                file_info = getattr(job_data, "file_info", {})
+                file_type = file_info.get("type", "Unknown")
+                file_name = file_info.get("name", "Unknown")
+                record_count = file_info.get("record_count", 0)
+                job_rows.append(
+                    {
+                        "ID": job_id,
+                        "Status": getattr(job_data, "status", "Unknown"),
+                        "Start Time": start_time_str,
+                        "Duration": duration,
+                        "Progress": getattr(job_data, "progress", 0),
+                        "Source": f"{file_type}: {file_name} ({record_count} records)",
+                    }
+                )
+            jobs_df = pd.DataFrame(job_rows)
+            st.dataframe(
+                jobs_df,
+                column_config={
+                    "ID": st.column_config.TextColumn("Job ID"),
+                    "Status": st.column_config.TextColumn("Status"),
+                    "Start Time": st.column_config.TextColumn("Start Time"),
+                    "Duration": st.column_config.TextColumn("Duration"),
+                    "Progress": st.column_config.ProgressColumn(
+                        "Progress", format="%d%%", min_value=0, max_value=100
+                    ),
+                    "Source": st.column_config.TextColumn("Source"),
+                },
+                hide_index=True,
+                use_container_width=True,
+            )
+
+    jobs_table_fragment()
+
+    # --- Job Selection and Cancel Button (separate container, not auto-refreshing) ---
+    with st.container():
+        active_jobs = st.session_state.get("active_jobs", {})
+        job_ids = list(active_jobs.keys())
+        # --- Sort job_ids by start_time (latest first) ---
+        sorted_jobs = sorted(
+            active_jobs.items(),
+            key=lambda x: getattr(x[1], "start_time", 0),
+            reverse=True,
+        )
+        sorted_job_ids = [job_id for job_id, _ in sorted_jobs]
+        # --- Create a selectbox for job selection ---
+        job_id_to_label = {
+            job_id: f"{job_id} - {getattr(active_jobs[job_id], 'status', 'Unknown')}"
+            for job_id in sorted_job_ids
+        }
+
+        # Determine the initial value for selected_job_id if not already set or invalid.
+        # This logic runs BEFORE the selectbox is instantiated.
+        current_selection = st.session_state.get("selected_job_id")
+
+        if (
+            not current_selection or current_selection not in active_jobs
+        ) and active_jobs:
+            # If no valid job is selected and jobs exist, select the most recent one.
+            sorted_jobs = sorted(
+                active_jobs.items(),
+                key=lambda x: getattr(x[1], "start_time", 0),
+                reverse=True,
+            )
+            if sorted_jobs:
+                st.session_state["selected_job_id"] = sorted_jobs[0][0]
+        elif not active_jobs:
+            # If there are no jobs, ensure selected_job_id is None
+            st.session_state["selected_job_id"] = None
+        # If current_selection is valid and in active_jobs, it remains unchanged.
+
+        # The st.selectbox will now use the value from st.session_state.selected_job_id
+        # as its current selection due to the `key`.
+        if job_ids:
+            st.selectbox(
+                label="Select Job:",
+                options=job_ids,
+                format_func=lambda job_id: job_id_to_label.get(job_id, str(job_id)),
+                key="selected_job_id",
+            )
+        # else: No selectbox if no jobs. st.session_state.selected_job_id would be None.
+
+        # Read the selected job ID from session state for the cancel button logic
+        selected_job_id_for_cancel = st.session_state.get("selected_job_id")
+
+        if st.button("Cancel Selected Job", key="cancel_job_btn"):
+            if selected_job_id_for_cancel:
+                if cancel_job_callback(selected_job_id_for_cancel):
+                    st.toast(f"Job {selected_job_id_for_cancel} cancelled.")
+                else:
+                    st.error(f"Could not cancel job {selected_job_id_for_cancel}.")
+            else:
+                st.warning("No job selected to cancel.")
+
+    # Create a fragment for status information that auto-refreshes and displays job status/phase
+    @st.fragment(
+        run_every=st.session_state.get("refresh_interval", 3.0)
+        if st.session_state.get("auto_refresh_enabled", True)
+        and not st.session_state.get("testing_mode", False)
+        else None
+    )
+    def display_status_info():
+        # Process messages from queues inside fragment to ensure fresh data
+        process_queue_messages_callback()
+
+        # Show details for selected job (value is read from session state)
+        selected_job_id = st.session_state.get("selected_job_id")
+        active_jobs = st.session_state.get("active_jobs", {})
+
+        if selected_job_id and selected_job_id in active_jobs:
+            job_data = active_jobs[selected_job_id]
+
+            # --- Task 2.1: Call update_selected_job_progress_from_log ---
+            if (
+                job_data
+                and job_data.status in ["Running", "Initializing"]
+                and job_data.pipeline_log_file_path
+            ):
+                update_selected_job_progress_from_log(
+                    job_model=job_data,
+                    conn=db_connection,
+                    PHASE_FORMATS=PHASE_FORMATS,
+                    PHASE_ORDER=PHASE_ORDER,
+                    calculate_progress_from_phase=calculate_progress_from_phase,
+                )
+            # --- End Task 2.1 ---
+
+            job_status = getattr(job_data, "status", None)
+            current_phase = getattr(job_data, "phase", None)
+
+            # Display current job status and phase
+            status_color = {
+                "Idle": "blue",
+                "Initializing": "blue",
+                "Running": "orange",
+                "Completed": "green",
+                "Error": "red",
+                "Cancelled": "gray",
+                "Failed": "red",
+            }.get(job_status or "Unknown", "blue")
+
+            st.markdown(f"### Job: {selected_job_id}")
+
+            st.markdown(
+                f"**Status:** <span style='color:{status_color}'>{job_status or 'Unknown'}</span>",
+                unsafe_allow_html=True,
+            )
+
+            # --- Task 2.1: Displayed phase should directly use job_data.phase ---
+            if current_phase:  # current_phase is already job_data.phase
+                st.markdown(f"**Latest Phase:** {current_phase}")
+            # --- End Task 2.1 ---
+
+            # --- Task 2.1: Adjust progress display ---
+            # Primary progress source is job_data.progress (integer 0-100)
+            current_progress_from_model = (
+                float(getattr(job_data, "progress", 0.0)) / 100.0
+            )
+
+            # Use the existing max_progress field from JobDataModel instead of max_progress_displayed
+            # max_progress is already defined in JobDataModel and is properly stored
+
+            # Update logic for max_progress (stored as fraction 0.0-1.0)
+            if current_progress_from_model > job_data.max_progress:
+                job_data.max_progress = current_progress_from_model
+
+            progress_to_display_on_bar = job_data.max_progress
+            # --- End Task 2.1 ---
+
+            # Display progress bar based on progress_to_display_on_bar
+            if (
+                job_status == "Running" or job_status == "Initializing"
+            ):  # Combined condition
+                st.progress(progress_to_display_on_bar)
+            elif job_status in [
+                "Completed",
+                "Error",
+                "Failed",
+                "Cancelled",
+            ]:  # Explicitly handle terminal states
+                st.progress(1.0)
+            else:  # Default for unknown or other states
+                st.progress(
+                    progress_to_display_on_bar
+                )  # Or 0.0, depending on desired behavior for non-active states
+
+            # Display error message if there is one
+            if getattr(job_data, "error_message", None):
+                st.error(f"Error: {job_data.error_message}")
+        else:
+            st.info(
+                "No job selected. Please select a job from the dropdown above to view its status."
+            )
+
+    # Call the fragment to display the initial status and enable auto-refresh for these details
+    display_status_info()
+
+    # Auto-refresh control
+    with st.expander("Log Auto-Refresh Settings"):
+        col1, col2 = st.columns([1, 3])
+
+        with col1:
+            auto_refresh = st.toggle(
+                "Auto-refresh enabled",
+                value=st.session_state.get("auto_refresh_enabled", True),
+                key="auto_refresh_toggle",
+            )
+            st.session_state["auto_refresh_enabled"] = auto_refresh
+
+        with col2:
+            refresh_interval = st.slider(
+                "Refresh interval (seconds)",
+                min_value=1.0,
+                max_value=10.0,
+                value=st.session_state.get("refresh_interval", 3.0),
+                step=0.5,
+                key="refresh_slider",
+            )
+            st.session_state["refresh_interval"] = refresh_interval
+
+            try:
+                refresh_rate_display = float(refresh_interval)
+                st.caption(
+                    f"Logs will refresh every {refresh_rate_display:.1f} seconds"
+                )
+            except (TypeError, ValueError):
+                st.caption("Logs will refresh automatically")
+
+    # Log display with selection based on selected job
+    st.subheader("Logs")
+
+    # The selected_job_id is already set by the selectbox above
+    selected_job_id = st.session_state.get("selected_job_id")
+
+    if selected_job_id and selected_job_id in st.session_state.get("active_jobs", {}):
+        # Notify user which job's logs they're viewing
+        st.markdown(f"*Showing logs for job: {selected_job_id}*")
+
+    # Display logs in a scrollable container
+    @st.fragment(
+        run_every=st.session_state.get("refresh_interval", 3.0)
+        if st.session_state.get("auto_refresh_enabled", True)
+        and not st.session_state.get("testing_mode", False)
+        else None
+    )
+    def display_logs():
+        # Process queue messages to ensure logs are up to date
+        process_queue_messages_callback()
+
+        # Get logs based on currently selected job
+        selected_job_id = st.session_state.get("selected_job_id")
+        log_lines = []  # Initialize as an empty list
+
+        if selected_job_id and selected_job_id in st.session_state.get(
+            "active_jobs", {}
+        ):
+            job_data = st.session_state["active_jobs"][selected_job_id]
+            pipeline_log_file_path = job_data.pipeline_log_file_path
+
+            if pipeline_log_file_path and os.path.exists(pipeline_log_file_path):
+                try:
+                    with open(pipeline_log_file_path, "r", encoding="utf-8") as f:
+                        log_lines = f.readlines()
+                except Exception as e:
+                    log_lines = [f"Error reading log file: {e}"]
+            elif pipeline_log_file_path:
+                log_lines = [f"Log file not found: {pipeline_log_file_path}"]
+            else:
+                initial_logs = job_data.log_messages
+                if initial_logs:
+                    st.text_area(
+                        "Initial Job Messages",
+                        value="\n".join(initial_logs),
+                        height=100,
+                        key=f"initial_log_{job_data.id}",
+                        disabled=True,
+                    )
+                else:
+                    st.info(
+                        f"Job status: {getattr(job_data, 'status', 'N/A')} - Phase: {getattr(job_data, 'phase', 'N/A')} - Waiting for log file path..."
+                    )
+
+        else:
+            # This case handles when no job is selected.
+            log_lines = ["No job selected or job data not found."]
+
+        # Display logs in a container
+        log_container = st.container(height=400)
+        with log_container:
+            if not log_lines:
+                st.info("No log messages yet.")
+            else:
+                # Display logs in reverse order (newest first)
+                for msg in reversed(log_lines):
+                    st.text(msg.strip())  # Use strip() to remove trailing newlines
+
+    # Call the logs fragment
+    display_logs()

@@ -5,13 +5,7 @@ __pycache__/
 .coverage
 
 # Ignore virtual environment directories
-<<<<<<< HEAD
 *venv/
-=======
-venv/
-.venv/
->>>>>>> 8fa08c3 (add .venv and misc files)
-.env/
 .env
 
 # Ignore VS Code settings
@@ -46,6 +40,7 @@ machine*
 merged*
 sachanlagen*
 
+
 makefile
 *.toml
 uv.lock
@@ -75,3 +70,5 @@ node_modules/
 # Task files
 tasks.json
 tasks/ 
+
+*.db

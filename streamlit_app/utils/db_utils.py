@@ -3,7 +3,6 @@ import logging
 import time
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from streamlit.connections import SQLConnection
@@ -35,6 +34,7 @@ def init_db(conn: SQLConnection) -> None:
         error_message TEXT,
         file_info_json TEXT,
         temp_input_csv_path TEXT,
+        pid INTEGER,
         last_updated REAL
     );
     """)
@@ -94,6 +94,7 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None
         "error_message",
         "file_info_json",
         "temp_input_csv_path",
+        "pid",
         "last_updated",
     }
 
@@ -117,6 +118,9 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None
 
     try:
         with conn.session as s:
+            logger.debug(
+                f"DB_UTILS: Attempting to save job {db_job_data.get('id')}, data: {db_job_data}"
+            )  # Temporary log
             s.execute(insert_or_replace_query, db_job_data)
             s.commit()
         logger.info(f"Job '{db_job_data['id']}' added/updated in the database.")
