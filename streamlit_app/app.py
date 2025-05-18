@@ -144,13 +144,16 @@ def init_session_state() -> bool:
             # but operations requiring the DB will likely fail.
             st.session_state["_db_initialized"] = False  # Mark as failed
 
+    # Use column names derived from REQUIRED_COLUMNS_MAP for manual input DataFrame
+    manual_input_columns = list(REQUIRED_COLUMNS_MAP.keys())
+
     defaults = {
         "page": "Input",
         "company_list": None,  # Will store list of dicts for processing
         "uploaded_file_data": None,  # Stores the uploaded file object
         "manual_input_df": pd.DataFrame(
-            columns=["company name", "location", "url"]
-        ),  # For data editor
+            columns=manual_input_columns
+        ),  # For data editor, using derived column names
         "input_method": "File Upload",  # Default input method
         "config": {},
         "artifacts": None,
@@ -193,8 +196,10 @@ def init_session_state() -> bool:
     # Specific state adjustments that might need to occur on reruns
     if st.session_state.get("input_method") == "Manual Input":
         if not isinstance(st.session_state.get("manual_input_df"), pd.DataFrame):
+            # Get column names from REQUIRED_COLUMNS_MAP for consistency
+            manual_input_columns = list(REQUIRED_COLUMNS_MAP.keys())
             st.session_state["manual_input_df"] = pd.DataFrame(
-                columns=["company name", "location", "url"]
+                columns=manual_input_columns
             )
             app_logger.info(
                 "Re-initialized 'manual_input_df' as it was not a DataFrame in Manual Input mode."
@@ -215,11 +220,12 @@ def clear_other_input(selected_method: str) -> None:
     Returns:
         None
     """
+    # Get column names from REQUIRED_COLUMNS_MAP for consistency
+    manual_input_columns = list(REQUIRED_COLUMNS_MAP.keys())
+
     if selected_method == "File Upload":
         # When switching to File Upload, clear manual input DataFrame
-        st.session_state["manual_input_df"] = pd.DataFrame(
-            columns=["company name", "location", "url"]
-        )
+        st.session_state["manual_input_df"] = pd.DataFrame(columns=manual_input_columns)
         st.session_state["company_list"] = None  # Clear any processed list
         print("Switched to File Upload, cleared manual input state.")
         app_logger.info("Switched to File Upload, cleared manual input state.")
