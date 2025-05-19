@@ -1,6 +1,7 @@
 from heapq import merge
 import io
 import logging
+import math
 import multiprocessing
 import os
 import signal
@@ -14,7 +15,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
-from streamlit_app.app import merge_active_jobs_with_db
+from streamlit_app.utils.job_utils import merge_active_jobs_with_db
 import streamlit_app.utils.db_utils as db_utils
 from streamlit_app.models.job_data_model import JobDataModel
 
@@ -543,16 +544,24 @@ def display_monitoring_section(
         else:
             job_rows = []
             for job_id, job_data in active_jobs.items():
-                # Build the DataFrame rows, ensuring job_id is included for identification
-                start_time_str = time.strftime(
-                    "%Y-%m-%d %H:%M:%S", 
-                    time.localtime(job_data.start_time)
-                ) if job_data.start_time else "N/A"
+                # Corrected start_time logic
+                start_val = job_data.start_time
+                if start_val is not None and not math.isnan(start_val):
+                    start_time_str = time.strftime(
+                        "%Y-%m-%d %H:%M:%S", 
+                        time.localtime(start_val)
+                    )
+                else:
+                    start_time_str = "N/A"
                 
-                end_time_str = time.strftime(
-                    "%Y-%m-%d %H:%M:%S", 
-                    time.localtime(job_data.end_time)
-                ) if job_data.end_time else "Running"
+                end_val = job_data.end_time
+                if end_val is not None and not math.isnan(end_val):
+                    end_time_str = time.strftime(
+                        "%Y-%m-%d %H:%M:%S", 
+                        time.localtime(end_val)
+                    )
+                else:
+                    end_time_str = "Running"
                 
                 job_rows.append({
                     "job_id": job_id,  # Include job_id in the DataFrame

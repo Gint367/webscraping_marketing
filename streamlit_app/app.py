@@ -34,6 +34,9 @@ from streamlit_app.section.output_section import (  # noqa: E402
     display_output_section,
 )
 from streamlit_app.utils import db_utils  # noqa: E402
+from streamlit_app.utils.job_utils import (  # noqa: E402
+    merge_active_jobs_with_db,
+)  # Import the merge function for active jobs
 from streamlit_app.utils.utils import check_process_details_by_pid  # noqa: E402
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
@@ -431,34 +434,7 @@ def cancel_job(job_id: str) -> bool:
             db_utils.add_or_update_job_in_db(conn, job_model)
         return False  # Job was not actively cancelled now, but was already not running
 
-def merge_active_jobs_with_db(active_jobs: dict, db_jobs: dict) -> dict:
-    """
-    Merge jobs loaded from DB into the current active_jobs dict,
-    preserving in-memory fields like process and status_queue.
 
-    Args:
-        active_jobs (dict): Current in-memory jobs (may have process objects).
-        db_jobs (dict): Jobs loaded from the database.
-
-    Returns:
-        dict: Merged jobs dictionary.
-    """
-    merged = {}
-    for job_id, db_job in db_jobs.items():
-        if job_id in active_jobs:
-            mem_job = active_jobs[job_id]
-            # Copy all DB fields to mem_job, except in-memory only fields
-            for field, value in db_job.model_dump().items():
-                if field not in {"process", "status_queue"}:
-                    setattr(mem_job, field, value)
-            merged[job_id] = mem_job
-        else:
-            merged[job_id] = db_job
-    # Optionally, keep jobs that are only in memory (not in DB)
-    for job_id, mem_job in active_jobs.items():
-        if job_id not in merged:
-            merged[job_id] = mem_job
-    return merged
 
 # --- Pipeline Processing in Separate Process ---
 
@@ -634,6 +610,10 @@ def process_queue_messages():
                         app_logger.info(
                             f"Job {job_id} status updated to: {job_model.status}"
                         )
+                        # Set end_time when job reaches terminal state
+                        if job_model.status in ["Completed", "Error", "Failed", "Cancelled"] and not job_model.end_time:
+                            job_model.end_time = time.time()
+                            app_logger.info(f"Job {job_id} end_time set to: {job_model.end_time}")
 
                     if "progress" in status_update:
                         job_model.progress = status_update["progress"]
@@ -643,7 +623,7 @@ def process_queue_messages():
 
                     if "phase" in status_update:
                         job_model.phase = status_update["phase"]
-                        app_logger.info(
+                        app_logger.debug(
                             f"Job {job_id} phase updated to: {job_model.phase}"
                         )
 
@@ -651,16 +631,16 @@ def process_queue_messages():
                         job_model.pipeline_log_file_path = status_update[
                             "pipeline_log_file_path"
                         ]
-                        app_logger.info(
+                        app_logger.debug(
                             f"Job {job_id} log file path set to: {job_model.pipeline_log_file_path}"
                         )
 
                     if "output_final_file_path" in status_update:
-                        job_model.output_file_path = status_update[
+                        job_model.output_final_file_path = status_update[
                             "output_final_file_path"
                         ]
-                        app_logger.info(
-                            f"Job {job_id} output file path set to: {job_model.output_file_path}"
+                        app_logger.debug(
+                            f"Job {job_id} output file path set to: {job_model.output_final_file_path}"
                         )
 
                     if "error" in status_update:
