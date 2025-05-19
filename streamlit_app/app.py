@@ -180,9 +180,11 @@ def init_session_state() -> bool:
     if "_jobs_loaded_from_db" not in st.session_state:
         try:
             loaded_jobs = db_utils.load_jobs_from_db(conn)
-            st.session_state["active_jobs"] = loaded_jobs
+            st.session_state["active_jobs"] = merge_active_jobs_with_db(
+                st.session_state.get("active_jobs", {}), loaded_jobs
+            )
             app_logger.info(
-                f"Successfully loaded {len(loaded_jobs)} jobs from the database."
+                f"Successfully loaded {len(st.session_state['active_jobs'])} jobs from the database."
             )
 
             st.session_state["_jobs_loaded_from_db"] = True
@@ -450,6 +452,34 @@ def cancel_job(job_id: str) -> bool:
             db_utils.add_or_update_job_in_db(conn, job_model)
         return False  # Job was not actively cancelled now, but was already not running
 
+def merge_active_jobs_with_db(active_jobs: dict, db_jobs: dict) -> dict:
+    """
+    Merge jobs loaded from DB into the current active_jobs dict,
+    preserving in-memory fields like process and status_queue.
+
+    Args:
+        active_jobs (dict): Current in-memory jobs (may have process objects).
+        db_jobs (dict): Jobs loaded from the database.
+
+    Returns:
+        dict: Merged jobs dictionary.
+    """
+    merged = {}
+    for job_id, db_job in db_jobs.items():
+        if job_id in active_jobs:
+            mem_job = active_jobs[job_id]
+            # Copy all DB fields to mem_job, except in-memory only fields
+            for field, value in db_job.model_dump().items():
+                if field not in {"process", "status_queue"}:
+                    setattr(mem_job, field, value)
+            merged[job_id] = mem_job
+        else:
+            merged[job_id] = db_job
+    # Optionally, keep jobs that are only in memory (not in DB)
+    for job_id, mem_job in active_jobs.items():
+        if job_id not in merged:
+            merged[job_id] = mem_job
+    return merged
 
 # --- Pipeline Processing in Separate Process ---
 

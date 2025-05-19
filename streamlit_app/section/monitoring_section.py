@@ -1,3 +1,4 @@
+from heapq import merge
 import io
 import logging
 import multiprocessing
@@ -13,6 +14,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
+from streamlit_app.app import merge_active_jobs_with_db
 import streamlit_app.utils.db_utils as db_utils
 from streamlit_app.models.job_data_model import JobDataModel
 
@@ -512,9 +514,12 @@ def display_monitoring_section(
     # Always reload jobs from DB to ensure up-to-date info
     try:
         loaded_jobs = db_utils.load_jobs_from_db(db_connection)
+        merged_jobs = merge_active_jobs_with_db(
+            st.session_state.get("active_jobs", {}), loaded_jobs
+        )
         # Run non-blocking PID check for jobs that are "Running" or "Initializing" and have a PID but no process
-        _update_job_statuses_with_pid_check(loaded_jobs)
-        st.session_state["active_jobs"] = loaded_jobs
+        _update_job_statuses_with_pid_check(merged_jobs)
+        st.session_state["active_jobs"] = merged_jobs
     except Exception as e:
         monitoring_logger.error(f"Failed to reload jobs from DB: {e}")
     # Initial queue processing is still needed outside the fragment
