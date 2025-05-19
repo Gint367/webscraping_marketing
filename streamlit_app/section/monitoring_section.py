@@ -620,37 +620,39 @@ def display_monitoring_section(
     # --- Delete Jobs Button ---
     # This is placed outside the fragment so it doesn't refresh with the table
     deletion_status_container = st.container()  # Container for persistent deletion status messages
-    
-    if st.button("Delete Selected Jobs", key="delete_selected_jobs_button"):
-        # Access the current selection state from session state
-        if "jobs_dataframe_selector" in st.session_state and hasattr(st.session_state["jobs_dataframe_selector"], "selection") and st.session_state["jobs_dataframe_selector"].selection.get("rows", []):
-            # Get the list of integer indices representing selected rows
-            selected_row_indices = st.session_state["jobs_dataframe_selector"].selection["rows"]
 
-            # Retrieve the DataFrame that was originally supplied to st.dataframe
-            original_jobs_df = st.session_state.get("jobs_df_for_display")
-            
-            if original_jobs_df is not None and not original_jobs_df.empty and len(selected_row_indices) > 0:
-                try:
-                    # Extract job_ids from selected rows using row indices
-                    selected_job_ids = original_jobs_df.iloc[selected_row_indices]["job_id"].tolist()
-                    
-                    # Store selected job_ids in session state for confirmation/deletion logic
-                    st.session_state["job_ids_selected_for_deletion"] = selected_job_ids
-                    
-                    # Show confirmation dialog
-                    st.session_state["show_confirm_delete_expander"] = True
-                    
-                    # Log the operation for monitoring
-                    monitoring_logger.info(f"Selected {len(selected_job_ids)} jobs for deletion: {selected_job_ids}")
-                    st.rerun()
-                except Exception as e:
-                    st.error(f"Error processing selected rows: {e}")
-                    monitoring_logger.error(f"Failed to process selected rows for deletion: {e}", exc_info=True)
+    # Only show delete button if there are jobs to delete
+    if st.session_state.get("active_jobs", {}):
+        if st.button("Delete Selected Jobs", key="delete_selected_jobs_button", icon=":material/delete:"):
+            # Access the current selection state from session state
+            if "jobs_dataframe_selector" in st.session_state and hasattr(st.session_state["jobs_dataframe_selector"], "selection") and st.session_state["jobs_dataframe_selector"].selection.get("rows", []):
+                # Get the list of integer indices representing selected rows
+                selected_row_indices = st.session_state["jobs_dataframe_selector"].selection["rows"]
+
+                # Retrieve the DataFrame that was originally supplied to st.dataframe
+                original_jobs_df = st.session_state.get("jobs_df_for_display")
+                
+                if original_jobs_df is not None and not original_jobs_df.empty and len(selected_row_indices) > 0:
+                    try:
+                        # Extract job_ids from selected rows using row indices
+                        selected_job_ids = original_jobs_df.iloc[selected_row_indices]["job_id"].tolist()
+                        
+                        # Store selected job_ids in session state for confirmation/deletion logic
+                        st.session_state["job_ids_selected_for_deletion"] = selected_job_ids
+                        
+                        # Show confirmation dialog
+                        st.session_state["show_confirm_delete_expander"] = True
+                        
+                        # Log the operation for monitoring
+                        monitoring_logger.info(f"Selected {len(selected_job_ids)} jobs for deletion: {selected_job_ids}")
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Error processing selected rows: {e}")
+                        monitoring_logger.error(f"Failed to process selected rows for deletion: {e}", exc_info=True)
+                else:
+                    st.warning("No jobs selected or job data not available.")
             else:
-                st.warning("No jobs selected or job data not available.")
-        else:
-            st.warning("No jobs selected. Please select one or more rows from the table.")
+                st.warning("No jobs selected. Please select one or more rows from the table.")
     
     # Display persistent deletion status messages if they exist
     if "deletion_success_count" in st.session_state and st.session_state["deletion_success_count"] > 0:
@@ -768,7 +770,7 @@ def display_monitoring_section(
         # Read the selected job ID from session state for the cancel button logic
         selected_job_id_for_cancel = st.session_state.get("selected_job_id")
 
-        if st.button("Cancel Selected Job", key="cancel_job_btn"):
+        if st.button("Cancel Selected Job", key="cancel_job_btn", icon=":material/stop_circle:"):
             if selected_job_id_for_cancel:
                 if cancel_job_callback(selected_job_id_for_cancel):
                     st.toast(f"Job {selected_job_id_for_cancel} cancelled.")
