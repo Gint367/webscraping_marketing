@@ -1,5 +1,6 @@
 import io
 import logging
+import logging.handlers  # Added
 import multiprocessing
 import os
 import signal
@@ -13,7 +14,7 @@ from typing import Any, Callable, Dict, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
-# Add project root to Python path
+# Add project root to Python path, if you delete this you need to specify streamlit -m when running the app
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
@@ -67,7 +68,7 @@ app_logger.propagate = True  # This will pass the logs to the streamlit_app.log
 # disable some module logging verboseness
 logging.getLogger("httpx._client").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
-
+logging.getLogger("streamlit.runtime.scriptrunner").setLevel(logging.ERROR) 
 # app_logger.debug("Loggers at startup:", list(logging.Logger.manager.loggerDict.keys()))
 
 
@@ -253,92 +254,70 @@ init_session_state()
 
 
 # --- Logging Handler for Streamlit ---
-class StreamlitLogHandler(logging.Handler):
-    LOG_FILE_TTL_DAYS = 2  # If streamlit_app.log is older than these days, delete it
-
-    def __init__(self):
-        super().__init__()
-        # Create log directory if it doesn't exist
-        self.log_dir = os.path.join(project_root, "logfiles")
-        os.makedirs(self.log_dir, exist_ok=True)
-        self.log_file_path = os.path.join(self.log_dir, "streamlit_app.log")
-        formatter = logging.Formatter(
-            "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
-        )
-        self.setFormatter(formatter)
-        # Set the log level to INFO by default
-        self.setLevel(logging.INFO)
-        # TTL Checks
-        try:
-            if os.path.exists(self.log_file_path):
-                file_mod_time = os.path.getmtime(self.log_file_path)
-                current_time = time.time()
-                age_seconds = current_time - file_mod_time
-                age_days = age_seconds / (24 * 3600)
-
-                if age_days > self.LOG_FILE_TTL_DAYS:
-                    os.remove(self.log_file_path)
-                    logging.getLogger("streamlit_app_main").info(
-                        f"Old log file {self.log_file_path} exceeded TTL and was deleted."
-                    )
-        except Exception as e:
-            # Log an error if there's an issue checking/deleting the old log file,
-            # but don't prevent the app from starting.
-            # Using a direct print here as logger might not be fully set up.
-            print(
-                f"Error managing log file TTL for {self.log_file_path}: {e}",
-                file=sys.stderr,
-            )
-
-    def emit(self, record: logging.LogRecord):
-        """
-        Emit a log record ONLY to the main application log file (streamlit_app.log).
-        Job-specific logs are read directly from their dedicated files in the UI.
-        """
-
-        try:
-            msg = self.format(record)
-            # Always write to the application log file
-            with open(self.log_file_path, "a", encoding="utf-8") as f:
-                f.write(f"{msg}\n")
-        except Exception:
-            # Pass the record to handleError as expected by the logging framework
-            self.handleError(record)
+# The StreamlitLogHandler class has been removed and replaced by a TimedRotatingFileHandler setup below.
 
 
 # Define streamlit_handler at module level, initialized to None
-streamlit_handler: Optional[StreamlitLogHandler] = None
+# This variable can hold the handler instance if needed elsewhere, though its primary role is being added to the root_logger.
+streamlit_handler: Optional[logging.Handler] = None
+
 # Add the handler to the root logger AFTER initial state setup, but only if it doesn't exist yet
 root_logger = logging.getLogger()
 
 # Use session_state to ensure the handler is added only once per session
 if "_streamlit_log_handler_added" not in st.session_state:
-    # This print helps confirm when this block is entered
     app_logger.debug(
-        f"'_streamlit_log_handler_added' flag not in session_state. Checking root_logger.handlers: {root_logger.handlers}"
+        f"'_streamlit_log_handler_added' flag not in session_state. Attempting to add TimedRotatingFileHandler for streamlit_app.log. Current root_logger.handlers: {root_logger.handlers}"
     )
 
-    # As a safeguard, also check if a handler with the same class name is already present.
-    # This handles edge cases but the session_state flag is the primary guard.
-    if not any(
-        h.__class__.__name__ == "StreamlitLogHandler" for h in root_logger.handlers
-    ):
-        streamlit_handler = StreamlitLogHandler()
-        root_logger.addHandler(streamlit_handler)
-        app_logger.debug(
-            f"StreamlitLogHandler added. New root_logger.handlers: {root_logger.handlers}"
-        )
+    # Check if a TimedRotatingFileHandler for streamlit_app.log is already present.
+    handler_exists = any(
+        isinstance(h, logging.handlers.TimedRotatingFileHandler) and \
+        getattr(h, 'baseFilename', '').endswith('streamlit_app.log')
+        for h in root_logger.handlers
+    )
+
+    if not handler_exists:
+        try:
+            log_dir = os.path.join(project_root, "logfiles")
+            os.makedirs(log_dir, exist_ok=True)
+            log_file_path = os.path.join(log_dir, "streamlit_app.log")
+
+            # Create TimedRotatingFileHandler
+            rotating_handler = logging.handlers.TimedRotatingFileHandler(
+                filename=log_file_path,
+                when='D',  # Rotate daily
+                interval=2, # Daily interval
+                backupCount=0, # Number of backup files
+                encoding='utf-8',
+                delay=False # Open file immediately,
+            )
+            formatter = logging.Formatter(
+                "%(asctime)s - %(levelname)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
+            )
+            rotating_handler.setFormatter(formatter)
+            rotating_handler.setLevel(logging.INFO) # Set level for this handler
+
+            root_logger.addHandler(rotating_handler)
+            streamlit_handler = rotating_handler # Assign if needed elsewhere
+            app_logger.info(
+                f"TimedRotatingFileHandler for streamlit_app.log added. Log path: {log_file_path}. New root_logger.handlers: {root_logger.handlers}"
+            )
+        except Exception as e:
+            # Log an error if there's an issue setting up the handler,
+            # but don't prevent the app from starting.
+            # Using a direct print here as logger might not be fully set up.
+            print(
+                f"Error setting up TimedRotatingFileHandler for streamlit_app.log: {e}",
+                file=sys.stderr,
+            )
+            app_logger.error(f"Error setting up TimedRotatingFileHandler for streamlit_app.log: {e}")
     else:
         app_logger.debug(
-            "StreamlitLogHandler with the same class name already found in root_logger.handlers. Not re-adding, but setting session flag."
-        )
-        app_logger.debug(
-            f"StreamlitLogHandler found by class name. Not re-adding. root_logger.handlers: {root_logger.handlers}"
+            "TimedRotatingFileHandler for streamlit_app.log already found in root_logger.handlers. Not re-adding."
         )
 
-    st.session_state["_streamlit_log_handler_added"] = (
-        True  # Mark as added for this session
-    )
+    st.session_state["_streamlit_log_handler_added"] = True
 else:
     app_logger.debug(
         f"'_streamlit_log_handler_added' flag found in session_state. Handler not added again. root_logger.handlers: {root_logger.handlers}"
