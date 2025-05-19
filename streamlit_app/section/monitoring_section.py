@@ -538,87 +538,185 @@ def display_monitoring_section(
         else:
             job_rows = []
             for job_id, job_data in active_jobs.items():
-                start_time = getattr(job_data, "start_time", 0)
-                end_time = getattr(job_data, "end_time", None)
-                # Defensive: handle None, NaN, or invalid values
-                try:
-                    if start_time is None or (
-                        isinstance(start_time, float) and (start_time != start_time)
-                    ):
-                        start_time = 0
-                    if end_time is not None and (
-                        isinstance(end_time, float) and (end_time != end_time)
-                    ):
-                        end_time = None
-                except Exception:
-                    start_time = 0
-                    end_time = None
-
-                try:
-                    start_time_str = time.strftime(
-                        "%Y-%m-%d %H:%M:%S",
-                        time.localtime(start_time),
-                    )
-                except Exception:
-                    start_time_str = "N/A"
-
-                if end_time is not None:
-                    try:
-                        duration_sec = end_time - start_time
-                        if duration_sec != duration_sec or duration_sec < 0:
-                            duration = "N/A"
-                        elif duration_sec < 60:
-                            duration = f"{int(duration_sec)}s"
-                        else:
-                            duration = (
-                                f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s"
-                            )
-                    except Exception:
-                        duration = "N/A"
-                else:
-                    try:
-                        duration_sec = time.time() - start_time
-                        if duration_sec != duration_sec or duration_sec < 0:
-                            duration = "N/A (running)"
-                        elif duration_sec < 60:
-                            duration = f"{int(duration_sec)}s (running)"
-                        else:
-                            duration = f"{int(duration_sec // 60)}m {int(duration_sec % 60)}s (running)"
-                    except Exception:
-                        duration = "N/A (running)"
-                file_info = getattr(job_data, "file_info", {})
-                file_type = file_info.get("type", "Unknown")
-                file_name = file_info.get("name", "Unknown")
-                record_count = file_info.get("record_count", 0)
-                job_rows.append(
-                    {
-                        "ID": job_id,
-                        "Status": getattr(job_data, "status", "Unknown"),
-                        "Start Time": start_time_str,
-                        "Duration": duration,
-                        "Progress": getattr(job_data, "progress", 0),
-                        "Source": f"{file_type}: {file_name} ({record_count} records)",
-                    }
-                )
+                # Build the DataFrame rows, ensuring job_id is included for identification
+                start_time_str = time.strftime(
+                    "%Y-%m-%d %H:%M:%S", 
+                    time.localtime(job_data.start_time)
+                ) if job_data.start_time else "N/A"
+                
+                end_time_str = time.strftime(
+                    "%Y-%m-%d %H:%M:%S", 
+                    time.localtime(job_data.end_time)
+                ) if job_data.end_time else "Running"
+                
+                job_rows.append({
+                    "job_id": job_id,  # Include job_id in the DataFrame
+                    "Status": job_data.status,
+                    "Progress": job_data.progress if job_data.progress is not None else 0,  # Store as integer without % sign
+                    "Phase": job_data.phase or "N/A",
+                    "Start Time": start_time_str,
+                    "End Time": end_time_str,
+                })
+                
+            # Create DataFrame with job data
             jobs_df = pd.DataFrame(job_rows)
+            
+            # Store the DataFrame in session state for later reference when processing selections
+            st.session_state["jobs_df_for_display"] = jobs_df
+            
+            # Add a note about selection behavior
+            st.caption("Select rows to delete. Note: Sorting will reset selections. Use search to filter before selecting.")
+            
+            # Configure columns for better readability
+            column_config = {
+                "job_id": st.column_config.TextColumn(
+                    "Job ID",
+                    help="Unique identifier for the job",
+                    width="medium"
+                ),
+                "Status": st.column_config.TextColumn(
+                    "Status",
+                    help="Current status of the job",
+                    width="small"
+                ),
+                "Progress": st.column_config.ProgressColumn(
+                    "Progress",
+                    help="Job completion percentage",
+                    format="%s%%",
+                    min_value=0,
+                    max_value=100
+                ),
+                "Phase": st.column_config.TextColumn(
+                    "Current Phase",
+                    help="Current processing phase",
+                    width="medium"
+                ),
+                "Start Time": st.column_config.DatetimeColumn(
+                    "Started At",
+                    help="When the job was started",
+                    format="YYYY-MM-DD HH:mm:ss",
+                    width="small"
+                ),
+                "End Time": st.column_config.DatetimeColumn(
+                    "Completed At", 
+                    help="When the job was completed",
+                    format="YYYY-MM-DD HH:mm:ss",
+                    width="small"
+                ),
+            }
+            
+            # Display the DataFrame with selection capabilities
             st.dataframe(
                 jobs_df,
-                column_config={
-                    "ID": st.column_config.TextColumn("Job ID"),
-                    "Status": st.column_config.TextColumn("Status"),
-                    "Start Time": st.column_config.TextColumn("Start Time"),
-                    "Duration": st.column_config.TextColumn("Duration"),
-                    "Progress": st.column_config.ProgressColumn(
-                        "Progress", format="%d%%", min_value=0, max_value=100
-                    ),
-                    "Source": st.column_config.TextColumn("Source"),
-                },
-                hide_index=True,
-                use_container_width=True,
+                key="jobs_dataframe_selector",  # Unique key for accessing selection state
+                on_select="rerun",              # Re-render app when selection changes
+                selection_mode=["multi-row"],   # Allow selecting multiple rows
+                hide_index=True,                # Hide index for cleaner display
+                column_config=column_config     # Apply column configuration for better readability
             )
 
     jobs_table_fragment()
 
+    # --- Delete Jobs Button ---
+    # This is placed outside the fragment so it doesn't refresh with the table
+    deletion_status_container = st.container()  # Container for persistent deletion status messages
+    
+    if st.button("Delete Selected Jobs", key="delete_selected_jobs_button"):
+        # Access the current selection state from session state
+        if "jobs_dataframe_selector" in st.session_state and hasattr(st.session_state["jobs_dataframe_selector"], "selection") and st.session_state["jobs_dataframe_selector"].selection.get("rows", []):
+            # Get the list of integer indices representing selected rows
+            selected_row_indices = st.session_state["jobs_dataframe_selector"].selection["rows"]
+
+            # Retrieve the DataFrame that was originally supplied to st.dataframe
+            original_jobs_df = st.session_state.get("jobs_df_for_display")
+            
+            if original_jobs_df is not None and not original_jobs_df.empty and len(selected_row_indices) > 0:
+                try:
+                    # Extract job_ids from selected rows using row indices
+                    selected_job_ids = original_jobs_df.iloc[selected_row_indices]["job_id"].tolist()
+                    
+                    # Store selected job_ids in session state for confirmation/deletion logic
+                    st.session_state["job_ids_selected_for_deletion"] = selected_job_ids
+                    
+                    # Show confirmation dialog
+                    st.session_state["show_confirm_delete_expander"] = True
+                    
+                    # Log the operation for monitoring
+                    monitoring_logger.info(f"Selected {len(selected_job_ids)} jobs for deletion: {selected_job_ids}")
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Error processing selected rows: {e}")
+                    monitoring_logger.error(f"Failed to process selected rows for deletion: {e}", exc_info=True)
+            else:
+                st.warning("No jobs selected or job data not available.")
+        else:
+            st.warning("No jobs selected. Please select one or more rows from the table.")
+    
+    # Display persistent deletion status messages if they exist
+    if "deletion_success_count" in st.session_state and st.session_state["deletion_success_count"] > 0:
+        deletion_status_container.success(
+            f"Successfully deleted {st.session_state['deletion_success_count']} job"
+            f"{'s' if st.session_state['deletion_success_count'] != 1 else ''}."
+        )
+        # Clear the message after displaying once
+        st.session_state.pop("deletion_success_count", None)
+        
+    if "deletion_error_count" in st.session_state and st.session_state["deletion_error_count"] > 0:
+        deletion_status_container.error(
+            f"Failed to delete {st.session_state['deletion_error_count']} job"
+            f"{'s' if st.session_state['deletion_error_count'] != 1 else ''}. See logs for details."
+        )
+        # Clear the message after displaying once
+        st.session_state.pop("deletion_error_count", None)
+    
+    # --- Delete Confirmation UI ---
+    if st.session_state.get("show_confirm_delete_expander", False):
+        with st.expander("Confirm Deletion", expanded=True):
+            selected_jobs = st.session_state.get("job_ids_selected_for_deletion", [])
+            num_selected = len(selected_jobs)
+            
+            st.warning(f"You are about to delete {num_selected} job{'s' if num_selected != 1 else ''} and all associated artifacts. This action cannot be undone.")
+            st.write(f"Selected job IDs: {', '.join(selected_jobs)}")
+            
+            col1, col2 = st.columns(2, gap="small")
+            
+            with col1:
+                if st.button("Yes, Delete These Jobs", key="confirm_delete_button", type="primary"):
+                    success_count = 0
+                    error_count = 0
+                    for job_id in selected_jobs:
+                        try:
+                            # Call the delete_job_and_artifacts function to perform the deletion
+                            result = db_utils.delete_job_and_artifacts(db_connection, job_id, st.session_state.get("active_jobs", {}))
+                            if result:
+                                success_count += 1
+                                
+                            else:
+                                error_count += 1
+                                
+                        except Exception as e:
+                            error_count += 1
+                            monitoring_logger.error(f"Error while deleting job {job_id}: {e}")
+                    
+                    # Store results in session state for display outside the expander
+                    if success_count > 0:
+                        st.session_state["deletion_success_count"] = success_count
+                    if error_count > 0:
+                        st.session_state["deletion_error_count"] = error_count
+                    
+                    # Clean up session state
+                    st.session_state["job_ids_selected_for_deletion"] = []
+                    st.session_state["show_confirm_delete_expander"] = False
+                    
+                    # Force UI refresh
+                    st.rerun()
+            
+            with col2:
+                if st.button("Cancel", key="cancel_delete_button"):
+                    st.session_state["job_ids_selected_for_deletion"] = []
+                    st.session_state["show_confirm_delete_expander"] = False
+                    st.rerun()
+    
     # --- Job Selection and Cancel Button (separate container, not auto-refreshing) ---
     with st.container():
         active_jobs = st.session_state.get("active_jobs", {})

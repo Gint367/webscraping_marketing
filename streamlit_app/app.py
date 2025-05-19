@@ -165,6 +165,11 @@ def init_session_state() -> bool:
         "active_jobs": {},  # Dictionary of job_id -> job_data for all active/recent jobs
         "selected_job_id": None,  # Currently selected job for viewing details
         "log_file_positions": {},  # Stores last read position for job log files
+        # Job selection and deletion
+        "job_ids_selected_for_deletion": {},  # Dictionary of job_id -> bool for multi-select in jobs table
+        "show_confirm_delete_expander": False,  # Controls visibility of deletion confirmation UI
+        # Optional but recommended - to be added if needed during implementation of task 2
+        # "jobs_df_for_display": None,  # Store DataFrame used for job display to map selections later
     }
 
     # Apply defaults if keys don't exist
@@ -561,7 +566,7 @@ def run_pipeline_in_process(
             status_data["job_id"] = job_id
         safe_queue_put(status_data)
 
-        print(f"Pipeline process completed successfully, output at: {final_output}")
+        #print(f"Pipeline process completed successfully, output at: {final_output}")
         root_logger.info(
             f"PIPELINE_PROCESS_COMPLETED: Pipeline process completed successfully for job {job_id}, output at: {final_output}"
         )
@@ -571,7 +576,7 @@ def run_pipeline_in_process(
         root_logger.error(
             f"PIPELINE_PROCESS_ERROR: Pipeline process failed for job {job_id}: {error_msg}"
         )
-        print(f"Pipeline process failed: {error_msg}")
+        #print(f"Pipeline process failed: {error_msg}")
 
         status_data = {
             "status": "Error",
