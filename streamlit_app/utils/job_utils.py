@@ -1,10 +1,12 @@
+import logging
 import os
 import shutil
-import logging
-import streamlit as st
 from typing import Any, Dict
 
+import streamlit as st
+
 from streamlit_app.models.job_data_model import JobDataModel
+from streamlit_app.utils.db_utils import delete_job_from_db, get_job_from_db
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +35,7 @@ def delete_job_and_artifacts(
     logger.info(f"Starting deletion process for job '{job_id}'")
     # Step 1: Retrieve the JobDataModel
     job_data = active_jobs_from_state.get(job_id)
-    # If not in session state, attempt to load from database
-    from streamlit_app.utils.db_utils import get_job_from_db, delete_job_from_db
+    
     if job_data is None:
         logger.info(f"Job '{job_id}' not found in session state, attempting to load from database")
         try:

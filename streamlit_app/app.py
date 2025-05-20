@@ -853,7 +853,10 @@ def handle_navigation():
     st.session_state["page"] = st.session_state["navigation_choice"]
 
 st.sidebar.title("Navigation")
-page_options = ["Input", "Configuration", "Monitoring", "Output"]
+page_options = [
+    "Input", 
+    # "Configuration", 
+    "Monitoring", "Output"]
 
 # Use a separate key for the radio widget and an on_change callback
 st.sidebar.radio(
@@ -876,6 +879,7 @@ if __name__ == "__main__":
     # Display the selected page
     page = st.session_state["page"]
     if page == "Input":
+        st.header("Input Data")
         display_input_section(
             process_data_func=process_data,
             validate_columns_func=validate_columns,
@@ -885,6 +889,7 @@ if __name__ == "__main__":
     elif page == "Configuration":
         display_config_section()
     elif page == "Monitoring":
+        st.header("Monitoring")
         display_monitoring_section(
             db_connection=conn,
             cancel_job_callback=cancel_job,  # Pass the existing function
@@ -892,6 +897,7 @@ if __name__ == "__main__":
             check_pid_callback=check_process_details_by_pid,  # Pass the imported function
         )
     elif page == "Output":
+        st.header("Pipeline Artifacts")
         display_output_section(conn)
 
     app_logger.info(f"Displayed page: {page}")

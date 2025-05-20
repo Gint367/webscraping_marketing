@@ -329,7 +329,7 @@ def display_final_output_file_section(job_data: JobDataModel) -> None:
 
 def display_output_section(conn):
     """Displays the pipeline artifacts browsing section."""
-    st.subheader("Pipeline Artifacts")
+    
     st.caption("Browse and download intermediate files generated during processing.")
 
     # --- Refactored for DB-driven job selection ---

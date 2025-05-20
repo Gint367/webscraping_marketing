@@ -363,7 +363,6 @@ def display_monitoring_section(
     # Add other parameters as identified
 ):
     """Displays the job monitoring and log output."""
-    st.header("3. Monitoring")
     st.write("Track the progress of the scraping and enrichment processes.")
 
     # --- Helper: Non-blocking PID check for jobs ---
