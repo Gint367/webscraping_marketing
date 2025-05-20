@@ -1,23 +1,21 @@
-from heapq import merge
-import io
 import logging
 import math
-import multiprocessing
 import os
-import signal
-import sys
-import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from heapq import merge
 from multiprocessing import Manager, Process, Queue
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import pandas as pd
 import streamlit as st
 
-from streamlit_app.utils.job_utils import merge_active_jobs_with_db
 import streamlit_app.utils.db_utils as db_utils
 from streamlit_app.models.job_data_model import JobDataModel
+from streamlit_app.utils.job_utils import (
+    delete_job_and_artifacts,
+    merge_active_jobs_with_db,
+)
 
 # Get a logger that is a child of the main app logger configured in app.py
 monitoring_logger = logging.getLogger("streamlit_app_main.monitoring")
@@ -348,7 +346,7 @@ def update_selected_job_progress_from_log(
             job_model.end_time = time.time()
             job_model.touch()
             db_utils.add_or_update_job_in_db(conn, job_model)
-            updated = True
+            updated = False
     except Exception as e:
         monitoring_logger.error(
             f"Error updating job progress from log for job {job_model.id}: {e}",
@@ -703,7 +701,7 @@ def display_monitoring_section(
                     for job_id in selected_jobs:
                         try:
                             # Call the delete_job_and_artifacts function to perform the deletion
-                            result = db_utils.delete_job_and_artifacts(db_connection, job_id, st.session_state.get("active_jobs", {}))
+                            result = delete_job_and_artifacts(db_connection, job_id, st.session_state.get("active_jobs", {}))
                             if result:
                                 success_count += 1
                                 

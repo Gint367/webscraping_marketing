@@ -420,7 +420,12 @@ def _display_start_processing_button(validation_passed: bool):
             processing_disabled = True  # No manual data entered
 
     # Display the button
-    if st.button("Start Processing", type="primary", disabled=processing_disabled):
+    if st.button(
+        "Start Processing", 
+        type="primary", 
+        disabled=processing_disabled, 
+        key="start_processing_button" # ADDED KEY
+    ):
         if _process_data_func:  # Check if the function is initialized
             _process_data_func()  # Call the passed function
 

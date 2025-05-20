@@ -15,3 +15,4 @@
     - Scenario under which the method is being tested
     - Expected behavior when the scenario is invoked
 - each test function should follow this naming convention (camelCase for scenario and expected behaviour): `test_<method_name>_ScenarioOfMethodBeingTested_ExpectedBehaviour`.
+- When running automated tests with unittest, use the verbose flag with error redirection to see detailed output: `python -m unittest -v 2>&1`
