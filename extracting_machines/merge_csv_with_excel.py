@@ -542,6 +542,24 @@ def save_merged_data(
 ) -> str:
     """Save the merged dataframe to a CSV file with date in filename, or to a specified output path."""
     current_date = datetime.now().strftime("%Y%m%d")
+    
+    # If merged_df is empty, create an empty DataFrame with the desired column headers
+    if merged_df.empty:
+        logger.info("Creating empty DataFrame with headers only")
+        merged_df = pd.DataFrame(columns=[
+            "Firma1", "location", "url", "Top1_Machine", 
+            "Maschinen_Park_Size", "Sachanlagen"
+        ])
+    
+    # Ensure all required columns exist in the DataFrame, add empty columns if missing
+    required_columns = ["Firma1", "location", "url", "Top1_Machine", 
+                        "Maschinen_Park_Size", "Sachanlagen"]
+    for col in required_columns:
+        if col not in merged_df.columns:
+            logger.info(f"Adding missing column: {col}")
+            merged_df[col] = np.nan
+    
+    # Save the DataFrame with the output path
     if output_file_path is not None:
         merged_df.to_csv(output_file_path, index=False)
         return output_file_path
@@ -626,8 +644,8 @@ def create_sachanlagen_mapping(sachanlagen_df, company_df):
 
 def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
     """Merge the main dataframe with Sachanlagen data."""
-    if sachanlagen_df.empty:
-        logger.info("Sachanlagen data is empty, skipping merge.")
+    if sachanlagen_df.empty or sachanlagen_df is None:
+        logger.info("Sachanlagen data is empty or None, adding empty Sachanlagen column.")
         merged_df["Sachanlagen"] = np.nan  # Add empty column if no data
         return merged_df
 
@@ -648,15 +666,15 @@ def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
     sachanlagen_to_merge = sachanlagen_df[["Mapped_Company", sachanlagen_col]].dropna(
         subset=["Mapped_Company"]
     )
+    # Rename the column to "Sachanlagen" for consistency
+    sachanlagen_to_merge = sachanlagen_to_merge.rename(columns={sachanlagen_col: "Sachanlagen"})
     sachanlagen_to_merge = sachanlagen_to_merge.drop_duplicates(
         subset=["Mapped_Company"], keep="first"
     )
 
     # Ensure merge keys are string type
     merged_df["Firma1"] = merged_df["Firma1"].astype(str)
-    sachanlagen_to_merge["Mapped_Company"] = sachanlagen_to_merge[
-        "Mapped_Company"
-    ].astype(str)
+    sachanlagen_to_merge["Mapped_Company"] = sachanlagen_to_merge["Mapped_Company"].astype(str)
 
     # Merge with the main dataframe
     final_merged_df = pd.merge(
@@ -714,24 +732,39 @@ def main(
             csv_file_path, original_company_file_path, sheet_name
         )
 
-        # If either input is empty, do not create output
-        if machine_data.empty or company_df.empty:
+        # If company data is empty, we cannot proceed as we need company names for mapping
+        if company_df.empty:
             logger.error(
-                "Input CSV or company data file is empty. No output will be created."
+                "Company data file is empty. No output will be created."
+            )
+            return None
+            
+        # Machine data can be empty - we'll continue if sachanlagen data exists
+        has_sachanlagen = sachanlagen_path and os.path.exists(sachanlagen_path)
+        if machine_data.empty and not has_sachanlagen:
+            logger.error(
+                "Input CSV is empty and no sachanlagen data available. No output will be created."
             )
             return None
 
-        similarities = analyze_company_similarities(machine_data, company_df)
-        good_matches = len(machine_data["Company"].unique()) - len(
-            similarities["problematic_matches"]
-        )
-        logger.info(
-            f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies"
-        )
+        # Initialize merged_df with company data
+        merged_df = company_df.copy()
+        
+        # Only perform machine data matching and merging if machine data is not empty
+        if not machine_data.empty:
+            similarities = analyze_company_similarities(machine_data, company_df)
+            good_matches = len(machine_data["Company"].unique()) - len(
+                similarities["problematic_matches"]
+            )
+            logger.info(
+                f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies"
+            )
 
-        mapping = create_company_mapping(machine_data, company_df)
-        logger.debug(f"Mapping created with {len(mapping)} matches")
-        merged_df = merge_datasets(company_df, machine_data, mapping, top_n)
+            mapping = create_company_mapping(machine_data, company_df)
+            logger.debug(f"Mapping created with {len(mapping)} matches")
+            merged_df = merge_datasets(company_df, machine_data, mapping, top_n)
+        else:
+            logger.info("Machine data is empty, skipping machine data merge")
 
         if sachanlagen_path and os.path.exists(sachanlagen_path):
             sachanlagen_df = load_sachanlagen_data(sachanlagen_path)
@@ -740,20 +773,37 @@ def main(
                 merged_df, sachanlagen_df, sachanlagen_mapping
             )
 
+        # Check for machine values when machine columns exist
         machine_cols = [f"Top{i + 1}_Machine" for i in range(top_n)]
-        has_machine_value = False
-        for col in machine_cols:
-            has_machine_value = has_machine_value | merged_df[col].notna()
+        
+        # Initialize with a Series of False values matching dataframe length
+        has_machine_value = pd.Series(False, index=merged_df.index)
+        
+        # Only check machine columns that actually exist in the merged dataframe
+        machine_cols = [col for col in machine_cols if col in merged_df.columns]
+        if machine_cols:
+            for col in machine_cols:
+                has_machine_value = has_machine_value | merged_df[col].notna()
+        
         # Case-insensitive check for 'sachanlagen' column
         sachanlagen_col = next(
             (col for col in merged_df.columns if col.lower() == "sachanlagen"), None
         )
-        has_sachanlagen_value = (
-            merged_df[sachanlagen_col].notna() if sachanlagen_col else False
-        )
-        filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
-
-        # If output is empty, do not create file
+        
+        # Initialize with a Series of False values matching dataframe length
+        has_sachanlagen_value = pd.Series(False, index=merged_df.index)
+        if sachanlagen_col:
+            has_sachanlagen_value = merged_df[sachanlagen_col].notna()
+        
+        # Only filter rows if we have either machine data or sachanlagen data
+        if machine_cols or sachanlagen_col:
+            filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
+        else:
+            # If neither data source exists, use the merged_df as is (company data only)
+            filtered_df = merged_df
+            logger.warning("Neither machine data nor sachanlagen data found, output will contain only company information")
+        
+        # If output is completely empty (not even company data), do not create file
         if filtered_df.empty:
             logger.error("Merged output is empty. No output will be created.")
             return None

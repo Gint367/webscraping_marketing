@@ -315,18 +315,18 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         # Merge Sachanlagen data
         result = mcwe.merge_with_sachanlagen(merged_df, sachanlagen_df, mapping)
 
-        # Check if sachanlagen column exists (lowercase)
-        self.assertIn('sachanlagen', result.columns)
+        # Check if sachanlagen column exists
+        self.assertIn('Sachanlagen', result.columns)
 
         # Check if sachanlagen values are correctly mapped by comparing numeric values
         for company in ['Test Company', 'Another Company', 'Third GmbH & Co. KG']:
             sachanlagen_value_str = self.sachanlagen_data.loc[self.sachanlagen_data['company_name'] == company, 'sachanlagen'].values[0]
-            result_value_str = str(result.loc[result['Firma1'] == company, 'sachanlagen'].values[0]) # Use lowercase 'sachanlagen'
+            result_value_str = str(result.loc[result['Firma1'] == company, 'Sachanlagen'].values[0]) # Use lowercase 'sachanlagen'
             # Convert both to int after float to handle potential '.0'
             self.assertEqual(int(float(result_value_str)), int(sachanlagen_value_str))
 
         # Check if non-matching company has NaN for sachanlagen
-        self.assertTrue(pd.isna(result.loc[result['Firma1'] == 'No Match Company', 'sachanlagen'].values[0])) # Use lowercase 'sachanlagen'
+        self.assertTrue(pd.isna(result.loc[result['Firma1'] == 'No Match Company', 'Sachanlagen'].values[0])) # Use lowercase 'sachanlagen'
 
     def test_integration(self):
         """
@@ -357,7 +357,7 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         merged_df = pd.read_csv(result_path if result_path is not None else output_path)
 
         # Check that expected columns exist (using lowercase 'sachanlagen')
-        expected_columns = {'Firma1', 'URL', 'Ort', 'Top1_Machine', 'Top2_Machine', 'Maschinen_Park_Size', 'sachanlagen'}
+        expected_columns = {'Firma1', 'URL', 'Ort', 'Top1_Machine', 'Top2_Machine', 'Maschinen_Park_Size', 'Sachanlagen'}
         self.assertTrue(expected_columns.issubset(set(merged_df.columns)))
 
         # Check that all test companies are present in the output
@@ -366,11 +366,124 @@ class TestMergeCsvWithExcel(unittest.TestCase):
 
         # Check that Sachanlagen values are correctly merged
         for company in self.sachanlagen_data['company_name']:
+            # Use lowercase 'sachanlagen' when accessing original data
             sachanlagen_value = self.sachanlagen_data[self.sachanlagen_data['company_name'] == company]['sachanlagen']
-            result_value = merged_df[merged_df['Firma1'] == company]['sachanlagen']
+            # Use capitalized 'Sachanlagen' when accessing merged data (which is renamed during merging)
+            result_value = merged_df[merged_df['Firma1'] == company]['Sachanlagen']
             if len(sachanlagen_value) > 0 and len(result_value) > 0:
                 self.assertEqual(str(result_value.iloc[0]), str(sachanlagen_value.iloc[0]))
 
 
+class TestMergeCsvWithExcelWithEmptyData(unittest.TestCase):
+    """Test cases for merge_csv_with_excel.py module."""
+
+    def setUp(self):
+        """Set up test fixtures."""
+        # Create temporary files for testing
+        self.temp_dir = tempfile.TemporaryDirectory()
+        
+        # Create test files
+        self.empty_machine_csv = os.path.join(self.temp_dir.name, "empty_machine.csv")
+        with open(self.empty_machine_csv, 'w') as f:
+            f.write("Company,Machine_1,Machine_2\n")  # Header only, no data
+        
+        self.valid_machine_csv = os.path.join(self.temp_dir.name, "valid_machine.csv")
+        with open(self.valid_machine_csv, 'w') as f:
+            f.write("Company,Machine_1,Machine_2\n")
+            f.write("Company A,100000,50000\n")
+            f.write("Company B,200000,150000\n")
+        
+        self.company_csv = os.path.join(self.temp_dir.name, "company.csv")
+        with open(self.company_csv, 'w') as f:
+            f.write("Firma1,URL,Ort\n")
+            f.write("Company A,http://example.com,Berlin\n")
+            f.write("Company B,http://example.org,Munich\n")
+            f.write("Company C,http://example.net,Hamburg\n")
+        
+        self.sachanlagen_csv = os.path.join(self.temp_dir.name, "sachanlagen.csv")
+        with open(self.sachanlagen_csv, 'w') as f:
+            f.write("company_name,sachanlagen\n")
+            f.write("Company A,50000\n")
+            f.write("Company C,75000\n")
+
+    def tearDown(self):
+        """Tear down test fixtures."""
+        self.temp_dir.cleanup()
+
+    def test_main_EmptyMachineDataWithSachanlagen_ReturnsOutput(self):
+        """Test main function when machine data is empty but sachanlagen data exists."""
+        # Arrange
+        output_path = os.path.join(self.temp_dir.name, "output.csv")
+        
+        # Act
+        result = mcwe.main(
+            csv_file_path=self.empty_machine_csv,
+            original_company_file_path=self.company_csv,
+            output_file_path=output_path,
+            sachanlagen_path=self.sachanlagen_csv
+        )
+        
+        # Assert
+        self.assertIsNotNone(result, "Output should not be None when sachanlagen data exists")
+        self.assertTrue(os.path.exists(output_path), "Output file should be created")
+        
+        # Verify content
+        output_df = pd.read_csv(output_path)
+        self.assertGreater(len(output_df), 0, "Output should have rows")
+        self.assertIn("Sachanlagen", output_df.columns, "Output should contain Sachanlagen column")
+
+    def test_main_EmptyMachineDataNoSachanlagen_ReturnsNone(self):
+        """Test main function when both machine data and sachanlagen data are empty."""
+        # Arrange
+        output_path = os.path.join(self.temp_dir.name, "output.csv")
+        
+        # Act
+        result = mcwe.main(
+            csv_file_path=self.empty_machine_csv,
+            original_company_file_path=self.company_csv,
+            output_file_path=output_path
+        )
+        
+        # Assert
+        self.assertIsNone(result, "Output should be None when both data sources are empty")
+        self.assertFalse(os.path.exists(output_path), "Output file should not be created")
+
+    def test_main_ValidMachineData_ReturnsOutput(self):
+        """Test main function with valid machine data."""
+        # Arrange
+        output_path = os.path.join(self.temp_dir.name, "output.csv")
+        
+        # Act
+        result = mcwe.main(
+            csv_file_path=self.valid_machine_csv,
+            original_company_file_path=self.company_csv,
+            output_file_path=output_path
+        )
+        
+        # Assert
+        self.assertIsNotNone(result, "Output should not be None with valid machine data")
+        self.assertTrue(os.path.exists(output_path), "Output file should be created")
+        
+        # Verify content
+        output_df = pd.read_csv(output_path)
+        self.assertGreater(len(output_df), 0, "Output should have rows")
+        self.assertIn("Top1_Machine", output_df.columns, "Output should contain Top1_Machine column")
+
+    def test_merge_with_sachanlagen_EmptySachanlagen_AddsEmptyColumn(self):
+        """Test merge_with_sachanlagen adds empty Sachanlagen column when data is empty."""
+        # Arrange
+        merged_df = pd.DataFrame({
+            'Firma1': ['Company A', 'Company B'],
+            'URL': ['http://example.com', 'http://example.org']
+        })
+        sachanlagen_df = pd.DataFrame(columns=['company_name', 'sachanlagen'])
+        sachanlagen_mapping = {}
+        
+        # Act
+        result_df = mcwe.merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping)
+        
+        # Assert
+        self.assertIn('Sachanlagen', result_df.columns, "Should add Sachanlagen column even with empty data")
+        self.assertTrue(result_df['Sachanlagen'].isna().all(), "Sachanlagen column should contain only NaN values")
 if __name__ == '__main__':
     unittest.main()

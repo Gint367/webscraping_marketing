@@ -96,7 +96,7 @@ def generate_csv_report(
 ) -> str:
     """
     Generates a CSV report by processing JSON files and extracting numeric values.
-    Only includes companies that have at least one valid numeric value.
+    Includes all companies, even those without valid numeric values.
 
     Args:
         input_dir (str): Directory containing the filtered JSON files
@@ -112,15 +112,18 @@ def generate_csv_report(
     output_file_with_timestamp = output_file.replace('.csv', f'_{timestamp}.csv')
     headers = ['Company', 'Table'] + [f'Machine_{i+1}' for i in range(n)]
     valid_rows = []
+    all_companies = []
     try:
         files_to_process = [f for f in os.listdir(input_dir) if f.endswith('_filtered.json')]
+        if not files_to_process:
+            logger.error(f"No JSON files found in {input_dir}")
+            raise FileNotFoundError(f"No JSON files found in {input_dir}")
         total_files = len(files_to_process)
         logger.info(f"PROGRESS:extracting_machine:generate_report:0/{total_files}:Starting report generation from {input_dir}") # Progress Start
 
         for i, filename in enumerate(files_to_process):
             file_path = os.path.join(input_dir, filename)
             # Progress Log Inside Loop
-            logger.info(f"PROGRESS:extracting_machine:generate_report:{i+1}/{total_files}:Processing {filename}")
             try:
                 with open(file_path, 'r', encoding='utf-8') as jsonfile:
                     data = json.load(jsonfile)
@@ -128,24 +131,29 @@ def generate_csv_report(
                 logger.error(f"Failed to parse {file_path}: {e}")
                 raise  # Raise immediately on malformed JSON as per test expectation
             company_name = extract_company_name(data)
+            all_companies.append(company_name)  # Store all company names
             values, table_name, _ = extract_func(data, n)
             if any(values):
                 valid_rows.append([company_name, table_name.replace('\n', ' ')] + values)
 
-        if valid_rows:
-            with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerow(headers)
+        # Always create the CSV file with all companies
+        with open(output_file_with_timestamp, 'w', newline='', encoding='utf-8-sig') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(headers)
+            if valid_rows:
                 writer.writerows(valid_rows)
-            # Progress Log End
-            logger.info(f"PROGRESS:extracting_machine:generate_report:{len(valid_rows)}/{total_files}:Generated report with {len(valid_rows)} valid entries to {output_file_with_timestamp}")
-            logger.info(f"CSV report generated: {output_file_with_timestamp}") # Keep original log
-            return output_file_with_timestamp
-        else:
-            # Progress Log End (No Data)
-            logger.info(f"PROGRESS:extracting_machine:generate_report:0/{total_files}:No valid data found, no report generated.")
-            logger.info("No valid data found. No CSV report generated.") # Keep original log
-            raise FileNotFoundError("No valid data found. No CSV report generated.")
+                # Progress Log End with data
+                logger.info(f"PROGRESS:extracting_machine:generate_report:{len(valid_rows)}/{total_files}:Generated report with {len(valid_rows)} valid entries to {output_file_with_timestamp}")
+                logger.info(f"CSV report generated: {output_file_with_timestamp}") # Keep original log
+            else:
+                # If no valid rows with machine values, include rows with just company names
+                empty_rows = [[company, "", *["" for _ in range(n)]] for company in all_companies]
+                writer.writerows(empty_rows)
+                # Progress Log End for companies with no machine values
+                logger.info(f"PROGRESS:extracting_machine:generate_report:{len(empty_rows)}/{total_files}:No valid machine data found, generated report with company names and empty values")
+                logger.warning(f"No valid machine data found. Generated CSV report with {len(empty_rows)} companies and empty machine values.") 
+        
+        return output_file_with_timestamp
     except Exception as e:
         logger.error(f"Failed to generate CSV report: {e}")
         raise
