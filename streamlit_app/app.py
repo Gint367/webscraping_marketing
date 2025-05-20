@@ -14,6 +14,23 @@ from typing import Any, Callable, Dict, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
+from streamlit_app.models.job_data_model import JobDataModel
+
+# Import from sections
+from streamlit_app.section.config_section import display_config_section
+from streamlit_app.section.input_section import display_input_section
+from streamlit_app.section.monitoring_section import (
+    display_monitoring_section,
+)
+from streamlit_app.section.output_section import (
+    display_output_section,
+)
+from streamlit_app.utils import db_utils
+from streamlit_app.utils.job_utils import (
+    merge_active_jobs_with_db,
+)
+from streamlit_app.utils.utils import check_process_details_by_pid
+
 # Add project root to Python path, if you delete this you need to specify streamlit -m when running the app
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
@@ -23,21 +40,6 @@ if project_root not in sys.path:
 from master_pipeline import (  # noqa: E402
     run_pipeline,
 )
-from streamlit_app.models.job_data_model import JobDataModel  # noqa: E402
-
-# Import from input_section modules (moved to top-level imports)
-from streamlit_app.section.input_section import display_input_section  # noqa: E402
-from streamlit_app.section.monitoring_section import (  # noqa: E402
-    display_monitoring_section,
-)
-from streamlit_app.section.output_section import (  # noqa: E402
-    display_output_section,
-)
-from streamlit_app.utils import db_utils  # noqa: E402
-from streamlit_app.utils.job_utils import (  # noqa: E402
-    merge_active_jobs_with_db,
-)  # Import the merge function for active jobs
-from streamlit_app.utils.utils import check_process_details_by_pid  # noqa: E402
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
 # --- Page Configuration (Must be the first Streamlit command) ---
@@ -205,7 +207,7 @@ def init_session_state() -> bool:
     # Set the sentinel AFTER initializing the main values
     if is_first_full_init:
         st.session_state["_app_defaults_initialized"] = True
-        print("Default session state values initialized for the new user session.")
+        app_logger.info("Default session state values initialized for the new user session.")
 
     # Specific state adjustments that might need to occur on reruns
     if st.session_state.get("input_method") == "Manual Input":
@@ -241,14 +243,12 @@ def clear_other_input(selected_method: str) -> None:
         # When switching to File Upload, clear manual input DataFrame
         st.session_state["manual_input_df"] = pd.DataFrame(columns=manual_input_columns)
         st.session_state["company_list"] = None  # Clear any processed list
-        print("Switched to File Upload, cleared manual input state.")
         app_logger.info("Switched to File Upload, cleared manual input state.")
     elif selected_method == "Manual Input":
         # When switching to Manual Input, clear uploaded file data
         st.session_state["uploaded_file_data"] = None
         # Consider if file_uploader widget needs explicit reset (often handled by Streamlit's keying)
         st.session_state["company_list"] = None  # Clear any processed list
-        print("Switched to Manual Input, cleared file upload state.")
         app_logger.info("Switched to Manual Input, cleared file upload state.")
     else:
         app_logger.warning(
@@ -379,7 +379,7 @@ def cancel_job(job_id: str) -> bool:
     if is_alive:
         try:
             if "defunct" in keyword:  # terminate zombie processes
-                app_logger.warning("Cancel_job: Job is a zombie process, force kill")
+                app_logger.info("Cancel_job: Job is a zombie process, force kill")
                 os.kill(job_model.pid, signal.SIGKILL)  # Force kill zombie
             else:
                 os.kill(job_model.pid, signal.SIGTERM)  # Send SIGTERM
@@ -438,10 +438,7 @@ def cancel_job(job_id: str) -> bool:
         return False  # Job was not actively cancelled now, but was already not running
 
 
-
 # --- Pipeline Processing in Separate Process ---
-
-
 def run_pipeline_in_process(
     config: Dict[str, Any],
     status_queue: Queue,
@@ -554,7 +551,6 @@ def run_pipeline_in_process(
             status_data["job_id"] = job_id
         safe_queue_put(status_data)
 
-        #print(f"Pipeline process completed successfully, output at: {final_output}")
         root_logger.info(
             f"PIPELINE_PROCESS_COMPLETED: Pipeline process completed successfully for job {job_id}, output at: {final_output}"
         )
@@ -564,8 +560,7 @@ def run_pipeline_in_process(
         root_logger.error(
             f"PIPELINE_PROCESS_ERROR: Pipeline process failed for job {job_id}: {error_msg}"
         )
-        #print(f"Pipeline process failed: {error_msg}")
-
+        
         status_data = {
             "status": "Error",
             "progress": 0,
@@ -615,7 +610,6 @@ def process_queue_messages():
                             f"Job {job_id} status updated to: {job_model.status}"
                         )
                         # Set end_time when job reaches terminal state
-                        # print(f"Job {job_id} status updated to: {job_model.status}, end_time: {job_model.end_time}")
                         # Check for terminal status and ensure end_time is valid (not None, nan, or invalid)
                         if job_model.status in ["Completed", "Error", "Failed", "Cancelled"] and (job_model.end_time is None or pd.isna(job_model.end_time) or job_model.end_time <= 0):
                             job_model.end_time = time.time()
@@ -817,7 +811,6 @@ def process_data():
             job_model.progress = 5
             job_model.touch()
 
-            print(f"Pipeline process started with PID: {p.pid} for job {job_id}")
             app_logger.info(
                 f"Pipeline process started with PID: {p.pid} for job {job_id}"
             )
@@ -854,46 +847,10 @@ def process_data():
         app_logger.warning("No data to process after preparation.")
 
 
-def display_config_section():
-    """Displays the UI for configuration settings."""
-    st.header("2. Configuration")
-    st.write("Configure scraping and enrichment parameters.")
-
-    # Store current config values before UI interaction
-    prev_depth = st.session_state["config"].get("depth", 2)
-    prev_llm = st.session_state["config"].get("llm_provider", "OpenAI")
-    prev_api_key = st.session_state["config"].get("api_key", "")
-
-    # UI elements for configuration
-    st.session_state["config"]["depth"] = st.slider("Crawling Depth", 1, 5, prev_depth)
-    st.session_state["config"]["llm_provider"] = st.selectbox(
-        "LLM Provider",
-        ["OpenAI", "Anthropic", "Gemini", "Mock"],
-        index=["OpenAI", "Anthropic", "Gemini", "Mock"].index(prev_llm)
-        if prev_llm in ["OpenAI", "Anthropic", "Gemini", "Mock"]
-        else 0,
-    )
-    st.session_state["config"]["api_key"] = st.text_input(
-        "API Key", value=prev_api_key, type="password"
-    )
-
-    # Only log if configuration values have actually changed
-    if (
-        prev_depth != st.session_state["config"].get("depth")
-        or prev_llm != st.session_state["config"].get("llm_provider")
-        or prev_api_key != st.session_state["config"].get("api_key")
-    ):
-        app_logger.info(
-            f"Configuration updated: Depth={st.session_state['config'].get('depth')}, LLM={st.session_state['config'].get('llm_provider')}"
-        )
-
-
 # --- Sidebar Navigation ---
 def handle_navigation():
     """Callback function to update the page state."""
     st.session_state["page"] = st.session_state["navigation_choice"]
-    print(f"Navigation handled, page set to: {st.session_state['page']}")
-
 
 st.sidebar.title("Navigation")
 page_options = ["Input", "Configuration", "Monitoring", "Output"]
@@ -937,4 +894,4 @@ if __name__ == "__main__":
     elif page == "Output":
         display_output_section(conn)
 
-    print(f"Displayed page: {page}")
+    app_logger.info(f"Displayed page: {page}")
