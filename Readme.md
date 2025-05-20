@@ -90,16 +90,23 @@ python generate_csv_report.py <input_dir>
 ### Step 4: Merge CSV with Excel Data
 
 ```bash
-python merge_csv_with_excel.py <input_file>
+python merge_csv_with_excel.py <csv_file_path> [--original_company_file <original_company_file_path>] [--output <output_file_path>] [--top_n <top_n>] [--sachanlagen <sachanlagen_path>] [--sheet_name <sheet_name>]
 ```
 
 - **Input:**
-  - `<input_file>`: The CSV report generated in Step 3
-  - (Implicitly uses an Excel dataset defined in the script)
+  - `<csv_file_path>`: The CSV report generated in Step 3 (e.g., `machine_report_Maschinenbau_20250321.csv`)
+  - `[--original_company_file <original_company_file_path>]`: Optional path to the master company data file (Excel or CSV, defaults to `input_excel.xlsx`).
+  - `[--output <output_file_path>]`: Optional path for the output merged CSV file. If not provided, it defaults to a timestamped name like `merged_data_<YYYYMMDD>.csv`.
+  - `[--top_n <top_n>]`: Optional number of top machines to consider for each company (defaults to 1).
+  - `[--sachanlagen <sachanlagen_path>]`: Optional path to the CSV file containing Sachanlagen data form step 2b. If provided, this data will be merged.
+  - `[--sheet_name <sheet_name>]`: Optional sheet name if the original company file is an Excel file (defaults to `Sheet1`).
 - **Output:**
-  - `merged_<category>_<timestamp>.csv`: Combined dataset with machine asset data joined to the original Excel data
-- **Usage:** Enriches the extracted machine data with additional company information from the master dataset
-- **Example:** `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv`
+  - Merged CSV file (e.g., `merged_data_20250520.csv` or the specified output file path). Combined dataset with machine asset data (and optionally Sachanlagen data) joined to the original company data.
+- **Usage:** Enriches the extracted machine data with additional company information from the master dataset and optionally merges Sachanlagen data.
+- **Example:**
+  - Basic usage: `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv`
+  - With custom company file and output: `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv --original_company_file master_leads.xlsx --output merged_maschinenbau_report.csv`
+  - Including Sachanlagen data: `python merge_csv_with_excel.py machine_report_Maschinenbau_20250321.csv --sachanlagen sachanlagen_report.csv --top_n 3`
 
 ## Phase 2: Crawling & Scraping Keywords
 

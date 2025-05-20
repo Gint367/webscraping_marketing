@@ -293,7 +293,7 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
 
-    logger.info(f"Processing {len(file_paths)} files using streaming mode")
+    logger.info(f"PROGRESS:extracting_machine:extract_sachanlagen:Processing {len(file_paths)} files using streaming mode")
 
     config = CrawlerRunConfig(
         cache_mode=CacheMode.ENABLED,
