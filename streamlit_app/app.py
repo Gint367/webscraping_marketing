@@ -71,7 +71,10 @@ app_logger.propagate = True  # This will pass the logs to the streamlit_app.log
 # disable some module logging verboseness
 logging.getLogger("httpx._client").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
-logging.getLogger("streamlit.runtime.scriptrunner").setLevel(logging.ERROR) 
+# Set all streamlit loggers to ERROR level to suppress the ScriptRunContext warnings
+logging.getLogger("streamlit").setLevel(logging.ERROR)  # Root logger for all streamlit modules
+logging.getLogger("streamlit.runtime.scriptrunner").setLevel(logging.ERROR)
+logging.getLogger("streamlit.runtime.scriptrunner_utils.script_run_context").setLevel(logging.ERROR)
 # app_logger.debug("Loggers at startup:", list(logging.Logger.manager.loggerDict.keys()))
 
 
@@ -594,6 +597,7 @@ def process_queue_messages():
     Process messages from the status queues for all active jobs,
     updating the Streamlit session state.
     This should be called on each Streamlit rerun.
+    This is used to manage in-memory jobs.
     """
     # Initialize active_jobs if it doesn't exist
     if "active_jobs" not in st.session_state:
@@ -611,7 +615,9 @@ def process_queue_messages():
                             f"Job {job_id} status updated to: {job_model.status}"
                         )
                         # Set end_time when job reaches terminal state
-                        if job_model.status in ["Completed", "Error", "Failed", "Cancelled"] and not job_model.end_time:
+                        # print(f"Job {job_id} status updated to: {job_model.status}, end_time: {job_model.end_time}")
+                        # Check for terminal status and ensure end_time is valid (not None, nan, or invalid)
+                        if job_model.status in ["Completed", "Error", "Failed", "Cancelled"] and (job_model.end_time is None or pd.isna(job_model.end_time) or job_model.end_time <= 0):
                             job_model.end_time = time.time()
                             app_logger.info(f"Job {job_id} end_time set to: {job_model.end_time}")
 
@@ -676,8 +682,10 @@ def process_data():
         app_logger.info(f"Processing uploaded file: {uploaded_file.name}")
         try:
             # Read the uploaded file into data_to_process
-            # Not writing to temp_csv_path here as we'll create a consolidated temp file later
-            data_to_process = pd.read_csv(uploaded_file).to_dict(orient="records")
+            # Explicitly use io.BytesIO for robustness with pd.read_csv
+            file_content_bytes = uploaded_file.getvalue()
+            bytes_io_object = io.BytesIO(file_content_bytes)
+            data_to_process = pd.read_csv(bytes_io_object).to_dict(orient="records")
         except Exception as e:
             app_logger.error(f"Failed to process uploaded file: {e}")
             st.error(f"Error processing uploaded file: {e}")
