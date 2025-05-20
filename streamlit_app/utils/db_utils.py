@@ -132,8 +132,8 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None
         logger.error(f"Data attempted: {db_job_data}")
         raise
 
-
-def load_jobs_from_db(conn: SQLConnection) -> Dict[str, JobDataModel]:
+@st.cache_data(ttl=5)
+def load_jobs_from_db(_conn: SQLConnection) -> Dict[str, JobDataModel]:
     """
     Loads all job records from the 'jobs' table and returns a dict of JobDataModel instances.
 
@@ -146,7 +146,7 @@ def load_jobs_from_db(conn: SQLConnection) -> Dict[str, JobDataModel]:
     query = text("SELECT * FROM jobs ORDER BY last_updated DESC;")
     active_jobs: Dict[str, JobDataModel] = {}
     try:
-        results_df = conn.query(str(query), ttl=0)
+        results_df = _conn.query(str(query), ttl=0)
 
         if results_df is not None and not results_df.empty:
             for index, row in results_df.iterrows():
@@ -194,8 +194,8 @@ def load_jobs_from_db(conn: SQLConnection) -> Dict[str, JobDataModel]:
 
     return active_jobs
 
-
-def get_job_from_db(conn: SQLConnection, job_id: str) -> Optional[JobDataModel]:
+@st.cache_data(ttl=5)
+def get_job_from_db(_conn: SQLConnection, job_id: str) -> Optional[JobDataModel]:
     """
     Retrieves a single job by its ID from the database and returns a JobDataModel instance if found.
 
@@ -208,7 +208,7 @@ def get_job_from_db(conn: SQLConnection, job_id: str) -> Optional[JobDataModel]:
     """
     query = text("SELECT * FROM jobs WHERE id = :job_id;")
     try:
-        result_df = conn.query(str(query), params={"job_id": job_id})
+        result_df = _conn.query(str(query), params={"job_id": job_id})
 
         if result_df is not None and not result_df.empty:
             job_data = result_df.iloc[0].to_dict()
