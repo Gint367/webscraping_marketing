@@ -264,7 +264,7 @@ def _display_file_preview_and_validate(file_data) -> bool:
     Returns:
         bool: True if validation passes, False otherwise.
     """
-    st.write("Preview & Column Validation:")
+    st.write("Preview & Column Validation (5 samples):")
     preview_df = None
     header_columns = []
     validation_passed = True
@@ -274,9 +274,15 @@ def _display_file_preview_and_validate(file_data) -> bool:
         preview_df, header_columns, validation_passed = _read_csv_with_error_handling(
             bytesio
         )
+    except ValueError as ve:
+        st.error(f"Error parsing CSV file '{file_data.name}': {ve}")
+        logging.error(f"CSV parsing error for file {file_data.name}: {ve}", exc_info=True)
+        validation_passed = False
+        preview_df = pd.DataFrame()
+        header_columns = []
     except Exception as e:
-        st.error(f"Error previewing file {file_data.name}: {e}")
-        logging.error(f"Error previewing file {file_data.name}: {e}", exc_info=True)
+        st.error(f"An unexpected error occurred while previewing file '{file_data.name}': {e}")
+        logging.error(f"Unexpected error previewing file {file_data.name}: {e}", exc_info=True)
         validation_passed = False
         preview_df = pd.DataFrame()
         header_columns = []
@@ -318,7 +324,7 @@ def _handle_existing_file(current_file_in_state) -> bool:
     Returns:
         bool: Validation status of the file
     """
-    st.success(f"Selected file: **{current_file_in_state.name}**")
+    st.info(f"Selected file: **{current_file_in_state.name}**")
 
     # Display file preview and run validation
     validation_status = _display_file_preview_and_validate(current_file_in_state)
@@ -450,7 +456,7 @@ def display_input_section(
         clear_other_input_func_from_app,
     )
 
-    st.header("1. Input Data")
+    
     st.write("Choose your input method:")
 
     # Get the selected input method
