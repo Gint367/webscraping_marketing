@@ -2,11 +2,78 @@
 
 ## Overview
 
-This project aim to help a personalized email marketing campaign by combining web scraping, financial data extraction, and LLM analysis to create enriched company profiles. It estimates the size of a company's machine park using the balance sheet item **"Technische Anlagen und Maschinen"**, and extracts machine-related keywords from the company’s website. These insights help tailor outreach messages to each prospect.
+This project aim to help a personalized email marketing campaign by combining web scraping, financial data extraction, and LLM analysis to create enriched company profiles. It estimates the size of a company's machine park using the balance sheet item **"Technische Anlagen und Maschinen"**, and extracts machine-related keywords from the company’s website. These insights help tailor outreach messages to each prospect. The Pipeline process can be run via CLI with `master_pipeline.py`. and can also be run via UI with `streamlit_app/app.py`
 
 ## Prerequisites
 
 The pipeline requires Python 3.10+, access to the Bundesanzeiger portal, and API credentials for LLM(Amazon Bedrock & Chatgpt 4o-mini).
+
+
+## Interactive Web UI for Data Extraction & Enrichment
+
+This project includes a powerful Streamlit-based web application that provides an intuitive, multi-section interface for managing the entire data extraction and enrichment pipeline. The UI is designed for both technical and non-technical users, enabling seamless operation of complex workflows with just a few clicks.
+
+
+> ![Streamlit App Main Interface](./docs/screenshots/monitor_jobstableandphase.png)
+
+### Key UI Features
+
+#### 1. Sidebar Navigation
+
+- **Navigation Panel:** Instantly switch between the main sections: Input, Monitoring, and Output.
+- **Persistent State:** The app remembers your last selected page and input method for a smooth user experience.
+
+#### 2. Input Section
+
+- **Flexible Data Input:**  
+  - **File Upload:** Upload company lists in CSV or Excel format. The app previews the file, validates required columns (company name, location, url), and provides clear feedback on any issues.
+  - **Manual Entry:** Use an interactive table editor to add or edit company data directly in the browser.
+- **Input Format Guidance:** Expandable help section explains required columns and provides example data.
+- **Validation & Feedback:** Real-time validation ensures your data is ready for processing before you proceed.
+- **Start Processing:** A single button triggers the pipeline, with clear enable/disable logic based on input validity.
+
+
+> ![Streamlit App Input Section](./docs/screenshots/input_fileupload.png)
+
+#### 3. Monitoring Section
+
+- **Job Progress Dashboard:**  
+  - **Live Job Table:** View all active and historical jobs, including status, phase, and progress.
+  - **Auto-Refresh:** Progress and logs update automatically at configurable intervals.
+  - **Job Actions:** Cancel running jobs or delete completed/failed jobs with confirmation dialogs.
+- **Detailed Status & Logs:**  
+  - **Phase Tracking:** See which pipeline phase each job is in, with human-readable descriptions.
+  - **Log Viewer:** Browse real-time logs for each job in a scrollable, auto-updating panel.
+  - **Auto-Refresh Controls:** Easily adjust refresh intervals or pause auto-refresh for focused review.
+
+> ![Streamlit App Monitoring Section](./docs/screenshots/monitor_jobstableandphase.png)
+ ![Streamlit App Monitoring Section_2](./docs/screenshots/monitor_logview.png)
+
+#### 4. Output Section
+
+- **Artifact Browser:**  
+  - **Job Selection:** Choose from all completed jobs to view their output artifacts.
+  - **List & Tree Views:** Browse output files and folders in either a flat list or hierarchical tree.
+  - **Quick Navigation:** Jump directly to key phases or folders using a dropdown.
+  - **Breadcrumbs:** Always see your current location within the output directory.
+  - **File Actions:**  
+    - **Preview:** Instantly preview supported file types (e.g., text, CSV) within the app.
+    - **Download:** Download individual files or entire folders (folders are zipped on-the-fly).
+- **Final Output Highlight:** The main output file for each job is prominently displayed with a dedicated download button.
+
+> ![Streamlit App Output Section](./docs/screenshots/output_downloadfiles.png)
+
+#### 5. Logging & Error Handling
+
+- **Comprehensive Logging:** All actions and errors are logged for troubleshooting and auditability.
+
+---
+
+**To use the Streamlit app:**
+1. Install the required dependencies (`pip install -r requirements.txt`).
+2. Run the app with `streamlit run streamlit_app/app.py`.
+3. Open the provided local URL in your browser.
+
 
 ## Phase 1: Extracting Machine Assets from Financial Statements
 
