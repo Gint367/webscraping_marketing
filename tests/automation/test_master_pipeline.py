@@ -20,6 +20,133 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../.
 
 
 class TestMasterPipeline(unittest.TestCase):
+    def test_run_webcrawl_pipeline_returns_artifacts(self):
+        """
+        Test that run_webcrawl_pipeline returns both final output and artifacts.
+
+        Method being tested: run_webcrawl_pipeline
+        Scenario: Running with valid inputs (mocked)
+        Expected behavior: Returns (final_output, artifacts) and artifacts contain expected keys
+        """
+        import tempfile
+
+        from master_pipeline import run_webcrawl_pipeline
+        with tempfile.TemporaryDirectory() as temp_dir:
+            input_csv = f"{temp_dir}/input.csv"
+            output_dir = f"{temp_dir}/output"
+            # Create dummy input file
+            with open(input_csv, 'w') as f:
+                f.write("company name,location,url\nTest,Loc,https://test.com\n")
+            with patch('webcrawl.crawl_domain.main', return_value=f'{temp_dir}/crawled_dir'), \
+                 patch('webcrawl.extract_llm.run_extract_llm', return_value=f'{temp_dir}/extracted_dir'), \
+                 patch('webcrawl.fill_process_type.run_fill_process_type', return_value=[f'{temp_dir}/filled.json']), \
+                 patch('webcrawl.pluralize_with_llm.process_file_or_directory', return_value=f'{temp_dir}/pluralized_dir'), \
+                 patch('webcrawl.consolidate.consolidate_main', return_value=f'{temp_dir}/consolidated.json'), \
+                 patch('webcrawl.convert_to_csv.convert_json_to_csv', return_value=f'{temp_dir}/converted.csv'):
+                final_output, artifacts = run_webcrawl_pipeline(input_csv, output_dir, category='test')
+                self.assertEqual(final_output, f'{temp_dir}/converted.csv')
+                self.assertTrue(hasattr(artifacts, 'get_artifact'))
+                self.assertIsNotNone(artifacts.get_artifact('webcrawl', 'crawl_output'))
+                self.assertIsNotNone(artifacts.get_artifact('webcrawl', 'final_output'))
+
+    def test_run_integration_pipeline_returns_artifacts(self):
+        """
+        Test that run_integration_pipeline returns both final output and artifacts.
+
+        Method being tested: run_integration_pipeline
+        Scenario: Running with valid inputs (mocked)
+        Expected behavior: Returns (final_output, artifacts) and artifacts contain expected keys
+        """
+        import tempfile
+
+        from master_pipeline import run_integration_pipeline
+        with tempfile.TemporaryDirectory() as temp_dir:
+            extracting_csv = f"{temp_dir}/extracting.csv"
+            webcrawl_csv = f"{temp_dir}/webcrawl.csv"
+            output_dir = f"{temp_dir}/output"
+            # Create dummy input files
+            with open(extracting_csv, 'w') as f:
+                f.write("dummy\n")
+            with open(webcrawl_csv, 'w') as f:
+                f.write("dummy\n")
+        enriched_csv = f'{temp_dir}/enriched.csv'
+        # Ensure the directory exists before creating the file
+        os.makedirs(temp_dir, exist_ok=True)
+        # Create a dummy enriched.csv file to avoid FileNotFoundError
+        with open(enriched_csv, 'w') as f:
+            f.write("dummy enriched\n")
+        with patch('merge_pipeline.merge_technische_anlagen_with_keywords.merge_csv_with_excel', return_value=f'{temp_dir}/merged.csv'), \
+             patch('merge_pipeline.enrich_data.enrich_data', return_value=enriched_csv), \
+             patch('os.makedirs'), \
+             patch('os.path.dirname', return_value=temp_dir):
+            final_output, artifacts = run_integration_pipeline(extracting_csv, webcrawl_csv, output_dir)
+            expected_final_output = os.path.join(output_dir, "final_output.csv")
+            self.assertEqual(final_output, expected_final_output)
+            self.assertTrue(hasattr(artifacts, 'get_artifact'))
+            self.assertIsNotNone(artifacts.get_artifact('integration', 'merged_csv'))
+            self.assertIsNotNone(artifacts.get_artifact('integration', 'enriched_output'))
+
+    def test_pipeline_artifacts_register_and_retrieve(self):
+        """
+        Test registering and retrieving artifacts using PipelineArtifacts.
+
+        Method being tested: PipelineArtifacts
+        Scenario: Registering and retrieving artifacts
+        Expected behavior: Artifacts are stored and can be listed and retrieved
+        """
+        from master_pipeline import PipelineArtifacts
+
+        artifacts = PipelineArtifacts()
+        artifacts.register('extracting_machine', 'filtered_csv', '/tmp/filtered.csv', 'Filtered CSV')
+        artifacts.register('extracting_machine', 'final_output', '/tmp/final.csv', 'Final output CSV')
+        artifacts.register('webcrawl', 'webcrawl_output', '/tmp/webcrawl.csv', 'Webcrawl output CSV')
+
+        # Test retrieval
+        filtered = artifacts.get_artifact('extracting_machine', 'filtered_csv')
+        self.assertIsNotNone(filtered)
+        self.assertEqual(filtered['path'], ['/tmp/filtered.csv'])  # Path is now a list
+        self.assertEqual(filtered['description'], 'Filtered CSV')
+
+        # Test listing
+        all_artifacts = artifacts.list_artifacts()
+        self.assertIn('extracting_machine', all_artifacts)
+        self.assertIn('webcrawl', all_artifacts)
+        self.assertIn('filtered_csv', all_artifacts['extracting_machine'])
+        self.assertIn('final_output', all_artifacts['extracting_machine'])
+        self.assertIn('webcrawl_output', all_artifacts['webcrawl'])
+
+        # Test as_list
+        flat_list = artifacts.as_list()
+        self.assertTrue(any(a['name'] == 'filtered_csv' for a in flat_list))
+        self.assertTrue(any(a['phase'] == 'webcrawl' for a in flat_list))
+
+    def test_run_extracting_machine_pipeline_returns_artifacts(self):
+        """
+        Test that run_extracting_machine_pipeline returns both final output and artifacts.
+
+        Method being tested: run_extracting_machine_pipeline
+        Scenario: Running with valid inputs (mocked)
+        Expected behavior: Returns (final_output, artifacts) and artifacts contain expected keys
+        """
+        from master_pipeline import run_extracting_machine_pipeline
+
+        # Patch all subcomponents to simulate outputs
+        with patch('extracting_machines.get_company_by_category.extract_companies_by_category', return_value='/tmp/filtered.csv'), \
+             patch('extracting_machines.get_bundesanzeiger_html.main', return_value='/tmp/html_dir'), \
+             patch('extracting_machines.clean_html.main', return_value='/tmp/cleaned_html'), \
+             patch('extracting_machines.extract_sachanlagen.run_extraction', return_value='/tmp/sachanlagen'), \
+             patch('extracting_machines.generate_csv_report.generate_csv_report', return_value='/tmp/report.csv'), \
+             patch('extracting_machines.generate_csv_report.extract_values', return_value=None), \
+             patch('extracting_machines.merge_csv_with_excel.main', return_value='/tmp/final.csv'), \
+             patch('master_pipeline.validate_csv_columns', return_value=True):
+
+            # Use dummy input/output
+            final_output, artifacts = run_extracting_machine_pipeline('/tmp/input.csv', '/tmp/output', category='test')
+            self.assertEqual(final_output, '/tmp/final.csv')
+            # Check that artifacts is a PipelineArtifacts instance and contains expected keys
+            self.assertTrue(hasattr(artifacts, 'get_artifact'))
+            self.assertIsNotNone(artifacts.get_artifact('extracting_machine', 'filtered_csv'))
+            self.assertIsNotNone(artifacts.get_artifact('extracting_machine', 'final_output'))
     """Test suite for the master_pipeline.py script."""
 
     def setUp(self):
@@ -448,7 +575,7 @@ class TestMasterPipeline(unittest.TestCase):
             mock_merge.return_value = "/path/to/merged.csv"
 
             # Call the function being tested
-            result = run_extracting_machine_pipeline(
+            result, artifacts = run_extracting_machine_pipeline(
                 str(self.input_csv),
                 str(self.output_dir),
                 category="maschinenbauer"
@@ -472,7 +599,30 @@ class TestMasterPipeline(unittest.TestCase):
         Scenario: Running with valid inputs
         Expected behavior: Calls correct functions in sequence
         """
+        import tempfile
+
         from master_pipeline import run_webcrawl_pipeline
+        with tempfile.TemporaryDirectory() as temp_dir:
+            input_csv = f"{temp_dir}/input.csv"
+            output_dir = f"{temp_dir}/output"
+            # Create dummy input file
+            with open(input_csv, 'w') as f:
+                f.write("company name,location,url\nTest,Loc,https://test.com\n")
+            with patch('webcrawl.crawl_domain.main', return_value=f'{temp_dir}/crawled_dir'), \
+                 patch('webcrawl.extract_llm.run_extract_llm', return_value=f'{temp_dir}/extracted_dir'), \
+                 patch('webcrawl.fill_process_type.run_fill_process_type', return_value=[f'{temp_dir}/filled.json']), \
+                 patch('webcrawl.pluralize_with_llm.process_file_or_directory', return_value=f'{temp_dir}/pluralized_dir'), \
+                 patch('webcrawl.consolidate.consolidate_main', return_value=f'{temp_dir}/consolidated.json'), \
+                 patch('webcrawl.convert_to_csv.convert_json_to_csv', return_value=f'{temp_dir}/converted.csv'):
+                result, artifacts = run_webcrawl_pipeline(input_csv, output_dir)
+                # Accept both (result, artifacts) and result only for backward compatibility
+                if isinstance(result, tuple) and len(result) == 2:
+                    final_output, _ = result
+                else:
+                    final_output = result
+                self.assertEqual(final_output, f'{temp_dir}/converted.csv')
+                self.assertTrue(hasattr(artifacts, 'get_artifact'))
+                self.assertIsNotNone(artifacts.get_artifact('webcrawl', 'final_output'))
 
         # Mock all the webcrawl components
         with patch('webcrawl.crawl_domain.main') as mock_crawl, \
@@ -496,6 +646,12 @@ class TestMasterPipeline(unittest.TestCase):
                 str(self.output_dir)
             )
 
+            # Accept both (result, artifacts) and result only for backward compatibility
+            if isinstance(result, tuple) and len(result) == 2:
+                final_output, _ = result
+            else:
+                final_output = result
+
             # Verify all components were called in sequence
             mock_crawl.assert_called_once()
             mock_extract.assert_called_once()
@@ -505,7 +661,7 @@ class TestMasterPipeline(unittest.TestCase):
             mock_convert.assert_called_once()
 
             # Verify the result is the output of the convert
-            self.assertEqual(result, "/path/to/converted.csv")
+            self.assertEqual(final_output, "/path/to/converted.csv")
 
     def test_integration_pipeline(self):
         """
@@ -515,7 +671,32 @@ class TestMasterPipeline(unittest.TestCase):
         Scenario: Running with valid inputs
         Expected behavior: Calls correct functions in sequence
         """
+        import tempfile
+
         from master_pipeline import run_integration_pipeline
+        with tempfile.TemporaryDirectory() as temp_dir:
+            extracting_csv = f"{temp_dir}/extracting.csv"
+            webcrawl_csv = f"{temp_dir}/webcrawl.csv"
+            output_dir = f"{temp_dir}/output"
+            # Create dummy input files
+            with open(extracting_csv, 'w') as f:
+                f.write("dummy\n")
+            with open(webcrawl_csv, 'w') as f:
+                f.write("dummy\n")
+            # Create a dummy enriched.csv file to avoid FileNotFoundError
+            enriched_csv = f'{temp_dir}/enriched.csv'
+            with open(enriched_csv, 'w') as f:
+                f.write("dummy enriched\n")
+            with patch('merge_pipeline.merge_technische_anlagen_with_keywords.merge_csv_with_excel', return_value=f'{temp_dir}/merged.csv'), \
+                 patch('merge_pipeline.enrich_data.enrich_data', return_value=f'{temp_dir}/enriched.csv'), \
+                 patch('os.makedirs'), \
+                 patch('os.path.dirname', return_value=temp_dir):
+                result, artifacts = run_integration_pipeline(extracting_csv, webcrawl_csv, output_dir)
+                # The pipeline always returns the final_output.csv path in the output dir
+                expected_final_output = str(Path(output_dir) / "final_output.csv")
+                self.assertEqual(result, expected_final_output)
+                self.assertTrue(hasattr(artifacts, 'get_artifact'))
+                self.assertIsNotNone(artifacts.get_artifact('integration', 'enriched_output'))
 
         # Mock all the integration components and dependencies
         with patch('merge_pipeline.merge_technische_anlagen_with_keywords.merge_csv_with_excel') as mock_merge, \
@@ -534,7 +715,7 @@ class TestMasterPipeline(unittest.TestCase):
             mock_copy2.side_effect = lambda src, dst: dst  # Return destination path
 
             # Call the function being tested
-            result = run_integration_pipeline(
+            result , _ = run_integration_pipeline(
                 "/path/to/extracting_output.csv",
                 "/path/to/webcrawl_output.csv",
                 str(self.output_dir)

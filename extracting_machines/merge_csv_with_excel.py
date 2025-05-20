@@ -9,7 +9,7 @@ import pandas as pd
 from fuzzywuzzy import fuzz
 
 # Set up module-specific logger
-logger = logging.getLogger('extracting_machines.merge_csv_with_excel')
+logger = logging.getLogger("extracting_machines.merge_csv_with_excel")
 
 
 def standardize_company_name(name):
@@ -39,13 +39,13 @@ def standardize_for_comparison(name):
     name = name.lower()
 
     # Standardize & and and
-    name = name.replace('&', 'and')
+    name = name.replace("&", "and")
 
     # Replace underscores with spaces
-    name = name.replace('_', ' ')
+    name = name.replace("_", " ")
 
     # Remove extra whitespace
-    name = ' '.join(name.split())
+    name = " ".join(name.split())
 
     return name
 
@@ -115,12 +115,22 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
     """
     # Read the CSV file into a pandas DataFrame
     csv_df = pd.read_csv(csv_file)
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/{len(csv_df)}:Starting machine data processing from {csv_file}"
+    )  # Progress Start
 
     # Check for required column
-    if 'Company' not in csv_df.columns:
+    if "Company" not in csv_df.columns:
         raise ValueError("Input CSV must contain a 'Company' column")
     if csv_df.empty:
-        return pd.DataFrame(columns=["Company"] + [f"Top{i+1}_Machine" for i in range(top_n)] + ["Maschinen_Park_Size"])
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:0/0:Input CSV {csv_file} is empty, returning empty DataFrame"
+        )  # Progress End (Empty)
+        return pd.DataFrame(
+            columns=["Company"]
+            + [f"Top{i + 1}_Machine" for i in range(top_n)]
+            + ["Maschinen_Park_Size"]
+        )
 
     # Standardize company names by replacing underscores with spaces
     csv_df["Company"] = csv_df["Company"].apply(standardize_company_name)
@@ -186,6 +196,9 @@ def process_machine_data(csv_file="machine_report_maschinenbau_20250307.csv", to
         result_df["Top1_Machine"].astype(str).apply(categorize_machine_park_size)
     )
 
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:{len(result_df)}/{len(csv_df)}:Finished processing machine data, found {len(result_df)} companies with top machines"
+    )  # Progress End
     return result_df
 
 
@@ -242,10 +255,16 @@ def analyze_company_similarities(machine_data, company_df):
     company_list = company_df["Firma1"].dropna().unique()
 
     # Pre-standardize all company names once to avoid repeated processing
-    std_csv_companies = {company: standardize_for_comparison(company)
-                         for company in csv_companies if isinstance(company, str)}
-    std_company_list = {company: standardize_for_comparison(company)
-                        for company in company_list if isinstance(company, str)}
+    std_csv_companies = {
+        company: standardize_for_comparison(company)
+        for company in csv_companies
+        if isinstance(company, str)
+    }
+    std_company_list = {
+        company: standardize_for_comparison(company)
+        for company in company_list
+        if isinstance(company, str)
+    }
 
     logger.info("Analyzing company name similarities...")
     MatchingThreshold = 0.85
@@ -256,29 +275,37 @@ def analyze_company_similarities(machine_data, company_df):
         # First check for exact matches - much faster than fuzzy matching
         exact_match_found = False
         for company_name, std_potential in std_company_list.items():
-            if std_company == std_potential and std_company:  # Avoid matching empty strings
+            if (
+                std_company == std_potential and std_company
+            ):  # Avoid matching empty strings
                 best_match = company_name
                 best_ratio = 1.0
                 exact_match_found = True
 
-                similarity_matrix.append({
-                    "csv_company": csv_company,
-                    "company_name": company_name,
-                    "similarity": 1.0,
-                })
+                similarity_matrix.append(
+                    {
+                        "csv_company": csv_company,
+                        "company_name": company_name,
+                        "similarity": 1.0,
+                    }
+                )
                 break
 
         # Only perform fuzzy matching if no exact match was found
         if not exact_match_found:
             for company_name, std_potential in std_company_list.items():
                 # Use token_set_ratio for better handling of company name variations
-                ratio = fuzz.token_set_ratio(std_company, std_potential) / 100  # Convert to 0-1 scale
+                ratio = (
+                    fuzz.token_set_ratio(std_company, std_potential) / 100
+                )  # Convert to 0-1 scale
 
-                similarity_matrix.append({
-                    "csv_company": csv_company,
-                    "company_name": company_name,
-                    "similarity": ratio,
-                })
+                similarity_matrix.append(
+                    {
+                        "csv_company": csv_company,
+                        "company_name": company_name,
+                        "similarity": ratio,
+                    }
+                )
 
                 if ratio > best_ratio:
                     best_ratio = ratio
@@ -289,11 +316,13 @@ def analyze_company_similarities(machine_data, company_df):
                         break
 
         if best_ratio < MatchingThreshold:  # Threshold for problematic matches
-            problematic_matches.append({
-                "csv_company": csv_company,
-                "best_match": best_match,
-                "similarity": best_ratio,
-            })
+            problematic_matches.append(
+                {
+                    "csv_company": csv_company,
+                    "best_match": best_match,
+                    "similarity": best_ratio,
+                }
+            )
 
     # Convert to DataFrame for easier analysis
     df = pd.DataFrame(similarity_matrix)
@@ -310,7 +339,7 @@ def analyze_company_similarities(machine_data, company_df):
     }
 
     # Log detailed analysis
-    logger.info("\nCompany Name Similarity Analysis:")
+    logger.info("Company Name Similarity Analysis:")
     logger.info(f"Total comparisons made: {stats['total_comparisons']}")
     logger.info(f"Mean similarity: {stats['mean_similarity']:.3f}")
     logger.info(f"Median similarity: {stats['median_similarity']:.3f}")
@@ -319,7 +348,9 @@ def analyze_company_similarities(machine_data, company_df):
     logger.info(f"Standard deviation: {stats['std_similarity']:.3f}")
 
     if problematic_matches:
-        logger.info(f"\nPotentially Problematic Matches (similarity < {MatchingThreshold}):")
+        logger.info(
+            f"Potentially Problematic Matches (similarity < {MatchingThreshold}):"
+        )
         for match in sorted(problematic_matches, key=lambda x: x["similarity"]):
             logger.info(f"CSV: {match['csv_company']}")
             logger.info(f"Best Match: {match['best_match']}")
@@ -329,58 +360,77 @@ def analyze_company_similarities(machine_data, company_df):
     return stats
 
 
-def load_data(csv_file_path: str, xlsx_file_path: str = "input_excel.xlsx", sheet_name: str = "Sheet1"):
+def load_data(
+    csv_file_path: str,
+    xlsx_file_path: str = "input_excel.xlsx",
+    sheet_name: str = "Sheet1",
+):
     """
     Load and normalize data from CSV and Excel files.
-    
+
     Args:
         csv_file_path (str): Path to the CSV file containing machine data
         xlsx_file_path (str): Path to the Excel or CSV file containing company data
         sheet_name (str): Sheet name to use if xlsx_file_path is an Excel file
-        
+
     Returns:
         Tuple[DataFrame, DataFrame]: Processed machine data and company data
-        
+
     Raises:
         ValueError: If required columns are missing or file format is invalid
     """
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/2:Starting data loading from {csv_file_path} and {xlsx_file_path}"
+    )  # Progress Start
     try:
         # Process machine data from first input (always CSV)
         machine_data = process_machine_data(csv_file=csv_file_path)
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:1/2:Loaded machine data ({len(machine_data)} companies)"
+        )  # Progress Step 1
 
         # Determine file type based on extension for second input file
         _, file_extension = os.path.splitext(xlsx_file_path)
         file_extension = file_extension.lower()
 
         # Load the second input file based on its extension
-        if file_extension in ['.xlsx', '.xls']:
+        if file_extension in [".xlsx", ".xls"]:
             logger.info(f"Loading Excel file: {xlsx_file_path}")
             second_df = pd.read_excel(xlsx_file_path, sheet_name=sheet_name)
-        elif file_extension == '.csv':
+        elif file_extension == ".csv":
             logger.info(f"Loading CSV file: {xlsx_file_path}")
             second_df = pd.read_csv(xlsx_file_path)
         else:
-            raise ValueError(f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported.")
+            raise ValueError(
+                f"Unsupported file format: {file_extension}. Only .xlsx, .xls, and .csv are supported."
+            )
 
         # Check for required column (Firma1 or Company)
-        if 'Firma1' in second_df.columns:
+        if "Firma1" in second_df.columns:
             logger.info("Using 'Firma1' column from input file")
-        elif 'Company' in second_df.columns:
+        elif "Company" in second_df.columns:
             logger.info("Using 'Company' column from input file (renaming to 'Firma1')")
             # Rename to Firma1 for consistency with rest of the code
-            second_df = second_df.rename(columns={'Company': 'Firma1'})
-        elif 'company name' in second_df.columns:
-            logger.info("Using 'company name' column from input file (renaming to 'Firma1')")
+            second_df = second_df.rename(columns={"Company": "Firma1"})
+        elif "company name" in second_df.columns:
+            logger.info(
+                "Using 'company name' column from input file (renaming to 'Firma1')"
+            )
             # Rename to Firma1 for consistency with rest of the code
-            second_df = second_df.rename(columns={'company name': 'Firma1'})
+            second_df = second_df.rename(columns={"company name": "Firma1"})
         else:
-            raise ValueError("Second input file must contain either 'Firma1' or 'Company' or 'company' column")
+            raise ValueError(
+                "Second input file must contain either 'Firma1' or 'Company' or 'company' column"
+            )
 
         # Ensure Firma1 is string dtype
-        second_df['Firma1'] = second_df['Firma1'].astype(str)
+        second_df["Firma1"] = second_df["Firma1"].astype(str)
         second_df["Firma1"] = second_df["Firma1"].apply(normalize_company_name)
         machine_data["Company"] = machine_data["Company"].apply(normalize_company_name)
 
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:2/2:Loaded company data ({len(second_df)} rows)"
+        )  # Progress End
         return machine_data, second_df
     except Exception as e:
         logger.error(f"Error loading data: {str(e)}")
@@ -392,15 +442,25 @@ def create_company_mapping(machine_data, company_df):
     company_mapping = {}
     similarity_scores = []
     company_list = company_df["Firma1"].dropna().tolist()
+    unique_csv_companies = machine_data["Company"].unique()
+    total_companies = len(unique_csv_companies)
 
     # Track matching statistics
-    total_companies = len(machine_data["Company"].unique())
     matched_companies = 0
     # Keep track of 5 lowest pairs using a list of tuples (similarity, csv_company, company_name)
     lowest_pairs = [(1.0, "", "")] * 5
     threshold = 0.85
-    for csv_company in machine_data["Company"].unique():
+
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/{total_companies}:Starting company name mapping for {total_companies} companies"
+    )  # Progress Start
+
+    for i, csv_company in enumerate(unique_csv_companies):
         best_match, ratio = find_best_match(csv_company, company_list, threshold)
+        # Progress Log Inside Loop
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:{i + 1}/{total_companies}:Mapping '{csv_company}' -> '{best_match}' (Score: {ratio:.2f})"
+        )
         if best_match:
             company_mapping[csv_company] = best_match
             similarity_scores.append(ratio)
@@ -415,19 +475,25 @@ def create_company_mapping(machine_data, company_df):
     # Log matching statistics
     if similarity_scores:
         avg_similarity = sum(similarity_scores) / len(similarity_scores)
-        logger.info("\nMatching Statistics for companies:")
+        logger.info("Matching Statistics for companies:")
         logger.info(f"Total companies processed: {total_companies}")
         logger.info(f"Successfully matched: {matched_companies}")
         logger.info(f"Average similarity score: {avg_similarity:.2f}")
-        logger.info(f"\n5 Lowest Similarity Pairs | {threshold}")
-        for similarity, csv_company, company_name in lowest_pairs:
-            logger.info(f"Score: {similarity:.3f} | {csv_company} -> {company_name}")
+        logger.info(f"5 Lowest Similarity Pairs | Threshold: {threshold}")
+        for similarity, csv_comp, comp_name in lowest_pairs:
+            logger.info(f"Score: {similarity:.3f} | {csv_comp} -> {comp_name}")
 
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:{matched_companies}/{total_companies}:Finished mapping, {matched_companies} matched"
+    )  # Progress End
     return company_mapping
 
 
 def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
     """Merge Excel and CSV data using the company mapping."""
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting main dataset merge ({len(xlsx_df)} base rows, {len(machine_data)} machine rows)"
+    )  # Progress Start
     # Create a new column with mapped company names
     machine_data["Mapped_Company"] = machine_data["Company"].map(company_mapping)
 
@@ -459,16 +525,41 @@ def merge_datasets(xlsx_df, machine_data, company_mapping, top_n):
 
     # Filter columns - only select columns that actually exist in the merged_df
     # This prevents KeyErrors if a column (like TopX_Machine) doesn't exist due to lack of data
-    existing_columns_to_keep = [col for col in columns_to_keep if col in merged_df.columns]
+    existing_columns_to_keep = [
+        col for col in columns_to_keep if col in merged_df.columns
+    ]
     merged_df = merged_df[existing_columns_to_keep]
 
     # Note: We're not filtering rows here anymore
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:1/1:Finished main dataset merge, result has {len(merged_df)} rows"
+    )  # Progress End
     return merged_df
 
 
-def save_merged_data(merged_df, csv_file_path: str, output_file_path: Optional[str] = None) -> str:
+def save_merged_data(
+    merged_df, csv_file_path: str, output_file_path: Optional[str] = None
+) -> str:
     """Save the merged dataframe to a CSV file with date in filename, or to a specified output path."""
     current_date = datetime.now().strftime("%Y%m%d")
+    
+    # If merged_df is empty, create an empty DataFrame with the desired column headers
+    if merged_df.empty:
+        logger.info("Creating empty DataFrame with headers only")
+        merged_df = pd.DataFrame(columns=[
+            "Firma1", "location", "url", "Top1_Machine", 
+            "Maschinen_Park_Size", "Sachanlagen"
+        ])
+    
+    # Ensure all required columns exist in the DataFrame, add empty columns if missing
+    required_columns = ["Firma1", "location", "url", "Top1_Machine", 
+                        "Maschinen_Park_Size", "Sachanlagen"]
+    for col in required_columns:
+        if col not in merged_df.columns:
+            logger.info(f"Adding missing column: {col}")
+            merged_df[col] = np.nan
+    
+    # Save the DataFrame with the output path
     if output_file_path is not None:
         merged_df.to_csv(output_file_path, index=False)
         return output_file_path
@@ -480,18 +571,43 @@ def save_merged_data(merged_df, csv_file_path: str, output_file_path: Optional[s
 
 def load_sachanlagen_data(sachanlagen_path):
     """Load Sachanlagen data from CSV file."""
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting Sachanlagen data loading from {sachanlagen_path}"
+    )  # Progress Start
     try:
         sachanlagen_df = pd.read_csv(sachanlagen_path)
-        # Ensure column names are correct
-        if 'company_name' not in sachanlagen_df.columns or 'sachanlagen' not in sachanlagen_df.columns:
+        # Create a mapping from lower-case column names to actual column names
+        col_map = {col.lower(): col for col in sachanlagen_df.columns}
+        # Required columns (case-insensitive)
+        required_cols = ["company_name", "sachanlagen"]
+        if not all(col in col_map for col in required_cols):
             logger.warning(f"Required columns not found in {sachanlagen_path}")
+            logger.info(
+                "PROGRESS:extracting_machine:merge_data:0/0:Required columns missing, returning empty DataFrame"
+            )  # Progress End (Error)
             return pd.DataFrame()
 
+        # Rename columns to expected lowercase names
+        sachanlagen_df = sachanlagen_df.rename(
+            columns={
+                col_map["company_name"]: "company_name",
+                col_map["sachanlagen"]: "sachanlagen",
+            }
+        )
+
         # Normalize company names
-        sachanlagen_df["company_name"] = sachanlagen_df["company_name"].apply(normalize_company_name)
+        sachanlagen_df["company_name"] = sachanlagen_df["company_name"].apply(
+            normalize_company_name
+        )
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:1/1:Loaded {len(sachanlagen_df)} Sachanlagen entries"
+        )  # Progress End
         return sachanlagen_df
     except Exception as e:
         logger.error(f"Error loading Sachanlagen data: {str(e)}")
+        logger.info(
+            "PROGRESS:extracting_machine:merge_data:0/0:Error loading data, returning empty DataFrame"
+        )  # Progress End (Error)
         return pd.DataFrame()  # Return empty dataframe on error
 
 
@@ -499,79 +615,84 @@ def create_sachanlagen_mapping(sachanlagen_df, company_df):
     """Create mapping between Sachanlagen companies and company data file companies using fuzzy matching."""
     sachanlagen_mapping = {}
     company_list = company_df["Firma1"].dropna().tolist()
-
-    # Track matching statistics
-    total_companies = len(sachanlagen_df["company_name"].unique())
+    unique_sachanlagen_companies = sachanlagen_df["company_name"].unique()
+    total_companies = len(unique_sachanlagen_companies)
     matched_companies = 0
+    threshold = 0.85  # Same threshold as main mapping
 
-    for sachanlagen_company in sachanlagen_df["company_name"].unique():
-        best_match, ratio = find_best_match(sachanlagen_company, company_list, 0.85)
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/{total_companies}:Starting Sachanlagen mapping for {total_companies} companies"
+    )  # Progress Start
+
+    for i, sachanlagen_company in enumerate(unique_sachanlagen_companies):
+        best_match, ratio = find_best_match(
+            sachanlagen_company, company_list, threshold
+        )
+        # Progress Log Inside Loop
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:{i + 1}/{total_companies}:Mapping Sachanlagen '{sachanlagen_company}' -> '{best_match}' (Score: {ratio:.2f})"
+        )
         if best_match:
             sachanlagen_mapping[sachanlagen_company] = best_match
             matched_companies += 1
 
-    # Log matching statistics
-    logger.info("\nMatching Statistics for Sachanlagen data:")
-    logger.info(f"Total Sachanlagen companies: {total_companies}")
-    logger.info(f"Successfully matched: {matched_companies}")
-
+    logger.info(
+        f"Finished Sachanlagen mapping, {matched_companies} matched"
+    )  # Progress End
     return sachanlagen_mapping
 
 
-def merge_with_sachanlagen(merged_df, sachanlagen_df, mapping):
-    """
-    Add Sachanlagen data to the merged dataframe.
-
-    Args:
-        merged_df (pd.DataFrame): The merged dataframe with company information
-        sachanlagen_df (pd.DataFrame): DataFrame containing Sachanlagen data
-        mapping (dict): Mapping from Sachanlagen company names to Excel company names
-
-    Returns:
-        pd.DataFrame: Merged dataframe with Sachanlagen values added
-    """
-    if sachanlagen_df.empty:
-        merged_df['Sachanlagen'] = None
+def merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping):
+    """Merge the main dataframe with Sachanlagen data."""
+    if sachanlagen_df.empty or sachanlagen_df is None:
+        logger.info("Sachanlagen data is empty or None, adding empty Sachanlagen column.")
+        merged_df["Sachanlagen"] = np.nan  # Add empty column if no data
         return merged_df
 
-    # Create a copy to avoid modifying the original
-    result_df = merged_df.copy()
-    result_df['Sachanlagen'] = None
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting Sachanlagen merge ({len(merged_df)} base rows, {len(sachanlagen_df)} Sachanlagen rows)"
+    )  # Progress Start
 
-    # Keep track of companies we've already processed
-    processed_companies = set()
+    # Map Sachanlagen company names to the main company list names
+    sachanlagen_df["Mapped_Company"] = sachanlagen_df["company_name"].map(
+        sachanlagen_mapping
+    )
 
-    # For each company in the mapping, add its Sachanlagen value
-    for sachanlagen_company, excel_company in mapping.items():
-        # Check if this Excel company is already in our result dataframe
-        if excel_company in result_df['Firma1'].values:
-            sachanlagen_value = sachanlagen_df.loc[sachanlagen_df['company_name'] == sachanlagen_company, 'sachanlagen']
-            if not sachanlagen_value.empty:
-                # Convert to string to match the expected format in tests
-                result_df.loc[result_df['Firma1'] == excel_company, 'Sachanlagen'] = sachanlagen_value.values[0]
-                processed_companies.add(excel_company)
-        else:
-            # This company isn't in our result dataframe yet - need to add a new row
-            sachanlagen_value = sachanlagen_df.loc[sachanlagen_df['company_name'] == sachanlagen_company, 'sachanlagen']
-            if not sachanlagen_value.empty:
-                # Create a new row with this company's info
-                new_row = pd.DataFrame({
-                    'Firma1': [excel_company],
-                    'URL': [None],
-                    'Ort': [None],
-                    'Sachanlagen': [sachanlagen_value.values[0]]
-                })
+    # Find the actual sachanlagen column in a case-insensitive way
+    sachanlagen_col = next(
+        (col for col in sachanlagen_df.columns if col.lower() == "sachanlagen"), None
+    )
+    # Select only necessary columns and drop duplicates based on the mapped name
+    sachanlagen_to_merge = sachanlagen_df[["Mapped_Company", sachanlagen_col]].dropna(
+        subset=["Mapped_Company"]
+    )
+    # Rename the column to "Sachanlagen" for consistency
+    sachanlagen_to_merge = sachanlagen_to_merge.rename(columns={sachanlagen_col: "Sachanlagen"})
+    sachanlagen_to_merge = sachanlagen_to_merge.drop_duplicates(
+        subset=["Mapped_Company"], keep="first"
+    )
 
-                # Add empty values for other columns
-                for col in result_df.columns:
-                    if col not in new_row.columns:
-                        new_row[col] = None
+    # Ensure merge keys are string type
+    merged_df["Firma1"] = merged_df["Firma1"].astype(str)
+    sachanlagen_to_merge["Mapped_Company"] = sachanlagen_to_merge["Mapped_Company"].astype(str)
 
-                # Add the new row to our result dataframe
-                result_df = pd.concat([result_df, new_row], ignore_index=True)
-                processed_companies.add(excel_company)
+    # Merge with the main dataframe
+    final_merged_df = pd.merge(
+        merged_df,
+        sachanlagen_to_merge,
+        left_on="Firma1",
+        right_on="Mapped_Company",
+        how="left",
+    )
 
-    return result_df
+    # Drop the extra Mapped_Company column from the merge
+    if "Mapped_Company" in final_merged_df.columns:
+        final_merged_df = final_merged_df.drop(columns=["Mapped_Company"])
+
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:1/1:Finished Sachanlagen merge, result has {len(final_merged_df)} rows"
+    )  # Progress End
+    return final_merged_df
 
 
 def main(
@@ -580,7 +701,7 @@ def main(
     output_file_path: Optional[str] = None,
     top_n: int = 1,
     sachanlagen_path: Optional[str] = None,
-    sheet_name: str = "Sheet1"
+    sheet_name: str = "Sheet1",
 ) -> Optional[str]:
     """
     Main function to orchestrate the merging of CSV machine data with company data.
@@ -597,39 +718,92 @@ def main(
         str: Path to the output CSV file
     """
     # Configure logging
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(name)s %(message)s')
+    logging.basicConfig(
+        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s"
+    )
     logger.setLevel(logging.INFO)
-    
+
+    logger.info(
+        f"PROGRESS:extracting_machine:merge_data:0/1:Starting merge process for {csv_file_path} and {original_company_file_path}"
+    )  # Progress Start
     try:
         # Load data with automatic format detection
-        machine_data, company_df = load_data(csv_file_path, original_company_file_path, sheet_name)
+        machine_data, company_df = load_data(
+            csv_file_path, original_company_file_path, sheet_name
+        )
 
-        # If either input is empty, do not create output
-        if machine_data.empty or company_df.empty:
-            logger.error("Input CSV or company data file is empty. No output will be created.")
+        # If company data is empty, we cannot proceed as we need company names for mapping
+        if company_df.empty:
+            logger.error(
+                "Company data file is empty. No output will be created."
+            )
+            return None
+            
+        # Machine data can be empty - we'll continue if sachanlagen data exists
+        has_sachanlagen = sachanlagen_path and os.path.exists(sachanlagen_path)
+        if machine_data.empty and not has_sachanlagen:
+            logger.error(
+                "Input CSV is empty and no sachanlagen data available. No output will be created."
+            )
             return None
 
-        similarities = analyze_company_similarities(machine_data, company_df)
-        good_matches = len(machine_data["Company"].unique()) - len(similarities["problematic_matches"])
-        logger.info(f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies")
+        # Initialize merged_df with company data
+        merged_df = company_df.copy()
+        
+        # Only perform machine data matching and merging if machine data is not empty
+        if not machine_data.empty:
+            similarities = analyze_company_similarities(machine_data, company_df)
+            good_matches = len(machine_data["Company"].unique()) - len(
+                similarities["problematic_matches"]
+            )
+            logger.info(
+                f"Found {good_matches} good matches out of {len(machine_data['Company'].unique())} machine companies"
+            )
 
-        mapping = create_company_mapping(machine_data, company_df)
-        logger.debug(f"Mapping created with {len(mapping)} matches")
-        merged_df = merge_datasets(company_df, machine_data, mapping, top_n)
+            mapping = create_company_mapping(machine_data, company_df)
+            logger.debug(f"Mapping created with {len(mapping)} matches")
+            merged_df = merge_datasets(company_df, machine_data, mapping, top_n)
+        else:
+            logger.info("Machine data is empty, skipping machine data merge")
 
         if sachanlagen_path and os.path.exists(sachanlagen_path):
             sachanlagen_df = load_sachanlagen_data(sachanlagen_path)
             sachanlagen_mapping = create_sachanlagen_mapping(sachanlagen_df, company_df)
-            merged_df = merge_with_sachanlagen(merged_df, sachanlagen_df, sachanlagen_mapping)
+            merged_df = merge_with_sachanlagen(
+                merged_df, sachanlagen_df, sachanlagen_mapping
+            )
 
+        # Check for machine values when machine columns exist
         machine_cols = [f"Top{i + 1}_Machine" for i in range(top_n)]
-        has_machine_value = False
-        for col in machine_cols:
-            has_machine_value = has_machine_value | merged_df[col].notna()
-        has_sachanlagen_value = merged_df['Sachanlagen'].notna() if 'Sachanlagen' in merged_df.columns else False
-        filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
-
-        # If output is empty, do not create file
+        
+        # Initialize with a Series of False values matching dataframe length
+        has_machine_value = pd.Series(False, index=merged_df.index)
+        
+        # Only check machine columns that actually exist in the merged dataframe
+        machine_cols = [col for col in machine_cols if col in merged_df.columns]
+        if machine_cols:
+            for col in machine_cols:
+                has_machine_value = has_machine_value | merged_df[col].notna()
+        
+        # Case-insensitive check for 'sachanlagen' column
+        sachanlagen_col = next(
+            (col for col in merged_df.columns if col.lower() == "sachanlagen"), None
+        )
+        
+        # Initialize with a Series of False values matching dataframe length
+        has_sachanlagen_value = pd.Series(False, index=merged_df.index)
+        if sachanlagen_col:
+            has_sachanlagen_value = merged_df[sachanlagen_col].notna()
+        
+        # Only filter rows if we have either machine data or sachanlagen data
+        if machine_cols or sachanlagen_col:
+            filtered_df = merged_df[has_machine_value | has_sachanlagen_value]
+        else:
+            # If neither data source exists, use the merged_df as is (company data only)
+            filtered_df = merged_df
+            logger.warning("Neither machine data nor sachanlagen data found, output will contain only company information")
+        
+        # If output is completely empty (not even company data), do not create file
         if filtered_df.empty:
             logger.error("Merged output is empty. No output will be created.")
             return None
@@ -639,6 +813,9 @@ def main(
         else:
             output_file = save_merged_data(filtered_df, csv_file_path)
 
+        logger.info(
+            f"PROGRESS:extracting_machine:merge_data:1/1:Merge process completed, output: {output_file}"
+        )  # Progress End
         return output_file
     except Exception as e:
         logger.error(f"Failed to merge CSV and company data: {e}")
@@ -646,28 +823,57 @@ def main(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Merge machine data CSV with company data file.")
-    parser.add_argument("csv_file", type=str, help="Path to the CSV file containing machine data")
-    parser.add_argument("company_file", type=str, help="Path to the company data file (Excel .xlsx/.xls or CSV .csv)")
-    parser.add_argument("--output", type=str, default=None, help="Path to save the merged output CSV")
-    parser.add_argument("--top_n", type=int, default=1, help="Number of top machines to include (default: 1)")
-    parser.add_argument("--sachanlagen", type=str, help="Path to Sachanlagen CSV file", default=None)
-    parser.add_argument("--sheet", type=str, default="Sheet1", help="Excel sheet name (only used for Excel files, default: Sheet1)")
-    parser.add_argument("--log-level", type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                        default='INFO', help="Set the logging level")
-    
+    parser = argparse.ArgumentParser(
+        description="Merge machine data CSV with company data file."
+    )
+    parser.add_argument(
+        "csv_file", type=str, help="Path to the CSV file containing machine data"
+    )
+    parser.add_argument(
+        "company_file",
+        type=str,
+        help="Path to the company data file (Excel .xlsx/.xls or CSV .csv)",
+    )
+    parser.add_argument(
+        "--output", type=str, default=None, help="Path to save the merged output CSV"
+    )
+    parser.add_argument(
+        "--top_n",
+        type=int,
+        default=1,
+        help="Number of top machines to include (default: 1)",
+    )
+    parser.add_argument(
+        "--sachanlagen", type=str, help="Path to Sachanlagen CSV file", default=None
+    )
+    parser.add_argument(
+        "--sheet",
+        type=str,
+        default="Sheet1",
+        help="Excel sheet name (only used for Excel files, default: Sheet1)",
+    )
+    parser.add_argument(
+        "--log-level",
+        type=str,
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="Set the logging level",
+    )
+
     args = parser.parse_args()
-    
+
     # Configure logging with specified level
     log_level = getattr(logging, args.log_level)
-    logging.basicConfig(level=log_level, format='%(asctime)s %(levelname)s %(name)s %(message)s')
+    logging.basicConfig(
+        level=log_level, format="%(asctime)s %(levelname)s %(name)s %(message)s"
+    )
     logger.setLevel(log_level)
-    
+
     main(
         csv_file_path=args.csv_file,
         original_company_file_path=args.company_file,
         output_file_path=args.output,
         top_n=args.top_n,
         sachanlagen_path=args.sachanlagen,
-        sheet_name=args.sheet
+        sheet_name=args.sheet,
     )

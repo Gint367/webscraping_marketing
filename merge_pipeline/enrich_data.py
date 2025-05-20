@@ -10,12 +10,12 @@ import pandas as pd
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 
 # Create a module-specific logger
-logger = logging.getLogger('integrate_pipeline.enrich_data.py')
+logger = logging.getLogger("integrate_pipeline.enrich_data")
 logger.setLevel(logging.INFO)
 
 # Define the constant for hours calculation
@@ -25,10 +25,10 @@ HOURS_MULTIPLIER = 375
 def extract_first_number(range_value):
     """
     Extract the first number from a range string like '15-20'
-    
+
     Args:
         range_value: String or value from which to extract a number
-        
+
     Returns:
         int: The first number found in the range, or None if no valid number is found
         or input is 'No Match'
@@ -46,13 +46,13 @@ def extract_first_number(range_value):
 def enrich_data(input_file):
     """
     Enrich a CSV file with calculated Maschinen_Park_var and hours_of_saving columns.
-    
+
     Args:
         input_file: Path to the input CSV file
-        
+
     Returns:
         str: Path to the enriched output file
-        
+
     Raises:
         FileNotFoundError: If input file does not exist
         ValueError: If required columns are missing or CSV is malformed
@@ -64,16 +64,20 @@ def enrich_data(input_file):
 
     # Check if input file exists
     if not os.path.exists(input_file):
-        raise FileNotFoundError(f"Input file '{input_file}' not found.")        # Read the CSV file
+        raise FileNotFoundError(
+            f"Input file '{input_file}' not found."
+        )  # Read the CSV file
     try:
         logger.info(f"Reading data from {input_file}")
         df = pd.read_csv(input_file, encoding="utf-8", skipinitialspace=True)
 
         # Check if the input file is empty (has only header row or no rows at all)
         if len(df) == 0:
-            logger.info(f"Input file '{input_file}' is empty, creating empty output file")
+            logger.info(
+                f"Input file '{input_file}' is empty, creating empty output file"
+            )
             # Create an empty output file
-            open(output_file, 'w').close()
+            open(output_file, "w").close()
             return output_file
     except pd.errors.ParserError as e:
         logger.error(f"Error parsing CSV file: {e}")
@@ -90,13 +94,16 @@ def enrich_data(input_file):
         logger.error(error_msg)
         raise ValueError(error_msg)
 
+    total_records = len(df)
+    logger.info(
+        f"PROGRESS:integration:enrich_data:0/{total_records}:Starting enrichment for {input_basename}"
+    )
+
     # Create the Maschinen_Park_var column as integer
     df["Maschinen_Park_var"] = df["Maschinen_Park_Size"].apply(extract_first_number)
 
     # Convert Maschinen_Park_var column to integer dtype (with NaN values preserved)
-    df["Maschinen_Park_var"] = pd.to_numeric(
-        df["Maschinen_Park_var"], errors="coerce"
-    )
+    df["Maschinen_Park_var"] = pd.to_numeric(df["Maschinen_Park_var"], errors="coerce")
     df["Maschinen_Park_var"] = df["Maschinen_Park_var"].astype("Int64")
 
     # Create the hours_of_saving column as integer, handling NaN values properly
@@ -112,7 +119,13 @@ def enrich_data(input_file):
     # Save the enriched data
     try:
         df.to_csv(output_file, index=False, encoding="utf-8-sig")
-        logger.info(f"Data enrichment completed successfully! Output saved to {output_file}")
+        # Log completion progress
+        logger.info(
+            f"PROGRESS:integration:enrich_data:{total_records}/{total_records}:Enrichment completed for {input_basename}"
+        )
+        logger.info(
+            f"Data enrichment completed successfully! Output saved to {output_file}"
+        )
     except Exception as e:
         logger.error(f"Error saving output file: {e}")
         raise ValueError(f"Error saving output file: {e}")
@@ -127,10 +140,10 @@ def enrich_data(input_file):
 def main():
     """
     Main function to handle command-line arguments and execute the data enrichment process.
-    
+
     Returns:
         str: Path to the enriched output file
-    
+
     Raises:
         FileNotFoundError: If input file does not exist
         ValueError: If required columns are missing or CSV is malformed
@@ -140,8 +153,12 @@ def main():
         description="Enrich CSV data with Maschinen_Park_var and hours_of_saving columns"
     )
     parser.add_argument("input_file", help="Path to the input CSV file")
-    parser.add_argument('--log-level', choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                        default='INFO', help='Set the logging level (default: INFO)')
+    parser.add_argument(
+        "--log-level",
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="Set the logging level (default: INFO)",
+    )
 
     args = parser.parse_args()
 

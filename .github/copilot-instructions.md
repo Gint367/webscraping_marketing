@@ -1,4 +1,6 @@
 - For reference of code that uses crawl4ai, refer to this file `./docs/crawl4ai_doc.md`.
+- For reference of code that uses streamlit, refer to this file `./docs/streamlit_doc.md` and `./cursor/rules/streamlit_rules.md`.
+- we are using task-driven development workflows, refer to this file `./cursor/rules/dev_workflow.md`.
 - Use logging for all programs.
 - Allow command-line arguments when creating new programs.
 - Follow Python best practices.
@@ -6,8 +8,11 @@
 - When creating a function, follow the single responsibility principle. Ensure the function is easy to test.
 - Add docstrings to all functions and classes.
 - Add type hints to all functions and classes when possible.
+- ignore linting issue with the import order.
 - testing framework: unittest
 - Follow test naming standards. The name of your test should consist of three parts:
     - Name of the method being tested
     - Scenario under which the method is being tested
     - Expected behavior when the scenario is invoked
+- each test function should follow this naming convention (camelCase for scenario and expected behaviour): `test_<method_name>_ScenarioOfMethodBeingTested_ExpectedBehaviour`.
+- When running automated tests with unittest, use the verbose flag with error redirection to see detailed output: `python -m unittest -v 2>&1`

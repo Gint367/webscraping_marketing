@@ -12,16 +12,13 @@ from litellm.exceptions import JSONSchemaValidationError
 from pydantic import BaseModel, Field
 
 # Set up module-specific logger
-logger = logging.getLogger('webcrawl.pluralize_with_llm.py')
+logger = logging.getLogger("webcrawl.pluralize_with_llm.py")
 
 # Global tracking of failed files
 failed_files = []
 
 # Track compound word modifications for reporting
-compound_word_stats = {
-    "files_affected": set(),
-    "words_modified": []
-}
+compound_word_stats = {"files_affected": set(), "words_modified": []}
 
 
 class PluralizedFields(BaseModel):
@@ -30,17 +27,15 @@ class PluralizedFields(BaseModel):
     This matches the structure for products, machines, and process_type fields.
     Used for LLM response validation and structured output.
     """
+
     products: List[str] = Field(
-        default_factory=list,
-        description="List of pluralized product names in German"
+        default_factory=list, description="List of pluralized product names in German"
     )
     machines: List[str] = Field(
-        default_factory=list,
-        description="List of pluralized machine names in German"
+        default_factory=list, description="List of pluralized machine names in German"
     )
     process_type: List[str] = Field(
-        default_factory=list,
-        description="List of pluralized process types in German"
+        default_factory=list, description="List of pluralized process types in German"
     )
 
 
@@ -58,32 +53,33 @@ def setup_logging(log_level=logging.INFO) -> None:
     # Configure root logger
     logging.basicConfig(
         level=log_level,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
-    
+
     # Configure module-specific logger
     logger.setLevel(log_level)
-    
+
     # Set log level for HTTPx, which is used by AsyncWebCrawler
     logging.getLogger("httpx").setLevel(logging.WARNING)
     logging.getLogger("httpcore").setLevel(logging.WARNING)
-    
+
     # Enable LiteLLM debug mode if log level is DEBUG
     if log_level == logging.DEBUG:
         from litellm._logging import _turn_on_debug
+
         _turn_on_debug()
-        logging.getLogger('LiteLLM').setLevel(logging.DEBUG)
+        logging.getLogger("LiteLLM").setLevel(logging.DEBUG)
         logger.debug("LiteLLM debug mode enabled")
     else:
         # Set log level for LiteLLM and Botocore
-        logging.getLogger('LiteLLM').setLevel(logging.WARNING)
-    
-    logging.getLogger('botocore').setLevel(logging.WARNING)
+        logging.getLogger("LiteLLM").setLevel(logging.WARNING)
+
+    logging.getLogger("botocore").setLevel(logging.WARNING)
 
 
 def clean_compound_words_for_field(
-    words: List[str]
+    words: List[str],
 ) -> Tuple[List[str], List[Tuple[str, str]]]:
     """
     Clean compound words containing conjunctions or separators for a single field.
@@ -104,18 +100,20 @@ def clean_compound_words_for_field(
 
     # Improved patterns to detect true compound phrases, not regular sentences
     # Match only when there's a clear pattern indicating a compound term, not just any "und"
-    und_pattern = re.compile(r'^([A-Za-z\-]+)\s+(?:und|oder|&)\s+([A-Za-z\-]+)$')
-    hyphen_und_pattern = re.compile(r'^([A-Za-z\-]+)-\s*(?:und|oder|&)\s+([A-Za-z\-]+)$')
+    und_pattern = re.compile(r"^([A-Za-z\-]+)\s+(?:und|oder|&)\s+([A-Za-z\-]+)$")
+    hyphen_und_pattern = re.compile(
+        r"^([A-Za-z\-]+)-\s*(?:und|oder|&)\s+([A-Za-z\-]+)$"
+    )
 
     # Pattern to match any phrase with "und" between whitespaces
-    general_und_pattern = re.compile(r'(\S+)\s+(?:und|oder|&)\s+(.+)$')
+    general_und_pattern = re.compile(r"(\S+)\s+(?:und|oder|&)\s+(.+)$")
 
     # Pattern to detect words with "und -" - these should be kept as-is
-    und_hyphen_pattern = re.compile(r'.*\s+(?:und|oder|&)\s+-.*')
+    und_hyphen_pattern = re.compile(r".*\s+(?:und|oder|&)\s+-.*")
 
     for word in words:
         # Special case for normal words without separators or conjunctions
-        if not any(pattern in word.lower() for pattern in ['und', 'oder', '&', ',']):
+        if not any(pattern in word.lower() for pattern in ["und", "oder", "&", ","]):
             cleaned_words.append(word)
             continue
 
@@ -125,9 +123,9 @@ def clean_compound_words_for_field(
             continue
 
         # Handle comma-separated values
-        if ',' in word:
+        if "," in word:
             # Split by comma
-            comma_parts = [part.strip() for part in word.split(',')]
+            comma_parts = [part.strip() for part in word.split(",")]
 
             # First record this modification
             modified_pairs.append((word, f"Split into {len(comma_parts)} entries"))
@@ -199,7 +197,7 @@ def clean_compound_words_for_field(
 
 
 def clean_compound_words(
-    fields_dict: Dict[str, List[str]]
+    fields_dict: Dict[str, List[str]],
 ) -> Tuple[Dict[str, List[str]], Dict[str, List[Tuple[str, str]]]]:
     """
     Clean compound words containing conjunctions or separators for all fields.
@@ -222,7 +220,9 @@ def clean_compound_words(
     # Process each field if it exists
     for field_name in ["products", "machines", "process_type"]:
         if field_name in fields_dict and fields_dict[field_name]:
-            cleaned_words, modified_pairs = clean_compound_words_for_field(fields_dict[field_name])
+            cleaned_words, modified_pairs = clean_compound_words_for_field(
+                fields_dict[field_name]
+            )
             cleaned_fields[field_name] = cleaned_words
 
             if modified_pairs:
@@ -235,8 +235,7 @@ def clean_compound_words(
 
 
 def track_cleaning_stats(
-    modified_pairs_by_field: Dict[str, List[Tuple[str, str]]],
-    file_path: str
+    modified_pairs_by_field: Dict[str, List[Tuple[str, str]]], file_path: str
 ) -> None:
     """
     Track statistics for compound word cleaning.
@@ -253,15 +252,19 @@ def track_cleaning_stats(
     for field_name, modified_pairs in modified_pairs_by_field.items():
         for original, cleaned in modified_pairs:
             # Add to global stats
-            compound_word_stats["words_modified"].append({
-                "file": os.path.basename(file_path),
-                "field": field_name,
-                "original": original,
-                "cleaned": cleaned
-            })
+            compound_word_stats["words_modified"].append(
+                {
+                    "file": os.path.basename(file_path),
+                    "field": field_name,
+                    "original": original,
+                    "cleaned": cleaned,
+                }
+            )
 
             # Log what was changed
-            logger.info(f"Cleaned compound word in {os.path.basename(file_path)} ({field_name}): '{original}' → '{cleaned}'")
+            logger.info(
+                f"Cleaned compound word in {os.path.basename(file_path)} ({field_name}): '{original}' → '{cleaned}'"
+            )
 
 
 def create_pluralization_prompt(fields_dict: Dict[str, List[str]]) -> str:
@@ -274,16 +277,17 @@ def create_pluralization_prompt(fields_dict: Dict[str, List[str]]) -> str:
     Returns:
         str: The prompt for the LLM
     """
-    prompt = """Please translate and pluralize the following German words.
+    prompt = """Please translate each of the following words into their correct German plural forms.
     Return your answer as a JSON object with the same structure as my input,
-    containing the pluralized German words in their respective categories.
+    containing only the pluralized German words in their respective categories.
+    Do not use tools.
 
-    Each input word must have exactly one output word in the same order.
+    Each input word must be translated and pluralized into German, with exactly one output word per input, in the same order.
     Use the exact same field structure as provided in the input.
     Ensure you include all fields that were in the input, even if they are empty lists.
-    Output must be valid JSON with the structure: { "products": [...], "machines": [...], "process_type": [...] }
-    
-    Don't add any explanatory text, just return the structured JSON response.
+    Output must be valid JSON with the structure: { "products": [...], "machines": [...], "process_type": [...] }.
+
+    Do not include any explanations, thoughts, or extra text.
 
     Here is the input:
     """
@@ -303,8 +307,7 @@ def create_pluralization_prompt(fields_dict: Dict[str, List[str]]) -> str:
 
 
 def validate_pluralized_response(
-    input_fields: Dict[str, List[str]],
-    output_fields: Dict[str, List[str]]
+    input_fields: Dict[str, List[str]], output_fields: Dict[str, List[str]]
 ) -> Tuple[bool, str]:
     """
     Validate that the LLM response contains the expected structure and word counts.
@@ -324,7 +327,10 @@ def validate_pluralized_response(
     # Check that each field has the correct number of words
     for field in input_fields:
         if len(input_fields[field]) != len(output_fields.get(field, [])):
-            return False, f"Field {field} has {len(output_fields.get(field, []))} words but expected {len(input_fields[field])}"
+            return (
+                False,
+                f"Field {field} has {len(output_fields.get(field, []))} words but expected {len(input_fields[field])}",
+            )
 
     return True, ""
 
@@ -332,7 +338,7 @@ def validate_pluralized_response(
 def pluralize_with_llm(
     fields_dict: Dict[str, List[str]],
     file_path: Optional[str] = None,
-    temperatures: Optional[List[float]] = None
+    temperatures: Optional[List[float]] = None,
 ) -> Dict[str, List[str]]:
     """
     Use LLM to pluralize words with structured JSON output using PluralizedFields model.
@@ -346,7 +352,9 @@ def pluralize_with_llm(
         Dict[str, List[str]]: Dictionary with pluralized words for each field
     """
     # Skip processing if all fields are empty
-    if not any(fields_dict.get(f, []) for f in ["products", "machines", "process_type"]):
+    if not any(
+        fields_dict.get(f, []) for f in ["products", "machines", "process_type"]
+    ):
         return fields_dict
 
     # First clean compound words for all fields
@@ -379,7 +387,7 @@ def pluralize_with_llm(
                 messages=[{"role": "user", "content": prompt}],
                 temperature=current_temp,
                 max_tokens=1000,
-                response_format=PluralizedFields
+                response_format=PluralizedFields,
             )
 
             # Extract the content directly as a dictionary
@@ -387,15 +395,19 @@ def pluralize_with_llm(
                 content = response.choices[0].message.content  # type: ignore
                 if content is None:
                     raise ValueError("LLM response content is None")
-                    
+
                 output_fields = json.loads(content)
-                
+
                 # Validate response structure and word counts
-                is_valid, error_message = validate_pluralized_response(cleaned_fields, output_fields)
+                is_valid, error_message = validate_pluralized_response(
+                    cleaned_fields, output_fields
+                )
 
                 if is_valid:
                     # Run clean_compound_words again on the response to handle any compound words
-                    final_cleaned_fields, final_modified_pairs = clean_compound_words(output_fields)
+                    final_cleaned_fields, final_modified_pairs = clean_compound_words(
+                        output_fields
+                    )
 
                     # Track statistics for any compounds cleaned in the response
                     if final_modified_pairs and file_path:
@@ -407,28 +419,36 @@ def pluralize_with_llm(
                         if field in final_cleaned_fields:
                             result[field] = final_cleaned_fields[field]
                         else:
-                            result[field] = cleaned_fields[field]  # Use original if missing
+                            result[field] = cleaned_fields[
+                                field
+                            ]  # Use original if missing
 
                     return result
                 else:
                     # If validation failed, retry
                     logger.warning(f"Validation error: {error_message}")
                     retry_count += 1
-                    
+
             except json.JSONDecodeError as e:
                 logger.warning(f"Failed to parse JSON response: {e}")
                 retry_count += 1
             except JSONSchemaValidationError as se:
-                logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
-                logger.info(f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})")
+                logger.warning(
+                    f"JSON schema validation failed: {str(se).splitlines()[0]}"
+                )
+                logger.info(
+                    f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})"
+                )
                 retry_count += 1
-                
+
         except JSONSchemaValidationError as se:
             # Specifically catch JSONSchemaValidationError that happened outside the inner try block
             logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
             if retry_count < max_retries - 1:
                 retry_count += 1
-                logger.info(f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})")
+                logger.info(
+                    f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})"
+                )
                 continue
             else:
                 logger.error(f"Max retries reached for JSONSchemaValidationError")
@@ -480,8 +500,7 @@ def extract_fields_from_entry(entry: Dict[str, Any]) -> Dict[str, List[str]]:
 
 
 def update_entry_with_pluralized_fields(
-    entry: Dict[str, Any],
-    pluralized_fields: Dict[str, List[str]]
+    entry: Dict[str, Any], pluralized_fields: Dict[str, List[str]]
 ) -> Dict[str, Any]:
     """
     Update an entry with pluralized fields.
@@ -502,7 +521,11 @@ def update_entry_with_pluralized_fields(
     return updated_entry
 
 
-def process_json_file(input_file_path: str, output_file_path: str, temperatures: Optional[List[float]] = None) -> None:
+def process_json_file(
+    input_file_path: str,
+    output_file_path: str,
+    temperatures: Optional[List[float]] = None,
+) -> None:
     """
     Process a single JSON file, pluralizing specific fields.
     Args:
@@ -513,7 +536,7 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
         ValueError: If the JSON is malformed or has invalid structure.
     """
     try:
-        with open(input_file_path, 'r', encoding='utf-8') as file:
+        with open(input_file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
     except Exception as e:
         logger.error(f"Error processing file {input_file_path}: {e}")
@@ -525,14 +548,25 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
         failed_files.append((input_file_path, "invalid_json_structure"))
         raise ValueError(f"Invalid JSON structure in file: {input_file_path}")
 
+    total_entries = len(data)
     # Process each entry in the JSON file
     for i, entry in enumerate(data):
+        current_entry_num = i + 1
+        company_name = entry.get(
+            "company_name", "Unknown"
+        )  # Get company name for logging
+        logger.info(
+            f"PROGRESS:webcrawl:pluralize_llm_entry:{current_entry_num}/{total_entries}:Processing entry for {company_name} in file {os.path.basename(input_file_path)}"
+        )
+
         # Extract fields to be pluralized
         fields_dict = extract_fields_from_entry(entry)
 
         if fields_dict:
             # Pluralize all fields at once
-            pluralized_fields = pluralize_with_llm(fields_dict, input_file_path, temperatures)
+            pluralized_fields = pluralize_with_llm(
+                fields_dict, input_file_path, temperatures
+            )
 
             # Update the entry with pluralized fields
             data[i] = update_entry_with_pluralized_fields(entry, pluralized_fields)
@@ -541,13 +575,15 @@ def process_json_file(input_file_path: str, output_file_path: str, temperatures:
     output_dir = os.path.dirname(output_file_path)
     # Always call makedirs, even if output_dir is empty (current directory)
     os.makedirs(output_dir, exist_ok=True)
-    with open(output_file_path, 'w', encoding='utf-8') as file:
+    with open(output_file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, ensure_ascii=False, indent=4)
 
     logger.info(f"Processed {input_file_path} -> {output_file_path}")
 
 
-def process_directory(input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None) -> str:
+def process_directory(
+    input_dir: str, output_dir: str, temperatures: Optional[List[float]] = None
+) -> str:
     """
     Process all JSON files in the input directory and save results to the output directory.
 
@@ -561,7 +597,7 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
         FileNotFoundError: If the input directory does not exist (but not in a test environment).
     """
     # Only check directory existence in production, not during tests
-    if not os.environ.get('PYTEST_CURRENT_TEST') and not os.path.isdir(input_dir):
+    if not os.environ.get("PYTEST_CURRENT_TEST") and not os.path.isdir(input_dir):
         logger.error(f"Input directory does not exist: {input_dir}")
         raise FileNotFoundError(f"Input directory does not exist: {input_dir}")
 
@@ -574,7 +610,7 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
     # This try block will catch FileNotFoundError if the directory doesn't exist,
     # which is what we want for unit testing - it allows mocking os.listdir
     try:
-        json_files = [f for f in os.listdir(input_dir) if f.endswith('.json')]
+        json_files = [f for f in os.listdir(input_dir) if f.endswith(".json")]
         total_files = len(json_files)
         if total_files == 0:
             logger.info(f"No JSON files found in {input_dir}")
@@ -583,7 +619,10 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
         for i, filename in enumerate(json_files, 1):
             input_file_path = os.path.join(input_dir, filename)
             output_file_path = os.path.join(output_dir, filename)
-            logger.info(f"Processing file {i}/{total_files}: {filename}")
+            # Log progress for each file
+            logger.info(
+                f"PROGRESS:webcrawl:pluralize_llm_file:{i}/{total_files}:Processing file {filename}"
+            )
             process_json_file(input_file_path, output_file_path, temperatures)
     except Exception as e:
         logger.error(f"Error accessing input directory: {e}")
@@ -597,26 +636,32 @@ def process_directory(input_dir: str, output_dir: str, temperatures: Optional[Li
         logger.info("Modified words (original → cleaned):")
 
         for item in compound_word_stats["words_modified"]:
-            logger.info(f"  - {item['file']} ({item['field']}): '{item['original']}' → '{item['cleaned']}'")
+            logger.info(
+                f"  - {item['file']} ({item['field']}): '{item['original']}' → '{item['cleaned']}'"
+            )
 
     # Log summary of failed files
     if failed_files:
         logger.info("===== FAILURE SUMMARY =====")
-        logger.info(f"Total files with failures: {len(set([f[0] for f in failed_files]))}")
-        logger.info(f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}")
+        logger.info(
+            f"Total files with failures: {len(set([f[0] for f in failed_files]))}"
+        )
+        logger.info(
+            f"Success rate: {(total_files - len(set([f[0] for f in failed_files]))) / total_files:.1%}"
+        )
         logger.info("Failed files and fields:")
         for file_path, field_name in failed_files:
             logger.info(f"  - {file_path}: {field_name}")
     else:
-        logger.info(f"All {total_files} files processed successfully with no pluralization failures.")
+        logger.info(
+            f"All {total_files} files processed successfully with no pluralization failures."
+        )
 
     return output_dir
 
 
 def process_file_or_directory(
-    input_path: str,
-    output_path: str,
-    temperatures: Optional[List[float]] = None
+    input_path: str, output_path: str, temperatures: Optional[List[float]] = None
 ) -> str:
     """
     Process a file or directory based on the input path.
@@ -632,7 +677,7 @@ def process_file_or_directory(
     if temperatures is None:
         temperatures = DEFAULT_TEMPERATURES
     if os.path.isfile(input_path):
-        if not input_path.endswith('.json'):
+        if not input_path.endswith(".json"):
             logger.error(f"Input file must be a JSON file: {input_path}")
             raise ValueError(f"Input file must be a JSON file: {input_path}")
         logger.info(f"Processing single file: {input_path}")
@@ -654,15 +699,35 @@ def main() -> str:
     Raises:
         FileNotFoundError: If the input path does not exist.
     """
-    parser = argparse.ArgumentParser(description='Pluralize words in JSON files using LLM.')
-    parser.add_argument('--input', type=str, required=True,
-                        help='Input file or directory path (if directory, all JSON files will be processed)')
-    parser.add_argument('--output', type=str, required=True,
-                        help='Output file or directory path (must match input type)')
-    parser.add_argument('--temperatures', type=float, nargs='+', default=DEFAULT_TEMPERATURES,
-                        help='List of temperature values for each retry attempt (default: 0.5 0.1 1.0)')
-    parser.add_argument('--log-level', type=str, choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                        default='INFO', help='Set the logging level')
+    parser = argparse.ArgumentParser(
+        description="Pluralize words in JSON files using LLM."
+    )
+    parser.add_argument(
+        "--input",
+        type=str,
+        required=True,
+        help="Input file or directory path (if directory, all JSON files will be processed)",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        required=True,
+        help="Output file or directory path (must match input type)",
+    )
+    parser.add_argument(
+        "--temperatures",
+        type=float,
+        nargs="+",
+        default=DEFAULT_TEMPERATURES,
+        help="List of temperature values for each retry attempt (default: 0.5 0.1 1.0)",
+    )
+    parser.add_argument(
+        "--log-level",
+        type=str,
+        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+        default="INFO",
+        help="Set the logging level",
+    )
     args = parser.parse_args()
     log_level = getattr(logging, args.log_level)
     setup_logging(log_level)

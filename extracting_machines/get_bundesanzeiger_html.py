@@ -1,5 +1,4 @@
 import argparse
-import csv
 import datetime
 import json
 import logging
@@ -621,97 +620,84 @@ def main(
         The output directory path used for storing results.
     """
     setup_logging(verbose)
-    # Set default base_dir based on input CSV filename if not provided
-    if base_dir is None:
-        category = get_category_from_filename(input_csv)
-        base_dir = f"bundesanzeiger_local_{category}"
-    if not os.path.exists(input_csv):
-        logger.error(f"Input file '{input_csv}' not found.")
-        raise FileNotFoundError(f"Input file '{input_csv}' not found.")
-    input_name = os.path.splitext(os.path.basename(input_csv))[0]
-    output_csv = f"{input_name}_output.csv"
+    logger.info(f"Starting Bundesanzeiger HTML extraction for {input_csv}")
+    logger.info(f"Output will be stored in base directory: {base_dir}")
+
+    # Ensure base directory exists
     os.makedirs(base_dir, exist_ok=True)
-    output_columns = [
-        "company name",
-        "location",
-        "Technische Anlagen Start",
-        "Technische Anlagen End",
-        "Sachanlagen Start",
-        "Sachanlagen End",
-        "Start Date",
-        "End Date",
-        "Note",
-    ]
-    if not os.path.exists(output_csv):
-        empty_df = pd.DataFrame(columns=output_columns)
-        empty_df.to_csv(output_csv, index=False)
+
+    # Read input CSV
     try:
         df_input = read_csv_with_encoding(input_csv)
-    except pd.errors.ParserError as e:
-        logger.warning(f"Error parsing CSV with default settings: {e}")
-        logger.info("Trying with different parsing settings...")
+        logger.info(f"Successfully read {len(df_input)} companies from {input_csv}")
+    except FileNotFoundError:
+        logger.error(f"Input CSV file not found: {input_csv}")
+        raise # Re-raise the exception for the test
+    except Exception as e:
+        logger.error(f"Error reading input CSV {input_csv}: {e}")
+        sys.exit(1) # Keep exit for other read errors
+
+    # Check for required columns
+    required_columns = ["company name", "location"]
+    if not all(col in df_input.columns for col in required_columns):
+        missing = [col for col in required_columns if col not in df_input.columns]
+        error_msg = f"Input CSV is missing required columns: {', '.join(missing)}"
+        logger.error(error_msg)
+        raise ValueError(error_msg) # Raise ValueError for the test
+
+    # Prepare list to store results
+    results = []
+    total_companies = len(df_input)  # Get total count for progress logging
+
+    # Process each company
+    for index, row in df_input.iterrows():
+        company_name = row["company name"]
+        location = row.get("location", None)  # Use .get for optional columns
+
+        # --- Progress Logging ---
+        current_company_num = index + 1
+        logger.info(
+            f"PROGRESS:extracting_machine:get_bundesanzeiger_html:{current_company_num}/{total_companies}:Processing company {company_name}"
+        )
+        # --- End Progress Logging ---
+
         try:
-            df_input = pd.read_csv(
-                input_csv,
-                quoting=csv.QUOTE_NONE,
-                engine="python",
-                on_bad_lines='skip',
+            # Process the company (fetch/extract data)
+            latest_data = process_company(
+                company=company_name,
+                base_dir=base_dir,
+                location=location,
+                max_retries=5,
+                max_delay_seconds=300,
+                backoff_factor=2.0,
             )
-        except Exception as e2:
-            logger.error(f"Failed to read input CSV: {e2}")
-            sys.exit(1)
 
-    # Make sure we have the expected column
-    if 'company name' not in df_input.columns:
-        logger.error("Could not find 'company name' column in the input file")
-        raise ValueError("Could not find 'company name' column in the input file")
+            # Combine original row data with extracted data
+            combined_data = row.to_dict()
+            combined_data.update(latest_data)
+            results.append(combined_data)
 
-    # 3) For each company, process and append a single row to the output file
-    for _, row in df_input.iterrows():
-        company_name = str(row["company name"]).strip()
-        # Get location if it exists in the CSV, otherwise use None
-        location = (
-            str(row["location"]).strip()
-            if "location" in row and not pd.isna(row["location"])
-            else None
-        )
+        except Exception as e:
+            logger.error(f"Failed to process {company_name}: {e}", exc_info=True)
+            # Append original row with error note if processing fails
+            error_data = row.to_dict()
+            error_data["Note"] = f"Processing failed: {e}"
+            results.append(error_data)
 
-        location_info = f" (location: {location})" if location else ""
-        logger.info(f"Processing: {company_name}{location_info}")
+    # Create DataFrame from results (commented out as df_output is unused)
+    # df_output = pd.DataFrame(results)
 
-        # Call your existing function to get extracted data with retry parameters
-        extracted = process_company(
-            company_name,
-            base_dir,
-            max_retries,
-            max_delay_seconds,
-            backoff_factor,
-            location,
-        )
+    # Save the results to a new CSV file (optional, as master_pipeline handles merging later)
+    # output_csv_path = os.path.join(base_dir, "extracted_bundesanzeiger_data.csv")
+    # try:
+    #     df_output.to_csv(output_csv_path, index=False, encoding='utf-8')
+    #     logger.info(f"Results saved to {output_csv_path}")
+    # except Exception as e:
+    #     logger.error(f"Failed to save output CSV: {e}")
 
-        # Build a dict for the new row
-        new_row = {
-            "company name": company_name,
-            "location": location if location else "",
-            "Technische Anlagen Start": extracted["Technische Anlagen Start"],
-            "Technische Anlagen End": extracted["Technische Anlagen End"],
-            "Sachanlagen Start": extracted["Sachanlagen Start"],
-            "Sachanlagen End": extracted["Sachanlagen End"],
-            "Start Date": extracted["Start Date"],
-            "End Date": extracted["End Date"],
-            "Note": extracted["Note"],
-        }
-
-        # Convert to a DataFrame (just 1 row) for easy CSV append
-        new_df = pd.DataFrame([new_row])
-
-        # 4) Append to the output CSV in 'append' mode, no header, no index
-        new_df.to_csv(output_csv, mode="a", header=False, index=False)
-
-    logger.info(f"Results written to: {output_csv}")
-    logger.info(f"Folders created under: {base_dir}")
-    # At the end, return the output directory path
-    return os.path.abspath(base_dir)
+    logger.info("Bundesanzeiger HTML extraction process finished.")
+    # Return the base directory path, as subsequent steps might need it
+    return base_dir
 
 
 if __name__ == "__main__":

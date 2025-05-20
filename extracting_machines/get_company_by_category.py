@@ -51,6 +51,8 @@ def extract_companies_by_category(input_file: str, category: str, output_file: O
             logger.error(f"Input file not found: {input_file}")
             raise FileNotFoundError(f"Input file not found: {input_file}")
         df = pd.read_excel(input_file, sheet_name=0)
+        logger.info(f"PROGRESS:extracting_machine:filter_companies:0/{len(df)}:Read {len(df)} companies from {input_file}") # Progress Log Start
+
         required_columns = ['Firma1', 'Ort', 'Kategorie', 'URL']
         output_columns = {'Firma1': 'company name', 'Ort': 'location', 'URL': 'url'}
         if not all(col in df.columns for col in required_columns):
@@ -66,13 +68,16 @@ def extract_companies_by_category(input_file: str, category: str, output_file: O
             result_df = filtered_df[['Firma1', 'Ort', 'URL']].copy()
             result_df = result_df.rename(columns=output_columns)
             result_df['company name'] = result_df['company name'].apply(clean_company_name)
+
         if output_file is None:
             base_dir = os.path.dirname(os.path.abspath(input_file))
             output_file = os.path.join(base_dir, f'company_{category}_BA.csv')
         else:
             output_file = os.path.abspath(output_file)
         result_df.to_csv(output_file, index=False)
-        logger.info(f"Extracted {len(result_df)} companies in category '{category}'")
+        # Progress Log End
+        logger.info(f"PROGRESS:extracting_machine:filter_companies:{len(result_df)}/{len(df)}:Filtered {len(result_df)} companies for category '{category}'")
+        logger.info(f"Extracted {len(result_df)} companies in category '{category}'") # Keep original log for clarity
         logger.info(f"Results saved to {output_file}")
         return output_file
     except Exception as e:

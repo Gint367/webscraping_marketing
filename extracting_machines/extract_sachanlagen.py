@@ -8,8 +8,8 @@ import re
 import sys
 from decimal import Decimal
 from typing import List, Optional
-from urllib.parse import urlparse
 
+# from urllib.parse import urlparse # Removed unused import
 from crawl4ai import AsyncWebCrawler, CacheMode, MemoryAdaptiveDispatcher, RateLimiter
 from crawl4ai.async_configs import CrawlerRunConfig, LLMConfig
 from crawl4ai.extraction_strategy import LLMExtractionStrategy
@@ -281,7 +281,9 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 files_to_process.append(file_path)
 
         if skipped_count > 0:
-            logger.info(f"Skipping {skipped_count} files that already have output files")
+            logger.info(
+                f"Skipping {skipped_count} files that already have output files"
+            )
             file_paths = files_to_process
 
         if not file_paths:
@@ -291,10 +293,10 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
     # Convert file paths to URLs with file:// protocol
     file_urls = [f"file://{os.path.abspath(path)}" for path in file_paths]
 
-    logger.info(f"Processing {len(file_paths)} files using streaming mode")
+    logger.info(f"PROGRESS:extracting_machine:extract_sachanlagen:Processing {len(file_paths)} files using streaming mode")
 
     config = CrawlerRunConfig(
-        cache_mode=CacheMode.BYPASS,
+        cache_mode=CacheMode.ENABLED,
         extraction_strategy=llm_strategy,
         stream=True,  # Enable streaming mode
         verbose=False,
@@ -310,41 +312,38 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
             config=config,
             dispatcher=dispatcher,
             rate_limiter=rate_limiter,
-        ): # type: ignore
+        ):  # type: ignore
             processed_count += 1
 
-            # Process result as it comes in
-            if result.success and result.extracted_content:
-
-                # Find the corresponding file path
-                file_idx = file_urls.index(result.url)
-                file_path = file_paths[file_idx]
-
-                # Extract company name from HTML comment
-                company_name = extract_company_name(file_path)
-
-                # Extract source URL info for validation and naming
-                original_url = result.url
-                parsed_url = urlparse(original_url)
-
-                # Always use the URL for naming, regardless of whether it's a file or web URL
-                netloc = parsed_url.netloc
-                # For file URLs, netloc will be empty, so handle that case
-                if not netloc and parsed_url.path:
-                    # For file URLs, extract the filename from the path
-                    basename = os.path.basename(parsed_url.path)
-                    name_without_ext = os.path.splitext(basename)[0]
-                    logger.debug(
-                        f"File URL: extracted name '{name_without_ext}' from path '{parsed_url.path}'"
-                    )
-                else:
-                    # For web URLs, remove 'www.' prefix if present
-                    if netloc.startswith("www."):
-                        netloc = netloc[4:]
-                    name_without_ext = netloc
-                    logger.debug(f"Web URL: using netloc '{netloc}' as name")
-
+            # --- Get file path and define output file path ---
+            file_path = "Unknown file"
+            output_file = None
+            if result.url in file_urls:
+                file_path = file_paths[file_urls.index(result.url)]
+                basename = os.path.basename(file_path)
+                name_without_ext = os.path.splitext(basename)[0]
                 output_file = os.path.join(output_dir, f"{name_without_ext}.json")
+
+            # --- Progress Logging ---
+            log_message_subject = "Unknown file"
+            company_name_from_html = ""
+            if file_path != "Unknown file":
+                company_name_from_html = extract_company_name(file_path)
+                if company_name_from_html:
+                    log_message_subject = f"company {company_name_from_html}"
+                else:
+                    log_message_subject = f"file {os.path.basename(file_path)}"
+            logger.info(
+                f"PROGRESS:extracting_machine:extract_sachanlagen:{processed_count}/{len(file_paths)}:Processing {log_message_subject}"
+            )
+            # --- End Progress Logging ---
+
+            # Process result as it comes in
+            if result.success and result.extracted_content and output_file:
+                # Extract company name from HTML comment (already done above for logging)
+                company_name = (
+                    company_name_from_html  # Use the name extracted for logging
+                )
 
                 # Add company_name to each entry in the extracted content
                 try:
@@ -354,15 +353,26 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                         content_to_modify = json.loads(content_to_modify)
 
                     # Check for error in extracted content and raise exception if found
-                    if (
-                        isinstance(content_to_modify, list)
-                        and any(isinstance(entry, dict) and entry.get("error") is True for entry in content_to_modify)
+                    if isinstance(content_to_modify, list) and any(
+                        isinstance(entry, dict) and entry.get("error") is True
+                        for entry in content_to_modify
                     ):
-                        error_entry = next(entry for entry in content_to_modify if entry.get("error") is True)
-                        raise RuntimeError(f"Extraction error for '{company_name}': {error_entry.get('content', 'Unknown error')}")
+                        error_entry = next(
+                            entry
+                            for entry in content_to_modify
+                            if entry.get("error") is True
+                        )
+                        raise RuntimeError(
+                            f"Extraction error for '{company_name}': {error_entry.get('content', 'Unknown error')}"
+                        )
 
-                    if isinstance(content_to_modify, dict) and content_to_modify.get("error") is True:
-                        raise RuntimeError(f"Extraction error for '{company_name}': {content_to_modify.get('content', 'Unknown error')}")
+                    if (
+                        isinstance(content_to_modify, dict)
+                        and content_to_modify.get("error") is True
+                    ):
+                        raise RuntimeError(
+                            f"Extraction error for '{company_name}': {content_to_modify.get('content', 'Unknown error')}"
+                        )
 
                     # Add company name to each entry
                     if isinstance(content_to_modify, list):
@@ -388,55 +398,67 @@ async def process_files(file_paths, llm_strategy, output_dir, overwrite=False):
                 should_write = False
                 content = result.extracted_content
                 logger.debug(f"Content type: {type(content)}")
-                logger.debug(f"extracted content type: {type(result.extracted_content)}")
+                logger.debug(
+                    f"extracted content type: {type(result.extracted_content)}"
+                )
                 if isinstance(content, str):
                     try:
                         content = json.loads(content)
                     except Exception:
                         content = None
                 if isinstance(content, list) and len(content) > 0:
-                    #logger.info(f"Content: {content}")
                     # Check if at least one entry has Sachanlagen values or table_name
-                    if any(isinstance(e, dict) and (e.get("values") or e.get("table_name")) for e in content):
+                    if any(
+                        isinstance(e, dict) and (e.get("values") or e.get("table_name"))
+                        for e in content
+                    ):
                         should_write = True
-                elif isinstance(content, dict) and (content.get("values") or content.get("table_name")):
+                elif isinstance(content, dict) and (
+                    content.get("values") or content.get("table_name")
+                ):
                     should_write = True
 
                 if should_write:
+                    logger.debug(f"Writing output to {output_file}")
                     with open(output_file, "w", encoding="utf-8") as f:
                         if isinstance(result.extracted_content, str):
                             f.write(result.extracted_content)
                         else:
-                            json.dump(result.extracted_content, f, indent=2, ensure_ascii=False)
-                    logger.info(
-                        f"[{processed_count}/{len(file_paths)}] Extracted data for '{company_name}' saved to {output_file}"
-                    )
+                            json.dump(
+                                result.extracted_content,
+                                f,
+                                indent=2,
+                                ensure_ascii=False,
+                            )
                     extracted_data.append(result.extracted_content)
+                    logger.info(
+                        f"Successfully extracted data for {log_message_subject}"
+                    )
                 else:
+                    logger.warning(
+                        f"No relevant Sachanlagen data found for {log_message_subject}"
+                    )
                     # Ensure no output file is created for irrelevant or empty data
                     if os.path.exists(output_file):
                         try:
                             os.remove(output_file)
-                            logger.debug(f"Removed irrelevant output file: {output_file}")
+                            logger.debug(
+                                f"Removed irrelevant output file: {output_file}"
+                            )
                         except Exception as e:
-                            logger.warning(f"Failed to remove irrelevant output file {output_file}: {e}")
-                    logger.info(
-                        f"[{processed_count}/{len(file_paths)}] No relevant Sachanlagen data extracted for '{company_name}', skipping output file."
-                    )
+                            logger.warning(
+                                f"Failed to remove irrelevant output file {output_file}: {e}"
+                            )
             else:
                 error_msg = getattr(result, "error_message", "Unknown error")
-                file_path = file_paths[file_urls.index(result.url)] if result.url in file_urls else "Unknown file"
 
                 # Handle empty file or parsing errors specifically
                 if "'NoneType' object has no attribute 'find_all'" in str(error_msg):
                     logger.warning(
-                        f"[{processed_count}/{len(file_paths)}] File appears to be empty or cannot be parsed: {file_path}"
+                        f"File appears to be empty or cannot be parsed: {file_path}"
                     )
                 else:
-                    logger.warning(
-                        f"[{processed_count}/{len(file_paths)}] No content extracted: {error_msg}"
-                    )
-                    # Do NOT create a .json file for irrelevant input or generic errors
+                    logger.warning(f"No content extracted: {error_msg}")
 
         # Show usage stats
         llm_strategy.show_usage()
@@ -783,9 +805,13 @@ def run_extraction(
 
     async def _run():
         if only_recheck:
-            await check_and_reprocess_error_files(output_dir, input_path, ext, llm_strategy)
+            await check_and_reprocess_error_files(
+                output_dir, input_path, ext, llm_strategy
+            )
         else:
-            await process_files(file_paths, llm_strategy, output_dir, overwrite=overwrite)
+            await process_files(
+                file_paths, llm_strategy, output_dir, overwrite=overwrite
+            )
         csv_path = process_sachanlagen_output(output_dir)
         logger.info(f"CSV summary generated at: {csv_path}")
         return csv_path

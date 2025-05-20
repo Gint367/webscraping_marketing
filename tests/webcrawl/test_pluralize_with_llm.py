@@ -5,6 +5,7 @@ Unit tests for the pluralize_with_llm module.
 This module tests the functionality for pluralizing German words in JSON files
 using a language model, with special handling for compound words.
 """
+
 import io
 import json
 import logging
@@ -57,9 +58,7 @@ class TestCleanCompoundWords(unittest.TestCase):
 
     def test_clean_hyphenated_conjunction(self):
         """Test words with hyphenated forms and conjunctions are properly cleaned."""
-        input_fields = {
-            "machines": ["Saug- und Blasgeräte", "Bohr- und Fräswerkzeuge"]
-        }
+        input_fields = {"machines": ["Saug- und Blasgeräte", "Bohr- und Fräswerkzeuge"]}
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
         # Check the cleaned words
@@ -73,12 +72,18 @@ class TestCleanCompoundWords(unittest.TestCase):
     def test_clean_comma_separated_values(self):
         """Test words with comma separations are properly split."""
         input_fields = {
-            "process_type": ["Pumpen, Ventile, Schläuche", "Filter, Regler", "SingleWord"]
+            "process_type": [
+                "Pumpen, Ventile, Schläuche",
+                "Filter, Regler",
+                "SingleWord",
+            ]
         }
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
         # Check the cleaned words
-        self.assertEqual(len(cleaned_fields["process_type"]), 6)  # 5 split items + 1 single word
+        self.assertEqual(
+            len(cleaned_fields["process_type"]), 6
+        )  # 5 split items + 1 single word
         self.assertIn("Pumpen", cleaned_fields["process_type"])
         self.assertIn("Ventile", cleaned_fields["process_type"])
         self.assertIn("Schläuche", cleaned_fields["process_type"])
@@ -88,7 +93,9 @@ class TestCleanCompoundWords(unittest.TestCase):
 
         # Check the modified pairs
         self.assertEqual(len(modified_pairs["process_type"]), 2)
-        self.assertEqual(modified_pairs["process_type"][0][0], "Pumpen, Ventile, Schläuche")
+        self.assertEqual(
+            modified_pairs["process_type"][0][0], "Pumpen, Ventile, Schläuche"
+        )
         self.assertTrue("Split into 3 entries" in modified_pairs["process_type"][0][1])
         self.assertEqual(modified_pairs["process_type"][1][0], "Filter, Regler")
         self.assertTrue("Split into 2 entries" in modified_pairs["process_type"][1][1])
@@ -99,7 +106,7 @@ class TestCleanCompoundWords(unittest.TestCase):
             "process_type": [
                 "Kundendienst und Wartung kryogener Medien",
                 "Installation und Beratung technischer Systeme",
-                "Reinigung und Instandhaltung von Anlagen"
+                "Reinigung und Instandhaltung von Anlagen",
             ]
         }
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
@@ -107,18 +114,30 @@ class TestCleanCompoundWords(unittest.TestCase):
         # These phrases should be processed to extract the part after "und"
         self.assertEqual(len(cleaned_fields["process_type"]), 3)
         self.assertEqual(cleaned_fields["process_type"][0], "Wartung kryogener Medien")
-        self.assertEqual(cleaned_fields["process_type"][1], "Beratung technischer Systeme")
-        self.assertEqual(cleaned_fields["process_type"][2], "Instandhaltung von Anlagen")
+        self.assertEqual(
+            cleaned_fields["process_type"][1], "Beratung technischer Systeme"
+        )
+        self.assertEqual(
+            cleaned_fields["process_type"][2], "Instandhaltung von Anlagen"
+        )
 
         # Check that modifications were recorded
         self.assertEqual(len(modified_pairs["process_type"]), 3)
-        self.assertEqual(modified_pairs["process_type"][0][0], "Kundendienst und Wartung kryogener Medien")
-        self.assertEqual(modified_pairs["process_type"][0][1], "Wartung kryogener Medien")
+        self.assertEqual(
+            modified_pairs["process_type"][0][0],
+            "Kundendienst und Wartung kryogener Medien",
+        )
+        self.assertEqual(
+            modified_pairs["process_type"][0][1], "Wartung kryogener Medien"
+        )
 
     def test_mixed_separators(self):
         """Test words with mixed separators (commas and 'und') are properly processed."""
         input_fields = {
-            "products": ["Schrauben, Muttern und Bolzen", "Metall- und Kunststoffteile, Gummiteile"]
+            "products": [
+                "Schrauben, Muttern und Bolzen",
+                "Metall- und Kunststoffteile, Gummiteile",
+            ]
         }
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
@@ -143,26 +162,28 @@ class TestCleanCompoundWords(unittest.TestCase):
                 if orig == "Muttern und Bolzen" and modified == "Bolzen":
                     has_und_processing = True
 
-        self.assertTrue(has_comma_split, "Expected comma splitting of 'Schrauben, Muttern und Bolzen'")
-        self.assertTrue(has_und_processing, "Expected processing of 'Muttern und Bolzen' to extract 'Bolzen'")
+        self.assertTrue(
+            has_comma_split,
+            "Expected comma splitting of 'Schrauben, Muttern und Bolzen'",
+        )
+        self.assertTrue(
+            has_und_processing,
+            "Expected processing of 'Muttern und Bolzen' to extract 'Bolzen'",
+        )
 
     def test_empty_input(self):
         """Test with empty input fields."""
-        input_fields = {
-            "products": [],
-            "machines": [],
-            "process_type": []
-        }
+        input_fields = {"products": [], "machines": [], "process_type": []}
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
-        self.assertEqual(cleaned_fields, {"products": [], "machines": [], "process_type": []})
+        self.assertEqual(
+            cleaned_fields, {"products": [], "machines": [], "process_type": []}
+        )
         self.assertEqual(modified_pairs, {})
 
     def test_no_modifications_needed(self):
         """Test with words that don't need modification."""
-        input_fields = {
-            "products": ["Schrauben", "Muttern", "Bolzen"]
-        }
+        input_fields = {"products": ["Schrauben", "Muttern", "Bolzen"]}
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
         self.assertEqual(cleaned_fields, input_fields)
@@ -174,16 +195,21 @@ class TestCleanCompoundWords(unittest.TestCase):
             "products": [
                 "Leistungstransmissionstools und -händler",
                 "Reinigungsmittel und -geräte",
-                "Herstellung und -verkauf von Metallprodukten"
+                "Herstellung und -verkauf von Metallprodukten",
             ]
         }
         cleaned_fields, modified_pairs = clean_compound_words(input_fields)
 
         # These phrases should be kept as-is, not modified
         self.assertEqual(len(cleaned_fields["products"]), 3)
-        self.assertEqual(cleaned_fields["products"][0], "Leistungstransmissionstools und -händler")
+        self.assertEqual(
+            cleaned_fields["products"][0], "Leistungstransmissionstools und -händler"
+        )
         self.assertEqual(cleaned_fields["products"][1], "Reinigungsmittel und -geräte")
-        self.assertEqual(cleaned_fields["products"][2], "Herstellung und -verkauf von Metallprodukten")
+        self.assertEqual(
+            cleaned_fields["products"][2],
+            "Herstellung und -verkauf von Metallprodukten",
+        )
 
         # Check that no modifications were recorded
         self.assertEqual(len(modified_pairs), 0)
@@ -199,7 +225,7 @@ class TestExtractAndUpdateFields(unittest.TestCase):
             "products": ["Product1", "Product2"],
             "machines": ["Machine1"],
             "process_type": ["Process1", "Process2", "Process3"],
-            "other_field": "value"
+            "other_field": "value",
         }
 
         fields_dict = extract_fields_from_entry(entry)
@@ -209,7 +235,9 @@ class TestExtractAndUpdateFields(unittest.TestCase):
         self.assertIn("process_type", fields_dict)
         self.assertEqual(fields_dict["products"], ["Product1", "Product2"])
         self.assertEqual(fields_dict["machines"], ["Machine1"])
-        self.assertEqual(fields_dict["process_type"], ["Process1", "Process2", "Process3"])
+        self.assertEqual(
+            fields_dict["process_type"], ["Process1", "Process2", "Process3"]
+        )
         self.assertNotIn("other_field", fields_dict)
         self.assertNotIn("company_name", fields_dict)
 
@@ -219,7 +247,7 @@ class TestExtractAndUpdateFields(unittest.TestCase):
             "company_name": "Test Company",
             "products": ["Product1", "Product2"],
             # No machines field
-            "process_type": ["Process1"]
+            "process_type": ["Process1"],
         }
 
         fields_dict = extract_fields_from_entry(entry)
@@ -235,21 +263,25 @@ class TestExtractAndUpdateFields(unittest.TestCase):
             "products": ["Product1", "Product2"],
             "machines": ["Machine1"],
             "process_type": ["Process1", "Process2"],
-            "other_field": "value"
+            "other_field": "value",
         }
 
         pluralized_fields = {
             "products": ["Pluralized1", "Pluralized2"],
             "machines": ["PluralizedMachine1"],
-            "process_type": ["PluralizedProcess1", "PluralizedProcess2"]
+            "process_type": ["PluralizedProcess1", "PluralizedProcess2"],
         }
 
-        updated_entry = update_entry_with_pluralized_fields(original_entry, pluralized_fields)
+        updated_entry = update_entry_with_pluralized_fields(
+            original_entry, pluralized_fields
+        )
 
         # Check that fields were updated
         self.assertEqual(updated_entry["products"], ["Pluralized1", "Pluralized2"])
         self.assertEqual(updated_entry["machines"], ["PluralizedMachine1"])
-        self.assertEqual(updated_entry["process_type"], ["PluralizedProcess1", "PluralizedProcess2"])
+        self.assertEqual(
+            updated_entry["process_type"], ["PluralizedProcess1", "PluralizedProcess2"]
+        )
 
         # Check that other fields were preserved
         self.assertEqual(updated_entry["company_name"], "Test Company")
@@ -274,13 +306,11 @@ class TestPluralizeWithLLM(unittest.TestCase):
         fields_dict = {
             "products": ["Hammer", "Säge"],
             "machines": ["Bohrmaschine"],
-            "process_type": ["Schweißen", "Fräsen"]
+            "process_type": ["Schweißen", "Fräsen"],
         }
 
         prompt = create_pluralization_prompt(fields_dict)
 
-        # Check that the prompt contains instructional text
-        self.assertIn("translate and pluralize the following", prompt.lower())
         self.assertIn("json object", prompt.lower())
 
         # Check that all fields are in the prompt
@@ -297,14 +327,11 @@ class TestPluralizeWithLLM(unittest.TestCase):
 
     def test_validate_pluralized_response_valid(self):
         """Test validating a correct LLM response."""
-        input_fields = {
-            "products": ["Hammer", "Säge"],
-            "process_type": ["Schweißen"]
-        }
+        input_fields = {"products": ["Hammer", "Säge"], "process_type": ["Schweißen"]}
 
         output_fields = {
             "products": ["Hämmer", "Sägen"],
-            "process_type": ["Schweißarbeiten"]
+            "process_type": ["Schweißarbeiten"],
         }
 
         is_valid, error_msg = validate_pluralized_response(input_fields, output_fields)
@@ -314,10 +341,7 @@ class TestPluralizeWithLLM(unittest.TestCase):
 
     def test_validate_pluralized_response_invalid_missing_field(self):
         """Test validating an LLM response with a missing field."""
-        input_fields = {
-            "products": ["Hammer", "Säge"],
-            "process_type": ["Schweißen"]
-        }
+        input_fields = {"products": ["Hammer", "Säge"], "process_type": ["Schweißen"]}
 
         output_fields = {
             "products": ["Hämmer", "Sägen"]
@@ -332,14 +356,11 @@ class TestPluralizeWithLLM(unittest.TestCase):
 
     def test_validate_pluralized_response_invalid_word_count(self):
         """Test validating an LLM response with incorrect word count."""
-        input_fields = {
-            "products": ["Hammer", "Säge"],
-            "process_type": ["Schweißen"]
-        }
+        input_fields = {"products": ["Hammer", "Säge"], "process_type": ["Schweißen"]}
 
         output_fields = {
             "products": ["Hämmer", "Sägen", "Extra word"],  # Extra word
-            "process_type": ["Schweißarbeiten"]
+            "process_type": ["Schweißarbeiten"],
         }
 
         is_valid, error_msg = validate_pluralized_response(input_fields, output_fields)
@@ -347,23 +368,25 @@ class TestPluralizeWithLLM(unittest.TestCase):
         self.assertFalse(is_valid)
         self.assertIn("has 3 words but expected 2", error_msg)
 
-    @patch('webcrawl.pluralize_with_llm.completion')
+    @patch("webcrawl.pluralize_with_llm.completion")
     def test_pluralize_with_llm_successful(self, mock_completion):
         """Test successful pluralization with LLM."""
         # Mock the LLM response
         mock_response = MagicMock()
-        mock_response.choices[0].message.content = json.dumps({
-            "products": ["Pluralized1", "Pluralized2"],
-            "machines": ["PluralizedMachine"],
-            "process_type": ["PluralizedProcess"]
-        })
+        mock_response.choices[0].message.content = json.dumps(
+            {
+                "products": ["Pluralized1", "Pluralized2"],
+                "machines": ["PluralizedMachine"],
+                "process_type": ["PluralizedProcess"],
+            }
+        )
         mock_completion.return_value = mock_response
 
         # Input fields
         fields_dict = {
             "products": ["Original1", "Original2"],
             "machines": ["OriginalMachine"],
-            "process_type": ["OriginalProcess"]
+            "process_type": ["OriginalProcess"],
         }
 
         # Call the function
@@ -379,20 +402,18 @@ class TestPluralizeWithLLM(unittest.TestCase):
         args, kwargs = mock_completion.call_args
         self.assertIn("messages", kwargs)
 
-    @patch('webcrawl.pluralize_with_llm.completion')
+    @patch("webcrawl.pluralize_with_llm.completion")
     def test_pluralize_with_custom_temperatures(self, mock_completion):
         """Test pluralization with custom temperature values."""
         # Mock the LLM response
         mock_response = MagicMock()
-        mock_response.choices[0].message.content = json.dumps({
-            "products": ["Pluralized1", "Pluralized2"]
-        })
+        mock_response.choices[0].message.content = json.dumps(
+            {"products": ["Pluralized1", "Pluralized2"]}
+        )
         mock_completion.return_value = mock_response
 
         # Input fields
-        fields_dict = {
-            "products": ["Original1", "Original2"]
-        }
+        fields_dict = {"products": ["Original1", "Original2"]}
 
         # Custom temperatures
         temperatures = [0.2, 0.8]
@@ -405,12 +426,10 @@ class TestPluralizeWithLLM(unittest.TestCase):
         args, kwargs = mock_completion.call_args
         self.assertEqual(kwargs["temperature"], 0.2)
 
-    @patch('webcrawl.pluralize_with_llm.completion', side_effect=Exception("API error"))
+    @patch("webcrawl.pluralize_with_llm.completion", side_effect=Exception("API error"))
     def test_pluralize_with_llm_exception(self, mock_completion):
         """Test handling of exceptions during LLM pluralization."""
-        fields_dict = {
-            "products": ["Original1", "Original2"]
-        }
+        fields_dict = {"products": ["Original1", "Original2"]}
 
         # Should return original fields on error
         result = pluralize_with_llm(fields_dict, "test_file.json")
@@ -420,20 +439,20 @@ class TestPluralizeWithLLM(unittest.TestCase):
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "test_file.json")
 
-    @patch('webcrawl.pluralize_with_llm.completion')
+    @patch("webcrawl.pluralize_with_llm.completion")
     def test_pluralize_with_llm_validation_failure(self, mock_completion):
         """Test handling of validation failures in LLM responses."""
         # Mock the LLM response with incorrect word count
         mock_response = MagicMock()
-        mock_response.choices[0].message.content = json.dumps({
-            "products": ["Single"]  # Should be 2 words
-        })
+        mock_response.choices[0].message.content = json.dumps(
+            {
+                "products": ["Single"]  # Should be 2 words
+            }
+        )
         mock_completion.return_value = mock_response
 
         # Input fields
-        fields_dict = {
-            "products": ["Original1", "Original2"]
-        }
+        fields_dict = {"products": ["Original1", "Original2"]}
 
         # Use only one temperature to ensure we hit max retries
         temperatures = [0.5]
@@ -462,10 +481,13 @@ class TestProcessJsonFile(unittest.TestCase):
         compound_word_stats["files_affected"] = set()
         compound_word_stats["words_modified"] = []
 
-    @patch('webcrawl.pluralize_with_llm.pluralize_with_llm')
-    @patch('builtins.open', new_callable=mock.mock_open,
-           read_data='[{"company_name": "Test", "products": ["Product1", "Product2"]}]')
-    @patch('os.makedirs')
+    @patch("webcrawl.pluralize_with_llm.pluralize_with_llm")
+    @patch(
+        "builtins.open",
+        new_callable=mock.mock_open,
+        read_data='[{"company_name": "Test", "products": ["Product1", "Product2"]}]',
+    )
+    @patch("os.makedirs")
     def test_process_json_file_success(self, mock_makedirs, mock_open, mock_pluralize):
         """Test successfully processing a JSON file."""
         # Mock successful pluralization
@@ -475,8 +497,8 @@ class TestProcessJsonFile(unittest.TestCase):
         process_json_file("input.json", "output.json")
 
         # Check that open was called for reading and writing
-        mock_open.assert_any_call("input.json", 'r', encoding='utf-8')
-        mock_open.assert_any_call("output.json", 'w', encoding='utf-8')
+        mock_open.assert_any_call("input.json", "r", encoding="utf-8")
+        mock_open.assert_any_call("output.json", "w", encoding="utf-8")
 
         # Check that makedirs was called
         mock_makedirs.assert_called_once()
@@ -488,7 +510,7 @@ class TestProcessJsonFile(unittest.TestCase):
         self.assertEqual(args[1], "input.json")
         self.assertEqual(args[1], "input.json")
 
-    @patch('builtins.open', side_effect=Exception("File error"))
+    @patch("builtins.open", side_effect=Exception("File error"))
     def test_process_json_file_file_error(self, mock_open):
         """Test handling of file errors during JSON processing."""
         # Expect a ValueError to be raised with the proper message
@@ -503,8 +525,9 @@ class TestProcessJsonFile(unittest.TestCase):
         self.assertEqual(failed_files[0][0], "input.json")
         self.assertEqual(failed_files[0][1], "file_processing_error")
 
-    @patch('builtins.open', new_callable=mock.mock_open,
-           read_data='{"not_an_array": true}')  # Not a JSON array
+    @patch(
+        "builtins.open", new_callable=mock.mock_open, read_data='{"not_an_array": true}'
+    )  # Not a JSON array
     def test_process_json_file_invalid_structure(self, mock_open):
         """Test handling of invalid JSON structure."""
         # Expect a ValueError to be raised with the proper message
@@ -512,7 +535,9 @@ class TestProcessJsonFile(unittest.TestCase):
             process_json_file("input.json", "output.json")
 
         # Verify the error message
-        self.assertEqual(str(context.exception), "Invalid JSON structure in file: input.json")
+        self.assertEqual(
+            str(context.exception), "Invalid JSON structure in file: input.json"
+        )
 
         # Check that the file was recorded as failed
         self.assertEqual(len(failed_files), 1)
@@ -545,43 +570,58 @@ class TestProcessDirectory(unittest.TestCase):
         logging.getLogger().removeHandler(self.log_handler)
         self.log_output.close()
 
-    @patch('os.makedirs')
-    @patch('os.listdir')
+    @patch("os.makedirs")
+    @patch("os.listdir")
     def test_no_json_files_found(self, mock_listdir, mock_makedirs):
         """Test behavior when no JSON files are found."""
         # Setup
-        mock_listdir.return_value = ['file1.txt', 'file2.csv']  # No JSON files
+        mock_listdir.return_value = ["file1.txt", "file2.csv"]  # No JSON files
 
         # Execute and verify that FileNotFoundError is raised
         with self.assertRaises(FileNotFoundError):
-            process_directory('input_dir', 'output_dir', temperatures=[0.5, 0.7])
+            process_directory("input_dir", "output_dir", temperatures=[0.5, 0.7])
 
-    @patch('webcrawl.pluralize_with_llm.process_json_file')
-    @patch('os.makedirs')
-    @patch('os.listdir')
-    @patch('os.path.isdir', return_value=True)  # Mock isdir to return True
-    @patch('os.environ.get', return_value='True')  # Mock PYTEST_CURRENT_TEST environment variable
-    def test_successful_processing(self, mock_environ_get, mock_isdir, mock_listdir, mock_makedirs, mock_process_json_file):
+    @patch("webcrawl.pluralize_with_llm.process_json_file")
+    @patch("os.makedirs")
+    @patch("os.listdir")
+    @patch("os.path.isdir", return_value=True)  # Mock isdir to return True
+    @patch(
+        "os.environ.get", return_value="True"
+    )  # Mock PYTEST_CURRENT_TEST environment variable
+    def test_successful_processing(
+        self,
+        mock_environ_get,
+        mock_isdir,
+        mock_listdir,
+        mock_makedirs,
+        mock_process_json_file,
+    ):
         """Test successful processing of multiple files."""
         # Setup
-        mock_listdir.return_value = ['file1.json', 'file2.json', 'file3.txt']
+        mock_listdir.return_value = ["file1.json", "file2.json", "file3.txt"]
         temperatures = [0.5, 0.7]
 
         # Execute
-        process_directory('input_dir', 'output_dir', temperatures)
+        process_directory("input_dir", "output_dir", temperatures)
 
         # Verify
-        mock_makedirs.assert_called_once_with('output_dir', exist_ok=True)
-        self.assertEqual(mock_process_json_file.call_count, 2)  # Should be called twice for 2 JSON files
+        mock_makedirs.assert_called_once_with("output_dir", exist_ok=True)
+        self.assertEqual(
+            mock_process_json_file.call_count, 2
+        )  # Should be called twice for 2 JSON files
 
         # Check that process_json_file was called with the correct parameters
         expected_calls = [
-            call(os.path.join('input_dir', 'file1.json'),
-                 os.path.join('output_dir', 'file1.json'),
-                 temperatures),
-            call(os.path.join('input_dir', 'file2.json'),
-                 os.path.join('output_dir', 'file2.json'),
-                 temperatures)
+            call(
+                os.path.join("input_dir", "file1.json"),
+                os.path.join("output_dir", "file1.json"),
+                temperatures,
+            ),
+            call(
+                os.path.join("input_dir", "file2.json"),
+                os.path.join("output_dir", "file2.json"),
+                temperatures,
+            ),
         ]
         mock_process_json_file.assert_has_calls(expected_calls, any_order=False)
 
@@ -589,27 +629,38 @@ class TestProcessDirectory(unittest.TestCase):
         log_output = self.log_output.getvalue()
         self.assertIn("Found 2 JSON files to process", log_output)
 
-    @patch('webcrawl.pluralize_with_llm.process_json_file')
-    @patch('os.makedirs')
-    @patch('os.listdir')
-    @patch('os.path.isdir', return_value=True)  # Mock isdir to return True
-    @patch('os.environ.get', return_value='True')  # Mock PYTEST_CURRENT_TEST environment variable
-    def test_processing_with_failures(self, mock_environ_get, mock_isdir, mock_listdir, mock_makedirs, mock_process_json_file):
+    @patch("webcrawl.pluralize_with_llm.process_json_file")
+    @patch("os.makedirs")
+    @patch("os.listdir")
+    @patch("os.path.isdir", return_value=True)  # Mock isdir to return True
+    @patch(
+        "os.environ.get", return_value="True"
+    )  # Mock PYTEST_CURRENT_TEST environment variable
+    def test_processing_with_failures(
+        self,
+        mock_environ_get,
+        mock_isdir,
+        mock_listdir,
+        mock_makedirs,
+        mock_process_json_file,
+    ):
         """Test processing with some failures."""
         # Setup
         global failed_files
-        mock_listdir.return_value = ['file1.json', 'file2.json', 'file3.json']
+        mock_listdir.return_value = ["file1.json", "file2.json", "file3.json"]
 
         # Add some failed files to simulate failures during processing
-        failed_files.append((os.path.join('input_dir', 'file1.json'), 'products'))
-        failed_files.append((os.path.join('input_dir', 'file2.json'), 'machines'))
+        failed_files.append((os.path.join("input_dir", "file1.json"), "products"))
+        failed_files.append((os.path.join("input_dir", "file2.json"), "machines"))
 
         # Execute
-        process_directory('input_dir', 'output_dir')
+        process_directory("input_dir", "output_dir")
 
         # Verify
-        mock_makedirs.assert_called_once_with('output_dir', exist_ok=True)
-        self.assertEqual(mock_process_json_file.call_count, 3)  # Should be called for all 3 JSON files
+        mock_makedirs.assert_called_once_with("output_dir", exist_ok=True)
+        self.assertEqual(
+            mock_process_json_file.call_count, 3
+        )  # Should be called for all 3 JSON files
 
         # Check log messages
         log_output = self.log_output.getvalue()
@@ -617,15 +668,19 @@ class TestProcessDirectory(unittest.TestCase):
         self.assertIn("FAILURE SUMMARY", log_output)
         self.assertIn("Total files with failures: 2", log_output)
 
-    @patch('os.makedirs', side_effect=Exception("Directory creation failed"))
-    @patch('os.listdir')
-    @patch('os.path.isdir', return_value=True)  # Mock isdir to return True
-    @patch('os.environ.get', return_value='True')  # Mock PYTEST_CURRENT_TEST environment variable
-    def test_handles_makedirs_exception(self, mock_environ_get, mock_isdir, mock_listdir, mock_makedirs):
+    @patch("os.makedirs", side_effect=Exception("Directory creation failed"))
+    @patch("os.listdir")
+    @patch("os.path.isdir", return_value=True)  # Mock isdir to return True
+    @patch(
+        "os.environ.get", return_value="True"
+    )  # Mock PYTEST_CURRENT_TEST environment variable
+    def test_handles_makedirs_exception(
+        self, mock_environ_get, mock_isdir, mock_listdir, mock_makedirs
+    ):
         """Test handling of exceptions during directory creation."""
         # Execute - we expect the exception to be propagated
         with self.assertRaises(Exception) as context:
-            process_directory('input_dir', 'output_dir')
+            process_directory("input_dir", "output_dir")
 
         # Verify the specific exception message
         self.assertEqual(str(context.exception), "Directory creation failed")
@@ -637,8 +692,12 @@ class TestIntegrationWithSampleData(unittest.TestCase):
     def setUp(self):
         """Set up the test environment before each test."""
         # Path to the sample data file
-        self.sample_file_path = str(Path(__file__).parent / 'data' / 'tubetech.de_extracted.json')
-        self.output_file_path = str(Path(__file__).parent / 'data' / 'tubetech.de_pluralized.json')
+        self.sample_file_path = str(
+            Path(__file__).parent / "data" / "tubetech.de_extracted.json"
+        )
+        self.output_file_path = str(
+            Path(__file__).parent / "data" / "tubetech.de_pluralized.json"
+        )
 
         # Ensure the data directory exists
         os.makedirs(os.path.dirname(self.sample_file_path), exist_ok=True)
@@ -652,7 +711,7 @@ class TestIntegrationWithSampleData(unittest.TestCase):
                     "Luftkühler",
                     "Luftvorwärmer",
                     "Ersatzwärmetauscher",
-                    "Rippenrohre"
+                    "Rippenrohre",
                 ],
                 "machines": [],
                 "process_type": [
@@ -660,17 +719,17 @@ class TestIntegrationWithSampleData(unittest.TestCase):
                     "Fräsungen",
                     "Bohrungen",
                     "Montagearbeiten",
-                    "Qualitätssicherungen"
+                    "Qualitätssicherungen",
                 ],
                 "lohnfertigung": False,
-                "error": False
+                "error": False,
             }
         ]
 
         # Create the sample file if it doesn't exist
         if not os.path.exists(self.sample_file_path):
             os.makedirs(os.path.dirname(self.sample_file_path), exist_ok=True)
-            with open(self.sample_file_path, 'w', encoding='utf-8') as f:
+            with open(self.sample_file_path, "w", encoding="utf-8") as f:
                 json.dump(self.sample_data, f, ensure_ascii=False, indent=4)
 
         # Clear the failed_files list
@@ -691,7 +750,7 @@ class TestIntegrationWithSampleData(unittest.TestCase):
         if os.path.exists(self.sample_file_path):
             os.remove(self.sample_file_path)
 
-    @patch('webcrawl.pluralize_with_llm.pluralize_with_llm')
+    @patch("webcrawl.pluralize_with_llm.pluralize_with_llm")
     def test_process_sample_file(self, mock_pluralize):
         """Test processing the sample file."""
         # Mock the pluralization to return expected values
@@ -700,15 +759,15 @@ class TestIntegrationWithSampleData(unittest.TestCase):
                 "Luftkühler",
                 "Luftvorwärmer",
                 "Ersatzwärmetauscher",
-                "Rippenrohre"
+                "Rippenrohre",
             ],
             "process_type": [
                 "Schweißarbeiten",
                 "Fräsungen",
                 "Bohrungen",
                 "Montagearbeiten",
-                "Qualitätssicherungen"
-            ]
+                "Qualitätssicherungen",
+            ],
         }
 
         # Process the sample file
@@ -727,5 +786,5 @@ class TestIntegrationWithSampleData(unittest.TestCase):
         self.assertEqual(args[1], self.sample_file_path)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
