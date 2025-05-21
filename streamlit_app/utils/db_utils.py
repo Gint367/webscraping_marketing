@@ -1,14 +1,13 @@
 import json
 import logging
 import time
-from typing import Any, Dict, List, Optional
+from typing import Dict, Optional
 
-import streamlit as st  # Import streamlit for session state access
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from streamlit.connections import SQLConnection
 
-from streamlit_app.models.job_data_model import JobDataModel  # Import the JobDataModel
+from streamlit_app.models.job_data_model import JobDataModel
 
 # Initialize logger for this module
 logger = logging.getLogger(__name__)

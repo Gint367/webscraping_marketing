@@ -1,3 +1,20 @@
+"""
+Brief explanation on how the different way job run being managed:
+1. In-Memory Jobs:
+   - These jobs are managed in the Streamlit session state.
+   - They are created when a user starts a job through the UI.
+   - Each job is associated with a process and a status queue.
+   - The status of these jobs is updated in real-time as the pipeline runs.
+   - The Job is only managed as long as user didnt close the browser and the session is active.
+   - The jobs are persisted to the database up to the last save. and upon reload, it would be treated as Database Jobs.
+2. Database Jobs:
+   - These jobs are loaded from the database.
+   - They are loaded into the session state when the app starts and merged with the current jobs in the active_jobs.
+   - The jobs does not have process and status queue attached.
+   - The jobs can be accessed and managed even after the session ends, as they are persisted in the database.
+   - The management of the status and progress phase is based on reading the latest log lines in monitoring_section.
+   - The job status management also heavily relies on PID checks.
+"""
 import io
 import logging
 import logging.handlers  # Added
@@ -7,20 +24,17 @@ import signal
 import sys
 import tempfile
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from multiprocessing import Manager, Process, Queue
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Dict, Optional
 
 import pandas as pd
 import streamlit as st
 
-# Add project root to Python path, if you delete this you need to specify streamlit -m when running the app
+# Add project root to Python path, if you delete this you need to specify python -m streamlit... when running the app
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-# Import from sections
-# Import from master_pipeline.py
 from master_pipeline import (  # noqa: E402
     run_pipeline,
 )
@@ -127,7 +141,6 @@ def init_session_state() -> bool:
     Initializes session state variables if they don't exist.
     Also handles specific state adjustments based on input method.
     Initializes the database and loads existing jobs.
-    Marks interrupted jobs.
 
     Returns:
         bool: True if this was the first full initialization, False otherwise.
@@ -219,8 +232,6 @@ def init_session_state() -> bool:
                 "Re-initialized 'manual_input_df' as it was not a DataFrame in Manual Input mode."
             )
 
-    # No longer need to check global log_messages as we've moved to per-job logging
-
     return is_first_full_init
 
 
@@ -275,6 +286,7 @@ if "_streamlit_log_handler_added" not in st.session_state:
     )
 
     # Check if a TimedRotatingFileHandler for streamlit_app.log is already present.
+    # This is crucial to prevent duplicate handlers because of how streamlit reruns the entire page on click
     handler_exists = any(
         isinstance(h, logging.handlers.TimedRotatingFileHandler) and \
         getattr(h, 'baseFilename', '').endswith('streamlit_app.log')
@@ -292,7 +304,7 @@ if "_streamlit_log_handler_added" not in st.session_state:
                 filename=log_file_path,
                 when='D',  # Rotate daily
                 interval=2, # Daily interval
-                backupCount=0, # Number of backup files
+                backupCount=1, # Number of backup files to keep. With 1+, the main log file is cleared on rotation.
                 encoding='utf-8',
                 delay=False # Open file immediately,
             )
@@ -383,7 +395,7 @@ def cancel_job(job_id: str) -> bool:
     if is_alive:
         try:
             if "defunct" in keyword:  # terminate zombie processes
-                app_logger.info("Cancel_job: Job is a zombie process, force kill")
+                app_logger.info(f"Cancel_job: Job {job_id} is a zombie process, force kill")
                 os.kill(job_model.pid, signal.SIGKILL)  # Force kill zombie
             else:
                 os.kill(job_model.pid, signal.SIGTERM)  # Send SIGTERM
@@ -393,7 +405,7 @@ def cancel_job(job_id: str) -> bool:
             # Give it a moment, then check again or rely on PID check to update status
             # For immediate UI feedback:
             job_model.status = "Cancelled"
-            job_model.phase = "Terminating"
+            job_model.phase = "Terminated"
             job_model.end_time = time.time()
             job_model.touch()
             db_utils.add_or_update_job_in_db(conn, job_model)
@@ -662,9 +674,6 @@ def process_queue_messages():
                         exc_info=True,
                     )
 
-        # Do not set job status to Error/Interrupted just because process is None after rerun.
-        # Status updates for running jobs should be handled by PID check logic only.
-
 
 def process_data():
     """Processes the data from the selected input method."""
@@ -723,7 +732,7 @@ def process_data():
             job_output_dir = os.path.join(project_root, "outputs", f"job_{timestamp}")
             os.makedirs(job_output_dir, exist_ok=True)
 
-            # CONSOLIDATED APPROACH: Create a single temporary CSV file for the pipeline
+            # Create a single temporary CSV file for the pipeline
             # regardless of input method
             with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp_file:
                 pd.DataFrame(data_to_process).to_csv(temp_file.name, index=False)
@@ -758,9 +767,9 @@ def process_data():
                 phase="Creating job",
                 start_time=time.time(),
                 end_time=None,
-                process=None,  # to be removed
-                status_queue=status_queue,  # to be removed
-                pid=None,  # to be removed
+                process=None,
+                status_queue=status_queue,
+                pid=None,
                 config=pipeline_config,
                 output_final_file_path=None,
                 error_message=None,

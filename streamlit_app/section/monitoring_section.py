@@ -3,12 +3,11 @@ import math
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from heapq import merge
-from multiprocessing import Manager, Process, Queue
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import pandas as pd
 import streamlit as st
+from streamlit.connections import SQLConnection
 
 import streamlit_app.utils.db_utils as db_utils
 from streamlit_app.models.job_data_model import JobDataModel
@@ -356,11 +355,10 @@ def update_selected_job_progress_from_log(
 
 
 def display_monitoring_section(
-    db_connection: Any,  # Replace Any with the actual type of conn
+    db_connection: SQLConnection,
     cancel_job_callback: Callable[[str], bool],
     process_queue_messages_callback: Callable[[], None],
     check_pid_callback: Callable[[int], Tuple[bool, str]],
-    # Add other parameters as identified
 ):
     """Displays the job monitoring and log output."""
     st.write("Track the progress of the scraping and enrichment processes.")
@@ -539,6 +537,25 @@ def display_monitoring_section(
     # --- Jobs Table (auto-refreshing fragment) ---
     @st.fragment(run_every=actual_run_every_interval)
     def jobs_table_fragment():
+        """
+        Renders a table displaying all active jobs in the application.
+        This function:
+        1. Displays a "Jobs" subheader
+        2. Processes any pending queue messages
+        3. Shows an informational message if no jobs exist
+        4. For existing jobs, creates a table with the following information:
+           - Job ID
+           - Status
+           - Progress (as a progress bar)
+           - Current processing phase
+           - Start time (formatted as YYYY-MM-DD HH:MM:SS)
+           - End time (shows "Running" for active jobs)
+        The table supports multi-row selection for job deletion and includes
+        search functionality. Jobs data is stored in session state for reference
+        when handling selection events.
+        Returns:
+            None: This function renders UI components directly using Streamlit
+        """
         st.subheader("Jobs")
         process_queue_messages_callback()
         active_jobs = st.session_state.get("active_jobs", {})
@@ -775,16 +792,40 @@ def display_monitoring_section(
                 st.session_state["selected_job_id"] = None
         # If current_selection is valid and in active_jobs, it remains unchanged.
 
+        # Determine selectbox state and options
+        is_disabled = not bool(sorted_job_ids)
+
+        def format_placeholder(val: str) -> str:
+            """Returns the placeholder string itself."""
+            return val
+
+        def format_job_id_with_status(job_id: str) -> str:
+            """Formats the job ID with its status for display in the selectbox."""
+            return job_id_to_label.get(job_id, str(job_id))
+        
+        if is_disabled:
+            # When no jobs, selected_job_id is None (set by logic above).
+            # The selectbox will show this placeholder, disabled.
+            # st.selectbox requires options not to be empty.
+            options_for_selectbox = ["No jobs available"]
+            # format_func for the placeholder string.
+            format_func_selectbox = format_placeholder
+        else:
+            options_for_selectbox = sorted_job_ids
+            format_func_selectbox = format_job_id_with_status
+
         # The st.selectbox will now use the value from st.session_state.selected_job_id
         # as its current selection due to the `key`.
-        if sorted_job_ids: # Use sorted_job_ids to check if there are options
-            st.selectbox(
-                label="Select Job:",
-                options=sorted_job_ids, # Use sorted_job_ids for options
-                format_func=lambda job_id: job_id_to_label.get(job_id, str(job_id)),
-                key="selected_job_id",
-            )
-        # else: No selectbox if no jobs. st.session_state.selected_job_id would be None.
+        st.selectbox(
+            label="Select Job:",
+            options=options_for_selectbox,
+            format_func=format_func_selectbox,
+            key="selected_job_id", # This key drives the selection and persistence
+            disabled=is_disabled,
+            # If selected_job_id (key's value) is None and options are ["No jobs available"],
+            # Streamlit will default to selecting the first option (index 0).
+            # If selected_job_id is a valid job_id, it will be selected from sorted_job_ids.
+        )
 
         # Read the selected job ID from session state for the cancel button logic
         selected_job_id_for_cancel = st.session_state.get("selected_job_id")
@@ -798,9 +839,27 @@ def display_monitoring_section(
             else:
                 st.warning("No job selected to cancel.")
 
-    # Create a fragment for status information that auto-refreshes and displays job status/phase
     @st.fragment(run_every=actual_run_every_interval)
     def display_status_info():
+        """
+        Displays detailed information about the currently selected job's status in the Streamlit UI.
+        
+        This function:
+        1. Processes queue messages to ensure data is fresh
+        2. Retrieves the selected job ID from session state
+        3. Updates job progress by parsing log files if job is running
+        4. Displays job status with color coding (running, completed, error, etc.)
+        5. Shows the current execution phase
+        6. Renders a progress bar indicating job completion percentage
+        7. Displays any error messages if present
+        
+        The function handles different job states appropriately:
+        - Running/Initializing: Shows current progress
+        - Completed/Error/Failed/Cancelled: Shows full progress (100%)
+        - Other states: Shows current tracked progress
+        
+        If no job is selected, displays an informational message prompting user selection.
+        """
         # Process messages from queues inside fragment to ensure fresh data
         process_queue_messages_callback()
 
@@ -811,7 +870,7 @@ def display_monitoring_section(
         if selected_job_id and selected_job_id in active_jobs:
             job_data = active_jobs[selected_job_id]
 
-            # --- Task 2.1: Call update_selected_job_progress_from_log ---
+            # Update the selected job's progress by parsing its log file
             if (
                 job_data
                 and job_data.status in ["Running", "Initializing"]
@@ -824,7 +883,6 @@ def display_monitoring_section(
                     PHASE_ORDER=PHASE_ORDER,
                     calculate_progress_from_phase=calculate_progress_from_phase,
                 )
-            # --- End Task 2.1 ---
 
             job_status = getattr(job_data, "status", None)
             current_phase = getattr(job_data, "phase", None)
@@ -847,12 +905,9 @@ def display_monitoring_section(
                 unsafe_allow_html=True,
             )
 
-            # --- Task 2.1: Displayed phase should directly use job_data.phase ---
             if current_phase:  # current_phase is already job_data.phase
                 st.markdown(f"**Latest Phase:** {current_phase}")
-            # --- End Task 2.1 ---
 
-            # --- Task 2.1: Adjust progress display ---
             # Primary progress source is job_data.progress (integer 0-100)
             current_progress_from_model = (
                 float(getattr(job_data, "progress", 0.0)) / 100.0
@@ -866,7 +921,6 @@ def display_monitoring_section(
                 job_data.max_progress = current_progress_from_model
 
             progress_to_display_on_bar = job_data.max_progress
-            # --- End Task 2.1 ---
 
             # Display progress bar based on progress_to_display_on_bar
             if (
