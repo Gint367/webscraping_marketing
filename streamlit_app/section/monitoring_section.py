@@ -365,6 +365,19 @@ def display_monitoring_section(
     """Displays the job monitoring and log output."""
     st.write("Track the progress of the scraping and enrichment processes.")
 
+    # Determine the actual run_every interval for fragments on this page
+    # This relies on your main app setting st.session_state.page
+    is_monitoring_page_active = st.session_state.get('page') == 'Monitoring' # Adjust 'Monitoring' if your page name is different
+    
+    # Check if there are any active jobs
+    has_active_jobs = bool(st.session_state.get("active_jobs", {}))
+    
+    actual_run_every_interval = None
+    if st.session_state.get("auto_refresh_enabled", True) and \
+       is_monitoring_page_active and \
+       has_active_jobs:  # Only auto-refresh if there are active jobs
+        actual_run_every_interval = st.session_state.get("refresh_interval", 3.0)
+
     # --- Helper: Non-blocking PID check for jobs ---
 
     def _update_job_statuses_with_pid_check(jobs_dict, min_interval=1.0):
@@ -524,12 +537,7 @@ def display_monitoring_section(
     process_queue_messages_callback()
 
     # --- Jobs Table (auto-refreshing fragment) ---
-    @st.fragment(
-        run_every=st.session_state.get("refresh_interval", 3.0)
-        if st.session_state.get("auto_refresh_enabled", True)
-        and not st.session_state.get("testing_mode", False)
-        else None
-    )
+    @st.fragment(run_every=actual_run_every_interval)
     def jobs_table_fragment():
         st.subheader("Jobs")
         process_queue_messages_callback()
@@ -656,7 +664,6 @@ def display_monitoring_section(
                         
                         # Log the operation for monitoring
                         monitoring_logger.info(f"Selected {len(selected_job_ids)} jobs for deletion: {selected_job_ids}")
-                        st.rerun()
                     except Exception as e:
                         st.error(f"Error processing selected rows: {e}")
                         monitoring_logger.error(f"Failed to process selected rows for deletion: {e}", exc_info=True)
@@ -733,17 +740,20 @@ def display_monitoring_section(
     # --- Job Selection and Cancel Button (separate container, not auto-refreshing) ---
     with st.container():
         active_jobs = st.session_state.get("active_jobs", {})
-        job_ids = list(active_jobs.keys())
-        # --- Sort job_ids by start_time (latest first) ---
-        sorted_jobs = sorted(
+        
+        # --- Sort jobs by start_time (latest first) ---
+        # Sort once and reuse
+        sorted_jobs_list = sorted(
             active_jobs.items(),
-            key=lambda x: getattr(x[1], "start_time", 0),
+            key=lambda item: item[1].start_time, # Direct access to start_time
             reverse=True,
         )
-        sorted_job_ids = [job_id for job_id, _ in sorted_jobs]
+        
+        sorted_job_ids = [job_id for job_id, _ in sorted_jobs_list]
+
         # --- Create a selectbox for job selection ---
         job_id_to_label = {
-            job_id: f"{job_id} - {getattr(active_jobs[job_id], 'status', 'Unknown')}"
+            job_id: f"{job_id} - {active_jobs[job_id].status}" # Direct access to status
             for job_id in sorted_job_ids
         }
 
@@ -751,28 +761,26 @@ def display_monitoring_section(
         # This logic runs BEFORE the selectbox is instantiated.
         current_selection = st.session_state.get("selected_job_id")
 
-        if (
-            not current_selection or current_selection not in active_jobs
-        ) and active_jobs:
-            # If no valid job is selected and jobs exist, select the most recent one.
-            sorted_jobs = sorted(
-                active_jobs.items(),
-                key=lambda x: getattr(x[1], "start_time", 0),
-                reverse=True,
-            )
-            if sorted_jobs:
-                st.session_state["selected_job_id"] = sorted_jobs[0][0]
-        elif not active_jobs:
+        if not active_jobs:
             # If there are no jobs, ensure selected_job_id is None
             st.session_state["selected_job_id"] = None
+        elif (
+            not current_selection or current_selection not in active_jobs
+        ):
+            # If no valid job is selected and jobs exist, select the most recent one.
+            # Use the already sorted list
+            if sorted_job_ids: # Check if sorted_job_ids is not empty
+                st.session_state["selected_job_id"] = sorted_job_ids[0]
+            else: # Should not happen if active_jobs is not empty, but as a safeguard
+                st.session_state["selected_job_id"] = None
         # If current_selection is valid and in active_jobs, it remains unchanged.
 
         # The st.selectbox will now use the value from st.session_state.selected_job_id
         # as its current selection due to the `key`.
-        if job_ids:
+        if sorted_job_ids: # Use sorted_job_ids to check if there are options
             st.selectbox(
                 label="Select Job:",
-                options=job_ids,
+                options=sorted_job_ids, # Use sorted_job_ids for options
                 format_func=lambda job_id: job_id_to_label.get(job_id, str(job_id)),
                 key="selected_job_id",
             )
@@ -791,12 +799,7 @@ def display_monitoring_section(
                 st.warning("No job selected to cancel.")
 
     # Create a fragment for status information that auto-refreshes and displays job status/phase
-    @st.fragment(
-        run_every=st.session_state.get("refresh_interval", 3.0)
-        if st.session_state.get("auto_refresh_enabled", True)
-        and not st.session_state.get("testing_mode", False)
-        else None
-    )
+    @st.fragment(run_every=actual_run_every_interval)
     def display_status_info():
         # Process messages from queues inside fragment to ensure fresh data
         process_queue_messages_callback()
@@ -935,12 +938,7 @@ def display_monitoring_section(
         st.markdown(f"*Showing logs for job: {selected_job_id}*")
 
     # Display logs in a scrollable container
-    @st.fragment(
-        run_every=st.session_state.get("refresh_interval", 3.0)
-        if st.session_state.get("auto_refresh_enabled", True)
-        and not st.session_state.get("testing_mode", False)
-        else None
-    )
+    @st.fragment(run_every=actual_run_every_interval)
     def display_logs():
         # Process queue messages to ensure logs are up to date
         process_queue_messages_callback()
