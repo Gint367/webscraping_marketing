@@ -724,7 +724,7 @@ def process_data():
             # Generate a unique job ID
             job_id = generate_job_id()
             st.info(
-                f"Starting enrichment for {len(data_to_process)} companies as job {job_id}"
+                f"Starting enrichment for {len(data_to_process)} companies as job {job_id}. Head over to the Monitoring tab to see the progress."
             )
 
             # Create a job-specific output directory to prevent overwriting
