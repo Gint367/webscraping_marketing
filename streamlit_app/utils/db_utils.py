@@ -132,7 +132,6 @@ def add_or_update_job_in_db(conn: SQLConnection, job_data: JobDataModel) -> None
         logger.error(f"Data attempted: {db_job_data}")
         raise
 
-@st.cache_data(ttl=5)
 def load_jobs_from_db(_conn: SQLConnection) -> Dict[str, JobDataModel]:
     """
     Loads all job records from the 'jobs' table and returns a dict of JobDataModel instances.
@@ -194,7 +193,7 @@ def load_jobs_from_db(_conn: SQLConnection) -> Dict[str, JobDataModel]:
 
     return active_jobs
 
-@st.cache_data(ttl=5)
+
 def get_job_from_db(_conn: SQLConnection, job_id: str) -> Optional[JobDataModel]:
     """
     Retrieves a single job by its ID from the database and returns a JobDataModel instance if found.
