@@ -253,8 +253,11 @@ def update_selected_job_progress_from_log(
                         job_model.error_message = error_msg
                         job_model.status = "Error"
                         job_model.phase = "Failed (from log)"
-                        if job_model.end_time is None:
-                            job_model.end_time = time.time()
+                        # Correctly set end_time, handling None, NaN, or already set cases
+                        if isinstance(job_model.end_time, float) and math.isnan(job_model.end_time):
+                            job_model.end_time = time.time() # Update if NaN
+                        else:
+                            job_model.end_time = job_model.end_time or time.time()
                         monitoring_logger.error(
                             f"Job {job_model.id} error set from log: {error_msg}"
                         )
@@ -271,7 +274,11 @@ def update_selected_job_progress_from_log(
                     job_model.status = "Completed"
                     job_model.phase = "Finished (from log)"
                     job_model.progress = 100  # Ensure progress is 100%
-                    job_model.end_time = job_model.end_time or time.time()
+                    # Correctly set end_time, handling None, NaN, or already set cases
+                    if isinstance(job_model.end_time, float) and math.isnan(job_model.end_time):
+                        job_model.end_time = time.time() # Update if NaN
+                    else:
+                        job_model.end_time = job_model.end_time or time.time() # Original logic for None, 0.0, or already valid
                     monitoring_logger.info(
                         f"Job {job_model.id} status COMPLETED from log."
                     )
