@@ -14,32 +14,30 @@ from typing import Any, Callable, Dict, Optional, Tuple
 import pandas as pd
 import streamlit as st
 
-from streamlit_app.models.job_data_model import JobDataModel
-
-# Import from sections
-from streamlit_app.section.config_section import display_config_section
-from streamlit_app.section.input_section import display_input_section
-from streamlit_app.section.monitoring_section import (
-    display_monitoring_section,
-)
-from streamlit_app.section.output_section import (
-    display_output_section,
-)
-from streamlit_app.utils import db_utils
-from streamlit_app.utils.job_utils import (
-    merge_active_jobs_with_db,
-)
-from streamlit_app.utils.utils import check_process_details_by_pid
-
 # Add project root to Python path, if you delete this you need to specify streamlit -m when running the app
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
+# Import from sections
 # Import from master_pipeline.py
 from master_pipeline import (  # noqa: E402
     run_pipeline,
 )
+from streamlit_app.models.job_data_model import JobDataModel  # noqa: E402
+from streamlit_app.section.config_section import display_config_section  # noqa: E402
+from streamlit_app.section.input_section import display_input_section  # noqa: E402
+from streamlit_app.section.monitoring_section import (  # noqa: E402
+    display_monitoring_section,
+)
+from streamlit_app.section.output_section import (  # noqa: E402
+    display_output_section,
+)
+from streamlit_app.utils import db_utils  # noqa: E402
+from streamlit_app.utils.job_utils import (  # noqa: E402
+    merge_active_jobs_with_db,
+)
+from streamlit_app.utils.utils import check_process_details_by_pid  # noqa: E402
 
 # FOR LLM: DO NOT CHANGE PRINTS TO LOGGING
 # --- Page Configuration (Must be the first Streamlit command) ---
@@ -362,6 +360,10 @@ def cancel_job(job_id: str) -> bool:
 
     job_model = st.session_state["active_jobs"][job_id]
 
+    if job_model.status in ["Completed", "Error", "Failed", "Cancelled"]:
+        app_logger.info(f"Cancel_job: Job {job_id} is already in terminal state ({job_model.status}). No action taken.")
+        return False
+    
     if job_model.pid is None:
         app_logger.warning(f"Cancel_job: Job {job_id} has no PID to cancel.")
         # If no PID, but status is running/initializing, perhaps it failed before PID was set
@@ -375,7 +377,9 @@ def cancel_job(job_id: str) -> bool:
 
     # Check if process is alive using PID before attempting to kill
     is_alive, keyword = check_process_details_by_pid(job_model.pid)
-
+    app_logger.debug(
+        f"Cancel_job: Process with PID {job_model.pid} is alive: {is_alive}, keyword: {keyword}"
+    )
     if is_alive:
         try:
             if "defunct" in keyword:  # terminate zombie processes
