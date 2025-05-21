@@ -89,12 +89,12 @@ def delete_job_and_artifacts(
         # Step 4: Clean up session state entries if database deletion was successful
         # Remove job from active_jobs in session state if it exists
         if hasattr(st, 'session_state'):
-            if 'active_jobs' in st.session_state and job_id in st.session_state.active_jobs:
-                st.session_state.active_jobs.pop(job_id, None)
+            if 'active_jobs' in st.session_state and job_id in st.session_state["active_jobs"]:
+                st.session_state["active_jobs"].pop(job_id, None)
                 logger.info(f"Removed job '{job_id}' from session state active_jobs")
             # Remove log file position tracking for this job
-            if 'log_file_positions' in st.session_state and job_id in st.session_state.log_file_positions:
-                st.session_state.log_file_positions.pop(job_id, None)
+            if 'log_file_positions' in st.session_state and job_id in st.session_state["log_file_positions"]:
+                st.session_state["log_file_positions"].pop(job_id, None)
                 logger.info(f"Removed job '{job_id}' from session state log_file_positions")
     else:
         logger.error(f"Failed to delete job '{job_id}' from database")
@@ -113,9 +113,21 @@ def merge_active_jobs_with_db(active_jobs: dict, db_jobs: dict) -> dict:
     Returns:
         dict: Merged jobs dictionary.
     """
+    logger.debug(f"Starting merge: {len(active_jobs)} active jobs, {len(db_jobs)} DB jobs")
+    
+    # Log the job IDs for both dictionaries to check for discrepancies
+    logger.debug(f"Active job IDs: {list(active_jobs.keys())}")
+    logger.debug(f"DB job IDs: {list(db_jobs.keys())}")
+    # Check for jobs in active_jobs but not in db_jobs (potentially deleted)
+    active_only_jobs = set(active_jobs.keys()) - set(db_jobs.keys())
+    if active_only_jobs:
+        logger.debug(f"Jobs in active_jobs but not in db_jobs (may have been deleted): {active_only_jobs}")
+    
     merged = {}
+    # First, process jobs from the database
     for job_id, db_job in db_jobs.items():
         if job_id in active_jobs:
+            logger.debug(f"Merging job '{job_id}' from DB with active job")
             mem_job = active_jobs[job_id]
             # Copy all DB fields to mem_job, except in-memory only fields
             for field, value in db_job.model_dump().items():
@@ -123,9 +135,19 @@ def merge_active_jobs_with_db(active_jobs: dict, db_jobs: dict) -> dict:
                     setattr(mem_job, field, value)
             merged[job_id] = mem_job
         else:
+            logger.debug(f"Adding job '{job_id}' from DB (not in active jobs)")
             merged[job_id] = db_job
-    # Optionally, keep jobs that are only in memory (not in DB)
+
+    # Then, process jobs that are only in memory (not in DB)
     for job_id, mem_job in active_jobs.items():
-        if job_id not in merged:
-            merged[job_id] = mem_job
+        if job_id not in db_jobs:
+            if job_id not in merged:
+                logger.debug(f"Adding memory-only job '{job_id}' that's not in DB")
+                merged[job_id] = mem_job
+            else:
+                logger.warning(f"Unexpected: Job '{job_id}' already in merged but not in DB jobs")
+    
+    # Final validation to ensure deleted jobs don't reappear
+    logger.debug(f"Final merged job count: {len(merged)}")
+    logger.debug(f"Final merged job IDs: {list(merged.keys())}")
     return merged
