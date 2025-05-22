@@ -25,10 +25,12 @@ import sys
 import tempfile
 import time
 from multiprocessing import Manager, Process, Queue
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 import streamlit as st
+from streamlit.connections import SQLConnection
+from streamlit.runtime.state.session_state_proxy import SessionStateProxy
 
 # Add project root to Python path, if you delete this you need to specify python -m streamlit... when running the app
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -133,6 +135,316 @@ def validate_columns(
         if not found:
             all_found = False
     return validation_results, all_found
+
+
+def _get_input_data(
+    app_logger: logging.Logger,
+    st_session_state: SessionStateProxy,
+) -> Optional[List[Dict[str, Any]]]:
+    """
+    Retrieves the data to be processed from the user's selected input method.
+
+    This function checks whether the user has chosen "File Upload" or "Manual Input"
+    (via `st_session_state["input_method"]`) and attempts to extract and parse the data accordingly.
+
+    Parameters:
+        app_logger (logging.Logger): The application's logger instance for recording
+                                     information, warnings, or errors.
+        st_session_state ('streamlit.runtime.state.SessionStateProxy'): A reference to Streamlit's
+                                                                       session state object.
+
+    Returns:
+        Optional[List[Dict[str, Any]]]:
+            - A list of dictionaries if data is successfully retrieved and parsed.
+            - None if no input method is selected, no data is provided, or an error occurs.
+    """
+    data_to_process = None
+    input_method = st_session_state.get("input_method")
+
+    if input_method == "File Upload":
+        uploaded_file = st_session_state.get("uploaded_file_data")
+        if uploaded_file:
+            app_logger.info(f"Processing uploaded file: {uploaded_file.name}")
+            try:
+                file_content_bytes = uploaded_file.getvalue()
+                bytes_io_object = io.BytesIO(file_content_bytes)
+                df = pd.read_csv(bytes_io_object)
+                data_to_process = df.to_dict(orient="records")
+                app_logger.info(
+                    f"Successfully processed uploaded file: {len(data_to_process)} records."
+                )
+            except Exception as e:
+                app_logger.error(
+                    f"Failed to process uploaded file '{uploaded_file.name}': {e}",
+                    exc_info=True,
+                )
+                st.error(f"Error processing uploaded file '{uploaded_file.name}': {e}")
+                return None
+        else:
+            app_logger.warning(
+                "File Upload selected, but no file data found in session state."
+            )
+            st.warning("Please upload a file.")
+            return None
+
+    elif input_method == "Manual Input":
+        manual_df = st_session_state.get("manual_input_df")
+        if manual_df is not None and not manual_df.empty:
+            data_to_process = manual_df.to_dict(orient="records")
+            app_logger.info(f"Processing manual input: {len(data_to_process)} records.")
+        else:
+            app_logger.warning(
+                "Manual Input selected, but no data found in manual_input_df."
+            )
+            st.warning("No data provided in manual input.")
+            return None
+    else:
+        app_logger.warning(
+            f"No input method selected or unknown method: {input_method}"
+        )
+        st.warning("No data provided. Please upload a file or enter data manually.")
+        return None
+
+    return data_to_process # type: ignore
+
+
+def _prepare_job_artifacts(
+    data_to_process: List[Dict[str, Any]],
+    job_id: str,
+    project_root_path: str,
+    app_logger: logging.Logger,
+) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Handles file system preparations: creates a job-specific output directory and a temporary input CSV.
+
+    Parameters:
+        data_to_process (List[Dict[str, Any]]): Data to write to the temporary input CSV.
+        job_id (str): Unique job identifier.
+        project_root_path (str): Absolute path to the project's root directory.
+        app_logger (logging.Logger): Application's logger instance.
+
+    Returns:
+        Tuple[Optional[str], Optional[str]]:
+            - temp_csv_path (Optional[str]): Path to the temporary input CSV, or None on failure.
+            - job_output_dir (Optional[str]): Path to the job-specific output directory, or None on failure.
+    """
+    temp_csv_path: Optional[str] = None
+    job_output_dir: Optional[str] = None
+
+    try:
+        # Create a job-specific output directory
+        # timestamp = time.strftime("%Y%m%d_%H%M%S") # Removed: job_id already contains a unique timestamp.
+        # Use job_id directly for the folder name.
+        # job_id is generated by generate_job_id() and is unique (e.g., "job_YYYYMMDD_HHMMSS").
+        job_specific_folder_name = job_id
+
+        job_output_dir = os.path.join(
+            project_root_path, "outputs", job_specific_folder_name
+        )
+        os.makedirs(job_output_dir, exist_ok=True)
+        app_logger.info(f"Created job output directory: {job_output_dir}")
+    except Exception as e:
+        app_logger.error(
+            f"Failed to create job output directory for job {job_id}: {e}",
+            exc_info=True,
+        )
+        return None, None  # Return None for both if directory creation fails
+
+    try:
+        # Create a temporary CSV file for the pipeline input
+        # Ensure the temp file is created in a writable location, e.g., within the job_output_dir or system temp
+        with tempfile.NamedTemporaryFile(
+            suffix=".csv", delete=False, mode="w", encoding="utf-8", dir=job_output_dir
+        ) as temp_file:
+            df = pd.DataFrame(data_to_process)
+            df.to_csv(temp_file.name, index=False)
+            temp_csv_path = temp_file.name
+            app_logger.info(
+                f"Temporary input data CSV created at {temp_csv_path} for job {job_id}"
+            )
+    except Exception as e:
+        app_logger.error(
+            f"Failed to create temporary input CSV for job {job_id}: {e}",
+            exc_info=True,
+        )
+        # If CSV creation fails, job_output_dir might still be valid, so return it.
+        # Caller should handle cleanup or decide if partial success is usable.
+        return None, job_output_dir
+
+    return temp_csv_path, job_output_dir
+
+
+def _build_pipeline_config(temp_csv_path: str, job_output_dir: str, job_id: str, st_session_state_config: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Constructs the configuration dictionary for the pipeline process.
+
+    This function consolidates paths to job artifacts, job ID, and user-defined settings
+    to create a complete configuration dictionary for the pipeline execution.
+
+    Parameters:
+        temp_csv_path (str): Absolute path to the temporary input CSV file.
+        job_output_dir (str): Absolute path to the job-specific output directory.
+        job_id (str): Unique identifier for the current job.
+        st_session_state_config (Dict[str, Any]): Configuration from st.session_state["config"],
+                                                 containing user-set parameters.
+
+    Returns:
+        Dict[str, Any]: A dictionary with all necessary configuration parameters for the pipeline.
+    """
+    # Set category to "fertigung" if not provided
+    category = st_session_state_config.get("category")
+    if not category:
+        category = "fertigung"
+
+    # Build the complete pipeline configuration
+    pipeline_config = {
+        "input_csv": temp_csv_path,
+        "output_dir": job_output_dir,
+        "category": category,
+        "log_level": "INFO",
+        "skip_llm_validation": True,
+        "job_id": job_id,
+    }
+
+    return pipeline_config
+
+
+def _initialize_and_save_job_model(
+    job_id: str, 
+    pipeline_config: Dict[str, Any], 
+    status_queue: Any, 
+    temp_input_csv_path: str, 
+    data_to_process: List[Dict[str, Any]], 
+    db_connection: SQLConnection, 
+    st_session_state: SessionStateProxy, 
+    app_logger: logging.Logger
+) -> JobDataModel:
+    """
+    Creates and initializes a JobDataModel with initial state information.
+
+    This function creates a new JobDataModel instance, populates it with initial state 
+    and configuration data, stores it in the Streamlit session state, and persists it to the database.
+
+    Parameters:
+        job_id (str): The unique ID for the job.
+        pipeline_config (Dict[str, Any]): The configuration dictionary for the pipeline.
+        status_queue (Queue): The multiprocessing queue for status updates.
+        temp_input_csv_path (str): The path to the temporary input CSV file.
+        data_to_process (List[Dict[str, Any]]): The list of data records being processed.
+        db_connection (Any): The database connection object.
+        st_session_state (SessionStateProxy): Reference to Streamlit's session state.
+        app_logger (logging.Logger): The application's logger instance.
+
+    Returns:
+        JobDataModel: The newly created and initialized JobDataModel instance.
+    """
+    # Create job entry with initial state using JobDataModel
+    job_model = JobDataModel(
+        id=job_id,
+        status="Initializing",
+        progress=0,
+        phase="Creating job",
+        start_time=time.time(),
+        end_time=None,
+        process=None,
+        status_queue=status_queue,
+        pid=None,
+        config=pipeline_config,
+        output_final_file_path=None,
+        error_message=None,
+        pipeline_log_file_path=None,
+        temp_input_csv_path=temp_input_csv_path,
+        file_info={
+            "type": st_session_state["input_method"],
+            "name": (
+                st_session_state["uploaded_file_data"].name
+                if st_session_state["input_method"] == "File Upload"
+                and st_session_state["uploaded_file_data"]
+                else "Manual Input"
+            ),
+            "record_count": len(data_to_process),
+        },
+        log_messages=[
+            f"{time.strftime('%Y-%m-%d %H:%M:%S')} - INFO - Job {job_id} started with {len(data_to_process)} companies"
+        ],
+        max_progress=0.0,
+    )
+
+    # Store the job model in session state
+    if "active_jobs" not in st_session_state:
+        st_session_state["active_jobs"] = {}
+    st_session_state["active_jobs"][job_id] = job_model
+
+    # Set this as the selected job
+    st_session_state["selected_job_id"] = job_id
+
+    # Persist initial job data to DB
+    try:
+        db_utils.add_or_update_job_in_db(db_connection, job_model)
+        app_logger.info(f"Initial data for job {job_id} saved to database.")
+    except Exception as db_exc:
+        app_logger.error(
+            f"Failed to save initial data for job {job_id} to database: {db_exc}"
+        )
+
+    return job_model
+
+
+def _launch_and_update_job(
+    job_model: JobDataModel, 
+    pipeline_config: Dict[str, Any], 
+    status_queue: Any, 
+    db_connection: SQLConnection, 
+    run_pipeline_func_ref: Callable[[Dict[str, Any], Queue, Optional[str]], None], 
+    app_logger: logging.Logger
+) -> None:
+    """
+    Launches the pipeline process and updates the job model with process information.
+
+    This function starts the actual pipeline execution in a separate background process,
+    updates the provided job_model with the process ID and status, and persists these updates to the database.
+
+    Parameters:
+        job_model (JobDataModel): The JobDataModel instance for the current job.
+        pipeline_config (Dict[str, Any]): The configuration dictionary for the pipeline.
+        status_queue (Queue): The multiprocessing queue for this job.
+        db_connection (Any): The database connection object.
+        run_pipeline_func_ref (callable): Reference to the run_pipeline_in_process function.
+        app_logger (logging.Logger): The application's logger instance.
+
+    Returns:
+        None. The function modifies the job_model in place.
+    """
+    # Start the pipeline in a separate process
+    p = Process(
+        target=run_pipeline_func_ref,
+        args=(pipeline_config, status_queue, job_model.id),
+    )
+    p.daemon = True  # Set as daemon so it terminates when the main process ends
+    p.start()
+
+    # Update the job model with the process and running state
+    job_model.process = p
+    job_model.pid = p.pid  # Store the PID in the job model
+    job_model.status = "Running"
+    job_model.phase = "Starting Pipeline"
+    job_model.progress = 5
+    job_model.touch()
+
+    app_logger.info(
+        f"Pipeline process started with PID: {p.pid} for job {job_model.id}"
+    )
+
+    # Persist job data after process start to DB
+    try:
+        db_utils.add_or_update_job_in_db(db_connection, job_model)
+        app_logger.info(
+            f"Job {job_model.id} data after process start saved to database."
+        )
+    except Exception as db_exc:
+        app_logger.error(
+            f"Failed to save job {job_model.id} data after process start to database: {db_exc}"
+        )
 
 
 # --- Session State Initialization ---
@@ -676,188 +988,91 @@ def process_queue_messages():
 
 
 def process_data():
-    """Processes the data from the selected input method."""
-    data_to_process = None
-    temp_csv_path = None
-
-    # Get data from the selected input method
-    if (
-        st.session_state["input_method"] == "File Upload"
-        and st.session_state["uploaded_file_data"]
-    ):
-        uploaded_file = st.session_state["uploaded_file_data"]
-        app_logger.info(f"Processing uploaded file: {uploaded_file.name}")
-        try:
-            # Read the uploaded file into data_to_process
-            # Explicitly use io.BytesIO for robustness with pd.read_csv
-            file_content_bytes = uploaded_file.getvalue()
-            bytes_io_object = io.BytesIO(file_content_bytes)
-            data_to_process = pd.read_csv(bytes_io_object).to_dict(orient="records")
-        except Exception as e:
-            app_logger.error(f"Failed to process uploaded file: {e}")
-            st.error(f"Error processing uploaded file: {e}")
-            return
-
-    elif st.session_state["input_method"] == "Manual Input":
-        manual_df = st.session_state.get("manual_input_df")
-        if manual_df is not None and not manual_df.empty:
-            data_to_process = manual_df.to_dict(orient="records")
-        else:
-            st.warning("No data provided in manual input.")
-            app_logger.warning("Manual input was selected but no data was provided.")
-            return
-    else:
-        st.warning("No data provided. Please upload a file or enter data manually.")
-        app_logger.warning(
-            "Start Processing clicked with no data source selected or data provided."
-        )
+    """
+    Processes the data from the selected input method.
+    
+    This function orchestrates the overall pipeline process by:
+    1. Retrieving input data from the user's selected source (file upload or manual input)
+    2. Creating necessary job artifacts (output directory and temporary CSV)
+    3. Building the pipeline configuration
+    4. Initializing and saving the job model
+    5. Launching the pipeline process
+    6. Handling any errors that occur during setup
+    
+    Each step is implemented as a separate helper function to improve modularity and testability.
+    """
+    # Step 1: Get data from the selected input method
+    data_to_process = _get_input_data(app_logger, st.session_state)
+    if data_to_process is None:
+        # Warning is already displayed by _get_input_data
         return
 
-    # --- Prepare Pipeline Configuration ---
-    if data_to_process:
-        app_logger.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
+    # --- Begin Pipeline Setup ---
+    app_logger.info(f"Data prepared for pipeline: {len(data_to_process)} records.")
 
-        job_id = None
-        temp_csv_path = None
+    job_id = None
+    temp_csv_path = None
+    job_output_dir = None
 
-        try:
-            # Generate a unique job ID
-            job_id = generate_job_id()
-            st.info(
-                f"Starting enrichment for {len(data_to_process)} companies as job {job_id}. Head over to the Monitoring tab to see the progress."
-            )
+    try:
+        # Step 2: Generate a unique job ID
+        job_id = generate_job_id()
+        st.info(
+            f"Starting enrichment for {len(data_to_process)} companies as job {job_id}. "
+            f"Head over to the Monitoring tab to see the progress."
+        )
 
-            # Create a job-specific output directory to prevent overwriting
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
-            job_output_dir = os.path.join(project_root, "outputs", f"job_{timestamp}")
-            os.makedirs(job_output_dir, exist_ok=True)
+        # Step 3: Prepare job artifacts (output directory and temp CSV)
+        temp_csv_path, job_output_dir = _prepare_job_artifacts(
+            data_to_process, job_id, project_root, app_logger
+        )
+        
+        if temp_csv_path is None or job_output_dir is None:
+            st.error("Failed to create job artifacts. Check logs for details.")
+            return
 
-            # Create a single temporary CSV file for the pipeline
-            # regardless of input method
-            with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as temp_file:
-                pd.DataFrame(data_to_process).to_csv(temp_file.name, index=False)
-                temp_csv_path = temp_file.name
-                app_logger.info(
-                    f"Consolidated temporary input data CSV created at {temp_csv_path}"
-                )
+        # Step 4: Build pipeline configuration
+        pipeline_config = _build_pipeline_config(
+            temp_csv_path, job_output_dir, job_id, st.session_state["config"]
+        )
 
-            # Create output directory if it doesn't exist
-            output_dir = job_output_dir
-            os.makedirs(output_dir, exist_ok=True)
+        # Step 5: Set up communication queue for process status updates
+        manager = Manager()
+        status_queue = manager.Queue()
 
-            # Prepare the configuration
-            pipeline_config = {
-                "input_csv": temp_csv_path,
-                "output_dir": output_dir,
-                "category": st.session_state["config"].get("category"),
-                "log_level": "INFO",
-                "skip_llm_validation": True,
-                "job_id": job_id,
-            }
+        # Step 6: Initialize and save job model
+        job_model = _initialize_and_save_job_model(
+            job_id=job_id,
+            pipeline_config=pipeline_config,
+            status_queue=status_queue,
+            temp_input_csv_path=temp_csv_path,
+            data_to_process=data_to_process,
+            db_connection=conn,
+            st_session_state=st.session_state,
+            app_logger=app_logger,
+        )
 
-            # Set up the queues for communication between processes
-            manager = Manager()
-            status_queue = manager.Queue()
+        # Step 7: Launch pipeline process and update job model
+        _launch_and_update_job(
+            job_model=job_model,
+            pipeline_config=pipeline_config,
+            status_queue=status_queue,
+            db_connection=conn,
+            run_pipeline_func_ref=run_pipeline_in_process,
+            app_logger=app_logger,
+        )
 
-            # Create job entry with initial state using JobDataModel
-            job_model = JobDataModel(
-                id=job_id,
-                status="Initializing",
-                progress=0,
-                phase="Creating job",
-                start_time=time.time(),
-                end_time=None,
-                process=None,
-                status_queue=status_queue,
-                pid=None,
-                config=pipeline_config,
-                output_final_file_path=None,
-                error_message=None,
-                pipeline_log_file_path=None,
-                temp_input_csv_path=temp_csv_path,
-                file_info={
-                    "type": st.session_state["input_method"],
-                    "name": (
-                        st.session_state["uploaded_file_data"].name
-                        if st.session_state["input_method"] == "File Upload"
-                        and st.session_state["uploaded_file_data"]
-                        else "Manual Input"
-                    ),
-                    "record_count": len(data_to_process),
-                },
-                log_messages=[
-                    f"{time.strftime('%Y-%m-%d %H:%M:%S')} - INFO - Job {job_id} started with {len(data_to_process)} companies"
-                ],
-                max_progress=0.0,
-            )
-
-            # Store the job model in session state
-            if "active_jobs" not in st.session_state:
-                st.session_state["active_jobs"] = {}
-            st.session_state["active_jobs"][job_id] = job_model
-
-            # Set this as the selected job
-            st.session_state["selected_job_id"] = job_id
-
-            # Persist initial job data to DB
+    except Exception as e:
+        # Clean up temporary file if job fails to start
+        if temp_csv_path and os.path.exists(temp_csv_path):
             try:
-                db_utils.add_or_update_job_in_db(conn, job_model)
-                app_logger.info(f"Initial data for job {job_id} saved to database.")
-            except Exception as db_exc:
-                app_logger.error(
-                    f"Failed to save initial data for job {job_id} to database: {db_exc}"
-                )
+                os.unlink(temp_csv_path)
+                app_logger.info(f"Cleaned up temporary CSV file after error: {temp_csv_path}")
+            except Exception as cleanup_error:
+                app_logger.warning(f"Failed to clean up temporary CSV after error: {cleanup_error}")
 
-            # Start the pipeline in a separate process
-            p = Process(
-                target=run_pipeline_in_process,
-                args=(pipeline_config, status_queue, job_id),
-            )
-            p.daemon = True  # Set as daemon so it terminates when the main process ends
-            p.start()
-
-            # Update the job model with the process and running state
-            job_model.process = p
-            job_model.pid = p.pid  # Store the PID in the job model
-            job_model.status = "Running"
-            job_model.phase = "Starting Pipeline"
-            job_model.progress = 5
-            job_model.touch()
-
-            app_logger.info(
-                f"Pipeline process started with PID: {p.pid} for job {job_id}"
-            )
-
-            # Persist job data after process start to DB
-            try:
-                db_utils.add_or_update_job_in_db(conn, job_model)
-                app_logger.info(
-                    f"Job {job_id} data after process start saved to database."
-                )
-            except Exception as db_exc:
-                app_logger.error(
-                    f"Failed to save job {job_id} data after process start to database: {db_exc}"
-                )
-
-        except Exception as e:
-            # Clean up temporary file if job fails to start
-            if temp_csv_path and os.path.exists(temp_csv_path):
-                try:
-                    os.unlink(temp_csv_path)
-                    app_logger.info(
-                        f"Cleaned up temporary CSV file after error: {temp_csv_path}"
-                    )
-                except Exception as cleanup_error:
-                    app_logger.warning(
-                        f"Failed to clean up temporary CSV after error: {cleanup_error}"
-                    )
-
-            st.error(f"Failed to start pipeline: {e}")
-            app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
-
-    else:
-        st.warning("No data to process. Please check your input.")
-        app_logger.warning("No data to process after preparation.")
+        st.error(f"Failed to start pipeline: {e}")
+        app_logger.error(f"Failed to start pipeline: {e}", exc_info=True)
 
 
 # --- Sidebar Navigation ---

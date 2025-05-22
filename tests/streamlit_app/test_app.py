@@ -1,11 +1,13 @@
 # Correct import order: stdlib -> third-party -> local
 import io
+import logging
 import os
 import sys
 import unittest
 from unittest.mock import MagicMock, mock_open, patch
 
 import pandas as pd
+from streamlit.runtime.state.session_state_proxy import SessionStateProxy
 
 # Add the project root to the Python path to allow imports like 'from streamlit_app import app'
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -733,6 +735,458 @@ class TestUpdateSelectedJobProgressFromLog(unittest.TestCase):
             self.assertEqual(self.job_model.phase, "Webcrawl: Crawl Domain")
             # Verify database update was called with correct parameters
             mock_db_update.assert_called_once_with(self.mock_conn, self.job_model)
+
+
+# --- Tests for the refactored process_data helper functions ---
+@patch("streamlit_app.app.st")
+class TestProcessDataHelpers(unittest.TestCase):
+    """Tests for the helper functions used by the refactored process_data function."""
+    
+    def setUp(self):
+        """Set up common test fixtures."""
+        self.mock_app_logger = MagicMock(spec=logging.Logger)
+        
+        # Create a session state that behaves more like a real dictionary
+        self.session_state_data = {
+            "input_method": "File Upload",
+            "uploaded_file_data": None,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "config": {"category": "test_category"},
+            "active_jobs": {},  # Initialize active_jobs as empty dictionary
+            "selected_job_id": None
+        }
+        
+        # Create a better mock for SessionStateProxy
+        self.mock_session_state = MagicMock(spec=SessionStateProxy)
+        self.mock_session_state.__getitem__.side_effect = self.session_state_data.__getitem__
+        self.mock_session_state.get.side_effect = self.session_state_data.get
+        self.mock_session_state.__contains__.side_effect = self.session_state_data.__contains__
+        
+        self.sample_data = [
+            {"company name": "Test Company", "location": "Test City", "url": "https://example.com"}
+        ]
+        self.mock_db_conn = MagicMock()
+        self.test_job_id = "job_20250522_123456"
+        self.test_project_root = "/mock/project/root"
+
+    @patch("streamlit_app.app.pd.read_csv")
+    def test_get_input_data_with_file_upload(self, mock_read_csv, mock_st):
+        """Test _get_input_data with a file upload input method."""
+        # Arrange
+        mock_file = MagicMock()
+        mock_file.name = "test.csv"
+        mock_file.getvalue.return_value = b"sample file content"
+        
+        # Update the mock session state to return the mock file
+        self.mock_session_state.__getitem__.side_effect = lambda key: {
+            "input_method": "File Upload",
+            "uploaded_file_data": mock_file,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "config": {"category": "test_category"}
+        }.get(key)
+        self.mock_session_state.get.side_effect = lambda key, default=None: {
+            "input_method": "File Upload",
+            "uploaded_file_data": mock_file,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "config": {"category": "test_category"}
+        }.get(key, default)
+        
+        mock_df = pd.DataFrame(self.sample_data)
+        mock_read_csv.return_value = mock_df
+        
+        from streamlit_app.app import _get_input_data
+        
+        # Act
+        result = _get_input_data(self.mock_app_logger, self.mock_session_state)
+        
+        # Assert
+        self.assertEqual(result, self.sample_data)
+        mock_file.getvalue.assert_called_once()
+        self.mock_app_logger.info.assert_any_call(f"Processing uploaded file: {mock_file.name}")
+
+    def test_get_input_data_with_manual_input(self, mock_st):
+        """Test _get_input_data with manual input method."""
+        # Arrange
+        # Update the mock session state's side_effect to return different values
+        manual_df = pd.DataFrame(self.sample_data)
+        self.mock_session_state.__getitem__.side_effect = lambda key: {
+            "input_method": "Manual Input",
+            "uploaded_file_data": None,
+            "manual_input_df": manual_df,
+            "config": {"category": "test_category"}
+        }.get(key)
+        self.mock_session_state.get.side_effect = lambda key, default=None: {
+            "input_method": "Manual Input",
+            "uploaded_file_data": None,
+            "manual_input_df": manual_df,
+            "config": {"category": "test_category"}
+        }.get(key, default)
+        
+        from streamlit_app.app import _get_input_data
+        
+        # Act
+        result = _get_input_data(self.mock_app_logger, self.mock_session_state)
+        
+        # Assert
+        self.assertEqual(result, self.sample_data)
+        self.mock_app_logger.info.assert_called_with("Processing manual input: 1 records.")
+
+    def test_get_input_data_returns_none_if_no_data(self, mock_st):
+        """Test _get_input_data returns None if no data is available."""
+        # Arrange
+        from streamlit_app.app import _get_input_data
+        
+        # Act
+        result = _get_input_data(self.mock_app_logger, self.mock_session_state)
+        
+        # Assert
+        self.assertIsNone(result)
+        mock_st.warning.assert_called_once()
+        self.mock_app_logger.warning.assert_called_once()
+
+    @patch("streamlit_app.app.tempfile.NamedTemporaryFile")
+    @patch("streamlit_app.app.os")
+    @patch("streamlit_app.app.pd.DataFrame")
+    def test_prepare_job_artifacts_creates_directory_and_csv(self, mock_df_constructor, mock_os, mock_tempfile, mock_st):
+        """Test _prepare_job_artifacts creates job directory and CSV file."""
+        # Arrange
+        mock_os.path.join.side_effect = lambda *args: "/".join(args)
+        mock_os.makedirs = MagicMock()
+        
+        # Setup mock temp file with proper context manager behavior
+        mock_temp_file = MagicMock()
+        mock_temp_file.name = "/mock/project/root/outputs/job_test_20250522_123456/temp_input.csv"
+        mock_tempfile.return_value.__enter__.return_value = mock_temp_file
+        mock_tempfile.return_value.__exit__.return_value = None
+        
+        # Set up DataFrame mock
+        mock_df = MagicMock()
+        mock_df_constructor.return_value = mock_df
+        
+        expected_job_dir = f"/mock/project/root/outputs/{self.test_job_id}"
+        
+        with patch("streamlit_app.app.time") as mock_time:
+            mock_time.strftime.return_value = "20250522_123456"
+            
+            from streamlit_app.app import _prepare_job_artifacts
+            
+            # Act
+            temp_csv_path, job_output_dir = _prepare_job_artifacts(
+                self.sample_data, 
+                self.test_job_id, 
+                self.test_project_root, 
+                self.mock_app_logger
+            )
+            
+            # Assert
+            self.assertEqual(temp_csv_path, mock_temp_file.name)
+            self.assertEqual(job_output_dir, expected_job_dir)
+            mock_os.makedirs.assert_called_once_with(expected_job_dir, exist_ok=True)
+            self.mock_app_logger.info.assert_any_call(f"Created job output directory: {expected_job_dir}")
+            self.mock_app_logger.info.assert_any_call(
+                f"Temporary input data CSV created at {mock_temp_file.name} for job {self.test_job_id}"
+            )
+            mock_df_constructor.assert_called_once_with(self.sample_data)
+            mock_df.to_csv.assert_called_once_with(mock_temp_file.name, index=False)
+
+    @patch("streamlit_app.app.os")
+    def test_prepare_job_artifacts_handles_directory_creation_failure(self, mock_os, mock_st):
+        """Test _prepare_job_artifacts handles directory creation failure."""
+        # Arrange
+        mock_os.path.join.side_effect = lambda *args: "/".join(args)
+        mock_os.makedirs.side_effect = PermissionError("Permission denied")
+        
+        with patch("streamlit_app.app.time") as mock_time:
+            mock_time.strftime.return_value = "20250522_123456"
+            
+            from streamlit_app.app import _prepare_job_artifacts
+            
+            # Act
+            temp_csv_path, job_output_dir = _prepare_job_artifacts(
+                self.sample_data, 
+                self.test_job_id, 
+                self.test_project_root, 
+                self.mock_app_logger
+            )
+            
+            # Assert
+            self.assertIsNone(temp_csv_path)
+            self.assertIsNone(job_output_dir)
+            self.mock_app_logger.error.assert_called_once()
+
+    def test_build_pipeline_config(self, mock_st):
+        """Test _build_pipeline_config creates correct pipeline configuration."""
+        # Arrange
+        temp_csv_path = "/mock/temp.csv"
+        job_output_dir = "/mock/output/dir"
+        
+        from streamlit_app.app import _build_pipeline_config
+        
+        # Act
+        config = _build_pipeline_config(
+            temp_csv_path, 
+            job_output_dir, 
+            self.test_job_id, 
+            self.mock_session_state["config"]
+        )
+        
+        # Assert
+        self.assertEqual(config["input_csv"], temp_csv_path)
+        self.assertEqual(config["output_dir"], job_output_dir)
+        self.assertEqual(config["category"], "test_category")
+        self.assertEqual(config["job_id"], self.test_job_id)
+        self.assertEqual(config["log_level"], "INFO")
+        self.assertTrue(config["skip_llm_validation"])
+
+    def test_build_pipeline_config_with_default_category(self, mock_st):
+        """Test _build_pipeline_config uses default category when none provided."""
+        # Arrange
+        temp_csv_path = "/mock/temp.csv"
+        job_output_dir = "/mock/output/dir"
+        
+        # Update mock to return empty config
+        empty_config = {}
+        self.mock_session_state.__getitem__.side_effect = lambda key: {
+            "input_method": "File Upload",
+            "uploaded_file_data": None,
+            "manual_input_df": pd.DataFrame(columns=["company name", "location", "url"]),
+            "config": empty_config
+        }.get(key)
+        
+        from streamlit_app.app import _build_pipeline_config
+        
+        # Act
+        config = _build_pipeline_config(
+            temp_csv_path, 
+            job_output_dir, 
+            self.test_job_id, 
+            self.mock_session_state["config"]
+        )
+        
+        # Assert
+        self.assertEqual(config["category"], "fertigung")  # Default value
+
+    @patch("streamlit_app.app.time")
+    @patch("streamlit_app.app.db_utils")
+    def test_initialize_and_save_job_model(self, mock_db_utils, mock_time, mock_st):
+        """Test _initialize_and_save_job_model creates and saves JobDataModel correctly."""
+        # Arrange
+        mock_time.time.return_value = 1621234567.0
+        mock_time.strftime.return_value = "2025-05-22 12:34:56"
+        
+        pipeline_config = {
+            "input_csv": "/mock/input.csv",
+            "output_dir": "/mock/output",
+            "category": "test_category",
+            "job_id": self.test_job_id
+        }
+        
+        mock_status_queue = MagicMock()
+        temp_input_csv_path = "/mock/input.csv"
+        
+        # Create specific mock for session_state with all required keys
+        mock_session_state = MagicMock(spec=SessionStateProxy)
+        
+        # Setup session state data dictionary with all keys needed
+        session_state_dict = {
+            'active_jobs': {},
+            'selected_job_id': None,
+            'input_method': 'File Upload',
+            'uploaded_file_data': None,
+            'manual_input_df': pd.DataFrame(self.sample_data)
+        }
+        
+        # Configure the mock for dictionary-like behavior
+        def mock_getitem(key):
+            if key in session_state_dict:
+                return session_state_dict[key]
+            raise KeyError(f"Key not found: {key}")
+            
+        def mock_setitem(key, value):
+            session_state_dict[key] = value
+        
+        mock_session_state.__getitem__.side_effect = mock_getitem
+        mock_session_state.__setitem__.side_effect = mock_setitem
+        mock_session_state.__contains__.side_effect = lambda key: key in session_state_dict
+        
+        from streamlit_app.app import _initialize_and_save_job_model
+        
+        # Act
+        job_model = _initialize_and_save_job_model(
+            self.test_job_id,
+            pipeline_config,
+            mock_status_queue,
+            temp_input_csv_path,
+            self.sample_data,
+            self.mock_db_conn,
+            mock_session_state,
+            self.mock_app_logger
+        )
+        
+        # Assert
+        self.assertEqual(job_model.id, self.test_job_id)
+        self.assertEqual(job_model.status, "Initializing")
+        self.assertEqual(job_model.progress, 0)
+        self.assertEqual(job_model.phase, "Creating job")
+        self.assertEqual(job_model.start_time, 1621234567.0)
+        self.assertIsNone(job_model.end_time)
+        self.assertIsNone(job_model.process)
+        self.assertEqual(job_model.status_queue, mock_status_queue)
+        self.assertIsNone(job_model.pid)
+        self.assertEqual(job_model.config, pipeline_config)
+        self.assertEqual(job_model.temp_input_csv_path, temp_input_csv_path)
+        self.assertEqual(job_model.file_info["record_count"], len(self.sample_data))
+        
+        # Instead of checking direct __setitem__ calls (which might be done differently in implementation),
+        # directly verify that the session state dict has been updated correctly
+        self.assertTrue(mock_session_state.__setitem__.called)
+        mock_session_state.__setitem__.assert_any_call("selected_job_id", self.test_job_id)
+        
+        # Verify database save
+        mock_db_utils.add_or_update_job_in_db.assert_called_once_with(self.mock_db_conn, job_model)
+        self.mock_app_logger.info.assert_any_call(f"Initial data for job {self.test_job_id} saved to database.")
+
+    @patch("streamlit_app.app.Process")
+    @patch("streamlit_app.app.db_utils")
+    def test_launch_and_update_job(self, mock_db_utils, mock_process_class, mock_st):
+        """Test _launch_and_update_job launches process and updates job model correctly."""
+        # Arrange
+        job_model = MagicMock()
+        job_model.id = self.test_job_id
+        
+        pipeline_config = {"key": "value"}
+        mock_status_queue = MagicMock()
+        
+        mock_process = MagicMock()
+        mock_process.pid = 12345
+        mock_process_class.return_value = mock_process
+        
+        mock_run_pipeline_func = MagicMock()
+        
+        from streamlit_app.app import _launch_and_update_job
+        
+        # Act
+        _launch_and_update_job(
+            job_model,
+            pipeline_config,
+            mock_status_queue,
+            self.mock_db_conn,
+            mock_run_pipeline_func,
+            self.mock_app_logger
+        )
+        
+        # Assert
+        mock_process_class.assert_called_once_with(
+            target=mock_run_pipeline_func,
+            args=(pipeline_config, mock_status_queue, self.test_job_id)
+        )
+        
+        mock_process.start.assert_called_once()
+        
+        # Verify job model updates
+        self.assertEqual(job_model.process, mock_process)
+        self.assertEqual(job_model.pid, mock_process.pid)
+        self.assertEqual(job_model.status, "Running")
+        self.assertEqual(job_model.phase, "Starting Pipeline")
+        self.assertEqual(job_model.progress, 5)
+        job_model.touch.assert_called_once()
+        
+        # Verify database update
+        mock_db_utils.add_or_update_job_in_db.assert_called_once_with(self.mock_db_conn, job_model)
+        self.mock_app_logger.info.assert_any_call(
+            f"Pipeline process started with PID: {mock_process.pid} for job {self.test_job_id}"
+        )
+    
+    @patch("streamlit_app.app.generate_job_id")
+    @patch("streamlit_app.app._get_input_data")
+    @patch("streamlit_app.app._prepare_job_artifacts")
+    @patch("streamlit_app.app._build_pipeline_config")
+    @patch("streamlit_app.app._initialize_and_save_job_model")
+    @patch("streamlit_app.app._launch_and_update_job")
+    @patch("streamlit_app.app.Manager")
+    def test_process_data_orchestrates_helper_functions(
+        self, mock_manager, mock_launch, mock_initialize, mock_build_config, 
+        mock_prepare_artifacts, mock_get_data, mock_generate_job_id, mock_st
+    ):
+        """Test that process_data correctly orchestrates all helper functions."""
+        # Arrange
+        mock_get_data.return_value = self.sample_data
+        mock_generate_job_id.return_value = self.test_job_id
+        
+        mock_temp_csv = "/mock/temp.csv"
+        mock_job_dir = "/mock/job/dir"
+        mock_prepare_artifacts.return_value = (mock_temp_csv, mock_job_dir)
+        
+        config_dict = {"category": "test_category"}
+        # Configure session state mock to return our config dict
+        mock_st.session_state.get.return_value = config_dict
+        mock_st.session_state.__getitem__.return_value = config_dict
+        
+        mock_config = {"mock": "config"}
+        mock_build_config.return_value = mock_config
+        
+        mock_job_model = MagicMock()
+        mock_initialize.return_value = mock_job_model
+        
+        mock_queue = MagicMock()
+        mock_manager_instance = MagicMock()
+        mock_manager_instance.Queue.return_value = mock_queue
+        mock_manager.return_value = mock_manager_instance
+        
+        from streamlit_app.app import process_data, run_pipeline_in_process
+        
+        # Act
+        with patch("streamlit_app.app.app_logger", self.mock_app_logger):
+            with patch("streamlit_app.app.conn", self.mock_db_conn):
+                with patch("streamlit_app.app.project_root", self.test_project_root):
+                    process_data()
+        
+        # Assert
+        mock_get_data.assert_called_once_with(self.mock_app_logger, mock_st.session_state)
+        mock_st.info.assert_called_once()
+        mock_prepare_artifacts.assert_called_once_with(
+            self.sample_data, self.test_job_id, self.test_project_root, self.mock_app_logger
+        )
+        # Use ANY matcher for the config parameter
+        from unittest.mock import ANY
+        mock_build_config.assert_called_once_with(
+            mock_temp_csv, mock_job_dir, self.test_job_id, ANY
+        )
+        mock_initialize.assert_called_once_with(
+            job_id=self.test_job_id,
+            pipeline_config=mock_config,
+            status_queue=mock_queue,
+            temp_input_csv_path=mock_temp_csv,
+            data_to_process=self.sample_data,
+            db_connection=self.mock_db_conn,
+            st_session_state=mock_st.session_state,
+            app_logger=self.mock_app_logger
+        )
+        mock_launch.assert_called_once_with(
+            job_model=mock_job_model,
+            pipeline_config=mock_config,
+            status_queue=mock_queue,
+            db_connection=self.mock_db_conn,
+            run_pipeline_func_ref=run_pipeline_in_process,
+            app_logger=self.mock_app_logger
+        )
+
+    @patch("streamlit_app.app._get_input_data")
+    def test_process_data_handles_no_data(self, mock_get_data, mock_st):
+        """Test that process_data handles case when no data is available."""
+        # Arrange
+        mock_get_data.return_value = None
+        
+        from streamlit_app.app import process_data
+        
+        # Act
+        with patch("streamlit_app.app.app_logger", self.mock_app_logger):
+            process_data()
+        
+        # Assert
+        mock_get_data.assert_called_once()
+        # Should return early without any further processing
+        mock_st.info.assert_not_called()
 
 
 if __name__ == "__main__":
