@@ -554,10 +554,13 @@ def save_merged_data(
     # Ensure all required columns exist in the DataFrame, add empty columns if missing
     required_columns = ["Firma1", "location", "url", "Top1_Machine", 
                         "Maschinen_Park_Size", "Sachanlagen"]
-    for col in required_columns:
-        if col not in merged_df.columns:
-            logger.info(f"Adding missing column: {col}")
-            merged_df[col] = np.nan
+    # Create a set of existing column names in lowercase for case-insensitive check
+    existing_columns_lower = {c.lower() for c in merged_df.columns}
+
+    for req_col in required_columns:
+        if req_col.lower() not in existing_columns_lower:
+            logger.info(f"Adding missing column (case-insensitive check): {req_col}")
+            merged_df[req_col] = np.nan # Use original req_col casing
     
     # Save the DataFrame with the output path
     if output_file_path is not None:
