@@ -2,6 +2,7 @@
 import io
 import logging
 import os
+import signal
 import sys
 import unittest
 from unittest.mock import MagicMock, mock_open, patch
@@ -22,10 +23,12 @@ try:
 
     from streamlit_app.app import (
         REQUIRED_COLUMNS_MAP,  # Assuming this exists in app.py
+        cancel_job,
         init_session_state,  # Returns bool, not None
+        process_queue_messages,
     )
     from streamlit_app.app import (
-        clear_other_input as clear_other_input_from_app,  # Alias for clarity
+        clear_other_input as clear_other_input_from_app,
     )
     from streamlit_app.models.job_data_model import JobDataModel  # Import JobDataModel
     from streamlit_app.section.monitoring_section import (
@@ -56,7 +59,120 @@ except ImportError as e:
     # Handle cases where streamlit or app components might not be found
     print(f"Warning: Could not import Streamlit app components: {e}")
 
+@patch("streamlit_app.app.st")
+@patch("streamlit_app.app.db_utils")
+class TestDatabaseIntegration(unittest.TestCase):
+    """Tests for database initialization and error handling."""
+    
+    def test_init_session_state_HandlesDatabaseInitializationFailure_SetsErrorFlag(self, mock_db_utils, mock_st):
+        """Test that init_session_state handles database initialization failure gracefully."""
+        mock_db_utils.init_db.side_effect = Exception("Database connection failed")
+        mock_st.session_state = {}
+        
+        _ = init_session_state()
+        
+        self.assertFalse(mock_st.session_state["_db_initialized"])
+        mock_st.error.assert_called_once()
+    
+    def test_init_session_state_HandlesJobLoadingFailure_KeepsEmptyActiveJobs(self, mock_db_utils, mock_st):
+        """Test that init_session_state handles job loading failure and maintains empty active_jobs."""
+        mock_db_utils.init_db.return_value = None
+        mock_db_utils.load_jobs_from_db.side_effect = Exception("Failed to load jobs")
+        mock_st.session_state = {}
+        
+        _ = init_session_state()
+        
+        self.assertEqual(mock_st.session_state["active_jobs"], {})
 
+@patch("streamlit_app.app.st")
+@patch("streamlit_app.app.os")
+@patch("streamlit_app.app.check_process_details_by_pid")
+@patch("streamlit_app.app.db_utils")
+class TestJobCancellation(unittest.TestCase):
+    """Tests for the cancel_job function."""
+
+    @classmethod
+    def setUpClass(cls):
+        # Import cancel_job once for all tests in this class
+        global cancel_job
+        
+
+    def test_cancel_job_WithRunningJob_SendsSigTermAndUpdatesStatus(self, mock_db_utils, mock_check_pid, mock_os, mock_st):
+        """Test that cancel_job sends SIGTERM to running job and updates status."""
+        job_model = MagicMock()
+        job_model.pid = 12345
+        job_model.status = "Running"
+        
+        mock_st.session_state = {"active_jobs": {"job_123": job_model}}
+        mock_check_pid.return_value = (True, "python")  # Process is alive
+        
+        result = cancel_job("job_123")
+        
+        self.assertTrue(result)
+        mock_os.kill.assert_called_once_with(12345, signal.SIGTERM)
+        self.assertEqual(job_model.status, "Cancelled")
+        mock_db_utils.add_or_update_job_in_db.assert_called_once()
+    
+    def test_cancel_job_WithZombieProcess_SendsSigKillAndUpdatesStatus(self, mock_db_utils, mock_check_pid, mock_os, mock_st):
+        """Test that cancel_job sends SIGKILL to zombie process."""
+        job_model = MagicMock()
+        job_model.pid = 12345
+        job_model.status = "Running"
+        
+        mock_st.session_state = {"active_jobs": {"job_123": job_model}}
+        mock_check_pid.return_value = (True, "defunct")  # Zombie process
+        
+        result = cancel_job("job_123")
+        
+        self.assertTrue(result)
+        mock_os.kill.assert_called_once_with(12345, signal.SIGKILL)
+    
+    def test_cancel_job_WithNonExistentJob_ReturnsFalse(self, mock_db_utils, mock_check_pid, mock_os, mock_st):
+        """Test that cancel_job returns False for non-existent job."""
+        mock_st.session_state = {"active_jobs": {}}
+        
+        result = cancel_job("non_existent_job")
+        
+        self.assertFalse(result)
+        mock_os.kill.assert_not_called()
+
+class TestProcessQueueMessages(unittest.TestCase):
+    
+    @patch('streamlit_app.app.st.session_state', new_callable=dict)
+    @patch('streamlit_app.app.db_utils.add_or_update_job_in_db')
+    @patch('streamlit_app.app.conn')
+    def test_processQueueMessages_WithEmptyActiveJobs_NoProcessing(self, mock_conn, mock_db_update, mock_session_state):
+        """Test that process_queue_messages handles empty active_jobs gracefully."""
+        from streamlit_app.app import process_queue_messages
+        
+        # Setup
+        mock_session_state["active_jobs"] = {}
+        
+        # Execute
+        process_queue_messages()
+        
+        # Verify
+        mock_db_update.assert_not_called()
+        
+    @patch('streamlit_app.app.st.session_state', new_callable=dict)
+    @patch('streamlit_app.app.db_utils.add_or_update_job_in_db')
+    @patch('streamlit_app.app.conn')
+    def test_processQueueMessages_WithJobsWithNoQueue_NoProcessing(self, mock_conn, mock_db_update, mock_session_state):
+        """Test that jobs without status_queue are skipped."""
+        from streamlit_app.app import process_queue_messages
+        from streamlit_app.models.job_data_model import JobDataModel
+        
+        # Setup
+        job_model = JobDataModel(id="test_job", status="Running", phase="Initializing")
+        job_model.status_queue = None  # No queue
+        mock_session_state["active_jobs"] = {"test_job": job_model}
+        
+        # Execute
+        process_queue_messages()
+        
+        # Verify
+        mock_db_update.assert_not_called()
+        
 @patch(
     "streamlit_app.app.logging.info"
 )  # Patch logging.info to prevent log side effects during init
