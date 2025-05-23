@@ -69,5 +69,129 @@ class TestMergeCsvWithExcel(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             merge_csv_with_excel.main(self.missing_file)
 
+    def test_save_merged_data_caseInsensitiveColumns_handlesColumnsCaseInsensitively_expectedNoDuplicateColumns(self):
+        """save_merged_data_caseInsensitiveColumns_handlesColumnsCaseInsensitively_expectedNoDuplicateColumns:
+        Should handle column names case-insensitively and avoid duplicate columns"""
+        # Arrange
+        import numpy as np
+        import pandas as pd
+        # Create a test DataFrame with mixed-case URL column
+        test_csv_path = 'tests/automation/extracting_machine/data/test_case_sensitive.csv'
+        with open(test_csv_path, 'w') as f:
+            f.write('Company,location,URL,Machine_1,Machine_2,Machine_3\nFirma A GmbH,Berlin,http://test.com,50000,30000,10000\n')
+        
+        # Act
+        try:
+            # Call the main function which eventually calls save_merged_data - include the valid_excel parameter
+            output_file = merge_csv_with_excel.main(
+                csv_file_path=test_csv_path,
+                original_company_file_path=self.valid_excel
+            )
+            
+            # Assert
+            if output_file and os.path.exists(output_file):
+                # Read the output file to check for duplicate columns
+                result_df = pd.read_csv(output_file, encoding='utf-8')
+                
+                # Check that we only have a single URL/url column (case-insensitive)
+                url_columns = [col for col in result_df.columns if col.lower() == 'url']
+                self.assertEqual(len(url_columns), 1, 
+                                f"Expected one URL column, found {len(url_columns)}: {url_columns}")
+                
+                # Clean up
+                os.remove(output_file)
+            else:
+                self.fail("Output file was not created")
+        finally:
+            # Clean up
+            if os.path.exists(test_csv_path):
+                os.remove(test_csv_path)
+
+    def test_save_merged_data_mixedCaseColumnsWithData_preservesOriginalData_expectedDataPreserved(self):
+        """save_merged_data_mixedCaseColumnsWithData_preservesOriginalData_expectedDataPreserved:
+        Should preserve data when handling columns with mixed casing"""
+        # Arrange
+        import pandas as pd
+        # Create a test CSV with URL (uppercase) and sample data
+        test_csv_path = 'tests/automation/extracting_machine/data/test_case_url_data.csv'
+        test_url = 'http://example.com'
+        
+        # Write sample data to the test CSV file
+        with open(test_csv_path, 'w') as f:
+            f.write(f'Company,location,URL,Machine_1,Machine_2,Machine_3\nFirma A GmbH,Berlin,{test_url},50000,30000,10000\n')
+        
+        # Create a specific Excel file for this test with matching company name
+        test_excel_path = 'tests/automation/extracting_machine/data/test_case_excel.xlsx'
+        excel_df = pd.DataFrame({
+            'Firma1': ['Firma A GmbH'],
+            'Ort': ['Berlin'],
+            # Use a different URL to verify which one is preserved
+            'url': ['http://different-url.com']
+        })
+        excel_df.to_excel(test_excel_path, index=False)
+        
+        # Act
+        try:
+            # Use the specific Excel file created for this test
+            output_file = merge_csv_with_excel.main(
+                csv_file_path=test_csv_path,
+                original_company_file_path=test_excel_path
+            )
+            
+            # Assert
+            if output_file and os.path.exists(output_file):
+                # Read the output file
+                result_df = pd.read_csv(output_file, encoding='utf-8')
+                
+                # Find the URL column (case-insensitive)
+                url_column = next((col for col in result_df.columns if col.lower() == 'url'), None)
+                self.assertIsNotNone(url_column, "URL column not found in output")
+                
+                # Print the entire DataFrame for debugging
+                print("Merged DataFrame:\n", result_df)
+                print(f"URL column values: {result_df[url_column].tolist()}")
+                
+                # Check if the URL column contains the expected data
+                # This should be the URL from the Excel file since that's the left side of the merge
+                url_preserved = not pd.isna(result_df[url_column].iloc[0])
+                self.assertTrue(url_preserved, f"URL data in column '{url_column}' is NaN")
+                
+                # Check that we're preserving the expected URL value (from the Excel file)
+                excel_url = 'http://different-url.com'
+                self.assertEqual(result_df[url_column].iloc[0], excel_url,
+                                f"Expected Excel URL '{excel_url}' not found in column '{url_column}'")
+                
+                # Clean up
+                os.remove(output_file)
+            else:
+                self.fail("Output file was not created")
+        finally:
+            # Clean up
+            if os.path.exists(test_csv_path):
+                os.remove(test_csv_path)
+            if os.path.exists(test_excel_path):
+                os.remove(test_excel_path)
+
+    def test_save_merged_data_duplicateColumns_raisesValueError_expectedError(self):
+        """save_merged_data_duplicateColumns_raisesValueError_expectedError:
+        Should raise or handle error when input already has duplicate columns"""
+        # Arrange
+        import pandas as pd
+
+        # Create a test CSV with duplicate columns (URL and url)
+        test_csv_path = 'tests/automation/extracting_machine/data/test_duplicate_columns.csv'
+        with open(test_csv_path, 'w') as f:
+            f.write('Company,location,URL,url\nFirma A GmbH,Berlin,http://example.com,http://example.com\n')
+        
+        # Act & Assert
+        try:
+            # This should either raise a ValueError or somehow handle the duplicate columns
+            with self.assertRaises(ValueError):
+                merge_csv_with_excel.main(csv_file_path=test_csv_path, original_company_file_path=self.valid_excel)
+        finally:
+            # Clean up
+            if os.path.exists(test_csv_path):
+                os.remove(test_csv_path)
+
 if __name__ == '__main__':
     unittest.main()
