@@ -555,6 +555,7 @@ def display_monitoring_section(
            - Status
            - Progress (as a progress bar)
            - Current processing phase
+           - Input File (name from file_info)
            - Start time (formatted as YYYY-MM-DD HH:MM:SS)
            - End time (shows "Running" for active jobs)
         The table supports multi-row selection for job deletion and includes
@@ -592,11 +593,16 @@ def display_monitoring_section(
                 else:
                     end_time_str = "Running"
                 
+                # Get input file name from file_info
+                file_info = getattr(job_data, "file_info", {})
+                input_file = file_info.get("name", "N/A")
+                
                 job_rows.append({
                     "job_id": job_id,  # Include job_id in the DataFrame
                     "Status": job_data.status,
                     "Progress": job_data.progress if job_data.progress is not None else 0,  # Store as integer without % sign
                     "Phase": job_data.phase or "N/A",
+                    "Input File": input_file,
                     "Start Time": start_time_str,
                     "End Time": end_time_str,
                 })
@@ -615,7 +621,7 @@ def display_monitoring_section(
                 "job_id": st.column_config.TextColumn(
                     "Job ID",
                     help="Unique identifier for the job",
-                    width="medium"
+                    width="small"
                 ),
                 "Status": st.column_config.TextColumn(
                     "Status",
@@ -632,6 +638,11 @@ def display_monitoring_section(
                 "Phase": st.column_config.TextColumn(
                     "Current Phase",
                     help="Current processing phase",
+                    width="medium"
+                ),
+                "Input File": st.column_config.TextColumn(
+                    "Input File",
+                    help="Name of the input file or data source",
                     width="medium"
                 ),
                 "Start Time": st.column_config.DatetimeColumn(
