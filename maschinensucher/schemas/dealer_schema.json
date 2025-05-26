@@ -1,0 +1,36 @@
+{
+    "name": "Maschinensucher Dealer Card",
+    "baseSelector": "div.card.mb-3",
+    "baseFields": [],
+    "fields": [
+        {
+            "name": "company_name",
+            "selector": "div.card-header h2 > strong > a",
+            "type": "text"
+        },
+        {
+            "name": "link",
+            "selector": "div.card-header h2 > strong > a",
+            "type": "attribute",
+            "attribute": "href"
+        },
+        {
+            "name": "address_raw_html",
+            "selector": "div.card-body div.pb-3 li:has(i.fa-location-dot) > span",
+            "type": "html"
+        },
+        {
+            "name": "distance",
+            "selector": "div.card-body div.pb-3 li:has(i.fa-road)",
+            "type": "regex",
+            "pattern": "(\\d+)\\s*Kilometers?"
+        },
+        {
+            "name": "attributes",
+            "selector": "div.alert.alert-info",
+            "type": "text",
+            "transform": "strip"
+        }
+    
+    ]
+}
