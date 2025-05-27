@@ -1,0 +1,41 @@
+[
+    {
+        "name": "MachineCategoryFilter",
+        "baseSelector": "div.card:has(span.py-1:contains('Kategorie')) div.card-body.card-filterbox > div",
+        "fields": [
+            {
+                "name": "category_name",
+                "selector": "div.field-maincategoryids div#maincategoryids div.form-check label.form-check-label",
+                "type": "regex",
+                "pattern": "^([^\\(]+)",
+                "transform": "strip"
+            },
+            {
+                "name": "count",
+                "selector": "div.field-maincategoryids div#maincategoryids div.form-check label.form-check-label small.text-gray-100",
+                "type": "regex",
+                "pattern": "\\((\\d+)\\)"
+            },
+            {
+                "name": "sub_categories",
+                "selector": "div.indent-border div.field-subcategoryids div#subcategoryids div.form-check",
+                "type": "list",
+                "fields": [
+                    {
+                        "name": "category_name",
+                        "selector": "label.form-check-label",
+                        "type": "regex",
+                        "pattern": "^([^\\(]+)",
+                        "transform": "strip"
+                    },
+                    {
+                        "name": "count",
+                        "selector": "label.form-check-label small.text-gray-100",
+                        "type": "regex",
+                        "pattern": "\\((\\d+)\\)"
+                    }
+                ]
+            }
+        ]
+    }
+]

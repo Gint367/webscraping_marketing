@@ -1,36 +1,49 @@
-{
-    "name": "Maschinensucher Dealer Card",
-    "baseSelector": "div.card.mb-3",
-    "baseFields": [],
-    "fields": [
-        {
-            "name": "company_name",
-            "selector": "div.card-header h2 > strong > a",
-            "type": "text"
-        },
-        {
-            "name": "link",
-            "selector": "div.card-header h2 > strong > a",
-            "type": "attribute",
-            "attribute": "href"
-        },
-        {
-            "name": "address_raw_html",
-            "selector": "div.card-body div.pb-3 li:has(i.fa-location-dot) > span",
-            "type": "html"
-        },
-        {
-            "name": "distance",
-            "selector": "div.card-body div.pb-3 li:has(i.fa-road)",
-            "type": "regex",
-            "pattern": "(\\d+)\\s*Kilometers?"
-        },
-        {
-            "name": "attributes",
-            "selector": "div.alert.alert-info",
-            "type": "text",
-            "transform": "strip"
-        }
-    
-    ]
-}
+[
+    {
+        "name": "Maschinensucher Dealer Card",
+        "baseSelector": "div.card.mb-3",
+        "baseFields": [],
+        "fields": [
+            {
+                "name": "company_name",
+                "selector": "div.card-header h2 > strong > a",
+                "type": "text"
+            },
+            {
+                "name": "link",
+                "selector": "div.card-header h2 > strong > a",
+                "type": "attribute",
+                "attribute": "href"
+            },
+            {
+                "name": "address_raw_html",
+                "selector": "div.card-body div.pb-3 li:has(i.fa-location-dot) > span",
+                "type": "html"
+            },
+            {
+                "name": "distance",
+                "selector": "div.card-body div.pb-3 li:has(i.fa-road)",
+                "type": "regex",
+                "pattern": "(\\d+)\\s*Kilometers?"
+            },
+            {
+                "name": "attributes",
+                "selector": "div.alert.alert-info",
+                "type": "text",
+                "transform": "strip"
+            }
+        ]
+    },
+    {
+        "name": "Category Text",
+        "baseSelector": "div.mt-4:nth-child(1) > div:nth-child(1)",
+        "baseFields": [],
+        "fields": [
+            {
+                "name": "text",
+                "selector": "h1",
+                "type": "text"
+            }
+        ]
+    }
+]
