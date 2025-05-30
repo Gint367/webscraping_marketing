@@ -42,6 +42,12 @@ class PluralizedFields(BaseModel):
 # Default temperature settings for retries
 DEFAULT_TEMPERATURES = [0.5, 0.1, 1.0]
 
+# Default model list for fallbacks - ordered from most capable to least capable
+DEFAULT_MODELS = [
+    "bedrock/amazon.nova-pro-v1:0",  # Most capable, highest cost
+    "bedrock/us.amazon.nova-lite-v1:0",  # Medium capability, lower cost
+]
+
 
 def setup_logging(log_level=logging.INFO) -> None:
     """
@@ -339,17 +345,24 @@ def pluralize_with_llm(
     fields_dict: Dict[str, List[str]],
     file_path: Optional[str] = None,
     temperatures: Optional[List[float]] = None,
+    models: Optional[List[str]] = None,
 ) -> Dict[str, List[str]]:
     """
     Use LLM to pluralize words with structured JSON output using PluralizedFields model.
+    Implements automatic model rotation with fallbacks for improved reliability.
 
     Args:
         fields_dict (Dict[str, List[str]]): Dictionary with products, machines, and process_type lists
         file_path (str, optional): Path to the file being processed
-        temperatures (List[float], optional): List of temperature values for each retry
+        temperatures (List[float], optional): DEPRECATED - not used in current implementation
+        models (List[str], optional): List of models to use as fallbacks (ordered by preference)
 
     Returns:
         Dict[str, List[str]]: Dictionary with pluralized words for each field
+        
+    Note:
+        This function now uses LiteLLM's built-in fallback mechanism instead of manual temperature retries.
+        The models are tried in order: Nova Pro -> Nova Lite -> Nova Micro with automatic error handling.
     """
     # Skip processing if all fields are empty
     if not any(
@@ -367,114 +380,91 @@ def pluralize_with_llm(
     # Create a structured prompt for the LLM
     prompt = create_pluralization_prompt(cleaned_fields)
 
-    # Set up temperatures for retries
-    if temperatures is None:
-        temperatures = DEFAULT_TEMPERATURES
-
+    # Set up models for fallbacks
+    if models is None:
+        models = DEFAULT_MODELS.copy()
+    
+    # Use single optimal temperature for structured JSON output
+    temperature = 0.3  # Lower temperature for more consistent JSON output
+    
     # Enable JSON schema validation for client-side validation
     litellm.enable_json_schema_validation = True
-    max_retries = len(temperatures)
-    retry_count = 0
+    
+    # Use first model as primary, rest as fallbacks
+    primary_model = models[0] if models else "bedrock/amazon.nova-pro-v1:0"
+    fallback_models = models[1:] if len(models) > 1 else []
+    
+    logger.info(f"Attempting pluralization with model fallbacks: {primary_model} -> {fallback_models}")
+    
+    try:
+        # Call the LLM using LiteLLM with automatic model fallbacks
+        response = completion(
+            model=primary_model,
+            fallbacks=fallback_models,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperature,
+            max_tokens=1000,
+            response_format=PluralizedFields,
+            num_retries=2,  # Built-in retries per model
+            timeout=45,     # 45 seconds per model attempt
+        )
 
-    while retry_count < max_retries:
-        try:
-            # Get the temperature for this attempt
-            current_temp = temperatures[retry_count]
+        # Extract the content directly as a dictionary
+        content = response.choices[0].message.content  # type: ignore
+        if content is None:
+            raise ValueError("LLM response content is None")
 
-            # Call the LLM using LiteLLM with Pydantic model for structured output
-            response = completion(
-                model="bedrock/amazon.nova-pro-v1:0",
-                messages=[{"role": "user", "content": prompt}],
-                temperature=current_temp,
-                max_tokens=1000,
-                response_format=PluralizedFields,
+        output_fields = json.loads(content)
+
+        # Validate response structure and word counts
+        is_valid, error_message = validate_pluralized_response(
+            cleaned_fields, output_fields
+        )
+
+        if is_valid:
+            # Run clean_compound_words again on the response to handle any compound words
+            final_cleaned_fields, final_modified_pairs = clean_compound_words(
+                output_fields
             )
 
-            # Extract the content directly as a dictionary
-            try:
-                content = response.choices[0].message.content  # type: ignore
-                if content is None:
-                    raise ValueError("LLM response content is None")
+            # Track statistics for any compounds cleaned in the response
+            if final_modified_pairs and file_path:
+                track_cleaning_stats(final_modified_pairs, file_path)
 
-                output_fields = json.loads(content)
-
-                # Validate response structure and word counts
-                is_valid, error_message = validate_pluralized_response(
-                    cleaned_fields, output_fields
-                )
-
-                if is_valid:
-                    # Run clean_compound_words again on the response to handle any compound words
-                    final_cleaned_fields, final_modified_pairs = clean_compound_words(
-                        output_fields
-                    )
-
-                    # Track statistics for any compounds cleaned in the response
-                    if final_modified_pairs and file_path:
-                        track_cleaning_stats(final_modified_pairs, file_path)
-
-                    # Create result from the cleaned response
-                    result = {}
-                    for field in cleaned_fields:
-                        if field in final_cleaned_fields:
-                            result[field] = final_cleaned_fields[field]
-                        else:
-                            result[field] = cleaned_fields[
-                                field
-                            ]  # Use original if missing
-
-                    return result
+            # Create result from the cleaned response
+            result = {}
+            for field in cleaned_fields:
+                if field in final_cleaned_fields:
+                    result[field] = final_cleaned_fields[field]
                 else:
-                    # If validation failed, retry
-                    logger.warning(f"Validation error: {error_message}")
-                    retry_count += 1
+                    result[field] = cleaned_fields[field]  # Use original if missing
 
-            except json.JSONDecodeError as e:
-                logger.warning(f"Failed to parse JSON response: {e}")
-                retry_count += 1
-            except JSONSchemaValidationError as se:
-                logger.warning(
-                    f"JSON schema validation failed: {str(se).splitlines()[0]}"
-                )
-                logger.info(
-                    f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})"
-                )
-                retry_count += 1
-
-        except JSONSchemaValidationError as se:
-            # Specifically catch JSONSchemaValidationError that happened outside the inner try block
-            logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
-            if retry_count < max_retries - 1:
-                retry_count += 1
-                logger.info(
-                    f"Retrying with temperature {temperatures[retry_count]} (attempt {retry_count + 1}/{max_retries})"
-                )
-                continue
-            else:
-                logger.error(f"Max retries reached for JSONSchemaValidationError")
-                if file_path:
-                    failed_files.append((file_path, "json_schema_validation_error"))
-                return cleaned_fields
-        except Exception as e:
-            logger.error(f"Error pluralizing words with LLM: {e}")
+            return result
+        else:
+            # If validation failed, log and return cleaned fields
+            logger.warning(f"Validation error: {error_message}")
             if file_path:
-                failed_fields = [f for f in cleaned_fields.keys()]
-                fields_str = ", ".join(failed_fields)
-                failed_files.append((file_path, fields_str))
-            return cleaned_fields  # Return cleaned words on error
+                failed_files.append((file_path, "validation_error"))
+            return cleaned_fields
 
-        # Check if we've reached max retries
-        if retry_count >= max_retries:
-            failure_info = f"Max retries reached for file: {file_path}"
-            logger.error(failure_info)
-            if file_path:
-                failed_fields = [f for f in cleaned_fields.keys()]
-                fields_str = ", ".join(failed_fields)
-                failed_files.append((file_path, fields_str))
-            return cleaned_fields  # Return cleaned words even if pluralization failed
-
-    # This should not be reached, but just in case
-    return cleaned_fields
+    except json.JSONDecodeError as e:
+        logger.warning(f"Failed to parse JSON response: {e}")
+        if file_path:
+            failed_files.append((file_path, "json_decode_error"))
+        return cleaned_fields
+    except JSONSchemaValidationError as se:
+        logger.warning(f"JSON schema validation failed: {str(se).splitlines()[0]}")
+        if file_path:
+            failed_files.append((file_path, "json_schema_validation_error"))
+        return cleaned_fields
+    except Exception as e:
+        logger.error(f"Error pluralizing words with LLM: {e}")
+        if file_path:
+            failed_fields = [f for f in cleaned_fields.keys()]
+            fields_str = ", ".join(failed_fields)
+            failed_files.append((file_path, fields_str))
+        return cleaned_fields  # Return cleaned words on error
+    return cleaned_fields  # Return cleaned words even if pluralization failed
 
 
 def extract_fields_from_entry(entry: Dict[str, Any]) -> Dict[str, List[str]]:

@@ -15,6 +15,8 @@ from pathlib import Path
 from unittest import mock
 from unittest.mock import MagicMock, call, patch
 
+from litellm.exceptions import JSONSchemaValidationError
+
 from webcrawl.pluralize_with_llm import (
     clean_compound_words,
     compound_word_stats,
@@ -402,29 +404,6 @@ class TestPluralizeWithLLM(unittest.TestCase):
         args, kwargs = mock_completion.call_args
         self.assertIn("messages", kwargs)
 
-    @patch("webcrawl.pluralize_with_llm.completion")
-    def test_pluralize_with_custom_temperatures(self, mock_completion):
-        """Test pluralization with custom temperature values."""
-        # Mock the LLM response
-        mock_response = MagicMock()
-        mock_response.choices[0].message.content = json.dumps(
-            {"products": ["Pluralized1", "Pluralized2"]}
-        )
-        mock_completion.return_value = mock_response
-
-        # Input fields
-        fields_dict = {"products": ["Original1", "Original2"]}
-
-        # Custom temperatures
-        temperatures = [0.2, 0.8]
-
-        # Call the function
-        pluralize_with_llm(fields_dict, "test_file.json", temperatures)
-
-        # Check that completion was called with the first custom temperature
-        mock_completion.assert_called_once()
-        args, kwargs = mock_completion.call_args
-        self.assertEqual(kwargs["temperature"], 0.2)
 
     @patch("webcrawl.pluralize_with_llm.completion", side_effect=Exception("API error"))
     def test_pluralize_with_llm_exception(self, mock_completion):
@@ -466,6 +445,344 @@ class TestPluralizeWithLLM(unittest.TestCase):
         # Should record the failure
         self.assertEqual(len(failed_files), 1)
         self.assertEqual(failed_files[0][0], "test_file.json")
+
+
+class TestModelFallbackFunctionality(unittest.TestCase):
+    """Test the new model fallback functionality in pluralize_with_llm."""
+
+    def setUp(self):
+        """Set up the test environment before each test."""
+        # Clear the failed_files list
+        global failed_files
+        failed_files.clear()
+
+        # Clear compound_word_stats
+        compound_word_stats["files_affected"] = set()
+        compound_word_stats["words_modified"] = []
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_withCustomModels_usesProvidedModels(self, mock_completion):
+        """Test that custom models parameter is correctly used in the function call."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["PluralizedProduct1", "PluralizedProduct2"],
+            "machines": ["PluralizedMachine"],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        # Custom models list
+        custom_models = [
+            "bedrock/us.amazon.nova-lite-v1:0",
+            "bedrock/us.amazon.nova-micro-v1:0"
+        ]
+
+        fields_dict = {
+            "products": ["Product1", "Product2"],
+            "machines": ["Machine1"],
+            "process_type": []
+        }
+
+        # Call the function with custom models
+        result = pluralize_with_llm(fields_dict, "test_file.json", models=custom_models)
+
+        # Verify that completion was called with correct models
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that the primary model and fallbacks are set correctly
+        self.assertEqual(kwargs["model"], "bedrock/us.amazon.nova-lite-v1:0")
+        self.assertEqual(kwargs["fallbacks"], ["bedrock/us.amazon.nova-micro-v1:0"])
+
+        # Verify other parameters
+        self.assertEqual(kwargs["temperature"], 0.3)
+        self.assertEqual(kwargs["max_tokens"], 1000)
+        self.assertEqual(kwargs["num_retries"], 2)
+        self.assertEqual(kwargs["timeout"], 45)
+
+        # Verify result
+        self.assertEqual(result["products"], ["PluralizedProduct1", "PluralizedProduct2"])
+        self.assertEqual(result["machines"], ["PluralizedMachine"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_withDefaultModels_usesDefaultModels(self, mock_completion):
+        """Test that default models are used when no models parameter is provided."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["DefaultPluralized1"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["DefaultOriginal1"]}
+
+        # Call the function without custom models
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Verify that completion was called with default models
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that the default primary model is used
+        self.assertEqual(kwargs["model"], "bedrock/amazon.nova-pro-v1:0")
+        # Check that default fallback is used
+        self.assertEqual(kwargs["fallbacks"], ["bedrock/us.amazon.nova-lite-v1:0"])
+
+        # Verify result
+        self.assertEqual(result["products"], ["DefaultPluralized1"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_withSingleModel_noFallbacks(self, mock_completion):
+        """Test behavior when only one model is provided (no fallbacks)."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["SingleModelResult"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        # Single model list
+        single_model = ["bedrock/us.amazon.nova-micro-v1:0"]
+        fields_dict = {"products": ["SingleInput"]}
+
+        # Call the function with single model
+        result = pluralize_with_llm(fields_dict, "test_file.json", models=single_model)
+
+        # Verify that completion was called with correct parameters
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that the single model is used as primary
+        self.assertEqual(kwargs["model"], "bedrock/us.amazon.nova-micro-v1:0")
+        # Check that no fallbacks are set
+        self.assertEqual(kwargs["fallbacks"], [])
+
+        # Verify result
+        self.assertEqual(result["products"], ["SingleModelResult"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_withEmptyModels_usesDefaults(self, mock_completion):
+        """Test that default models are used when empty models list is provided."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["EmptyListResult"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["EmptyListInput"]}
+
+        # Call the function with empty models list
+        result = pluralize_with_llm(fields_dict, "test_file.json", models=[])
+
+        # Verify that completion was called with fallback to default
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that the default model is used when empty list provided
+        self.assertEqual(kwargs["model"], "bedrock/amazon.nova-pro-v1:0")
+
+        # Verify result
+        self.assertEqual(result["products"], ["EmptyListResult"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_temperaturesParameter_isIgnored(self, mock_completion):
+        """Test that the deprecated temperatures parameter is ignored."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["IgnoredTempResult"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["TempInput"]}
+        deprecated_temps = [0.1, 0.5, 0.9]  # Should be ignored
+
+        # Call the function with deprecated temperatures parameter
+        result = pluralize_with_llm(fields_dict, "test_file.json", temperatures=deprecated_temps)
+
+        # Verify that completion was called with fixed temperature
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that fixed temperature is used (not from deprecated parameter)
+        self.assertEqual(kwargs["temperature"], 0.3)
+
+        # Verify result
+        self.assertEqual(result["products"], ["IgnoredTempResult"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_litellmSchemaValidation_enabled(self, mock_completion):
+        """Test that LiteLLM JSON schema validation is enabled."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["SchemaValidatedResult"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["SchemaInput"]}
+
+        # Call the function
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Verify that completion was called with schema validation parameters
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+
+        # Check that response_format is set to PluralizedFields for schema validation
+        from webcrawl.pluralize_with_llm import PluralizedFields
+        self.assertEqual(kwargs["response_format"], PluralizedFields)
+
+        # Verify that litellm.enable_json_schema_validation was set to True
+        # (This is checked implicitly by the function calling completion with response_format)
+
+        # Verify result
+        self.assertEqual(result["products"], ["SchemaValidatedResult"])
+
+    @patch("webcrawl.pluralize_with_llm.completion", side_effect=JSONSchemaValidationError(
+        model="bedrock/amazon.nova-pro-v1:0",
+        llm_provider="bedrock",
+        raw_response='{"invalid": "schema"}',
+        schema='{"type": "object"}'
+    ))
+    def test_pluralize_with_llm_jsonSchemaValidationError_handledGracefully(self, mock_completion):
+        """Test handling of JSONSchemaValidationError from LiteLLM."""
+        fields_dict = {"products": ["SchemaErrorInput"]}
+
+        # Call the function - should handle the schema validation error
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return original cleaned fields on schema validation error
+        self.assertEqual(result, fields_dict)
+
+        # Should record the failure
+        self.assertEqual(len(failed_files), 1)
+        self.assertEqual(failed_files[0][0], "test_file.json")
+        self.assertEqual(failed_files[0][1], "json_schema_validation_error")
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_responseContentNone_handledGracefully(self, mock_completion):
+        """Test handling when LLM response content is None."""
+        # Mock response with None content
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = None
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["NoneContentInput"]}
+
+        # Call the function - should handle None content
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return original cleaned fields on None content
+        self.assertEqual(result, fields_dict)
+
+        # Should record the failure
+        self.assertEqual(len(failed_files), 1)
+        self.assertEqual(failed_files[0][0], "test_file.json")
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_jsonDecodeError_handledGracefully(self, mock_completion):
+        """Test handling of JSON decode errors from malformed LLM responses."""
+        # Mock response with invalid JSON
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = "This is not valid JSON"
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["JsonErrorInput"]}
+
+        # Call the function - should handle JSON decode error
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return original cleaned fields on JSON decode error
+        self.assertEqual(result, fields_dict)
+
+        # Should record the failure
+        self.assertEqual(len(failed_files), 1)
+        self.assertEqual(failed_files[0][0], "test_file.json")
+        self.assertEqual(failed_files[0][1], "json_decode_error")
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_validationFailure_returnsOriginalFields(self, mock_completion):
+        """Test that validation failures return original fields and log appropriately."""
+        # Mock response with validation failure (wrong word count)
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["OnlyOne"],  # Should be 2 words
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["Input1", "Input2"]}
+
+        # Call the function
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return original fields on validation failure
+        self.assertEqual(result, fields_dict)
+
+        # Should record the validation failure
+        self.assertEqual(len(failed_files), 1)
+        self.assertEqual(failed_files[0][0], "test_file.json")
+        self.assertEqual(failed_files[0][1], "validation_error")
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_successfulResponse_returnsCorrectFields(self, mock_completion):
+        """Test that successful responses return correctly processed fields."""
+        # Mock successful response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["Hämmer", "Sägen"],
+            "machines": ["Bohrmaschinen"],
+            "process_type": ["Schweißarbeiten", "Fräsarbeiten"]
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {
+            "products": ["Hammer", "Säge"],
+            "machines": ["Bohrmaschine"],
+            "process_type": ["Schweißarbeit", "Fräsarbeit"]
+        }
+
+        # Call the function
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return pluralized fields
+        self.assertEqual(result["products"], ["Hämmer", "Sägen"])
+        self.assertEqual(result["machines"], ["Bohrmaschinen"])
+        self.assertEqual(result["process_type"], ["Schweißarbeiten", "Fräsarbeiten"])
+
+        # Should not record any failures
+        self.assertEqual(len(failed_files), 0)
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_pluralize_with_llm_emptyFields_skipsProcessing(self, mock_completion):
+        """Test that empty fields are handled without calling LLM."""
+        fields_dict = {"products": [], "machines": [], "process_type": []}
+
+        # Call the function with empty fields
+        result = pluralize_with_llm(fields_dict, "test_file.json")
+
+        # Should return the same empty fields without calling LLM
+        self.assertEqual(result, fields_dict)
+
+        # Should not call completion at all
+        mock_completion.assert_not_called()
+
+        # Should not record any failures
+        self.assertEqual(len(failed_files), 0)
 
 
 class TestProcessJsonFile(unittest.TestCase):
@@ -786,5 +1103,138 @@ class TestIntegrationWithSampleData(unittest.TestCase):
         self.assertEqual(args[1], self.sample_file_path)
 
 
-if __name__ == "__main__":
-    unittest.main()
+class TestModelFallbackIntegration(unittest.TestCase):
+    """Integration tests for model fallback functionality with higher-level functions."""
+
+    def setUp(self):
+        """Set up the test environment before each test."""
+        # Clear the failed_files list
+        global failed_files
+        failed_files.clear()
+
+        # Clear compound_word_stats
+        compound_word_stats["files_affected"] = set()
+        compound_word_stats["words_modified"] = []
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    @patch("builtins.open", new_callable=mock.mock_open, 
+           read_data='[{"company_name": "Test", "products": ["Product1", "Product2"]}]')
+    @patch("os.makedirs")
+    def test_process_json_file_withModelFallbacks_usesCorrectModels(self, mock_makedirs, mock_open, mock_completion):
+        """Test that process_json_file correctly passes through model configurations."""
+        # Mock successful LLM response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["IntegrationTest1", "IntegrationTest2"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        # Call process_json_file (it should use default models internally)
+        process_json_file("input.json", "output.json")
+
+        # Verify that completion was called with default model configuration
+        mock_completion.assert_called_once()
+        args, kwargs = mock_completion.call_args
+        
+        # Check that default models are used
+        self.assertEqual(kwargs["model"], "bedrock/amazon.nova-pro-v1:0")
+        self.assertEqual(kwargs["fallbacks"], ["bedrock/us.amazon.nova-lite-v1:0"])
+
+    def test_backwards_compatibility_temperatureParameter_stillWorks(self):
+        """Test that existing code using temperatures parameter still works without breaking."""
+        fields_dict = {"products": ["BackwardsTest"]}
+        
+        # This should not raise an exception even though temperatures is deprecated
+        with patch("webcrawl.pluralize_with_llm.completion") as mock_completion:
+            mock_response = MagicMock()
+            mock_response.choices[0].message.content = json.dumps({
+                "products": ["BackwardsPluralized"],
+                "machines": [],
+                "process_type": []
+            })
+            mock_completion.return_value = mock_response
+            
+            # Call with old-style temperatures parameter
+            result = pluralize_with_llm(fields_dict, "test.json", temperatures=[0.5, 0.7, 0.9])
+            
+            # Should still work and return expected result
+            self.assertEqual(result["products"], ["BackwardsPluralized"])
+            
+            # Should use fixed temperature, not from deprecated parameter
+            args, kwargs = mock_completion.call_args
+            self.assertEqual(kwargs["temperature"], 0.3)
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_default_models_constant_matches_implementation(self, mock_completion):
+        """Test that DEFAULT_MODELS constant matches what's actually used."""
+        from webcrawl.pluralize_with_llm import DEFAULT_MODELS
+        
+        # Mock successful response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["ConstantTest"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        fields_dict = {"products": ["TestInput"]}
+        
+        # Call function without specifying models (should use defaults)
+        pluralize_with_llm(fields_dict, "test.json")
+        
+        # Verify that the DEFAULT_MODELS constant matches actual usage
+        args, kwargs = mock_completion.call_args
+        self.assertEqual(kwargs["model"], DEFAULT_MODELS[0])
+        self.assertEqual(kwargs["fallbacks"], DEFAULT_MODELS[1:])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_nova_model_ids_correct_format(self, mock_completion):
+        """Test that Nova model IDs follow the correct format for different regions."""
+        # Mock successful response
+        mock_response = MagicMock()
+        mock_response.choices[0].message.content = json.dumps({
+            "products": ["FormatTest"],
+            "machines": [],
+            "process_type": []
+        })
+        mock_completion.return_value = mock_response
+
+        # Test with Nova models from different regions
+        nova_models = [
+            "bedrock/amazon.nova-pro-v1:0",        # Global
+            "bedrock/us.amazon.nova-lite-v1:0",    # US region
+            "bedrock/us.amazon.nova-micro-v1:0"    # US region
+        ]
+        
+        fields_dict = {"products": ["RegionTest"]}
+        
+        # Call with specific Nova models
+        pluralize_with_llm(fields_dict, "test.json", models=nova_models)
+        
+        # Verify that the models are passed correctly
+        args, kwargs = mock_completion.call_args
+        self.assertEqual(kwargs["model"], "bedrock/amazon.nova-pro-v1:0")
+        self.assertEqual(kwargs["fallbacks"], ["bedrock/us.amazon.nova-lite-v1:0", "bedrock/us.amazon.nova-micro-v1:0"])
+
+    @patch("webcrawl.pluralize_with_llm.completion")
+    def test_error_handling_preserves_file_context(self, mock_completion):
+        """Test that error handling correctly preserves file context for debugging."""
+        # Mock completion to raise an exception
+        mock_completion.side_effect = Exception("Model API error")
+        
+        fields_dict = {"products": ["ErrorContextTest"]}
+        file_path = "/path/to/specific/company_file.json"
+        
+        # Call function with specific file path
+        result = pluralize_with_llm(fields_dict, file_path)
+        
+        # Should return original fields
+        self.assertEqual(result, fields_dict)
+        
+        # Should record failure with correct file path
+        self.assertEqual(len(failed_files), 1)
+        self.assertEqual(failed_files[0][0], file_path)
+        self.assertIn("products", failed_files[0][1])  # Should include field info

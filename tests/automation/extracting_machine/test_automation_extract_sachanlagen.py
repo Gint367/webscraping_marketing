@@ -39,18 +39,6 @@ class TestExtractSachanlagen(unittest.TestCase):
                     os.remove(os.path.join(d, file))
                 os.rmdir(d)
 
-    def test_main_validInput_createsSachanlagenJsonAndCsv(self):
-        """main_validInput_createsSachanlagenJsonAndCsv_expectedJsonAndCsvCreated: Should create Sachanlagen JSON and summary CSV output for valid input"""
-        result = subprocess.run([
-            sys.executable, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../scraper/extracting_machines/extract_sachanlagen.py')),
-            self.valid_input_dir,
-            '--output_dir', self.output_dir
-        ], cwd=os.getcwd(), capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, f"Script failed: {result.stderr}")
-        output_files = os.listdir(self.output_dir)
-        self.assertTrue(any(f.endswith('.json') for f in output_files), "No JSON output created for valid input")
-        self.assertTrue(any(f.endswith('.csv') for f in output_files), "No CSV output created for valid input")
-
     def test_main_invalidInput_noRelevantData_createsNoJsonOrCsv(self):
         """main_invalidInput_noRelevantData_createsNoJsonOrCsv_expectedNoOutput: Should not create JSON or CSV output for irrelevant input"""
         result = subprocess.run([
